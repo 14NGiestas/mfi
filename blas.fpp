@@ -55,7 +55,6 @@ contains
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
-    ! <<< call blas77 routine >>>
     call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,incx,local_beta,y,incy)
 #:endblock
 
