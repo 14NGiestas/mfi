@@ -85,12 +85,41 @@ interface ${name.replace('?','')}$
 end interface
 #:enddef
 
-#:def mfi_implement(name, args, code)
-#:for T in ROUTINES[name]
-pure subroutine mfi_${name.replace('?',T)}$${args}$
-${code.replace('{T}', PREFIX_TO_TYPE[T])}$
-end subroutine
-
+#:def optargs(dtype, *args)
+#:for variable in args
+    ${dtype}$, intent(in), optional :: ${variable}$
+    ${dtype}$ :: local_${variable}$
 #:endfor
 #:enddef
 
+#:def localvars(dtype, *args)
+#:for variable in args
+    ${dtype}$ :: ${variable}$
+#:endfor
+#:enddef
+
+#:def defaults(**kwargs)
+#:for variable, default in kwargs.items()
+    if (present(${variable}$)) then
+        local_${variable}$ = ${variable}$
+    else
+        local_${variable}$ = ${default}$
+    end if
+#:endfor
+#:enddef
+
+#:def args(dtype, intent, *args)
+#:for variable in args
+    ${dtype}$, intent(${intent}$), :: ${variable}$
+#:endfor
+#:enddef
+
+
+#:def mfi_implement(name, code)
+#:for P in BLAS_ROUTINES[name]
+#:set T=PREFIX_TO_TYPE[P]
+#:set N=name.replace('?',P)
+$:code.replace('SNAME', N) &
+      .replace('DTYPE', T)
+#:endfor
+#:enddef
