@@ -32,6 +32,26 @@ pure subroutine mfi_SNAME(a, b, c, trans, alpha, beta, incx, incy)
 end subroutine
 #:endblock
 
+#:block mfi_implement('?herk')
+pure subroutine mfi_SNAME(a, c, uplo, trans, alpha, beta)
+@:args(DTYPE, in,    a(:,:))
+@:args(DTYPE, inout, c(:,:))
+@:optargs(character, trans, uplo)
+@:optargs(DTYPE,     alpha, beta)
+@:localvars(integer, n, k, lda, ldc)
+@:defaults(trans='N', uplo='U', alpha=1, beta=0)
+    n = size(c,2)
+    if (local_trans == 'N' .or. local_trans == 'n') then
+        k = size(a,2)
+    else
+        k = size(a,1)
+    end if
+    lda = max(1,size(a,1))
+    ldc = max(1,size(c,1))
+    call f77_herk(local_uplo, local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+end subroutine
+#:endblock
+
 #:block mfi_implement('?gemm')
 pure subroutine mfi_SNAME(a, b, c, transa, transb, alpha, beta)
 @:args(DTYPE, in, a(:,:), b(:,:))
