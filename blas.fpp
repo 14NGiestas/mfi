@@ -15,26 +15,32 @@ $:mfi_interface(name, types)
 #:endfor
 
 contains
-
 #:block mfi_implement('?rotg')
+
 #:endblock
 
 #:block mfi_implement('?rotmg')
+
 #:endblock
 
 #:block mfi_implement('?rot')
+
 #:endblock
 
 #:block mfi_implement('?rotm')
+
 #:endblock
 
 #:block mfi_implement('?swap')
+
 #:endblock
 
 #:block mfi_implement('?scal')
+
 #:endblock
 
 #:block mfi_implement('?copy')
+
 #:endblock
 
 #:block mfi_implement('?axpy')
@@ -44,15 +50,17 @@ pure subroutine mfi_SNAME(X, Y, a, incx, incy)
 @:optargs(integer, a, incx, incy)
 @:localvars(integer, N)
 @:defaults(a=1, incx=1, incy=1)
-N = size(X)
-call f77_axpy(N,local_a,X,incx,Y,incy)
+    N = size(X)
+    call f77_axpy(N,local_a,X,incx,Y,incy)
 end subroutine
 #:endblock
 
 #:block mfi_implement('?dot')
+
 #:endblock
 
 #:block mfi_implement('?dotu')
+
 #:endblock
 
 #:block mfi_implement('?dotc')
@@ -61,15 +69,17 @@ pure function mfi_SNAME(X, Y, incx, incy)
 @:localvars(integer, N, mfi_SNAME)
 @:optargs(integer, incx, incy)
 @:defaults(incx=1, incy=1)
-N = size(X)
-mfi_SNAME = f77_dotc(N,X,incx,Y,incy)
+    N = size(X)
+    mfi_SNAME = f77_dotc(N,X,incx,Y,incy)
 end function
 #:endblock
 
 #:block mfi_implement('?nrm2')
+
 #:endblock
 
 #:block mfi_implement('?asum')
+
 #:endblock
 
 #:block mfi_implement('i?amax')
@@ -78,8 +88,8 @@ pure function mfi_SNAME(X, incx)
 @:optargs(integer, incx)
 @:localvars(integer, N, mfi_SNAME)
 @:defaults(incx=1)
-N = size(X)
-mfi_SNAME = f77_iamin(N,X,incx)
+    N = size(X)
+    mfi_SNAME = f77_iamin(N,X,incx)
 end function
 #:endblock
 
@@ -89,8 +99,8 @@ pure function mfi_SNAME(X, incx)
 @:optargs(integer, incx)
 @:localvars(integer, N, mfi_SNAME)
 @:defaults(incx=1)
-N = size(X)
-mfi_SNAME = f77_iamax(N,X,incx)
+    N = size(X)
+    mfi_SNAME = f77_iamax(N,X,incx)
 end function
 #:endblock
 
@@ -111,75 +121,99 @@ end subroutine
 #:endblock
 
 #:block mfi_implement('?gbmv')
+
 #:endblock
 
 #:block mfi_implement('?hemv')
+
 #:endblock
 
 #:block mfi_implement('?hbmv')
+
 #:endblock
 
 #:block mfi_implement('?hpmv')
+
 #:endblock
 
 #:block mfi_implement('?symv')
+
 #:endblock
 
 #:block mfi_implement('?sbmv')
+
 #:endblock
 
 #:block mfi_implement('?spmv')
+
 #:endblock
 
 #:block mfi_implement('?trmv')
+
 #:endblock
 
 #:block mfi_implement('?tbmv')
+
 #:endblock
 
 #:block mfi_implement('?tpmv')
+
 #:endblock
 
 #:block mfi_implement('?trsv')
+
 #:endblock
 
 #:block mfi_implement('?tbsv')
+
 #:endblock
 
 #:block mfi_implement('?tpsv')
+
 #:endblock
 
 #:block mfi_implement('?ger')
+
 #:endblock
 
 #:block mfi_implement('?geru')
+
 #:endblock
 
 #:block mfi_implement('?gerc')
+
 #:endblock
 
 #:block mfi_implement('?her')
+
 #:endblock
 
 #:block mfi_implement('?hpr')
+
 #:endblock
 
 #:block mfi_implement('?her2')
+
 #:endblock
 
 #:block mfi_implement('?hpr2')
+
 #:endblock
 
 #:block mfi_implement('?syr')
+
 #:endblock
 
 #:block mfi_implement('?spr')
+
 #:endblock
 
 #:block mfi_implement('?syr2')
+
 #:endblock
 
 #:block mfi_implement('?spr2')
+
 #:endblock
 
 #:block mfi_implement('?gemm')
@@ -205,12 +239,15 @@ end subroutine
 #:endblock
 
 #:block mfi_implement('?symm')
+
 #:endblock
 
 #:block mfi_implement('?hemm')
+
 #:endblock
 
 #:block mfi_implement('?syrk')
+
 #:endblock
 
 #:block mfi_implement('?herk')
@@ -234,39 +271,51 @@ end subroutine
 #:endblock
 
 #:block mfi_implement('?syr2k')
+
 #:endblock
 
 #:block mfi_implement('?her2k')
+
 #:endblock
 
 #:block mfi_implement('?trmm')
+
 #:endblock
 
 #:block mfi_implement('?trsm')
+
 #:endblock
 
 #:block mfi_implement('?axpyi')
+
 #:endblock
 
 #:block mfi_implement('?doti')
+
 #:endblock
 
 #:block mfi_implement('?dotci')
+
 #:endblock
 
 #:block mfi_implement('?dotui')
+
 #:endblock
 
 #:block mfi_implement('?gthr')
+
 #:endblock
 
 #:block mfi_implement('?gthrz')
+
 #:endblock
 
 #:block mfi_implement('?sctr')
+
 #:endblock
 
 #:block mfi_implement('?roti')
+
 #:endblock
 
 end module

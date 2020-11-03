@@ -6,6 +6,13 @@
 'd': 'real(REAL64)',    &
 'c': 'complex(REAL32)', &
 'z': 'complex(REAL64)', &
+'sc': 'complex(REAL32)', &
+'cs': 'complex(REAL32)', &
+'sd': 'complex(REAL64)', &
+'ds': 'complex(REAL64)', &
+'zd': 'complex(REAL64)', &
+'dz': 'complex(REAL64)', &
+'sds': 'complex(REAL64)', &
 }
 
 #:set BLAS_ROUTINES = {  &
