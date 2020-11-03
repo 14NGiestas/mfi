@@ -38,6 +38,15 @@ contains
 #:endblock
 
 #:block mfi_implement('?axpy')
+pure subroutine mfi_SNAME(X, Y, a, incx, incy)
+@:args(DTYPE, in,    X(:))
+@:args(DTYPE, inout, Y(:))
+@:optargs(integer, a, incx, incy)
+@:localvars(integer, N)
+@:defaults(a=1, incx=1, incy=1)
+N = size(X)
+call f77_axpy(N,local_a,X,incx,Y,incy)
+end subroutine
 #:endblock
 
 #:block mfi_implement('?dot')
@@ -47,6 +56,14 @@ contains
 #:endblock
 
 #:block mfi_implement('?dotc')
+pure function mfi_SNAME(X, Y, incx, incy)
+@:args(DTYPE, in, X(:), Y(:))
+@:localvars(integer, N, mfi_SNAME)
+@:optargs(integer, incx, incy)
+@:defaults(incx=1, incy=1)
+N = size(X)
+mfi_SNAME = f77_dotc(N,X,incx,Y,incy)
+end function
 #:endblock
 
 #:block mfi_implement('?nrm2')
@@ -56,9 +73,25 @@ contains
 #:endblock
 
 #:block mfi_implement('i?amax')
+pure function mfi_SNAME(X, incx)
+@:args(DTYPE, in, X(:))
+@:optargs(integer, incx)
+@:localvars(integer, N, mfi_SNAME)
+@:defaults(incx=1)
+N = size(X)
+mfi_SNAME = f77_iamin(N,X,incx)
+end function
 #:endblock
 
 #:block mfi_implement('i?amin')
+pure function mfi_SNAME(X, incx)
+@:args(DTYPE, in, X(:))
+@:optargs(integer, incx)
+@:localvars(integer, N, mfi_SNAME)
+@:defaults(incx=1)
+N = size(X)
+mfi_SNAME = f77_iamax(N,X,incx)
+end function
 #:endblock
 
 #:block mfi_implement('?gemv')
