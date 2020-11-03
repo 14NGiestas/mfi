@@ -16,6 +16,51 @@ $:mfi_interface(name, types)
 
 contains
 
+#:block mfi_implement('?rotg')
+#:endblock
+
+#:block mfi_implement('?rotmg')
+#:endblock
+
+#:block mfi_implement('?rot')
+#:endblock
+
+#:block mfi_implement('?rotm')
+#:endblock
+
+#:block mfi_implement('?swap')
+#:endblock
+
+#:block mfi_implement('?scal')
+#:endblock
+
+#:block mfi_implement('?copy')
+#:endblock
+
+#:block mfi_implement('?axpy')
+#:endblock
+
+#:block mfi_implement('?dot')
+#:endblock
+
+#:block mfi_implement('?dotu')
+#:endblock
+
+#:block mfi_implement('?dotc')
+#:endblock
+
+#:block mfi_implement('?nrm2')
+#:endblock
+
+#:block mfi_implement('?asum')
+#:endblock
+
+#:block mfi_implement('i?amax')
+#:endblock
+
+#:block mfi_implement('i?amin')
+#:endblock
+
 #:block mfi_implement('?gemv')
 pure subroutine mfi_SNAME(a, b, c, trans, alpha, beta, incx, incy)
 @:args(DTYPE, in, a(:,:), x(:))
@@ -32,24 +77,76 @@ pure subroutine mfi_SNAME(a, b, c, trans, alpha, beta, incx, incy)
 end subroutine
 #:endblock
 
-#:block mfi_implement('?herk')
-pure subroutine mfi_SNAME(a, c, uplo, trans, alpha, beta)
-@:args(DTYPE, in,    a(:,:))
-@:args(DTYPE, inout, c(:,:))
-@:optargs(character, trans, uplo)
-@:optargs(DTYPE,     alpha, beta)
-@:localvars(integer, n, k, lda, ldc)
-@:defaults(trans='N', uplo='U', alpha=1, beta=0)
-    n = size(c,2)
-    if (local_trans == 'N' .or. local_trans == 'n') then
-        k = size(a,2)
-    else
-        k = size(a,1)
-    end if
-    lda = max(1,size(a,1))
-    ldc = max(1,size(c,1))
-    call f77_herk(local_uplo, local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
-end subroutine
+#:block mfi_implement('?gbmv')
+#:endblock
+
+#:block mfi_implement('?hemv')
+#:endblock
+
+#:block mfi_implement('?hbmv')
+#:endblock
+
+#:block mfi_implement('?hpmv')
+#:endblock
+
+#:block mfi_implement('?symv')
+#:endblock
+
+#:block mfi_implement('?sbmv')
+#:endblock
+
+#:block mfi_implement('?spmv')
+#:endblock
+
+#:block mfi_implement('?trmv')
+#:endblock
+
+#:block mfi_implement('?tbmv')
+#:endblock
+
+#:block mfi_implement('?tpmv')
+#:endblock
+
+#:block mfi_implement('?trsv')
+#:endblock
+
+#:block mfi_implement('?tbsv')
+#:endblock
+
+#:block mfi_implement('?tpsv')
+#:endblock
+
+#:block mfi_implement('?ger')
+#:endblock
+
+#:block mfi_implement('?geru')
+#:endblock
+
+#:block mfi_implement('?gerc')
+#:endblock
+
+#:block mfi_implement('?her')
+#:endblock
+
+#:block mfi_implement('?hpr')
+#:endblock
+
+#:block mfi_implement('?her2')
+#:endblock
+
+#:block mfi_implement('?hpr2')
+#:endblock
+
+#:block mfi_implement('?syr')
+#:endblock
+
+#:block mfi_implement('?spr')
+#:endblock
+
+#:block mfi_implement('?syr2')
+#:endblock
+
+#:block mfi_implement('?spr2')
 #:endblock
 
 #:block mfi_implement('?gemm')
@@ -72,6 +169,71 @@ pure subroutine mfi_SNAME(a, b, c, transa, transb, alpha, beta)
     end if
     call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
+#:endblock
+
+#:block mfi_implement('?symm')
+#:endblock
+
+#:block mfi_implement('?hemm')
+#:endblock
+
+#:block mfi_implement('?syrk')
+#:endblock
+
+#:block mfi_implement('?herk')
+pure subroutine mfi_SNAME(a, c, uplo, trans, alpha, beta)
+@:args(DTYPE, in,    a(:,:))
+@:args(DTYPE, inout, c(:,:))
+@:optargs(character, trans, uplo)
+@:optargs(DTYPE,     alpha, beta)
+@:localvars(integer, n, k, lda, ldc)
+@:defaults(trans='N', uplo='U', alpha=1, beta=0)
+    n = size(c,2)
+    if (local_trans == 'N' .or. local_trans == 'n') then
+        k = size(a,2)
+    else
+        k = size(a,1)
+    end if
+    lda = max(1,size(a,1))
+    ldc = max(1,size(c,1))
+    call f77_herk(local_uplo, local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+end subroutine
+#:endblock
+
+#:block mfi_implement('?syr2k')
+#:endblock
+
+#:block mfi_implement('?her2k')
+#:endblock
+
+#:block mfi_implement('?trmm')
+#:endblock
+
+#:block mfi_implement('?trsm')
+#:endblock
+
+#:block mfi_implement('?axpyi')
+#:endblock
+
+#:block mfi_implement('?doti')
+#:endblock
+
+#:block mfi_implement('?dotci')
+#:endblock
+
+#:block mfi_implement('?dotui')
+#:endblock
+
+#:block mfi_implement('?gthr')
+#:endblock
+
+#:block mfi_implement('?gthrz')
+#:endblock
+
+#:block mfi_implement('?sctr')
+#:endblock
+
+#:block mfi_implement('?roti')
 #:endblock
 
 end module
