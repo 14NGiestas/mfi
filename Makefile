@@ -1,9 +1,10 @@
 FC = gfortran
 FPP = fypp
-MODULES := blas
+MODULES := mfi_blas
 SRCS := $(MODULES:%=%.fpp)
 SRCS += $(MODULES:%=%.f90)
 OBJS := $(MODULES:%=%.o)
+OBJS += $(MODULES:%=%.mod)
 
 %.f90: %.fpp
 	$(FPP) $< $@
@@ -11,5 +12,7 @@ OBJS := $(MODULES:%=%.o)
 %.o: %.f90
 	$(FC) -c $< -lblas -llapack -lpthread
 
-test_%: test_blas.f90 %.o
+%.o: %.mod
+
+test_%: test_mfi_blas.f90 %.o
 	$(FC) $^ -o $@ -lblas -llapack -lpthread

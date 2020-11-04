@@ -1,4 +1,4 @@
-program main
+program test_blas
     use iso_fortran_env
     use mfi_blas
     implicit none
@@ -23,5 +23,4 @@ program main
     else
         error stop 'different results'
     end if
-
 end program
