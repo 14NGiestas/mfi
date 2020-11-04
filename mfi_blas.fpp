@@ -2,6 +2,7 @@
 
 #:def iamin_iamax(NAME,TYPE,KIND)
 function mfi_${NAME}$(x, incx)
+    integer, external :: ${NAME}$
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in, x(:))
 @:optional(integer, incx)
