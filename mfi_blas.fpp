@@ -1,5 +1,17 @@
 #:include "common.fpp"
 
+#:def iamin_iamax(NAME,TYPE,KIND)
+function mfi_${NAME}$(x, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in, x(:))
+@:optional(integer, incx)
+@:localvars(integer, n, mfi_${NAME}$)
+@:defaults(incx=1)
+    n = size(x)
+    mfi_${NAME}$ = ${NAME}$(n,x,local_incx)
+end function
+#:enddef
+
 #:def gemv(NAME,TYPE,KIND)
 subroutine mfi_${NAME}$(a, x, y, trans, alpha, beta, incx, incy)
 @:parameter(integer, wp=${KIND}$)
@@ -65,12 +77,16 @@ module mfi_blas
 use iso_fortran_env
 implicit none
 
+$:mfi_interface('i?amin', DEFAULT_TYPES)
+$:mfi_interface('i?amax', DEFAULT_TYPES)
 $:mfi_interface('?gemm', DEFAULT_TYPES)
 $:mfi_interface('?gemv', DEFAULT_TYPES)
 $:mfi_interface('?herk', COMPLEX_TYPES)
 
 contains
 
+$:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
+$:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
 $:mfi_implement('?gemm', DEFAULT_TYPES, gemm)
 $:mfi_implement('?gemv', DEFAULT_TYPES, gemv)
 $:mfi_implement('?herk', COMPLEX_TYPES, herk)

@@ -3,6 +3,6 @@ Modern Fortran interfaces to BLAS and LAPACK
 
 ## TL;DR
 ```
-~$ make test_blas
-~$ ./test_blas
+~$ make test_mfi_blas
+~$ ./test_mfi_blas
 ```
