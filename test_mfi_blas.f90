@@ -7,7 +7,7 @@ program test_mfi_blas
     real(REAL64) :: A(N,N), B(N,N), C(N,N), D(N,N)
     real(REAL64) :: X(N), Y(N), Z(N)
     real(REAL64) :: alpha, beta
-    integer :: i, j
+    integer :: i, j, k
     C = .0_REAL64
     D = .0_REAL64
     Y = .0_REAL64
@@ -24,18 +24,24 @@ program test_mfi_blas
 contains
 
     subroutine test_iamax
+        integer, external :: idamax
         print '("test_iamax")'
         call cpu_time(t1)
-        i = iamax(X)
+        i = idamax(size(X), X,1)
+        call cpu_time(t2)
+        print '("time idamax: ",G0)', t2-t1
+
+        call cpu_time(t1)
+        j = iamax(X)
         call cpu_time(t2)
         print '("time iamax: ",G0)', t2-t1
 
         call cpu_time(t1)
-        j = maxloc(X,1)
+        k = maxloc(X,1)
         call cpu_time(t2)
         print '("time maxloc: ",G0)', t2-t1
 
-        call assert(i == j)
+        call assert(i == j .and. j == k)
     end subroutine
 
     subroutine test_iamin
