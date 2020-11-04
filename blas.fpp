@@ -1,7 +1,7 @@
 #:include "common.fpp"
 
 #:def gemv(NAME,TYPE,KIND)
-subroutine mfi_${NAME}$(a, b, c, trans, alpha, beta, incx, incy)
+subroutine mfi_${NAME}$(a, x, y, trans, alpha, beta, incx, incy)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in, a(:,:), x(:))
 @:args(${TYPE}$, inout, y(:))
@@ -41,7 +41,7 @@ end subroutine
 #:enddef
 
 #:def herk(NAME,TYPE,KIND)
-pure subroutine mfi_${NAME}$(a, c, uplo, trans, alpha, beta)
+subroutine mfi_${NAME}$(a, c, uplo, trans, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:))
 @:args(${TYPE}$, inout, c(:,:))

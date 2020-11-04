@@ -17,12 +17,10 @@
 }
 
 #! Defines a optional variable, creating local corresponding variable by default
-#:def optional(dtype, create_local=True, *args)
+#:def optional(dtype, *args)
 #:for variable in args
     ${dtype}$, intent(in), optional :: ${variable}$
-#:if create_local
     ${dtype}$ :: local_${variable}$
-#:endif
 #:endfor
 #:enddef
 
