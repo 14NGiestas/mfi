@@ -1,5 +1,31 @@
 #:include "common.fpp"
 
+#:def dotc(NAME,TYPE,KIND)
+function mfi_${NAME}$(x, y, incx, incy)
+    integer, external :: ${NAME}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in, x(:), y(:))
+@:localvars(integer, n, mfi_${NAME}$)
+@:optional(integer, incx, incy)
+@:defaults(incx=1, incy=1)
+    N = size(X)
+    mfi_${NAME}$ = ${NAME}$(n,x,incx,y,incy)
+end function
+#:enddef
+
+#:def axpy(NAME,TYPE,KIND)
+subroutine mfi_${NAME}$(x, y, a, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:))
+@:args(${TYPE}$, inout, y(:))
+@:optional(integer, a, incx, incy)
+@:localvars(integer, n)
+@:defaults(a=1, incx=1, incy=1)
+    N = size(X)
+    call ${NAME}$(n,local_a,x,incx,y,incy)
+end subroutine
+#:enddef
+
 #:def iamin_iamax(NAME,TYPE,KIND)
 function mfi_${NAME}$(x, incx)
     integer, external :: ${NAME}$
@@ -78,18 +104,22 @@ module mfi_blas
 use iso_fortran_env
 implicit none
 
+$:mfi_interface('?dotc',  COMPLEX_TYPES)
+$:mfi_interface('?axpy',  DEFAULT_TYPES)
 $:mfi_interface('i?amin', DEFAULT_TYPES)
 $:mfi_interface('i?amax', DEFAULT_TYPES)
-$:mfi_interface('?gemm', DEFAULT_TYPES)
-$:mfi_interface('?gemv', DEFAULT_TYPES)
-$:mfi_interface('?herk', COMPLEX_TYPES)
+$:mfi_interface('?gemm',  DEFAULT_TYPES)
+$:mfi_interface('?gemv',  DEFAULT_TYPES)
+$:mfi_interface('?herk',  COMPLEX_TYPES)
 
 contains
 
+$:mfi_implement('?dotc',  COMPLEX_TYPES, dotc)
+$:mfi_implement('?axpy',  DEFAULT_TYPES, axpy)
 $:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
 $:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
-$:mfi_implement('?gemm', DEFAULT_TYPES, gemm)
-$:mfi_implement('?gemv', DEFAULT_TYPES, gemv)
-$:mfi_implement('?herk', COMPLEX_TYPES, herk)
+$:mfi_implement('?gemm',  DEFAULT_TYPES, gemm)
+$:mfi_implement('?gemv',  DEFAULT_TYPES, gemv)
+$:mfi_implement('?herk',  COMPLEX_TYPES, herk)
 
 end module
