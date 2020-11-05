@@ -1,10 +1,17 @@
-# mfi
-Modern Fortran interfaces to BLAS and LAPACK
+# MFI
+## Modern Fortran interfaces to BLAS and LAPACK
+This project aims to be a collection of modern fortran interfaces to commonly used procedure, for now BLAS and LAPACK.
+The main goal is to reduce the pain of using such libraries, providing a generic interface to the intrinsic supported types, 
+identifying the optional or reconstructible arguments of a given procedure. The code uses [fypp](https://github.com/aradi/fypp),
+to generate the interfaces automatically to all supported types and kinds.
 
 ## TL;DR
 ```
-~$ make test_mfi_blas
-~$ ./test_mfi_blas
+$ git clone https://github.com/14NGiestas/mfi.git
+$ sudo pip install fypp
+$ cd mfi/
+$ make test_mfi_blas
+$ ./test_mfi_blas
 ```
 
 ## Support
@@ -57,7 +64,7 @@ Modern Fortran interfaces to BLAS and LAPACK
 |  tpmv  | Matrix-vector product using a triangular packed matrix                    |       |
 |  tpsv  | Solution of a linear system of equations with a triangular packed matrix  |       |
 |  trmv  | Matrix-vector product using a triangular matrix                           |       |
-|  trsv  | Solution of a linear system of equations with a triangular matrix         |       Z
+|  trsv  | Solution of a linear system of equations with a triangular matrix         |       |
 
 
 ### BLAS Level 3
