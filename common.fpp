@@ -73,3 +73,23 @@ interface ${name.replace('?','')}$
     #:endfor
 end interface
 #:enddef
+
+#:def mfi_test(name, types, code)
+#:for PREFIX in supports
+#:set F77NAME = name.replace('?',PREFIX)
+#:set MFINAME = name.replace('?','')
+#:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
+#:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
+$:code(F77NAME,MFINAME,TYPE,KIND)
+#:endfor
+#:enddef
+
+#:def timeit(message, code)
+block
+real :: t1, t2
+call cpu_time(t1)
+$:code
+call cpu_time(t2)
+print '(A,G0)', ${message}$, t2-t1
+end block
+#:enddef

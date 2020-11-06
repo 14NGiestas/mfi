@@ -1,4 +1,4 @@
-FC = gfortran
+FC = gfortran -O2
 FPP = fypp
 MODULES := mfi_blas
 SRCS := $(MODULES:%=%.fpp)
