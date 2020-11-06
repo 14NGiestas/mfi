@@ -1,18 +1,21 @@
 FC = gfortran -O2
 FPP = fypp
-MODULES := mfi_blas
-SRCS := $(MODULES:%=%.fpp)
-SRCS += $(MODULES:%=%.f90)
-OBJS := $(MODULES:%=%.o)
-OBJS += $(MODULES:%=%.mod)
+MODULES := f77_blas mfi_blas
+FPPS = $(MODULES:%=%.fpp)
+SRCS = $(MODULES:%=%.f90)
+OBJS = $(MODULES:%=%.o)
+MODS = $(MODULES:%=%.mod)
+.PRECIOUS: %.f90 %.mod %.o
 
-%.f90: %.fpp
-	$(FPP) $< $@
+all: f77_blas mfi_blas
 
-%.o: %.f90
-	$(FC) -c $< -lblas -llapack -lpthread
+clean:
+	$(RM) *.o *.mod *.f90
 
-%.o: %.mod
+%: %.fpp
+	$(FPP) $< $@.f90
+	$(FC) -c $@.f90 -lblas -llapack
 
-test_%: test_mfi_blas.f90 %.o
-	$(FC) $^ -o $@ -lblas -llapack -lpthread
+test_%: all
+	$(FPP) $@.fpp $@.f90
+	$(FC) $@.f90 *.o -o $@ -lblas -llapack

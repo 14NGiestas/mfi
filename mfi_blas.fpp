@@ -1,46 +1,47 @@
 #:include "common.fpp"
 
-#:def dotc(NAME,TYPE,KIND)
-function mfi_${NAME}$(x, y, incx, incy)
-    integer, external :: ${NAME}$
+#:def dotc(MFI_NAME,F77_NAME,TYPE,KIND)
+pure function ${MFI_NAME}$(x, y, incx, incy)
 @:parameter(integer, wp=${KIND}$)
+    ${TYPE}$ :: ${MFI_NAME}$
 @:args(${TYPE}$, in, x(:), y(:))
-@:localvars(integer, n, mfi_${NAME}$)
+@:localvars(integer, n)
 @:optional(integer, incx, incy)
 @:defaults(incx=1, incy=1)
     N = size(X)
-    mfi_${NAME}$ = ${NAME}$(n,x,incx,y,incy)
+    ${MFI_NAME}$ = ${F77_NAME}$(n,x,incx,y,incy)
 end function
 #:enddef
 
-#:def axpy(NAME,TYPE,KIND)
-subroutine mfi_${NAME}$(x, y, a, incx, incy)
+#:def axpy(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(x, y, a, incx, incy)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    x(:))
 @:args(${TYPE}$, inout, y(:))
-@:optional(integer, a, incx, incy)
+@:optional(${TYPE}$, a)
+@:optional(integer, incx, incy)
 @:localvars(integer, n)
 @:defaults(a=1, incx=1, incy=1)
     N = size(X)
-    call ${NAME}$(n,local_a,x,incx,y,incy)
+    call ${F77_NAME}$(n,local_a,x,incx,y,incy)
 end subroutine
 #:enddef
 
-#:def iamin_iamax(NAME,TYPE,KIND)
-function mfi_${NAME}$(x, incx)
-    integer, external :: ${NAME}$
+#:def iamin_iamax(MFI_NAME,F77_NAME,TYPE,KIND)
+pure function ${MFI_NAME}$(x, incx)
 @:parameter(integer, wp=${KIND}$)
+    integer :: ${MFI_NAME}$
 @:args(${TYPE}$, in, x(:))
 @:optional(integer, incx)
-@:localvars(integer, n, mfi_${NAME}$)
+@:localvars(integer, n)
 @:defaults(incx=1)
     n = size(x)
-    mfi_${NAME}$ = ${NAME}$(n,x,local_incx)
+    ${MFI_NAME}$ = ${F77_NAME}$(n,x,local_incx)
 end function
 #:enddef
 
-#:def gemv(NAME,TYPE,KIND)
-subroutine mfi_${NAME}$(a, x, y, trans, alpha, beta, incx, incy)
+#:def gemv(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in, a(:,:), x(:))
 @:args(${TYPE}$, inout, y(:))
@@ -52,12 +53,12 @@ subroutine mfi_${NAME}$(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call ${NAME}$(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call ${F77_NAME}$(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 #:enddef
 
-#:def gemm(NAME,TYPE,KIND)
-subroutine mfi_${NAME}$(a, b, c, transa, transb, alpha, beta)
+#:def gemm(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in, a(:,:), b(:,:))
 @:args(${TYPE}$, inout, c(:,:))
@@ -75,12 +76,12 @@ subroutine mfi_${NAME}$(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-    call ${NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 #:enddef
 
-#:def herk(NAME,TYPE,KIND)
-subroutine mfi_${NAME}$(a, c, uplo, trans, alpha, beta)
+#:def herk(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, c, uplo, trans, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:))
 @:args(${TYPE}$, inout, c(:,:))
@@ -96,12 +97,13 @@ subroutine mfi_${NAME}$(a, c, uplo, trans, alpha, beta)
     end if
     lda = max(1,size(a,1))
     ldc = max(1,size(c,1))
-    call ${NAME}$(local_uplo, local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    call ${F77_NAME}$(local_uplo, local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
 end subroutine
 #:enddef
 
 module mfi_blas
 use iso_fortran_env
+use f77_blas
 implicit none
 
 $:mfi_interface('?dotc',  COMPLEX_TYPES)

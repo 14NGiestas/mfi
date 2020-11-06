@@ -1,3 +1,4 @@
+#:mute
 #:set REAL_TYPES=['s','d']
 #:set COMPLEX_TYPES=['c','z']
 #:set DEFAULT_TYPES=REAL_TYPES+COMPLEX_TYPES
@@ -59,29 +60,31 @@
 #! Handles the implementation of the modern interface to each supported type and kind
 #:def mfi_implement(name, supports, code)
 #:for PREFIX in supports
-#:set NAME = name.replace('?',PREFIX)
+#:set MFI_NAME = f"mfi_{name.replace('?',PREFIX)}"
+#:set F77_NAME = f"f77_{name.replace('?','')}"
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
 #:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
-$:code(NAME,TYPE,KIND)
+$:code(MFI_NAME,F77_NAME,TYPE,KIND)
 #:endfor
 #:enddef
 
 #:def mfi_interface(name, types)
-interface ${name.replace('?','')}$
+interface mfi_${name.replace('?','')}$
     #:for T in types
     module procedure mfi_${name.replace('?',T)}$
     #:endfor
 end interface
 #:enddef
 
-#:def mfi_test(name, types, code)
+#:def f77_interface(name, supports, code)
+interface f77_${name.replace('?','')}$
 #:for PREFIX in supports
-#:set F77NAME = name.replace('?',PREFIX)
-#:set MFINAME = name.replace('?','')
+#:set NAME = name.replace('?',PREFIX)
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
 #:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
-$:code(F77NAME,MFINAME,TYPE,KIND)
+$:code(NAME,TYPE,KIND)
 #:endfor
+end interface
 #:enddef
 
 #:def timeit(message, code)
@@ -93,3 +96,4 @@ call cpu_time(t2)
 print '(A,G0)', ${message}$, t2-t1
 end block
 #:enddef
+#:endmute

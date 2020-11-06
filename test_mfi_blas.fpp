@@ -3,9 +3,9 @@
 program test_mfi_blas
     use iso_fortran_env
     use mfi_blas
+    use f77_blas
     implicit none
-    integer, parameter :: N = 1000
-    real(REAL64) :: t1, t2
+    integer, parameter :: N = 2000
     real(REAL64) :: A(N,N), B(N,N), C(N,N), D(N,N)
     real(REAL64) :: X(N), Y(N), Z(N)
     integer :: i, j, k
@@ -25,38 +25,36 @@ program test_mfi_blas
 contains
 
     subroutine test_iamax
-        integer, external :: idamax
-        @:timeit("time izmax:  ", { i = idamax(N,X,1) })
-        @:timeit("time imax:   ", { j = iamax(X)      })
-        @:timeit("time maxloc: ", { k = maxloc(X,1)   })
+        @:timeit("time f77_iamax: ", { i = f77_iamax(N,X,1) })
+        @:timeit("time mfi_iamax: ", { j = mfi_iamax(X)     })
+        @:timeit("time maxloc:    ", { k = maxloc(X,1)      })
         call assert(i == j .and. j == k)
     end subroutine
 
     subroutine test_iamin
-        integer, external :: idamin
-        @:timeit("time izamin: ", { i = idamin(N,X,1) })
-        @:timeit("time iamin:  ", { j = iamin(X)      })
-        @:timeit("time minloc: ", { k = minloc(X,1)   })
+        @:timeit("time f77_iamin: ", { i = f77_iamin(N,X,1) })
+        @:timeit("time mfi_iamin: ", { j = mfi_iamin(X)     })
+        @:timeit("time minloc:    ", { k = minloc(X,1)      })
         call assert(i == j .and. j == k)
     end subroutine
 
     subroutine test_gemm
-        @:timeit("time gemm:   ", { call gemm(A,B,C) })
-        @:timeit("time matmul: ", { D = matmul(A,B)  })
+        @:timeit("time mfi_gemm: ", { call mfi_gemm(A,B,C) })
+        @:timeit("time matmul:   ", { D = matmul(A,B)  })
         call assert(all(is_almost_equal(C,D)))
 
-        @:timeit("time gemm,   transa=T:     ", { call gemm(A,B,C,transa='T') })
-        @:timeit("time matmul, transpose(A): ", { D = matmul(transpose(A),B)  })
+        @:timeit("time mfi_gemm, transa=T:     ", { call mfi_gemm(A,B,C,transa='T') })
+        @:timeit("time matmul,   transpose(A): ", { D = matmul(transpose(A),B)      })
         call assert(all(is_almost_equal(C,D)))
     end subroutine
 
     subroutine test_gemv
-        @:timeit("time gemv:   ", { call gemv(A,X,Y) })
-        @:timeit("time matmul: ", { Z = matmul(A,X)  })
+        @:timeit("time mfi_gemv: ", { call mfi_gemv(A,X,Y) })
+        @:timeit("time matmul:   ", { Z = matmul(A,X)      })
         call assert(all(is_almost_equal(Y,Z)))
 
-        @:timeit("time gemv,   transa=T:     ", { call gemv(A,X,Y,trans='T') })
-        @:timeit("time matmul, transpose(A): ", { Z = matmul(transpose(A),X)  })
+        @:timeit("time mfi_gemv, transa=T:     ", { call mfi_gemv(A,X,Y,trans='T') })
+        @:timeit("time matmul,   transpose(A): ", { Z = matmul(transpose(A),X)     })
         call assert(all(is_almost_equal(Y,Z)))
     end subroutine
 
