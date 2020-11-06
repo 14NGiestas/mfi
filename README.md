@@ -1,7 +1,7 @@
 # MFI
 ## Modern Fortran interfaces to BLAS and LAPACK
 This project aims to be a collection of modern fortran interfaces to commonly used procedure, for now BLAS and LAPACK.
-The main goal is to reduce the pain of using such libraries, providing a generic interface to the intrinsic supported types, 
+The main goal is to reduce the pain of using such libraries, providing a generic interface to the intrinsic supported types and 
 identifying the optional or reconstructible arguments of a given procedure. The code uses [fypp](https://github.com/aradi/fypp),
 to generate the interfaces automatically to all supported types and kinds.
 
