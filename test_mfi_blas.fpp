@@ -7,18 +7,14 @@ program test_mfi_blas
     implicit none
     integer, parameter :: N = 2000
     real(REAL64) :: A(N,N), B(N,N), C(N,N), D(N,N)
-    real(REAL64) :: X(N), Y(N), Z(N)
+    real(REAL64) :: X(N), Y(N), Z(N), U(N)
     real(REAL64) :: alpha, beta
     integer :: i, j, k
-    C = .0_REAL64
-    D = .0_REAL64
-    Y = .0_REAL64
-    Z = .0_REAL64
-    call random_number(A)
-    call random_number(B)
-    call random_number(X)
 
     ! BLAS 1
+    call test_axpy
+    call test_copy
+    call test_swap
     call test_iamax
     call test_iamin
     ! BLAS 2
@@ -27,8 +23,43 @@ program test_mfi_blas
     call test_gemm
 
 contains
+    subroutine test_defaults
+        C = .0_REAL64
+        D = .0_REAL64
+        Y = .0_REAL64
+        Z = .0_REAL64
+        alpha = 1.0_REAL64
+        beta  = 0.0_REAL64
+        call random_number(A)
+        call random_number(B)
+        call random_number(X)
+    end subroutine
+
+    subroutine test_axpy
+        call test_defaults
+        @:timeit("time f77_axpy: ", { call f77_axpy(N,2*alpha,X,1,Y,1) })
+        Y = .0_REAL64
+        @:timeit("time mfi_axpy: ", { call mfi_axpy(X,Y,2*alpha)       })
+        @:timeit("time fortran:  ", { Z=2*X                            })
+        call assert(all(is_almost_equal(2*X,Y) .and. is_almost_equal(2*X,Z)))
+    end subroutine
+
+    subroutine test_copy
+        call test_defaults
+        @:timeit("time f77_copy: ", { call f77_copy(N,X,1,Y,1) })
+        @:timeit("time mfi_copy: ", { call mfi_copy(X,Y)       })
+        @:timeit("time fortran:  ", { Z=X                      })
+        call assert(all(is_almost_equal(X,Y) .and. is_almost_equal(X,Z)))
+    end subroutine
+
+    subroutine test_swap
+        call test_defaults
+        @:timeit("time f77_swap: ", { call f77_swap(N,X,1,Y,1) })
+        @:timeit("time mfi_swap: ", { call mfi_swap(X,Y)       })
+    end subroutine
 
     subroutine test_iamax
+        call test_defaults
         @:timeit("time f77_iamax: ", { i = f77_iamax(N,X,1) })
         @:timeit("time mfi_iamax: ", { j = mfi_iamax(X)     })
         @:timeit("time maxloc:    ", { k = maxloc(X,1)      })
@@ -36,6 +67,7 @@ contains
     end subroutine
 
     subroutine test_iamin
+        call test_defaults
         @:timeit("time f77_iamin: ", { i = f77_iamin(N,X,1) })
         @:timeit("time mfi_iamin: ", { j = mfi_iamin(X)     })
         @:timeit("time minloc:    ", { k = minloc(X,1)      })
@@ -43,25 +75,27 @@ contains
     end subroutine
 
     subroutine test_gemm
-        @:timeit("time f77_gemm: ", { call f77_gemm('N', 'N', N, N, N, 1._REAL64, A, N, B, N, 0._REAL64, C, N) })
+        call test_defaults
+        @:timeit("time f77_gemm: ", { call f77_gemm('N', 'N', N, N, N, alpha, A, N, B, N, beta, C, N) })
         @:timeit("time mfi_gemm: ", { call mfi_gemm(A,B,C) })
         @:timeit("time matmul:   ", { D = matmul(A,B)      })
         call assert(all(is_almost_equal(C,D)))
 
-        @:timeit("time f77_gemm:               ", { call f77_gemm('T', 'N', N, N, N, 1._REAL64, A, N, B, N, 0._REAL64, C, N) })
+        @:timeit("time f77_gemm, transa=T:     ", { call f77_gemm('T', 'N', N, N, N, alpha, A, N, B, N, beta, C, N) })
         @:timeit("time mfi_gemm, transa=T:     ", { call mfi_gemm(A,B,C,transa='T') })
         @:timeit("time matmul,   transpose(A): ", { D = matmul(transpose(A),B)      })
         call assert(all(is_almost_equal(C,D)))
     end subroutine
 
     subroutine test_gemv
-        @:timeit("time f77_gemv: ", { call f77_gemv('N', N, N, 1._REAL64, A, N, X, 1, 0._REAL64, Y, 1) })
+        call test_defaults
+        @:timeit("time f77_gemv: ", { call f77_gemv('N', N, N, alpha, A, N, X, 1, beta, Y, 1) })
         @:timeit("time mfi_gemv: ", { call mfi_gemv(A,X,Y) })
         @:timeit("time matmul:   ", { Z = matmul(A,X)      })
         call assert(all(is_almost_equal(Y,Z)))
 
-        @:timeit("time f77_gemv:               ", { call f77_gemv('T', N, N, 1._REAL64, A, N, X, 1, 0._REAL64, Y, 1) })
-        @:timeit("time mfi_gemv, transa=T:     ", { call mfi_gemv(A,X,Y,trans='T') })
+        @:timeit("time f77_gemv: trans=T:      ", { call f77_gemv('T', N, N, alpha, A, N, X, 1, beta, Y, 1) })
+        @:timeit("time mfi_gemv, trans=T:      ", { call mfi_gemv(A,X,Y,trans='T') })
         @:timeit("time matmul,   transpose(A): ", { Z = matmul(transpose(A),X)     })
         call assert(all(is_almost_equal(Y,Z)))
     end subroutine
