@@ -21,7 +21,7 @@
 #:def optional(dtype, *args)
 #:for variable in args
     ${dtype}$, intent(in), optional :: ${variable}$
-    ${dtype}$ :: local_${variable}$
+    ${dtype}$ :: ${variable}$_
 #:endfor
 #:enddef
 
@@ -36,9 +36,9 @@
 #:def defaults(**kwargs)
 #:for variable, default in kwargs.items()
     if (present(${variable}$)) then
-        local_${variable}$ = ${variable}$
+        ${variable}$_ = ${variable}$
     else
-        local_${variable}$ = ${default}$
+        ${variable}$_ = ${default}$
     end if
 #:endfor
 #:enddef

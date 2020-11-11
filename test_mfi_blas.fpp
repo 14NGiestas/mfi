@@ -8,6 +8,7 @@ program test_mfi_blas
     integer, parameter :: N = 2000
     real(REAL64) :: A(N,N), B(N,N), C(N,N), D(N,N)
     real(REAL64) :: X(N), Y(N), Z(N)
+    real(REAL64) :: alpha, beta
     integer :: i, j, k
     C = .0_REAL64
     D = .0_REAL64
@@ -17,10 +18,13 @@ program test_mfi_blas
     call random_number(B)
     call random_number(X)
 
+    ! BLAS 1
     call test_iamax
     call test_iamin
-    call test_gemm
+    ! BLAS 2
     call test_gemv
+    ! BLAS 3
+    call test_gemm
 
 contains
 
@@ -39,20 +43,24 @@ contains
     end subroutine
 
     subroutine test_gemm
+        @:timeit("time f77_gemm: ", { call f77_gemm('N', 'N', N, N, N, 1._REAL64, A, N, B, N, 0._REAL64, C, N) })
         @:timeit("time mfi_gemm: ", { call mfi_gemm(A,B,C) })
-        @:timeit("time matmul:   ", { D = matmul(A,B)  })
+        @:timeit("time matmul:   ", { D = matmul(A,B)      })
         call assert(all(is_almost_equal(C,D)))
 
+        @:timeit("time f77_gemm:               ", { call f77_gemm('T', 'N', N, N, N, 1._REAL64, A, N, B, N, 0._REAL64, C, N) })
         @:timeit("time mfi_gemm, transa=T:     ", { call mfi_gemm(A,B,C,transa='T') })
         @:timeit("time matmul,   transpose(A): ", { D = matmul(transpose(A),B)      })
         call assert(all(is_almost_equal(C,D)))
     end subroutine
 
     subroutine test_gemv
+        @:timeit("time f77_gemv: ", { call f77_gemv('N', N, N, 1._REAL64, A, N, X, 1, 0._REAL64, Y, 1) })
         @:timeit("time mfi_gemv: ", { call mfi_gemv(A,X,Y) })
         @:timeit("time matmul:   ", { Z = matmul(A,X)      })
         call assert(all(is_almost_equal(Y,Z)))
 
+        @:timeit("time f77_gemv:               ", { call f77_gemv('T', N, N, 1._REAL64, A, N, X, 1, 0._REAL64, Y, 1) })
         @:timeit("time mfi_gemv, transa=T:     ", { call mfi_gemv(A,X,Y,trans='T') })
         @:timeit("time matmul,   transpose(A): ", { Z = matmul(transpose(A),X)     })
         call assert(all(is_almost_equal(Y,Z)))
