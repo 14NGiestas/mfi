@@ -4,8 +4,24 @@ This project aims to be a collection of modern fortran interfaces to commonly us
 The main goal is to reduce the pain of using such libraries, providing a generic interface to the intrinsic supported types and 
 identifying the optional or reconstructible arguments of a given procedure. The code uses [fypp](https://github.com/aradi/fypp),
 to generate the interfaces automatically to all supported types and kinds.
+### Example $C = AB$
+```f90
+program main
+use mfi_blas, only: mfi_gemm
+use f77_blas, only: f77_gemm
+use iso_fortran_env
+implicit none
+! ... variables and other boilerplate code here ...
+! Original interface: type and precision dependent
+call cgemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)
+! Improved F77 interface: still a lot of arguments
+call f77_gemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)
+! Modern fortran interface: less arguments and more readable 
+call mfi_gemm(A,B,C)
+end program
+```
 
-## TL;DR
+## Quickstart
 ```
 $ git clone https://github.com/14NGiestas/mfi.git
 $ sudo pip install fypp
