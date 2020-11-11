@@ -18,9 +18,9 @@
 }
 
 #! Defines a optional variable, creating local corresponding variable by default
-#:def optional(dtype, *args)
+#:def optional(dtype, intent, *args)
 #:for variable in args
-    ${dtype}$, intent(in), optional :: ${variable}$
+    ${dtype}$, intent(${intent}$), optional :: ${variable}$
     ${dtype}$ :: ${variable}$_
 #:endfor
 #:enddef

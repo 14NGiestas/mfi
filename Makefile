@@ -1,13 +1,13 @@
 FC = gfortran -O2
 FPP = fypp
-MODULES := f77_blas mfi_blas
+MODULES := f77_blas mfi_blas f77_lapack mfi_lapack
 FPPS = $(MODULES:%=%.fpp)
 SRCS = $(MODULES:%=%.f90)
 OBJS = $(MODULES:%=%.o)
 MODS = $(MODULES:%=%.mod)
 .PRECIOUS: %.f90 %.mod %.o
 
-all: f77_blas mfi_blas
+all: $(MODULES)
 
 clean:
 	$(RM) *.o *.mod *.f90
