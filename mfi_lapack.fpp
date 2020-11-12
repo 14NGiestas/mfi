@@ -1,7 +1,7 @@
 #:include "common.fpp"
 
 #:def potrf_potri(MFI_NAME,F77_NAME,TYPE,KIND)
-pure subroutine ${MFI_NAME}$(a, uplo, info)
+pure subroutine ${MFI_NAME}$(a, info, uplo)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, inout, a(:,:))
 @:optional(character, in, uplo)
