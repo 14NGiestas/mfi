@@ -7,10 +7,10 @@ pure subroutine ${MFI_NAME}$(x, y, a, incx, incy)
 @:args(${TYPE}$, inout, y(:))
 @:optional(${TYPE}$, in, a)
 @:optional(integer, in, incx, incy)
-@:localvars(integer, n)
+    integer :: n
 @:defaults(a=1, incx=1, incy=1)
     N = size(X)
-    call ${F77_NAME}$(n,a_,x,incx_,y,incy_)
+    call ${F77_NAME}$(n,local_a,x,local_incx,y,local_incy)
 end subroutine
 #:enddef
 
@@ -20,10 +20,10 @@ pure subroutine ${MFI_NAME}$(x, y, incx, incy)
 @:args(${TYPE}$, in,    x(:))
 @:args(${TYPE}$, inout, y(:))
 @:optional(integer, in, incx, incy)
-@:localvars(integer, in, n)
+    integer :: n
 @:defaults(incx=1, incy=1)
     N = size(X)
-    call ${F77_NAME}$(n,x,incx_,y,incy_)
+    call ${F77_NAME}$(n,x,local_incx,y,local_incy)
 end subroutine
 #:enddef
 
@@ -32,11 +32,11 @@ pure function ${MFI_NAME}$(x, y, incx, incy)
 @:parameter(integer, wp=${KIND}$)
     ${TYPE}$ :: ${MFI_NAME}$
 @:args(${TYPE}$, in, x(:), y(:))
-@:localvars(integer, n)
+    integer :: n
 @:optional(integer, in, incx, incy)
 @:defaults(incx=1, incy=1)
     N = size(X)
-    ${MFI_NAME}$ = ${F77_NAME}$(n,x,incx_,y,incy_)
+    ${MFI_NAME}$ = ${F77_NAME}$(n,x,local_incx,y,local_incy)
 end function
 #:enddef
 
@@ -46,10 +46,10 @@ pure subroutine ${MFI_NAME}$(x, y, param, incx, incy)
 @:args(${TYPE}$, inout, x(:), y(:))
 @:args(${TYPE}$, in, param(5))
 @:optional(integer, in, incx, incy)
-@:localvars(integer, n)
+    integer :: n
 @:defaults(incx=1, incy=1)
     N = size(X)
-    call ${F77_NAME}$(n,x,incx_,y,incy_,param)
+    call ${F77_NAME}$(n,x,local_incx,y,local_incy,param)
 end subroutine
 #:enddef
 
@@ -70,10 +70,10 @@ pure function ${MFI_NAME}$(x, incx)
     integer :: ${MFI_NAME}$
 @:args(${TYPE}$, in, x(:))
 @:optional(integer, in, incx)
-@:localvars(integer, n)
+    integer :: n
 @:defaults(incx=1)
     n = size(x)
-    ${MFI_NAME}$ = ${F77_NAME}$(n,x,incx_)
+    ${MFI_NAME}$ = ${F77_NAME}$(n,x,local_incx)
 end function
 #:enddef
 
@@ -85,12 +85,12 @@ pure subroutine ${MFI_NAME}$(a, x, y, kl, m, alpha, beta, trans, incx, incy)
 @:optional(character, in, trans)
 @:optional(${TYPE}$,  in, alpha, beta)
 @:optional(integer,   in, kl, m, incx,  incy)
-@:localvars(integer, n, ku, lda)
+    integer :: n, ku, lda
     n = size(a,2)
     lda = max(1,size(a,1))
 @:defaults(kl=(lda-1)/2, m=n, trans='N', alpha=1, beta=0, incx=1, incy=1)
-    ku = lda-kl_-1
-    call ${F77_NAME}$(trans_,m_,n,kl_,ku,alpha_,a,lda,x,incx_,beta_,y,incy_)
+    ku = lda-local_kl-1
+    call ${F77_NAME}$(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 #:enddef
 
@@ -102,12 +102,12 @@ pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
 @:optional(character, in, trans)
 @:optional(${TYPE}$,  in, alpha, beta)
 @:optional(integer,   in, incx,  incy)
-@:localvars(integer, m, n, lda)
+    integer :: m, n, lda
 @:defaults(trans='N', alpha=1, beta=0, incx=1, incy=1)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call ${F77_NAME}$(trans_,m,n,alpha_,a,lda,x,incx_,beta_,y,incy_)
+    call ${F77_NAME}$(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 #:enddef
 
@@ -118,19 +118,19 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
 @:args(${TYPE}$, inout, c(:,:))
 @:optional(character, in, transa, transb)
 @:optional(${TYPE}$,  in, alpha, beta)
-@:localvars(integer, m, n, k, lda, ldb, ldc)
+    integer :: m, n, k, lda, ldb, ldc
 @:defaults(transa='N', transb='N', alpha=1, beta=0)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
     m = size(c,1)
     n = size(c,2)
-    if (transa_ == 'N' .or. transa_ == 'n') then
+    if (local_transa == 'N' .or. local_transa == 'n') then
         k = size(a,2)
     else
         k = size(a,1)
     end if
-    call ${F77_NAME}$(transa_,transb_,m,n,k,alpha_,a,lda,b,ldb,beta_,c,ldc)
+    call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 #:enddef
 
@@ -141,17 +141,17 @@ pure subroutine ${MFI_NAME}$(a, c, uplo, trans, alpha, beta)
 @:args(${TYPE}$, inout, c(:,:))
 @:optional(character, in, trans, uplo)
 @:optional(${TYPE}$,  in, alpha, beta)
-@:localvars(integer, n, k, lda, ldc)
+    integer :: n, k, lda, ldc
 @:defaults(trans='N', uplo='U', alpha=1, beta=0)
     n = size(c,2)
-    if (trans_ == 'N' .or. trans_ == 'n') then
+    if (local_trans == 'N' .or. local_trans == 'n') then
         k = size(a,2)
     else
         k = size(a,1)
     end if
     lda = max(1,size(a,1))
     ldc = max(1,size(c,1))
-    call ${F77_NAME}$(uplo_,trans_,n,k,alpha_,a,lda,beta_,c,ldc)
+    call ${F77_NAME}$(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
 end subroutine
 #:enddef
 

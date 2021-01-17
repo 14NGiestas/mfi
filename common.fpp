@@ -1,13 +1,15 @@
 #:mute
+#:set REAL_TYPE='real(wp)'
+#:set COMPLEX_TYPE='complex(wp)'
 #:set REAL_TYPES=['s','d']
 #:set COMPLEX_TYPES=['c','z']
 #:set DEFAULT_TYPES=REAL_TYPES+COMPLEX_TYPES
 
-#:set PREFIX_TO_TYPE={    &
-    's':   'real(wp)',    &
-    'd':   'real(wp)',    &
-    'c':   'complex(wp)', &
-    'z':   'complex(wp)', &
+#:set PREFIX_TO_TYPE={   &
+    's':   REAL_TYPE,    &
+    'd':   REAL_TYPE,    &
+    'c':   COMPLEX_TYPE, &
+    'z':   COMPLEX_TYPE, &
 }
 
 #:set PREFIX_TO_KIND={&
@@ -21,24 +23,26 @@
 #:def optional(dtype, intent, *args)
 #:for variable in args
     ${dtype}$, intent(${intent}$), optional :: ${variable}$
-    ${dtype}$ :: ${variable}$_
+    ${dtype}$ :: local_${variable}$
 #:endfor
 #:enddef
 
-#! Define a local variable
-#:def localvars(dtype, *args)
-#:for variable in args
-    ${dtype}$ :: ${variable}$
-#:endfor
+#! Handles a value of "variable" depending on "condition"
+#:def optval(condition, variable, true_value, false_value)
+    if (${condition}$) then
+        ${variable}$ = ${true_value}$
+    else
+        ${variable}$ = ${false_value}$
+    end if
 #:enddef
 
 #! Handles default values of the optional
 #:def defaults(**kwargs)
 #:for variable, default in kwargs.items()
     if (present(${variable}$)) then
-        ${variable}$_ = ${variable}$
+        local_${variable}$ = ${variable}$
     else
-        ${variable}$_ = ${default}$
+        local_${variable}$ = ${default}$
     end if
 #:endfor
 #:enddef
