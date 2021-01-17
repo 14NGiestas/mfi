@@ -10,7 +10,7 @@ MODS = $(MODULES:%=%.mod)
 all: $(MODULES)
 
 clean:
-	$(RM) *.o *.mod *.f90
+	$(RM) *.o *.mod *.f90 *.a *.so
 
 %: %.fpp
 	$(FPP) $< $@.f90
@@ -19,3 +19,11 @@ clean:
 test_%: all
 	$(FPP) $@.fpp $@.f90
 	$(FC) $@.f90 *.o -o $@ -lblas -llapack
+
+static-lib: $(OBJS)
+	@echo "Creating static library."
+	@ar rs libmfi.a $^
+
+shared-lib: $(OBJS)
+	@echo "Creating shared library."
+	@ld -shared -o libmfi.so $^
