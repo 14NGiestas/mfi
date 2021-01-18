@@ -21,6 +21,21 @@ pure subroutine ${NAME}$(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
 end subroutine
 #:enddef
 
+#:def hegv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  inout, a(lda,*))
+@:args(${TYPE}$,  inout, b(ldb,*))
+@:args(${REAL_TYPE}$, out, w(*))
+@:args(integer,   out,   info)
+@:args(character, in,    jobz, uplo)
+@:args(integer,   in,    n, itype, lda, ldb, lwork)
+@:args(${TYPE}$,  inout, work(*))
+@:args(${REAL_TYPE}$, in, rwork(*))
+end subroutine
+#:enddef
+
 #:def potrf_potri(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, a, lda, info)
     import :: ${KIND}$
@@ -36,6 +51,7 @@ module f77_lapack
 use iso_fortran_env
 implicit none
 
+$:f77_interface('?hegv',   COMPLEX_TYPES, hegv)
 $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
 $:f77_interface('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potri',  DEFAULT_TYPES, potrf_potri)
