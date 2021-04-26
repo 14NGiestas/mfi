@@ -1,0 +1,11 @@
+name    = "mfi"
+version = "0.0.1"
+license = "MIT"
+author  = "Ian Giestas Pauli"
+maintainer = "iangiestas@usp.br"
+
+[library]
+build-script="Makefile"
+
+[build]
+link = ["blas","lapack"]
