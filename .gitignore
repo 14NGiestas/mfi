@@ -41,3 +41,5 @@
 *.swp
 
 # End of https://www.gitignore.io/api/fortran
+*.f90
+build/
