@@ -118,7 +118,7 @@ pure subroutine ${NAME}$(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
 end subroutine
 #:enddef
 
-#:def herk(NAME,TYPE,KIND)
+#:def herk_syrk(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -130,7 +130,7 @@ pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
 end subroutine
 #:enddef
 
-#:def her2k(NAME,TYPE,KIND)
+#:def her2k_syr2k(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -178,9 +178,11 @@ $:f77_interface('?gemv',  DEFAULT_TYPES, gemv)
 ! BLAS level 3
 $:f77_interface('?gemm',  DEFAULT_TYPES, gemm)
 $:f77_interface('?hemm',  COMPLEX_TYPES, hemm_symm)
-$:f77_interface('?herk',  COMPLEX_TYPES, herk)
-$:f77_interface('?her2k', COMPLEX_TYPES, her2k)
+$:f77_interface('?herk',  COMPLEX_TYPES, herk_syrk)
+$:f77_interface('?her2k', COMPLEX_TYPES, her2k_syr2k)
 $:f77_interface('?symm',  REAL_TYPES,    hemm_symm)
+$:f77_interface('?syrk',  REAL_TYPES,    herk_syrk)
+$:f77_interface('?syr2k', REAL_TYPES,    her2k_syr2k)
 
 end module
 

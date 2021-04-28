@@ -152,7 +152,7 @@ pure subroutine ${MFI_NAME}$(a, b, c, side, uplo, alpha, beta)
 end subroutine
 #:enddef
 
-#:def herk(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def herk_syrk(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, c, uplo, trans, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:))
@@ -173,7 +173,7 @@ pure subroutine ${MFI_NAME}$(a, c, uplo, trans, alpha, beta)
 end subroutine
 #:enddef
 
-#:def her2k(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def her2k_syr2k(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, b, c, uplo, trans, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:))
@@ -230,6 +230,8 @@ $:mfi_interface('?hemm',  COMPLEX_TYPES)
 $:mfi_interface('?herk',  COMPLEX_TYPES)
 $:mfi_interface('?her2k', COMPLEX_TYPES)
 $:mfi_interface('?symm',  REAL_TYPES)
+$:mfi_interface('?syrk',  REAL_TYPES)
+$:mfi_interface('?syr2k', REAL_TYPES)
 
 contains
 
@@ -258,8 +260,10 @@ $:mfi_implement('?gemv',  DEFAULT_TYPES, gemv)
 ! BLAS level 3
 $:mfi_implement('?gemm',  DEFAULT_TYPES, gemm)
 $:mfi_implement('?hemm',  COMPLEX_TYPES, hemm_symm)
-$:mfi_implement('?herk',  COMPLEX_TYPES, herk)
-$:mfi_implement('?her2k', COMPLEX_TYPES, her2k)
+$:mfi_implement('?herk',  COMPLEX_TYPES, herk_syrk)
+$:mfi_implement('?her2k', COMPLEX_TYPES, her2k_syr2k)
 $:mfi_implement('?symm',  REAL_TYPES,    hemm_symm)
+$:mfi_implement('?syrk',  REAL_TYPES,    herk_syrk)
+$:mfi_implement('?syr2k', REAL_TYPES,    her2k_syr2k)
 
 end module
