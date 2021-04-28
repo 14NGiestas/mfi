@@ -106,6 +106,18 @@ pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c
 end subroutine
 #:enddef
 
+#:def hemm(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*), b(ldb,*))
+@:args(${TYPE}$,  inout, c(ldc,*))
+@:args(character, in,    side, uplo)
+@:args(${TYPE}$,  in,    alpha, beta)
+@:args(integer,   in,    m, n, lda, ldb, ldc)
+end subroutine
+#:enddef
+
 #:def herk(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: ${KIND}$
@@ -165,6 +177,7 @@ $:f77_interface('?gemv',  DEFAULT_TYPES, gemv)
 
 ! BLAS level 3
 $:f77_interface('?gemm',  DEFAULT_TYPES, gemm)
+$:f77_interface('?hemm',  COMPLEX_TYPES, hemm)
 $:f77_interface('?herk',  COMPLEX_TYPES, herk)
 $:f77_interface('?her2k', COMPLEX_TYPES, her2k)
 

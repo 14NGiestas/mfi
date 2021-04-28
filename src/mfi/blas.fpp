@@ -114,7 +114,7 @@ end subroutine
 #:def gemm(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in, a(:,:), b(:,:))
+@:args(${TYPE}$, in,    a(:,:), b(:,:))
 @:args(${TYPE}$, inout, c(:,:))
 @:optional(character, in, transa, transb)
 @:optional(${TYPE}$,  in, alpha, beta)
@@ -131,6 +131,24 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
         k = size(a,1)
     end if
     call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+end subroutine
+#:enddef
+
+#:def hemm(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, b, c, side, uplo, alpha, beta)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    a(:,:), b(:,:))
+@:args(${TYPE}$, inout, c(:,:))
+@:optional(character, in, side,  uplo)
+@:optional(${TYPE}$,  in, alpha, beta)
+    integer :: m, n, lda, ldb, ldc
+@:defaults(side='L', uplo='U', alpha=1, beta=0)
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    ldc = max(1,size(c,1))
+    m = size(c,1)
+    n = size(c,2)
+    call ${F77_NAME}$(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 #:enddef
 
@@ -208,6 +226,7 @@ $:mfi_interface('?gemv',  DEFAULT_TYPES)
 
 ! BLAS level 3
 $:mfi_interface('?gemm',  DEFAULT_TYPES)
+$:mfi_interface('?hemm',  COMPLEX_TYPES)
 $:mfi_interface('?herk',  COMPLEX_TYPES)
 $:mfi_interface('?her2k', COMPLEX_TYPES)
 
@@ -237,7 +256,8 @@ $:mfi_implement('?gemv',  DEFAULT_TYPES, gemv)
 
 ! BLAS level 3
 $:mfi_implement('?gemm',  DEFAULT_TYPES, gemm)
+$:mfi_implement('?hemm',  COMPLEX_TYPES, hemm)
 $:mfi_implement('?herk',  COMPLEX_TYPES, herk)
-$:mfi_implement('?her2k',  COMPLEX_TYPES, her2k)
+$:mfi_implement('?her2k', COMPLEX_TYPES, her2k)
 
 end module

@@ -108,7 +108,7 @@ fpm test
 | name  | description                                                                                            | done? |
 | ----- | ------------------------------------------------------------------------------------------------------ | ----- |
 | gemm  | Computes a matrix-matrix product with general matrices.                                                | :+1:  |
-| hemm  | Computes a matrix-matrix product where one input matrix is Hermitian and one is general.               |       |
+| hemm  | Computes a matrix-matrix product where one input matrix is Hermitian and one is general.               | :+1:  |
 | herk  | Performs a Hermitian rank-k update.                                                                    | :+1:  |
 | her2k | Performs a Hermitian rank-2k update.                                                                   | :+1:  |
 | symm  | Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.        |       |
