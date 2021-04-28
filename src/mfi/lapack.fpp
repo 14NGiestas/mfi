@@ -13,7 +13,9 @@ pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
     integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
     ${TYPE}$,      target  :: s_work(1), l_a2(1,1)
     ${TYPE}$,      pointer :: local_u(:,:), local_vt(:,:), work(:)
+#:if TYPE == COMPLEX_TYPE
     ${REAL_TYPE}$, pointer :: rwork(:)
+#:endif
 @:defaults(job='N')
     lda = max(1,size(a,1))
     m = size(a,1)
