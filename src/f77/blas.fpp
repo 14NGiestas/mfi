@@ -106,7 +106,7 @@ pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c
 end subroutine
 #:enddef
 
-#:def hemm(NAME,TYPE,KIND)
+#:def hemm_symm(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -177,9 +177,10 @@ $:f77_interface('?gemv',  DEFAULT_TYPES, gemv)
 
 ! BLAS level 3
 $:f77_interface('?gemm',  DEFAULT_TYPES, gemm)
-$:f77_interface('?hemm',  COMPLEX_TYPES, hemm)
+$:f77_interface('?hemm',  COMPLEX_TYPES, hemm_symm)
 $:f77_interface('?herk',  COMPLEX_TYPES, herk)
 $:f77_interface('?her2k', COMPLEX_TYPES, her2k)
+$:f77_interface('?symm',  REAL_TYPES,    hemm_symm)
 
 end module
 

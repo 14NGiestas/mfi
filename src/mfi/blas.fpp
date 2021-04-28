@@ -134,7 +134,7 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
 end subroutine
 #:enddef
 
-#:def hemm(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def hemm_symm(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, b, c, side, uplo, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:), b(:,:))
@@ -229,6 +229,7 @@ $:mfi_interface('?gemm',  DEFAULT_TYPES)
 $:mfi_interface('?hemm',  COMPLEX_TYPES)
 $:mfi_interface('?herk',  COMPLEX_TYPES)
 $:mfi_interface('?her2k', COMPLEX_TYPES)
+$:mfi_interface('?symm',  REAL_TYPES)
 
 contains
 
@@ -256,8 +257,9 @@ $:mfi_implement('?gemv',  DEFAULT_TYPES, gemv)
 
 ! BLAS level 3
 $:mfi_implement('?gemm',  DEFAULT_TYPES, gemm)
-$:mfi_implement('?hemm',  COMPLEX_TYPES, hemm)
+$:mfi_implement('?hemm',  COMPLEX_TYPES, hemm_symm)
 $:mfi_implement('?herk',  COMPLEX_TYPES, herk)
 $:mfi_implement('?her2k', COMPLEX_TYPES, her2k)
+$:mfi_implement('?symm',  REAL_TYPES,    hemm_symm)
 
 end module

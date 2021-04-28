@@ -111,7 +111,7 @@ fpm test
 | hemm  | Computes a matrix-matrix product where one input matrix is Hermitian and one is general.               | :+1:  |
 | herk  | Performs a Hermitian rank-k update.                                                                    | :+1:  |
 | her2k | Performs a Hermitian rank-2k update.                                                                   | :+1:  |
-| symm  | Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.        |       |
+| symm  | Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.        | :+1:  |
 | syrk  | Performs a symmetric rank-k update.                                                                    |       |
 | syr2k | Performs a symmetric rank-2k update.                                                                   |       |
 | trmm  | Computes a matrix-matrix product where one input matrix is triangular and one input matrix is general. |       |
