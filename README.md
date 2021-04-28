@@ -58,7 +58,7 @@ fpm test
 | ------ | ------------------------------------------------------- | ----- |
 | asum   | Sum of vector magnitudes                                |       |
 | axpy   | Scalar-vector product                                   | :+1:  |
-| copy   | Copy vector                                             |       |
+| copy   | Copy vector                                             | :+1:  |
 | dot    | Dot product                                             |       |
 | sdsdot | Dot product with double precision                       |       |
 | dotc   | Dot product conjugated                                  | :+1:  |
@@ -69,7 +69,7 @@ fpm test
 | rotm   | Modified Givens plane rotation of points                |       |
 | rotmg  | Generate modified Givens plane rotation of points       |       |
 | scal   | Vector-scalar product                                   |       |
-| swap   | Vector-vector swap                                      |       |
+| swap   | Vector-vector swap                                      | :+1:  |
 | iamax  | Index of the maximum absolute value element of a vector | :+1:  |
 | iamin  | Index of the minimum absolute value element of a vector | :+1:  |
 
