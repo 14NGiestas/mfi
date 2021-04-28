@@ -79,9 +79,9 @@ fpm test
 | ---- | ------------------------------------------------------------------------ | ----- |
 | gbmv | Matrix-vector product using a general band matrix                        | :+1:  |
 | gemv | Matrix-vector product using a general matrix                             | :+1:  |
-| ger  | Rank-1 update of a general matrix                                        |       |
-| gerc | Rank-1 update of a conjugated general matrix                             |       |
-| geru | Rank-1 update of a general matrix, unconjugated                          |       |
+| ger  | Rank-1 update of a general matrix                                        | :+1:  |
+| gerc | Rank-1 update of a conjugated general matrix                             | :+1:  |
+| geru | Rank-1 update of a general matrix, unconjugated                          | :+1:  |
 | hbmv | Matrix-vector product using a Hermitian band matrix                      |       |
 | hemv | Matrix-vector product using a Hermitian matrix                           |       |
 | her  | Rank-1 update of a Hermitian matrix                                      |       |

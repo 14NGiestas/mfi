@@ -80,7 +80,7 @@ end function
 #:def gbmv(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, x, y, kl, m, alpha, beta, trans, incx, incy)
 @:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in, a(:,:), x(:))
+@:args(${TYPE}$, in,    a(:,:), x(:))
 @:args(${TYPE}$, inout, y(:))
 @:optional(character, in, trans)
 @:optional(${TYPE}$,  in, alpha, beta)
@@ -97,7 +97,7 @@ end subroutine
 #:def gemv(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
 @:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in, a(:,:), x(:))
+@:args(${TYPE}$, in,    a(:,:), x(:))
 @:args(${TYPE}$, inout, y(:))
 @:optional(character, in, trans)
 @:optional(${TYPE}$,  in, alpha, beta)
@@ -108,6 +108,22 @@ pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
     n = size(a,2)
     lda = max(1,m)
     call ${F77_NAME}$(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+end subroutine
+#:enddef
+
+#:def ger_gerc_geru(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, y, alpha, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:), y(:))
+@:args(${TYPE}$, inout, a(:,:))
+@:optional(${TYPE}$,  in, alpha)
+@:optional(integer,   in, incx, incy)
+    integer :: m, n, lda
+@:defaults(alpha=1, incx=1, incy=1)
+    m = size(a,1)
+    n = size(a,2)
+    lda = max(1,m)
+    call ${F77_NAME}$(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 #:enddef
 
@@ -239,6 +255,9 @@ $:mfi_interface('i?amax', DEFAULT_TYPES)
 ! BLAS level 2
 $:mfi_interface('?gbmv',  DEFAULT_TYPES)
 $:mfi_interface('?gemv',  DEFAULT_TYPES)
+$:mfi_interface('?ger',   REAL_TYPES)
+$:mfi_interface('?gerc',  COMPLEX_TYPES)
+$:mfi_interface('?geru',  COMPLEX_TYPES)
 
 ! BLAS level 3
 $:mfi_interface('?gemm',  DEFAULT_TYPES)
@@ -274,6 +293,9 @@ $:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
 ! BLAS level 2
 $:mfi_implement('?gbmv',  DEFAULT_TYPES, gbmv)
 $:mfi_implement('?gemv',  DEFAULT_TYPES, gemv)
+$:mfi_implement('?ger',   REAL_TYPES,    ger_gerc_geru)
+$:mfi_implement('?gerc',  COMPLEX_TYPES, ger_gerc_geru)
+$:mfi_implement('?geru',  COMPLEX_TYPES, ger_gerc_geru)
 
 ! BLAS level 3
 $:mfi_implement('?gemm',  DEFAULT_TYPES, gemm)

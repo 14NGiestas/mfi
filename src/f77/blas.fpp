@@ -94,6 +94,17 @@ pure subroutine ${NAME}$(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
 end subroutine
 #:enddef
 
+#:def ger_gerc_geru(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(m, n, alpha, x, incx, y, incy, a, lda)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    x(*), y(*))
+@:args(${TYPE}$,  inout, a(lda,*))
+@:args(${TYPE}$,  in,    alpha)
+@:args(integer,   in,    m, n, lda, incx, incy)
+end subroutine
+#:enddef
+
 #:def gemm(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${KIND}$
@@ -186,6 +197,9 @@ $:f77_interface('i?amax', DEFAULT_TYPES, iamin_iamax)
 ! BLAS level 2
 $:f77_interface('?gbmv',  DEFAULT_TYPES, gbmv)
 $:f77_interface('?gemv',  DEFAULT_TYPES, gemv)
+$:f77_interface('?ger',   REAL_TYPES,    ger_gerc_geru)
+$:f77_interface('?gerc',  COMPLEX_TYPES, ger_gerc_geru)
+$:f77_interface('?geru',  COMPLEX_TYPES, ger_gerc_geru)
 
 ! BLAS level 3
 $:f77_interface('?gemm',  DEFAULT_TYPES, gemm)
