@@ -84,8 +84,8 @@ fpm test
 | geru | Rank-1 update of a general matrix, unconjugated                          | :+1:  |
 | hbmv | Matrix-vector product using a Hermitian band matrix                      |       |
 | hemv | Matrix-vector product using a Hermitian matrix                           |       |
-| her  | Rank-1 update of a Hermitian matrix                                      |       |
-| her2 | Rank-2 update of a Hermitian matrix                                      |       |
+| her  | Rank-1 update of a Hermitian matrix                                      | :+1:  |
+| her2 | Rank-2 update of a Hermitian matrix                                      | :+1:  |
 | hpmv | Matrix-vector product using a Hermitian packed matrix                    |       |
 | hpr  | Rank-1 update of a Hermitian packed matrix                               |       |
 | hpr2 | Rank-2 update of a Hermitian packed matrix                               |       |
@@ -94,8 +94,8 @@ fpm test
 | spr  | Rank-1 update of a symmetric packed matrix                               |       |
 | spr2 | Rank-2 update of a symmetric packed matrix                               |       |
 | symv | Matrix-vector product using a symmetric matrix                           |       |
-| syr  | Rank-1 update of a symmetric matrix                                      |       |
-| syr2 | Rank-2 update of a symmetric matrix                                      |       |
+| syr  | Rank-1 update of a symmetric matrix                                      | :+1:  |
+| syr2 | Rank-2 update of a symmetric matrix                                      | :+1:  |
 | tbmv | Matrix-vector product using a triangular band matrix                     |       |
 | tbsv | Solution of a linear system of equations with a triangular band matrix   |       |
 | tpmv | Matrix-vector product using a triangular packed matrix                   |       |
