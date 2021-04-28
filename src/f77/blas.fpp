@@ -143,6 +143,18 @@ pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
 end subroutine
 #:enddef
 
+#:def trmm_trsm(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*))
+@:args(${TYPE}$,  inout, b(ldb,*))
+@:args(character, in,    side, uplo, transa, diag)
+@:args(${TYPE}$,  in,    alpha)
+@:args(integer,   in,    m, n, lda, ldb)
+end subroutine
+#:enddef
+
 module f77_blas
 use iso_fortran_env
 implicit none
@@ -183,6 +195,8 @@ $:f77_interface('?her2k', COMPLEX_TYPES, her2k_syr2k)
 $:f77_interface('?symm',  REAL_TYPES,    hemm_symm)
 $:f77_interface('?syrk',  REAL_TYPES,    herk_syrk)
 $:f77_interface('?syr2k', REAL_TYPES,    her2k_syr2k)
+$:f77_interface('?trmm',  DEFAULT_TYPES, trmm_trsm)
+$:f77_interface('?trsm',  DEFAULT_TYPES, trmm_trsm)
 
 end module
 

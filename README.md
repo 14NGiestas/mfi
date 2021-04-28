@@ -114,5 +114,5 @@ fpm test
 | symm  | Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.        | :+1:  |
 | syrk  | Performs a symmetric rank-k update.                                                                    | :+1:  |
 | syr2k | Performs a symmetric rank-2k update.                                                                   | :+1:  |
-| trmm  | Computes a matrix-matrix product where one input matrix is triangular and one input matrix is general. |       |
-| trsm  | Solves a triangular matrix equation (forward or backward solve).                                       |       |
+| trmm  | Computes a matrix-matrix product where one input matrix is triangular and one input matrix is general. | :+1:  |
+| trsm  | Solves a triangular matrix equation (forward or backward solve).                                       | :+1:  |

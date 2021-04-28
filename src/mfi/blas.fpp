@@ -196,6 +196,22 @@ pure subroutine ${MFI_NAME}$(a, b, c, uplo, trans, alpha, beta)
 end subroutine
 #:enddef
 
+#:def trmm_trsm(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    a(:,:))
+@:args(${TYPE}$, inout, b(:,:))
+@:optional(character, in, side, uplo, transa, diag)
+@:optional(${TYPE}$,  in, alpha)
+    integer :: m, n, lda, ldb
+@:defaults(side='L', uplo='U', transa='N', diag='N', alpha=1)
+    m = size(b,1)
+    n = size(b,2)
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    call ${F77_NAME}$(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+end subroutine
+#:enddef
 
 module mfi_blas
 use iso_fortran_env
@@ -232,6 +248,8 @@ $:mfi_interface('?her2k', COMPLEX_TYPES)
 $:mfi_interface('?symm',  REAL_TYPES)
 $:mfi_interface('?syrk',  REAL_TYPES)
 $:mfi_interface('?syr2k', REAL_TYPES)
+$:mfi_interface('?trmm',  DEFAULT_TYPES)
+$:mfi_interface('?trsm',  DEFAULT_TYPES)
 
 contains
 
@@ -265,5 +283,7 @@ $:mfi_implement('?her2k', COMPLEX_TYPES, her2k_syr2k)
 $:mfi_implement('?symm',  REAL_TYPES,    hemm_symm)
 $:mfi_implement('?syrk',  REAL_TYPES,    herk_syrk)
 $:mfi_implement('?syr2k', REAL_TYPES,    her2k_syr2k)
+$:mfi_implement('?trmm',  DEFAULT_TYPES, trmm_trsm)
+$:mfi_implement('?trsm',  DEFAULT_TYPES, trmm_trsm)
 
 end module
