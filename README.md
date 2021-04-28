@@ -77,7 +77,7 @@ fpm test
 
 | name | description                                                              | done? |
 | ---- | ------------------------------------------------------------------------ | ----- |
-| gbmv | Matrix-vector product using a general band matrix                        |       |
+| gbmv | Matrix-vector product using a general band matrix                        | :+1:  |
 | gemv | Matrix-vector product using a general matrix                             | :+1:  |
 | ger  | Rank-1 update of a general matrix                                        |       |
 | gerc | Rank-1 update of a conjugated general matrix                             |       |
@@ -110,7 +110,7 @@ fpm test
 | gemm  | Computes a matrix-matrix product with general matrices.                                                | :+1:  |
 | hemm  | Computes a matrix-matrix product where one input matrix is Hermitian and one is general.               |       |
 | herk  | Performs a Hermitian rank-k update.                                                                    | :+1:  |
-| her2k | Performs a Hermitian rank-2k update.                                                                   |       |
+| her2k | Performs a Hermitian rank-2k update.                                                                   | :+1:  |
 | symm  | Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.        |       |
 | syrk  | Performs a symmetric rank-k update.                                                                    |       |
 | syr2k | Performs a symmetric rank-2k update.                                                                   |       |

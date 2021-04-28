@@ -118,6 +118,19 @@ pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
 end subroutine
 #:enddef
 
+#:def her2k(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*))
+@:args(${TYPE}$,  in,    b(ldb,*))
+@:args(${TYPE}$,  inout, c(ldc,*))
+@:args(character, in,    trans, uplo)
+@:args(${TYPE}$,  in,    alpha, beta)
+@:args(integer,   in,    n, k, lda, ldb, ldc)
+end subroutine
+#:enddef
+
 module f77_blas
 use iso_fortran_env
 implicit none
@@ -153,6 +166,7 @@ $:f77_interface('?gemv',  DEFAULT_TYPES, gemv)
 ! BLAS level 3
 $:f77_interface('?gemm',  DEFAULT_TYPES, gemm)
 $:f77_interface('?herk',  COMPLEX_TYPES, herk)
+$:f77_interface('?her2k', COMPLEX_TYPES, her2k)
 
 end module
 

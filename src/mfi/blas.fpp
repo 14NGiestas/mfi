@@ -155,6 +155,30 @@ pure subroutine ${MFI_NAME}$(a, c, uplo, trans, alpha, beta)
 end subroutine
 #:enddef
 
+#:def her2k(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, b, c, uplo, trans, alpha, beta)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    a(:,:))
+@:args(${TYPE}$, in,    b(:,:))
+@:args(${TYPE}$, inout, c(:,:))
+@:optional(character, in, trans, uplo)
+@:optional(${TYPE}$,  in, alpha, beta)
+    integer :: n, k, lda, ldb, ldc
+@:defaults(trans='N', uplo='U', alpha=1, beta=0)
+    n = size(c,2)
+    if (local_trans == 'N' .or. local_trans == 'n') then
+        k = size(a,2)
+    else
+        k = size(a,1)
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    ldc = max(1,size(c,1))
+    call ${F77_NAME}$(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+end subroutine
+#:enddef
+
+
 module mfi_blas
 use iso_fortran_env
 use f77_blas
@@ -185,6 +209,7 @@ $:mfi_interface('?gemv',  DEFAULT_TYPES)
 ! BLAS level 3
 $:mfi_interface('?gemm',  DEFAULT_TYPES)
 $:mfi_interface('?herk',  COMPLEX_TYPES)
+$:mfi_interface('?her2k', COMPLEX_TYPES)
 
 contains
 
@@ -213,5 +238,6 @@ $:mfi_implement('?gemv',  DEFAULT_TYPES, gemv)
 ! BLAS level 3
 $:mfi_implement('?gemm',  DEFAULT_TYPES, gemm)
 $:mfi_implement('?herk',  COMPLEX_TYPES, herk)
+$:mfi_implement('?her2k',  COMPLEX_TYPES, her2k)
 
 end module
