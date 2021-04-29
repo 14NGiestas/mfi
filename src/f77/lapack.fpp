@@ -1,3 +1,4 @@
+#:mute
 #:include "common.fpp"
 
 #:def gesvd(NAME,TYPE,KIND)
@@ -47,6 +48,7 @@ pure subroutine ${NAME}$(uplo, n, a, lda, info)
 end subroutine
 #:enddef
 
+#:endmute
 module f77_lapack
 use iso_fortran_env
 implicit none

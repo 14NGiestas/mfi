@@ -1,5 +1,5 @@
+#:mute
 #:include "common.fpp"
-
 #:def axpy(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(x, y, a, incx, incy)
 @:parameter(integer, wp=${KIND}$)
@@ -124,6 +124,23 @@ pure subroutine ${MFI_NAME}$(a, x, y, alpha, incx, incy)
     n = size(a,2)
     lda = max(1,m)
     call ${F77_NAME}$(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+end subroutine
+#:enddef
+
+#:def hbmv(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, y, uplo, alpha, beta, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in, x(:), a(:,:))
+@:args(${TYPE}$, inout, y(:))
+@:optional(character, in, uplo)
+@:optional(${TYPE}$,  in, alpha, beta)
+@:optional(integer,   in, incx, incy)
+    integer :: n, k, lda
+@:defaults(uplo='U', alpha=1, beta=0, incx=1, incy=1)
+    k = size(a,1)-1
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    call ${F77_NAME}$(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 #:enddef
 
@@ -260,7 +277,7 @@ pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
     call ${F77_NAME}$(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 #:enddef
-
+#:endmute
 module mfi_blas
 use iso_fortran_env
 use f77_blas
@@ -290,6 +307,7 @@ $:mfi_interface('?gemv',  DEFAULT_TYPES)
 $:mfi_interface('?ger',   REAL_TYPES)
 $:mfi_interface('?gerc',  COMPLEX_TYPES)
 $:mfi_interface('?geru',  COMPLEX_TYPES)
+$:mfi_interface('?hbmv',  COMPLEX_TYPES)
 $:mfi_interface('?her',   COMPLEX_TYPES)
 $:mfi_interface('?her2',  COMPLEX_TYPES)
 $:mfi_interface('?syr',   REAL_TYPES)
@@ -332,6 +350,7 @@ $:mfi_implement('?gemv',  DEFAULT_TYPES, gemv)
 $:mfi_implement('?ger',   REAL_TYPES,    ger_gerc_geru)
 $:mfi_implement('?gerc',  COMPLEX_TYPES, ger_gerc_geru)
 $:mfi_implement('?geru',  COMPLEX_TYPES, ger_gerc_geru)
+$:mfi_implement('?hbmv',  COMPLEX_TYPES, hbmv)
 $:mfi_implement('?her',   COMPLEX_TYPES, her_syr)
 $:mfi_implement('?her2',  COMPLEX_TYPES, her2_syr2)
 $:mfi_implement('?syr',   REAL_TYPES,    her_syr)

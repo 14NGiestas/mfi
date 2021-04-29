@@ -1,5 +1,5 @@
 #:include "common.fpp"
-
+#:mute
 #:def asum(NAME,TYPE,KIND)
 pure function ${NAME}$(n, x, incx)
     import :: ${KIND}$
@@ -105,6 +105,18 @@ pure subroutine ${NAME}$(m, n, alpha, x, incx, y, incy, a, lda)
 end subroutine
 #:enddef
 
+#:def hbmv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*), x(*))
+@:args(${TYPE}$,  inout, y(*))
+@:args(character, in,    uplo)
+@:args(${TYPE}$,  in,    alpha, beta)
+@:args(integer,   in,    n, k, lda, incx, incy)
+end subroutine
+#:enddef
+
 #:def her_syr(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, a, lda)
     import :: ${KIND}$
@@ -189,7 +201,7 @@ pure subroutine ${NAME}$(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
 @:args(integer,   in,    m, n, lda, ldb)
 end subroutine
 #:enddef
-
+#:endmute
 module f77_blas
 use iso_fortran_env
 implicit none
@@ -224,6 +236,7 @@ $:f77_interface('?gemv',  DEFAULT_TYPES, gemv)
 $:f77_interface('?ger',   REAL_TYPES,    ger_gerc_geru)
 $:f77_interface('?gerc',  COMPLEX_TYPES, ger_gerc_geru)
 $:f77_interface('?geru',  COMPLEX_TYPES, ger_gerc_geru)
+$:f77_interface('?hbmv',  COMPLEX_TYPES, hbmv)
 $:f77_interface('?her',   COMPLEX_TYPES, her_syr)
 $:f77_interface('?her2',  COMPLEX_TYPES, her2_syr2)
 $:f77_interface('?syr',   REAL_TYPES,    her_syr)

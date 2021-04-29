@@ -1,5 +1,5 @@
+#:mute
 #:include "common.fpp"
-
 #:def gesvd(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
 @:parameter(integer, wp=${KIND}$)
@@ -153,7 +153,7 @@ pure subroutine ${MFI_NAME}$(a, info, uplo)
     end if
 end subroutine
 #:enddef
-
+#:endmute
 module mfi_lapack
 use iso_fortran_env
 use f77_lapack
