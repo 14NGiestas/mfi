@@ -63,7 +63,7 @@ fpm test
 |       | dot    | Dot product                                             |
 |       | sdsdot | Dot product with double precision                       |
 | :+1:  | dotc   | Dot product conjugated                                  |
-|       | dotu   | Dot product unconjugated                                |
+| :+1:  | dotu   | Dot product unconjugated                                |
 |       | nrm2   | Vector 2-norm (Euclidean norm)                          |
 |       | rot    | Plane rotation of points                                |
 |       | rotg   | Generate Givens rotation of points                      |
