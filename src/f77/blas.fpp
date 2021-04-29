@@ -105,7 +105,7 @@ pure subroutine ${NAME}$(m, n, alpha, x, incx, y, incy, a, lda)
 end subroutine
 #:enddef
 
-#:def hbmv(NAME,TYPE,KIND)
+#:def hbmv_sbmv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -117,7 +117,7 @@ pure subroutine ${NAME}$(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
 end subroutine
 #:enddef
 
-#:def hemv(NAME,TYPE,KIND)
+#:def hemv_symv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -270,12 +270,14 @@ $:f77_interface('?gemv',  DEFAULT_TYPES, gemv)
 $:f77_interface('?ger',   REAL_TYPES,    ger_gerc_geru)
 $:f77_interface('?gerc',  COMPLEX_TYPES, ger_gerc_geru)
 $:f77_interface('?geru',  COMPLEX_TYPES, ger_gerc_geru)
-$:f77_interface('?hbmv',  COMPLEX_TYPES, hbmv)
-$:f77_interface('?hemv',  COMPLEX_TYPES, hemv)
+$:f77_interface('?hbmv',  COMPLEX_TYPES, hbmv_sbmv)
+$:f77_interface('?hemv',  COMPLEX_TYPES, hemv_symv)
 $:f77_interface('?her',   COMPLEX_TYPES, her_syr)
 $:f77_interface('?her2',  COMPLEX_TYPES, her2_syr2)
+$:f77_interface('?sbmv',  REAL_TYPES,    hbmv_sbmv)
 $:f77_interface('?syr',   REAL_TYPES,    her_syr)
 $:f77_interface('?syr2',  REAL_TYPES,    her2_syr2)
+$:f77_interface('?symv',  REAL_TYPES,    hemv_symv)
 $:f77_interface('?trmv',  DEFAULT_TYPES, trmv_trsv)
 $:f77_interface('?trsv',  DEFAULT_TYPES, trmv_trsv)
 $:f77_interface('?tbmv',  DEFAULT_TYPES, tbmv_tbsv)

@@ -89,11 +89,11 @@ fpm test
 | hpmv | Matrix-vector product using a Hermitian packed matrix                    |       |
 | hpr  | Rank-1 update of a Hermitian packed matrix                               |       |
 | hpr2 | Rank-2 update of a Hermitian packed matrix                               |       |
-| sbmv | Matrix-vector product using symmetric band matrix                        |       |
+| sbmv | Matrix-vector product using symmetric band matrix                        | :+1:  |
 | spmv | Matrix-vector product using a symmetric packed matrix                    |       |
 | spr  | Rank-1 update of a symmetric packed matrix                               |       |
 | spr2 | Rank-2 update of a symmetric packed matrix                               |       |
-| symv | Matrix-vector product using a symmetric matrix                           |       |
+| symv | Matrix-vector product using a symmetric matrix                           | :+1:  |
 | syr  | Rank-1 update of a symmetric matrix                                      | :+1:  |
 | syr2 | Rank-2 update of a symmetric matrix                                      | :+1:  |
 | tbmv | Matrix-vector product using a triangular band matrix                     | :+1:  |
