@@ -192,6 +192,37 @@ pure subroutine ${MFI_NAME}$(a, x, y, uplo, alpha, incx, incy)
 end subroutine
 #:enddef
 
+#:def tbmv_tbsv(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, uplo, trans, diag, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in, a(:,:))
+@:args(${TYPE}$, inout, x(:))
+@:optional(character, in, uplo, trans, diag)
+@:optional(integer,   in, incx)
+    integer :: n, k, lda
+@:defaults(uplo='U', trans='N', diag='N', incx=1)
+    k = size(a,1)-1
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    call ${F77_NAME}$(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+end subroutine
+#:enddef
+
+#:def trmv_trsv(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, uplo, trans, diag, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in, a(:,:))
+@:args(${TYPE}$, inout, x(:))
+@:optional(character, in, uplo, trans, diag)
+@:optional(integer,   in, incx)
+    integer :: n, lda
+@:defaults(uplo='U', trans='N', diag='N', incx=1)
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    call ${F77_NAME}$(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+end subroutine
+#:enddef
+
 #:def gemm(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
@@ -328,6 +359,10 @@ $:mfi_interface('?her',   COMPLEX_TYPES)
 $:mfi_interface('?her2',  COMPLEX_TYPES)
 $:mfi_interface('?syr',   REAL_TYPES)
 $:mfi_interface('?syr2',  REAL_TYPES)
+$:mfi_interface('?trmv',  DEFAULT_TYPES)
+$:mfi_interface('?trsv',  DEFAULT_TYPES)
+$:mfi_interface('?tbmv',  DEFAULT_TYPES)
+$:mfi_interface('?tbsv',  DEFAULT_TYPES)
 
 ! BLAS level 3
 $:mfi_interface('?gemm',  DEFAULT_TYPES)
@@ -372,6 +407,10 @@ $:mfi_implement('?her',   COMPLEX_TYPES, her_syr)
 $:mfi_implement('?her2',  COMPLEX_TYPES, her2_syr2)
 $:mfi_implement('?syr',   REAL_TYPES,    her_syr)
 $:mfi_implement('?syr2',  REAL_TYPES,    her2_syr2)
+$:mfi_implement('?trmv',  DEFAULT_TYPES, trmv_trsv)
+$:mfi_implement('?trsv',  DEFAULT_TYPES, trmv_trsv)
+$:mfi_implement('?tbmv',  DEFAULT_TYPES, tbmv_tbsv)
+$:mfi_implement('?tbsv',  DEFAULT_TYPES, tbmv_tbsv)
 
 ! BLAS level 3
 $:mfi_implement('?gemm',  DEFAULT_TYPES, gemm)

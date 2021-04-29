@@ -96,12 +96,12 @@ fpm test
 | symv | Matrix-vector product using a symmetric matrix                           |       |
 | syr  | Rank-1 update of a symmetric matrix                                      | :+1:  |
 | syr2 | Rank-2 update of a symmetric matrix                                      | :+1:  |
-| tbmv | Matrix-vector product using a triangular band matrix                     |       |
-| tbsv | Solution of a linear system of equations with a triangular band matrix   |       |
+| tbmv | Matrix-vector product using a triangular band matrix                     | :+1:  |
+| tbsv | Solution of a linear system of equations with a triangular band matrix   | :+1:  |
 | tpmv | Matrix-vector product using a triangular packed matrix                   |       |
 | tpsv | Solution of a linear system of equations with a triangular packed matrix |       |
-| trmv | Matrix-vector product using a triangular matrix                          |       |
-| trsv | Solution of a linear system of equations with a triangular matrix        |       |
+| trmv | Matrix-vector product using a triangular matrix                          | :+1:  |
+| trsv | Solution of a linear system of equations with a triangular matrix        | :+1:  |
 
 ### BLAS Level 3
 

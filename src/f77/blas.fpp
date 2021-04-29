@@ -153,6 +153,28 @@ pure subroutine ${NAME}$(uplo, n, alpha, x, incx, y, incy, a, lda)
 end subroutine
 #:enddef
 
+#:def tbmv_tbsv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, trans, diag, n, k, a, lda, x, incx)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*))
+@:args(${TYPE}$,  inout, x(*))
+@:args(character, in,    uplo, trans, diag)
+@:args(integer,   in,    n, k, lda, incx)
+end subroutine
+#:enddef
+
+#:def trmv_trsv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, trans, diag, n, a, lda, x, incx)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*))
+@:args(${TYPE}$,  inout, x(*))
+@:args(character, in,    uplo, trans, diag)
+@:args(integer,   in,    n, lda, incx)
+end subroutine
+#:enddef
+
 #:def gemm(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${KIND}$
@@ -254,6 +276,10 @@ $:f77_interface('?her',   COMPLEX_TYPES, her_syr)
 $:f77_interface('?her2',  COMPLEX_TYPES, her2_syr2)
 $:f77_interface('?syr',   REAL_TYPES,    her_syr)
 $:f77_interface('?syr2',  REAL_TYPES,    her2_syr2)
+$:f77_interface('?trmv',  DEFAULT_TYPES, trmv_trsv)
+$:f77_interface('?trsv',  DEFAULT_TYPES, trmv_trsv)
+$:f77_interface('?tbmv',  DEFAULT_TYPES, tbmv_tbsv)
+$:f77_interface('?tbsv',  DEFAULT_TYPES, tbmv_tbsv)
 
 ! BLAS level 3
 $:f77_interface('?gemm',  DEFAULT_TYPES, gemm)
