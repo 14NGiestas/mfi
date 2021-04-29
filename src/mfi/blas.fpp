@@ -192,6 +192,51 @@ pure subroutine ${MFI_NAME}$(a, x, y, uplo, alpha, incx, incy)
 end subroutine
 #:enddef
 
+#:def hpmv_spmv(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(ap, x, y, uplo, alpha, beta, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:), ap(:))
+@:args(${TYPE}$, inout, y(:))
+@:optional(character, in, uplo)
+@:optional(${TYPE}$,  in, alpha, beta)
+@:optional(integer,   in, incx, incy)
+    integer :: n
+@:defaults(uplo='U', alpha=1, beta=0, incx=1, incy=1)
+    n = size(x)
+    call ${F77_NAME}$(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
+end subroutine
+#:enddef
+
+#:def hpr_spr(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(ap, x, uplo, alpha, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:))
+@:args(${TYPE}$, inout, ap(:))
+@:optional(character, in, uplo)
+@:optional(${TYPE}$,  in, alpha)
+@:optional(integer,   in, incx)
+    integer :: n
+@:defaults(uplo='U', alpha=1, incx=1)
+    n = size(x)
+    call ${F77_NAME}$(local_uplo,n,local_alpha,x,local_incx,ap)
+end subroutine
+#:enddef
+
+#:def hpr_spr2(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(ap, x, y, uplo, alpha, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:), y(:))
+@:args(${TYPE}$, inout, ap(:))
+@:optional(character, in, uplo)
+@:optional(${TYPE}$,  in, alpha)
+@:optional(integer,   in, incx, incy)
+    integer :: n
+@:defaults(uplo='U', alpha=1, incx=1, incy=1)
+    n = size(x)
+    call ${F77_NAME}$(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
+end subroutine
+#:enddef
+
 #:def tbmv_tbsv(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, x, uplo, trans, diag, incx)
 @:parameter(integer, wp=${KIND}$)
@@ -205,6 +250,20 @@ pure subroutine ${MFI_NAME}$(a, x, uplo, trans, diag, incx)
     lda = max(1,size(a,1))
     n = size(a,2)
     call ${F77_NAME}$(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+end subroutine
+#:enddef
+
+#:def tpmv_tpsv(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(ap, x, uplo, trans, diag, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    ap(:))
+@:args(${TYPE}$, inout, x(:))
+@:optional(character, in, uplo, trans, diag)
+@:optional(integer,   in, incx)
+    integer :: n
+@:defaults(uplo='U', trans='N', diag='N', incx=1)
+    n = size(x)
+    call ${F77_NAME}$(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
 #:enddef
 
@@ -358,14 +417,22 @@ $:mfi_interface('?hbmv',  COMPLEX_TYPES)
 $:mfi_interface('?hemv',  COMPLEX_TYPES)
 $:mfi_interface('?her',   COMPLEX_TYPES)
 $:mfi_interface('?her2',  COMPLEX_TYPES)
+$:mfi_interface('?hpmv',  COMPLEX_TYPES)
+$:mfi_interface('?hpr',   COMPLEX_TYPES)
+$:mfi_interface('?hpr2',  COMPLEX_TYPES)
 $:mfi_interface('?sbmv',  REAL_TYPES)
+$:mfi_interface('?spmv',  REAL_TYPES)
+$:mfi_interface('?spr',   REAL_TYPES)
+$:mfi_interface('?spr2',  REAL_TYPES)
+$:mfi_interface('?symv',  REAL_TYPES)
 $:mfi_interface('?syr',   REAL_TYPES)
 $:mfi_interface('?syr2',  REAL_TYPES)
-$:mfi_interface('?symv',  REAL_TYPES)
-$:mfi_interface('?trmv',  DEFAULT_TYPES)
-$:mfi_interface('?trsv',  DEFAULT_TYPES)
 $:mfi_interface('?tbmv',  DEFAULT_TYPES)
 $:mfi_interface('?tbsv',  DEFAULT_TYPES)
+$:mfi_interface('?tpmv',  DEFAULT_TYPES)
+$:mfi_interface('?tpsv',  DEFAULT_TYPES)
+$:mfi_interface('?trmv',  DEFAULT_TYPES)
+$:mfi_interface('?trsv',  DEFAULT_TYPES)
 
 ! BLAS level 3
 $:mfi_interface('?gemm',  DEFAULT_TYPES)
@@ -408,14 +475,22 @@ $:mfi_implement('?hbmv',  COMPLEX_TYPES, hbmv_sbmv)
 $:mfi_implement('?hemv',  COMPLEX_TYPES, hemv_symv)
 $:mfi_implement('?her',   COMPLEX_TYPES, her_syr)
 $:mfi_implement('?her2',  COMPLEX_TYPES, her2_syr2)
+$:mfi_implement('?hpmv',  COMPLEX_TYPES, hpmv_spmv)
+$:mfi_implement('?hpr',   COMPLEX_TYPES, hpr_spr)
+$:mfi_implement('?hpr2',  COMPLEX_TYPES, hpr_spr2)
 $:mfi_implement('?sbmv',  REAL_TYPES,    hbmv_sbmv)
+$:mfi_implement('?spmv',  REAL_TYPES,    hpmv_spmv)
+$:mfi_implement('?spr',   REAL_TYPES,    hpr_spr)
+$:mfi_implement('?spr2',  REAL_TYPES,    hpr_spr2)
+$:mfi_implement('?symv',  REAL_TYPES,    hemv_symv)
 $:mfi_implement('?syr',   REAL_TYPES,    her_syr)
 $:mfi_implement('?syr2',  REAL_TYPES,    her2_syr2)
-$:mfi_implement('?symv',  REAL_TYPES,    hemv_symv)
-$:mfi_implement('?trmv',  DEFAULT_TYPES, trmv_trsv)
-$:mfi_implement('?trsv',  DEFAULT_TYPES, trmv_trsv)
 $:mfi_implement('?tbmv',  DEFAULT_TYPES, tbmv_tbsv)
 $:mfi_implement('?tbsv',  DEFAULT_TYPES, tbmv_tbsv)
+$:mfi_implement('?tpmv',  DEFAULT_TYPES, tpmv_tpsv)
+$:mfi_implement('?tpsv',  DEFAULT_TYPES, tpmv_tpsv)
+$:mfi_implement('?trmv',  DEFAULT_TYPES, trmv_trsv)
+$:mfi_implement('?trsv',  DEFAULT_TYPES, trmv_trsv)
 
 ! BLAS level 3
 $:mfi_implement('?gemm',  DEFAULT_TYPES, gemm)

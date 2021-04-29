@@ -153,6 +153,42 @@ pure subroutine ${NAME}$(uplo, n, alpha, x, incx, y, incy, a, lda)
 end subroutine
 #:enddef
 
+#:def hpmv_spmv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, n, alpha, ap, x, incx, beta, y, incy)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    ap(*), x(*))
+@:args(${TYPE}$,  inout, y(*))
+@:args(character, in,    uplo)
+@:args(${TYPE}$,  in,    alpha, beta)
+@:args(integer,   in,    n, incx, incy)
+end subroutine
+#:enddef
+
+#:def hpr_spr(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, n, alpha, x, incx, ap)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    x(*))
+@:args(${TYPE}$,  inout, ap(*))
+@:args(character, in,    uplo)
+@:args(${TYPE}$,  in,    alpha)
+@:args(integer,   in,    n, incx)
+end subroutine
+#:enddef
+
+#:def hpr_spr2(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, n, alpha, x, incx, y, incy, ap)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    x(*), y(*))
+@:args(${TYPE}$,  inout, ap(*))
+@:args(character, in,    uplo)
+@:args(${TYPE}$,  in,    alpha)
+@:args(integer,   in,    n, incx, incy)
+end subroutine
+#:enddef
+
 #:def tbmv_tbsv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: ${KIND}$
@@ -161,6 +197,17 @@ pure subroutine ${NAME}$(uplo, trans, diag, n, k, a, lda, x, incx)
 @:args(${TYPE}$,  inout, x(*))
 @:args(character, in,    uplo, trans, diag)
 @:args(integer,   in,    n, k, lda, incx)
+end subroutine
+#:enddef
+
+#:def tpmv_tpsv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, trans, diag, n, ap, x, incx)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    ap(*))
+@:args(${TYPE}$,  inout, x(*))
+@:args(character, in,    uplo, trans, diag)
+@:args(integer,   in,    n, incx)
 end subroutine
 #:enddef
 
@@ -274,14 +321,22 @@ $:f77_interface('?hbmv',  COMPLEX_TYPES, hbmv_sbmv)
 $:f77_interface('?hemv',  COMPLEX_TYPES, hemv_symv)
 $:f77_interface('?her',   COMPLEX_TYPES, her_syr)
 $:f77_interface('?her2',  COMPLEX_TYPES, her2_syr2)
+$:f77_interface('?hpmv',  COMPLEX_TYPES, hpmv_spmv)
+$:f77_interface('?hpr',   COMPLEX_TYPES, hpr_spr)
+$:f77_interface('?hpr2',  COMPLEX_TYPES, hpr_spr2)
 $:f77_interface('?sbmv',  REAL_TYPES,    hbmv_sbmv)
+$:f77_interface('?spmv',  REAL_TYPES,    hpmv_spmv)
+$:f77_interface('?spr',   REAL_TYPES,    hpr_spr)
+$:f77_interface('?spr2',  REAL_TYPES,    hpr_spr2)
+$:f77_interface('?symv',  REAL_TYPES,    hemv_symv)
 $:f77_interface('?syr',   REAL_TYPES,    her_syr)
 $:f77_interface('?syr2',  REAL_TYPES,    her2_syr2)
-$:f77_interface('?symv',  REAL_TYPES,    hemv_symv)
-$:f77_interface('?trmv',  DEFAULT_TYPES, trmv_trsv)
-$:f77_interface('?trsv',  DEFAULT_TYPES, trmv_trsv)
 $:f77_interface('?tbmv',  DEFAULT_TYPES, tbmv_tbsv)
 $:f77_interface('?tbsv',  DEFAULT_TYPES, tbmv_tbsv)
+$:f77_interface('?tpmv',  DEFAULT_TYPES, tpmv_tpsv)
+$:f77_interface('?tpsv',  DEFAULT_TYPES, tpmv_tpsv)
+$:f77_interface('?trmv',  DEFAULT_TYPES, trmv_trsv)
+$:f77_interface('?trsv',  DEFAULT_TYPES, trmv_trsv)
 
 ! BLAS level 3
 $:f77_interface('?gemm',  DEFAULT_TYPES, gemm)
