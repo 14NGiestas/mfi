@@ -14,6 +14,7 @@ program test_mfi_blas
     ! BLAS 1
     call test_axpy
     call test_copy
+    call test_rotmg
     call test_swap
     call test_iamax
     call test_iamin
@@ -33,6 +34,21 @@ contains
         call random_number(A)
         call random_number(B)
         call random_number(X)
+    end subroutine
+
+    subroutine test_rotmg
+        real(REAL64) :: x1, y1, d1, d2, params(5)
+        real(REAL64) :: expected(5)
+        expected = [-1.d0, 1.6110934624105326d-6, -2.44140625d-4, 2.44140625d-4, 1.62760416d-6]
+        d1 = 5.9d-8; d2 = 5.960464d-8; x1 = 1.d0; y1 = 150.d0; params = .0_REAL64
+        @:timeit("time f77_rotmg: ", { call f77_rotmg(d1, d2, x1, y1, params) })
+        call assert(all(is_almost_equal(params, expected)))
+        d1 = 5.9d-8; d2 = 5.960464d-8; x1 = 1.d0; y1 = 150.d0; params = .0_REAL64
+        @:timeit("time mfi_rotmg: ", { call mfi_rotmg(d1, d2, x1, y1, params) })
+        call assert(all(is_almost_equal(params, expected)))
+        d1 = 5.9d-8; d2 = 5.960464d-8; x1 = 1.d0; y1 = 150.d0; params = .0_REAL64
+        @:timeit("time drotmg:    ", { call drotmg(d1, d2, x1, y1, params) })
+        call assert(all(is_almost_equal(params, expected)))
     end subroutine
 
     subroutine test_axpy

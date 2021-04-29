@@ -1,5 +1,5 @@
-#:include "common.fpp"
 #:mute
+#:include "common.fpp"
 #:def asum(NAME,TYPE,KIND)
 pure function ${NAME}$(n, x, incx)
     import :: ${KIND}$

@@ -67,8 +67,8 @@ fpm test
 |       | nrm2   | Vector 2-norm (Euclidean norm)                          |
 |       | rot    | Plane rotation of points                                |
 |       | rotg   | Generate Givens rotation of points                      |
-|       | rotm   | Modified Givens plane rotation of points                |
-|       | rotmg  | Generate modified Givens plane rotation of points       |
+| :+1:  | rotm   | Modified Givens plane rotation of points                |
+| :+1:  | rotmg  | Generate modified Givens plane rotation of points       |
 |       | scal   | Vector-scalar product                                   |
 | :+1:  | swap   | Vector-vector swap                                      |
 | :+1:  | iamax  | Index of the maximum absolute value element of a vector |

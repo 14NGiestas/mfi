@@ -53,17 +53,6 @@ pure subroutine ${MFI_NAME}$(x, y, param, incx, incy)
 end subroutine
 #:enddef
 
-! FIXME MFI and F77 interfaces are the same (this subroutine is not needed)
-#:def rotmg(MFI_NAME,F77_NAME,TYPE,KIND)
-pure subroutine ${MFI_NAME}$(d1, d2, x1, y1, param)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    y1)
-@:args(${TYPE}$, out,   param(5))
-@:args(${TYPE}$, inout, d1, d2, x1)
-    call ${F77_NAME}$(d1, d2, x1, y1, param)
-end subroutine
-#:enddef
-
 #:def iamin_iamax(MFI_NAME,F77_NAME,TYPE,KIND)
 pure function ${MFI_NAME}$(x, incx)
 @:parameter(integer, wp=${KIND}$)
@@ -387,6 +376,7 @@ end subroutine
 module mfi_blas
 use iso_fortran_env
 use f77_blas
+use f77_blas, only: mfi_rotmg => f77_rotmg
 implicit none
 
 ! BLAS level 1
@@ -401,7 +391,7 @@ $:mfi_interface('?dotc',  COMPLEX_TYPES)
 !$:mfi_interface('?rot',   DEFAULT_TYPES)
 !$:mfi_interface('?rotg',  DEFAULT_TYPES)
 $:mfi_interface('?rotm',  REAL_TYPES)
-$:mfi_interface('?rotmg', REAL_TYPES)
+!$:mfi_interface('?rotmg', REAL_TYPES)
 !$:f77_interface('?scal')
 $:mfi_interface('?swap',  DEFAULT_TYPES)
 $:mfi_interface('i?amin', DEFAULT_TYPES)
@@ -459,7 +449,7 @@ $:mfi_implement('?dotc',  COMPLEX_TYPES, dot_product)
 !$:mfi_interface('?rot',   DEFAULT_TYPES)
 !$:mfi_interface('?rotg',  DEFAULT_TYPES)
 $:mfi_implement('?rotm',  REAL_TYPES, rotm)
-$:mfi_implement('?rotmg', REAL_TYPES, rotmg)
+!$:mfi_implement('?rotmg', REAL_TYPES, rotmg)
 !$:f77_interface('?scal')
 $:mfi_implement('?swap',  DEFAULT_TYPES, copy_swap)
 $:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
