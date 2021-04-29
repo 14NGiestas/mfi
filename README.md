@@ -83,7 +83,7 @@ fpm test
 | gerc | Rank-1 update of a conjugated general matrix                             | :+1:  |
 | geru | Rank-1 update of a general matrix, unconjugated                          | :+1:  |
 | hbmv | Matrix-vector product using a Hermitian band matrix                      | :+1:  |
-| hemv | Matrix-vector product using a Hermitian matrix                           |       |
+| hemv | Matrix-vector product using a Hermitian matrix                           | :+1:  |
 | her  | Rank-1 update of a Hermitian matrix                                      | :+1:  |
 | her2 | Rank-2 update of a Hermitian matrix                                      | :+1:  |
 | hpmv | Matrix-vector product using a Hermitian packed matrix                    |       |

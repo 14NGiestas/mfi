@@ -144,6 +144,22 @@ pure subroutine ${MFI_NAME}$(a, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 #:enddef
 
+#:def hemv(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, y, uplo, alpha, beta, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in, x(:), a(:,:))
+@:args(${TYPE}$, inout, y(:))
+@:optional(character, in, uplo)
+@:optional(${TYPE}$,  in, alpha, beta)
+@:optional(integer,   in, incx, incy)
+    integer :: n, lda
+@:defaults(uplo='U', alpha=1, beta=0, incx=1, incy=1)
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    call ${F77_NAME}$(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+end subroutine
+#:enddef
+
 #:def her_syr(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, x, uplo, alpha, incx)
 @:parameter(integer, wp=${KIND}$)
@@ -351,6 +367,7 @@ $:mfi_implement('?ger',   REAL_TYPES,    ger_gerc_geru)
 $:mfi_implement('?gerc',  COMPLEX_TYPES, ger_gerc_geru)
 $:mfi_implement('?geru',  COMPLEX_TYPES, ger_gerc_geru)
 $:mfi_implement('?hbmv',  COMPLEX_TYPES, hbmv)
+$:mfi_implement('?hemv',  COMPLEX_TYPES, hemv)
 $:mfi_implement('?her',   COMPLEX_TYPES, her_syr)
 $:mfi_implement('?her2',  COMPLEX_TYPES, her2_syr2)
 $:mfi_implement('?syr',   REAL_TYPES,    her_syr)
