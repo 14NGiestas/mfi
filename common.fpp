@@ -65,7 +65,11 @@
 #:def mfi_implement(name, supports, code)
 #:for PREFIX in supports
 #:set MFI_NAME = f"mfi_{name.replace('?',PREFIX)}"
+#:if defined('CUDA_SUPPORT')
+#:set F77_NAME = f"cublas_{name.replace('?',PREFIX)}"
+#:else
 #:set F77_NAME = f"f77_{name.replace('?','')}"
+#:endif
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
 #:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
 $:code(MFI_NAME,F77_NAME,TYPE,KIND)
