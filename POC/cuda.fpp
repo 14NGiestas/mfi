@@ -21,7 +21,7 @@
 #:enddef
 
 #:def gpu_interface(name, supports, code)
-interface gpu_${name.replace('?','')}$
+interface f77_${name.replace('?','')}$
 #:for PREFIX in supports
 #:set NAME = f"cublas{name.replace('?',PREFIX.upper())}"
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)

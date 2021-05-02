@@ -14,12 +14,10 @@ program main
     call random_seed()
     call random_number(A)
     call random_number(B)
-    #:if defined('CUDA_SUPPORT')
-    @:timeit("GPU MFI: ", { call mfi_gemm(A,B,C,transa='T') })
-    #:else
-    @:timeit("CPU MFI: ", { call mfi_gemm(A,B,C,transa='T') })
-    #:endif
-    @:timeit("MATMUL:  ", { ref = matmul(transpose(A),B)    })
+
+    call mfi_init
+    @:timeit("MFI:    ", { call mfi_gemm(A,B,C,transa='T') })
+    @:timeit("MATMUL: ", { ref = matmul(transpose(A),B)    })
 
     print*, 'L2', norm2(abs(ref - C)), 'is almost equal? ', all(is_almost_equal(ref,C))
 contains
