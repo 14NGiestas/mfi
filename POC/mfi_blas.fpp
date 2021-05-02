@@ -3,7 +3,11 @@
 #:include "cuda.fpp"
 
 #:def mfi_gemm(MFI_NAME,F77_NAME,TYPE,KIND)
+#:if defined('CUDA_SUPPORT')
 subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
+#:else
+pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
+#:endif
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:), b(:,:))
 @:args(${TYPE}$, inout, c(:,:))
