@@ -19,4 +19,16 @@
     call cublas_get_matrix(size(${var}$,1),size(${var}$,2),wp,device_${var}$,max(1,size(${var}$,1)),${var}$,max(1,size(${var}$,1)))
 #:endfor
 #:enddef
+
+#:def gpu_interface(name, supports, code)
+interface gpu_${name.replace('?','')}$
+#:for PREFIX in supports
+#:set NAME = f"cublas{name.replace('?',PREFIX.upper())}"
+#:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
+#:set KIND = PREFIX_TO_C_KIND.get(PREFIX,None)
+$:code(NAME,TYPE,KIND)
+#:endfor
+end interface
+#:enddef
+
 #:endmute
