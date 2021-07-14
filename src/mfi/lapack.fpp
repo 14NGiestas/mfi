@@ -134,6 +134,58 @@ pure subroutine ${MFI_NAME}$(a, b, w, itype, jobz, uplo, info)
 end subroutine
 #:enddef
 
+#:def heevd(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(:,:))
+@:args(${REAL_TYPE}$, out, w(:))
+@:optional(integer, out, info)
+@:optional(character, in, jobz, uplo)
+    ${TYPE}$,      pointer :: work(:)
+    ${REAL_TYPE}$, pointer :: rwork(:)
+    integer,       pointer :: iwork(:)
+    ${TYPE}$      :: s_work(1)
+    ${REAL_TYPE}$ :: s_rwork(1)
+    integer       :: s_iwork(1)
+    integer :: n, lda, lwork, lrwork, liwork, allocation_status, deallocation_status
+@:defaults(jobz='N', uplo='U')
+    lda = max(1,size(a,1))
+    n   = size(a,2)
+    allocation_status = 0
+    lwork  = -1
+    lrwork = -1
+    liwork = -1
+
+    call ${F77_NAME}$(local_jobz,local_uplo,n,a,lda,w, &
+                      s_work,lwork,s_rwork,lrwork,s_iwork,liwork,local_info)
+    if (local_info /= 0) goto 404
+    lwork  = s_work(1)
+    lrwork = s_rwork(1)
+    liwork = s_iwork(1)
+
+    allocate(iwork(liwork), stat=allocation_status)
+
+    if (allocation_status == 0) then
+        allocate(rwork(lrwork), stat=allocation_status)
+        allocate(work(lwork),   stat=allocation_status)
+        call ${F77_NAME}$(local_jobz,local_uplo,n,a,lda,w, &
+                      work,lwork,rwork,lrwork,iwork,liwork,local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(iwork, stat=deallocation_status)
+    deallocate(rwork, stat=deallocation_status)
+    deallocate(work,  stat=deallocation_status)
+404 continue
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        !call mfi_error('name', -local_info)
+        error stop -local_info
+    end if
+end subroutine
+#:enddef
+
 #:def potrf_potri(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, info, uplo)
 @:parameter(integer, wp=${KIND}$)
@@ -160,6 +212,7 @@ use f77_lapack
 implicit none
 
 $:mfi_interface('?hegv',   COMPLEX_TYPES)
+$:mfi_interface('?heevd',  COMPLEX_TYPES)
 $:mfi_interface('?gesvd',  DEFAULT_TYPES)
 $:mfi_interface('?potrf',  DEFAULT_TYPES)
 $:mfi_interface('?potri',  DEFAULT_TYPES)
@@ -167,6 +220,7 @@ $:mfi_interface('?potri',  DEFAULT_TYPES)
 contains
 
 $:mfi_implement('?hegv',   COMPLEX_TYPES, hegv)
+$:mfi_implement('?heevd',  COMPLEX_TYPES, heevd)
 $:mfi_implement('?gesvd',  DEFAULT_TYPES, gesvd)
 $:mfi_implement('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:mfi_implement('?potri',  DEFAULT_TYPES, potrf_potri)

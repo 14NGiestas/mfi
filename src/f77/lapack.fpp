@@ -37,6 +37,21 @@ pure subroutine ${NAME}$(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, r
 end subroutine
 #:enddef
 
+#:def heevd(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, a(lda,*))
+@:args(${REAL_TYPE}$, out,   w(*))
+@:args(integer,       out,   info)
+@:args(character,     in,    jobz, uplo)
+@:args(integer,       in,    n, lda, lwork, lrwork, liwork)
+@:args(${TYPE}$,      inout, work(*))
+@:args(${REAL_TYPE}$, inout, rwork(*))
+@:args(integer,       inout, iwork(*))
+end subroutine
+#:enddef
+
 #:def potrf_potri(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, a, lda, info)
     import :: ${KIND}$
@@ -54,6 +69,7 @@ use iso_fortran_env
 implicit none
 
 $:f77_interface('?hegv',   COMPLEX_TYPES, hegv)
+$:f77_interface('?heevd',  COMPLEX_TYPES, heevd)
 $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
 $:f77_interface('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potri',  DEFAULT_TYPES, potrf_potri)
