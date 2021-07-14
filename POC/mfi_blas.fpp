@@ -23,12 +23,12 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
     end if
     if (MFI_USE_CUDA == 1) then
         block
-        type(c_ptr) :: device_a, device_b, device_c
-        @:copyin(a,b,c)
-        call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,&
-            device_a,lda,device_b,ldb,local_beta,device_c,ldc)
-        @:copyout(c)
-        @:delete(a,b)
+        @:allocate(a,b,c)
+        @:set_matrix(a,b)
+        call ${F77_NAME}$(local_transa,local_transb,m,n,k, &
+                 local_alpha,device_a,lda,device_b,ldb,local_beta,device_c,ldc)
+        @:get_matrix(c)
+        @:deallocate(a,b,c)
         end block
     else
         call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
