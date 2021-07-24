@@ -51,6 +51,24 @@ make
 fpm test
 ```
 
+### Using as a dependency in FPM
+
+Add a entry in your dependency
+
+```toml
+# fpm.toml
+[ dependencies ]
+mfi = { git = "https://github.com/14NGiestas/mfi.git" }
+```
+
+Note: since the lack of proper support for preprocessing in FPM you need to manually call the makefile, so in your project you will need to call it manually.
+As soon this is fixed [(see: Support custom build script #219)](https://github.com/fortran-lang/fpm/issues/219) I'll update the repository accordingly 
+
+```
+fpm update
+make -C build/dependencies/mfi
+```
+
 ## Support
 
 ### BLAS Level 1
