@@ -23,7 +23,7 @@ jobs:
 
     - name: Generate ${{ env.PROJECT_NAME }}-fpm package 🔧
       run: |
-        bash .github/workflow/fpm-deployment.sh
+        bash ci/fpm-deployment.sh
 
     - name: Install GFortran
       run: |
