@@ -50,3 +50,4 @@ jobs:
       if: github.event_name != 'pull_request'
       with:
         BRANCH: ${{ env.PROJECT_NAME }}-fpm
+        FOLDER: .
