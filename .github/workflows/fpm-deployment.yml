@@ -31,9 +31,9 @@ jobs:
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${{ env.GCC_V }} \
         --slave /usr/bin/gcov gcov /usr/bin/gcov-${{ env.GCC_V }}
 
-    - name: Install GFortran
+    - name: Install Lapack and Blas
       run: |
-        sudo apt install lapack
+        sudo apt install libblas3* liblapack3* libtmglib3*
 
     - name: Install fpm latest release
       uses: fortran-lang/setup-fpm@v3
