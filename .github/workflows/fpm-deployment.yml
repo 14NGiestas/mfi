@@ -24,6 +24,11 @@ jobs:
     - name: Generate ${{ env.PROJECT_NAME }}-fpm package 🔧
       run: |
         make
+        mkdir mfi-fpm
+        cp -R src   mfi-fpm
+        cp -R test  mfi-fpm
+        cp fpm.toml mfi-fpm
+        cp LICENSE  mfi-fpm
 
     - name: Install GFortran
       run: |
@@ -50,4 +55,4 @@ jobs:
       if: github.event_name != 'pull_request'
       with:
         BRANCH: ${{ env.PROJECT_NAME }}-fpm
-        FOLDER: .
+        FOLDER: mfi-fpm
