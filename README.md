@@ -58,7 +58,7 @@ Add a entry in the "dependencies" section of your project's fpm.toml
 ```toml
 # fpm.toml
 [ dependencies ]
-mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm"}
+mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm" }
 ```
 
 ## Support
