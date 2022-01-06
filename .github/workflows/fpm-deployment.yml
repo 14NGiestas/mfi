@@ -23,7 +23,7 @@ jobs:
 
     - name: Generate ${{ env.PROJECT_NAME }}-fpm package 🔧
       run: |
-        bash ci/fpm-deployment.sh
+        make
 
     - name: Install GFortran
       run: |
@@ -38,8 +38,6 @@ jobs:
 
     - name: Run fpm test ⚙
       run: |
-        cp -r ${{ env.PROJECT_NAME }}-fpm ${{ env.PROJECT_NAME }}-fpm-test
-        cd ${{ env.PROJECT_NAME }}-fpm-test
         fpm test
         fpm test --profile release
 
