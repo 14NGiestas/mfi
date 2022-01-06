@@ -31,6 +31,10 @@ jobs:
         --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${{ env.GCC_V }} \
         --slave /usr/bin/gcov gcov /usr/bin/gcov-${{ env.GCC_V }}
 
+    - name: Install GFortran
+      run: |
+        sudo apt install lapack
+
     - name: Install fpm latest release
       uses: fortran-lang/setup-fpm@v3
       with:
