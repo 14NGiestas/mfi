@@ -51,6 +51,24 @@ make
 fpm test
 ```
 
+### Using as a dependency in FPM
+
+Add a entry in the "dependencies" section of your project's fpm.toml
+
+```toml
+# fpm.toml
+[ dependencies ]
+mfi = { git = "https://github.com/14NGiestas/mfi.git" }
+```
+
+Note: since the lack of proper support for preprocessing in FPM you need to manually call the makefile.
+As soon this is fixed [(see: Support custom build script #219)](https://github.com/fortran-lang/fpm/issues/219) I'll update the repository accordingly 
+
+```
+fpm update
+make -C build/dependencies/mfi
+```
+
 ## Support
 
 ### BLAS Level 1
@@ -122,41 +140,40 @@ fpm test
 
 #### Linear Equation Routines
 
-| done? | name  | description                                                                                                                                              |
-| ----- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|      | geqrf | Computes the QR factorization of a general m-by-n matrix.                                                                                                |
-|      | gerqf | Computes the RQ factorization of a general m-by-n matrix.                                                                                                |
-|      | getrf | Computes the LU factorization of a general m-by-n matrix.                                                                                                |
-|      | getri | Computes the inverse of an LU-factored general matrix.                                                                                                   |
-|      | getrs | Solves a system of linear equations with an LU-factored square coefficient matrix, with multiple right-hand sides.                                       |
-|      | hetrf | Computes the Bunch-Kaufman factorization of a complex Hermitian matrix.                                                                                  |
-|      | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf.                                                                          |
-|      | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf.                                                             |
-|      | ormrq | Multiplies a real matrix by the orthogonal matrix Q of the RQ factorization formed by gerqf.                                                             |
-| :+1: | potrf | Computes the Cholesky factorization of a symmetric (Hermitian) positive-definite matrix.                                                                 |
-| :+1: | potri | Computes the inverse of a Cholesky-factored symmetric (Hermitian) positive-definite matrix.                                                              |
-|      | potrs | Solves a system of linear equations with a Cholesky-factored symmetric (Hermitian) positive-definite coefficient matrix, with multiple right-hand sides. |
-|      | sytrf | Computes the Bunch-Kaufman factorization of a symmetric matrix.                                                                                          |
-|      | trtrs | Solves a system of linear equations with a triangular coefficient matrix, with multiple right-hand sides.                                                |
-|      | ungqr | Generates the complex unitary matrix Q of the QR factorization formed by geqrf.                                                                          |
-|      | unmqr | Multiplies a complex matrix by the unitary matrix Q of the QR factorization formed by geqrf.                                                             |
-|      | unmrq | Multiplies a complex matrix by the unitary matrix Q of the RQ factorization formed by gerqf.                                                             |
-|      
-|      #### Singular Value and Eigenvalue Problem Routines
-|      
-|      | name  | description                                                                                                                                             |
-|      | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|      | gebrd | Reduces a general matrix to bidiagonal form.                                                                                                            |
-| :+1: | gesvd | Computes the singular value decomposition of a general rectangular matrix.                                                                              |
-| :+1: | heevd | Computes all eigenvalues and, optionally, all eigenvectors of a complex Hermitian matrix using divide and conquer algorithm.                            |
+| done? | name  | description                                                                                                                                      |
+| ----- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+|       | geqrf | Computes the QR factorization of a general m-by-n matrix.                                                                                        |
+|       | gerqf | Computes the RQ factorization of a general m-by-n matrix.                                                                                        |
+|       | getrf | Computes the LU factorization of a general m-by-n matrix.                                                                                        |
+|       | getri | Computes the inverse of an LU-factored general matrix.                                                                                           |
+|       | getrs | Solves a system of linear equations with an LU-factored square coefficient matrix, with multiple right-hand sides.                               |
+|       | hetrf | Computes the Bunch-Kaufman factorization of a complex Hermitian matrix.                                                                          |
+|       | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf.                                                                  |
+|       | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf.                                                     |
+|       | ormrq | Multiplies a real matrix by the orthogonal matrix Q of the RQ factorization formed by gerqf.                                                     |
+| :+1:  | potrf | Computes the Cholesky factorization of a symmetric (Hermitian) positive-definite matrix.                                                         |
+| :+1:  | potri | Computes the inverse of a Cholesky-factored symmetric (Hermitian) positive-definite matrix.                                                      |
+|       | potrs | Solves a system of linear equations with a Cholesky-factored symmetric (Hermitian) positive-definite coefficient matrix, with multiple right-hand sides.  |
+|      | sytrf | Computes the Bunch-Kaufman factorization of a symmetric matrix.                        |
+|      | trtrs | Solves a system of linear equations with a triangular coefficient matrix, with multiple right-hand sides. |
+|      | ungqr | Generates the complex unitary matrix Q of the QR factorization formed by geqrf.  |
+|      | unmqr | Multiplies a complex matrix by the unitary matrix Q of the QR factorization formed by geqrf. |
+|      | unmrq | Multiplies a complex matrix by the unitary matrix Q of the RQ factorization formed by gerqf. |
+
+#### Singular Value and Eigenvalue Problem Routines
+| done?| name  | description             |
+| ---- | ----- | ----------------------- |
+|      | gebrd | Reduces a general matrix to bidiagonal form.     |
+| :+1: | gesvd | Computes the singular value decomposition of a general rectangular matrix.  |
+| :+1: | heevd | Computes all eigenvalues and, optionally, all eigenvectors of a complex Hermitian matrix using divide and conquer algorithm. |
 | :+1: | hegvd | Computes all eigenvalues and, optionally, all eigenvectors of a complex generalized Hermitian definite eigenproblem using divide and conquer algorithm. |
-|      | hetrd | Reduces a complex Hermitian matrix to tridiagonal form.                                                                                                 |
-|      | orgbr | Generates the real orthogonal matrix Q or PT determined by gebrd.                                                                                       |
-|      | orgtr | Generates the real orthogonal matrix Q determined by sytrd.                                                                                             |
-|      | ormtr | Multiplies a real matrix by the orthogonal matrix Q determined by sytrd.                                                                                |
-|      | syevd | Computes all eigenvalues and, optionally, all eigenvectors of a real symmetric matrix using divide and conquer algorithm.                               |
-|      | sygvd | Computes all eigenvalues and, optionally, all eigenvectors of a real generalized symmetric definite eigenproblem using divide and conquer algorithm.    |
-|      | sytrd | Reduces a real symmetric matrix to tridiagonal form.                                                                                                    |
-|      | ungbr | Generates the complex unitary matrix Q or PT determined by gebrd.                                                                                       |
-|      | ungtr | Generates the complex unitary matrix Q determined by hetrd.                                                                                             |
-|      | unmtr | Multiplies a complex matrix by the unitary matrix Q determined by hetrd.                                                                                |
+|      | hetrd | Reduces a complex Hermitian matrix to tridiagonal form. |
+|      | orgbr | Generates the real orthogonal matrix Q or PT determined by gebrd. |
+|      | orgtr | Generates the real orthogonal matrix Q determined by sytrd. |
+|      | ormtr | Multiplies a real matrix by the orthogonal matrix Q determined by sytrd. |
+|      | syevd | Computes all eigenvalues and, optionally, all eigenvectors of a real symmetric matrix using divide and conquer algorithm. |
+|      | sygvd | Computes all eigenvalues and, optionally, all eigenvectors of a real generalized symmetric definite eigenproblem using divide and conquer algorithm. |
+|      | sytrd | Reduces a real symmetric matrix to tridiagonal form. |
+|      | ungbr | Generates the complex unitary matrix Q or PT determined by gebrd. |
+|      | ungtr | Generates the complex unitary matrix Q determined by hetrd. |
+|      | unmtr | Multiplies a complex matrix by the unitary matrix Q determined by hetrd. |
