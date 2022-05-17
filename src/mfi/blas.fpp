@@ -149,7 +149,23 @@ pure subroutine ${MFI_NAME}$(a, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 #:enddef
 
-#:def her_syr(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def her(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, uplo, alpha, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:))
+@:args(${TYPE}$, inout, a(:,:))
+@:optional(character, in, uplo)
+@:optional(real(wp),  in, alpha)
+@:optional(integer,   in, incx)
+    integer :: n, lda
+@:defaults(uplo='U', alpha=1.0_wp, incx=1)
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    call ${F77_NAME}$(local_uplo,n,local_alpha,x,local_incx,a,lda)
+end subroutine
+#:enddef
+
+#:def syr(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, x, uplo, alpha, incx)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    x(:))
@@ -196,7 +212,22 @@ pure subroutine ${MFI_NAME}$(ap, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 #:enddef
 
-#:def hpr_spr(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def hpr(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(ap, x, uplo, alpha, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:))
+@:args(${TYPE}$, inout, ap(:))
+@:optional(character, in, uplo)
+@:optional(real(wp),  in, alpha)
+@:optional(integer,   in, incx)
+    integer :: n
+@:defaults(uplo='U', alpha=1.0_wp, incx=1)
+    n = size(x)
+    call ${F77_NAME}$(local_uplo,n,local_alpha,x,local_incx,ap)
+end subroutine
+#:enddef
+
+#:def spr(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(ap, x, uplo, alpha, incx)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    x(:))
@@ -312,7 +343,28 @@ pure subroutine ${MFI_NAME}$(a, b, c, side, uplo, alpha, beta)
 end subroutine
 #:enddef
 
-#:def herk_syrk(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def herk(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, c, uplo, trans, alpha, beta)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    a(:,:))
+@:args(${TYPE}$, inout, c(:,:))
+@:optional(character, in, trans, uplo)
+@:optional(real(wp),  in, alpha, beta)
+    integer :: n, k, lda, ldc
+@:defaults(trans='N', uplo='U', alpha=1.0_wp, beta=0.0_wp)
+    n = size(c,2)
+    if (local_trans == 'N' .or. local_trans == 'n') then
+        k = size(a,2)
+    else
+        k = size(a,1)
+    end if
+    lda = max(1,size(a,1))
+    ldc = max(1,size(c,1))
+    call ${F77_NAME}$(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+end subroutine
+#:enddef
+
+#:def syrk(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, c, uplo, trans, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:))
@@ -333,7 +385,31 @@ pure subroutine ${MFI_NAME}$(a, c, uplo, trans, alpha, beta)
 end subroutine
 #:enddef
 
-#:def her2k_syr2k(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def her2k(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, b, c, uplo, trans, alpha, beta)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    a(:,:))
+@:args(${TYPE}$, in,    b(:,:))
+@:args(${TYPE}$, inout, c(:,:))
+@:optional(character, in, trans, uplo)
+@:optional(${TYPE}$,  in, alpha)
+@:optional(real(wp),  in, beta)
+    integer :: n, k, lda, ldb, ldc
+@:defaults(trans='N', uplo='U', alpha=1.0_wp, beta=0.0_wp)
+    n = size(c,2)
+    if (local_trans == 'N' .or. local_trans == 'n') then
+        k = size(a,2)
+    else
+        k = size(a,1)
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    ldc = max(1,size(c,1))
+    call ${F77_NAME}$(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+end subroutine
+#:enddef
+
+#:def syr2k(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, b, c, uplo, trans, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:))
@@ -463,17 +539,17 @@ $:mfi_implement('?gerc',  COMPLEX_TYPES, ger_gerc_geru)
 $:mfi_implement('?geru',  COMPLEX_TYPES, ger_gerc_geru)
 $:mfi_implement('?hbmv',  COMPLEX_TYPES, hbmv_sbmv)
 $:mfi_implement('?hemv',  COMPLEX_TYPES, hemv_symv)
-$:mfi_implement('?her',   COMPLEX_TYPES, her_syr)
+$:mfi_implement('?her',   COMPLEX_TYPES, her)
 $:mfi_implement('?her2',  COMPLEX_TYPES, her_syr2)
 $:mfi_implement('?hpmv',  COMPLEX_TYPES, hpmv_spmv)
-$:mfi_implement('?hpr',   COMPLEX_TYPES, hpr_spr)
+$:mfi_implement('?hpr',   COMPLEX_TYPES, hpr)
 $:mfi_implement('?hpr2',  COMPLEX_TYPES, hpr_spr2)
 $:mfi_implement('?sbmv',  REAL_TYPES,    hbmv_sbmv)
 $:mfi_implement('?spmv',  REAL_TYPES,    hpmv_spmv)
-$:mfi_implement('?spr',   REAL_TYPES,    hpr_spr)
+$:mfi_implement('?spr',   REAL_TYPES,    spr)
 $:mfi_implement('?spr2',  REAL_TYPES,    hpr_spr2)
 $:mfi_implement('?symv',  REAL_TYPES,    hemv_symv)
-$:mfi_implement('?syr',   REAL_TYPES,    her_syr)
+$:mfi_implement('?syr',   REAL_TYPES,    syr)
 $:mfi_implement('?syr2',  REAL_TYPES,    her_syr2)
 $:mfi_implement('?tbmv',  DEFAULT_TYPES, tbmv_tbsv)
 $:mfi_implement('?tbsv',  DEFAULT_TYPES, tbmv_tbsv)
@@ -485,11 +561,11 @@ $:mfi_implement('?trsv',  DEFAULT_TYPES, trmv_trsv)
 ! BLAS level 3
 $:mfi_implement('?gemm',  DEFAULT_TYPES, gemm)
 $:mfi_implement('?hemm',  COMPLEX_TYPES, hemm_symm)
-$:mfi_implement('?herk',  COMPLEX_TYPES, herk_syrk)
-$:mfi_implement('?her2k', COMPLEX_TYPES, her2k_syr2k)
+$:mfi_implement('?herk',  COMPLEX_TYPES, herk)
+$:mfi_implement('?her2k', COMPLEX_TYPES, her2k)
 $:mfi_implement('?symm',  REAL_TYPES,    hemm_symm)
-$:mfi_implement('?syrk',  REAL_TYPES,    herk_syrk)
-$:mfi_implement('?syr2k', REAL_TYPES,    her2k_syr2k)
+$:mfi_implement('?syrk',  REAL_TYPES,    syrk)
+$:mfi_implement('?syr2k', REAL_TYPES,    syr2k)
 $:mfi_implement('?trmm',  DEFAULT_TYPES, trmm_trsm)
 $:mfi_implement('?trsm',  DEFAULT_TYPES, trmm_trsm)
 
