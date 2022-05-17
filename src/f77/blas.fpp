@@ -358,8 +358,10 @@ $:f77_interface('?rotm',  REAL_TYPES,    rotm)
 $:f77_interface('?rotmg', REAL_TYPES,    rotmg)
 !$:f77_interface('?scal')
 $:f77_interface('?swap',  DEFAULT_TYPES, copy_swap)
-$:f77_interface('i?amin', DEFAULT_TYPES, iamin_iamax)
 $:f77_interface('i?amax', DEFAULT_TYPES, iamin_iamax)
+#:if not defined('UBUNTU_WORKAROUND')
+$:f77_interface('i?amin', DEFAULT_TYPES, iamin_iamax)
+#:endif
 
 ! BLAS level 2
 $:f77_interface('?gbmv',  DEFAULT_TYPES, gbmv)
@@ -398,6 +400,34 @@ $:f77_interface('?syrk',  REAL_TYPES,    syrk)
 $:f77_interface('?syr2k', REAL_TYPES,    syr2k)
 $:f77_interface('?trmm',  DEFAULT_TYPES, trmm_trsm)
 $:f77_interface('?trsm',  DEFAULT_TYPES, trmm_trsm)
+#:if defined('UBUNTU_WORKAROUND')
+#! FIXME Workaround to iamin not being available in ubuntu
+$:f77_interface_internal('i?amin', DEFAULT_TYPES)
 
+contains
+#:mute
+#! FIXME Workaround to iamin not being available in ubuntu
+#:def iamin(NAME,TYPE,KIND)
+pure function ${NAME}$(n, x, incx)
+@:parameter(integer, wp=${KIND}$)
+    integer :: ${NAME}$
+@:args(${TYPE}$, in, x(*))
+@:args(integer,  in, n, incx)
+    #!If either n or incx are not positive, the routine returns 0.
+    if (n <= 0 .or. incx <= 0) then
+        ${NAME}$ = 0
+        return
+    end if
+#:if TYPE is COMPLEX_TYPE
+    ${NAME}$ = minloc(abs(real(x(1:n:incx))) + abs(aimag(x(1:n:incx))),dim=1)
+#:else
+    ${NAME}$ = minloc(x(1:n:incx),dim=1)
+#:endif
+end function
+#:enddef
+#:endmute
+
+$:f77_implement('i?amin', DEFAULT_TYPES, iamin)
+#:endif
 end module
 

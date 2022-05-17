@@ -80,6 +80,15 @@ interface mfi_${name.replace('?','')}$
 end interface
 #:enddef
 
+#! FIXME Workaround to iamin not being available in ubuntu
+#:def f77_interface_internal(name, types)
+interface f77_${name.replace('?','')}$
+    #:for T in types
+    module procedure ${name.replace('?',T)}$
+    #:endfor
+end interface
+#:enddef
+
 #:def f77_interface(name, supports, code)
 interface f77_${name.replace('?','')}$
 #:for PREFIX in supports
@@ -89,6 +98,16 @@ interface f77_${name.replace('?','')}$
 $:code(NAME,TYPE,KIND)
 #:endfor
 end interface
+#:enddef
+
+#! FIXME Workaround to iamin not being available in ubuntu
+#:def f77_implement(name, supports, code)
+#:for PREFIX in supports
+#:set NAME = name.replace('?',PREFIX)
+#:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
+#:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
+$:code(NAME,TYPE,KIND)
+#:endfor
 #:enddef
 
 #:def timeit(message, code)

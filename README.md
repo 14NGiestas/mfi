@@ -40,9 +40,14 @@ Install the [fypp](https://github.com/aradi/fypp) using the command:
 sudo pip install fypp
 ```
 
+Install lapack and blas (I use the static versions).
+This one can be tricky so if you run into any problem, 
+plase open a issue and report it to your package provider.
+
 ### FPM
 
-This project supports the [Fortran Package Manager](https://github.com/fortran-lang/fpm). Follow the directions on that page to install FPM if you haven't already.
+This project supports the [Fortran Package Manager](https://github.com/fortran-lang/fpm). 
+Follow the directions on that page to install FPM if you haven't already.
 
 ### Running
 
@@ -50,6 +55,19 @@ This project supports the [Fortran Package Manager](https://github.com/fortran-l
 make
 fpm test
 ```
+
+#### Note to Ubuntu users
+Curently there is a [bug](https://bugs.launchpad.net/ubuntu/+source/lapack/+bug/1973076) with `lapack-dev` where the `i?amin` symbols are missing,
+so I made a workaround and implemented `i?amin` functions on top of the `minloc` function.
+If you run into this kind of trouble, report to your package provider and try the following:
+
+```sh
+make FYPPFLAGS=-DUBUNTU_WORKAROUND
+fpm test
+```
+
+if you find any odd behavior with using such workaround please open a issue.
+
 
 ### Using as a dependency in FPM
 
