@@ -43,18 +43,6 @@ interface mfi_swap
     module procedure mfi_cswap
     module procedure mfi_zswap
 end interface
-interface mfi_iamin
-    module procedure mfi_isamin
-    module procedure mfi_idamin
-    module procedure mfi_icamin
-    module procedure mfi_izamin
-end interface
-interface mfi_iamax
-    module procedure mfi_isamax
-    module procedure mfi_idamax
-    module procedure mfi_icamax
-    module procedure mfi_izamax
-end interface
 
 ! BLAS level 2
 interface mfi_gbmv
@@ -216,6 +204,21 @@ interface mfi_trsm
     module procedure mfi_dtrsm
     module procedure mfi_ctrsm
     module procedure mfi_ztrsm
+end interface
+
+! Extensions
+! BLAS level 1 - Utils / Extensions
+interface mfi_iamax
+    module procedure mfi_isamax
+    module procedure mfi_idamax
+    module procedure mfi_icamax
+    module procedure mfi_izamax
+end interface
+interface mfi_iamin
+    module procedure mfi_isamin
+    module procedure mfi_idamin
+    module procedure mfi_icamin
+    module procedure mfi_izamin
 end interface
 
 contains
@@ -659,126 +662,6 @@ pure subroutine mfi_zswap(x, y, incx, incy)
     N = size(X)
     call f77_swap(n,x,local_incx,y,local_incy)
 end subroutine
-pure function mfi_isamin(x, incx)
-    integer, parameter :: wp = REAL32
-    integer :: mfi_isamin
-    real(wp), intent(in) :: x(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    n = size(x)
-    mfi_isamin = f77_iamin(n,x,local_incx)
-end function
-pure function mfi_idamin(x, incx)
-    integer, parameter :: wp = REAL64
-    integer :: mfi_idamin
-    real(wp), intent(in) :: x(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    n = size(x)
-    mfi_idamin = f77_iamin(n,x,local_incx)
-end function
-pure function mfi_icamin(x, incx)
-    integer, parameter :: wp = REAL32
-    integer :: mfi_icamin
-    complex(wp), intent(in) :: x(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    n = size(x)
-    mfi_icamin = f77_iamin(n,x,local_incx)
-end function
-pure function mfi_izamin(x, incx)
-    integer, parameter :: wp = REAL64
-    integer :: mfi_izamin
-    complex(wp), intent(in) :: x(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    n = size(x)
-    mfi_izamin = f77_iamin(n,x,local_incx)
-end function
-pure function mfi_isamax(x, incx)
-    integer, parameter :: wp = REAL32
-    integer :: mfi_isamax
-    real(wp), intent(in) :: x(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    n = size(x)
-    mfi_isamax = f77_iamax(n,x,local_incx)
-end function
-pure function mfi_idamax(x, incx)
-    integer, parameter :: wp = REAL64
-    integer :: mfi_idamax
-    real(wp), intent(in) :: x(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    n = size(x)
-    mfi_idamax = f77_iamax(n,x,local_incx)
-end function
-pure function mfi_icamax(x, incx)
-    integer, parameter :: wp = REAL32
-    integer :: mfi_icamax
-    complex(wp), intent(in) :: x(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    n = size(x)
-    mfi_icamax = f77_iamax(n,x,local_incx)
-end function
-pure function mfi_izamax(x, incx)
-    integer, parameter :: wp = REAL64
-    integer :: mfi_izamax
-    complex(wp), intent(in) :: x(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    n = size(x)
-    mfi_izamax = f77_iamax(n,x,local_incx)
-end function
 
 ! BLAS level 2
 pure subroutine mfi_sgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
@@ -4431,5 +4314,128 @@ pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
     ldb = max(1,size(b,1))
     call f77_trsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
+
+! Extensions
+! BLAS level 1 - Utils / Extensions
+pure function mfi_isamax(x, incx)
+    integer, parameter :: wp = REAL32
+    integer :: mfi_isamax
+    real(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_isamax = f77_iamax(n,x,local_incx)
+end function
+pure function mfi_idamax(x, incx)
+    integer, parameter :: wp = REAL64
+    integer :: mfi_idamax
+    real(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_idamax = f77_iamax(n,x,local_incx)
+end function
+pure function mfi_icamax(x, incx)
+    integer, parameter :: wp = REAL32
+    integer :: mfi_icamax
+    complex(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_icamax = f77_iamax(n,x,local_incx)
+end function
+pure function mfi_izamax(x, incx)
+    integer, parameter :: wp = REAL64
+    integer :: mfi_izamax
+    complex(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_izamax = f77_iamax(n,x,local_incx)
+end function
+pure function mfi_isamin(x, incx)
+    integer, parameter :: wp = REAL32
+    integer :: mfi_isamin
+    real(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_isamin = f77_iamin(n,x,local_incx)
+end function
+pure function mfi_idamin(x, incx)
+    integer, parameter :: wp = REAL64
+    integer :: mfi_idamin
+    real(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_idamin = f77_iamin(n,x,local_incx)
+end function
+pure function mfi_icamin(x, incx)
+    integer, parameter :: wp = REAL32
+    integer :: mfi_icamin
+    complex(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_icamin = f77_iamin(n,x,local_incx)
+end function
+pure function mfi_izamin(x, incx)
+    integer, parameter :: wp = REAL64
+    integer :: mfi_izamin
+    complex(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_izamin = f77_iamin(n,x,local_incx)
+end function
 
 end module
