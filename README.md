@@ -27,47 +27,10 @@ end program
 
 ## Getting Started
 
-First get the code, by cloning the repo:
-
-```sh
-git clone https://github.com/14NGiestas/mfi.git
-cd mfi/
-```
-
-Install the [fypp](https://github.com/aradi/fypp) using the command:
-
-```sh
-sudo pip install fypp
-```
-
-Install lapack and blas (I use the static versions).
-This one can be tricky so if you run into any problem, 
-plase open a issue and report it to your package provider.
-
 ### FPM
 
-This project supports the [Fortran Package Manager](https://github.com/fortran-lang/fpm). 
+This project supports the [Fortran Package Manager](https://github.com/fortran-lang/fpm).
 Follow the directions on that page to install FPM if you haven't already.
-
-### Running
-
-```sh
-make
-fpm test
-```
-
-#### Note to Ubuntu users
-Curently there is a [bug](https://bugs.launchpad.net/ubuntu/+source/lapack/+bug/1973076) with `lapack-dev` where the `i?amin` symbols are missing,
-so I made a workaround and implemented `i?amin` functions on top of the `minloc` function.
-If you run into this kind of trouble, report to your package provider and try the following:
-
-```sh
-make FYPPFLAGS=-DUBUNTU_WORKAROUND
-fpm test
-```
-
-if you find any odd behavior with using such workaround please open a issue.
-
 
 ### Using as a dependency in FPM
 
@@ -79,30 +42,80 @@ Add a entry in the "dependencies" section of your project's fpm.toml
 mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm" }
 ```
 
+### Manual building
+
+First get the code, by cloning the repo:
+
+```sh
+git clone https://github.com/14NGiestas/mfi.git
+cd mfi/
+```
+
+### Dependencies
+
+Install the [fypp](https://github.com/aradi/fypp) using the command:
+
+```sh
+sudo pip install fypp
+```
+
+Install lapack and blas (use the static versions).
+This can be tricky, if you run into any problem, please open an issue.
+
+#### Arch Linux
+- [aur/openblas-lapack-static](https://aur.archlinux.org/packages/openblas-lapack-static)
+
+#### Ubuntu
+- [lapack-dev](https://packages.ubuntu.com/search?suite=default&section=all&arch=any&keywords=lapack-dev&searchon=names)
+
+Usually you can do the following:
+
+```sh
+make
+fpm test
+```
+
+By default, the `lapack-dev` package (which provides the reference blas) do not provide the `i?amin` implementation (among other extensions)
+in such cases you can use blas extensions with:
+
+```sh
+make FYPPFLAGS=-DMFI_EXTENSIONS
+fpm test
+```
+
+Or if you have support to such extensions in your blas provider you can:
+
+```sh
+make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_LINK_EXTERNAL"
+fpm test
+```
+
+which will generate the code linking extensions to the external library
+
+
 ## Support
+### BLAS
+#### Level 1
+Most of BLAS level 1 routines can be replaced by intrinsincs and other features in modern fortran.
 
-### BLAS Level 1
+| done? | name   | description                                             | modern alternative |
+| ----- | ------ | ------------------------------------------------------- | ------------------ |
+|       | asum   | Sum of vector magnitudes                                | [sum](https://gcc.gnu.org/onlinedocs/gfortran/SUM.html) |
+| :+1:  | axpy   | Scalar-vector product                                   | `a*x + b` |
+| :+1:  | copy   | Copy vector                                             |  `x = b`  |
+|       | dot    | Dot product                                             | [dot_product](https://gcc.gnu.org/onlinedocs/gfortran/DOT_005fPRODUCT.html)   |
+|       | sdsdot | Dot product with double precision                       | |
+| :+1:  | dotc   | Dot product conjugated                                  | |
+| :+1:  | dotu   | Dot product unconjugated                                | |
+|       | nrm2   | Vector 2-norm (Euclidean norm)                          | [norm2](https://gcc.gnu.org/onlinedocs/gfortran/NORM2.html) |
+|       | rot    | Plane rotation of points                                | |
+|       | rotg   | Generate Givens rotation of points                      | |
+| :+1:  | rotm   | Modified Givens plane rotation of points                | |
+| :+1:  | rotmg  | Generate modified Givens plane rotation of points       | |
+|       | scal   | Vector-scalar product                                   | `a*x + b` |
+| :+1:  | swap   | Vector-vector swap                                      | |
 
-| done? | name   | description                                             |
-| ----- | ------ | ------------------------------------------------------- |
-|       | asum   | Sum of vector magnitudes                                |
-| :+1:  | axpy   | Scalar-vector product                                   |
-| :+1:  | copy   | Copy vector                                             |
-|       | dot    | Dot product                                             |
-|       | sdsdot | Dot product with double precision                       |
-| :+1:  | dotc   | Dot product conjugated                                  |
-| :+1:  | dotu   | Dot product unconjugated                                |
-|       | nrm2   | Vector 2-norm (Euclidean norm)                          |
-|       | rot    | Plane rotation of points                                |
-|       | rotg   | Generate Givens rotation of points                      |
-| :+1:  | rotm   | Modified Givens plane rotation of points                |
-| :+1:  | rotmg  | Generate modified Givens plane rotation of points       |
-|       | scal   | Vector-scalar product                                   |
-| :+1:  | swap   | Vector-vector swap                                      |
-| :+1:  | iamax  | Index of the maximum absolute value element of a vector |
-| :+1:  | iamin  | Index of the minimum absolute value element of a vector |
-
-### BLAS Level 2
+#### Level 2
 
 | done? | name | description                                                              |
 | ----- | ---- | ------------------------------------------------------------------------ |
@@ -132,7 +145,7 @@ mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm" }
 | :+1:  | trmv | Matrix-vector product using a triangular matrix                          |
 | :+1:  | trsv | Solution of a linear system of equations with a triangular matrix        |
 
-### BLAS Level 3
+#### Level 3
 
 | done? | name  | description                                                                                            |
 | ----- | ----- | ------------------------------------------------------------------------------------------------------ |
@@ -146,8 +159,17 @@ mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm" }
 | :+1:  | trmm  | Computes a matrix-matrix product where one input matrix is triangular and one input matrix is general. |
 | :+1:  | trsm  | Solves a triangular matrix equation (forward or backward solve).                                       |
 
-### LAPACK
+#### Utils / Extensions
+#### Level 1
+Here are some extensions that may be useful.
+Again, BLAS level 1 routines can be replaced by intrinsincs and other features in modern fortran.
 
+| done? | name  | description                                              |  modern alternative |
+| ----- | ----- | -------------------------------------------------------- | ------------------- |
+| :+1:  | iamax | Index of the maximum absolute value element of a vector  | [maxval](https://gcc.gnu.org/onlinedocs/gfortran/MAXVAL.html), [maxloc](https://gcc.gnu.org/onlinedocs/gfortran/MAXLOC.html) |
+| :+1:  | iamin | Index of the minimum absolute value element of a vector  | [minval](https://gcc.gnu.org/onlinedocs/gfortran/MINVAL.html), [minloc](https://gcc.gnu.org/onlinedocs/gfortran/MINLOC.html) |
+
+### LAPACK
 #### Linear Equation Routines
 
 | done? | name  | description                                                                                                                                      |

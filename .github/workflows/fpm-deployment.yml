@@ -23,7 +23,7 @@ jobs:
 
     - name: Generate ${{ env.PROJECT_NAME }}-fpm package 🔧
       run: |
-        make FYPPFLAGS=-DUBUNTU_WORKAROUND
+        make FYPPFLAGS=-DMFI_EXTENSIONS
         mkdir mfi-fpm
         cp -R src   mfi-fpm
         cp -R test  mfi-fpm

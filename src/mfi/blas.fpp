@@ -470,8 +470,6 @@ $:mfi_interface('?rotm',  REAL_TYPES)
 !$:mfi_interface('?rotmg', REAL_TYPES)
 !$:f77_interface('?scal')
 $:mfi_interface('?swap',  DEFAULT_TYPES)
-$:mfi_interface('i?amin', DEFAULT_TYPES)
-$:mfi_interface('i?amax', DEFAULT_TYPES)
 
 ! BLAS level 2
 $:mfi_interface('?gbmv',  DEFAULT_TYPES)
@@ -511,6 +509,13 @@ $:mfi_interface('?syr2k', REAL_TYPES)
 $:mfi_interface('?trmm',  DEFAULT_TYPES)
 $:mfi_interface('?trsm',  DEFAULT_TYPES)
 
+! Extensions
+! BLAS level 1 - Utils / Extensions
+$:mfi_interface('i?amax', DEFAULT_TYPES)
+#:if defined('MFI_EXTENSIONS')
+$:mfi_interface('i?amin', DEFAULT_TYPES)
+#:endif
+
 contains
 
 ! BLAS level 1
@@ -528,8 +533,6 @@ $:mfi_implement('?rotm',  REAL_TYPES, rotm)
 !$:mfi_implement('?rotmg', REAL_TYPES, rotmg)
 !$:f77_interface('?scal')
 $:mfi_implement('?swap',  DEFAULT_TYPES, copy_swap)
-$:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
-$:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
 
 ! BLAS level 2
 $:mfi_implement('?gbmv',  DEFAULT_TYPES, gbmv)
@@ -568,5 +571,12 @@ $:mfi_implement('?syrk',  REAL_TYPES,    syrk)
 $:mfi_implement('?syr2k', REAL_TYPES,    syr2k)
 $:mfi_implement('?trmm',  DEFAULT_TYPES, trmm_trsm)
 $:mfi_implement('?trsm',  DEFAULT_TYPES, trmm_trsm)
+
+! Extensions
+! BLAS level 1 - Utils / Extensions
+$:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
+#:if defined('MFI_EXTENSIONS')
+$:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
+#:endif
 
 end module

@@ -1,5 +1,6 @@
 #:mute
 #:include "common.fpp"
+
 #:def asum(NAME,TYPE,KIND)
 pure function ${NAME}$(n, x, incx)
     import :: ${KIND}$
@@ -58,16 +59,6 @@ pure subroutine ${NAME}$(d1, d2, x1, y1, param)
 @:args(${TYPE}$, out,   param(5))
 @:args(${TYPE}$, inout, d1, d2, x1)
 end subroutine
-#:enddef
-
-#:def iamin_iamax(NAME,TYPE,KIND)
-pure function ${NAME}$(n, x, incx)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-    integer :: ${NAME}$
-@:args(${TYPE}$, in, x(*))
-@:args(integer,  in, n, incx)
-end function
 #:enddef
 
 #:def gbmv(NAME,TYPE,KIND)
@@ -332,6 +323,37 @@ pure subroutine ${NAME}$(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
 @:args(integer,   in,    m, n, lda, ldb)
 end subroutine
 #:enddef
+
+! BLAS Level 1 - Extensions
+#:def iamax_iamin(NAME,TYPE,KIND)
+pure function ${NAME}$(n, x, incx)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+    integer :: ${NAME}$
+@:args(${TYPE}$, in, x(*))
+@:args(integer,  in, n, incx)
+end function
+#:enddef
+
+#:def iamin_stub(NAME,TYPE,KIND)
+pure function ${NAME}$(n, x, incx)
+@:parameter(integer, wp=${KIND}$)
+    integer :: ${NAME}$
+@:args(${TYPE}$, in, x(*))
+@:args(integer,  in, n, incx)
+    !If either n or incx are not positive, the routine returns 0.
+    if (n <= 0 .or. incx <= 0) then
+        ${NAME}$ = 0
+        return
+    end if
+#:if TYPE is COMPLEX_TYPE
+    ${NAME}$ = minloc(abs(real(x(1:n:incx))) + abs(aimag(x(1:n:incx))),dim=1)
+#:else
+    ${NAME}$ = minloc(x(1:n:incx),dim=1)
+#:endif
+end function
+#:enddef
+
 #:endmute
 module f77_blas
 use iso_fortran_env
@@ -358,10 +380,6 @@ $:f77_interface('?rotm',  REAL_TYPES,    rotm)
 $:f77_interface('?rotmg', REAL_TYPES,    rotmg)
 !$:f77_interface('?scal')
 $:f77_interface('?swap',  DEFAULT_TYPES, copy_swap)
-$:f77_interface('i?amax', DEFAULT_TYPES, iamin_iamax)
-#:if not defined('UBUNTU_WORKAROUND')
-$:f77_interface('i?amin', DEFAULT_TYPES, iamin_iamax)
-#:endif
 
 ! BLAS level 2
 $:f77_interface('?gbmv',  DEFAULT_TYPES, gbmv)
@@ -400,34 +418,20 @@ $:f77_interface('?syrk',  REAL_TYPES,    syrk)
 $:f77_interface('?syr2k', REAL_TYPES,    syr2k)
 $:f77_interface('?trmm',  DEFAULT_TYPES, trmm_trsm)
 $:f77_interface('?trsm',  DEFAULT_TYPES, trmm_trsm)
-#:if defined('UBUNTU_WORKAROUND')
-#! FIXME Workaround to iamin not being available in ubuntu
+
+! Extensions
+! BLAS Level 1 - Utils / Extensions
+$:f77_interface('i?amax', DEFAULT_TYPES, iamax_iamin)
+#:if defined('MFI_EXTENSIONS')
+  #:if defined('MFI_LINK_EXTERNAL')
+! Link with a external source
+$:f77_interface('i?amin', DEFAULT_TYPES, iamax_iamin)
+  #:else
+! Implement the blas extensions in
 $:f77_interface_internal('i?amin', DEFAULT_TYPES)
-
 contains
-#:mute
-#! FIXME Workaround to iamin not being available in ubuntu
-#:def iamin(NAME,TYPE,KIND)
-pure function ${NAME}$(n, x, incx)
-@:parameter(integer, wp=${KIND}$)
-    integer :: ${NAME}$
-@:args(${TYPE}$, in, x(*))
-@:args(integer,  in, n, incx)
-    #!If either n or incx are not positive, the routine returns 0.
-    if (n <= 0 .or. incx <= 0) then
-        ${NAME}$ = 0
-        return
-    end if
-#:if TYPE is COMPLEX_TYPE
-    ${NAME}$ = minloc(abs(real(x(1:n:incx))) + abs(aimag(x(1:n:incx))),dim=1)
-#:else
-    ${NAME}$ = minloc(x(1:n:incx),dim=1)
-#:endif
-end function
-#:enddef
-#:endmute
-
-$:f77_implement('i?amin', DEFAULT_TYPES, iamin)
+$:f77_implement('i?amin', DEFAULT_TYPES, iamin_stub)
+  #:endif
 #:endif
 end module
 

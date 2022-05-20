@@ -17,7 +17,9 @@ program test_mfi_blas
     call test_rotmg
     call test_swap
     call test_iamax
+#:if defined('MFI_EXTENSIONS')
     call test_iamin
+#:endif
     ! BLAS 2
     call test_gemv
     ! BLAS 3
@@ -82,6 +84,7 @@ contains
         call assert(i == j .and. j == k)
     end subroutine
 
+#:if defined('MFI_EXTENSIONS')
     subroutine test_iamin
         call test_defaults
         @:timeit("time f77_iamin: ", { i = f77_iamin(N,X,1) })
@@ -89,6 +92,7 @@ contains
         @:timeit("time minloc:    ", { k = minloc(X,1)      })
         call assert(i == j .and. j == k)
     end subroutine
+#:endif
 
     subroutine test_gemm
         call test_defaults

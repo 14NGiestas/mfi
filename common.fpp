@@ -72,6 +72,7 @@ $:code(MFI_NAME,F77_NAME,TYPE,KIND)
 #:endfor
 #:enddef
 
+#! Define mfi interfaces to implemented routines
 #:def mfi_interface(name, types)
 interface mfi_${name.replace('?','')}$
     #:for T in types
@@ -80,7 +81,7 @@ interface mfi_${name.replace('?','')}$
 end interface
 #:enddef
 
-#! FIXME Workaround to iamin not being available in ubuntu
+#! Define f77 interfaces to implemented routines
 #:def f77_interface_internal(name, types)
 interface f77_${name.replace('?','')}$
     #:for T in types
@@ -89,6 +90,7 @@ interface f77_${name.replace('?','')}$
 end interface
 #:enddef
 
+#! Define a f77 interfaces to the external blas/lapack library
 #:def f77_interface(name, supports, code)
 interface f77_${name.replace('?','')}$
 #:for PREFIX in supports
@@ -100,7 +102,7 @@ $:code(NAME,TYPE,KIND)
 end interface
 #:enddef
 
-#! FIXME Workaround to iamin not being available in ubuntu
+#! Implements a f77 function / extension
 #:def f77_implement(name, supports, code)
 #:for PREFIX in supports
 #:set NAME = name.replace('?',PREFIX)
