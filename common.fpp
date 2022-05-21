@@ -104,7 +104,8 @@ interface f77_${name.replace('?','')}$
 #:set NAME = name.replace('?',PREFIX)
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
 #:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
-$:code(NAME,TYPE,KIND)
+#:set C_KIND = PREFIX_TO_C_KIND.get(PREFIX,None)
+$:code(NAME,TYPE,KIND,C_KIND)
 #:endfor
 end interface
 #:enddef
@@ -115,7 +116,8 @@ end interface
 #:set NAME = name.replace('?',PREFIX)
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
 #:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
-$:code(NAME,TYPE,KIND)
+#:set C_KIND = PREFIX_TO_C_KIND.get(PREFIX,None)
+$:code(NAME,TYPE,KIND,C_KIND)
 #:endfor
 #:enddef
 

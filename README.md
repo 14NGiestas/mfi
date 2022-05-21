@@ -92,6 +92,70 @@ fpm test
 
 which will generate the code linking extensions to the external library
 
+### CUBLAS support (through C bindings)
+This is a highly experimental cublas support, so if you run into any trouble 
+please report your test results / timings and machine specs along your issues.
+To enable cublas support type:
+
+#### Manual compiling
+```sh
+make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_USE_CUBLAS"
+fpm test --link-flag="-lcublas"
+```
+
+If your cublas is installed in a non-standard place you may need to:
+```sh
+fpm test --link-flag="-L/opt/cuda/lib64 -lcublas"
+```
+Where `-L/opt/cuda/lib64` should be changed to your cuda library path.
+
+#### Runtime GPU / CPU switch
+You can tell MFI to switch between GPU and CPU using a environment variable without need to recompile your code again
+
+```f90
+! This will read the environment MFI_USE_CUBLAS variable
+! if MFI_USE_CUBLAS=1, MFI will use cublas routines,
+! else, unset or set to zero, will use the CPU bound routines.
+call mfi_cublas_init
+! (...)
+call mfi_gemm(A,B,C,transa='T') ! Will run on gpu or cpu depending only of the environment flag
+```
+#### Force GPU / CPU
+
+You can also force some sections of your code to run in GPU or CPU
+
+```f90
+! By default mfi runs on CPU
+call mfi_gemm(A,B,C,transa='T')
+
+! This will again read the environment variable
+call mfi_cublas_init
+
+! Force this section to run on GPU
+call mfi_force_gpu
+! (...)
+call mfi_gemm(A,B,C,transa='T')
+! (...)
+call mfi_cublas_end
+
+! This will run on gpu or cpu depending only of the environment flag
+call mfi_gemm(A,B,C,transa='T')
+
+! Force this section to run on CPU
+call mfi_force_cpu
+! (...)
+call mfi_gemm(A,B,C,transa='T')
+! (...)
+call mfi_cublas_end
+```
+
+#### Using as a dependency in FPM with cublas support
+```toml
+# fpm.toml
+[ dependencies ]
+mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas" }
+```
+
 
 ## Support
 ### BLAS
@@ -147,17 +211,17 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 
 #### Level 3
 
-| done? | name  | description                                                                                            |
-| ----- | ----- | ------------------------------------------------------------------------------------------------------ |
-| :+1:  | gemm  | Computes a matrix-matrix product with general matrices.                                                |
-| :+1:  | hemm  | Computes a matrix-matrix product where one input matrix is Hermitian and one is general.               |
-| :+1:  | herk  | Performs a Hermitian rank-k update.                                                                    |
-| :+1:  | her2k | Performs a Hermitian rank-2k update.                                                                   |
-| :+1:  | symm  | Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.        |
-| :+1:  | syrk  | Performs a symmetric rank-k update.                                                                    |
-| :+1:  | syr2k | Performs a symmetric rank-2k update.                                                                   |
-| :+1:  | trmm  | Computes a matrix-matrix product where one input matrix is triangular and one input matrix is general. |
-| :+1:  | trsm  | Solves a triangular matrix equation (forward or backward solve).                                       |
+| done? | gpu?  | name  | description                                                                                            |
+| ----- | ----- | ----- | ------------------------------------------------------------------------------------------------------ |
+| :+1:  |   ✅  | gemm  | Computes a matrix-matrix product with general matrices.                                                |
+| :+1:  |   ✅  | hemm  | Computes a matrix-matrix product where one input matrix is Hermitian and one is general.               |
+| :+1:  |       | herk  | Performs a Hermitian rank-k update.                                                                    |
+| :+1:  |       | her2k | Performs a Hermitian rank-2k update.                                                                   |
+| :+1:  |   ✅  | symm  | Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.        |
+| :+1:  |       | syrk  | Performs a symmetric rank-k update.                                                                    |
+| :+1:  |       | syr2k | Performs a symmetric rank-2k update.                                                                   |
+| :+1:  |       | trmm  | Computes a matrix-matrix product where one input matrix is triangular and one input matrix is general. |
+| :+1:  |       | trsm  | Solves a triangular matrix equation (forward or backward solve).                                       |
 
 #### Utils / Extensions
 #### Level 1

@@ -5,7 +5,7 @@ program test_mfi_blas
     use mfi_blas
     use f77_blas
     implicit none
-    integer, parameter :: N = 2000
+    integer, parameter :: N = 2048*2
     real(REAL64) :: A(N,N), B(N,N), C(N,N), D(N,N)
     real(REAL64) :: X(N), Y(N), Z(N), U(N)
     real(REAL64) :: alpha, beta
@@ -96,6 +96,13 @@ contains
 
     subroutine test_gemm
         call test_defaults
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+        @:timeit("time mfi_gemm, transa=T (CPU): ", { call mfi_gemm(A,B,D,transa='T') })
+        call mfi_force_gpu
+        @:timeit("time mfi_gemm, transa=T (GPU): ", { call mfi_gemm(A,B,C,transa='T') })
+        call mfi_cublas_end
+        call assert(all(is_almost_equal(C,D)))
+#:endif
         @:timeit("time f77_gemm: ", { call f77_gemm('N', 'N', N, N, N, alpha, A, N, B, N, beta, C, N) })
         @:timeit("time mfi_gemm: ", { call mfi_gemm(A,B,C) })
         @:timeit("time matmul:   ", { D = matmul(A,B)      })
@@ -105,6 +112,7 @@ contains
         @:timeit("time mfi_gemm, transa=T:     ", { call mfi_gemm(A,B,C,transa='T') })
         @:timeit("time matmul,   transpose(A): ", { D = matmul(transpose(A),B)      })
         call assert(all(is_almost_equal(C,D)))
+
     end subroutine
 
     subroutine test_gemv
