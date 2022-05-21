@@ -1,5 +1,9 @@
 #:mute
 #:include "common.fpp"
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+  #:include "cublas.fpp"
+#:endif
+
 #:def axpy(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(x, y, a, incx, incy)
 @:parameter(integer, wp=${KIND}$)
@@ -321,6 +325,19 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+    if (MFI_USE_CUBLAS == 1) then
+        block
+        @:allocate(a,b,c)
+        @:set_matrix(a,b)
+        call ${F77_NAME}$(local_transa,local_transb,m,n,k, &
+                 local_alpha,device_a,lda,device_b,ldb,local_beta,device_c,ldc)
+        @:get_matrix(c)
+        @:deallocate(a,b,c)
+        end block
+        return
+    end if
+#:endif
     call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 #:enddef
@@ -339,6 +356,19 @@ pure subroutine ${MFI_NAME}$(a, b, c, side, uplo, alpha, beta)
     ldc = max(1,size(c,1))
     m = size(c,1)
     n = size(c,2)
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+    if (MFI_USE_CUBLAS == 1) then
+        block
+        @:allocate(a,b,c)
+        @:set_matrix(a,b)
+        call ${F77_NAME}$(local_side,local_uplo,m,n,local_alpha,device_a,lda,device_b, &
+            ldb,local_beta,device_c,ldc)
+        @:get_matrix(c)
+        @:deallocate(a,b,c)
+        end block
+        return
+    end if
+#:endif
     call ${F77_NAME}$(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 #:enddef
@@ -455,20 +485,26 @@ use f77_blas
 use f77_blas, only: mfi_rotmg => f77_rotmg
 implicit none
 
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+!> Global that must be read using mfi_cublas_init
+integer(INT32), private :: MFI_USE_CUBLAS = 0
+integer(INT32), private :: MFI_USE_CUBLAS_PREV_STATE = 0
+#:endif
+
 ! BLAS level 1
-!$:mfi_interface('?asum',  DEFAULT_TYPES)
+#!$:mfi_interface('?asum',  DEFAULT_TYPES)
 $:mfi_interface('?axpy',  DEFAULT_TYPES)
 $:mfi_interface('?copy',  DEFAULT_TYPES)
-!$:mfi_interface('?dot',   REAL_TYPES)
-!$:mfi_interface('sdsdot', REAL_TYPES)
+#!$:mfi_interface('?dot',   REAL_TYPES)
+#!$:mfi_interface('sdsdot', REAL_TYPES)
 $:mfi_interface('?dotu',  COMPLEX_TYPES)
 $:mfi_interface('?dotc',  COMPLEX_TYPES)
-!$:mfi_interface('?nrm2',  DEFAULT_TYPES)
-!$:mfi_interface('?rot',   DEFAULT_TYPES)
-!$:mfi_interface('?rotg',  DEFAULT_TYPES)
+#!$:mfi_interface('?nrm2',  DEFAULT_TYPES)
+#!$:mfi_interface('?rot',   DEFAULT_TYPES)
+#!$:mfi_interface('?rotg',  DEFAULT_TYPES)
 $:mfi_interface('?rotm',  REAL_TYPES)
-!$:mfi_interface('?rotmg', REAL_TYPES)
-!$:f77_interface('?scal')
+#!$:mfi_interface('?rotmg', REAL_TYPES)
+#!$:f77_interface('?scal')
 $:mfi_interface('?swap',  DEFAULT_TYPES)
 
 ! BLAS level 2
@@ -516,22 +552,26 @@ $:mfi_interface('i?amax', DEFAULT_TYPES)
 $:mfi_interface('i?amin', DEFAULT_TYPES)
 #:endif
 
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+$:cublas_interfaces()
+#:endif
+
 contains
 
 ! BLAS level 1
-!$:mfi_interface('?asum',  DEFAULT_TYPES)
+#!$:mfi_interface('?asum',  DEFAULT_TYPES)
 $:mfi_implement('?axpy',  DEFAULT_TYPES, axpy)
 $:mfi_implement('?copy',  DEFAULT_TYPES, copy_swap)
-!$:mfi_interface('?dot',   REAL_TYPES)
-!$:mfi_interface('sdsdot', REAL_TYPES)
+#!$:mfi_interface('?dot',   REAL_TYPES)
+#!$:mfi_interface('sdsdot', REAL_TYPES)
 $:mfi_implement('?dotu',  COMPLEX_TYPES, dot_product)
 $:mfi_implement('?dotc',  COMPLEX_TYPES, dot_product)
-!$:mfi_interface('?nrm2',  DEFAULT_TYPES)
-!$:mfi_interface('?rot',   DEFAULT_TYPES)
-!$:mfi_interface('?rotg',  DEFAULT_TYPES)
+#!$:mfi_interface('?nrm2',  DEFAULT_TYPES)
+#!$:mfi_interface('?rot',   DEFAULT_TYPES)
+#!$:mfi_interface('?rotg',  DEFAULT_TYPES)
 $:mfi_implement('?rotm',  REAL_TYPES, rotm)
-!$:mfi_implement('?rotmg', REAL_TYPES, rotmg)
-!$:f77_interface('?scal')
+#!$:mfi_implement('?rotmg', REAL_TYPES, rotmg)
+#!$:f77_interface('?scal')
 $:mfi_implement('?swap',  DEFAULT_TYPES, copy_swap)
 
 ! BLAS level 2
@@ -579,4 +619,32 @@ $:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
 $:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
 #:endif
 
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+!> Read MFI_USE_CUBLAS environment variable which allows to toggle between
+!> cpu and gpu without recompiling the code
+subroutine mfi_cublas_init()
+    integer :: info
+    character :: env_mfi_use_cuda
+    MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
+    call get_environment_variable("MFI_USE_CUBLAS",env_mfi_use_cuda)
+    read(env_mfi_use_cuda,*,iostat=info) MFI_USE_CUBLAS
+end subroutine
+
+!> Sets MFI_USE_CUBLAS to use GPU
+subroutine mfi_force_gpu()
+    MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
+    MFI_USE_CUBLAS = 1
+end subroutine
+
+!> Sets MFI_USE_CUBLAS to use CPU
+subroutine mfi_force_cpu()
+    MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
+    MFI_USE_CUBLAS = 0
+end subroutine
+
+!> Sets MFI_USE_CUBLAS to use CPU
+subroutine mfi_cublas_end()
+    MFI_USE_CUBLAS = MFI_USE_CUBLAS_PREV_STATE
+end subroutine
+#:endif
 end module

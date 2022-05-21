@@ -77,7 +77,7 @@ pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
     lwork = -1
     call f77_hegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -141,7 +141,7 @@ pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
     lwork = -1
     call f77_hegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if

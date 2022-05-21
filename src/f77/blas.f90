@@ -1,5 +1,6 @@
 module f77_blas
-use iso_fortran_env
+use, intrinsic :: iso_fortran_env
+use, intrinsic :: iso_c_binding
 implicit none
 
 !FIXME rot, dot, rotg, nrm2: problem with functions that have TYPE /= TYPE_result
@@ -1121,6 +1122,7 @@ end interface
 
 ! BLAS level 3
 interface f77_gemm
+! sgemm CPU version
 pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1138,6 +1140,7 @@ pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+! dgemm CPU version
 pure subroutine dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1155,6 +1158,7 @@ pure subroutine dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+! cgemm CPU version
 pure subroutine cgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1172,6 +1176,7 @@ pure subroutine cgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+! zgemm CPU version
 pure subroutine zgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
     integer, parameter :: wp = REAL64

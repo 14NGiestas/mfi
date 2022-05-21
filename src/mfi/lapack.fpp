@@ -113,7 +113,7 @@ pure subroutine ${MFI_NAME}$(a, b, w, itype, jobz, uplo, info)
     lwork = -1
     call ${F77_NAME}$(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
