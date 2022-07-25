@@ -74,5 +74,12 @@ $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
 $:f77_interface('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potri',  DEFAULT_TYPES, potrf_potri)
 
+    interface f77_xerbla
+        pure subroutine xerbla(name,info)
+            character(*), intent(in) :: name
+            integer, intent(in) :: info
+        end subroutine
+    end interface f77_xerbla
+
 end module
 

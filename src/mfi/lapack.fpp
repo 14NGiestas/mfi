@@ -86,8 +86,7 @@ pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('${F77_NAME}$', -local_info)
     end if
 end subroutine
 #:enddef
@@ -128,8 +127,7 @@ pure subroutine ${MFI_NAME}$(a, b, w, itype, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('${F77_NAME}$', -local_info)
     end if
 end subroutine
 #:enddef
@@ -180,8 +178,7 @@ pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('${F77_NAME}$', -local_info)
     end if
 end subroutine
 #:enddef
@@ -200,8 +197,7 @@ pure subroutine ${MFI_NAME}$(a, info, uplo)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        !call mfi_error('name', local_info)
-        error stop local_info
+        call mfi_error('${F77_NAME}$', local_info)
     end if
 end subroutine
 #:enddef
@@ -224,5 +220,11 @@ $:mfi_implement('?heevd',  COMPLEX_TYPES, heevd)
 $:mfi_implement('?gesvd',  DEFAULT_TYPES, gesvd)
 $:mfi_implement('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:mfi_implement('?potri',  DEFAULT_TYPES, potrf_potri)
+
+    pure subroutine mfi_error(name, info)
+        character(*), intent(in) :: name
+        integer, intent(in) :: info
+        call f77_xerbla(name, info)
+    end subroutine
 
 end module
