@@ -1,10 +1,7 @@
 #:mute
 #:include "common.fpp"
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
-  #:include "cublas.fpp"
-#:endif
 
-#:def asum(NAME,TYPE,KIND,C_KIND)
+#:def asum(NAME,TYPE,KIND)
 pure function ${NAME}$(n, x, incx)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -14,7 +11,7 @@ pure function ${NAME}$(n, x, incx)
 end function
 #:enddef
 
-#:def axpy(NAME,TYPE,KIND,C_KIND)
+#:def axpy(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(n, a, x, incx, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -24,7 +21,7 @@ pure subroutine ${NAME}$(n, a, x, incx, y, incy)
 end subroutine
 #:enddef
 
-#:def copy_swap(NAME,TYPE,KIND,C_KIND)
+#:def copy_swap(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(n, x, incx, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -34,7 +31,7 @@ pure subroutine ${NAME}$(n, x, incx, y, incy)
 end subroutine
 #:enddef
 
-#:def dot_product(NAME,TYPE,KIND,C_KIND)
+#:def dot_product(NAME,TYPE,KIND)
 pure function ${NAME}$(n, x, incx, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -44,7 +41,7 @@ pure function ${NAME}$(n, x, incx, y, incy)
 end function
 #:enddef
 
-#:def rotm(NAME,TYPE,KIND,C_KIND)
+#:def rotm(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(n, x, incx, y, incy, param)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -54,7 +51,7 @@ pure subroutine ${NAME}$(n, x, incx, y, incy, param)
 end subroutine
 #:enddef
 
-#:def rotmg(NAME,TYPE,KIND,C_KIND)
+#:def rotmg(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(d1, d2, x1, y1, param)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -64,7 +61,7 @@ pure subroutine ${NAME}$(d1, d2, x1, y1, param)
 end subroutine
 #:enddef
 
-#:def gbmv(NAME,TYPE,KIND,C_KIND)
+#:def gbmv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -76,7 +73,7 @@ pure subroutine ${NAME}$(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, i
 end subroutine
 #:enddef
 
-#:def gemv(NAME,TYPE,KIND,C_KIND)
+#:def gemv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -88,7 +85,7 @@ pure subroutine ${NAME}$(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
 end subroutine
 #:enddef
 
-#:def ger_gerc_geru(NAME,TYPE,KIND,C_KIND)
+#:def ger_gerc_geru(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(m, n, alpha, x, incx, y, incy, a, lda)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -99,7 +96,7 @@ pure subroutine ${NAME}$(m, n, alpha, x, incx, y, incy, a, lda)
 end subroutine
 #:enddef
 
-#:def hbmv_sbmv(NAME,TYPE,KIND,C_KIND)
+#:def hbmv_sbmv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -111,7 +108,7 @@ pure subroutine ${NAME}$(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
 end subroutine
 #:enddef
 
-#:def hemv_symv(NAME,TYPE,KIND,C_KIND)
+#:def hemv_symv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -123,7 +120,7 @@ pure subroutine ${NAME}$(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
 end subroutine
 #:enddef
 
-#:def her(NAME,TYPE,KIND,C_KIND)
+#:def her(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, a, lda)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -135,7 +132,7 @@ pure subroutine ${NAME}$(uplo, n, alpha, x, incx, a, lda)
 end subroutine
 #:enddef
 
-#:def syr(NAME,TYPE,KIND,C_KIND)
+#:def syr(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, a, lda)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -147,7 +144,7 @@ pure subroutine ${NAME}$(uplo, n, alpha, x, incx, a, lda)
 end subroutine
 #:enddef
 
-#:def her_syr2(NAME,TYPE,KIND,C_KIND)
+#:def her_syr2(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, y, incy, a, lda)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -159,7 +156,7 @@ pure subroutine ${NAME}$(uplo, n, alpha, x, incx, y, incy, a, lda)
 end subroutine
 #:enddef
 
-#:def hpmv_spmv(NAME,TYPE,KIND,C_KIND)
+#:def hpmv_spmv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, alpha, ap, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -171,7 +168,7 @@ pure subroutine ${NAME}$(uplo, n, alpha, ap, x, incx, beta, y, incy)
 end subroutine
 #:enddef
 
-#:def hpr(NAME,TYPE,KIND,C_KIND)
+#:def hpr(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, ap)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -183,7 +180,7 @@ pure subroutine ${NAME}$(uplo, n, alpha, x, incx, ap)
 end subroutine
 #:enddef
 
-#:def spr(NAME,TYPE,KIND,C_KIND)
+#:def spr(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, ap)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -195,7 +192,7 @@ pure subroutine ${NAME}$(uplo, n, alpha, x, incx, ap)
 end subroutine
 #:enddef
 
-#:def hpr_spr2(NAME,TYPE,KIND,C_KIND)
+#:def hpr_spr2(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, y, incy, ap)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -207,7 +204,7 @@ pure subroutine ${NAME}$(uplo, n, alpha, x, incx, y, incy, ap)
 end subroutine
 #:enddef
 
-#:def tbmv_tbsv(NAME,TYPE,KIND,C_KIND)
+#:def tbmv_tbsv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -218,7 +215,7 @@ pure subroutine ${NAME}$(uplo, trans, diag, n, k, a, lda, x, incx)
 end subroutine
 #:enddef
 
-#:def tpmv_tpsv(NAME,TYPE,KIND,C_KIND)
+#:def tpmv_tpsv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, diag, n, ap, x, incx)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -229,7 +226,7 @@ pure subroutine ${NAME}$(uplo, trans, diag, n, ap, x, incx)
 end subroutine
 #:enddef
 
-#:def trmv_trsv(NAME,TYPE,KIND,C_KIND)
+#:def trmv_trsv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, diag, n, a, lda, x, incx)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -240,8 +237,7 @@ pure subroutine ${NAME}$(uplo, trans, diag, n, a, lda, x, incx)
 end subroutine
 #:enddef
 
-#:def gemm(NAME,TYPE,KIND,C_KIND)
-! ${NAME}$ CPU version
+#:def gemm(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -251,23 +247,9 @@ pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c
 @:args(${TYPE}$,  in,    alpha, beta)
 @:args(integer,   in,    m, n, k, lda, ldb, ldc)
 end subroutine
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
-! ${NAME}$ GPU (cublas) version
-#:set NAME = f"cublas{NAME.title()}"
-pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) &
-    bind(C,name="${NAME}$")
-    import
-@:parameter(integer, wp=${C_KIND}$)
-@:args({type(c_ptr), value}, in, a, b)
-    type(c_ptr), value :: c ! void *
-@:args({character(c_char),value}, in,  transa, transb)
-@:args({${TYPE}$,value}, in,  alpha, beta)
-@:args({integer(c_int),value}, in, m, n, k, lda, ldb, ldc)
-end subroutine
-#:endif
 #:enddef
 
-#:def hemm_symm(NAME,TYPE,KIND,C_KIND)
+#:def hemm_symm(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -277,23 +259,9 @@ pure subroutine ${NAME}$(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
 @:args(${TYPE}$,  in,    alpha, beta)
 @:args(integer,   in,    m, n, lda, ldb, ldc)
 end subroutine
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
-! ${NAME}$ GPU (cublas) version
-#:set NAME = f"cublas{NAME.title()}"
-pure subroutine ${NAME}$(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc) &
-    bind(C,name="${NAME}$")
-    import
-@:parameter(integer, wp=${C_KIND}$)
-@:args({type(c_ptr), value}, in, a, b)
-    type(c_ptr), value :: c ! void *
-@:args({character(c_char),value}, in,  side, uplo)
-@:args({${TYPE}$,value}, in,  alpha, beta)
-@:args({integer(c_int),value}, in, m, n, lda, ldb, ldc)
-end subroutine
-#:endif
 #:enddef
 
-#:def herk(NAME,TYPE,KIND,C_KIND)
+#:def herk(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -305,7 +273,7 @@ pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
 end subroutine
 #:enddef
 
-#:def syrk(NAME,TYPE,KIND,C_KIND)
+#:def syrk(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -317,7 +285,7 @@ pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
 end subroutine
 #:enddef
 
-#:def her2k(NAME,TYPE,KIND,C_KIND)
+#:def her2k(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -331,7 +299,7 @@ pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
 end subroutine
 #:enddef
 
-#:def syr2k(NAME,TYPE,KIND,C_KIND)
+#:def syr2k(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -344,7 +312,7 @@ pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
 end subroutine
 #:enddef
 
-#:def trmm_trsm(NAME,TYPE,KIND,C_KIND)
+#:def trmm_trsm(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -357,7 +325,7 @@ end subroutine
 #:enddef
 
 ! BLAS Level 1 - Extensions
-#:def iamax_iamin(NAME,TYPE,KIND,C_KIND)
+#:def iamax_iamin(NAME,TYPE,KIND)
 pure function ${NAME}$(n, x, incx)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -367,7 +335,7 @@ pure function ${NAME}$(n, x, incx)
 end function
 #:enddef
 
-#:def iamin_stub(NAME,TYPE,KIND,C_KIND)
+#:def iamin_stub(NAME,TYPE,KIND)
 pure function ${NAME}$(n, x, incx)
 @:parameter(integer, wp=${KIND}$)
     integer :: ${NAME}$
@@ -388,8 +356,7 @@ end function
 
 #:endmute
 module f77_blas
-use, intrinsic :: iso_fortran_env
-use, intrinsic :: iso_c_binding
+use iso_fortran_env
 implicit none
 
 !FIXME rot, dot, rotg, nrm2: problem with functions that have TYPE /= TYPE_result

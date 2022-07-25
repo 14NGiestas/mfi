@@ -227,5 +227,12 @@ pure subroutine zpotri(uplo, n, a, lda, info)
 end subroutine
 end interface
 
+    interface f77_xerbla
+        pure subroutine xerbla(name,info)
+            character(*), intent(in) :: name
+            integer, intent(in) :: info
+        end subroutine
+    end interface f77_xerbla
+
 end module
 

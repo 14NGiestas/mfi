@@ -77,7 +77,7 @@ pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
     lwork = -1
     call f77_hegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
+    lwork = s_work(1)
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -92,8 +92,7 @@ pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('f77_hegv', -local_info)
     end if
 end subroutine
 pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
@@ -141,7 +140,7 @@ pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
     lwork = -1
     call f77_hegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
+    lwork = s_work(1)
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -156,8 +155,7 @@ pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('f77_hegv', -local_info)
     end if
 end subroutine
 pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
@@ -223,8 +221,7 @@ pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('f77_heevd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
@@ -290,8 +287,7 @@ pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('f77_heevd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
@@ -383,8 +379,7 @@ pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('f77_gesvd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
@@ -476,8 +471,7 @@ pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('f77_gesvd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
@@ -572,8 +566,7 @@ pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('f77_gesvd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
@@ -668,8 +661,7 @@ pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        !call mfi_error('name', -local_info)
-        error stop -local_info
+        call mfi_error('f77_gesvd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_spotrf(a, info, uplo)
@@ -696,8 +688,7 @@ pure subroutine mfi_spotrf(a, info, uplo)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        !call mfi_error('name', local_info)
-        error stop local_info
+        call mfi_error('f77_potrf', local_info)
     end if
 end subroutine
 pure subroutine mfi_dpotrf(a, info, uplo)
@@ -724,8 +715,7 @@ pure subroutine mfi_dpotrf(a, info, uplo)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        !call mfi_error('name', local_info)
-        error stop local_info
+        call mfi_error('f77_potrf', local_info)
     end if
 end subroutine
 pure subroutine mfi_cpotrf(a, info, uplo)
@@ -752,8 +742,7 @@ pure subroutine mfi_cpotrf(a, info, uplo)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        !call mfi_error('name', local_info)
-        error stop local_info
+        call mfi_error('f77_potrf', local_info)
     end if
 end subroutine
 pure subroutine mfi_zpotrf(a, info, uplo)
@@ -780,8 +769,7 @@ pure subroutine mfi_zpotrf(a, info, uplo)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        !call mfi_error('name', local_info)
-        error stop local_info
+        call mfi_error('f77_potrf', local_info)
     end if
 end subroutine
 pure subroutine mfi_spotri(a, info, uplo)
@@ -808,8 +796,7 @@ pure subroutine mfi_spotri(a, info, uplo)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        !call mfi_error('name', local_info)
-        error stop local_info
+        call mfi_error('f77_potri', local_info)
     end if
 end subroutine
 pure subroutine mfi_dpotri(a, info, uplo)
@@ -836,8 +823,7 @@ pure subroutine mfi_dpotri(a, info, uplo)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        !call mfi_error('name', local_info)
-        error stop local_info
+        call mfi_error('f77_potri', local_info)
     end if
 end subroutine
 pure subroutine mfi_cpotri(a, info, uplo)
@@ -864,8 +850,7 @@ pure subroutine mfi_cpotri(a, info, uplo)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        !call mfi_error('name', local_info)
-        error stop local_info
+        call mfi_error('f77_potri', local_info)
     end if
 end subroutine
 pure subroutine mfi_zpotri(a, info, uplo)
@@ -892,9 +877,14 @@ pure subroutine mfi_zpotri(a, info, uplo)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        !call mfi_error('name', local_info)
-        error stop local_info
+        call mfi_error('f77_potri', local_info)
     end if
 end subroutine
+
+    pure subroutine mfi_error(name, info)
+        character(*), intent(in) :: name
+        integer, intent(in) :: info
+        call f77_xerbla(name, info)
+    end subroutine
 
 end module

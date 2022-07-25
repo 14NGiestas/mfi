@@ -4,7 +4,7 @@ program test_mfi_blas
     use mfi_blas
     use f77_blas
     implicit none
-    integer, parameter :: N = 2048*2
+    integer, parameter :: N = 2000
     real(REAL64) :: A(N,N), B(N,N), C(N,N), D(N,N)
     real(REAL64) :: X(N), Y(N), Z(N), U(N)
     real(REAL64) :: alpha, beta
@@ -238,7 +238,6 @@ call cpu_time(t2)
 print '(A,G0)', "time matmul,   transpose(A): ", t2-t1
 end block
         call assert(all(is_almost_equal(C,D)))
-
     end subroutine
 
     subroutine test_gemv

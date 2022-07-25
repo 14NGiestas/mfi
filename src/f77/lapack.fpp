@@ -1,7 +1,7 @@
 #:mute
 #:include "common.fpp"
 
-#:def gesvd(NAME,TYPE,KIND,C_KIND)
+#:def gesvd(NAME,TYPE,KIND)
 #:if TYPE == COMPLEX_TYPE
 pure subroutine ${NAME}$(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
 #:else
@@ -22,7 +22,7 @@ pure subroutine ${NAME}$(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
 end subroutine
 #:enddef
 
-#:def hegv(NAME,TYPE,KIND,C_KIND)
+#:def hegv(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -37,7 +37,7 @@ pure subroutine ${NAME}$(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, r
 end subroutine
 #:enddef
 
-#:def heevd(NAME,TYPE,KIND,C_KIND)
+#:def heevd(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -52,7 +52,7 @@ pure subroutine ${NAME}$(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, i
 end subroutine
 #:enddef
 
-#:def potrf_potri(NAME,TYPE,KIND,C_KIND)
+#:def potrf_potri(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(uplo, n, a, lda, info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -73,6 +73,13 @@ $:f77_interface('?heevd',  COMPLEX_TYPES, heevd)
 $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
 $:f77_interface('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potri',  DEFAULT_TYPES, potrf_potri)
+
+    interface f77_xerbla
+        pure subroutine xerbla(name,info)
+            character(*), intent(in) :: name
+            integer, intent(in) :: info
+        end subroutine
+    end interface f77_xerbla
 
 end module
 

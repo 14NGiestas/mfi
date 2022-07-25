@@ -4,8 +4,8 @@ use f77_blas
 use f77_blas, only: mfi_rotmg => f77_rotmg
 implicit none
 
-
 ! BLAS level 1
+!$:mfi_interface('?asum',  DEFAULT_TYPES)
 interface mfi_axpy
     module procedure mfi_saxpy
     module procedure mfi_daxpy
@@ -18,6 +18,8 @@ interface mfi_copy
     module procedure mfi_ccopy
     module procedure mfi_zcopy
 end interface
+!$:mfi_interface('?dot',   REAL_TYPES)
+!$:mfi_interface('sdsdot', REAL_TYPES)
 interface mfi_dotu
     module procedure mfi_cdotu
     module procedure mfi_zdotu
@@ -26,10 +28,15 @@ interface mfi_dotc
     module procedure mfi_cdotc
     module procedure mfi_zdotc
 end interface
+!$:mfi_interface('?nrm2',  DEFAULT_TYPES)
+!$:mfi_interface('?rot',   DEFAULT_TYPES)
+!$:mfi_interface('?rotg',  DEFAULT_TYPES)
 interface mfi_rotm
     module procedure mfi_srotm
     module procedure mfi_drotm
 end interface
+!$:mfi_interface('?rotmg', REAL_TYPES)
+!$:f77_interface('?scal')
 interface mfi_swap
     module procedure mfi_sswap
     module procedure mfi_dswap
@@ -214,10 +221,10 @@ interface mfi_iamin
     module procedure mfi_izamin
 end interface
 
-
 contains
 
 ! BLAS level 1
+!$:mfi_interface('?asum',  DEFAULT_TYPES)
 pure subroutine mfi_saxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL32
     real(wp), intent(in) :: x(:)
@@ -422,6 +429,8 @@ pure subroutine mfi_zcopy(x, y, incx, incy)
     N = size(X)
     call f77_copy(n,x,local_incx,y,local_incy)
 end subroutine
+!$:mfi_interface('?dot',   REAL_TYPES)
+!$:mfi_interface('sdsdot', REAL_TYPES)
 pure function mfi_cdotu(x, y, incx, incy)
     integer, parameter :: wp = REAL32
     complex(wp) :: mfi_cdotu
@@ -514,6 +523,9 @@ pure function mfi_zdotc(x, y, incx, incy)
     N = size(X)
     mfi_zdotc = f77_dotc(n,x,local_incx,y,local_incy)
 end function
+!$:mfi_interface('?nrm2',  DEFAULT_TYPES)
+!$:mfi_interface('?rot',   DEFAULT_TYPES)
+!$:mfi_interface('?rotg',  DEFAULT_TYPES)
 pure subroutine mfi_srotm(x, y, param, incx, incy)
     integer, parameter :: wp = REAL32
     real(wp), intent(inout) :: x(:)
@@ -560,6 +572,8 @@ pure subroutine mfi_drotm(x, y, param, incx, incy)
     N = size(X)
     call f77_rotm(n,x,local_incx,y,local_incy,param)
 end subroutine
+!$:mfi_implement('?rotmg', REAL_TYPES, rotmg)
+!$:f77_interface('?scal')
 pure subroutine mfi_sswap(x, y, incx, incy)
     integer, parameter :: wp = REAL32
     real(wp), intent(in) :: x(:)
