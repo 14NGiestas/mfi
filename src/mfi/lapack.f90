@@ -3,6 +3,12 @@ use iso_fortran_env
 use f77_lapack
 implicit none
 
+interface mfi_geqrf
+    module procedure mfi_sgeqrf
+    module procedure mfi_dgeqrf
+    module procedure mfi_cgeqrf
+    module procedure mfi_zgeqrf
+end interface
 interface mfi_hegv
     module procedure mfi_chegv
     module procedure mfi_zhegv
@@ -32,6 +38,206 @@ end interface
 
 contains
 
+pure subroutine mfi_sgeqrf(a, tau, info)
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(:,:)
+    real(wp), intent(out), optional, target :: tau(:)
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    real(wp), pointer :: local_tau(:), work(:)
+    real(wp), target  :: s_work(1)
+    if (present(info)) then
+        local_info = info
+    else
+        local_info = 0
+    end if
+    lda = max(1,size(a,1))
+    m = size(a,1)
+    n = size(a,2)
+    allocation_status = 0
+    if (present(tau)) then
+        local_tau => tau
+    else
+        allocate(local_tau(min(m,n)), stat=allocation_status)
+    end if
+    ! Retrieve work array size
+    lwork = -1
+    call f77_geqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    if (local_info /= 0) goto 404
+
+    lwork = int(s_work(1))
+    if (allocation_status == 0) then
+        allocate(work(lwork), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call f77_geqrf(m,n,a,lda,local_tau,work,lwork,local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=deallocation_status)
+
+    ! Error handling
+404 continue
+    if (.not. present(tau)) then
+        deallocate(local_tau, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_geqrf', -local_info)
+    end if
+end subroutine
+pure subroutine mfi_dgeqrf(a, tau, info)
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(:,:)
+    real(wp), intent(out), optional, target :: tau(:)
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    real(wp), pointer :: local_tau(:), work(:)
+    real(wp), target  :: s_work(1)
+    if (present(info)) then
+        local_info = info
+    else
+        local_info = 0
+    end if
+    lda = max(1,size(a,1))
+    m = size(a,1)
+    n = size(a,2)
+    allocation_status = 0
+    if (present(tau)) then
+        local_tau => tau
+    else
+        allocate(local_tau(min(m,n)), stat=allocation_status)
+    end if
+    ! Retrieve work array size
+    lwork = -1
+    call f77_geqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    if (local_info /= 0) goto 404
+
+    lwork = int(s_work(1))
+    if (allocation_status == 0) then
+        allocate(work(lwork), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call f77_geqrf(m,n,a,lda,local_tau,work,lwork,local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=deallocation_status)
+
+    ! Error handling
+404 continue
+    if (.not. present(tau)) then
+        deallocate(local_tau, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_geqrf', -local_info)
+    end if
+end subroutine
+pure subroutine mfi_cgeqrf(a, tau, info)
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(:,:)
+    complex(wp), intent(out), optional, target :: tau(:)
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    complex(wp), pointer :: local_tau(:), work(:)
+    complex(wp), target  :: s_work(1)
+    if (present(info)) then
+        local_info = info
+    else
+        local_info = 0
+    end if
+    lda = max(1,size(a,1))
+    m = size(a,1)
+    n = size(a,2)
+    allocation_status = 0
+    if (present(tau)) then
+        local_tau => tau
+    else
+        allocate(local_tau(min(m,n)), stat=allocation_status)
+    end if
+    ! Retrieve work array size
+    lwork = -1
+    call f77_geqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    if (local_info /= 0) goto 404
+
+    lwork = int(s_work(1))
+    if (allocation_status == 0) then
+        allocate(work(lwork), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call f77_geqrf(m,n,a,lda,local_tau,work,lwork,local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=deallocation_status)
+
+    ! Error handling
+404 continue
+    if (.not. present(tau)) then
+        deallocate(local_tau, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_geqrf', -local_info)
+    end if
+end subroutine
+pure subroutine mfi_zgeqrf(a, tau, info)
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(:,:)
+    complex(wp), intent(out), optional, target :: tau(:)
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    complex(wp), pointer :: local_tau(:), work(:)
+    complex(wp), target  :: s_work(1)
+    if (present(info)) then
+        local_info = info
+    else
+        local_info = 0
+    end if
+    lda = max(1,size(a,1))
+    m = size(a,1)
+    n = size(a,2)
+    allocation_status = 0
+    if (present(tau)) then
+        local_tau => tau
+    else
+        allocate(local_tau(min(m,n)), stat=allocation_status)
+    end if
+    ! Retrieve work array size
+    lwork = -1
+    call f77_geqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    if (local_info /= 0) goto 404
+
+    lwork = int(s_work(1))
+    if (allocation_status == 0) then
+        allocate(work(lwork), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call f77_geqrf(m,n,a,lda,local_tau,work,lwork,local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=deallocation_status)
+
+    ! Error handling
+404 continue
+    if (.not. present(tau)) then
+        deallocate(local_tau, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_geqrf', -local_info)
+    end if
+end subroutine
 pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
     integer, parameter :: wp = REAL32
     complex(wp), intent(inout) :: a(:,:)
@@ -77,7 +283,7 @@ pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
     lwork = -1
     call f77_hegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -140,7 +346,7 @@ pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
     lwork = -1
     call f77_hegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -200,9 +406,9 @@ pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
     call f77_heevd(local_jobz,local_uplo,n,a,lda,w, &
                       s_work,lwork,s_rwork,lrwork,s_iwork,liwork,local_info)
     if (local_info /= 0) goto 404
-    lwork  = s_work(1)
-    lrwork = s_rwork(1)
-    liwork = s_iwork(1)
+    lwork  = int(s_work(1))
+    lrwork = int(s_rwork(1))
+    liwork = int(s_iwork(1))
 
     allocate(iwork(liwork), stat=allocation_status)
 
@@ -266,9 +472,9 @@ pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
     call f77_heevd(local_jobz,local_uplo,n,a,lda,w, &
                       s_work,lwork,s_rwork,lrwork,s_iwork,liwork,local_info)
     if (local_info /= 0) goto 404
-    lwork  = s_work(1)
-    lrwork = s_rwork(1)
-    liwork = s_iwork(1)
+    lwork  = int(s_work(1))
+    lrwork = int(s_rwork(1))
+    liwork = int(s_iwork(1))
 
     allocate(iwork(liwork), stat=allocation_status)
 
@@ -363,7 +569,7 @@ pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
     if (local_info /= 0) then
         goto 404
     end if
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
@@ -455,7 +661,7 @@ pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
     if (local_info /= 0) then
         goto 404
     end if
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
@@ -549,7 +755,7 @@ pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
     if (local_info /= 0) then
         goto 404
     end if
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)
@@ -644,7 +850,7 @@ pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
     if (local_info /= 0) then
         goto 404
     end if
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)

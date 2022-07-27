@@ -2,6 +2,56 @@ module f77_lapack
 use iso_fortran_env
 implicit none
 
+interface f77_geqrf
+pure subroutine sgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(wp), intent(inout) :: work(*)
+end subroutine
+pure subroutine dgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(wp), intent(inout) :: work(*)
+end subroutine
+pure subroutine cgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
+end subroutine
+pure subroutine zgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
+end subroutine
+end interface
 interface f77_hegv
 pure subroutine chegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
     import :: REAL32

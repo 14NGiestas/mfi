@@ -8,6 +8,7 @@ program test_mfi_lapack
     real(REAL64) :: S(N,N)
     integer :: i, j, info
 
+    call test_geqrf
     call test_gesvd
     call test_potrf
     call test_potri
@@ -43,6 +44,39 @@ call cpu_time(t2)
 print '(A,G0)', "mfi_gesvd: ", t2-t1
 end block
         call assert(all(abs(S-ES) < 1e-4))
+    end subroutine
+
+    subroutine test_geqrf
+        integer, parameter :: wp=REAL64
+        integer, parameter :: N=6, M=2
+        real(wp) :: A(N,M), B(N,M)
+        real(wp) :: tau(min(N,M)), tau_(min(N,M))
+
+        A(1,:) = [  .000000_wp,  2.000000_wp]
+        A(2,:) = [ 2.000000_wp, -1.000000_wp]
+        A(3,:) = [ 2.000000_wp, -1.000000_wp]
+        A(4,:) = [  .000000_wp,  1.500000_wp]
+        A(5,:) = [ 2.000000_wp, -1.000000_wp]
+        A(6,:) = [ 2.000000_wp, -1.000000_wp]
+
+        B(1,:) = [ -4.000000_wp, 2.000000_wp]
+        B(2,:) = [   .500000_wp, 2.500000_wp]
+        B(3,:) = [   .500000_wp,  .285714_wp]
+        B(4,:) = [   .000000_wp, -.428571_wp]
+        B(5,:) = [   .500000_wp,  .285714_wp]
+        B(6,:) = [   .500000_wp,  .285714_wp]
+
+        tau_ = [1.0_wp, 1.4_wp]
+
+block
+real :: t1, t2
+call cpu_time(t1)
+ call mfi_geqrf(A, tau) 
+call cpu_time(t2)
+print '(A,G0)', "mfi_geqrf: ", t2-t1
+end block
+        call assert(all(abs(A-B) < 1e-6))
+        call assert(all(abs(tau-tau_) < 1e-6))
     end subroutine
 
     subroutine test_potrf
@@ -97,10 +131,5 @@ end block
             error stop 'assertion failed'
         end if
     end subroutine
-
-    logical pure elemental function is_almost_equal(x, y)
-        real(REAL64), intent(in) :: x, y
-        is_almost_equal = abs(x-y) < 10**6*epsilon(x)
-    end function
 
 end program
