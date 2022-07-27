@@ -1,5 +1,54 @@
 #:mute
 #:include "common.fpp"
+
+#:def geqrf(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, tau, info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, a(:,:))
+    ${TYPE}$, intent(out), optional, target :: tau(:)
+@:optional(integer, out, info)
+    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    ${TYPE}$, pointer :: local_tau(:), work(:)
+    ${TYPE}$, target  :: s_work(1)
+@:defaults(info=0)
+    lda = max(1,size(a,1))
+    m = size(a,1)
+    n = size(a,2)
+    allocation_status = 0
+    if (present(tau)) then
+        local_tau => tau
+    else
+        allocate(local_tau(min(m,n)), stat=allocation_status)
+    end if
+    ! Retrieve work array size
+    lwork = -1
+    call ${F77_NAME}$(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    if (local_info /= 0) goto 404
+
+    lwork = int(s_work(1))
+    if (allocation_status == 0) then
+        allocate(work(lwork), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call ${F77_NAME}$(m,n,a,lda,local_tau,work,lwork,local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=deallocation_status)
+
+    ! Error handling
+404 continue
+    if (.not. present(tau)) then
+        deallocate(local_tau, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${F77_NAME}$', -local_info)
+    end if
+end subroutine
+#:enddef
+
 #:def gesvd(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
 @:parameter(integer, wp=${KIND}$)
@@ -63,7 +112,7 @@ pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
     if (local_info /= 0) then
         goto 404
     end if
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
 #:if TYPE == COMPLEX_TYPE
@@ -112,7 +161,7 @@ pure subroutine ${MFI_NAME}$(a, b, w, itype, jobz, uplo, info)
     lwork = -1
     call ${F77_NAME}$(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -157,9 +206,9 @@ pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, info)
     call ${F77_NAME}$(local_jobz,local_uplo,n,a,lda,w, &
                       s_work,lwork,s_rwork,lrwork,s_iwork,liwork,local_info)
     if (local_info /= 0) goto 404
-    lwork  = s_work(1)
-    lrwork = s_rwork(1)
-    liwork = s_iwork(1)
+    lwork  = int(s_work(1))
+    lrwork = int(s_rwork(1))
+    liwork = int(s_iwork(1))
 
     allocate(iwork(liwork), stat=allocation_status)
 
@@ -207,6 +256,7 @@ use iso_fortran_env
 use f77_lapack
 implicit none
 
+$:mfi_interface('?geqrf',  DEFAULT_TYPES)
 $:mfi_interface('?hegv',   COMPLEX_TYPES)
 $:mfi_interface('?heevd',  COMPLEX_TYPES)
 $:mfi_interface('?gesvd',  DEFAULT_TYPES)
@@ -215,6 +265,7 @@ $:mfi_interface('?potri',  DEFAULT_TYPES)
 
 contains
 
+$:mfi_implement('?geqrf',  DEFAULT_TYPES, geqrf)
 $:mfi_implement('?hegv',   COMPLEX_TYPES, hegv)
 $:mfi_implement('?heevd',  COMPLEX_TYPES, heevd)
 $:mfi_implement('?gesvd',  DEFAULT_TYPES, gesvd)

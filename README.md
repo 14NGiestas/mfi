@@ -174,7 +174,7 @@ Again, BLAS level 1 routines can be replaced by intrinsincs and other features i
 
 | done? | name  | description                                                                                                                                      |
 | ----- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-|       | geqrf | Computes the QR factorization of a general m-by-n matrix.                                                                                        |
+| :+1:  | geqrf | Computes the QR factorization of a general m-by-n matrix.                                                                                        |
 |       | gerqf | Computes the RQ factorization of a general m-by-n matrix.                                                                                        |
 |       | getrf | Computes the LU factorization of a general m-by-n matrix.                                                                                        |
 |       | getri | Computes the inverse of an LU-factored general matrix.                                                                                           |

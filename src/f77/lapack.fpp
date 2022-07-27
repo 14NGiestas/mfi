@@ -1,6 +1,18 @@
 #:mute
 #:include "common.fpp"
 
+#:def geqrf(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(m,n,a,lda,tau,work,lwork,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(lda,*))
+@:args(${TYPE}$,   out, tau(*))
+@:args(integer,    out, info)
+@:args(integer,     in, m, n, lda, lwork)
+@:args(${TYPE}$, inout, work(*))
+end subroutine
+#:enddef
+
 #:def gesvd(NAME,TYPE,KIND)
 #:if TYPE == COMPLEX_TYPE
 pure subroutine ${NAME}$(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
@@ -68,6 +80,7 @@ module f77_lapack
 use iso_fortran_env
 implicit none
 
+$:f77_interface('?geqrf',  DEFAULT_TYPES, geqrf)
 $:f77_interface('?hegv',   COMPLEX_TYPES, hegv)
 $:f77_interface('?heevd',  COMPLEX_TYPES, heevd)
 $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
