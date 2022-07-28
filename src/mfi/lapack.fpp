@@ -1,7 +1,7 @@
 #:mute
 #:include "common.fpp"
 
-#:def geqrf(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def geqrf_gerqf(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, tau, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,      inout, a(:,:))
@@ -257,6 +257,7 @@ use f77_lapack
 implicit none
 
 $:mfi_interface('?geqrf',  DEFAULT_TYPES)
+$:mfi_interface('?gerqf',  DEFAULT_TYPES)
 $:mfi_interface('?hegv',   COMPLEX_TYPES)
 $:mfi_interface('?heevd',  COMPLEX_TYPES)
 $:mfi_interface('?gesvd',  DEFAULT_TYPES)
@@ -265,7 +266,8 @@ $:mfi_interface('?potri',  DEFAULT_TYPES)
 
 contains
 
-$:mfi_implement('?geqrf',  DEFAULT_TYPES, geqrf)
+$:mfi_implement('?geqrf',  DEFAULT_TYPES, geqrf_gerqf)
+$:mfi_implement('?gerqf',  DEFAULT_TYPES, geqrf_gerqf)
 $:mfi_implement('?hegv',   COMPLEX_TYPES, hegv)
 $:mfi_implement('?heevd',  COMPLEX_TYPES, heevd)
 $:mfi_implement('?gesvd',  DEFAULT_TYPES, gesvd)

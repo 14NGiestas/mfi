@@ -1,7 +1,7 @@
 #:mute
 #:include "common.fpp"
 
-#:def geqrf(NAME,TYPE,KIND)
+#:def geqrf_gerqf(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(m,n,a,lda,tau,work,lwork,info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -80,7 +80,8 @@ module f77_lapack
 use iso_fortran_env
 implicit none
 
-$:f77_interface('?geqrf',  DEFAULT_TYPES, geqrf)
+$:f77_interface('?geqrf',  DEFAULT_TYPES, geqrf_gerqf)
+$:f77_interface('?gerqf',  DEFAULT_TYPES, geqrf_gerqf)
 $:f77_interface('?hegv',   COMPLEX_TYPES, hegv)
 $:f77_interface('?heevd',  COMPLEX_TYPES, heevd)
 $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
