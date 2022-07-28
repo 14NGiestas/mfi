@@ -49,6 +49,40 @@ pure subroutine ${MFI_NAME}$(a, tau, info)
 end subroutine
 #:enddef
 
+#:def getrf(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, ipiv, info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, a(:,:))
+    integer, intent(out), optional, target :: ipiv(:)
+@:optional(integer, out, info)
+    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    integer, pointer :: local_ipiv(:)
+@:defaults(info=0)
+    lda = max(1,size(a,1))
+    m = size(a,1)
+    n = size(a,2)
+    allocation_status = 0
+    if (present(ipiv)) then
+        local_ipiv => ipiv
+    else
+        allocate(local_ipiv(min(m,n)), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call ${F77_NAME}$(m,n,a,lda,local_ipiv,local_info)
+    else
+        local_info = -1000
+    end if
+    if (.not. present(ipiv)) then
+        deallocate(local_ipiv, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${F77_NAME}$', -local_info)
+    end if
+end subroutine
+#:enddef
+
 #:def gesvd(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
 @:parameter(integer, wp=${KIND}$)
@@ -258,6 +292,7 @@ implicit none
 
 $:mfi_interface('?geqrf',  DEFAULT_TYPES)
 $:mfi_interface('?gerqf',  DEFAULT_TYPES)
+$:mfi_interface('?getrf',  DEFAULT_TYPES)
 $:mfi_interface('?hegv',   COMPLEX_TYPES)
 $:mfi_interface('?heevd',  COMPLEX_TYPES)
 $:mfi_interface('?gesvd',  DEFAULT_TYPES)
@@ -268,6 +303,7 @@ contains
 
 $:mfi_implement('?geqrf',  DEFAULT_TYPES, geqrf_gerqf)
 $:mfi_implement('?gerqf',  DEFAULT_TYPES, geqrf_gerqf)
+$:mfi_implement('?getrf',  DEFAULT_TYPES, getrf)
 $:mfi_implement('?hegv',   COMPLEX_TYPES, hegv)
 $:mfi_implement('?heevd',  COMPLEX_TYPES, heevd)
 $:mfi_implement('?gesvd',  DEFAULT_TYPES, gesvd)
