@@ -124,6 +124,18 @@ pure subroutine ${NAME}$(uplo, n, a, lda, info)
 end subroutine
 #:enddef
 
+#:def potrs(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in, a(lda,*))
+@:args(${TYPE}$,  in, b(ldb,*))
+@:args(character, in,  uplo)
+@:args(integer,   in,  n, nrhs, lda, ldb)
+@:args(integer,   out, info)
+end subroutine
+#:enddef
+
 #:endmute
 module f77_lapack
 use iso_fortran_env
@@ -140,6 +152,7 @@ $:f77_interface('?heevd',  COMPLEX_TYPES, heevd)
 $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
 $:f77_interface('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potri',  DEFAULT_TYPES, potrf_potri)
+$:f77_interface('?potrs',  DEFAULT_TYPES, potrs)
 
     interface f77_xerbla
         pure subroutine xerbla(name,info)

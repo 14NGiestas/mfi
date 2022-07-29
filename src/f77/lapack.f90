@@ -494,6 +494,56 @@ pure subroutine zpotri(uplo, n, a, lda, info)
     integer, intent(out) :: info
 end subroutine
 end interface
+interface f77_potrs
+pure subroutine spotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(in) :: a(lda,*)
+    real(wp), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+pure subroutine dpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(in) :: a(lda,*)
+    real(wp), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+pure subroutine cpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(in) :: a(lda,*)
+    complex(wp), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+pure subroutine zpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(in) :: a(lda,*)
+    complex(wp), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+end interface
 
     interface f77_xerbla
         pure subroutine xerbla(name,info)

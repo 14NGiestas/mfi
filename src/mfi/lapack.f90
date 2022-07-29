@@ -63,6 +63,12 @@ interface mfi_potri
     module procedure mfi_cpotri
     module procedure mfi_zpotri
 end interface
+interface mfi_potrs
+    module procedure mfi_spotrs
+    module procedure mfi_dpotrs
+    module procedure mfi_cpotrs
+    module procedure mfi_zpotrs
+end interface
 
 contains
 
@@ -75,11 +81,6 @@ pure subroutine mfi_sgeqrf(a, tau, info)
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     real(wp), pointer :: local_tau(:), work(:)
     real(wp), target  :: s_work(1)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -125,11 +126,6 @@ pure subroutine mfi_dgeqrf(a, tau, info)
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     real(wp), pointer :: local_tau(:), work(:)
     real(wp), target  :: s_work(1)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -175,11 +171,6 @@ pure subroutine mfi_cgeqrf(a, tau, info)
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     complex(wp), pointer :: local_tau(:), work(:)
     complex(wp), target  :: s_work(1)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -225,11 +216,6 @@ pure subroutine mfi_zgeqrf(a, tau, info)
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     complex(wp), pointer :: local_tau(:), work(:)
     complex(wp), target  :: s_work(1)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -275,11 +261,6 @@ pure subroutine mfi_sgerqf(a, tau, info)
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     real(wp), pointer :: local_tau(:), work(:)
     real(wp), target  :: s_work(1)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -325,11 +306,6 @@ pure subroutine mfi_dgerqf(a, tau, info)
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     real(wp), pointer :: local_tau(:), work(:)
     real(wp), target  :: s_work(1)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -375,11 +351,6 @@ pure subroutine mfi_cgerqf(a, tau, info)
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     complex(wp), pointer :: local_tau(:), work(:)
     complex(wp), target  :: s_work(1)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -425,11 +396,6 @@ pure subroutine mfi_zgerqf(a, tau, info)
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     complex(wp), pointer :: local_tau(:), work(:)
     complex(wp), target  :: s_work(1)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -474,11 +440,6 @@ pure subroutine mfi_sgetrf(a, ipiv, info)
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     integer, pointer :: local_ipiv(:)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -510,11 +471,6 @@ pure subroutine mfi_dgetrf(a, ipiv, info)
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     integer, pointer :: local_ipiv(:)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -546,11 +502,6 @@ pure subroutine mfi_cgetrf(a, ipiv, info)
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     integer, pointer :: local_ipiv(:)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -582,11 +533,6 @@ pure subroutine mfi_zgetrf(a, ipiv, info)
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     integer, pointer :: local_ipiv(:)
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -619,11 +565,6 @@ pure subroutine mfi_sgetri(a, ipiv, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     n = size(a,2)
     lwork = -1
@@ -653,11 +594,6 @@ pure subroutine mfi_dgetri(a, ipiv, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     n = size(a,2)
     lwork = -1
@@ -687,11 +623,6 @@ pure subroutine mfi_cgetri(a, ipiv, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     n = size(a,2)
     lwork = -1
@@ -721,11 +652,6 @@ pure subroutine mfi_zgetri(a, ipiv, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     n = size(a,2)
     lwork = -1
@@ -889,7 +815,7 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     if (.not. present(ipiv)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('mfi_chetrf',-local_info)
+        call mfi_error('f77_hetrf',-local_info)
     end if
 end subroutine
 pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
@@ -931,7 +857,7 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     if (.not. present(ipiv)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('mfi_zhetrf',-local_info)
+        call mfi_error('f77_hetrf',-local_info)
     end if
 end subroutine
 pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
@@ -965,11 +891,6 @@ pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
         local_uplo = uplo
     else
         local_uplo = 'U'
-    end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
     end if
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
@@ -1029,11 +950,6 @@ pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
     else
         local_uplo = 'U'
     end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     n = size(a,2)
@@ -1086,11 +1002,6 @@ pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
         local_uplo = uplo
     else
         local_uplo = 'U'
-    end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
     end if
     lda = max(1,size(a,1))
     n   = size(a,2)
@@ -1153,11 +1064,6 @@ pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
     else
         local_uplo = 'U'
     end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     n   = size(a,2)
     allocation_status = 0
@@ -1210,11 +1116,6 @@ pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
         local_job = job
     else
         local_job = 'N'
-    end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
     end if
     lda = max(1,size(a,1))
     m = size(a,1)
@@ -1303,11 +1204,6 @@ pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
     else
         local_job = 'N'
     end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -1395,11 +1291,6 @@ pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
         local_job = job
     else
         local_job = 'N'
-    end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
     end if
     lda = max(1,size(a,1))
     m = size(a,1)
@@ -1491,11 +1382,6 @@ pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
     else
         local_job = 'N'
     end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -1579,11 +1465,6 @@ pure subroutine mfi_spotrf(a, info, uplo)
     else
         local_uplo = 'U'
     end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     n = size(a,2)
     call f77_potrf(local_uplo,n,a,lda,local_info)
@@ -1605,11 +1486,6 @@ pure subroutine mfi_dpotrf(a, info, uplo)
         local_uplo = uplo
     else
         local_uplo = 'U'
-    end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
@@ -1633,11 +1509,6 @@ pure subroutine mfi_cpotrf(a, info, uplo)
     else
         local_uplo = 'U'
     end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     n = size(a,2)
     call f77_potrf(local_uplo,n,a,lda,local_info)
@@ -1659,11 +1530,6 @@ pure subroutine mfi_zpotrf(a, info, uplo)
         local_uplo = uplo
     else
         local_uplo = 'U'
-    end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
@@ -1687,11 +1553,6 @@ pure subroutine mfi_spotri(a, info, uplo)
     else
         local_uplo = 'U'
     end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     n = size(a,2)
     call f77_potri(local_uplo,n,a,lda,local_info)
@@ -1713,11 +1574,6 @@ pure subroutine mfi_dpotri(a, info, uplo)
         local_uplo = uplo
     else
         local_uplo = 'U'
-    end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
@@ -1741,11 +1597,6 @@ pure subroutine mfi_cpotri(a, info, uplo)
     else
         local_uplo = 'U'
     end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     n = size(a,2)
     call f77_potri(local_uplo,n,a,lda,local_info)
@@ -1768,11 +1619,6 @@ pure subroutine mfi_zpotri(a, info, uplo)
     else
         local_uplo = 'U'
     end if
-    if (present(info)) then
-        local_info = info
-    else
-        local_info = 0
-    end if
     lda = max(1,size(a,1))
     n = size(a,2)
     call f77_potri(local_uplo,n,a,lda,local_info)
@@ -1780,6 +1626,106 @@ pure subroutine mfi_zpotri(a, info, uplo)
         info = local_info
     else if (local_info /= 0) then
         call mfi_error('f77_potri', local_info)
+    end if
+end subroutine
+pure subroutine mfi_spotrs(a, b, uplo, info)
+    integer, parameter :: wp = REAL32
+    real(wp), intent(in) :: a(:,:)
+    real(wp), intent(inout) :: b(:,:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call f77_potrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_potrs',-local_info)
+    end if
+end subroutine
+pure subroutine mfi_dpotrs(a, b, uplo, info)
+    integer, parameter :: wp = REAL64
+    real(wp), intent(in) :: a(:,:)
+    real(wp), intent(inout) :: b(:,:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call f77_potrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_potrs',-local_info)
+    end if
+end subroutine
+pure subroutine mfi_cpotrs(a, b, uplo, info)
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(in) :: a(:,:)
+    complex(wp), intent(inout) :: b(:,:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call f77_potrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_potrs',-local_info)
+    end if
+end subroutine
+pure subroutine mfi_zpotrs(a, b, uplo, info)
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(in) :: a(:,:)
+    complex(wp), intent(inout) :: b(:,:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call f77_potrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_potrs',-local_info)
     end if
 end subroutine
 
