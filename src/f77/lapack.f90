@@ -52,6 +52,198 @@ pure subroutine zgeqrf(m,n,a,lda,tau,work,lwork,info)
     complex(wp), intent(inout) :: work(*)
 end subroutine
 end interface
+interface f77_gerqf
+pure subroutine sgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(wp), intent(inout) :: work(*)
+end subroutine
+pure subroutine dgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(wp), intent(inout) :: work(*)
+end subroutine
+pure subroutine cgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
+end subroutine
+pure subroutine zgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
+end subroutine
+end interface
+interface f77_getrf
+pure subroutine sgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
+pure subroutine dgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
+pure subroutine cgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
+pure subroutine zgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
+end interface
+interface f77_getri
+pure subroutine sgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine dgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine cgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine zgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+interface f77_getrs
+pure subroutine sgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+end subroutine
+pure subroutine dgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+end subroutine
+pure subroutine cgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+end subroutine
+pure subroutine zgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+end subroutine
+end interface
 interface f77_hegv
 pure subroutine chegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
     import :: REAL32

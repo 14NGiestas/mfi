@@ -1,7 +1,7 @@
 #:mute
 #:include "common.fpp"
 
-#:def geqrf(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def geqrf_gerqf(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, tau, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,      inout, a(:,:))
@@ -45,6 +45,95 @@ pure subroutine ${MFI_NAME}$(a, tau, info)
         info = local_info
     else if (local_info <= -1000) then
         call mfi_error('${F77_NAME}$', -local_info)
+    end if
+end subroutine
+#:enddef
+
+#:def getrf(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, ipiv, info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, a(:,:))
+    integer, intent(out), optional, target :: ipiv(:)
+@:optional(integer, out, info)
+    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    integer, pointer :: local_ipiv(:)
+@:defaults(info=0)
+    lda = max(1,size(a,1))
+    m = size(a,1)
+    n = size(a,2)
+    allocation_status = 0
+    if (present(ipiv)) then
+        local_ipiv => ipiv
+    else
+        allocate(local_ipiv(min(m,n)), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call ${F77_NAME}$(m,n,a,lda,local_ipiv,local_info)
+    else
+        local_info = -1000
+    end if
+    if (.not. present(ipiv)) then
+        deallocate(local_ipiv, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${F77_NAME}$', -local_info)
+    end if
+end subroutine
+#:enddef
+
+#:def getri(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, ipiv, info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(:,:))
+@:args(integer,     in, ipiv(:))
+    ${TYPE}$, pointer :: work(:)
+    ${TYPE}$ :: s_work(1)
+@:optional(integer, out, info)
+    integer :: n, lda, lwork, allocation_status, deallocation_status
+@:defaults(info=0)
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    lwork = -1
+    call ${F77_NAME}$(n,a,lda,ipiv,s_work,lwork,local_info)
+    if (local_info /= 0) goto 404
+    lwork = s_work(1)
+    allocate(work(lwork), stat=allocation_status)
+    if (allocation_status == 0) then
+        call ${F77_NAME}$(n,a,lda,ipiv,work,lwork,local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=deallocation_status)
+404 continue
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${F77_NAME}$',-local_info)
+    end if
+end subroutine
+#:enddef
+
+#:def getrs(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a,ipiv,b,trans,info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(:,:))
+@:args(${TYPE}$, inout, b(:,:))
+@:args(integer,     in, ipiv(:))
+@:optional(integer, out, info)
+@:optional(character, in, trans)
+    integer :: n, nrhs, lda, ldb
+@:defaults(trans='N')
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call ${F77_NAME}$(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${F77_NAME}$',-local_info)
     end if
 end subroutine
 #:enddef
@@ -257,6 +346,10 @@ use f77_lapack
 implicit none
 
 $:mfi_interface('?geqrf',  DEFAULT_TYPES)
+$:mfi_interface('?gerqf',  DEFAULT_TYPES)
+$:mfi_interface('?getrf',  DEFAULT_TYPES)
+$:mfi_interface('?getri',  DEFAULT_TYPES)
+$:mfi_interface('?getrs',  DEFAULT_TYPES)
 $:mfi_interface('?hegv',   COMPLEX_TYPES)
 $:mfi_interface('?heevd',  COMPLEX_TYPES)
 $:mfi_interface('?gesvd',  DEFAULT_TYPES)
@@ -265,7 +358,11 @@ $:mfi_interface('?potri',  DEFAULT_TYPES)
 
 contains
 
-$:mfi_implement('?geqrf',  DEFAULT_TYPES, geqrf)
+$:mfi_implement('?geqrf',  DEFAULT_TYPES, geqrf_gerqf)
+$:mfi_implement('?gerqf',  DEFAULT_TYPES, geqrf_gerqf)
+$:mfi_implement('?getrf',  DEFAULT_TYPES, getrf)
+$:mfi_implement('?getri',  DEFAULT_TYPES, getri)
+$:mfi_implement('?getrs',  DEFAULT_TYPES, getrs)
 $:mfi_implement('?hegv',   COMPLEX_TYPES, hegv)
 $:mfi_implement('?heevd',  COMPLEX_TYPES, heevd)
 $:mfi_implement('?gesvd',  DEFAULT_TYPES, gesvd)

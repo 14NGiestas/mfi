@@ -1,7 +1,7 @@
 #:mute
 #:include "common.fpp"
 
-#:def geqrf(NAME,TYPE,KIND)
+#:def geqrf_gerqf(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(m,n,a,lda,tau,work,lwork,info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
@@ -10,6 +10,42 @@ pure subroutine ${NAME}$(m,n,a,lda,tau,work,lwork,info)
 @:args(integer,    out, info)
 @:args(integer,     in, m, n, lda, lwork)
 @:args(${TYPE}$, inout, work(*))
+end subroutine
+#:enddef
+
+#:def getrf(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(m,n,a,lda,ipiv,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(lda,*))
+@:args(integer,    out, ipiv(*))
+@:args(integer,    out, info)
+@:args(integer,     in, m, n, lda)
+end subroutine
+#:enddef
+
+#:def getri(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(n,a,lda,ipiv,work,lwork,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(lda,*))
+@:args(${TYPE}$, inout, work(*))
+@:args(integer,     in, ipiv(*))
+@:args(integer,    out, info)
+@:args(integer,     in, n, lda, lwork)
+end subroutine
+#:enddef
+
+#:def getrs(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(lda,*))
+@:args(${TYPE}$, inout, b(ldb,*))
+@:args(character,   in, trans)
+@:args(integer,     in, ipiv(*))
+@:args(integer,    out, info)
+@:args(integer,     in, n, nrhs, lda, ldb)
 end subroutine
 #:enddef
 
@@ -80,7 +116,11 @@ module f77_lapack
 use iso_fortran_env
 implicit none
 
-$:f77_interface('?geqrf',  DEFAULT_TYPES, geqrf)
+$:f77_interface('?geqrf',  DEFAULT_TYPES, geqrf_gerqf)
+$:f77_interface('?gerqf',  DEFAULT_TYPES, geqrf_gerqf)
+$:f77_interface('?getrf',  DEFAULT_TYPES, getrf)
+$:f77_interface('?getri',  DEFAULT_TYPES, getri)
+$:f77_interface('?getrs',  DEFAULT_TYPES, getrs)
 $:f77_interface('?hegv',   COMPLEX_TYPES, hegv)
 $:f77_interface('?heevd',  COMPLEX_TYPES, heevd)
 $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
