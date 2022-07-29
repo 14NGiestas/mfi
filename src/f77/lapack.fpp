@@ -36,6 +36,19 @@ pure subroutine ${NAME}$(n,a,lda,ipiv,work,lwork,info)
 end subroutine
 #:enddef
 
+#:def getrs(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(lda,*))
+@:args(${TYPE}$, inout, b(ldb,*))
+@:args(character,   in, trans)
+@:args(integer,     in, ipiv(*))
+@:args(integer,    out, info)
+@:args(integer,     in, n, nrhs, lda, ldb)
+end subroutine
+#:enddef
+
 #:def gesvd(NAME,TYPE,KIND)
 #:if TYPE == COMPLEX_TYPE
 pure subroutine ${NAME}$(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
@@ -107,6 +120,7 @@ $:f77_interface('?geqrf',  DEFAULT_TYPES, geqrf_gerqf)
 $:f77_interface('?gerqf',  DEFAULT_TYPES, geqrf_gerqf)
 $:f77_interface('?getrf',  DEFAULT_TYPES, getrf)
 $:f77_interface('?getri',  DEFAULT_TYPES, getri)
+$:f77_interface('?getrs',  DEFAULT_TYPES, getrs)
 $:f77_interface('?hegv',   COMPLEX_TYPES, hegv)
 $:f77_interface('?heevd',  COMPLEX_TYPES, heevd)
 $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)

@@ -115,6 +115,29 @@ pure subroutine ${MFI_NAME}$(a, ipiv, info)
 end subroutine
 #:enddef
 
+#:def getrs(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a,ipiv,b,trans,info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(:,:))
+@:args(${TYPE}$, inout, b(:,:))
+@:args(integer,     in, ipiv(:))
+@:optional(integer, out, info)
+@:optional(character, in, trans)
+    integer :: n, nrhs, lda, ldb
+@:defaults(trans='N')
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call ${F77_NAME}$(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${F77_NAME}$',-local_info)
+    end if
+end subroutine
+#:enddef
+
 #:def gesvd(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
 @:parameter(integer, wp=${KIND}$)
@@ -326,6 +349,7 @@ $:mfi_interface('?geqrf',  DEFAULT_TYPES)
 $:mfi_interface('?gerqf',  DEFAULT_TYPES)
 $:mfi_interface('?getrf',  DEFAULT_TYPES)
 $:mfi_interface('?getri',  DEFAULT_TYPES)
+$:mfi_interface('?getrs',  DEFAULT_TYPES)
 $:mfi_interface('?hegv',   COMPLEX_TYPES)
 $:mfi_interface('?heevd',  COMPLEX_TYPES)
 $:mfi_interface('?gesvd',  DEFAULT_TYPES)
@@ -338,6 +362,7 @@ $:mfi_implement('?geqrf',  DEFAULT_TYPES, geqrf_gerqf)
 $:mfi_implement('?gerqf',  DEFAULT_TYPES, geqrf_gerqf)
 $:mfi_implement('?getrf',  DEFAULT_TYPES, getrf)
 $:mfi_implement('?getri',  DEFAULT_TYPES, getri)
+$:mfi_implement('?getrs',  DEFAULT_TYPES, getrs)
 $:mfi_implement('?hegv',   COMPLEX_TYPES, hegv)
 $:mfi_implement('?heevd',  COMPLEX_TYPES, heevd)
 $:mfi_implement('?gesvd',  DEFAULT_TYPES, gesvd)
