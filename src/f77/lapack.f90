@@ -244,6 +244,32 @@ pure subroutine zgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     integer, intent(in) :: ldb
 end subroutine
 end interface
+interface f77_hetrf
+pure subroutine chetrf(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: ipiv(*)
+    complex(wp), intent(inout) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine zhetrf(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: ipiv(*)
+    complex(wp), intent(inout) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+end interface
 interface f77_hegv
 pure subroutine chegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
     import :: REAL32

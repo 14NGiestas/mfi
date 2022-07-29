@@ -33,6 +33,10 @@ interface mfi_getrs
     module procedure mfi_cgetrs
     module procedure mfi_zgetrs
 end interface
+interface mfi_hetrf
+    module procedure mfi_chetrf
+    module procedure mfi_zhetrf
+end interface
 interface mfi_hegv
     module procedure mfi_chegv
     module procedure mfi_zhegv
@@ -844,6 +848,90 @@ pure subroutine mfi_zgetrs(a,ipiv,b,trans,info)
         info = local_info
     else if (local_info <= -1000) then
         call mfi_error('f77_getrs',-local_info)
+    end if
+end subroutine
+pure subroutine mfi_chetrf(a, uplo, ipiv, info)
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(:,:)
+    integer, intent(out), optional, target :: ipiv(:)
+    integer, pointer :: local_ipiv(:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer   :: n, lda, lwork, allocation_status, deallocation_status
+    complex(wp), target :: s_work(1)
+    complex(wp), pointer :: work(:)
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    allocation_status = 0
+    if (present(ipiv)) then
+        local_ipiv => ipiv
+    else
+        allocate(local_ipiv(n), stat=allocation_status)
+    end if
+    lwork = -1
+    call f77_hetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
+    if (local_info /= 0) goto 404
+    lwork = s_work(1)
+    if (allocation_status == 0) then
+        allocate(work(lwork), stat=allocation_status)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=allocation_status)
+404 continue
+    if (.not. present(ipiv)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('mfi_chetrf',-local_info)
+    end if
+end subroutine
+pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(:,:)
+    integer, intent(out), optional, target :: ipiv(:)
+    integer, pointer :: local_ipiv(:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer   :: n, lda, lwork, allocation_status, deallocation_status
+    complex(wp), target :: s_work(1)
+    complex(wp), pointer :: work(:)
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    allocation_status = 0
+    if (present(ipiv)) then
+        local_ipiv => ipiv
+    else
+        allocate(local_ipiv(n), stat=allocation_status)
+    end if
+    lwork = -1
+    call f77_hetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
+    if (local_info /= 0) goto 404
+    lwork = s_work(1)
+    if (allocation_status == 0) then
+        allocate(work(lwork), stat=allocation_status)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=allocation_status)
+404 continue
+    if (.not. present(ipiv)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('mfi_zhetrf',-local_info)
     end if
 end subroutine
 pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
