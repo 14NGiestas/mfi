@@ -94,6 +94,9 @@ which will generate the code linking extensions to the external library
 
 
 ## Support
+
+Please note that this project is experimental, is missing a test suite and errors may occur (in which case open an issue). If you want a specific routine to be featured here feel free to open a PR or open an issue providing a test case, a link to an specification (docs) and it's datatype variants.
+
 ### BLAS
 #### Level 1
 Most of BLAS level 1 routines can be replaced by intrinsincs and other features in modern fortran.
@@ -175,10 +178,10 @@ Again, BLAS level 1 routines can be replaced by intrinsincs and other features i
 | done? | name  | description                                                                                                                                      |
 | ----- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | :+1:  | geqrf | Computes the QR factorization of a general m-by-n matrix.                                                                                        |
-|       | gerqf | Computes the RQ factorization of a general m-by-n matrix.                                                                                        |
-|       | getrf | Computes the LU factorization of a general m-by-n matrix.                                                                                        |
-|       | getri | Computes the inverse of an LU-factored general matrix.                                                                                           |
-|       | getrs | Solves a system of linear equations with an LU-factored square coefficient matrix, with multiple right-hand sides.                               |
+| :+1:  | gerqf | Computes the RQ factorization of a general m-by-n matrix.                                                                                        |
+| :+1:  | getrf | Computes the LU factorization of a general m-by-n matrix.                                                                                        |
+| :+1:  | getri | Computes the inverse of an LU-factored general matrix.                                                                                           |
+| :+1:  | getrs | Solves a system of linear equations with an LU-factored square coefficient matrix, with multiple right-hand sides.                               |
 |       | hetrf | Computes the Bunch-Kaufman factorization of a complex Hermitian matrix.                                                                          |
 |       | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf.                                                                  |
 |       | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf.                                                     |
