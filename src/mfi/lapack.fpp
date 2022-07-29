@@ -138,6 +138,45 @@ pure subroutine ${MFI_NAME}$(a,ipiv,b,trans,info)
 end subroutine
 #:enddef
 
+#:def hetrf(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, uplo, ipiv, info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  inout, a(:,:))
+    integer, intent(out), optional, target :: ipiv(:)
+    integer, pointer :: local_ipiv(:)
+@:optional(character, in, uplo)
+@:optional(integer, out, info)
+    integer   :: n, lda, lwork, allocation_status, deallocation_status
+    ${TYPE}$, target :: s_work(1)
+    ${TYPE}$, pointer :: work(:)
+@:defaults(uplo='U')
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    allocation_status = 0
+    if (present(ipiv)) then
+        local_ipiv => ipiv
+    else
+        allocate(local_ipiv(n), stat=allocation_status)
+    end if
+    lwork = -1
+    call ${F77_NAME}$(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
+    if (local_info /= 0) goto 404
+    lwork = s_work(1)
+    if (allocation_status == 0) then
+        allocate(work(lwork), stat=allocation_status)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=allocation_status)
+404 continue
+    if (.not. present(ipiv)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${MFI_NAME}$',-local_info)
+    end if
+end subroutine
+#:enddef
+
 #:def gesvd(MFI_NAME,F77_NAME,TYPE,KIND)
 pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
 @:parameter(integer, wp=${KIND}$)
@@ -350,6 +389,7 @@ $:mfi_interface('?gerqf',  DEFAULT_TYPES)
 $:mfi_interface('?getrf',  DEFAULT_TYPES)
 $:mfi_interface('?getri',  DEFAULT_TYPES)
 $:mfi_interface('?getrs',  DEFAULT_TYPES)
+$:mfi_interface('?hetrf',  COMPLEX_TYPES)
 $:mfi_interface('?hegv',   COMPLEX_TYPES)
 $:mfi_interface('?heevd',  COMPLEX_TYPES)
 $:mfi_interface('?gesvd',  DEFAULT_TYPES)
@@ -363,6 +403,7 @@ $:mfi_implement('?gerqf',  DEFAULT_TYPES, geqrf_gerqf)
 $:mfi_implement('?getrf',  DEFAULT_TYPES, getrf)
 $:mfi_implement('?getri',  DEFAULT_TYPES, getri)
 $:mfi_implement('?getrs',  DEFAULT_TYPES, getrs)
+$:mfi_implement('?hetrf',  COMPLEX_TYPES, hetrf)
 $:mfi_implement('?hegv',   COMPLEX_TYPES, hegv)
 $:mfi_implement('?heevd',  COMPLEX_TYPES, heevd)
 $:mfi_implement('?gesvd',  DEFAULT_TYPES, gesvd)
