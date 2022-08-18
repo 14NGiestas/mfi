@@ -402,6 +402,7 @@ end subroutine
 module mfi_lapack
 use iso_fortran_env
 use f77_lapack
+use f77_lapack, only: mfi_lartg => f77_lartg
 implicit none
 
 $:mfi_interface('?geqrf',  DEFAULT_TYPES)

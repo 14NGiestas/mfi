@@ -545,6 +545,46 @@ pure subroutine zpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
 end subroutine
 end interface
 
+! Other Auxiliary Routines
+interface f77_lartg
+pure subroutine slartg(f, g, c, s, r)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: c
+    real(wp), intent(inout) :: f
+    real(wp), intent(inout) :: g
+    real(wp), intent(inout) :: r
+    real(wp), intent(inout) :: s
+end subroutine
+pure subroutine dlartg(f, g, c, s, r)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: c
+    real(wp), intent(inout) :: f
+    real(wp), intent(inout) :: g
+    real(wp), intent(inout) :: r
+    real(wp), intent(inout) :: s
+end subroutine
+pure subroutine clartg(f, g, c, s, r)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: c
+    complex(wp), intent(inout) :: f
+    complex(wp), intent(inout) :: g
+    complex(wp), intent(inout) :: r
+    complex(wp), intent(inout) :: s
+end subroutine
+pure subroutine zlartg(f, g, c, s, r)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: c
+    complex(wp), intent(inout) :: f
+    complex(wp), intent(inout) :: g
+    complex(wp), intent(inout) :: r
+    complex(wp), intent(inout) :: s
+end subroutine
+end interface
+
     interface f77_xerbla
         pure subroutine xerbla(name,info)
             character(*), intent(in) :: name
