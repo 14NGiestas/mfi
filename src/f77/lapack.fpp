@@ -1,6 +1,15 @@
 #:mute
 #:include "common.fpp"
 
+#:def aux_lartg(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(f, g, c, s, r)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(real(wp), inout, c)
+@:args(${TYPE}$, inout, f, g, r, s)
+end subroutine
+#:enddef
+
 #:def geqrf_gerqf(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(m,n,a,lda,tau,work,lwork,info)
     import :: ${KIND}$
@@ -153,6 +162,9 @@ $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
 $:f77_interface('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potri',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potrs',  DEFAULT_TYPES, potrs)
+
+! Other Auxiliary Routines
+$:f77_interface('?lartg',  DEFAULT_TYPES, aux_lartg)
 
     interface f77_xerbla
         pure subroutine xerbla(name,info)

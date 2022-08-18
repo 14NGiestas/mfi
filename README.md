@@ -212,3 +212,12 @@ Again, BLAS level 1 routines can be replaced by intrinsincs and other features i
 |      | ungbr | Generates the complex unitary matrix Q or PT determined by gebrd. |
 |      | ungtr | Generates the complex unitary matrix Q determined by hetrd. |
 |      | unmtr | Multiplies a complex matrix by the unitary matrix Q determined by hetrd. |
+
+#### Other Auxiliary Routines
+
+There are some other auxiliary lapack routines around, that may apear here:
+
+| name      | Data Types | Description |
+| --------- | ---------- | ------------|
+| mfi_lartg | s, d, c, z | Generates a plane rotation with real cosine and real/complex sine. |
+
