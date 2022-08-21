@@ -54,7 +54,7 @@ pure subroutine ${MFI_NAME}$(a, ipiv, info)
 @:args(${TYPE}$,      inout, a(:,:))
     integer, intent(out), optional, target :: ipiv(:)
 @:optional(integer, out, info)
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    integer :: m, n, lda, allocation_status, deallocation_status
     integer, pointer :: local_ipiv(:)
     lda = max(1,size(a,1))
     m = size(a,1)
@@ -95,7 +95,7 @@ pure subroutine ${MFI_NAME}$(a, ipiv, info)
     lwork = -1
     call ${F77_NAME}$(n,a,lda,ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call ${F77_NAME}$(n,a,lda,ipiv,work,lwork,local_info)
@@ -158,13 +158,13 @@ pure subroutine ${MFI_NAME}$(a, uplo, ipiv, info)
     lwork = -1
     call ${F77_NAME}$(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=allocation_status)
+    deallocate(work, stat=deallocation_status)
 404 continue
     if (.not. present(ipiv)) then
         info = local_info
@@ -250,7 +250,7 @@ pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
     end if
 
     if (present(ww)) then
-        ww = work(2:min(m,n)-1)
+        ww = real(work(2:min(m,n)-1))
     end if
     deallocate(work, stat=deallocation_status)
 404 continue
