@@ -439,7 +439,7 @@ pure subroutine mfi_sgetrf(a, ipiv, info)
     integer, intent(out), optional, target :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    integer :: m, n, lda, allocation_status, deallocation_status
     integer, pointer :: local_ipiv(:)
     lda = max(1,size(a,1))
     m = size(a,1)
@@ -470,7 +470,7 @@ pure subroutine mfi_dgetrf(a, ipiv, info)
     integer, intent(out), optional, target :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    integer :: m, n, lda, allocation_status, deallocation_status
     integer, pointer :: local_ipiv(:)
     lda = max(1,size(a,1))
     m = size(a,1)
@@ -501,7 +501,7 @@ pure subroutine mfi_cgetrf(a, ipiv, info)
     integer, intent(out), optional, target :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    integer :: m, n, lda, allocation_status, deallocation_status
     integer, pointer :: local_ipiv(:)
     lda = max(1,size(a,1))
     m = size(a,1)
@@ -532,7 +532,7 @@ pure subroutine mfi_zgetrf(a, ipiv, info)
     integer, intent(out), optional, target :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    integer :: m, n, lda, allocation_status, deallocation_status
     integer, pointer :: local_ipiv(:)
     lda = max(1,size(a,1))
     m = size(a,1)
@@ -571,7 +571,7 @@ pure subroutine mfi_sgetri(a, ipiv, info)
     lwork = -1
     call f77_getri(n,a,lda,ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_getri(n,a,lda,ipiv,work,lwork,local_info)
@@ -600,7 +600,7 @@ pure subroutine mfi_dgetri(a, ipiv, info)
     lwork = -1
     call f77_getri(n,a,lda,ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_getri(n,a,lda,ipiv,work,lwork,local_info)
@@ -629,7 +629,7 @@ pure subroutine mfi_cgetri(a, ipiv, info)
     lwork = -1
     call f77_getri(n,a,lda,ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_getri(n,a,lda,ipiv,work,lwork,local_info)
@@ -658,7 +658,7 @@ pure subroutine mfi_zgetri(a, ipiv, info)
     lwork = -1
     call f77_getri(n,a,lda,ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_getri(n,a,lda,ipiv,work,lwork,local_info)
@@ -805,13 +805,13 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     lwork = -1
     call f77_hetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=allocation_status)
+    deallocate(work, stat=deallocation_status)
 404 continue
     if (.not. present(ipiv)) then
         info = local_info
@@ -847,13 +847,13 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     lwork = -1
     call f77_hetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
-    lwork = s_work(1)
+    lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=allocation_status)
+    deallocate(work, stat=deallocation_status)
 404 continue
     if (.not. present(ipiv)) then
         info = local_info
@@ -1176,7 +1176,7 @@ pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
     end if
 
     if (present(ww)) then
-        ww = work(2:min(m,n)-1)
+        ww = real(work(2:min(m,n)-1))
     end if
     deallocate(work, stat=deallocation_status)
 404 continue
@@ -1263,7 +1263,7 @@ pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
     end if
 
     if (present(ww)) then
-        ww = work(2:min(m,n)-1)
+        ww = real(work(2:min(m,n)-1))
     end if
     deallocate(work, stat=deallocation_status)
 404 continue
@@ -1352,7 +1352,7 @@ pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
     end if
 
     if (present(ww)) then
-        ww = work(2:min(m,n)-1)
+        ww = real(work(2:min(m,n)-1))
     end if
     deallocate(work, stat=deallocation_status)
 404 continue
@@ -1442,7 +1442,7 @@ pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
     end if
 
     if (present(ww)) then
-        ww = work(2:min(m,n)-1)
+        ww = real(work(2:min(m,n)-1))
     end if
     deallocate(work, stat=deallocation_status)
 404 continue
