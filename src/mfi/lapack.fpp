@@ -1,7 +1,7 @@
 #:mute
 #:include "common.fpp"
 
-#:def geqrf_gerqf(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def geqrf_gerqf(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
 pure subroutine ${MFI_NAME}$(a, tau, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,      inout, a(:,:))
@@ -48,7 +48,7 @@ pure subroutine ${MFI_NAME}$(a, tau, info)
 end subroutine
 #:enddef
 
-#:def getrf(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def getrf(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
 pure subroutine ${MFI_NAME}$(a, ipiv, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,      inout, a(:,:))
@@ -81,7 +81,7 @@ pure subroutine ${MFI_NAME}$(a, ipiv, info)
 end subroutine
 #:enddef
 
-#:def getri(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def getri(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
 pure subroutine ${MFI_NAME}$(a, ipiv, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, inout, a(:,:))
@@ -112,7 +112,7 @@ pure subroutine ${MFI_NAME}$(a, ipiv, info)
 end subroutine
 #:enddef
 
-#:def getrs(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def getrs(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
 pure subroutine ${MFI_NAME}$(a,ipiv,b,trans,info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, inout, a(:,:))
@@ -135,7 +135,7 @@ pure subroutine ${MFI_NAME}$(a,ipiv,b,trans,info)
 end subroutine
 #:enddef
 
-#:def hetrf(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def hetrf(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
 pure subroutine ${MFI_NAME}$(a, uplo, ipiv, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,  inout, a(:,:))
@@ -174,7 +174,7 @@ pure subroutine ${MFI_NAME}$(a, uplo, ipiv, info)
 end subroutine
 #:enddef
 
-#:def gesvd(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def gesvd(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
 pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,      inout, a(:,:))
@@ -265,7 +265,7 @@ pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
 end subroutine
 #:enddef
 
-#:def hegv(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def hegv(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
 pure subroutine ${MFI_NAME}$(a, b, w, itype, jobz, uplo, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, inout, a(:,:), b(:,:))
@@ -306,7 +306,7 @@ pure subroutine ${MFI_NAME}$(a, b, w, itype, jobz, uplo, info)
 end subroutine
 #:enddef
 
-#:def heevd(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def heevd(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
 pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, inout, a(:,:))
@@ -357,7 +357,7 @@ pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, info)
 end subroutine
 #:enddef
 
-#:def potrf_potri(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def potrf_potri(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
 pure subroutine ${MFI_NAME}$(a, info, uplo)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, inout, a(:,:))
@@ -376,7 +376,7 @@ pure subroutine ${MFI_NAME}$(a, info, uplo)
 end subroutine
 #:enddef
 
-#:def potrs(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def potrs(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
 pure subroutine ${MFI_NAME}$(a, b, uplo, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,    in, a(:,:))

@@ -419,6 +419,21 @@ $:f77_interface('?syr2k', REAL_TYPES,    syr2k)
 $:f77_interface('?trmm',  DEFAULT_TYPES, trmm_trsm)
 $:f77_interface('?trsm',  DEFAULT_TYPES, trmm_trsm)
 
+
+! Specific interfaces for slamch and dlamch 
+! as fortran can't differentiate them by the return kind
+interface
+    pure real(REAL32) function slamch(cmach)
+        import :: REAL32
+        character, intent(in) :: cmach
+    end function
+
+    pure real(REAL64) function dlamch(cmach)
+        import :: REAL64
+        character, intent(in) :: cmach
+    end function
+end interface
+
 ! Extensions
 ! BLAS Level 1 - Utils / Extensions
 $:f77_interface('i?amax', DEFAULT_TYPES, iamax_iamin)
@@ -433,5 +448,6 @@ contains
 $:f77_implement('i?amin', DEFAULT_TYPES, iamin_stub)
   #:endif
 #:endif
+
 end module
 

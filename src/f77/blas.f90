@@ -1511,6 +1511,21 @@ pure subroutine ztrsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
 end subroutine
 end interface
 
+
+! Specific interfaces for slamch and dlamch 
+! as fortran can't differentiate them by the return kind
+interface
+    pure real(REAL32) function slamch(cmach)
+        import :: REAL32
+        character, intent(in) :: cmach
+    end function
+
+    pure real(REAL64) function dlamch(cmach)
+        import :: REAL64
+        character, intent(in) :: cmach
+    end function
+end interface
+
 ! Extensions
 ! BLAS Level 1 - Utils / Extensions
 interface f77_iamax
@@ -1607,5 +1622,6 @@ pure function izamin(n, x, incx)
     end if
     izamin = minloc(abs(real(x(1:n:incx))) + abs(aimag(x(1:n:incx))),dim=1)
 end function
+
 end module
 
