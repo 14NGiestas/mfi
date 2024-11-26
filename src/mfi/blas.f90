@@ -4441,17 +4441,21 @@ pure function mfi_izamin(x, incx)
     n = size(x)
     mfi_izamin = f77_iamin(n,x,local_incx)
 end function
-pure subroutine mfi_slamch(cmach, res)
+pure function mfi_slamch(cmach, kind) result(res)
     integer, parameter :: wp = REAL32
-    real(wp), intent(out) :: res
     character, intent(in) :: cmach
+    real(wp), intent(in) :: kind
+    !! Just a kind placeholder
+    real(wp) :: res
     res = slamch(cmach)
-end subroutine
-pure subroutine mfi_dlamch(cmach, res)
+end function
+pure function mfi_dlamch(cmach, kind) result(res)
     integer, parameter :: wp = REAL64
-    real(wp), intent(out) :: res
     character, intent(in) :: cmach
+    real(wp), intent(in) :: kind
+    !! Just a kind placeholder
+    real(wp) :: res
     res = dlamch(cmach)
-end subroutine
+end function
 
 end module

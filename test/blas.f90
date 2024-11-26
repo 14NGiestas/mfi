@@ -10,6 +10,8 @@ program test_mfi_blas
     real(REAL64) :: alpha, beta
     integer :: i, j, k
 
+    ! Auxiliary
+    call test_lamch
     ! BLAS 1
     call test_axpy
     call test_copy
@@ -287,6 +289,14 @@ call cpu_time(t2)
 print '(A,G0)', "time matmul,   transpose(A): ", t2-t1
 end block
         call assert(all(is_almost_equal(Y,Z)))
+    end subroutine
+
+    subroutine test_lamch
+        real(REAL32) :: sa
+        real(REAL64) :: da
+        sa = mfi_lamch('E',1.0_REAL32)
+        da = mfi_lamch('E',1.0_REAL64)
+        call assert(sa > da)
     end subroutine
 
     pure subroutine assert(test)

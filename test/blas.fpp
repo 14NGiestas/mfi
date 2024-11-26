@@ -11,6 +11,8 @@ program test_mfi_blas
     real(REAL64) :: alpha, beta
     integer :: i, j, k
 
+    ! Auxiliary
+    call test_lamch
     ! BLAS 1
     call test_axpy
     call test_copy
@@ -118,6 +120,14 @@ contains
         @:timeit("time mfi_gemv, trans=T:      ", { call mfi_gemv(A,X,Y,trans='T') })
         @:timeit("time matmul,   transpose(A): ", { Z = matmul(transpose(A),X)     })
         call assert(all(is_almost_equal(Y,Z)))
+    end subroutine
+
+    subroutine test_lamch
+        real(REAL32) :: sa
+        real(REAL64) :: da
+        sa = mfi_lamch('E',1.0_REAL32)
+        da = mfi_lamch('E',1.0_REAL64)
+        call assert(sa > da)
     end subroutine
 
     pure subroutine assert(test)

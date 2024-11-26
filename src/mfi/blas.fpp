@@ -2,12 +2,14 @@
 #:include "common.fpp"
 
 #:def lamch(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
-pure subroutine ${MFI_NAME}$(cmach, res)
+pure function ${MFI_NAME}$(cmach, kind) result(res)
 @:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, out, res)
 @:args(character, in, cmach)
+@:args(${TYPE}$, in, kind)
+    !! Just a kind placeholder
+    ${TYPE}$ :: res
     res = ${ORIGINAL_NAME}$(cmach)
-end subroutine
+end function
 #:enddef
 
 #:def axpy(MFI_NAME,F77_NAME,TYPE,KIND,ORIGINAL_NAME)
