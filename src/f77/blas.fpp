@@ -443,5 +443,18 @@ contains
 $:f77_implement('i?amin', DEFAULT_TYPES, iamin_stub)
   #:endif
 #:endif
+
+interface
+    pure real(REAL32) function slamch(cmach)
+        import :: REAL32
+        character, intent(in) :: cmach
+    end function
+
+    pure real(REAL64) function dlamch(cmach)
+        import :: REAL64
+        character, intent(in) :: cmach
+    end function
+end interface
+
 end module
 

@@ -68,7 +68,7 @@
 #:set F77_NAME = f"f77_{name.replace('?','')}"
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
 #:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
-$:code(MFI_NAME,F77_NAME,TYPE,KIND)
+$:code(MFI_NAME,F77_NAME,TYPE,KIND,name.replace('?',PREFIX))
 #:endfor
 #:enddef
 
