@@ -171,6 +171,7 @@ Again, BLAS level 1 routines can be replaced by intrinsincs and other features i
 | ----- | ----- | -------------------------------------------------------- | ------------------- |
 | :+1:  | iamax | Index of the maximum absolute value element of a vector  | [maxval](https://gcc.gnu.org/onlinedocs/gfortran/MAXVAL.html), [maxloc](https://gcc.gnu.org/onlinedocs/gfortran/MAXLOC.html) |
 | :+1:  | iamin | Index of the minimum absolute value element of a vector  | [minval](https://gcc.gnu.org/onlinedocs/gfortran/MINVAL.html), [minloc](https://gcc.gnu.org/onlinedocs/gfortran/MINLOC.html) |
+| :+1:  | lamch | Determines single precision machine parameters.          | [huge](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/huge.html), [tiny](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/tiny.html), [epsilon](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/epsilon.html) |
 
 ### LAPACK
 #### Linear Equation Routines
