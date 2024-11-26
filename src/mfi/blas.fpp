@@ -463,7 +463,6 @@ module mfi_blas
 use iso_fortran_env
 use f77_blas
 use f77_blas, only: mfi_rotmg => f77_rotmg
-use f77_blas, only: mfi_lamch => f77_lamch
 implicit none
 
 ! BLAS level 1

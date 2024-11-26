@@ -1,15 +1,6 @@
 #:mute
 #:include "common.fpp"
 
-#:def lamch(NAME,TYPE,KIND)
-pure function ${NAME}$(cmach)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-    ${TYPE}$ :: ${NAME}$
-@:args(character, in, cmach)
-end function
-#:enddef
-
 #:def asum(NAME,TYPE,KIND)
 pure function ${NAME}$(n, x, incx)
     import :: ${KIND}$
@@ -430,7 +421,6 @@ $:f77_interface('?trsm',  DEFAULT_TYPES, trmm_trsm)
 
 ! Extensions
 ! BLAS Level 1 - Utils / Extensions
-$:f77_interface('?lamch', REAL_TYPES, lamch)
 $:f77_interface('i?amax', DEFAULT_TYPES, iamax_iamin)
 #:if defined('MFI_EXTENSIONS')
   #:if defined('MFI_LINK_EXTERNAL')
