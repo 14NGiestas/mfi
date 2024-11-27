@@ -93,7 +93,7 @@ pure subroutine mfi_sgeqrf(a, tau, info)
     end if
     ! Retrieve work array size
     lwork = -1
-    call f77_geqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    call sgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
 
     lwork = int(s_work(1))
@@ -101,7 +101,7 @@ pure subroutine mfi_sgeqrf(a, tau, info)
         allocate(work(lwork), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_geqrf(m,n,a,lda,local_tau,work,lwork,local_info)
+        call sgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -115,7 +115,7 @@ pure subroutine mfi_sgeqrf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_geqrf', -local_info)
+        call mfi_error('sgeqrf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_dgeqrf(a, tau, info)
@@ -138,7 +138,7 @@ pure subroutine mfi_dgeqrf(a, tau, info)
     end if
     ! Retrieve work array size
     lwork = -1
-    call f77_geqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    call dgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
 
     lwork = int(s_work(1))
@@ -146,7 +146,7 @@ pure subroutine mfi_dgeqrf(a, tau, info)
         allocate(work(lwork), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_geqrf(m,n,a,lda,local_tau,work,lwork,local_info)
+        call dgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -160,7 +160,7 @@ pure subroutine mfi_dgeqrf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_geqrf', -local_info)
+        call mfi_error('dgeqrf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_cgeqrf(a, tau, info)
@@ -183,7 +183,7 @@ pure subroutine mfi_cgeqrf(a, tau, info)
     end if
     ! Retrieve work array size
     lwork = -1
-    call f77_geqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    call cgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
 
     lwork = int(s_work(1))
@@ -191,7 +191,7 @@ pure subroutine mfi_cgeqrf(a, tau, info)
         allocate(work(lwork), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_geqrf(m,n,a,lda,local_tau,work,lwork,local_info)
+        call cgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -205,7 +205,7 @@ pure subroutine mfi_cgeqrf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_geqrf', -local_info)
+        call mfi_error('cgeqrf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_zgeqrf(a, tau, info)
@@ -228,7 +228,7 @@ pure subroutine mfi_zgeqrf(a, tau, info)
     end if
     ! Retrieve work array size
     lwork = -1
-    call f77_geqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    call zgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
 
     lwork = int(s_work(1))
@@ -236,7 +236,7 @@ pure subroutine mfi_zgeqrf(a, tau, info)
         allocate(work(lwork), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_geqrf(m,n,a,lda,local_tau,work,lwork,local_info)
+        call zgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -250,7 +250,7 @@ pure subroutine mfi_zgeqrf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_geqrf', -local_info)
+        call mfi_error('zgeqrf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_sgerqf(a, tau, info)
@@ -273,7 +273,7 @@ pure subroutine mfi_sgerqf(a, tau, info)
     end if
     ! Retrieve work array size
     lwork = -1
-    call f77_gerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    call sgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
 
     lwork = int(s_work(1))
@@ -281,7 +281,7 @@ pure subroutine mfi_sgerqf(a, tau, info)
         allocate(work(lwork), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_gerqf(m,n,a,lda,local_tau,work,lwork,local_info)
+        call sgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -295,7 +295,7 @@ pure subroutine mfi_sgerqf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gerqf', -local_info)
+        call mfi_error('sgerqf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_dgerqf(a, tau, info)
@@ -318,7 +318,7 @@ pure subroutine mfi_dgerqf(a, tau, info)
     end if
     ! Retrieve work array size
     lwork = -1
-    call f77_gerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    call dgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
 
     lwork = int(s_work(1))
@@ -326,7 +326,7 @@ pure subroutine mfi_dgerqf(a, tau, info)
         allocate(work(lwork), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_gerqf(m,n,a,lda,local_tau,work,lwork,local_info)
+        call dgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -340,7 +340,7 @@ pure subroutine mfi_dgerqf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gerqf', -local_info)
+        call mfi_error('dgerqf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_cgerqf(a, tau, info)
@@ -363,7 +363,7 @@ pure subroutine mfi_cgerqf(a, tau, info)
     end if
     ! Retrieve work array size
     lwork = -1
-    call f77_gerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    call cgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
 
     lwork = int(s_work(1))
@@ -371,7 +371,7 @@ pure subroutine mfi_cgerqf(a, tau, info)
         allocate(work(lwork), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_gerqf(m,n,a,lda,local_tau,work,lwork,local_info)
+        call cgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -385,7 +385,7 @@ pure subroutine mfi_cgerqf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gerqf', -local_info)
+        call mfi_error('cgerqf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_zgerqf(a, tau, info)
@@ -408,7 +408,7 @@ pure subroutine mfi_zgerqf(a, tau, info)
     end if
     ! Retrieve work array size
     lwork = -1
-    call f77_gerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
+    call zgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
 
     lwork = int(s_work(1))
@@ -416,7 +416,7 @@ pure subroutine mfi_zgerqf(a, tau, info)
         allocate(work(lwork), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_gerqf(m,n,a,lda,local_tau,work,lwork,local_info)
+        call zgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -430,7 +430,7 @@ pure subroutine mfi_zgerqf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gerqf', -local_info)
+        call mfi_error('zgerqf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_sgetrf(a, ipiv, info)
@@ -451,7 +451,7 @@ pure subroutine mfi_sgetrf(a, ipiv, info)
         allocate(local_ipiv(min(m,n)), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_getrf(m,n,a,lda,local_ipiv,local_info)
+        call sgetrf(m,n,a,lda,local_ipiv,local_info)
     else
         local_info = -1000
     end if
@@ -461,7 +461,7 @@ pure subroutine mfi_sgetrf(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrf', -local_info)
+        call mfi_error('sgetrf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_dgetrf(a, ipiv, info)
@@ -482,7 +482,7 @@ pure subroutine mfi_dgetrf(a, ipiv, info)
         allocate(local_ipiv(min(m,n)), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_getrf(m,n,a,lda,local_ipiv,local_info)
+        call dgetrf(m,n,a,lda,local_ipiv,local_info)
     else
         local_info = -1000
     end if
@@ -492,7 +492,7 @@ pure subroutine mfi_dgetrf(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrf', -local_info)
+        call mfi_error('dgetrf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_cgetrf(a, ipiv, info)
@@ -513,7 +513,7 @@ pure subroutine mfi_cgetrf(a, ipiv, info)
         allocate(local_ipiv(min(m,n)), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_getrf(m,n,a,lda,local_ipiv,local_info)
+        call cgetrf(m,n,a,lda,local_ipiv,local_info)
     else
         local_info = -1000
     end if
@@ -523,7 +523,7 @@ pure subroutine mfi_cgetrf(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrf', -local_info)
+        call mfi_error('cgetrf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_zgetrf(a, ipiv, info)
@@ -544,7 +544,7 @@ pure subroutine mfi_zgetrf(a, ipiv, info)
         allocate(local_ipiv(min(m,n)), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_getrf(m,n,a,lda,local_ipiv,local_info)
+        call zgetrf(m,n,a,lda,local_ipiv,local_info)
     else
         local_info = -1000
     end if
@@ -554,7 +554,7 @@ pure subroutine mfi_zgetrf(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrf', -local_info)
+        call mfi_error('zgetrf', -local_info)
     end if
 end subroutine
 pure subroutine mfi_sgetri(a, ipiv, info)
@@ -569,12 +569,12 @@ pure subroutine mfi_sgetri(a, ipiv, info)
     lda = max(1,size(a,1))
     n = size(a,2)
     lwork = -1
-    call f77_getri(n,a,lda,ipiv,s_work,lwork,local_info)
+    call sgetri(n,a,lda,ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
     lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
-        call f77_getri(n,a,lda,ipiv,work,lwork,local_info)
+        call sgetri(n,a,lda,ipiv,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -583,7 +583,7 @@ pure subroutine mfi_sgetri(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getri',-local_info)
+        call mfi_error('sgetri',-local_info)
     end if
 end subroutine
 pure subroutine mfi_dgetri(a, ipiv, info)
@@ -598,12 +598,12 @@ pure subroutine mfi_dgetri(a, ipiv, info)
     lda = max(1,size(a,1))
     n = size(a,2)
     lwork = -1
-    call f77_getri(n,a,lda,ipiv,s_work,lwork,local_info)
+    call dgetri(n,a,lda,ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
     lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
-        call f77_getri(n,a,lda,ipiv,work,lwork,local_info)
+        call dgetri(n,a,lda,ipiv,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -612,7 +612,7 @@ pure subroutine mfi_dgetri(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getri',-local_info)
+        call mfi_error('dgetri',-local_info)
     end if
 end subroutine
 pure subroutine mfi_cgetri(a, ipiv, info)
@@ -627,12 +627,12 @@ pure subroutine mfi_cgetri(a, ipiv, info)
     lda = max(1,size(a,1))
     n = size(a,2)
     lwork = -1
-    call f77_getri(n,a,lda,ipiv,s_work,lwork,local_info)
+    call cgetri(n,a,lda,ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
     lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
-        call f77_getri(n,a,lda,ipiv,work,lwork,local_info)
+        call cgetri(n,a,lda,ipiv,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -641,7 +641,7 @@ pure subroutine mfi_cgetri(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getri',-local_info)
+        call mfi_error('cgetri',-local_info)
     end if
 end subroutine
 pure subroutine mfi_zgetri(a, ipiv, info)
@@ -656,12 +656,12 @@ pure subroutine mfi_zgetri(a, ipiv, info)
     lda = max(1,size(a,1))
     n = size(a,2)
     lwork = -1
-    call f77_getri(n,a,lda,ipiv,s_work,lwork,local_info)
+    call zgetri(n,a,lda,ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
     lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
-        call f77_getri(n,a,lda,ipiv,work,lwork,local_info)
+        call zgetri(n,a,lda,ipiv,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -670,7 +670,7 @@ pure subroutine mfi_zgetri(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getri',-local_info)
+        call mfi_error('zgetri',-local_info)
     end if
 end subroutine
 pure subroutine mfi_sgetrs(a,ipiv,b,trans,info)
@@ -692,11 +692,11 @@ pure subroutine mfi_sgetrs(a,ipiv,b,trans,info)
     ldb = max(1,size(b,1))
     n = size(a,2)
     nrhs = size(b,2)
-    call f77_getrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
+    call sgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrs',-local_info)
+        call mfi_error('sgetrs',-local_info)
     end if
 end subroutine
 pure subroutine mfi_dgetrs(a,ipiv,b,trans,info)
@@ -718,11 +718,11 @@ pure subroutine mfi_dgetrs(a,ipiv,b,trans,info)
     ldb = max(1,size(b,1))
     n = size(a,2)
     nrhs = size(b,2)
-    call f77_getrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
+    call dgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrs',-local_info)
+        call mfi_error('dgetrs',-local_info)
     end if
 end subroutine
 pure subroutine mfi_cgetrs(a,ipiv,b,trans,info)
@@ -744,11 +744,11 @@ pure subroutine mfi_cgetrs(a,ipiv,b,trans,info)
     ldb = max(1,size(b,1))
     n = size(a,2)
     nrhs = size(b,2)
-    call f77_getrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
+    call cgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrs',-local_info)
+        call mfi_error('cgetrs',-local_info)
     end if
 end subroutine
 pure subroutine mfi_zgetrs(a,ipiv,b,trans,info)
@@ -770,11 +770,11 @@ pure subroutine mfi_zgetrs(a,ipiv,b,trans,info)
     ldb = max(1,size(b,1))
     n = size(a,2)
     nrhs = size(b,2)
-    call f77_getrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
+    call zgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrs',-local_info)
+        call mfi_error('zgetrs',-local_info)
     end if
 end subroutine
 pure subroutine mfi_chetrf(a, uplo, ipiv, info)
@@ -803,7 +803,7 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
         allocate(local_ipiv(n), stat=allocation_status)
     end if
     lwork = -1
-    call f77_hetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
+    call chetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
     lwork = int(s_work(1))
     if (allocation_status == 0) then
@@ -816,7 +816,7 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     if (.not. present(ipiv)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_hetrf',-local_info)
+        call mfi_error('chetrf',-local_info)
     end if
 end subroutine
 pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
@@ -845,7 +845,7 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
         allocate(local_ipiv(n), stat=allocation_status)
     end if
     lwork = -1
-    call f77_hetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
+    call zhetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
     if (local_info /= 0) goto 404
     lwork = int(s_work(1))
     if (allocation_status == 0) then
@@ -858,7 +858,7 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     if (.not. present(ipiv)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_hetrf',-local_info)
+        call mfi_error('zhetrf',-local_info)
     end if
 end subroutine
 pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
@@ -899,14 +899,14 @@ pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
     allocation_status = 0
     allocate(rwork(max(1,3*N-2)), stat=allocation_status)
     lwork = -1
-    call f77_hegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
+    call chegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
     if (local_info /= 0) goto 404
     lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_hegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,work,lwork,rwork,local_info)
+        call chegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,work,lwork,rwork,local_info)
     else
         local_info = -1000
     end if
@@ -916,7 +916,7 @@ pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_hegv', -local_info)
+        call mfi_error('chegv', -local_info)
     end if
 end subroutine
 pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
@@ -957,14 +957,14 @@ pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
     allocation_status = 0
     allocate(rwork(max(1,3*N-2)), stat=allocation_status)
     lwork = -1
-    call f77_hegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
+    call zhegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
     if (local_info /= 0) goto 404
     lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        call f77_hegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,work,lwork,rwork,local_info)
+        call zhegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,work,lwork,rwork,local_info)
     else
         local_info = -1000
     end if
@@ -974,7 +974,7 @@ pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_hegv', -local_info)
+        call mfi_error('zhegv', -local_info)
     end if
 end subroutine
 pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
@@ -1011,7 +1011,7 @@ pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
     lrwork = -1
     liwork = -1
 
-    call f77_heevd(local_jobz,local_uplo,n,a,lda,w, &
+    call cheevd(local_jobz,local_uplo,n,a,lda,w, &
                       s_work,lwork,s_rwork,lrwork,s_iwork,liwork,local_info)
     if (local_info /= 0) goto 404
     lwork  = int(s_work(1))
@@ -1023,7 +1023,7 @@ pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
     if (allocation_status == 0) then
         allocate(rwork(lrwork), stat=allocation_status)
         allocate(work(lwork),   stat=allocation_status)
-        call f77_heevd(local_jobz,local_uplo,n,a,lda,w, &
+        call cheevd(local_jobz,local_uplo,n,a,lda,w, &
                       work,lwork,rwork,lrwork,iwork,liwork,local_info)
     else
         local_info = -1000
@@ -1035,7 +1035,7 @@ pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_heevd', -local_info)
+        call mfi_error('cheevd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
@@ -1072,7 +1072,7 @@ pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
     lrwork = -1
     liwork = -1
 
-    call f77_heevd(local_jobz,local_uplo,n,a,lda,w, &
+    call zheevd(local_jobz,local_uplo,n,a,lda,w, &
                       s_work,lwork,s_rwork,lrwork,s_iwork,liwork,local_info)
     if (local_info /= 0) goto 404
     lwork  = int(s_work(1))
@@ -1084,7 +1084,7 @@ pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
     if (allocation_status == 0) then
         allocate(rwork(lrwork), stat=allocation_status)
         allocate(work(lwork),   stat=allocation_status)
-        call f77_heevd(local_jobz,local_uplo,n,a,lda,w, &
+        call zheevd(local_jobz,local_uplo,n,a,lda,w, &
                       work,lwork,rwork,lrwork,iwork,liwork,local_info)
     else
         local_info = -1000
@@ -1096,7 +1096,7 @@ pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_heevd', -local_info)
+        call mfi_error('zheevd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
@@ -1163,14 +1163,14 @@ pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
     end if
     allocation_status = 0
     lwork = -1
-    call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,local_info)
+    call sgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,local_info)
     if (local_info /= 0) then
         goto 404
     end if
     lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
-        call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
+        call sgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -1183,7 +1183,7 @@ pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gesvd', -local_info)
+        call mfi_error('sgesvd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
@@ -1250,14 +1250,14 @@ pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
     end if
     allocation_status = 0
     lwork = -1
-    call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,local_info)
+    call dgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,local_info)
     if (local_info /= 0) then
         goto 404
     end if
     lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
-        call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
+        call dgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
     else
         local_info = -1000
     end if
@@ -1270,7 +1270,7 @@ pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gesvd', -local_info)
+        call mfi_error('dgesvd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
@@ -1339,14 +1339,14 @@ pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
     allocation_status = 0
     lwork = -1
     allocate(rwork(5*min(m,n)), stat=allocation_status)
-    call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,rwork,local_info)
+    call cgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,rwork,local_info)
     if (local_info /= 0) then
         goto 404
     end if
     lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
-        call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)
+        call cgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)
     else
         local_info = -1000
     end if
@@ -1360,7 +1360,7 @@ pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gesvd', -local_info)
+        call mfi_error('cgesvd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
@@ -1429,14 +1429,14 @@ pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
     allocation_status = 0
     lwork = -1
     allocate(rwork(5*min(m,n)), stat=allocation_status)
-    call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,rwork,local_info)
+    call zgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,rwork,local_info)
     if (local_info /= 0) then
         goto 404
     end if
     lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
-        call f77_gesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)
+        call zgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)
     else
         local_info = -1000
     end if
@@ -1450,7 +1450,7 @@ pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gesvd', -local_info)
+        call mfi_error('zgesvd', -local_info)
     end if
 end subroutine
 pure subroutine mfi_spotrf(a, info, uplo)
@@ -1468,11 +1468,11 @@ pure subroutine mfi_spotrf(a, info, uplo)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_potrf(local_uplo,n,a,lda,local_info)
+    call spotrf(local_uplo,n,a,lda,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_potrf', local_info)
+        call mfi_error('spotrf', local_info)
     end if
 end subroutine
 pure subroutine mfi_dpotrf(a, info, uplo)
@@ -1490,11 +1490,11 @@ pure subroutine mfi_dpotrf(a, info, uplo)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_potrf(local_uplo,n,a,lda,local_info)
+    call dpotrf(local_uplo,n,a,lda,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_potrf', local_info)
+        call mfi_error('dpotrf', local_info)
     end if
 end subroutine
 pure subroutine mfi_cpotrf(a, info, uplo)
@@ -1512,11 +1512,11 @@ pure subroutine mfi_cpotrf(a, info, uplo)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_potrf(local_uplo,n,a,lda,local_info)
+    call cpotrf(local_uplo,n,a,lda,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_potrf', local_info)
+        call mfi_error('cpotrf', local_info)
     end if
 end subroutine
 pure subroutine mfi_zpotrf(a, info, uplo)
@@ -1534,11 +1534,11 @@ pure subroutine mfi_zpotrf(a, info, uplo)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_potrf(local_uplo,n,a,lda,local_info)
+    call zpotrf(local_uplo,n,a,lda,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_potrf', local_info)
+        call mfi_error('zpotrf', local_info)
     end if
 end subroutine
 pure subroutine mfi_spotri(a, info, uplo)
@@ -1556,11 +1556,11 @@ pure subroutine mfi_spotri(a, info, uplo)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_potri(local_uplo,n,a,lda,local_info)
+    call spotri(local_uplo,n,a,lda,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_potri', local_info)
+        call mfi_error('spotri', local_info)
     end if
 end subroutine
 pure subroutine mfi_dpotri(a, info, uplo)
@@ -1578,11 +1578,11 @@ pure subroutine mfi_dpotri(a, info, uplo)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_potri(local_uplo,n,a,lda,local_info)
+    call dpotri(local_uplo,n,a,lda,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_potri', local_info)
+        call mfi_error('dpotri', local_info)
     end if
 end subroutine
 pure subroutine mfi_cpotri(a, info, uplo)
@@ -1600,11 +1600,11 @@ pure subroutine mfi_cpotri(a, info, uplo)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_potri(local_uplo,n,a,lda,local_info)
+    call cpotri(local_uplo,n,a,lda,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_potri', local_info)
+        call mfi_error('cpotri', local_info)
     end if
 end subroutine
 pure subroutine mfi_zpotri(a, info, uplo)
@@ -1622,11 +1622,11 @@ pure subroutine mfi_zpotri(a, info, uplo)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_potri(local_uplo,n,a,lda,local_info)
+    call zpotri(local_uplo,n,a,lda,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_potri', local_info)
+        call mfi_error('zpotri', local_info)
     end if
 end subroutine
 pure subroutine mfi_spotrs(a, b, uplo, info)
@@ -1647,11 +1647,11 @@ pure subroutine mfi_spotrs(a, b, uplo, info)
     ldb = max(1,size(b,1))
     n = size(a,2)
     nrhs = size(b,2)
-    call f77_potrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
+    call spotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_potrs',-local_info)
+        call mfi_error('spotrs',-local_info)
     end if
 end subroutine
 pure subroutine mfi_dpotrs(a, b, uplo, info)
@@ -1672,11 +1672,11 @@ pure subroutine mfi_dpotrs(a, b, uplo, info)
     ldb = max(1,size(b,1))
     n = size(a,2)
     nrhs = size(b,2)
-    call f77_potrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
+    call dpotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_potrs',-local_info)
+        call mfi_error('dpotrs',-local_info)
     end if
 end subroutine
 pure subroutine mfi_cpotrs(a, b, uplo, info)
@@ -1697,11 +1697,11 @@ pure subroutine mfi_cpotrs(a, b, uplo, info)
     ldb = max(1,size(b,1))
     n = size(a,2)
     nrhs = size(b,2)
-    call f77_potrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
+    call cpotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_potrs',-local_info)
+        call mfi_error('cpotrs',-local_info)
     end if
 end subroutine
 pure subroutine mfi_zpotrs(a, b, uplo, info)
@@ -1722,11 +1722,11 @@ pure subroutine mfi_zpotrs(a, b, uplo, info)
     ldb = max(1,size(b,1))
     n = size(a,2)
     nrhs = size(b,2)
-    call f77_potrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
+    call zpotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_potrs',-local_info)
+        call mfi_error('zpotrs',-local_info)
     end if
 end subroutine
 

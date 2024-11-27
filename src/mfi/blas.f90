@@ -256,7 +256,7 @@ pure subroutine mfi_saxpy(x, y, a, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
+    call saxpy(n,local_a,x,local_incx,y,local_incy)
 end subroutine
 pure subroutine mfi_daxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL64
@@ -285,7 +285,7 @@ pure subroutine mfi_daxpy(x, y, a, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
+    call daxpy(n,local_a,x,local_incx,y,local_incy)
 end subroutine
 pure subroutine mfi_caxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL32
@@ -314,7 +314,7 @@ pure subroutine mfi_caxpy(x, y, a, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
+    call caxpy(n,local_a,x,local_incx,y,local_incy)
 end subroutine
 pure subroutine mfi_zaxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL64
@@ -343,7 +343,7 @@ pure subroutine mfi_zaxpy(x, y, a, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
+    call zaxpy(n,local_a,x,local_incx,y,local_incy)
 end subroutine
 pure subroutine mfi_scopy(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -365,7 +365,7 @@ pure subroutine mfi_scopy(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_copy(n,x,local_incx,y,local_incy)
+    call scopy(n,x,local_incx,y,local_incy)
 end subroutine
 pure subroutine mfi_dcopy(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -387,7 +387,7 @@ pure subroutine mfi_dcopy(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_copy(n,x,local_incx,y,local_incy)
+    call dcopy(n,x,local_incx,y,local_incy)
 end subroutine
 pure subroutine mfi_ccopy(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -409,7 +409,7 @@ pure subroutine mfi_ccopy(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_copy(n,x,local_incx,y,local_incy)
+    call ccopy(n,x,local_incx,y,local_incy)
 end subroutine
 pure subroutine mfi_zcopy(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -431,7 +431,7 @@ pure subroutine mfi_zcopy(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_copy(n,x,local_incx,y,local_incy)
+    call zcopy(n,x,local_incx,y,local_incy)
 end subroutine
 !$:mfi_interface('?dot',   REAL_TYPES)
 !$:mfi_interface('sdsdot', REAL_TYPES)
@@ -456,7 +456,7 @@ pure function mfi_cdotu(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    mfi_cdotu = f77_dotu(n,x,local_incx,y,local_incy)
+    mfi_cdotu = cdotu(n,x,local_incx,y,local_incy)
 end function
 pure function mfi_zdotu(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -479,7 +479,7 @@ pure function mfi_zdotu(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    mfi_zdotu = f77_dotu(n,x,local_incx,y,local_incy)
+    mfi_zdotu = zdotu(n,x,local_incx,y,local_incy)
 end function
 pure function mfi_cdotc(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -502,7 +502,7 @@ pure function mfi_cdotc(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    mfi_cdotc = f77_dotc(n,x,local_incx,y,local_incy)
+    mfi_cdotc = cdotc(n,x,local_incx,y,local_incy)
 end function
 pure function mfi_zdotc(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -525,7 +525,7 @@ pure function mfi_zdotc(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    mfi_zdotc = f77_dotc(n,x,local_incx,y,local_incy)
+    mfi_zdotc = zdotc(n,x,local_incx,y,local_incy)
 end function
 !$:mfi_interface('?nrm2',  DEFAULT_TYPES)
 !$:mfi_interface('?rot',   DEFAULT_TYPES)
@@ -551,7 +551,7 @@ pure subroutine mfi_srotm(x, y, param, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_rotm(n,x,local_incx,y,local_incy,param)
+    call srotm(n,x,local_incx,y,local_incy,param)
 end subroutine
 pure subroutine mfi_drotm(x, y, param, incx, incy)
     integer, parameter :: wp = REAL64
@@ -574,7 +574,7 @@ pure subroutine mfi_drotm(x, y, param, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_rotm(n,x,local_incx,y,local_incy,param)
+    call drotm(n,x,local_incx,y,local_incy,param)
 end subroutine
 !$:mfi_implement('?rotmg', REAL_TYPES, rotmg)
 !$:f77_interface('?scal')
@@ -598,7 +598,7 @@ pure subroutine mfi_sswap(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_swap(n,x,local_incx,y,local_incy)
+    call sswap(n,x,local_incx,y,local_incy)
 end subroutine
 pure subroutine mfi_dswap(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -620,7 +620,7 @@ pure subroutine mfi_dswap(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_swap(n,x,local_incx,y,local_incy)
+    call dswap(n,x,local_incx,y,local_incy)
 end subroutine
 pure subroutine mfi_cswap(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -642,7 +642,7 @@ pure subroutine mfi_cswap(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_swap(n,x,local_incx,y,local_incy)
+    call cswap(n,x,local_incx,y,local_incy)
 end subroutine
 pure subroutine mfi_zswap(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -664,7 +664,7 @@ pure subroutine mfi_zswap(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call f77_swap(n,x,local_incx,y,local_incy)
+    call zswap(n,x,local_incx,y,local_incy)
 end subroutine
 
 ! BLAS level 2
@@ -726,7 +726,7 @@ pure subroutine mfi_sgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
         local_incy = 1
     end if
     ku = lda-local_kl-1
-    call f77_gbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call sgbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_dgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL64
@@ -786,7 +786,7 @@ pure subroutine mfi_dgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
         local_incy = 1
     end if
     ku = lda-local_kl-1
-    call f77_gbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call dgbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_cgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL32
@@ -846,7 +846,7 @@ pure subroutine mfi_cgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
         local_incy = 1
     end if
     ku = lda-local_kl-1
-    call f77_gbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call cgbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_zgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL64
@@ -906,7 +906,7 @@ pure subroutine mfi_zgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
         local_incy = 1
     end if
     ku = lda-local_kl-1
-    call f77_gbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call zgbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -952,7 +952,7 @@ pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call sgemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -998,7 +998,7 @@ pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call dgemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1044,7 +1044,7 @@ pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call cgemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1090,7 +1090,7 @@ pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call zgemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_sger(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1122,7 +1122,7 @@ pure subroutine mfi_sger(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call f77_ger(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call sger(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 pure subroutine mfi_dger(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1154,7 +1154,7 @@ pure subroutine mfi_dger(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call f77_ger(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call dger(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 pure subroutine mfi_cgerc(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1186,7 +1186,7 @@ pure subroutine mfi_cgerc(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call f77_gerc(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call cgerc(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 pure subroutine mfi_zgerc(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1218,7 +1218,7 @@ pure subroutine mfi_zgerc(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call f77_gerc(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call zgerc(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 pure subroutine mfi_cgeru(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1250,7 +1250,7 @@ pure subroutine mfi_cgeru(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call f77_geru(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call cgeru(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 pure subroutine mfi_zgeru(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1282,7 +1282,7 @@ pure subroutine mfi_zgeru(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call f77_geru(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call zgeru(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 pure subroutine mfi_chbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1328,7 +1328,7 @@ pure subroutine mfi_chbmv(a, x, y, uplo, alpha, beta, incx, incy)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_hbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call chbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_zhbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1374,7 +1374,7 @@ pure subroutine mfi_zhbmv(a, x, y, uplo, alpha, beta, incx, incy)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_hbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call zhbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_chemv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1419,7 +1419,7 @@ pure subroutine mfi_chemv(a, x, y, uplo, alpha, beta, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_hemv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call chemv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_zhemv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1464,7 +1464,7 @@ pure subroutine mfi_zhemv(a, x, y, uplo, alpha, beta, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_hemv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call zhemv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_cher(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
@@ -1494,7 +1494,7 @@ pure subroutine mfi_cher(a, x, uplo, alpha, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_her(local_uplo,n,local_alpha,x,local_incx,a,lda)
+    call cher(local_uplo,n,local_alpha,x,local_incx,a,lda)
 end subroutine
 pure subroutine mfi_zher(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
@@ -1524,7 +1524,7 @@ pure subroutine mfi_zher(a, x, uplo, alpha, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_her(local_uplo,n,local_alpha,x,local_incx,a,lda)
+    call zher(local_uplo,n,local_alpha,x,local_incx,a,lda)
 end subroutine
 pure subroutine mfi_cher2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1562,7 +1562,7 @@ pure subroutine mfi_cher2(a, x, y, uplo, alpha, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_her2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call cher2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 pure subroutine mfi_zher2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1600,7 +1600,7 @@ pure subroutine mfi_zher2(a, x, y, uplo, alpha, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_her2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call zher2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 pure subroutine mfi_chpmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1644,7 +1644,7 @@ pure subroutine mfi_chpmv(ap, x, y, uplo, alpha, beta, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call f77_hpmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
+    call chpmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_zhpmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1688,7 +1688,7 @@ pure subroutine mfi_zhpmv(ap, x, y, uplo, alpha, beta, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call f77_hpmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
+    call zhpmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_chpr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
@@ -1717,7 +1717,7 @@ pure subroutine mfi_chpr(ap, x, uplo, alpha, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_hpr(local_uplo,n,local_alpha,x,local_incx,ap)
+    call chpr(local_uplo,n,local_alpha,x,local_incx,ap)
 end subroutine
 pure subroutine mfi_zhpr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
@@ -1746,7 +1746,7 @@ pure subroutine mfi_zhpr(ap, x, uplo, alpha, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_hpr(local_uplo,n,local_alpha,x,local_incx,ap)
+    call zhpr(local_uplo,n,local_alpha,x,local_incx,ap)
 end subroutine
 pure subroutine mfi_chpr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1783,7 +1783,7 @@ pure subroutine mfi_chpr2(ap, x, y, uplo, alpha, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call f77_hpr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
+    call chpr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
 end subroutine
 pure subroutine mfi_zhpr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1820,7 +1820,7 @@ pure subroutine mfi_zhpr2(ap, x, y, uplo, alpha, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call f77_hpr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
+    call zhpr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
 end subroutine
 pure subroutine mfi_ssbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1866,7 +1866,7 @@ pure subroutine mfi_ssbmv(a, x, y, uplo, alpha, beta, incx, incy)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_sbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call ssbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_dsbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1912,7 +1912,7 @@ pure subroutine mfi_dsbmv(a, x, y, uplo, alpha, beta, incx, incy)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_sbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call dsbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_sspmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1956,7 +1956,7 @@ pure subroutine mfi_sspmv(ap, x, y, uplo, alpha, beta, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call f77_spmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
+    call sspmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_dspmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2000,7 +2000,7 @@ pure subroutine mfi_dspmv(ap, x, y, uplo, alpha, beta, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call f77_spmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
+    call dspmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_sspr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
@@ -2029,7 +2029,7 @@ pure subroutine mfi_sspr(ap, x, uplo, alpha, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_spr(local_uplo,n,local_alpha,x,local_incx,ap)
+    call sspr(local_uplo,n,local_alpha,x,local_incx,ap)
 end subroutine
 pure subroutine mfi_dspr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
@@ -2058,7 +2058,7 @@ pure subroutine mfi_dspr(ap, x, uplo, alpha, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_spr(local_uplo,n,local_alpha,x,local_incx,ap)
+    call dspr(local_uplo,n,local_alpha,x,local_incx,ap)
 end subroutine
 pure subroutine mfi_sspr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2095,7 +2095,7 @@ pure subroutine mfi_sspr2(ap, x, y, uplo, alpha, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call f77_spr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
+    call sspr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
 end subroutine
 pure subroutine mfi_dspr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2132,7 +2132,7 @@ pure subroutine mfi_dspr2(ap, x, y, uplo, alpha, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call f77_spr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
+    call dspr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
 end subroutine
 pure subroutine mfi_ssymv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2177,7 +2177,7 @@ pure subroutine mfi_ssymv(a, x, y, uplo, alpha, beta, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_symv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call ssymv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_dsymv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2222,7 +2222,7 @@ pure subroutine mfi_dsymv(a, x, y, uplo, alpha, beta, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_symv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call dsymv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 pure subroutine mfi_ssyr(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
@@ -2252,7 +2252,7 @@ pure subroutine mfi_ssyr(a, x, uplo, alpha, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_syr(local_uplo,n,local_alpha,x,local_incx,a,lda)
+    call ssyr(local_uplo,n,local_alpha,x,local_incx,a,lda)
 end subroutine
 pure subroutine mfi_dsyr(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
@@ -2282,7 +2282,7 @@ pure subroutine mfi_dsyr(a, x, uplo, alpha, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_syr(local_uplo,n,local_alpha,x,local_incx,a,lda)
+    call dsyr(local_uplo,n,local_alpha,x,local_incx,a,lda)
 end subroutine
 pure subroutine mfi_ssyr2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2320,7 +2320,7 @@ pure subroutine mfi_ssyr2(a, x, y, uplo, alpha, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_syr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call ssyr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 pure subroutine mfi_dsyr2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2358,7 +2358,7 @@ pure subroutine mfi_dsyr2(a, x, y, uplo, alpha, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_syr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call dsyr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
 pure subroutine mfi_stbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -2396,7 +2396,7 @@ pure subroutine mfi_stbmv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_tbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call stbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_dtbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -2434,7 +2434,7 @@ pure subroutine mfi_dtbmv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_tbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call dtbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_ctbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -2472,7 +2472,7 @@ pure subroutine mfi_ctbmv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_tbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call ctbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_ztbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -2510,7 +2510,7 @@ pure subroutine mfi_ztbmv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_tbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call ztbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_stbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -2548,7 +2548,7 @@ pure subroutine mfi_stbsv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_tbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call stbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_dtbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -2586,7 +2586,7 @@ pure subroutine mfi_dtbsv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_tbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call dtbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_ctbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -2624,7 +2624,7 @@ pure subroutine mfi_ctbsv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_tbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call ctbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_ztbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -2662,7 +2662,7 @@ pure subroutine mfi_ztbsv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_tbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call ztbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_stpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -2698,7 +2698,7 @@ pure subroutine mfi_stpmv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_tpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call stpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
 pure subroutine mfi_dtpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -2734,7 +2734,7 @@ pure subroutine mfi_dtpmv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_tpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call dtpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
 pure subroutine mfi_ctpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -2770,7 +2770,7 @@ pure subroutine mfi_ctpmv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_tpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call ctpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
 pure subroutine mfi_ztpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -2806,7 +2806,7 @@ pure subroutine mfi_ztpmv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_tpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call ztpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
 pure subroutine mfi_stpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -2842,7 +2842,7 @@ pure subroutine mfi_stpsv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_tpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call stpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
 pure subroutine mfi_dtpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -2878,7 +2878,7 @@ pure subroutine mfi_dtpsv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_tpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call dtpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
 pure subroutine mfi_ctpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -2914,7 +2914,7 @@ pure subroutine mfi_ctpsv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_tpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call ctpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
 pure subroutine mfi_ztpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -2950,7 +2950,7 @@ pure subroutine mfi_ztpsv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call f77_tpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call ztpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
 pure subroutine mfi_strmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -2987,7 +2987,7 @@ pure subroutine mfi_strmv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_trmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call strmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_dtrmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3024,7 +3024,7 @@ pure subroutine mfi_dtrmv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_trmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call dtrmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_ctrmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3061,7 +3061,7 @@ pure subroutine mfi_ctrmv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_trmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call ctrmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_ztrmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3098,7 +3098,7 @@ pure subroutine mfi_ztrmv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_trmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call ztrmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_strsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3135,7 +3135,7 @@ pure subroutine mfi_strsv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_trsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call strsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_dtrsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3172,7 +3172,7 @@ pure subroutine mfi_dtrsv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_trsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call dtrsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_ctrsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3209,7 +3209,7 @@ pure subroutine mfi_ctrsv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_trsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call ctrsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
 pure subroutine mfi_ztrsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3246,7 +3246,7 @@ pure subroutine mfi_ztrsv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call f77_trsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call ztrsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
 
 ! BLAS level 3
@@ -3294,7 +3294,7 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-    call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call sgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -3340,7 +3340,7 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-    call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call dgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -3386,7 +3386,7 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-    call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call cgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -3432,7 +3432,7 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-    call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call zgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_chemm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -3473,7 +3473,7 @@ pure subroutine mfi_chemm(a, b, c, side, uplo, alpha, beta)
     ldc = max(1,size(c,1))
     m = size(c,1)
     n = size(c,2)
-    call f77_hemm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call chemm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_zhemm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -3514,7 +3514,7 @@ pure subroutine mfi_zhemm(a, b, c, side, uplo, alpha, beta)
     ldc = max(1,size(c,1))
     m = size(c,1)
     n = size(c,2)
-    call f77_hemm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call zhemm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_cherk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -3557,7 +3557,7 @@ pure subroutine mfi_cherk(a, c, uplo, trans, alpha, beta)
     end if
     lda = max(1,size(a,1))
     ldc = max(1,size(c,1))
-    call f77_herk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    call cherk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_zherk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -3600,7 +3600,7 @@ pure subroutine mfi_zherk(a, c, uplo, trans, alpha, beta)
     end if
     lda = max(1,size(a,1))
     ldc = max(1,size(c,1))
-    call f77_herk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    call zherk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_cher2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -3645,7 +3645,7 @@ pure subroutine mfi_cher2k(a, b, c, uplo, trans, alpha, beta)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
-    call f77_her2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call cher2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_zher2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -3690,7 +3690,7 @@ pure subroutine mfi_zher2k(a, b, c, uplo, trans, alpha, beta)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
-    call f77_her2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call zher2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_ssymm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -3731,7 +3731,7 @@ pure subroutine mfi_ssymm(a, b, c, side, uplo, alpha, beta)
     ldc = max(1,size(c,1))
     m = size(c,1)
     n = size(c,2)
-    call f77_symm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call ssymm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_dsymm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -3772,7 +3772,7 @@ pure subroutine mfi_dsymm(a, b, c, side, uplo, alpha, beta)
     ldc = max(1,size(c,1))
     m = size(c,1)
     n = size(c,2)
-    call f77_symm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call dsymm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_ssyrk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -3815,7 +3815,7 @@ pure subroutine mfi_ssyrk(a, c, uplo, trans, alpha, beta)
     end if
     lda = max(1,size(a,1))
     ldc = max(1,size(c,1))
-    call f77_syrk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    call ssyrk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_dsyrk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -3858,7 +3858,7 @@ pure subroutine mfi_dsyrk(a, c, uplo, trans, alpha, beta)
     end if
     lda = max(1,size(a,1))
     ldc = max(1,size(c,1))
-    call f77_syrk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    call dsyrk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_ssyr2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -3903,7 +3903,7 @@ pure subroutine mfi_ssyr2k(a, b, c, uplo, trans, alpha, beta)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
-    call f77_syr2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call ssyr2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_dsyr2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -3948,7 +3948,7 @@ pure subroutine mfi_dsyr2k(a, b, c, uplo, trans, alpha, beta)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
-    call f77_syr2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call dsyr2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 pure subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
@@ -3994,7 +3994,7 @@ pure subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call strmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 pure subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
@@ -4040,7 +4040,7 @@ pure subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call dtrmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 pure subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
@@ -4086,7 +4086,7 @@ pure subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call ctrmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 pure subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
@@ -4132,7 +4132,7 @@ pure subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call ztrmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 pure subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
@@ -4178,7 +4178,7 @@ pure subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call f77_trsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call strsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 pure subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
@@ -4224,7 +4224,7 @@ pure subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call f77_trsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call dtrsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 pure subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
@@ -4270,7 +4270,7 @@ pure subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call f77_trsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call ctrsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
@@ -4316,7 +4316,7 @@ pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call f77_trsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call ztrsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 
 ! Extensions
@@ -4334,7 +4334,7 @@ pure function mfi_isamax(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_isamax = f77_iamax(n,x,local_incx)
+    mfi_isamax = isamax(n,x,local_incx)
 end function
 pure function mfi_idamax(x, incx)
     integer, parameter :: wp = REAL64
@@ -4349,7 +4349,7 @@ pure function mfi_idamax(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_idamax = f77_iamax(n,x,local_incx)
+    mfi_idamax = idamax(n,x,local_incx)
 end function
 pure function mfi_icamax(x, incx)
     integer, parameter :: wp = REAL32
@@ -4364,7 +4364,7 @@ pure function mfi_icamax(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_icamax = f77_iamax(n,x,local_incx)
+    mfi_icamax = icamax(n,x,local_incx)
 end function
 pure function mfi_izamax(x, incx)
     integer, parameter :: wp = REAL64
@@ -4379,7 +4379,7 @@ pure function mfi_izamax(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_izamax = f77_iamax(n,x,local_incx)
+    mfi_izamax = izamax(n,x,local_incx)
 end function
 pure function mfi_isamin(x, incx)
     integer, parameter :: wp = REAL32
@@ -4394,7 +4394,7 @@ pure function mfi_isamin(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_isamin = f77_iamin(n,x,local_incx)
+    mfi_isamin = isamin(n,x,local_incx)
 end function
 pure function mfi_idamin(x, incx)
     integer, parameter :: wp = REAL64
@@ -4409,7 +4409,7 @@ pure function mfi_idamin(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_idamin = f77_iamin(n,x,local_incx)
+    mfi_idamin = idamin(n,x,local_incx)
 end function
 pure function mfi_icamin(x, incx)
     integer, parameter :: wp = REAL32
@@ -4424,7 +4424,7 @@ pure function mfi_icamin(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_icamin = f77_iamin(n,x,local_incx)
+    mfi_icamin = icamin(n,x,local_incx)
 end function
 pure function mfi_izamin(x, incx)
     integer, parameter :: wp = REAL64
@@ -4439,7 +4439,7 @@ pure function mfi_izamin(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_izamin = f77_iamin(n,x,local_incx)
+    mfi_izamin = izamin(n,x,local_incx)
 end function
 pure function mfi_slamch(cmach, kind) result(res)
     integer, parameter :: wp = REAL32

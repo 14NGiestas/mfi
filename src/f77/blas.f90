@@ -1704,7 +1704,7 @@ interface f77_trsm
 end interface
 
 
-! Specific interfaces for slamch and dlamch 
+! Specific interfaces for slamch and dlamch
 ! as fortran can't differentiate them by the return kind
 interface
     pure real(REAL32) function slamch(cmach)
