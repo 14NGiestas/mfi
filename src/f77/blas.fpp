@@ -420,7 +420,7 @@ $:f77_interface('?trmm',  DEFAULT_TYPES, trmm_trsm)
 $:f77_interface('?trsm',  DEFAULT_TYPES, trmm_trsm)
 
 
-! Specific interfaces for slamch and dlamch 
+! Specific interfaces for slamch and dlamch
 ! as fortran can't differentiate them by the return kind
 interface
     pure real(REAL32) function slamch(cmach)
