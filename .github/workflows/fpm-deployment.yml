@@ -29,7 +29,8 @@ jobs:
         cp -R test  mfi-fpm
         cp fpm.toml mfi-fpm
         cp LICENSE  mfi-fpm
-        find mfi-fpm -type f ! -name "*.f90" -delete
+        find mfi-fpm/src  -type f ! -name "*.f90" -delete
+        find mfi-fpm/test -type f ! -name "*.f90" -delete
 
     - name: Install GFortran
       run: |
