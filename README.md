@@ -203,6 +203,8 @@ Again, BLAS level 1 routines can be replaced by intrinsincs and other features i
 | :+1: | gesvd | Computes the singular value decomposition of a general rectangular matrix.  |
 | :+1: | heevd | Computes all eigenvalues and, optionally, all eigenvectors of a complex Hermitian matrix using divide and conquer algorithm. |
 | :+1: | hegvd | Computes all eigenvalues and, optionally, all eigenvectors of a complex generalized Hermitian definite eigenproblem using divide and conquer algorithm. |
+| f77  | heevr | Computes the eigenvalues and, optionally, the left and/or right eigenvectors for HE matrices. |
+| f77  | heevx | Computes the eigenvalues and, optionally, the left and/or right eigenvectors for HE matrices. |
 |      | hetrd | Reduces a complex Hermitian matrix to tridiagonal form. |
 |      | orgbr | Generates the real orthogonal matrix Q or PT determined by gebrd. |
 |      | orgtr | Generates the real orthogonal matrix Q determined by sytrd. |
