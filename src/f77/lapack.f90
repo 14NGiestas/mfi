@@ -2,7 +2,7 @@ module f77_lapack
 use iso_fortran_env
 implicit none
 
-interface f77_geqrf
+interface
 pure subroutine sgeqrf(m,n,a,lda,tau,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -52,7 +52,13 @@ pure subroutine zgeqrf(m,n,a,lda,tau,work,lwork,info)
     complex(wp), intent(inout) :: work(*)
 end subroutine
 end interface
-interface f77_gerqf
+interface f77_geqrf
+    procedure :: sgeqrf
+    procedure :: dgeqrf
+    procedure :: cgeqrf
+    procedure :: zgeqrf
+end interface
+interface
 pure subroutine sgerqf(m,n,a,lda,tau,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -102,7 +108,13 @@ pure subroutine zgerqf(m,n,a,lda,tau,work,lwork,info)
     complex(wp), intent(inout) :: work(*)
 end subroutine
 end interface
-interface f77_getrf
+interface f77_gerqf
+    procedure :: sgerqf
+    procedure :: dgerqf
+    procedure :: cgerqf
+    procedure :: zgerqf
+end interface
+interface
 pure subroutine sgetrf(m,n,a,lda,ipiv,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -144,7 +156,13 @@ pure subroutine zgetrf(m,n,a,lda,ipiv,info)
     integer, intent(in) :: lda
 end subroutine
 end interface
-interface f77_getri
+interface f77_getrf
+    procedure :: sgetrf
+    procedure :: dgetrf
+    procedure :: cgetrf
+    procedure :: zgetrf
+end interface
+interface
 pure subroutine sgetri(n,a,lda,ipiv,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -190,7 +208,13 @@ pure subroutine zgetri(n,a,lda,ipiv,work,lwork,info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
-interface f77_getrs
+interface f77_getri
+    procedure :: sgetri
+    procedure :: dgetri
+    procedure :: cgetri
+    procedure :: zgetri
+end interface
+interface
 pure subroutine sgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -244,7 +268,13 @@ pure subroutine zgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     integer, intent(in) :: ldb
 end subroutine
 end interface
-interface f77_hetrf
+interface f77_getrs
+    procedure :: sgetrs
+    procedure :: dgetrs
+    procedure :: cgetrs
+    procedure :: zgetrs
+end interface
+interface
 pure subroutine chetrf(uplo, n, a, lda, ipiv, work, lwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -270,7 +300,11 @@ pure subroutine zhetrf(uplo, n, a, lda, ipiv, work, lwork, info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
-interface f77_hegv
+interface f77_hetrf
+    procedure :: chetrf
+    procedure :: zhetrf
+end interface
+interface
 pure subroutine chegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -306,7 +340,11 @@ pure subroutine zhegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwor
     real(wp), intent(in) :: rwork(*)
 end subroutine
 end interface
-interface f77_heevd
+interface f77_hegv
+    procedure :: chegv
+    procedure :: zhegv
+end interface
+interface
 pure subroutine cheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -342,7 +380,11 @@ pure subroutine zheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwo
     integer, intent(inout) :: iwork(*)
 end subroutine
 end interface
-interface f77_heevx
+interface f77_heevd
+    procedure :: cheevd
+    procedure :: zheevd
+end interface
+interface
 pure subroutine cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
                          work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
     import :: REAL32
@@ -400,7 +442,11 @@ pure subroutine zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
     integer, intent(inout) :: iwork(*)
 end subroutine
 end interface
-interface f77_heevr
+interface f77_heevx
+    procedure :: cheevx
+    procedure :: zheevx
+end interface
+interface
 pure subroutine cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
                          isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
     import :: REAL32
@@ -458,7 +504,11 @@ pure subroutine zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
     integer, intent(inout) :: iwork(*)
 end subroutine
 end interface
-interface f77_gesvd
+interface f77_heevr
+    procedure :: cheevr
+    procedure :: zheevr
+end interface
+interface
 pure subroutine sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -534,7 +584,13 @@ pure subroutine zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,inf
     real(wp), intent(in) :: rwork(*)
 end subroutine
 end interface
-interface f77_potrf
+interface f77_gesvd
+    procedure :: sgesvd
+    procedure :: dgesvd
+    procedure :: cgesvd
+    procedure :: zgesvd
+end interface
+interface
 pure subroutine spotrf(uplo, n, a, lda, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -572,7 +628,13 @@ pure subroutine zpotrf(uplo, n, a, lda, info)
     integer, intent(out) :: info
 end subroutine
 end interface
-interface f77_potri
+interface f77_potrf
+    procedure :: spotrf
+    procedure :: dpotrf
+    procedure :: cpotrf
+    procedure :: zpotrf
+end interface
+interface
 pure subroutine spotri(uplo, n, a, lda, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -610,7 +672,13 @@ pure subroutine zpotri(uplo, n, a, lda, info)
     integer, intent(out) :: info
 end subroutine
 end interface
-interface f77_potrs
+interface f77_potri
+    procedure :: spotri
+    procedure :: dpotri
+    procedure :: cpotri
+    procedure :: zpotri
+end interface
+interface
 pure subroutine spotrs(uplo, n, nrhs, a, lda, b, ldb, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -660,9 +728,15 @@ pure subroutine zpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
     integer, intent(out) :: info
 end subroutine
 end interface
+interface f77_potrs
+    procedure :: spotrs
+    procedure :: dpotrs
+    procedure :: cpotrs
+    procedure :: zpotrs
+end interface
 
 ! Other Auxiliary Routines
-interface f77_lartg
+interface
 pure subroutine slartg(f, g, c, s, r)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -699,6 +773,12 @@ pure subroutine zlartg(f, g, c, s, r)
     complex(wp), intent(inout) :: r
     complex(wp), intent(inout) :: s
 end subroutine
+end interface
+interface f77_lartg
+    procedure :: slartg
+    procedure :: dlartg
+    procedure :: clartg
+    procedure :: zlartg
 end interface
 
     interface f77_xerbla
