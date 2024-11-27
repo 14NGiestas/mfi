@@ -107,6 +107,41 @@ pure subroutine ${NAME}$(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, r
 end subroutine
 #:enddef
 
+#:def heevx(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, a(lda,*), z(ldz, *))
+@:args(${REAL_TYPE}$, out,   w(*))
+@:args(integer,       out,   info)
+@:args(character,     in,    jobz, uplo, range)
+@:args(${REAL_TYPE}$, in,    vl, vu, abstol)
+@:args(integer,       in,    n, m, lda, ldz, il, iu, lwork, lrwork, liwork, ifail)
+@:args(${TYPE}$,      inout, work(*))
+@:args(${REAL_TYPE}$, inout, rwork(*))
+@:args(integer,       inout, iwork(*))
+end subroutine
+#:enddef
+
+#:def heevr(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, a(lda,*), z(ldz, *))
+@:args(${REAL_TYPE}$, out,   w(*))
+@:args(integer,       out,   info)
+@:args(character,     in,    jobz, uplo, range)
+@:args(${REAL_TYPE}$, in,    vl, vu, abstol)
+@:args(integer,       in,    n, m, lda, ldz, il, iu, lwork, lrwork, liwork)
+@:args(integer,       in,    isuppz(*))
+@:args(${TYPE}$,      inout, work(*))
+@:args(${REAL_TYPE}$, inout, rwork(*))
+@:args(integer,       inout, iwork(*))
+end subroutine
+#:enddef
+
 #:def heevd(NAME,TYPE,KIND)
 pure subroutine ${NAME}$(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
     import :: ${KIND}$
@@ -158,6 +193,8 @@ $:f77_interface('?getrs',  DEFAULT_TYPES, getrs)
 $:f77_interface('?hetrf',  COMPLEX_TYPES, hetrf)
 $:f77_interface('?hegv',   COMPLEX_TYPES, hegv)
 $:f77_interface('?heevd',  COMPLEX_TYPES, heevd)
+$:f77_interface('?heevx',  COMPLEX_TYPES, heevx)
+$:f77_interface('?heevr',  COMPLEX_TYPES, heevr)
 $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
 $:f77_interface('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potri',  DEFAULT_TYPES, potrf_potri)

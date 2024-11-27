@@ -342,6 +342,122 @@ pure subroutine zheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwo
     integer, intent(inout) :: iwork(*)
 end subroutine
 end interface
+interface f77_heevx
+pure subroutine cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: z(ldz, *)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(wp), intent(in) :: vl
+    real(wp), intent(in) :: vu
+    real(wp), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: ifail
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
+end subroutine
+pure subroutine zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: z(ldz, *)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(wp), intent(in) :: vl
+    real(wp), intent(in) :: vu
+    real(wp), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: ifail
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
+end subroutine
+end interface
+interface f77_heevr
+pure subroutine cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: z(ldz, *)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(wp), intent(in) :: vl
+    real(wp), intent(in) :: vu
+    real(wp), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: isuppz(*)
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
+end subroutine
+pure subroutine zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: z(ldz, *)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(wp), intent(in) :: vl
+    real(wp), intent(in) :: vu
+    real(wp), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: isuppz(*)
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
+end subroutine
+end interface
 interface f77_gesvd
 pure subroutine sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
     import :: REAL32
