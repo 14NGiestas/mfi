@@ -1,0 +1,16 @@
+#:def gbmv(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, y, kl, m, alpha, beta, trans, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    a(:,:), x(:))
+@:args(${TYPE}$, inout, y(:))
+@:optional(character, in, trans)
+@:optional(${TYPE}$,  in, alpha, beta)
+@:optional(integer,   in, kl, m, incx,  incy)
+    integer :: n, ku, lda
+    n = size(a,2)
+    lda = max(1,size(a,1))
+@:defaults(kl=(lda-1)/2, m=n, trans='N', alpha=1.0_wp, beta=0.0_wp, incx=1, incy=1)
+    ku = lda-local_kl-1
+    call ${F77_NAME}$(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+end subroutine
+#:enddef

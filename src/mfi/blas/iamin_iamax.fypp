@@ -1,0 +1,12 @@
+#:def iamin_iamax(MFI_NAME,F77_NAME,TYPE,KIND)
+pure function ${MFI_NAME}$(x, incx)
+@:parameter(integer, wp=${KIND}$)
+    integer :: ${MFI_NAME}$
+@:args(${TYPE}$, in, x(:))
+@:optional(integer, in, incx)
+    integer :: n
+@:defaults(incx=1)
+    n = size(x)
+    ${MFI_NAME}$ = ${F77_NAME}$(n,x,local_incx)
+end function
+#:enddef

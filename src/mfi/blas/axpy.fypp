@@ -1,0 +1,13 @@
+#:def axpy(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(x, y, a, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:))
+@:args(${TYPE}$, inout, y(:))
+@:optional(${TYPE}$, in, a)
+@:optional(integer, in, incx, incy)
+    integer :: n
+@:defaults(a=1.0_wp, incx=1, incy=1)
+    N = size(X)
+    call ${F77_NAME}$(n,local_a,x,local_incx,y,local_incy)
+end subroutine
+#:enddef

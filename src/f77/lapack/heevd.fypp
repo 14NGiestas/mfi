@@ -1,0 +1,14 @@
+#:def heevd(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, a(lda,*))
+@:args(${REAL_TYPE}$, out,   w(*))
+@:args(integer,       out,   info)
+@:args(character,     in,    jobz, uplo)
+@:args(integer,       in,    n, lda, lwork, lrwork, liwork)
+@:args(${TYPE}$,      inout, work(*))
+@:args(${REAL_TYPE}$, inout, rwork(*))
+@:args(integer,       inout, iwork(*))
+end subroutine
+#:enddef

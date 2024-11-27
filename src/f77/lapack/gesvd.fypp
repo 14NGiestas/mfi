@@ -1,0 +1,20 @@
+#:def gesvd(NAME,TYPE,KIND)
+#:if TYPE == COMPLEX_TYPE
+pure subroutine ${NAME}$(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
+#:else
+pure subroutine ${NAME}$(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+#:endif
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  inout, a(lda,*))
+@:args(${REAL_TYPE}$, out, s(*))
+@:args(${TYPE}$,  out,   u(ldu,*), vt(ldvt,*))
+@:args(integer,   out,   info)
+@:args(character, in,    jobu, jobvt)
+@:args(integer,   in,    m, n, lda, ldu, ldvt, lwork)
+@:args(${TYPE}$,  inout, work(*))
+#:if TYPE == COMPLEX_TYPE
+@:args(${REAL_TYPE}$, in, rwork(*))
+#:endif
+end subroutine
+#:enddef

@@ -1,0 +1,9 @@
+#:def rotmg(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(d1, d2, x1, y1, param)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    y1)
+@:args(${TYPE}$, out,   param(5))
+@:args(${TYPE}$, inout, d1, d2, x1)
+end subroutine
+#:enddef

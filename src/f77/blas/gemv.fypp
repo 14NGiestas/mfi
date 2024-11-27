@@ -1,0 +1,11 @@
+#:def gemv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*), x(*))
+@:args(${TYPE}$,  inout, y(*))
+@:args(character, in,    trans)
+@:args(${TYPE}$,  in,    alpha, beta)
+@:args(integer,   in,    m, n, lda, incx, incy)
+end subroutine
+#:enddef

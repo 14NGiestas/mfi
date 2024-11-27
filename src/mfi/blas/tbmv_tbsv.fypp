@@ -1,0 +1,15 @@
+#:def tbmv_tbsv(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, uplo, trans, diag, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in, a(:,:))
+@:args(${TYPE}$, inout, x(:))
+@:optional(character, in, uplo, trans, diag)
+@:optional(integer,   in, incx)
+    integer :: n, k, lda
+@:defaults(uplo='U', trans='N', diag='N', incx=1)
+    k = size(a,1)-1
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    call ${F77_NAME}$(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+end subroutine
+#:enddef

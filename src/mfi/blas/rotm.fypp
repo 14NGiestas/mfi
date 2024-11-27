@@ -1,0 +1,12 @@
+#:def rotm(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(x, y, param, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, x(:), y(:))
+@:args(${TYPE}$, in, param(5))
+@:optional(integer, in, incx, incy)
+    integer :: n
+@:defaults(incx=1, incy=1)
+    N = size(X)
+    call ${F77_NAME}$(n,x,local_incx,y,local_incy,param)
+end subroutine
+#:enddef

@@ -1,0 +1,22 @@
+#:def syr2k(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, b, c, uplo, trans, alpha, beta)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    a(:,:))
+@:args(${TYPE}$, in,    b(:,:))
+@:args(${TYPE}$, inout, c(:,:))
+@:optional(character, in, trans, uplo)
+@:optional(${TYPE}$,  in, alpha, beta)
+    integer :: n, k, lda, ldb, ldc
+@:defaults(trans='N', uplo='U', alpha=1.0_wp, beta=0.0_wp)
+    n = size(c,2)
+    if (local_trans == 'N' .or. local_trans == 'n') then
+        k = size(a,2)
+    else
+        k = size(a,1)
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    ldc = max(1,size(c,1))
+    call ${F77_NAME}$(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+end subroutine
+#:enddef

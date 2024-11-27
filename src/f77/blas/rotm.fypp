@@ -1,0 +1,9 @@
+#:def rotm(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(n, x, incx, y, incy, param)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, x(*), y(*))
+@:args(${TYPE}$, in, param(5))
+@:args(integer,  in, n, incx, incy)
+end subroutine
+#:enddef

@@ -1,0 +1,11 @@
+#:def syr(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, n, alpha, x, incx, a, lda)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    x(*))
+@:args(${TYPE}$,  inout, a(lda,*))
+@:args(character, in,    uplo)
+@:args(${TYPE}$,  in,    alpha)
+@:args(integer,   in,    n, lda, incx)
+end subroutine
+#:enddef

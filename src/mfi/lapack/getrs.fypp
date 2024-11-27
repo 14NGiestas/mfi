@@ -1,0 +1,22 @@
+#:def getrs(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a,ipiv,b,trans,info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(:,:))
+@:args(${TYPE}$, inout, b(:,:))
+@:args(integer,     in, ipiv(:))
+@:optional(integer, out, info)
+@:optional(character, in, trans)
+    integer :: n, nrhs, lda, ldb
+@:defaults(trans='N')
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call ${F77_NAME}$(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${F77_NAME}$',-local_info)
+    end if
+end subroutine
+#:enddef

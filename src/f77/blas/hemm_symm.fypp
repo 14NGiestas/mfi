@@ -1,0 +1,11 @@
+#:def hemm_symm(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*), b(ldb,*))
+@:args(${TYPE}$,  inout, c(ldc,*))
+@:args(character, in,    side, uplo)
+@:args(${TYPE}$,  in,    alpha, beta)
+@:args(integer,   in,    m, n, lda, ldb, ldc)
+end subroutine
+#:enddef

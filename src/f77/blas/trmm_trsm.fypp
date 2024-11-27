@@ -1,0 +1,11 @@
+#:def trmm_trsm(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*))
+@:args(${TYPE}$,  inout, b(ldb,*))
+@:args(character, in,    side, uplo, transa, diag)
+@:args(${TYPE}$,  in,    alpha)
+@:args(integer,   in,    m, n, lda, ldb)
+end subroutine
+#:enddef

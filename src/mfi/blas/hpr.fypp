@@ -1,0 +1,14 @@
+#:def hpr(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(ap, x, uplo, alpha, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:))
+@:args(${TYPE}$, inout, ap(:))
+@:optional(character, in, uplo)
+@:optional(real(wp),  in, alpha)
+@:optional(integer,   in, incx)
+    integer :: n
+@:defaults(uplo='U', alpha=1.0_wp, incx=1)
+    n = size(x)
+    call ${F77_NAME}$(local_uplo,n,local_alpha,x,local_incx,ap)
+end subroutine
+#:enddef

@@ -1,0 +1,12 @@
+#:def dot_product(MFI_NAME,F77_NAME,TYPE,KIND)
+pure function ${MFI_NAME}$(x, y, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+    ${TYPE}$ :: ${MFI_NAME}$
+@:args(${TYPE}$, in, x(:), y(:))
+    integer :: n
+@:optional(integer, in, incx, incy)
+@:defaults(incx=1, incy=1)
+    N = size(X)
+    ${MFI_NAME}$ = ${F77_NAME}$(n,x,local_incx,y,local_incy)
+end function
+#:enddef

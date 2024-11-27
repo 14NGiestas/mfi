@@ -1,0 +1,16 @@
+#:def trmm_trsm(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    a(:,:))
+@:args(${TYPE}$, inout, b(:,:))
+@:optional(character, in, side, uplo, transa, diag)
+@:optional(${TYPE}$,  in, alpha)
+    integer :: m, n, lda, ldb
+@:defaults(side='L', uplo='U', transa='N', diag='N', alpha=1.0_wp)
+    m = size(b,1)
+    n = size(b,2)
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    call ${F77_NAME}$(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+end subroutine
+#:enddef

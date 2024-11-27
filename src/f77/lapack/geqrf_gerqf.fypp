@@ -1,0 +1,11 @@
+#:def geqrf_gerqf(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(m,n,a,lda,tau,work,lwork,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(lda,*))
+@:args(${TYPE}$,   out, tau(*))
+@:args(integer,    out, info)
+@:args(integer,     in, m, n, lda, lwork)
+@:args(${TYPE}$, inout, work(*))
+end subroutine
+#:enddef

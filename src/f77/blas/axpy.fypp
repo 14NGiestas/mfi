@@ -1,0 +1,9 @@
+#:def axpy(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(n, a, x, incx, y, incy)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(*), a)
+@:args(${TYPE}$, inout, y(*))
+@:args(integer,  in,    n, incx, incy)
+end subroutine
+#:enddef

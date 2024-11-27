@@ -1,0 +1,17 @@
+#:def hemm_symm(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, b, c, side, uplo, alpha, beta)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    a(:,:), b(:,:))
+@:args(${TYPE}$, inout, c(:,:))
+@:optional(character, in, side,  uplo)
+@:optional(${TYPE}$,  in, alpha, beta)
+    integer :: m, n, lda, ldb, ldc
+@:defaults(side='L', uplo='U', alpha=1.0_wp, beta=0.0_wp)
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    ldc = max(1,size(c,1))
+    m = size(c,1)
+    n = size(c,2)
+    call ${F77_NAME}$(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+end subroutine
+#:enddef

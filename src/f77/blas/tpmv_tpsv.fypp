@@ -1,0 +1,10 @@
+#:def tpmv_tpsv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, trans, diag, n, ap, x, incx)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    ap(*))
+@:args(${TYPE}$,  inout, x(*))
+@:args(character, in,    uplo, trans, diag)
+@:args(integer,   in,    n, incx)
+end subroutine
+#:enddef

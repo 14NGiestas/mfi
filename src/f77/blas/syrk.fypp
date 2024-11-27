@@ -1,0 +1,11 @@
+#:def syrk(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*))
+@:args(${TYPE}$,  inout, c(ldc,*))
+@:args(character, in,    trans, uplo)
+@:args(${TYPE}$,  in,    alpha, beta)
+@:args(integer,   in,    n, k, lda, ldc)
+end subroutine
+#:enddef

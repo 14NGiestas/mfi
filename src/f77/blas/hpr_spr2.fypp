@@ -1,0 +1,11 @@
+#:def hpr_spr2(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, n, alpha, x, incx, y, incy, ap)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    x(*), y(*))
+@:args(${TYPE}$,  inout, ap(*))
+@:args(character, in,    uplo)
+@:args(${TYPE}$,  in,    alpha)
+@:args(integer,   in,    n, incx, incy)
+end subroutine
+#:enddef

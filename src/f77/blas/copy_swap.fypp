@@ -1,0 +1,9 @@
+#:def copy_swap(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(n, x, incx, y, incy)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(*))
+@:args(${TYPE}$, inout, y(*))
+@:args(integer,  in,    n, incx, incy)
+end subroutine
+#:enddef

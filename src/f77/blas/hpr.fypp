@@ -1,0 +1,11 @@
+#:def hpr(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, n, alpha, x, incx, ap)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    x(*))
+@:args(${TYPE}$,  inout, ap(*))
+@:args(character, in,    uplo)
+@:args(real(wp),  in,    alpha)
+@:args(integer,   in,    n, incx)
+end subroutine
+#:enddef

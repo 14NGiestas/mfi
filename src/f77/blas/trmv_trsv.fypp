@@ -1,0 +1,10 @@
+#:def trmv_trsv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, trans, diag, n, a, lda, x, incx)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*))
+@:args(${TYPE}$,  inout, x(*))
+@:args(character, in,    uplo, trans, diag)
+@:args(integer,   in,    n, lda, incx)
+end subroutine
+#:enddef

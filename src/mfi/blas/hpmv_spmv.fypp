@@ -1,0 +1,14 @@
+#:def hpmv_spmv(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(ap, x, y, uplo, alpha, beta, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:), ap(:))
+@:args(${TYPE}$, inout, y(:))
+@:optional(character, in, uplo)
+@:optional(${TYPE}$,  in, alpha, beta)
+@:optional(integer,   in, incx, incy)
+    integer :: n
+@:defaults(uplo='U', alpha=1.0_wp, beta=0.0_wp, incx=1, incy=1)
+    n = size(x)
+    call ${F77_NAME}$(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
+end subroutine
+#:enddef

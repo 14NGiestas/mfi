@@ -1,0 +1,11 @@
+#:def getri(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(n,a,lda,ipiv,work,lwork,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(lda,*))
+@:args(${TYPE}$, inout, work(*))
+@:args(integer,     in, ipiv(*))
+@:args(integer,    out, info)
+@:args(integer,     in, n, lda, lwork)
+end subroutine
+#:enddef

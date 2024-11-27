@@ -1,0 +1,16 @@
+#:def heevx(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, a(lda,*), z(ldz, *))
+@:args(${REAL_TYPE}$, out,   w(*))
+@:args(integer,       out,   info)
+@:args(character,     in,    jobz, uplo, range)
+@:args(${REAL_TYPE}$, in,    vl, vu, abstol)
+@:args(integer,       in,    n, m, lda, ldz, il, iu, lwork, lrwork, liwork, ifail)
+@:args(${TYPE}$,      inout, work(*))
+@:args(${REAL_TYPE}$, inout, rwork(*))
+@:args(integer,       inout, iwork(*))
+end subroutine
+#:enddef

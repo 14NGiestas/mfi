@@ -1,0 +1,14 @@
+#:def hegv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  inout, a(lda,*))
+@:args(${TYPE}$,  inout, b(ldb,*))
+@:args(${REAL_TYPE}$, out, w(*))
+@:args(integer,   out,   info)
+@:args(character, in,    jobz, uplo)
+@:args(integer,   in,    n, itype, lda, ldb, lwork)
+@:args(${TYPE}$,  inout, work(*))
+@:args(${REAL_TYPE}$, in, rwork(*))
+end subroutine
+#:enddef

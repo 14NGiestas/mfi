@@ -1,0 +1,12 @@
+#:def copy_swap(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(x, y, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:))
+@:args(${TYPE}$, inout, y(:))
+@:optional(integer, in, incx, incy)
+    integer :: n
+@:defaults(incx=1, incy=1)
+    N = size(X)
+    call ${F77_NAME}$(n,x,local_incx,y,local_incy)
+end subroutine
+#:enddef

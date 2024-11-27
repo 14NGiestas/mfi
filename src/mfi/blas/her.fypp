@@ -1,0 +1,15 @@
+#:def her(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, uplo, alpha, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:))
+@:args(${TYPE}$, inout, a(:,:))
+@:optional(character, in, uplo)
+@:optional(real(wp),  in, alpha)
+@:optional(integer,   in, incx)
+    integer :: n, lda
+@:defaults(uplo='U', alpha=1.0_wp, incx=1)
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    call ${F77_NAME}$(local_uplo,n,local_alpha,x,local_incx,a,lda)
+end subroutine
+#:enddef

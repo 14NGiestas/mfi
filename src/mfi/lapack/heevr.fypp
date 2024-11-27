@@ -1,0 +1,108 @@
+#:mute
+#:def heevr(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, isuppz, abstol, info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, a(:,:))
+@:args(${REAL_TYPE}$, out,   w(:))
+@:optional(character,     in,    uplo)
+@:optional(${REAL_TYPE}$, in,    vl, vu, abstol)
+@:optional(integer,       in,    il, iu)
+@:optional(integer,       out,   m)
+@:optional(integer,       out,   info)
+    ${TYPE}$,      intent(out), optional, target :: z(:,:)
+    integer,       intent(out), optional, target :: isuppz(:)
+    integer,       pointer :: local_isuppz(:)
+    ${TYPE}$,      pointer :: local_z(:,:)
+    ${TYPE}$,      pointer :: work(:)
+    ${REAL_TYPE}$, pointer :: rwork(:)
+    integer,       pointer :: iwork(:)
+    ${TYPE}$      :: s_work(1)
+    ${REAL_TYPE}$ :: s_rwork(1)
+    integer       :: s_iwork(1)
+    character     :: jobz, range
+    integer :: n, lda, ldz, lwork, lrwork, liwork, allocation_status, deallocation_status
+    integer, target  :: dummy_rank_1(1)
+    ${TYPE}$, target :: dummy_rank_2(1,1)
+
+    lda = max(1,size(a,1))
+    n   = size(a,2)
+    allocation_status = 0
+    lwork  = -1
+    lrwork = -1
+    liwork = -1
+
+@:defaults(uplo='U', abstol=0.0_wp, il=1, iu=N, vl=huge(vl), vu=huge(vu))
+
+    if (present(Z)) then
+        jobz    = 'V'
+        ldz     = max(1,size(z,1))
+        local_z = Z
+        if (present(isuppz)) then
+            local_isuppz => isuppz
+        else
+            allocate(local_isuppz(2*N), stat=allocation_status)
+        end if
+    else
+        jobz    = 'N'
+        ldz     = 1
+        local_z = dummy_rank_2
+        if (present(isuppz)) then
+            local_info = -1001
+            goto 404
+        else
+            local_isuppz => dummy_rank_1
+        end if
+    end if
+
+    if (present(vl) .or. present(vu) &
+  .and. present(il) .or. present(iu)) then
+        local_info = -1001
+        goto 404
+    else if (present(vl) .or. present(vu)) then
+        range = 'V'
+    else if (present(il) .or. present(iu)) then
+        range = 'I'
+    else
+        range = 'A'
+    end if
+
+    call ${F77_NAME}$(jobz,range,local_uplo,n,a,lda, &
+                      local_vl,local_vu, &
+                      local_il,local_iu, &
+                      local_abstol,local_m,w,local_z,ldz,local_isuppz, &
+                      s_work,lwork,s_rwork,lrwork, &
+                      s_iwork,liwork,local_info)
+    if (local_info /= 0) goto 405
+    lwork  = int(s_work(1))
+    lrwork = int(s_rwork(1))
+    liwork = int(s_iwork(1))
+
+    if (allocation_status == 0) allocate(iwork(liwork), stat=allocation_status)
+    if (allocation_status == 0) allocate(rwork(lrwork), stat=allocation_status)
+    if (allocation_status == 0) allocate(work(lwork),   stat=allocation_status)
+    if (allocation_status == 0) then
+        call ${F77_NAME}$(jobz,range,local_uplo,n,a,lda, &
+                          local_vl,local_vu, &
+                          local_il,local_iu, &
+                          local_abstol,local_m,w,local_z,ldz,local_isuppz, &
+                          work,lwork,rwork,lrwork, &
+                          iwork,liwork,local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(iwork, stat=deallocation_status)
+    deallocate(rwork, stat=deallocation_status)
+    deallocate(work,  stat=deallocation_status)
+405 continue
+    if (present(z) .and. .not. present(isuppz)) then
+        deallocate(local_isuppz, stat=deallocation_status)
+    end if
+404 continue
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${F77_NAME}$', -local_info)
+    end if
+end subroutine
+#:enddef
+#:endmute

@@ -1,0 +1,9 @@
+#:def asum(NAME,TYPE,KIND)
+pure function ${NAME}$(n, x, incx)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+    ${TYPE}$ :: ${NAME}$
+@:args(${TYPE}$, in, x(*))
+@:args(integer,  in, n, incx)
+end function
+#:enddef

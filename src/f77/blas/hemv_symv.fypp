@@ -1,0 +1,11 @@
+#:def hemv_symv(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,  in,    a(lda,*), x(*))
+@:args(${TYPE}$,  inout, y(*))
+@:args(character, in,    uplo)
+@:args(${TYPE}$,  in,    alpha, beta)
+@:args(integer,   in,    n, lda, incx, incy)
+end subroutine
+#:enddef

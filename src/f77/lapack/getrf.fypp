@@ -1,0 +1,10 @@
+#:def getrf(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(m,n,a,lda,ipiv,info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(lda,*))
+@:args(integer,    out, ipiv(*))
+@:args(integer,    out, info)
+@:args(integer,     in, m, n, lda)
+end subroutine
+#:enddef

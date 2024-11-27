@@ -1,0 +1,15 @@
+#:def ger_gerc_geru(MFI_NAME,F77_NAME,TYPE,KIND)
+pure subroutine ${MFI_NAME}$(a, x, y, alpha, incx, incy)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    x(:), y(:))
+@:args(${TYPE}$, inout, a(:,:))
+@:optional(${TYPE}$,  in, alpha)
+@:optional(integer,   in, incx, incy)
+    integer :: m, n, lda
+@:defaults(alpha=1.0_wp, incx=1, incy=1)
+    m = size(a,1)
+    n = size(a,2)
+    lda = max(1,m)
+    call ${F77_NAME}$(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+end subroutine
+#:enddef

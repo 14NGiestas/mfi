@@ -1,0 +1,8 @@
+#:def aux_lartg(NAME,TYPE,KIND)
+pure subroutine ${NAME}$(f, g, c, s, r)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(real(wp), inout, c)
+@:args(${TYPE}$, inout, f, g, r, s)
+end subroutine
+#:enddef
