@@ -85,14 +85,14 @@ end interface
 #:def f77_interface_internal(name, types)
 interface f77_${name.replace('?','')}$
     #:for T in types
-    module procedure ${name.replace('?',T)}$
+    procedure :: ${name.replace('?',T)}$
     #:endfor
 end interface
 #:enddef
 
 #! Define a f77 interfaces to the external blas/lapack library
 #:def f77_interface(name, supports, code)
-interface f77_${name.replace('?','')}$
+interface
 #:for PREFIX in supports
 #:set NAME = name.replace('?',PREFIX)
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
@@ -100,6 +100,7 @@ interface f77_${name.replace('?','')}$
 $:code(NAME,TYPE,KIND)
 #:endfor
 end interface
+$:f77_interface_internal(name, supports)
 #:enddef
 
 #! Implements a f77 function / extension
