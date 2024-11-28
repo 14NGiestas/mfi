@@ -1,6 +1,7 @@
 #:mute
 #:include "common.fpp"
 #:include "src/mfi/blas/lamch.fypp"
+#:include "src/mfi/blas/asum.fypp"
 #:include "src/mfi/blas/axpy.fypp"
 #:include "src/mfi/blas/copy_swap.fypp"
 #:include "src/mfi/blas/dot_product.fypp"
@@ -37,7 +38,9 @@ use f77_blas, only: mfi_rotmg => f77_rotmg
 implicit none
 
 ! BLAS level 1
-!$:mfi_interface('?asum',  DEFAULT_TYPES)
+$:mfi_interface('?asum',  DEFAULT_TYPES, &
+    f=lambda pfx: 'sc' if pfx == 'c' else &
+                  'dz' if pfx == 'z' else pfx)
 $:mfi_interface('?axpy',  DEFAULT_TYPES)
 $:mfi_interface('?copy',  DEFAULT_TYPES)
 !$:mfi_interface('?dot',   REAL_TYPES)
@@ -101,7 +104,9 @@ $:mfi_interface('?lamch', REAL_TYPES)
 contains
 
 ! BLAS level 1
-!$:mfi_interface('?asum',  DEFAULT_TYPES)
+$:mfi_implement('?asum',  DEFAULT_TYPES, asum, &
+    f=lambda pfx: 'sc' if pfx == 'c' else &
+                  'dz' if pfx == 'z' else pfx)
 $:mfi_implement('?axpy',  DEFAULT_TYPES, axpy)
 $:mfi_implement('?copy',  DEFAULT_TYPES, copy_swap)
 !$:mfi_interface('?dot',   REAL_TYPES)

@@ -1,0 +1,33 @@
+#:def asum(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+subroutine test_${ORIGINAL}$
+    use f77_blas, only: ${ORIGINAL}$, ${IMPROVED}$
+    use mfi_blas, only: ${MODERN}$, mfi_${ORIGINAL}$
+
+    integer, parameter :: wp = ${KIND}$ 
+    integer, parameter :: N = 20
+    ${TYPE}$ :: array(N)
+    ${TYPE}$ :: res(4)
+    integer :: i
+
+    ! Test sequential array
+    array = [(1.0_wp*i,i=1,N)]
+    res(1) = ${ORIGINAL}$(N, array, 1)
+    res(2) = mfi_${ORIGINAL}$(array)
+    res(3) = ${IMPROVED}$(N, array, 1)
+    res(4) = ${MODERN}$(array)
+    call assert(all(res == res(1)), "different results for sequential array")
+
+#:if TYPE == COMPLEX_TYPE
+    call random_number(array%re)
+    call random_number(array%im)
+#:else
+    call random_number(array)
+#:endif
+    res(1) = ${ORIGINAL}$(N, array, 1)
+    res(2) = mfi_${ORIGINAL}$(array)
+    res(3) = ${IMPROVED}$(N, array, 1)
+    res(4) = ${MODERN}$(array)
+    call assert(all(res == res(1)), "different results for random array")
+
+end subroutine
+#:enddef

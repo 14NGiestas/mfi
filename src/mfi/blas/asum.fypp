@@ -1,0 +1,12 @@
+#:def asum(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+pure function ${MFI_NAME}$(x, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,    in, x(:))
+@:optional(integer, in, incx)
+    ${REAL_TYPE}$ :: ${MFI_NAME}$
+    integer :: n
+@:defaults(incx=1)
+    n = size(x)
+    ${MFI_NAME}$ = ${F77_NAME}$(n, x, local_incx)
+end function
+#:enddef

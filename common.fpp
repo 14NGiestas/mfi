@@ -69,10 +69,10 @@
 #:enddef
 
 #! Handles the implementation of the modern interface to each supported type and kind
-#:def mfi_implement(name, supports, code)
+#:def mfi_implement(name, supports, code, f=lambda x: x)
 #:for PREFIX in supports
-#:set MFI_NAME = f"mfi_{name.replace('?',PREFIX)}"
-#:set F77_NAME = name.replace('?',PREFIX)
+#:set MFI_NAME = "mfi_" + name.replace('?',f(PREFIX))
+#:set F77_NAME = name.replace('?',f(PREFIX))
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
 #:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
 $:code(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
@@ -80,10 +80,10 @@ $:code(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 #:enddef
 
 #! Define mfi interfaces to implemented routines
-#:def mfi_interface(name, types)
+#:def mfi_interface(name, types, f=lambda x: x)
 interface mfi_${name.replace('?','')}$
     #:for T in types
-    module procedure mfi_${name.replace('?',T)}$
+    module procedure mfi_${name.replace('?',f(T))}$
     #:endfor
 end interface
 #:enddef
@@ -115,13 +115,24 @@ $:f77_interface_improved(name, supports, f=f)
 
 #:enddef
 
-#! Implements a f77 function / extension
-#:def f77_implement(name, supports, code)
+#! Implements a test
+#:def test_implement(name, supports, code, f=lambda x: x)
 #:for PREFIX in supports
-#:set NAME = name.replace('?',PREFIX)
+#:set ORIGINAL = name.replace('?',f(PREFIX))
+#:set IMPROVED = "f77_" + name.replace('?','')
+#:set MODERN   = "mfi_" + name.replace('?','')
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
 #:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
-$:code(NAME,TYPE,KIND)
+$:code(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+#:endfor
+#:enddef
+
+#! Call the subroutine test
+#:def test_run(name, supports, f=lambda x: x)
+#:for PREFIX in supports
+#:set ORIGINAL = name.replace('?',f(PREFIX))
+print*, 'calling ${ORIGINAL}$'
+call test_${ORIGINAL}$
 #:endfor
 #:enddef
 

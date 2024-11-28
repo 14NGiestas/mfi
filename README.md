@@ -104,7 +104,7 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 
 | done? | name   | description                                             | modern alternative |
 | ----- | ------ | ------------------------------------------------------- | ------------------ |
-|       | asum   | Sum of vector magnitudes                                | [sum](https://gcc.gnu.org/onlinedocs/gfortran/SUM.html) |
+| :+1:  | asum   | Sum of vector magnitudes                                | [sum](https://gcc.gnu.org/onlinedocs/gfortran/SUM.html) |
 | :+1:  | axpy   | Scalar-vector product                                   | `a*x + b` |
 | :+1:  | copy   | Copy vector                                             |  `x = b`  |
 |       | dot    | Dot product                                             | [dot_product](https://gcc.gnu.org/onlinedocs/gfortran/DOT_005fPRODUCT.html)   |
