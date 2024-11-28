@@ -192,7 +192,6 @@ interface f77_dotc
     procedure :: zdotc
 end interface
 
-!$:f77_interface('?nrm2', DEFAULT_TYPES, nrm2, result=REAL_TYPES)
 !$:f77_interface('?rot',  DEFAULT_TYPES, rot,  result=REAL_TYPES)
 !$:f77_interface('?rotg', DEFAULT_TYPES, rotg, result=REAL_TYPES)
 
@@ -366,6 +365,49 @@ interface f77_asum
     procedure :: dasum
     procedure :: scasum
     procedure :: dzasum
+end interface
+
+
+interface
+pure function snrm2(n, x, incx)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp) :: snrm2
+    real(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end function
+pure function dnrm2(n, x, incx)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp) :: dnrm2
+    real(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end function
+pure function scnrm2(n, x, incx)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp) :: scnrm2
+    complex(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end function
+pure function dznrm2(n, x, incx)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp) :: dznrm2
+    complex(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end function
+end interface
+
+interface f77_nrm2
+    procedure :: snrm2
+    procedure :: dnrm2
+    procedure :: scnrm2
+    procedure :: dznrm2
 end interface
 
 

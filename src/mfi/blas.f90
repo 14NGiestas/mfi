@@ -12,6 +12,12 @@ interface mfi_asum
     module procedure mfi_scasum
     module procedure mfi_dzasum
 end interface
+interface mfi_nrm2
+    module procedure mfi_snrm2
+    module procedure mfi_dnrm2
+    module procedure mfi_scnrm2
+    module procedure mfi_dznrm2
+end interface
 interface mfi_axpy
     module procedure mfi_saxpy
     module procedure mfi_daxpy
@@ -234,6 +240,66 @@ end interface
 contains
 
 ! BLAS level 1
+pure function mfi_snrm2(x, incx)
+    integer, parameter :: wp = REAL32
+    real(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    real(wp) :: mfi_snrm2
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_snrm2 = snrm2(n, x, local_incx)
+end function
+pure function mfi_dnrm2(x, incx)
+    integer, parameter :: wp = REAL64
+    real(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    real(wp) :: mfi_dnrm2
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_dnrm2 = dnrm2(n, x, local_incx)
+end function
+pure function mfi_scnrm2(x, incx)
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    real(wp) :: mfi_scnrm2
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_scnrm2 = scnrm2(n, x, local_incx)
+end function
+pure function mfi_dznrm2(x, incx)
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    real(wp) :: mfi_dznrm2
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_dznrm2 = dznrm2(n, x, local_incx)
+end function
 pure function mfi_sasum(x, incx)
     integer, parameter :: wp = REAL32
     real(wp), intent(in) :: x(:)
@@ -592,7 +658,6 @@ pure function mfi_zdotc(x, y, incx, incy)
     N = size(X)
     mfi_zdotc = zdotc(n,x,local_incx,y,local_incy)
 end function
-!$:mfi_interface('?nrm2',  DEFAULT_TYPES)
 !$:mfi_interface('?rot',   DEFAULT_TYPES)
 !$:mfi_interface('?rotg',  DEFAULT_TYPES)
 pure subroutine mfi_srotm(x, y, param, incx, incy)
