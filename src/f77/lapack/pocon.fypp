@@ -1,0 +1,36 @@
+#:mute
+
+!subroutine ?pocon (
+!   character                      uplo,
+!   integer                           n,
+!   type(wp), dimension( lda, * )     a,
+!   integer                         lda,
+!   real(wp)                      anorm,
+!   real(wp)                      rcond,
+!   type(wp),    dimension( * )    work,
+!   real(wp),    dimension( * )   rwork,
+!   integer                        info 
+!)
+#:def pocon(NAME, TYPE, KIND)
+#:set TYPE_AND_KIND = TYPE.replace('wp',KIND)
+#:set PREFIX        = TYPE_AND_KIND_TO_PREFIX.get(TYPE_AND_KIND).upper()
+!> ${NAME}$ estimates the reciprocal of the condition number (in the
+!> 1-norm) of a ${TYPE_AND_KIND}$ Hermitian positive definite matrix using the
+!> Cholesky factorization A = U**H*U or A = L*L**H computed by ${PREFIX}$POTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine ${NAME}$(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(character,     in,    uplo)
+@:args(integer,       in,    n, lda)
+@:args(${TYPE}$,      inout, a(lda,*))
+@:args(${REAL_TYPE}$, in,    anorm)
+@:args(${REAL_TYPE}$, out,   rcond)
+@:args(${TYPE}$,      inout, work(*))
+@:args(${REAL_TYPE}$, inout, rwork(*))
+@:args(integer,       out,   info)
+end subroutine
+#:enddef
+
+#:endmute

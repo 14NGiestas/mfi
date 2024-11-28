@@ -13,6 +13,7 @@
 #:include "src/f77/lapack/heevd.fypp"
 #:include "src/f77/lapack/potrf_potri.fypp"
 #:include "src/f77/lapack/potrs.fypp"
+#:include "src/f77/lapack/pocon.fypp"
 #:endmute
 module f77_lapack
 use iso_fortran_env
@@ -32,6 +33,7 @@ $:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
 $:f77_interface('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potri',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potrs',  DEFAULT_TYPES, potrs)
+$:f77_interface('?pocon',  DEFAULT_TYPES, pocon)
 
 ! Other Auxiliary Routines
 $:f77_interface('?lartg',  DEFAULT_TYPES, aux_lartg)

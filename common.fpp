@@ -19,6 +19,13 @@
     'z':   'REAL64',  &
 }
 
+#:set TYPE_AND_KIND_TO_PREFIX = { &
+    'real(REAL32)':    's',       &
+    'real(REAL64)':    'd',       &
+    'complex(REAL32)': 'c',       &
+    'complex(REAL64)': 'z',       &
+}
+
 #! Defines a optional variable, creating local corresponding variable by default
 #:def optional(dtype, intent, *args)
 #:for variable in args

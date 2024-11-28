@@ -100,6 +100,7 @@ Please note that this project is experimental, is missing a test suite and error
 ### BLAS
 #### Level 1
 Most of BLAS level 1 routines can be replaced by intrinsincs and other features in modern fortran.
+<details>
 
 | done? | name   | description                                             | modern alternative |
 | ----- | ------ | ------------------------------------------------------- | ------------------ |
@@ -117,8 +118,21 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 | :+1:  | rotmg  | Generate modified Givens plane rotation of points       | |
 |       | scal   | Vector-scalar product                                   | `a*x + b` |
 | :+1:  | swap   | Vector-vector swap                                      | |
+</details>
+
+#### Level 1 - Utils / Extensions
+<details>
+
+| done? | name  | description                                              |  modern alternatives | obs |
+| ----- | ----- | -------------------------------------------------------- | ------------------- | --- |
+| :+1:  | iamax | Index of the maximum absolute value element of a vector  | [maxval](https://gcc.gnu.org/onlinedocs/gfortran/MAXVAL.html), [maxloc](https://gcc.gnu.org/onlinedocs/gfortran/MAXLOC.html) | |
+| :+1:  | iamin | Index of the minimum absolute value element of a vector  | [minval](https://gcc.gnu.org/onlinedocs/gfortran/MINVAL.html), [minloc](https://gcc.gnu.org/onlinedocs/gfortran/MINLOC.html) | |
+|  :(   | lamch | Determines precision machine parameters.                 | [huge](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/huge.html), [tiny](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/tiny.html), [epsilon](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/epsilon.html) | Obs: had to add a parameter so fortran can distinguish between the single and double precision with the same interface. For values of cmach see: [lamch](https://www.netlib.org/lapack//explore-html/d4/d86/group__lamch.html)|
+</details>
 
 #### Level 2
+
+<details>
 
 | done? | name | description                                                              |
 | ----- | ---- | ------------------------------------------------------------------------ |
@@ -147,8 +161,11 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 | :+1:  | tpsv | Solution of a linear system of equations with a triangular packed matrix |
 | :+1:  | trmv | Matrix-vector product using a triangular matrix                          |
 | :+1:  | trsv | Solution of a linear system of equations with a triangular matrix        |
+</details>
 
 #### Level 3
+
+<details>
 
 | done? | name  | description                                                                                            |
 | ----- | ----- | ------------------------------------------------------------------------------------------------------ |
@@ -162,34 +179,52 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 | :+1:  | trmm  | Computes a matrix-matrix product where one input matrix is triangular and one input matrix is general. |
 | :+1:  | trsm  | Solves a triangular matrix equation (forward or backward solve).                                       |
 
-#### Utils / Extensions
-#### Level 1
-Here are some extensions that may be useful.
-Again, BLAS level 1 routines can be replaced by intrinsincs and other features in modern fortran.
+</details>
 
-| done? | name  | description                                              |  modern alternatives | obs |
-| ----- | ----- | -------------------------------------------------------- | ------------------- | --- |
-| :+1:  | iamax | Index of the maximum absolute value element of a vector  | [maxval](https://gcc.gnu.org/onlinedocs/gfortran/MAXVAL.html), [maxloc](https://gcc.gnu.org/onlinedocs/gfortran/MAXLOC.html) | |
-| :+1:  | iamin | Index of the minimum absolute value element of a vector  | [minval](https://gcc.gnu.org/onlinedocs/gfortran/MINVAL.html), [minloc](https://gcc.gnu.org/onlinedocs/gfortran/MINLOC.html) | |
-|  :(   | lamch | Determines precision machine parameters.                 | [huge](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/huge.html), [tiny](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/tiny.html), [epsilon](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/epsilon.html) | Obs: had to add a parameter so fortran can distinguish between the single and double precision with the same interface. For values of cmach see: [lamch](https://www.netlib.org/lapack//explore-html/d4/d86/group__lamch.html)|
+### LAPACK :warning:
 
-### LAPACK
-#### Linear Equation Routines
+- Lapack is really huge, so I'm going to focus on getting the improved f77 interfaces ready first.
+  Anything I end up using I'm going to implement.
 
-| done? | name  | description                                                                                                                                      |
-| ----- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| :+1:  | geqrf | Computes the QR factorization of a general m-by-n matrix.                                                                                        |
-| :+1:  | gerqf | Computes the RQ factorization of a general m-by-n matrix.                                                                                        |
-| :+1:  | getrf | Computes the LU factorization of a general m-by-n matrix.                                                                                        |
-| :+1:  | getri | Computes the inverse of an LU-factored general matrix.                                                                                           |
-| :+1:  | getrs | Solves a system of linear equations with an LU-factored square coefficient matrix, with multiple right-hand sides.                               |
-| :+1:  | hetrf | Computes the Bunch-Kaufman factorization of a complex Hermitian matrix.                                                                          |
-|       | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf.                                                                  |
-|       | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf.                                                     |
-|       | ormrq | Multiplies a real matrix by the orthogonal matrix Q of the RQ factorization formed by gerqf.                                                     |
-| :+1:  | potrf | Computes the Cholesky factorization of a symmetric (Hermitian) positive-definite matrix.                                                         |
-| :+1:  | potri | Computes the inverse of a Cholesky-factored symmetric (Hermitian) positive-definite matrix.                                                      |
+#### Linear solve, $AX = B$
+<details>
+<!-- ##### LU: General matrix, driver -->
+
+<!-- ##### LU: computational routines (factor, cond, etc.) -->
+ 
+<!-- ##### Cholesky: Hermitian/symmetric positive definite matrix, driver -->
+
+##### Cholesky: computational routines (factor, cond, etc.)
+| done?| name  | description               |
+| ---- | ----- | ------------------------- |
+| f77  | pocon | condition number estimate |
+
+<!-- ##### LDL: Hermitian/symmetric indefinite matrix, driver -->
+ 
+<!-- ##### LDL: computational routines (factor, cond, etc.) -->
+ 
+<!-- ##### Triangular computational routines (solve, cond, etc.) -->
+ 
+<!-- ##### Auxiliary routines -->
+</details>
+
+##### Orthogonal/unitary factors (QR, CS, etc.)
+<details>
+
+| done? | name  | description  |
+| ----- | ----- | ------------ |
+| :+1:  | geqrf | Computes the QR factorization of a general m-by-n matrix. |
+| :+1:  | gerqf | Computes the RQ factorization of a general m-by-n matrix. |
+| :+1:  | getrf | Computes the LU factorization of a general m-by-n matrix. |
+| :+1:  | getri | Computes the inverse of an LU-factored general matrix.    |
+| :+1:  | getrs | Solves a system of linear equations with an LU-factored square coefficient matrix, with multiple right-hand sides. |
+| :+1:  | hetrf | Computes the Bunch-Kaufman factorization of a complex Hermitian matrix. |
+| :+1:  | potrf | Computes the Cholesky factorization of a symmetric (Hermitian) positive-definite matrix.     |
+| :+1:  | potri | Computes the inverse of a Cholesky-factored symmetric (Hermitian) positive-definite matrix.  |
 | :+1:  | potrs | Solves a system of linear equations with a Cholesky-factored symmetric (Hermitian) positive-definite coefficient matrix, with multiple right-hand sides.  |
+|      | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf. |
+|      | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf. |
+|      | ormrq | Multiplies a real matrix by the orthogonal matrix Q of the RQ factorization formed by gerqf. |
 |      | sytrf | Computes the Bunch-Kaufman factorization of a symmetric matrix.                        |
 |      | trtrs | Solves a system of linear equations with a triangular coefficient matrix, with multiple right-hand sides. |
 |      | ungqr | Generates the complex unitary matrix Q of the QR factorization formed by geqrf.  |
@@ -199,12 +234,12 @@ Again, BLAS level 1 routines can be replaced by intrinsincs and other features i
 #### Singular Value and Eigenvalue Problem Routines
 | done?| name  | description             |
 | ---- | ----- | ----------------------- |
-|      | gebrd | Reduces a general matrix to bidiagonal form.     |
 | :+1: | gesvd | Computes the singular value decomposition of a general rectangular matrix.  |
 | :+1: | heevd | Computes all eigenvalues and, optionally, all eigenvectors of a complex Hermitian matrix using divide and conquer algorithm. |
 | :+1: | hegvd | Computes all eigenvalues and, optionally, all eigenvectors of a complex generalized Hermitian definite eigenproblem using divide and conquer algorithm. |
 | f77  | heevr | Computes the eigenvalues and, optionally, the left and/or right eigenvectors for HE matrices. |
 | f77  | heevx | Computes the eigenvalues and, optionally, the left and/or right eigenvectors for HE matrices. |
+|      | gebrd | Reduces a general matrix to bidiagonal form.     |
 |      | hetrd | Reduces a complex Hermitian matrix to tridiagonal form. |
 |      | orgbr | Generates the real orthogonal matrix Q or PT determined by gebrd. |
 |      | orgtr | Generates the real orthogonal matrix Q determined by sytrd. |
