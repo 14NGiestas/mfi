@@ -1,7 +1,7 @@
 #:mute
 #:include "common.fpp"
 #:include "src/mfi/blas/lamch.fypp"
-#:include "src/mfi/blas/asum.fypp"
+#:include "src/mfi/blas/asum_nrm2.fypp"
 #:include "src/mfi/blas/axpy.fypp"
 #:include "src/mfi/blas/copy_swap.fypp"
 #:include "src/mfi/blas/dot_product.fypp"
@@ -39,6 +39,9 @@ implicit none
 
 ! BLAS level 1
 $:mfi_interface('?asum',  DEFAULT_TYPES, &
+    f=lambda pfx: 'sc' if pfx == 'c' else &
+                  'dz' if pfx == 'z' else pfx)
+$:mfi_interface('?nrm2',  DEFAULT_TYPES, &
     f=lambda pfx: 'sc' if pfx == 'c' else &
                   'dz' if pfx == 'z' else pfx)
 $:mfi_interface('?axpy',  DEFAULT_TYPES)
@@ -104,7 +107,10 @@ $:mfi_interface('?lamch', REAL_TYPES)
 contains
 
 ! BLAS level 1
-$:mfi_implement('?asum',  DEFAULT_TYPES, asum, &
+$:mfi_implement('?nrm2',  DEFAULT_TYPES, asum_nrm2, &
+    f=lambda pfx: 'sc' if pfx == 'c' else &
+                  'dz' if pfx == 'z' else pfx)
+$:mfi_implement('?asum',  DEFAULT_TYPES, asum_nrm2, &
     f=lambda pfx: 'sc' if pfx == 'c' else &
                   'dz' if pfx == 'z' else pfx)
 $:mfi_implement('?axpy',  DEFAULT_TYPES, axpy)
@@ -113,7 +119,6 @@ $:mfi_implement('?copy',  DEFAULT_TYPES, copy_swap)
 !$:mfi_interface('sdsdot', REAL_TYPES)
 $:mfi_implement('?dotu',  COMPLEX_TYPES, dot_product)
 $:mfi_implement('?dotc',  COMPLEX_TYPES, dot_product)
-!$:mfi_interface('?nrm2',  DEFAULT_TYPES)
 !$:mfi_interface('?rot',   DEFAULT_TYPES)
 !$:mfi_interface('?rotg',  DEFAULT_TYPES)
 $:mfi_implement('?rotm',  REAL_TYPES, rotm)

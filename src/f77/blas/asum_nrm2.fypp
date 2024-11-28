@@ -1,4 +1,4 @@
-#:def asum(NAME,TYPE,KIND,PREFIX)
+#:def asum_nrm2(NAME,TYPE,KIND,PREFIX)
 pure function ${NAME}$(n, x, incx)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

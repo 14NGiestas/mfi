@@ -1,6 +1,6 @@
 #:mute
 #:include "common.fpp"
-#:include "src/f77/blas/asum.fypp"
+#:include "src/f77/blas/asum_nrm2.fypp"
 #:include "src/f77/blas/scal.fypp"
 #:include "src/f77/blas/axpy.fypp"
 #:include "src/f77/blas/copy_swap.fypp"
@@ -48,7 +48,6 @@ $:f77_interface('?copy',  DEFAULT_TYPES, copy_swap)
 $:f77_interface('?dot',   REAL_TYPES,    dot_product)
 $:f77_interface('?dotu',  COMPLEX_TYPES, dot_product)
 $:f77_interface('?dotc',  COMPLEX_TYPES, dot_product)
-!$:f77_interface('?nrm2', DEFAULT_TYPES, nrm2, result=REAL_TYPES)
 !$:f77_interface('?rot',  DEFAULT_TYPES, rot,  result=REAL_TYPES)
 !$:f77_interface('?rotg', DEFAULT_TYPES, rotg, result=REAL_TYPES)
 $:f77_interface('?rotm',  REAL_TYPES,    rotm)
@@ -59,7 +58,11 @@ $:f77_interface('?swap',  DEFAULT_TYPES, copy_swap)
 #! sdsdot is one of a kind routine 
 $:f77_interface('sdsdot', ['s'], sdsdot)
 #! asum has special names indicating the returns are real types
-$:f77_interface('?asum',  DEFAULT_TYPES, asum, &
+$:f77_interface('?asum',  DEFAULT_TYPES, asum_nrm2, &
+    f=lambda pfx: 'sc' if pfx == 'c' else &
+                  'dz' if pfx == 'z' else pfx)
+#! nrm2 has the same interface as asum
+$:f77_interface('?nrm2',  DEFAULT_TYPES, asum_nrm2, &
     f=lambda pfx: 'sc' if pfx == 'c' else &
                   'dz' if pfx == 'z' else pfx)
 #! scal has mixed types scalars so it can multiply a real constant by a complex vector 

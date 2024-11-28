@@ -1,4 +1,4 @@
-#:def asum(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def asum_nrm2(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure function ${MFI_NAME}$(x, incx)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,    in, x(:))
