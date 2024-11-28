@@ -121,7 +121,7 @@ $:f77_interface_improved(name, supports, f=f)
 #:set NAME = name.replace('?',PREFIX)
 #:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
 #:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
-$:code(NAME,TYPE,KIND)
+$:code(NAME,TYPE,KIND,PREFIX)
 #:endfor
 #:enddef
 
