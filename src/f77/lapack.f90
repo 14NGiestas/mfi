@@ -734,6 +734,86 @@ interface f77_potrs
     procedure :: cpotrs
     procedure :: zpotrs
 end interface
+interface
+!> spocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a real(REAL32) Hermitian positive definite matrix using the
+!> Cholesky factorization A = U**H*U or A = L*L**H computed by SPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine spocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(in) :: anorm
+    real(wp), intent(out) :: rcond
+    real(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(out) :: info
+end subroutine
+!> dpocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a real(REAL64) Hermitian positive definite matrix using the
+!> Cholesky factorization A = U**H*U or A = L*L**H computed by DPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine dpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(in) :: anorm
+    real(wp), intent(out) :: rcond
+    real(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(out) :: info
+end subroutine
+!> cpocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a complex(REAL32) Hermitian positive definite matrix using the
+!> Cholesky factorization A = U**H*U or A = L*L**H computed by CPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine cpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    complex(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(in) :: anorm
+    real(wp), intent(out) :: rcond
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(out) :: info
+end subroutine
+!> zpocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a complex(REAL64) Hermitian positive definite matrix using the
+!> Cholesky factorization A = U**H*U or A = L*L**H computed by ZPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine zpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    complex(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(in) :: anorm
+    real(wp), intent(out) :: rcond
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(out) :: info
+end subroutine
+end interface
+interface f77_pocon
+    procedure :: spocon
+    procedure :: dpocon
+    procedure :: cpocon
+    procedure :: zpocon
+end interface
 
 ! Other Auxiliary Routines
 interface
