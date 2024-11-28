@@ -70,6 +70,12 @@ interface mfi_potrs
     module procedure mfi_cpotrs
     module procedure mfi_zpotrs
 end interface
+interface mfi_pocon
+    module procedure mfi_spocon
+    module procedure mfi_dpocon
+    module procedure mfi_cpocon
+    module procedure mfi_zpocon
+end interface
 
 contains
 
@@ -1727,6 +1733,162 @@ pure subroutine mfi_zpotrs(a, b, uplo, info)
         info = local_info
     else if (local_info <= -1000) then
         call mfi_error('zpotrs',-local_info)
+    end if
+end subroutine
+!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
+pure subroutine mfi_spocon(a, anorm, rcond, uplo, info)
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(:,:)
+    real(wp), intent(in) :: anorm
+    real(wp), intent(out) :: rcond
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, lda, allocation_status, deallocation_status
+    real(wp), pointer :: work(:)
+    integer, pointer :: xwork(:)
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    lda = max(1,size(a,1))
+    n   = size(a,2)
+    allocation_status = 0
+    allocate(xwork(n), stat=allocation_status)
+    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
+
+    if (allocation_status == 0) then
+        call spocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
+    else
+        local_info = -1000
+    end if
+
+    deallocate(xwork, stat=deallocation_status)
+    deallocate(work,  stat=deallocation_status)
+
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('spocon',-local_info)
+    end if
+end subroutine
+!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
+pure subroutine mfi_dpocon(a, anorm, rcond, uplo, info)
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(:,:)
+    real(wp), intent(in) :: anorm
+    real(wp), intent(out) :: rcond
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, lda, allocation_status, deallocation_status
+    real(wp), pointer :: work(:)
+    integer, pointer :: xwork(:)
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    lda = max(1,size(a,1))
+    n   = size(a,2)
+    allocation_status = 0
+    allocate(xwork(n), stat=allocation_status)
+    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
+
+    if (allocation_status == 0) then
+        call dpocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
+    else
+        local_info = -1000
+    end if
+
+    deallocate(xwork, stat=deallocation_status)
+    deallocate(work,  stat=deallocation_status)
+
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('dpocon',-local_info)
+    end if
+end subroutine
+!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
+pure subroutine mfi_cpocon(a, anorm, rcond, uplo, info)
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(:,:)
+    real(wp), intent(in) :: anorm
+    real(wp), intent(out) :: rcond
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, lda, allocation_status, deallocation_status
+    complex(wp), pointer :: work(:)
+    real(wp), pointer :: xwork(:)
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    lda = max(1,size(a,1))
+    n   = size(a,2)
+    allocation_status = 0
+    allocate(xwork(n), stat=allocation_status)
+    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
+
+    if (allocation_status == 0) then
+        call cpocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
+    else
+        local_info = -1000
+    end if
+
+    deallocate(xwork, stat=deallocation_status)
+    deallocate(work,  stat=deallocation_status)
+
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('cpocon',-local_info)
+    end if
+end subroutine
+!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
+pure subroutine mfi_zpocon(a, anorm, rcond, uplo, info)
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(:,:)
+    real(wp), intent(in) :: anorm
+    real(wp), intent(out) :: rcond
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, lda, allocation_status, deallocation_status
+    complex(wp), pointer :: work(:)
+    real(wp), pointer :: xwork(:)
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    lda = max(1,size(a,1))
+    n   = size(a,2)
+    allocation_status = 0
+    allocate(xwork(n), stat=allocation_status)
+    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
+
+    if (allocation_status == 0) then
+        call zpocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
+    else
+        local_info = -1000
+    end if
+
+    deallocate(xwork, stat=deallocation_status)
+    deallocate(work,  stat=deallocation_status)
+
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('zpocon',-local_info)
     end if
 end subroutine
 
