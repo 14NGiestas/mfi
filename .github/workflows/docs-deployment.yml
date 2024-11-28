@@ -1,0 +1,41 @@
+name: docs-deployment
+
+on: [push]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout 🛎️
+      uses: actions/checkout@v2.3.1
+
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
+
+    - name: Install fypp
+      run: pip install --upgrade fypp
+
+    - name: Install ford
+      run: pip install --upgrade ford
+
+    - name: Generate fpm package 🔧
+      run: |
+        make FYPPFLAGS=-DMFI_EXTENSIONS
+        mkdir mfi-fpm
+        cp -R src   mfi-fpm
+        cp -R test  mfi-fpm
+        cp fpm.toml mfi-fpm
+        cp LICENSE  mfi-fpm
+        find mfi-fpm/src  -type f ! -name "*.f90" -delete
+        find mfi-fpm/test -type f ! -name "*.f90" -delete
+        ford ford.md
+
+    - name: Deploy docs 🚀
+      uses: JamesIves/github-pages-deploy-action@4.1.5
+      if: github.event_name != 'pull_request'
+      with:
+        BRANCH: docs
+        FOLDER: mfi-fpm
