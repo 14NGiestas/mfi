@@ -1,4 +1,4 @@
-#:def heevr(NAME,TYPE,KIND)
+#:def heevr(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
                          isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
     import :: ${KIND}$

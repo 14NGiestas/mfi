@@ -1,4 +1,4 @@
-#:def hbmv_sbmv(NAME,TYPE,KIND)
+#:def hbmv_sbmv(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

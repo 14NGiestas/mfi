@@ -1,4 +1,4 @@
-#:def gemm(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def gemm(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:), b(:,:))

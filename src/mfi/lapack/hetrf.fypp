@@ -1,4 +1,4 @@
-#:def hetrf(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def hetrf(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, uplo, ipiv, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,  inout, a(:,:))

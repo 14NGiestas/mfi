@@ -1,4 +1,4 @@
-#:def axpy(NAME,TYPE,KIND)
+#:def axpy(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(n, a, x, incx, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

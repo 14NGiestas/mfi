@@ -1,4 +1,4 @@
-#:def ger_gerc_geru(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def ger_gerc_geru(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, x, y, alpha, incx, incy)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    x(:), y(:))

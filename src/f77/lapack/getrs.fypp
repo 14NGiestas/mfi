@@ -1,4 +1,4 @@
-#:def getrs(NAME,TYPE,KIND)
+#:def getrs(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

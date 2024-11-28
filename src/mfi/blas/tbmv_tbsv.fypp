@@ -1,4 +1,4 @@
-#:def tbmv_tbsv(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def tbmv_tbsv(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, x, uplo, trans, diag, incx)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in, a(:,:))

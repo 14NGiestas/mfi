@@ -1,4 +1,4 @@
-#:def tpmv_tpsv(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def tpmv_tpsv(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(ap, x, uplo, trans, diag, incx)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    ap(:))

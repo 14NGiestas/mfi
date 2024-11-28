@@ -1,4 +1,4 @@
-#:def geqrf_gerqf(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def geqrf_gerqf(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, tau, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,      inout, a(:,:))

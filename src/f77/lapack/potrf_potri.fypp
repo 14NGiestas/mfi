@@ -1,4 +1,4 @@
-#:def potrf_potri(NAME,TYPE,KIND)
+#:def potrf_potri(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(uplo, n, a, lda, info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

@@ -1,4 +1,4 @@
-#:def getri(NAME,TYPE,KIND)
+#:def getri(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(n,a,lda,ipiv,work,lwork,info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

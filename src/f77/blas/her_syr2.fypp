@@ -1,4 +1,4 @@
-#:def her_syr2(NAME,TYPE,KIND)
+#:def her_syr2(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, y, incy, a, lda)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

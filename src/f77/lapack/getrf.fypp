@@ -1,4 +1,4 @@
-#:def getrf(NAME,TYPE,KIND)
+#:def getrf(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(m,n,a,lda,ipiv,info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

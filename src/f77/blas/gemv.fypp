@@ -1,4 +1,4 @@
-#:def gemv(NAME,TYPE,KIND)
+#:def gemv(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

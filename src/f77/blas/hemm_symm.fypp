@@ -1,4 +1,4 @@
-#:def hemm_symm(NAME,TYPE,KIND)
+#:def hemm_symm(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

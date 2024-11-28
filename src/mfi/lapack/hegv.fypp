@@ -1,4 +1,4 @@
-#:def hegv(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def hegv(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, b, w, itype, jobz, uplo, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, inout, a(:,:), b(:,:))

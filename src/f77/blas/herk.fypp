@@ -1,4 +1,4 @@
-#:def herk(NAME,TYPE,KIND)
+#:def herk(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

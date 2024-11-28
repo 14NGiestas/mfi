@@ -1,4 +1,4 @@
-#:def heevx(NAME,TYPE,KIND)
+#:def heevx(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
                          work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
     import :: ${KIND}$

@@ -1,4 +1,4 @@
-#:def gesvd(NAME,TYPE,KIND)
+#:def gesvd(NAME,TYPE,KIND,PREFIX)
 #:if TYPE == COMPLEX_TYPE
 pure subroutine ${NAME}$(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
 #:else

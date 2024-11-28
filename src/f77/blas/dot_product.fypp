@@ -1,4 +1,4 @@
-#:def dot_product(NAME,TYPE,KIND)
+#:def dot_product(NAME,TYPE,KIND,PREFIX)
 pure function ${NAME}$(n, x, incx, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

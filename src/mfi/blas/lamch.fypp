@@ -1,4 +1,4 @@
-#:def lamch(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def lamch(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure function ${MFI_NAME}$(cmach, kind) result(res)
 @:parameter(integer, wp=${KIND}$)
 @:args(character, in, cmach)

@@ -1,4 +1,4 @@
-#:def her_syr2(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def her_syr2(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, x, y, uplo, alpha, incx, incy)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    x(:), y(:))

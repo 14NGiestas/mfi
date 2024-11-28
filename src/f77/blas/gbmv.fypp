@@ -1,4 +1,4 @@
-#:def gbmv(NAME,TYPE,KIND)
+#:def gbmv(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

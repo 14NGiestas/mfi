@@ -8,7 +8,7 @@
 !   integer                   info
 !)
 
-#:def pocon(MFI_NAME, F77_NAME, TYPE, KIND)
+#:def pocon(MFI_NAME, F77_NAME, TYPE, KIND,PREFIX)
 !> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
 pure subroutine ${MFI_NAME}$(a, anorm, rcond, uplo, info)
 @:parameter(integer, wp=${KIND}$)

@@ -12,11 +12,10 @@
 !   integer,      dimension( * )   iwork,
 ! if COMPLEX_TYPES then,
 !   real(wp),     dimension( * )   rwork,
-!   integer                        info 
+!   integer                        info
 !)
-#:def pocon(NAME, TYPE, KIND)
+#:def pocon(NAME,TYPE,KIND,PREFIX)
 #:set TYPE_AND_KIND = TYPE.replace('wp',KIND)
-#:set PREFIX        = TYPE_AND_KIND_TO_PREFIX.get(TYPE_AND_KIND).upper()
 !> ${NAME}$ estimates the reciprocal of the condition number (in the
 !> 1-norm) of a ${TYPE_AND_KIND}$ Hermitian positive definite matrix using the
 !> Cholesky factorization A = U**H*U or A = L*L**H computed by ${PREFIX}$POTRF.

@@ -1,4 +1,4 @@
-#:def hemm_symm(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def hemm_symm(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, b, c, side, uplo, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:), b(:,:))

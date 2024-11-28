@@ -1,4 +1,4 @@
-#:def potrs(NAME,TYPE,KIND)
+#:def potrs(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(uplo, n, nrhs, a, lda, b, ldb, info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

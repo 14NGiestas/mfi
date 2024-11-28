@@ -1,4 +1,4 @@
-#:def her2k(NAME,TYPE,KIND)
+#:def her2k(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

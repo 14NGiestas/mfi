@@ -1,4 +1,4 @@
-#:def syr2k(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def syr2k(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, b, c, uplo, trans, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:))

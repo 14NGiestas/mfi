@@ -1,4 +1,4 @@
-#:def trmm_trsm(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def trmm_trsm(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:))

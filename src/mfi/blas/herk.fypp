@@ -1,4 +1,4 @@
-#:def herk(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def herk(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, c, uplo, trans, alpha, beta)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    a(:,:))

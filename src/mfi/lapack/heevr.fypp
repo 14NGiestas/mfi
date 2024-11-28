@@ -1,5 +1,5 @@
 #:mute
-#:def heevr(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def heevr(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, isuppz, abstol, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,      inout, a(:,:))

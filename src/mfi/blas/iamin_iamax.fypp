@@ -1,4 +1,4 @@
-#:def iamin_iamax(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def iamin_iamax(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure function ${MFI_NAME}$(x, incx)
 @:parameter(integer, wp=${KIND}$)
     integer :: ${MFI_NAME}$

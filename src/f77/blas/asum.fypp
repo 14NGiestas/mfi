@@ -1,8 +1,8 @@
-#:def asum(NAME,TYPE,KIND)
+#:def asum(NAME,TYPE,KIND,PREFIX)
 pure function ${NAME}$(n, x, incx)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
-    ${TYPE}$ :: ${NAME}$
+    ${REAL_TYPE}$ :: ${NAME}$
 @:args(${TYPE}$, in, x(*))
 @:args(integer,  in, n, incx)
 end function

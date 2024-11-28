@@ -1,4 +1,4 @@
-#:def rotmg(NAME,TYPE,KIND)
+#:def rotmg(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(d1, d2, x1, y1, param)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

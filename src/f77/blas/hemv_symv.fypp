@@ -1,4 +1,4 @@
-#:def hemv_symv(NAME,TYPE,KIND)
+#:def hemv_symv(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

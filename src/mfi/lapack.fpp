@@ -12,6 +12,7 @@
 #:include "src/mfi/lapack/potrs.fypp"
 #:include "src/mfi/lapack/pocon.fypp"
 #:endmute
+!> Modern fortran interfaces for LAPACK
 module mfi_lapack
 use iso_fortran_env
 use f77_lapack

@@ -1,4 +1,4 @@
-#:def gesvd(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def gesvd(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,      inout, a(:,:))

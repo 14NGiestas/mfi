@@ -1,4 +1,4 @@
-#:def heevd(NAME,TYPE,KIND)
+#:def heevd(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

@@ -4,6 +4,7 @@
 #:include "src/f77/blas/axpy.fypp"
 #:include "src/f77/blas/copy_swap.fypp"
 #:include "src/f77/blas/dot_product.fypp"
+#:include "src/f77/blas/sdsdot.fypp"
 #:include "src/f77/blas/rotm.fypp"
 #:include "src/f77/blas/rotmg.fypp"
 #:include "src/f77/blas/gbmv.fypp"
@@ -32,6 +33,7 @@
 #:include "src/f77/blas/iamax_iamin.fypp"
 #:include "src/f77/blas/iamin_stub.fypp"
 #:endmute
+!> Improved and original F77 interfaces for blas
 module f77_blas
 use iso_fortran_env
 implicit none
@@ -43,11 +45,13 @@ implicit none
 !https://spec.oneapi.com/versions/latest/elements/oneMKL/source/domains/blas/scal.html#onemkl-blas-scal
 
 ! BLAS level 1
-!!$:f77_interface('?asum',  DEFAULT_TYPES, asum, result=REAL_TYPES)
+$:f77_interface('?asum',  DEFAULT_TYPES, asum, &
+    f=lambda pfx: 'sc' if pfx == 'c' else &
+                  'dz' if pfx == 'z' else pfx) 
 $:f77_interface('?axpy',  DEFAULT_TYPES, axpy)
 $:f77_interface('?copy',  DEFAULT_TYPES, copy_swap)
-!$:f77_interface('?dot',  REAL_TYPES, dot_product, result=REAL_TYPES)
-!$:f77_interface('sdsdot')
+$:f77_interface('?dot',   REAL_TYPES,    dot_product)
+$:f77_interface('sdsdot', ['s'],         sdsdot)
 $:f77_interface('?dotu',  COMPLEX_TYPES, dot_product)
 $:f77_interface('?dotc',  COMPLEX_TYPES, dot_product)
 !$:f77_interface('?nrm2', DEFAULT_TYPES, nrm2, result=REAL_TYPES)

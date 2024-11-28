@@ -1,4 +1,4 @@
-#:def potrs(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def potrs(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(a, b, uplo, info)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$,    in, a(:,:))

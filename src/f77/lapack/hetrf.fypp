@@ -1,4 +1,4 @@
-#:def hetrf(NAME,TYPE,KIND)
+#:def hetrf(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(uplo, n, a, lda, ipiv, work, lwork, info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

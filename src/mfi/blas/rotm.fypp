@@ -1,4 +1,4 @@
-#:def rotm(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def rotm(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(x, y, param, incx, incy)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, inout, x(:), y(:))

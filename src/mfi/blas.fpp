@@ -29,6 +29,7 @@
 #:include "src/mfi/blas/syr2k.fypp"
 #:include "src/mfi/blas/trmm_trsm.fypp"
 #:endmute
+!> Modern fortran interfaces for BLAS
 module mfi_blas
 use iso_fortran_env
 use f77_blas

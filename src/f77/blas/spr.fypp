@@ -1,4 +1,4 @@
-#:def spr(NAME,TYPE,KIND)
+#:def spr(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, ap)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

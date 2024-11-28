@@ -1,4 +1,4 @@
-#:def hegv(NAME,TYPE,KIND)
+#:def hegv(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

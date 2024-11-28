@@ -1,4 +1,4 @@
-#:def geqrf_gerqf(NAME,TYPE,KIND)
+#:def geqrf_gerqf(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(m,n,a,lda,tau,work,lwork,info)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

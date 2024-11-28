@@ -1,4 +1,4 @@
-#:def axpy(MFI_NAME,F77_NAME,TYPE,KIND)
+#:def axpy(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
 pure subroutine ${MFI_NAME}$(x, y, a, incx, incy)
 @:parameter(integer, wp=${KIND}$)
 @:args(${TYPE}$, in,    x(:))

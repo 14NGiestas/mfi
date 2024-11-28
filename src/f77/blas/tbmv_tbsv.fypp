@@ -1,4 +1,4 @@
-#:def tbmv_tbsv(NAME,TYPE,KIND)
+#:def tbmv_tbsv(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)

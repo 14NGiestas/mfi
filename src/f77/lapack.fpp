@@ -15,6 +15,7 @@
 #:include "src/f77/lapack/potrs.fypp"
 #:include "src/f77/lapack/pocon.fypp"
 #:endmute
+!> Improved and original F77 interfaces for LAPACK
 module f77_lapack
 use iso_fortran_env
 implicit none

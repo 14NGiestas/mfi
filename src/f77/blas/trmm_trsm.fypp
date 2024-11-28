@@ -1,4 +1,4 @@
-#:def trmm_trsm(NAME,TYPE,KIND)
+#:def trmm_trsm(NAME,TYPE,KIND,PREFIX)
 pure subroutine ${NAME}$(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
