@@ -131,7 +131,7 @@ $:f77_interface('i?amax', DEFAULT_TYPES, iamax_iamin)
 $:f77_interface('i?amin', DEFAULT_TYPES, iamax_iamin)
   #:else
 ! Implement the blas extensions in
-$:f77_interface_internal('i?amin', DEFAULT_TYPES)
+$:f77_interface_improved('i?amin', DEFAULT_TYPES)
 contains
 $:f77_implement('i?amin', DEFAULT_TYPES, iamin_stub)
   #:endif
