@@ -115,6 +115,16 @@ $:f77_interface_improved(name, supports, f=f)
 
 #:enddef
 
+#! Implements a f77 function / extension
+#:def f77_implement(name, supports, code)
+#:for PREFIX in supports
+#:set NAME = name.replace('?',PREFIX)
+#:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
+#:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
+$:code(NAME,TYPE,KIND)
+#:endfor
+#:enddef
+
 #! Implements a test
 #:def test_implement(name, supports, code, f=lambda x: x)
 #:for PREFIX in supports
