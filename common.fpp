@@ -89,7 +89,7 @@ end interface
 #:enddef
 
 #! Define f77 interfaces to implemented routines
-#:def f77_interface_internal(name, types, f=lambda x: x)
+#:def f77_interface_improved(name, types, f=lambda x: x)
 interface f77_${name.replace('?','')}$
     #:for T in types
     procedure :: ${name.replace('?',f(T))}$
@@ -98,7 +98,8 @@ end interface
 #:enddef
 
 #! Define a f77 interfaces to the external blas/lapack library
-#:def f77_interface(name, supports, code, f=lambda x: x)
+#:def f77_interface(name, supports, code, f=lambda x: x, improved_f77=True)
+
 interface
 #:for PREFIX in supports
 #:set NAME = name.replace('?',f(PREFIX))
@@ -107,7 +108,11 @@ interface
 $:code(NAME,TYPE,KIND,PREFIX)
 #:endfor
 end interface
-$:f77_interface_internal(name, supports, f=f)
+
+#:if improved_f77
+$:f77_interface_improved(name, supports, f=f)
+#:endif
+
 #:enddef
 
 #! Implements a f77 function / extension

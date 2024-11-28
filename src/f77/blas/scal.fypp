@@ -1,0 +1,20 @@
+#:def scal(NAME,TYPE,KIND,PREFIX)
+!> ${NAME.upper()}$ scales a vector by a constant.
+pure subroutine ${NAME}$(n, a, x, incx)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, x(*), a)
+@:args(integer,  in, n, incx)
+end subroutine
+#:enddef
+
+#:def scal_mixed(NAME,TYPE,KIND,PREFIX)
+!> ${NAME.upper()}$ scales a vector by a constant.
+pure subroutine ${NAME}$(n, a, x, incx)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,     inout, x(*))
+@:args(${REAL_TYPE}$,   in, a)
+@:args(integer,         in, n, incx)
+end subroutine
+#:enddef
