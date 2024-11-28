@@ -1,0 +1,50 @@
+#:mute
+
+!subroutine mfi_pocon (
+!   type(wp), dimension(:,:)     a,
+!   real(wp)                 anorm,
+!   real(wp)                 rcond,
+!   character                 uplo,
+!   integer                   info
+!)
+
+#:def pocon(MFI_NAME, F77_NAME, TYPE, KIND)
+!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
+pure subroutine ${MFI_NAME}$(a, anorm, rcond, uplo, info)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(:,:))
+@:args(${REAL_TYPE}$, in, anorm)
+@:args(${REAL_TYPE}$, out, rcond)
+@:optional(character, in, uplo)
+@:optional(integer, out, info)
+    integer :: n, lda, allocation_status, deallocation_status
+    ${TYPE}$, pointer :: work(:)
+#:if TYPE == REAL_TYPE
+    integer, pointer :: xwork(:)
+#:elif TYPE == COMPLEX_TYPE
+    ${REAL_TYPE}$, pointer :: xwork(:)
+#:endif
+@:defaults(uplo='U')
+    lda = max(1,size(a,1))
+    n   = size(a,2)
+    allocation_status = 0
+    allocate(xwork(n), stat=allocation_status)
+    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
+
+    if (allocation_status == 0) then
+        call ${F77_NAME}$(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
+    else
+        local_info = -1000
+    end if
+
+    deallocate(xwork, stat=deallocation_status)
+    deallocate(work,  stat=deallocation_status)
+
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${F77_NAME}$',-local_info)
+    end if
+end subroutine
+#:enddef
+#:endmute

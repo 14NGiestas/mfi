@@ -8,7 +8,10 @@
 !   real(wp)                      anorm,
 !   real(wp)                      rcond,
 !   type(wp),    dimension( * )    work,
-!   real(wp),    dimension( * )   rwork,
+! if REAL_TYPES then,
+!   integer,      dimension( * )   iwork,
+! if COMPLEX_TYPES then,
+!   real(wp),     dimension( * )   rwork,
 !   integer                        info 
 !)
 #:def pocon(NAME, TYPE, KIND)
@@ -19,7 +22,11 @@
 !> Cholesky factorization A = U**H*U or A = L*L**H computed by ${PREFIX}$POTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+#:if TYPE == REAL_TYPE
+pure subroutine ${NAME}$(uplo, n, a, lda, anorm, rcond, work, iwork, info)
+#:elif TYPE == COMPLEX_TYPE
 pure subroutine ${NAME}$(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+#:endif
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
 @:args(character,     in,    uplo)
@@ -28,7 +35,11 @@ pure subroutine ${NAME}$(uplo, n, a, lda, anorm, rcond, work, rwork, info)
 @:args(${REAL_TYPE}$, in,    anorm)
 @:args(${REAL_TYPE}$, out,   rcond)
 @:args(${TYPE}$,      inout, work(*))
+#:if TYPE == REAL_TYPE
+@:args(integer,       inout, iwork(*))
+#:elif TYPE == COMPLEX_TYPE
 @:args(${REAL_TYPE}$, inout, rwork(*))
+#:endif
 @:args(integer,       out,   info)
 end subroutine
 #:enddef

@@ -197,7 +197,7 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 ##### Cholesky: computational routines (factor, cond, etc.)
 | done?| name  | description               |
 | ---- | ----- | ------------------------- |
-| f77  | pocon | condition number estimate |
+| :+1: | pocon | condition number estimate |
 
 <!-- ##### LDL: Hermitian/symmetric indefinite matrix, driver -->
  

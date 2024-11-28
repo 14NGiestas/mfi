@@ -10,6 +10,7 @@
 #:include "src/mfi/lapack/heevd.fypp"
 #:include "src/mfi/lapack/potrf_potri.fypp"
 #:include "src/mfi/lapack/potrs.fypp"
+#:include "src/mfi/lapack/pocon.fypp"
 #:endmute
 module mfi_lapack
 use iso_fortran_env
@@ -29,6 +30,7 @@ $:mfi_interface('?gesvd',  DEFAULT_TYPES)
 $:mfi_interface('?potrf',  DEFAULT_TYPES)
 $:mfi_interface('?potri',  DEFAULT_TYPES)
 $:mfi_interface('?potrs',  DEFAULT_TYPES)
+$:mfi_interface('?pocon',  DEFAULT_TYPES)
 
 contains
 
@@ -44,6 +46,7 @@ $:mfi_implement('?gesvd',  DEFAULT_TYPES, gesvd)
 $:mfi_implement('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:mfi_implement('?potri',  DEFAULT_TYPES, potrf_potri)
 $:mfi_implement('?potrs',  DEFAULT_TYPES, potrs)
+$:mfi_implement('?pocon',  DEFAULT_TYPES, pocon)
 
     pure subroutine mfi_error(name, info)
         character(*), intent(in) :: name
