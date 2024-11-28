@@ -740,7 +740,7 @@ interface
 !> Cholesky factorization A = U**H*U or A = L*L**H computed by SPOTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
-pure subroutine spocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+pure subroutine spocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
     character, intent(in) :: uplo
@@ -750,7 +750,7 @@ pure subroutine spocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
     real(wp), intent(in) :: anorm
     real(wp), intent(out) :: rcond
     real(wp), intent(inout) :: work(*)
-    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
     integer, intent(out) :: info
 end subroutine
 !> dpocon estimates the reciprocal of the condition number (in the
@@ -758,7 +758,7 @@ end subroutine
 !> Cholesky factorization A = U**H*U or A = L*L**H computed by DPOTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
-pure subroutine dpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+pure subroutine dpocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
     character, intent(in) :: uplo
@@ -768,7 +768,7 @@ pure subroutine dpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
     real(wp), intent(in) :: anorm
     real(wp), intent(out) :: rcond
     real(wp), intent(inout) :: work(*)
-    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
     integer, intent(out) :: info
 end subroutine
 !> cpocon estimates the reciprocal of the condition number (in the
