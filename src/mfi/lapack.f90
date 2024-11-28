@@ -1,3 +1,4 @@
+!> Modern fortran interfaces for LAPACK
 module mfi_lapack
 use iso_fortran_env
 use f77_lapack

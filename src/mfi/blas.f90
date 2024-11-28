@@ -1,3 +1,4 @@
+!> Modern fortran interfaces for BLAS
 module mfi_blas
 use iso_fortran_env
 use f77_blas
@@ -5,7 +6,12 @@ use f77_blas, only: mfi_rotmg => f77_rotmg
 implicit none
 
 ! BLAS level 1
-!$:mfi_interface('?asum',  DEFAULT_TYPES)
+interface mfi_asum
+    module procedure mfi_sasum
+    module procedure mfi_dasum
+    module procedure mfi_scasum
+    module procedure mfi_dzasum
+end interface
 interface mfi_axpy
     module procedure mfi_saxpy
     module procedure mfi_daxpy
@@ -228,7 +234,66 @@ end interface
 contains
 
 ! BLAS level 1
-!$:mfi_interface('?asum',  DEFAULT_TYPES)
+pure function mfi_sasum(x, incx)
+    integer, parameter :: wp = REAL32
+    real(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    real(wp) :: mfi_sasum
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_sasum = sasum(n, x, local_incx)
+end function
+pure function mfi_dasum(x, incx)
+    integer, parameter :: wp = REAL64
+    real(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    real(wp) :: mfi_dasum
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_dasum = dasum(n, x, local_incx)
+end function
+pure function mfi_scasum(x, incx)
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    real(wp) :: mfi_scasum
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_scasum = scasum(n, x, local_incx)
+end function
+pure function mfi_dzasum(x, incx)
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    real(wp) :: mfi_dzasum
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_dzasum = dzasum(n, x, local_incx)
+end function
 pure subroutine mfi_saxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL32
     real(wp), intent(in) :: x(:)

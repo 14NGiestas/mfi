@@ -1,15 +1,13 @@
+!> Improved and original F77 interfaces for blas
 module f77_blas
 use iso_fortran_env
 implicit none
 
 !FIXME rot, dot, rotg, nrm2: problem with functions that have TYPE /= TYPE_result
-!https://spec.oneapi.com/versions/latest/elements/oneMKL/source/domains/blas/asum.html#onemkl-blas-asum
-!FIXME sdsdot: Weird specific interface: computes a vec-vect dot product but perform a sum
-!FIXME scal: problem with functions that have TYPE /= TYPE_scalar
-!https://spec.oneapi.com/versions/latest/elements/oneMKL/source/domains/blas/scal.html#onemkl-blas-scal
 
 ! BLAS level 1
-!!$:f77_interface('?asum',  DEFAULT_TYPES, asum, result=REAL_TYPES)
+
+
 interface
 pure subroutine saxpy(n, a, x, incx, y, incy)
     import :: REAL32
@@ -52,12 +50,15 @@ pure subroutine zaxpy(n, a, x, incx, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_axpy
     procedure :: saxpy
     procedure :: daxpy
     procedure :: caxpy
     procedure :: zaxpy
 end interface
+
+
 interface
 pure subroutine scopy(n, x, incx, y, incy)
     import :: REAL32
@@ -96,14 +97,44 @@ pure subroutine zcopy(n, x, incx, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_copy
     procedure :: scopy
     procedure :: dcopy
     procedure :: ccopy
     procedure :: zcopy
 end interface
-!$:f77_interface('?dot',  REAL_TYPES, dot_product, result=REAL_TYPES)
-!$:f77_interface('sdsdot')
+
+
+interface
+pure function sdot(n, x, incx, y, incy)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp) :: sdot
+    real(wp), intent(in) :: x(*)
+    real(wp), intent(in) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end function
+pure function ddot(n, x, incx, y, incy)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp) :: ddot
+    real(wp), intent(in) :: x(*)
+    real(wp), intent(in) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end function
+end interface
+
+interface f77_dot
+    procedure :: sdot
+    procedure :: ddot
+end interface
+
+
 interface
 pure function cdotu(n, x, incx, y, incy)
     import :: REAL32
@@ -126,10 +157,13 @@ pure function zdotu(n, x, incx, y, incy)
     integer, intent(in) :: incy
 end function
 end interface
+
 interface f77_dotu
     procedure :: cdotu
     procedure :: zdotu
 end interface
+
+
 interface
 pure function cdotc(n, x, incx, y, incy)
     import :: REAL32
@@ -152,13 +186,16 @@ pure function zdotc(n, x, incx, y, incy)
     integer, intent(in) :: incy
 end function
 end interface
+
 interface f77_dotc
     procedure :: cdotc
     procedure :: zdotc
 end interface
+
 !$:f77_interface('?nrm2', DEFAULT_TYPES, nrm2, result=REAL_TYPES)
 !$:f77_interface('?rot',  DEFAULT_TYPES, rot,  result=REAL_TYPES)
 !$:f77_interface('?rotg', DEFAULT_TYPES, rotg, result=REAL_TYPES)
+
 interface
 pure subroutine srotm(n, x, incx, y, incy, param)
     import :: REAL32
@@ -181,10 +218,13 @@ pure subroutine drotm(n, x, incx, y, incy, param)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_rotm
     procedure :: srotm
     procedure :: drotm
 end interface
+
+
 interface
 pure subroutine srotmg(d1, d2, x1, y1, param)
     import :: REAL32
@@ -205,11 +245,13 @@ pure subroutine drotmg(d1, d2, x1, y1, param)
     real(wp), intent(inout) :: x1
 end subroutine
 end interface
+
 interface f77_rotmg
     procedure :: srotmg
     procedure :: drotmg
 end interface
-!$:f77_interface('?scal')
+
+
 interface
 pure subroutine sswap(n, x, incx, y, incy)
     import :: REAL32
@@ -248,6 +290,7 @@ pure subroutine zswap(n, x, incx, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_swap
     procedure :: sswap
     procedure :: dswap
@@ -255,7 +298,151 @@ interface f77_swap
     procedure :: zswap
 end interface
 
+
+
+interface
+!> Compute the inner product of two vectors with extended
+!> precision accumulation.
+!>
+!> Returns S.P. result with dot product accumulated in D.P.
+!> SDSDOT = SB + sum for I = 0 to N-1 of SX(LX+I*INCX)*SY(LY+I*INCY),
+!> where LX = 1 if INCX .GE. 0, else LX = 1+(1-N)*INCX, and LY is
+!> defined in a similar way using INCY.
+pure function sdsdot(n, sb, sx, incx, sy, incy)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp) :: sdsdot
+    real(wp), intent(in) :: sx(*)
+    real(wp), intent(in) :: sy(*)
+    real(wp), intent(in) :: sb
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end function
+end interface
+
+interface f77_sdsdot
+    procedure :: sdsdot
+end interface
+
+
+interface
+pure function sasum(n, x, incx)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp) :: sasum
+    real(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end function
+pure function dasum(n, x, incx)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp) :: dasum
+    real(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end function
+pure function scasum(n, x, incx)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp) :: scasum
+    complex(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end function
+pure function dzasum(n, x, incx)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp) :: dzasum
+    complex(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end function
+end interface
+
+interface f77_asum
+    procedure :: sasum
+    procedure :: dasum
+    procedure :: scasum
+    procedure :: dzasum
+end interface
+
+
+interface
+!> SSCAL scales a vector by a constant.
+pure subroutine sscal(n, a, x, incx)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: x(*)
+    real(wp), intent(inout) :: a
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end subroutine
+!> DSCAL scales a vector by a constant.
+pure subroutine dscal(n, a, x, incx)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: x(*)
+    real(wp), intent(inout) :: a
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end subroutine
+!> CSCAL scales a vector by a constant.
+pure subroutine cscal(n, a, x, incx)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: x(*)
+    complex(wp), intent(inout) :: a
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end subroutine
+!> ZSCAL scales a vector by a constant.
+pure subroutine zscal(n, a, x, incx)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: x(*)
+    complex(wp), intent(inout) :: a
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end subroutine
+end interface
+
+
+
+interface
+!> CSSCAL scales a vector by a constant.
+pure subroutine csscal(n, a, x, incx)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: x(*)
+    real(wp), intent(in) :: a
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end subroutine
+!> ZDSCAL scales a vector by a constant.
+pure subroutine zdscal(n, a, x, incx)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: x(*)
+    real(wp), intent(in) :: a
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+end subroutine
+end interface
+
+
+interface f77_scal
+    procedure :: sscal
+    procedure :: dscal
+    procedure :: cscal
+    procedure :: zscal
+    procedure :: zdscal
+    procedure :: csscal
+end interface
+
 ! BLAS level 2
+
 interface
 pure subroutine sgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
@@ -326,12 +513,15 @@ pure subroutine zgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_gbmv
     procedure :: sgbmv
     procedure :: dgbmv
     procedure :: cgbmv
     procedure :: zgbmv
 end interface
+
+
 interface
 pure subroutine sgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
@@ -394,12 +584,15 @@ pure subroutine zgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_gemv
     procedure :: sgemv
     procedure :: dgemv
     procedure :: cgemv
     procedure :: zgemv
 end interface
+
+
 interface
 pure subroutine sger(m, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL32
@@ -428,10 +621,13 @@ pure subroutine dger(m, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_ger
     procedure :: sger
     procedure :: dger
 end interface
+
+
 interface
 pure subroutine cgerc(m, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL32
@@ -460,10 +656,13 @@ pure subroutine zgerc(m, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_gerc
     procedure :: cgerc
     procedure :: zgerc
 end interface
+
+
 interface
 pure subroutine cgeru(m, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL32
@@ -492,10 +691,13 @@ pure subroutine zgeru(m, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_geru
     procedure :: cgeru
     procedure :: zgeru
 end interface
+
+
 interface
 pure subroutine chbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
@@ -528,10 +730,13 @@ pure subroutine zhbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_hbmv
     procedure :: chbmv
     procedure :: zhbmv
 end interface
+
+
 interface
 pure subroutine chemv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
@@ -562,10 +767,13 @@ pure subroutine zhemv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_hemv
     procedure :: chemv
     procedure :: zhemv
 end interface
+
+
 interface
 pure subroutine cher(uplo, n, alpha, x, incx, a, lda)
     import :: REAL32
@@ -590,10 +798,13 @@ pure subroutine zher(uplo, n, alpha, x, incx, a, lda)
     integer, intent(in) :: incx
 end subroutine
 end interface
+
 interface f77_her
     procedure :: cher
     procedure :: zher
 end interface
+
+
 interface
 pure subroutine cher2(uplo, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL32
@@ -622,10 +833,13 @@ pure subroutine zher2(uplo, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_her2
     procedure :: cher2
     procedure :: zher2
 end interface
+
+
 interface
 pure subroutine chpmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     import :: REAL32
@@ -654,10 +868,13 @@ pure subroutine zhpmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_hpmv
     procedure :: chpmv
     procedure :: zhpmv
 end interface
+
+
 interface
 pure subroutine chpr(uplo, n, alpha, x, incx, ap)
     import :: REAL32
@@ -680,10 +897,13 @@ pure subroutine zhpr(uplo, n, alpha, x, incx, ap)
     integer, intent(in) :: incx
 end subroutine
 end interface
+
 interface f77_hpr
     procedure :: chpr
     procedure :: zhpr
 end interface
+
+
 interface
 pure subroutine chpr2(uplo, n, alpha, x, incx, y, incy, ap)
     import :: REAL32
@@ -710,10 +930,13 @@ pure subroutine zhpr2(uplo, n, alpha, x, incx, y, incy, ap)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_hpr2
     procedure :: chpr2
     procedure :: zhpr2
 end interface
+
+
 interface
 pure subroutine ssbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
@@ -746,10 +969,13 @@ pure subroutine dsbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_sbmv
     procedure :: ssbmv
     procedure :: dsbmv
 end interface
+
+
 interface
 pure subroutine sspmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     import :: REAL32
@@ -778,10 +1004,13 @@ pure subroutine dspmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_spmv
     procedure :: sspmv
     procedure :: dspmv
 end interface
+
+
 interface
 pure subroutine sspr(uplo, n, alpha, x, incx, ap)
     import :: REAL32
@@ -804,10 +1033,13 @@ pure subroutine dspr(uplo, n, alpha, x, incx, ap)
     integer, intent(in) :: incx
 end subroutine
 end interface
+
 interface f77_spr
     procedure :: sspr
     procedure :: dspr
 end interface
+
+
 interface
 pure subroutine sspr2(uplo, n, alpha, x, incx, y, incy, ap)
     import :: REAL32
@@ -834,10 +1066,13 @@ pure subroutine dspr2(uplo, n, alpha, x, incx, y, incy, ap)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_spr2
     procedure :: sspr2
     procedure :: dspr2
 end interface
+
+
 interface
 pure subroutine ssymv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
@@ -868,10 +1103,13 @@ pure subroutine dsymv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_symv
     procedure :: ssymv
     procedure :: dsymv
 end interface
+
+
 interface
 pure subroutine ssyr(uplo, n, alpha, x, incx, a, lda)
     import :: REAL32
@@ -896,10 +1134,13 @@ pure subroutine dsyr(uplo, n, alpha, x, incx, a, lda)
     integer, intent(in) :: incx
 end subroutine
 end interface
+
 interface f77_syr
     procedure :: ssyr
     procedure :: dsyr
 end interface
+
+
 interface
 pure subroutine ssyr2(uplo, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL32
@@ -928,10 +1169,13 @@ pure subroutine dsyr2(uplo, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incy
 end subroutine
 end interface
+
 interface f77_syr2
     procedure :: ssyr2
     procedure :: dsyr2
 end interface
+
+
 interface
 pure subroutine stbmv(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: REAL32
@@ -986,12 +1230,15 @@ pure subroutine ztbmv(uplo, trans, diag, n, k, a, lda, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
+
 interface f77_tbmv
     procedure :: stbmv
     procedure :: dtbmv
     procedure :: ctbmv
     procedure :: ztbmv
 end interface
+
+
 interface
 pure subroutine stbsv(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: REAL32
@@ -1046,12 +1293,15 @@ pure subroutine ztbsv(uplo, trans, diag, n, k, a, lda, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
+
 interface f77_tbsv
     procedure :: stbsv
     procedure :: dtbsv
     procedure :: ctbsv
     procedure :: ztbsv
 end interface
+
+
 interface
 pure subroutine stpmv(uplo, trans, diag, n, ap, x, incx)
     import :: REAL32
@@ -1098,12 +1348,15 @@ pure subroutine ztpmv(uplo, trans, diag, n, ap, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
+
 interface f77_tpmv
     procedure :: stpmv
     procedure :: dtpmv
     procedure :: ctpmv
     procedure :: ztpmv
 end interface
+
+
 interface
 pure subroutine stpsv(uplo, trans, diag, n, ap, x, incx)
     import :: REAL32
@@ -1150,12 +1403,15 @@ pure subroutine ztpsv(uplo, trans, diag, n, ap, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
+
 interface f77_tpsv
     procedure :: stpsv
     procedure :: dtpsv
     procedure :: ctpsv
     procedure :: ztpsv
 end interface
+
+
 interface
 pure subroutine strmv(uplo, trans, diag, n, a, lda, x, incx)
     import :: REAL32
@@ -1206,12 +1462,15 @@ pure subroutine ztrmv(uplo, trans, diag, n, a, lda, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
+
 interface f77_trmv
     procedure :: strmv
     procedure :: dtrmv
     procedure :: ctrmv
     procedure :: ztrmv
 end interface
+
+
 interface
 pure subroutine strsv(uplo, trans, diag, n, a, lda, x, incx)
     import :: REAL32
@@ -1262,6 +1521,7 @@ pure subroutine ztrsv(uplo, trans, diag, n, a, lda, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
+
 interface f77_trsv
     procedure :: strsv
     procedure :: dtrsv
@@ -1269,7 +1529,9 @@ interface f77_trsv
     procedure :: ztrsv
 end interface
 
+
 ! BLAS level 3
+
 interface
 pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
@@ -1340,12 +1602,15 @@ pure subroutine zgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldc
 end subroutine
 end interface
+
 interface f77_gemm
     procedure :: sgemm
     procedure :: dgemm
     procedure :: cgemm
     procedure :: zgemm
 end interface
+
+
 interface
 pure subroutine chemm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
@@ -1380,10 +1645,13 @@ pure subroutine zhemm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
+
 interface f77_hemm
     procedure :: chemm
     procedure :: zhemm
 end interface
+
+
 interface
 pure subroutine cherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: REAL32
@@ -1414,10 +1682,13 @@ pure subroutine zherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
+
 interface f77_herk
     procedure :: cherk
     procedure :: zherk
 end interface
+
+
 interface
 pure subroutine cher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
@@ -1452,10 +1723,13 @@ pure subroutine zher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
+
 interface f77_her2k
     procedure :: cher2k
     procedure :: zher2k
 end interface
+
+
 interface
 pure subroutine ssymm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
@@ -1490,10 +1764,13 @@ pure subroutine dsymm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
+
 interface f77_symm
     procedure :: ssymm
     procedure :: dsymm
 end interface
+
+
 interface
 pure subroutine ssyrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: REAL32
@@ -1524,10 +1801,13 @@ pure subroutine dsyrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
+
 interface f77_syrk
     procedure :: ssyrk
     procedure :: dsyrk
 end interface
+
+
 interface
 pure subroutine ssyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
@@ -1562,10 +1842,13 @@ pure subroutine dsyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
+
 interface f77_syr2k
     procedure :: ssyr2k
     procedure :: dsyr2k
 end interface
+
+
 interface
 pure subroutine strmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: REAL32
@@ -1628,12 +1911,15 @@ pure subroutine ztrmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     integer, intent(in) :: ldb
 end subroutine
 end interface
+
 interface f77_trmm
     procedure :: strmm
     procedure :: dtrmm
     procedure :: ctrmm
     procedure :: ztrmm
 end interface
+
+
 interface
 pure subroutine strsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: REAL32
@@ -1696,12 +1982,14 @@ pure subroutine ztrsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     integer, intent(in) :: ldb
 end subroutine
 end interface
+
 interface f77_trsm
     procedure :: strsm
     procedure :: dtrsm
     procedure :: ctrsm
     procedure :: ztrsm
 end interface
+
 
 
 ! Specific interfaces for slamch and dlamch
@@ -1720,6 +2008,7 @@ end interface
 
 ! Extensions
 ! BLAS Level 1 - Utils / Extensions
+
 interface
 pure function isamax(n, x, incx)
     import :: REAL32
@@ -1754,12 +2043,14 @@ pure function izamax(n, x, incx)
     integer, intent(in) :: incx
 end function
 end interface
+
 interface f77_iamax
     procedure :: isamax
     procedure :: idamax
     procedure :: icamax
     procedure :: izamax
 end interface
+
 ! Implement the blas extensions in
 interface f77_iamin
     procedure :: isamin
