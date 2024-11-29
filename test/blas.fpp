@@ -1,6 +1,7 @@
 #:include "common.fpp"
 #:include "test/blas/asum_nrm2.fypp"
 #:include "test/blas/iamin_iamax.fypp"
+#:include "test/blas/dot_product.fypp"
 #:include "test/blas/axpy.fypp"
 #:include "test/blas/rot.fypp"
 #:include "test/blas/copy.fypp"
@@ -13,6 +14,9 @@ program main
 use iso_fortran_env
 implicit none
 $:test_run('?lamch',REAL_TYPES)
+$:test_run('?dot',  REAL_TYPES)
+$:test_run('?dotu', COMPLEX_TYPES)
+$:test_run('?dotc', COMPLEX_TYPES)
 $:test_run('?copy', DEFAULT_TYPES)
 $:test_run('?swap', DEFAULT_TYPES)
 $:test_run('?axpy', DEFAULT_TYPES)
@@ -31,6 +35,9 @@ $:test_run('i?amax',DEFAULT_TYPES)
 contains
 
 $:test_implement('?lamch',REAL_TYPES, lamch)
+$:test_implement('?dot',  REAL_TYPES,    dot_product)
+$:test_implement('?dotc', COMPLEX_TYPES, dot_product)
+$:test_implement('?dotu', COMPLEX_TYPES, dot_product)
 $:test_implement('?copy', DEFAULT_TYPES, copy)
 $:test_implement('?swap', DEFAULT_TYPES, swap)
 $:test_implement('?axpy', DEFAULT_TYPES, axpy)

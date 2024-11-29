@@ -1,0 +1,36 @@
+#:mute
+#:def dot_product(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+subroutine test_${ORIGINAL}$
+    use f77_blas, only: ${ORIGINAL}$, ${IMPROVED}$
+    use mfi_blas, only: ${MODERN}$, mfi_${ORIGINAL}$
+
+    integer, parameter :: wp = ${KIND}$
+    integer, parameter :: N = 20
+
+    ${TYPE}$ :: res, ref
+
+    ${TYPE}$ :: x(N), y(N)
+
+#:if TYPE == COMPLEX_TYPE
+    @:random_complex(X,(N))
+    @:random_complex(Y,(N))
+#:else
+    call random_number(X)
+    call random_number(Y)
+#:endif
+
+    ! The test is always against the original
+    ref = ${ORIGINAL}$(N, x, 1, y, 1)
+
+    res = ${IMPROVED}$(N, x, 1, y, 1)
+    call assert(ref == res, "different results")
+
+    res = mfi_${ORIGINAL}$(x, y)
+    call assert(ref == res, "different results")
+
+    res = ${MODERN}$(x, y)
+    call assert(ref == res, "different results")
+
+end subroutine
+#:enddef
+#:endmute

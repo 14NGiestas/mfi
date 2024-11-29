@@ -1,0 +1,52 @@
+interface
+
+    !> SLAMCH determines single precision machine parameters.
+    pure real(REAL32) function slamch(cmach)
+        import :: REAL32
+        character, intent(in) :: cmach
+    end function
+
+    !> DLAMCH determines double precision machine parameters.
+    pure real(REAL64) function dlamch(cmach)
+        import :: REAL64
+        character, intent(in) :: cmach
+    end function
+
+    !> Compute the inner product of two vectors with extended
+    !> precision accumulation.
+    !>
+    !> Returns S.P. result with dot product accumulated in D.P.
+    !> SDSDOT = SB + sum for I = 0 to N-1 of SX(LX+I*INCX)*SY(LY+I*INCY),
+    !> where LX = 1 if INCX .GE. 0, else LX = 1+(1-N)*INCX, and LY is
+    !> defined in a similar way using INCY.
+    pure function sdsdot(n, sb, sx, incx, sy, incy)
+        import :: REAL32
+        integer, parameter :: wp = REAL32
+        real(wp) :: sdsdot
+        real(wp), intent(in) :: sx(*)
+        real(wp), intent(in) :: sy(*)
+        real(wp), intent(in) :: sb
+        integer, intent(in) :: n
+        integer, intent(in) :: incx
+        integer, intent(in) :: incy
+    end function
+
+    !> Compute the inner product of two vectors with extended
+    !> precision accumulation and result.
+    !>
+    !> Returns D.P. dot product accumulated in D.P., for S.P. SX and SY
+    !> DSDOT = sum for I = 0 to N-1 of  SX(LX+I*INCX) * SY(LY+I*INCY),
+    !> where LX = 1 if INCX .GE. 0, else LX = 1+(1-N)*INCX, and LY is
+    !> defined in a similar way using INCY.
+    pure function dsdot(n, sx, incx, sy, incy)
+        import :: REAL32, REAL64
+        integer, parameter :: sp = REAL32
+        integer, parameter :: dp = REAL64
+        real(dp) :: dsdot
+        real(sp), intent(in) :: sx(*)
+        real(sp), intent(in) :: sy(*)
+        integer,  intent(in) :: n
+        integer,  intent(in) :: incx
+        integer,  intent(in) :: incy
+    end function
+end interface

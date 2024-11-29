@@ -55,8 +55,6 @@ $:f77_interface('?rotmg', REAL_TYPES,    rotmg)
 $:f77_interface('?swap',  DEFAULT_TYPES, copy_swap)
 
 #! Problematic functions
-#! sdsdot is one of a kind routine
-$:f77_interface('sdsdot', ['s'], sdsdot)
 #! asum has special names indicating the returns are real types
 $:f77_interface('?asum',  DEFAULT_TYPES, asum_nrm2, f=MIX_REAL_COMPLEX)
 #! nrm2 has the same interface as asum
@@ -110,19 +108,7 @@ $:f77_interface('?trmm',  DEFAULT_TYPES, trmm_trsm)
 $:f77_interface('?trsm',  DEFAULT_TYPES, trmm_trsm)
 
 
-! Specific interfaces for slamch and dlamch
-! as fortran can't differentiate them by the return kind
-interface
-    pure real(REAL32) function slamch(cmach)
-        import :: REAL32
-        character, intent(in) :: cmach
-    end function
-
-    pure real(REAL64) function dlamch(cmach)
-        import :: REAL64
-        character, intent(in) :: cmach
-    end function
-end interface
+#:include "src/f77/blas/specific_interfaces.fypp"
 
 ! Extensions
 ! BLAS Level 1 - Utils / Extensions
