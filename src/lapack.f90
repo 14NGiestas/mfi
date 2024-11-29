@@ -1,1902 +1,921 @@
-!> Modern fortran interfaces for LAPACK
-module mfi_lapack
+!> Improved and original F77 interfaces for LAPACK
+module f77_lapack
 use iso_fortran_env
-use f77_lapack
-use f77_lapack, only: mfi_lartg => f77_lartg
 implicit none
 
-interface mfi_geqrf
-    module procedure mfi_sgeqrf
-    module procedure mfi_dgeqrf
-    module procedure mfi_cgeqrf
-    module procedure mfi_zgeqrf
-end interface
-interface mfi_gerqf
-    module procedure mfi_sgerqf
-    module procedure mfi_dgerqf
-    module procedure mfi_cgerqf
-    module procedure mfi_zgerqf
-end interface
-interface mfi_getrf
-    module procedure mfi_sgetrf
-    module procedure mfi_dgetrf
-    module procedure mfi_cgetrf
-    module procedure mfi_zgetrf
-end interface
-interface mfi_getri
-    module procedure mfi_sgetri
-    module procedure mfi_dgetri
-    module procedure mfi_cgetri
-    module procedure mfi_zgetri
-end interface
-interface mfi_getrs
-    module procedure mfi_sgetrs
-    module procedure mfi_dgetrs
-    module procedure mfi_cgetrs
-    module procedure mfi_zgetrs
-end interface
-interface mfi_hetrf
-    module procedure mfi_chetrf
-    module procedure mfi_zhetrf
-end interface
-interface mfi_hegv
-    module procedure mfi_chegv
-    module procedure mfi_zhegv
-end interface
-interface mfi_heevd
-    module procedure mfi_cheevd
-    module procedure mfi_zheevd
-end interface
-interface mfi_gesvd
-    module procedure mfi_sgesvd
-    module procedure mfi_dgesvd
-    module procedure mfi_cgesvd
-    module procedure mfi_zgesvd
-end interface
-interface mfi_potrf
-    module procedure mfi_spotrf
-    module procedure mfi_dpotrf
-    module procedure mfi_cpotrf
-    module procedure mfi_zpotrf
-end interface
-interface mfi_potri
-    module procedure mfi_spotri
-    module procedure mfi_dpotri
-    module procedure mfi_cpotri
-    module procedure mfi_zpotri
-end interface
-interface mfi_potrs
-    module procedure mfi_spotrs
-    module procedure mfi_dpotrs
-    module procedure mfi_cpotrs
-    module procedure mfi_zpotrs
-end interface
-interface mfi_pocon
-    module procedure mfi_spocon
-    module procedure mfi_dpocon
-    module procedure mfi_cpocon
-    module procedure mfi_zpocon
+
+interface
+pure subroutine sgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(wp), intent(inout) :: work(*)
+end subroutine
+pure subroutine dgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(wp), intent(inout) :: work(*)
+end subroutine
+pure subroutine cgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
+end subroutine
+pure subroutine zgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
+end subroutine
 end interface
 
-contains
+interface f77_geqrf
+    procedure :: sgeqrf
+    procedure :: dgeqrf
+    procedure :: cgeqrf
+    procedure :: zgeqrf
+end interface
 
-pure subroutine mfi_sgeqrf(a, tau, info)
+
+interface
+pure subroutine sgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(wp), pointer :: local_tau(:), work(:)
-    real(wp), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call sgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call sgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgeqrf', -local_info)
-    end if
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(wp), intent(inout) :: work(*)
 end subroutine
-pure subroutine mfi_dgeqrf(a, tau, info)
+pure subroutine dgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(wp), pointer :: local_tau(:), work(:)
-    real(wp), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call dgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call dgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgeqrf', -local_info)
-    end if
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(wp), intent(inout) :: work(*)
 end subroutine
-pure subroutine mfi_cgeqrf(a, tau, info)
+pure subroutine cgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), pointer :: local_tau(:), work(:)
-    complex(wp), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call cgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call cgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgeqrf', -local_info)
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
 end subroutine
-pure subroutine mfi_zgeqrf(a, tau, info)
+pure subroutine zgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), pointer :: local_tau(:), work(:)
-    complex(wp), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call zgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call zgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgeqrf', -local_info)
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
 end subroutine
-pure subroutine mfi_sgerqf(a, tau, info)
+end interface
+
+interface f77_gerqf
+    procedure :: sgerqf
+    procedure :: dgerqf
+    procedure :: cgerqf
+    procedure :: zgerqf
+end interface
+
+
+interface
+pure subroutine sgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(wp), pointer :: local_tau(:), work(:)
-    real(wp), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call sgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call sgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgerqf', -local_info)
-    end if
+    real(wp), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
 end subroutine
-pure subroutine mfi_dgerqf(a, tau, info)
+pure subroutine dgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(wp), pointer :: local_tau(:), work(:)
-    real(wp), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call dgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
+    real(wp), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
+pure subroutine cgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
+pure subroutine zgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
+end interface
 
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call dgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
+interface f77_getrf
+    procedure :: sgetrf
+    procedure :: dgetrf
+    procedure :: cgetrf
+    procedure :: zgetrf
+end interface
 
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgerqf', -local_info)
-    end if
-end subroutine
-pure subroutine mfi_cgerqf(a, tau, info)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), pointer :: local_tau(:), work(:)
-    complex(wp), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call cgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call cgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
+interface
+pure subroutine sgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine dgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine cgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine zgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+end interface
 
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgerqf', -local_info)
-    end if
-end subroutine
-pure subroutine mfi_zgerqf(a, tau, info)
-    integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), pointer :: local_tau(:), work(:)
-    complex(wp), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call zgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
+interface f77_getri
+    procedure :: sgetri
+    procedure :: dgetri
+    procedure :: cgetri
+    procedure :: zgetri
+end interface
 
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call zgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
 
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgerqf', -local_info)
-    end if
-end subroutine
-pure subroutine mfi_sgetrf(a, ipiv, info)
+interface
+pure subroutine sgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(min(m,n)), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call sgetrf(m,n,a,lda,local_ipiv,local_info)
-    else
-        local_info = -1000
-    end if
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgetrf', -local_info)
-    end if
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
 end subroutine
-pure subroutine mfi_dgetrf(a, ipiv, info)
+pure subroutine dgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(min(m,n)), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call dgetrf(m,n,a,lda,local_ipiv,local_info)
-    else
-        local_info = -1000
-    end if
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgetrf', -local_info)
-    end if
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
 end subroutine
-pure subroutine mfi_cgetrf(a, ipiv, info)
+pure subroutine cgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(min(m,n)), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call cgetrf(m,n,a,lda,local_ipiv,local_info)
-    else
-        local_info = -1000
-    end if
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgetrf', -local_info)
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
 end subroutine
-pure subroutine mfi_zgetrf(a, ipiv, info)
+pure subroutine zgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(min(m,n)), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call zgetrf(m,n,a,lda,local_ipiv,local_info)
-    else
-        local_info = -1000
-    end if
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgetrf', -local_info)
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
 end subroutine
-pure subroutine mfi_sgetri(a, ipiv, info)
-    integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    integer, intent(in) :: ipiv(:)
-    real(wp), pointer :: work(:)
-    real(wp) :: s_work(1)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    lwork = -1
-    call sgetri(n,a,lda,ipiv,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call sgetri(n,a,lda,ipiv,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgetri',-local_info)
-    end if
-end subroutine
-pure subroutine mfi_dgetri(a, ipiv, info)
-    integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    integer, intent(in) :: ipiv(:)
-    real(wp), pointer :: work(:)
-    real(wp) :: s_work(1)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    lwork = -1
-    call dgetri(n,a,lda,ipiv,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call dgetri(n,a,lda,ipiv,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgetri',-local_info)
-    end if
-end subroutine
-pure subroutine mfi_cgetri(a, ipiv, info)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    integer, intent(in) :: ipiv(:)
-    complex(wp), pointer :: work(:)
-    complex(wp) :: s_work(1)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    lwork = -1
-    call cgetri(n,a,lda,ipiv,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call cgetri(n,a,lda,ipiv,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgetri',-local_info)
-    end if
-end subroutine
-pure subroutine mfi_zgetri(a, ipiv, info)
-    integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    integer, intent(in) :: ipiv(:)
-    complex(wp), pointer :: work(:)
-    complex(wp) :: s_work(1)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    lwork = -1
-    call zgetri(n,a,lda,ipiv,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call zgetri(n,a,lda,ipiv,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgetri',-local_info)
-    end if
-end subroutine
-pure subroutine mfi_sgetrs(a,ipiv,b,trans,info)
-    integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
-    integer, intent(in) :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: trans
-    character :: local_trans
-    integer :: n, nrhs, lda, ldb
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call sgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgetrs',-local_info)
-    end if
-end subroutine
-pure subroutine mfi_dgetrs(a,ipiv,b,trans,info)
-    integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
-    integer, intent(in) :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: trans
-    character :: local_trans
-    integer :: n, nrhs, lda, ldb
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call dgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgetrs',-local_info)
-    end if
-end subroutine
-pure subroutine mfi_cgetrs(a,ipiv,b,trans,info)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
-    integer, intent(in) :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: trans
-    character :: local_trans
-    integer :: n, nrhs, lda, ldb
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call cgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgetrs',-local_info)
-    end if
-end subroutine
-pure subroutine mfi_zgetrs(a,ipiv,b,trans,info)
-    integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
-    integer, intent(in) :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: trans
-    character :: local_trans
-    integer :: n, nrhs, lda, ldb
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call zgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgetrs',-local_info)
-    end if
-end subroutine
-pure subroutine mfi_chetrf(a, uplo, ipiv, info)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, pointer :: local_ipiv(:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer   :: n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), target :: s_work(1)
-    complex(wp), pointer :: work(:)
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    allocation_status = 0
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(n), stat=allocation_status)
-    end if
-    lwork = -1
-    call chetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (.not. present(ipiv)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('chetrf',-local_info)
-    end if
-end subroutine
-pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
-    integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, pointer :: local_ipiv(:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer   :: n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), target :: s_work(1)
-    complex(wp), pointer :: work(:)
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    allocation_status = 0
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(n), stat=allocation_status)
-    end if
-    lwork = -1
-    call zhetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (.not. present(ipiv)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zhetrf',-local_info)
-    end if
-end subroutine
-pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
-    real(wp), intent(out) :: w(:)
-    integer, intent(in), optional :: itype
-    integer :: local_itype
-    character, intent(in), optional :: jobz
-    character :: local_jobz
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    complex(wp),      pointer :: work(:)
-    real(wp), pointer :: rwork(:)
-    complex(wp) :: s_work(1)
-    integer :: n, lda, ldb, lwork, allocation_status, deallocation_status
-    if (present(itype)) then
-        local_itype = itype
-    else
-        local_itype = 1
-    end if
-    if (present(jobz)) then
-        local_jobz = jobz
-    else
-        local_jobz = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    allocation_status = 0
-    allocate(rwork(max(1,3*N-2)), stat=allocation_status)
-    lwork = -1
-    call chegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call chegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,work,lwork,rwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    deallocate(rwork, stat=deallocation_status)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('chegv', -local_info)
-    end if
-end subroutine
-pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
-    integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
-    real(wp), intent(out) :: w(:)
-    integer, intent(in), optional :: itype
-    integer :: local_itype
-    character, intent(in), optional :: jobz
-    character :: local_jobz
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    complex(wp),      pointer :: work(:)
-    real(wp), pointer :: rwork(:)
-    complex(wp) :: s_work(1)
-    integer :: n, lda, ldb, lwork, allocation_status, deallocation_status
-    if (present(itype)) then
-        local_itype = itype
-    else
-        local_itype = 1
-    end if
-    if (present(jobz)) then
-        local_jobz = jobz
-    else
-        local_jobz = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    allocation_status = 0
-    allocate(rwork(max(1,3*N-2)), stat=allocation_status)
-    lwork = -1
-    call zhegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call zhegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,work,lwork,rwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    deallocate(rwork, stat=deallocation_status)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zhegv', -local_info)
-    end if
-end subroutine
-pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: w(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: jobz
-    character :: local_jobz
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    complex(wp),      pointer :: work(:)
-    real(wp), pointer :: rwork(:)
-    integer,       pointer :: iwork(:)
-    complex(wp)      :: s_work(1)
-    real(wp) :: s_rwork(1)
-    integer       :: s_iwork(1)
-    integer :: n, lda, lwork, lrwork, liwork, allocation_status, deallocation_status
-    if (present(jobz)) then
-        local_jobz = jobz
-    else
-        local_jobz = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    lwork  = -1
-    lrwork = -1
-    liwork = -1
+end interface
 
-    call cheevd(local_jobz,local_uplo,n,a,lda,w, &
-                      s_work,lwork,s_rwork,lrwork,s_iwork,liwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork  = int(s_work(1))
-    lrwork = int(s_rwork(1))
-    liwork = int(s_iwork(1))
+interface f77_getrs
+    procedure :: sgetrs
+    procedure :: dgetrs
+    procedure :: cgetrs
+    procedure :: zgetrs
+end interface
 
-    allocate(iwork(liwork), stat=allocation_status)
 
-    if (allocation_status == 0) then
-        allocate(rwork(lrwork), stat=allocation_status)
-        allocate(work(lwork),   stat=allocation_status)
-        call cheevd(local_jobz,local_uplo,n,a,lda,w, &
-                      work,lwork,rwork,lrwork,iwork,liwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(iwork, stat=deallocation_status)
-    deallocate(rwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cheevd', -local_info)
-    end if
+interface
+pure subroutine chetrf(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: ipiv(*)
+    complex(wp), intent(inout) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
 end subroutine
-pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
+pure subroutine zhetrf(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: w(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: jobz
-    character :: local_jobz
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    complex(wp),      pointer :: work(:)
-    real(wp), pointer :: rwork(:)
-    integer,       pointer :: iwork(:)
-    complex(wp)      :: s_work(1)
-    real(wp) :: s_rwork(1)
-    integer       :: s_iwork(1)
-    integer :: n, lda, lwork, lrwork, liwork, allocation_status, deallocation_status
-    if (present(jobz)) then
-        local_jobz = jobz
-    else
-        local_jobz = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    lwork  = -1
-    lrwork = -1
-    liwork = -1
+    complex(wp), intent(inout) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: ipiv(*)
+    complex(wp), intent(inout) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+end interface
 
-    call zheevd(local_jobz,local_uplo,n,a,lda,w, &
-                      s_work,lwork,s_rwork,lrwork,s_iwork,liwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork  = int(s_work(1))
-    lrwork = int(s_rwork(1))
-    liwork = int(s_iwork(1))
+interface f77_hetrf
+    procedure :: chetrf
+    procedure :: zhetrf
+end interface
 
-    allocate(iwork(liwork), stat=allocation_status)
 
-    if (allocation_status == 0) then
-        allocate(rwork(lrwork), stat=allocation_status)
-        allocate(work(lwork),   stat=allocation_status)
-        call zheevd(local_jobz,local_uplo,n,a,lda,w, &
-                      work,lwork,rwork,lrwork,iwork,liwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(iwork, stat=deallocation_status)
-    deallocate(rwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zheevd', -local_info)
-    end if
-end subroutine
-pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
+interface
+pure subroutine chegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: s(:)
-    real(wp),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(wp), intent(out), optional, target :: ww(:)
-    character, intent(in), optional :: job
-    character :: local_job
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character :: jobu, jobvt
-    integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    real(wp),      target  :: s_work(1), l_a2(1,1)
-    real(wp),      pointer :: local_u(:,:), local_vt(:,:), work(:)
-    if (present(job)) then
-        local_job = job
-    else
-        local_job = 'N'
-    end if
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    if (present(u)) then
-        ldu = max(1,size(u,1))
-    else
-        ldu = 1
-    end if
-    if (present(vt)) then
-        ldvt = max(1,size(vt,1))
-    else
-        ldvt = 1
-    end if
-    if (present(u)) then
-        if (size(u,2) == m) then
-            jobu = 'A'
-        else
-            jobu = 'S'
-        end if
-        local_u => u
-    else
-        if (local_job == 'u' .or. local_job == 'U') then
-            jobu = 'O'
-        else
-            jobu = 'N'
-        end if
-        local_u => l_a2
-    end if
-    if (present(vt)) then
-        if (size(vt,1) == n) then
-            jobvt = 'A'
-        else
-            jobvt = 'S'
-        end if
-        local_vt => vt
-    else
-        if (local_job == 'v' .or. local_job == 'V') then
-            jobvt = 'O'
-        else
-            jobvt = 'N'
-        end if
-        local_vt => l_a2
-    end if
-    allocation_status = 0
-    lwork = -1
-    call sgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,local_info)
-    if (local_info /= 0) then
-        goto 404
-    end if
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call sgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: itype
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(in) :: rwork(*)
+end subroutine
+pure subroutine zhegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: itype
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(in) :: rwork(*)
+end subroutine
+end interface
 
-    if (present(ww)) then
-        ww = real(work(2:min(m,n)-1))
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgesvd', -local_info)
-    end if
-end subroutine
-pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
-    integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: s(:)
-    real(wp),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(wp), intent(out), optional, target :: ww(:)
-    character, intent(in), optional :: job
-    character :: local_job
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character :: jobu, jobvt
-    integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    real(wp),      target  :: s_work(1), l_a2(1,1)
-    real(wp),      pointer :: local_u(:,:), local_vt(:,:), work(:)
-    if (present(job)) then
-        local_job = job
-    else
-        local_job = 'N'
-    end if
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    if (present(u)) then
-        ldu = max(1,size(u,1))
-    else
-        ldu = 1
-    end if
-    if (present(vt)) then
-        ldvt = max(1,size(vt,1))
-    else
-        ldvt = 1
-    end if
-    if (present(u)) then
-        if (size(u,2) == m) then
-            jobu = 'A'
-        else
-            jobu = 'S'
-        end if
-        local_u => u
-    else
-        if (local_job == 'u' .or. local_job == 'U') then
-            jobu = 'O'
-        else
-            jobu = 'N'
-        end if
-        local_u => l_a2
-    end if
-    if (present(vt)) then
-        if (size(vt,1) == n) then
-            jobvt = 'A'
-        else
-            jobvt = 'S'
-        end if
-        local_vt => vt
-    else
-        if (local_job == 'v' .or. local_job == 'V') then
-            jobvt = 'O'
-        else
-            jobvt = 'N'
-        end if
-        local_vt => l_a2
-    end if
-    allocation_status = 0
-    lwork = -1
-    call dgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,local_info)
-    if (local_info /= 0) then
-        goto 404
-    end if
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call dgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
+interface f77_hegv
+    procedure :: chegv
+    procedure :: zhegv
+end interface
 
-    if (present(ww)) then
-        ww = real(work(2:min(m,n)-1))
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgesvd', -local_info)
-    end if
-end subroutine
-pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: s(:)
-    complex(wp),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(wp), intent(out), optional, target :: ww(:)
-    character, intent(in), optional :: job
-    character :: local_job
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character :: jobu, jobvt
-    integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    complex(wp),      target  :: s_work(1), l_a2(1,1)
-    complex(wp),      pointer :: local_u(:,:), local_vt(:,:), work(:)
-    real(wp), pointer :: rwork(:)
-    if (present(job)) then
-        local_job = job
-    else
-        local_job = 'N'
-    end if
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    if (present(u)) then
-        ldu = max(1,size(u,1))
-    else
-        ldu = 1
-    end if
-    if (present(vt)) then
-        ldvt = max(1,size(vt,1))
-    else
-        ldvt = 1
-    end if
-    if (present(u)) then
-        if (size(u,2) == m) then
-            jobu = 'A'
-        else
-            jobu = 'S'
-        end if
-        local_u => u
-    else
-        if (local_job == 'u' .or. local_job == 'U') then
-            jobu = 'O'
-        else
-            jobu = 'N'
-        end if
-        local_u => l_a2
-    end if
-    if (present(vt)) then
-        if (size(vt,1) == n) then
-            jobvt = 'A'
-        else
-            jobvt = 'S'
-        end if
-        local_vt => vt
-    else
-        if (local_job == 'v' .or. local_job == 'V') then
-            jobvt = 'O'
-        else
-            jobvt = 'N'
-        end if
-        local_vt => l_a2
-    end if
-    allocation_status = 0
-    lwork = -1
-    allocate(rwork(5*min(m,n)), stat=allocation_status)
-    call cgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,rwork,local_info)
-    if (local_info /= 0) then
-        goto 404
-    end if
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call cgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)
-    else
-        local_info = -1000
-    end if
 
-    if (present(ww)) then
-        ww = real(work(2:min(m,n)-1))
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    deallocate(rwork, stat=deallocation_status)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgesvd', -local_info)
-    end if
+interface
+pure subroutine cheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
 end subroutine
-pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
+pure subroutine zheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: s(:)
-    complex(wp),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(wp), intent(out), optional, target :: ww(:)
-    character, intent(in), optional :: job
-    character :: local_job
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character :: jobu, jobvt
-    integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    complex(wp),      target  :: s_work(1), l_a2(1,1)
-    complex(wp),      pointer :: local_u(:,:), local_vt(:,:), work(:)
-    real(wp), pointer :: rwork(:)
-    if (present(job)) then
-        local_job = job
-    else
-        local_job = 'N'
-    end if
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    if (present(u)) then
-        ldu = max(1,size(u,1))
-    else
-        ldu = 1
-    end if
-    if (present(vt)) then
-        ldvt = max(1,size(vt,1))
-    else
-        ldvt = 1
-    end if
-    if (present(u)) then
-        if (size(u,2) == m) then
-            jobu = 'A'
-        else
-            jobu = 'S'
-        end if
-        local_u => u
-    else
-        if (local_job == 'u' .or. local_job == 'U') then
-            jobu = 'O'
-        else
-            jobu = 'N'
-        end if
-        local_u => l_a2
-    end if
-    if (present(vt)) then
-        if (size(vt,1) == n) then
-            jobvt = 'A'
-        else
-            jobvt = 'S'
-        end if
-        local_vt => vt
-    else
-        if (local_job == 'v' .or. local_job == 'V') then
-            jobvt = 'O'
-        else
-            jobvt = 'N'
-        end if
-        local_vt => l_a2
-    end if
-    allocation_status = 0
-    lwork = -1
-    allocate(rwork(5*min(m,n)), stat=allocation_status)
-    call zgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,rwork,local_info)
-    if (local_info /= 0) then
-        goto 404
-    end if
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call zgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)
-    else
-        local_info = -1000
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
+end subroutine
+end interface
 
-    if (present(ww)) then
-        ww = real(work(2:min(m,n)-1))
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    deallocate(rwork, stat=deallocation_status)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgesvd', -local_info)
-    end if
-end subroutine
-pure subroutine mfi_spotrf(a, info, uplo)
+interface f77_heevd
+    procedure :: cheevd
+    procedure :: zheevd
+end interface
+
+
+interface
+pure subroutine cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call spotrf(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('spotrf', local_info)
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: z(ldz, *)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(wp), intent(in) :: vl
+    real(wp), intent(in) :: vu
+    real(wp), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: ifail
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
 end subroutine
-pure subroutine mfi_dpotrf(a, info, uplo)
+pure subroutine zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call dpotrf(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('dpotrf', local_info)
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: z(ldz, *)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(wp), intent(in) :: vl
+    real(wp), intent(in) :: vu
+    real(wp), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: ifail
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
 end subroutine
-pure subroutine mfi_cpotrf(a, info, uplo)
+end interface
+
+interface f77_heevx
+    procedure :: cheevx
+    procedure :: zheevx
+end interface
+
+
+interface
+pure subroutine cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call cpotrf(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('cpotrf', local_info)
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: z(ldz, *)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(wp), intent(in) :: vl
+    real(wp), intent(in) :: vu
+    real(wp), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: isuppz(*)
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
 end subroutine
-pure subroutine mfi_zpotrf(a, info, uplo)
+pure subroutine zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call zpotrf(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('zpotrf', local_info)
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: z(ldz, *)
+    real(wp), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(wp), intent(in) :: vl
+    real(wp), intent(in) :: vu
+    real(wp), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: isuppz(*)
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
 end subroutine
-pure subroutine mfi_spotri(a, info, uplo)
+end interface
+
+interface f77_heevr
+    procedure :: cheevr
+    procedure :: zheevr
+end interface
+
+
+interface
+pure subroutine sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call spotri(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('spotri', local_info)
-    end if
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: s(*)
+    real(wp), intent(out) :: u(ldu,*)
+    real(wp), intent(out) :: vt(ldvt,*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobu
+    character, intent(in) :: jobvt
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldu
+    integer, intent(in) :: ldvt
+    integer, intent(in) :: lwork
+    real(wp), intent(inout) :: work(*)
 end subroutine
-pure subroutine mfi_dpotri(a, info, uplo)
+pure subroutine dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call dpotri(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('dpotri', local_info)
-    end if
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: s(*)
+    real(wp), intent(out) :: u(ldu,*)
+    real(wp), intent(out) :: vt(ldvt,*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobu
+    character, intent(in) :: jobvt
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldu
+    integer, intent(in) :: ldvt
+    integer, intent(in) :: lwork
+    real(wp), intent(inout) :: work(*)
 end subroutine
-pure subroutine mfi_cpotri(a, info, uplo)
+pure subroutine cgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call cpotri(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('cpotri', local_info)
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: s(*)
+    complex(wp), intent(out) :: u(ldu,*)
+    complex(wp), intent(out) :: vt(ldvt,*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobu
+    character, intent(in) :: jobvt
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldu
+    integer, intent(in) :: ldvt
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(in) :: rwork(*)
 end subroutine
-pure subroutine mfi_zpotri(a, info, uplo)
+pure subroutine zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call zpotri(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('zpotri', local_info)
-    end if
+    complex(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(out) :: s(*)
+    complex(wp), intent(out) :: u(ldu,*)
+    complex(wp), intent(out) :: vt(ldvt,*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobu
+    character, intent(in) :: jobvt
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldu
+    integer, intent(in) :: ldvt
+    integer, intent(in) :: lwork
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(in) :: rwork(*)
 end subroutine
-pure subroutine mfi_spotrs(a, b, uplo, info)
+end interface
+
+interface f77_gesvd
+    procedure :: sgesvd
+    procedure :: dgesvd
+    procedure :: cgesvd
+    procedure :: zgesvd
+end interface
+
+
+interface
+pure subroutine spotrf(uplo, n, a, lda, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call spotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('spotrs',-local_info)
-    end if
+    real(wp), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-pure subroutine mfi_dpotrs(a, b, uplo, info)
+pure subroutine dpotrf(uplo, n, a, lda, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call dpotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dpotrs',-local_info)
-    end if
+    real(wp), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-pure subroutine mfi_cpotrs(a, b, uplo, info)
+pure subroutine cpotrf(uplo, n, a, lda, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call cpotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cpotrs',-local_info)
-    end if
+    complex(wp), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-pure subroutine mfi_zpotrs(a, b, uplo, info)
+pure subroutine zpotrf(uplo, n, a, lda, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call zpotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zpotrs',-local_info)
-    end if
+    complex(wp), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
-pure subroutine mfi_spocon(a, anorm, rcond, uplo, info)
+end interface
+
+interface f77_potrf
+    procedure :: spotrf
+    procedure :: dpotrf
+    procedure :: cpotrf
+    procedure :: zpotrf
+end interface
+
+
+interface
+pure subroutine spotri(uplo, n, a, lda, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
+    real(wp), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+pure subroutine dpotri(uplo, n, a, lda, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+pure subroutine cpotri(uplo, n, a, lda, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+pure subroutine zpotri(uplo, n, a, lda, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+end interface
+
+interface f77_potri
+    procedure :: spotri
+    procedure :: dpotri
+    procedure :: cpotri
+    procedure :: zpotri
+end interface
+
+
+interface
+pure subroutine spotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(in) :: a(lda,*)
+    real(wp), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+pure subroutine dpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(in) :: a(lda,*)
+    real(wp), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+pure subroutine cpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(in) :: a(lda,*)
+    complex(wp), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+pure subroutine zpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(in) :: a(lda,*)
+    complex(wp), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+end interface
+
+interface f77_potrs
+    procedure :: spotrs
+    procedure :: dpotrs
+    procedure :: cpotrs
+    procedure :: zpotrs
+end interface
+
+
+interface
+!> spocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a real(REAL32) Hermitian positive definite matrix using the
+!> Cholesky factorization A = U**H*U or A = L*L**H computed by sPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine spocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    real(wp), intent(inout) :: a(lda,*)
     real(wp), intent(in) :: anorm
     real(wp), intent(out) :: rcond
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, allocation_status, deallocation_status
-    real(wp), pointer :: work(:)
-    integer, pointer :: xwork(:)
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    allocate(xwork(n), stat=allocation_status)
-    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
-
-    if (allocation_status == 0) then
-        call spocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
-    else
-        local_info = -1000
-    end if
-
-    deallocate(xwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('spocon',-local_info)
-    end if
+    real(wp), intent(inout) :: work(*)
+    integer, intent(inout) :: iwork(*)
+    integer, intent(out) :: info
 end subroutine
-!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
-pure subroutine mfi_dpocon(a, anorm, rcond, uplo, info)
+!> dpocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a real(REAL64) Hermitian positive definite matrix using the
+!> Cholesky factorization A = U**H*U or A = L*L**H computed by dPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine dpocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    real(wp), intent(inout) :: a(lda,*)
     real(wp), intent(in) :: anorm
     real(wp), intent(out) :: rcond
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, allocation_status, deallocation_status
-    real(wp), pointer :: work(:)
-    integer, pointer :: xwork(:)
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    allocate(xwork(n), stat=allocation_status)
-    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
-
-    if (allocation_status == 0) then
-        call dpocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
-    else
-        local_info = -1000
-    end if
-
-    deallocate(xwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dpocon',-local_info)
-    end if
+    real(wp), intent(inout) :: work(*)
+    integer, intent(inout) :: iwork(*)
+    integer, intent(out) :: info
 end subroutine
-!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
-pure subroutine mfi_cpocon(a, anorm, rcond, uplo, info)
+!> cpocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a complex(REAL32) Hermitian positive definite matrix using the
+!> Cholesky factorization A = U**H*U or A = L*L**H computed by cPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine cpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    complex(wp), intent(inout) :: a(lda,*)
     real(wp), intent(in) :: anorm
     real(wp), intent(out) :: rcond
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, allocation_status, deallocation_status
-    complex(wp), pointer :: work(:)
-    real(wp), pointer :: xwork(:)
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    allocate(xwork(n), stat=allocation_status)
-    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
-
-    if (allocation_status == 0) then
-        call cpocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
-    else
-        local_info = -1000
-    end if
-
-    deallocate(xwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cpocon',-local_info)
-    end if
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(out) :: info
 end subroutine
-!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
-pure subroutine mfi_zpocon(a, anorm, rcond, uplo, info)
+!> zpocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a complex(REAL64) Hermitian positive definite matrix using the
+!> Cholesky factorization A = U**H*U or A = L*L**H computed by zPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine zpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    complex(wp), intent(inout) :: a(lda,*)
     real(wp), intent(in) :: anorm
     real(wp), intent(out) :: rcond
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, allocation_status, deallocation_status
-    complex(wp), pointer :: work(:)
-    real(wp), pointer :: xwork(:)
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    allocate(xwork(n), stat=allocation_status)
-    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
-
-    if (allocation_status == 0) then
-        call zpocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
-    else
-        local_info = -1000
-    end if
-
-    deallocate(xwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zpocon',-local_info)
-    end if
+    complex(wp), intent(inout) :: work(*)
+    real(wp), intent(inout) :: rwork(*)
+    integer, intent(out) :: info
 end subroutine
+end interface
 
-    pure subroutine mfi_error(name, info)
-        character(*), intent(in) :: name
-        integer, intent(in) :: info
-        call f77_xerbla(name, info)
-    end subroutine
+interface f77_pocon
+    procedure :: spocon
+    procedure :: dpocon
+    procedure :: cpocon
+    procedure :: zpocon
+end interface
+
+
+! Other Auxiliary Routines
+
+interface
+pure subroutine slartg(f, g, c, s, r)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: c
+    real(wp), intent(inout) :: f
+    real(wp), intent(inout) :: g
+    real(wp), intent(inout) :: r
+    real(wp), intent(inout) :: s
+end subroutine
+pure subroutine dlartg(f, g, c, s, r)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: c
+    real(wp), intent(inout) :: f
+    real(wp), intent(inout) :: g
+    real(wp), intent(inout) :: r
+    real(wp), intent(inout) :: s
+end subroutine
+pure subroutine clartg(f, g, c, s, r)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: c
+    complex(wp), intent(inout) :: f
+    complex(wp), intent(inout) :: g
+    complex(wp), intent(inout) :: r
+    complex(wp), intent(inout) :: s
+end subroutine
+pure subroutine zlartg(f, g, c, s, r)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: c
+    complex(wp), intent(inout) :: f
+    complex(wp), intent(inout) :: g
+    complex(wp), intent(inout) :: r
+    complex(wp), intent(inout) :: s
+end subroutine
+end interface
+
+interface f77_lartg
+    procedure :: slartg
+    procedure :: dlartg
+    procedure :: clartg
+    procedure :: zlartg
+end interface
+
+
+    interface f77_xerbla
+        pure subroutine xerbla(name,info)
+            character(*), intent(in) :: name
+            integer, intent(in) :: info
+        end subroutine
+    end interface f77_xerbla
 
 end module
+
