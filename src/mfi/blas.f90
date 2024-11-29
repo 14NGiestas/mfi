@@ -30,8 +30,10 @@ interface mfi_copy
     module procedure mfi_ccopy
     module procedure mfi_zcopy
 end interface
-!$:mfi_interface('?dot',   REAL_TYPES)
-!$:mfi_interface('sdsdot', REAL_TYPES)
+interface mfi_dot
+    module procedure mfi_sdot
+    module procedure mfi_ddot
+end interface
 interface mfi_dotu
     module procedure mfi_cdotu
     module procedure mfi_zdotu
@@ -577,8 +579,52 @@ pure subroutine mfi_zcopy(x, y, incx, incy)
     N = size(X)
     call zcopy(n,x,local_incx,y,local_incy)
 end subroutine
-!$:mfi_interface('?dot',   REAL_TYPES)
-!$:mfi_interface('sdsdot', REAL_TYPES)
+pure function mfi_sdot(x, y, incx, incy)
+    integer, parameter :: wp = REAL32
+    real(wp) :: mfi_sdot
+    real(wp), intent(in) :: x(:)
+    real(wp), intent(in) :: y(:)
+    integer :: n
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer, intent(in), optional :: incy
+    integer :: local_incy
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    mfi_sdot = sdot(n,x,local_incx,y,local_incy)
+end function
+pure function mfi_ddot(x, y, incx, incy)
+    integer, parameter :: wp = REAL64
+    real(wp) :: mfi_ddot
+    real(wp), intent(in) :: x(:)
+    real(wp), intent(in) :: y(:)
+    integer :: n
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer, intent(in), optional :: incy
+    integer :: local_incy
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    mfi_ddot = ddot(n,x,local_incx,y,local_incy)
+end function
 pure function mfi_cdotu(x, y, incx, incy)
     integer, parameter :: wp = REAL32
     complex(wp) :: mfi_cdotu

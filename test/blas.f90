@@ -18,6 +18,48 @@ end block
 block
 real :: t1, t2
 call cpu_time(t1)
+ call test_sdot 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_dot against sdot", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_ddot 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_dot against ddot", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_cdotu 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_dotu against cdotu", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_zdotu 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_dotu against zdotu", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_cdotc 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_dotc against cdotc", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_zdotc 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_dotc against zdotc", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
  call test_scopy 
 call cpu_time(t2)
 print '(A," (",G0,"s)")', "testing mfi_copy against scopy", t2-t1
@@ -371,9 +413,9 @@ subroutine test_slamch
                                           'U','u', &
                                           'L','l', &
                                           'O','o']
-    real(wp) :: a, b 
+    real(wp) :: a, b
     integer :: i
-    
+
     do i=1,size(options)
         a = slamch(options(i))
         b = mfi_lamch(options(i),1.0_wp)
@@ -397,14 +439,224 @@ subroutine test_dlamch
                                           'U','u', &
                                           'L','l', &
                                           'O','o']
-    real(wp) :: a, b 
+    real(wp) :: a, b
     integer :: i
-    
+
     do i=1,size(options)
         a = dlamch(options(i))
         b = mfi_lamch(options(i),1.0_wp)
         call assert(a == b, "different results for option "//options(i))
     end do
+
+end subroutine
+subroutine test_sdot
+    use f77_blas, only: sdot, f77_dot
+    use mfi_blas, only: mfi_dot, mfi_sdot
+
+    integer, parameter :: wp = REAL32
+    integer, parameter :: N = 20
+
+    real(wp) :: res, ref
+
+    real(wp) :: x(N), y(N)
+
+    call random_number(X)
+    call random_number(Y)
+
+    ! The test is always against the original
+    ref = sdot(N, x, 1, y, 1)
+
+    res = f77_dot(N, x, 1, y, 1)
+    call assert(ref == res, "different results")
+
+    res = mfi_sdot(x, y)
+    call assert(ref == res, "different results")
+
+    res = mfi_dot(x, y)
+    call assert(ref == res, "different results")
+
+end subroutine
+subroutine test_ddot
+    use f77_blas, only: ddot, f77_dot
+    use mfi_blas, only: mfi_dot, mfi_ddot
+
+    integer, parameter :: wp = REAL64
+    integer, parameter :: N = 20
+
+    real(wp) :: res, ref
+
+    real(wp) :: x(N), y(N)
+
+    call random_number(X)
+    call random_number(Y)
+
+    ! The test is always against the original
+    ref = ddot(N, x, 1, y, 1)
+
+    res = f77_dot(N, x, 1, y, 1)
+    call assert(ref == res, "different results")
+
+    res = mfi_ddot(x, y)
+    call assert(ref == res, "different results")
+
+    res = mfi_dot(x, y)
+    call assert(ref == res, "different results")
+
+end subroutine
+subroutine test_cdotc
+    use f77_blas, only: cdotc, f77_dotc
+    use mfi_blas, only: mfi_dotc, mfi_cdotc
+
+    integer, parameter :: wp = REAL32
+    integer, parameter :: N = 20
+
+    complex(wp) :: res, ref
+
+    complex(wp) :: x(N), y(N)
+
+block
+    real(wp) :: re(N)
+    real(wp) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
+block
+    real(wp) :: re(N)
+    real(wp) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    Y = cmplx(re,im)
+end block
+
+    ! The test is always against the original
+    ref = cdotc(N, x, 1, y, 1)
+
+    res = f77_dotc(N, x, 1, y, 1)
+    call assert(ref == res, "different results")
+
+    res = mfi_cdotc(x, y)
+    call assert(ref == res, "different results")
+
+    res = mfi_dotc(x, y)
+    call assert(ref == res, "different results")
+
+end subroutine
+subroutine test_zdotc
+    use f77_blas, only: zdotc, f77_dotc
+    use mfi_blas, only: mfi_dotc, mfi_zdotc
+
+    integer, parameter :: wp = REAL64
+    integer, parameter :: N = 20
+
+    complex(wp) :: res, ref
+
+    complex(wp) :: x(N), y(N)
+
+block
+    real(wp) :: re(N)
+    real(wp) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
+block
+    real(wp) :: re(N)
+    real(wp) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    Y = cmplx(re,im)
+end block
+
+    ! The test is always against the original
+    ref = zdotc(N, x, 1, y, 1)
+
+    res = f77_dotc(N, x, 1, y, 1)
+    call assert(ref == res, "different results")
+
+    res = mfi_zdotc(x, y)
+    call assert(ref == res, "different results")
+
+    res = mfi_dotc(x, y)
+    call assert(ref == res, "different results")
+
+end subroutine
+subroutine test_cdotu
+    use f77_blas, only: cdotu, f77_dotu
+    use mfi_blas, only: mfi_dotu, mfi_cdotu
+
+    integer, parameter :: wp = REAL32
+    integer, parameter :: N = 20
+
+    complex(wp) :: res, ref
+
+    complex(wp) :: x(N), y(N)
+
+block
+    real(wp) :: re(N)
+    real(wp) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
+block
+    real(wp) :: re(N)
+    real(wp) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    Y = cmplx(re,im)
+end block
+
+    ! The test is always against the original
+    ref = cdotu(N, x, 1, y, 1)
+
+    res = f77_dotu(N, x, 1, y, 1)
+    call assert(ref == res, "different results")
+
+    res = mfi_cdotu(x, y)
+    call assert(ref == res, "different results")
+
+    res = mfi_dotu(x, y)
+    call assert(ref == res, "different results")
+
+end subroutine
+subroutine test_zdotu
+    use f77_blas, only: zdotu, f77_dotu
+    use mfi_blas, only: mfi_dotu, mfi_zdotu
+
+    integer, parameter :: wp = REAL64
+    integer, parameter :: N = 20
+
+    complex(wp) :: res, ref
+
+    complex(wp) :: x(N), y(N)
+
+block
+    real(wp) :: re(N)
+    real(wp) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
+block
+    real(wp) :: re(N)
+    real(wp) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    Y = cmplx(re,im)
+end block
+
+    ! The test is always against the original
+    ref = zdotu(N, x, 1, y, 1)
+
+    res = f77_dotu(N, x, 1, y, 1)
+    call assert(ref == res, "different results")
+
+    res = mfi_zdotu(x, y)
+    call assert(ref == res, "different results")
+
+    res = mfi_dotu(x, y)
+    call assert(ref == res, "different results")
 
 end subroutine
 subroutine test_scopy
