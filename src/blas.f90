@@ -40,15 +40,28 @@ interface mfi_dotc
     module procedure mfi_cdotc
     module procedure mfi_zdotc
 end interface
-!$:mfi_interface('?nrm2',  DEFAULT_TYPES)
-!$:mfi_interface('?rot',   DEFAULT_TYPES)
+interface mfi_rot
+    module procedure mfi_srot
+    module procedure mfi_drot
+    module procedure mfi_crot
+    module procedure mfi_zrot
+    module procedure mfi_csrot
+    module procedure mfi_zdrot
+end interface
 !$:mfi_interface('?rotg',  DEFAULT_TYPES)
 interface mfi_rotm
     module procedure mfi_srotm
     module procedure mfi_drotm
 end interface
 !$:mfi_interface('?rotmg', REAL_TYPES)
-!$:f77_interface('?scal')
+interface mfi_scal
+    module procedure mfi_sscal
+    module procedure mfi_dscal
+    module procedure mfi_cscal
+    module procedure mfi_zscal
+    module procedure mfi_csscal
+    module procedure mfi_zdscal
+end interface
 interface mfi_swap
     module procedure mfi_sswap
     module procedure mfi_dswap
@@ -658,7 +671,186 @@ pure function mfi_zdotc(x, y, incx, incy)
     N = size(X)
     mfi_zdotc = zdotc(n,x,local_incx,y,local_incy)
 end function
-!$:mfi_interface('?rot',   DEFAULT_TYPES)
+!> Given two vectors x and y,
+!> each vector element of these vectors is replaced as follows:
+!>```fortran
+!> xi = c*xi + s*yi
+!> yi = c*yi - s*xi
+!>```
+pure subroutine mfi_srot(x, y, c, s, incx, incy)
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: x(:)
+    real(wp), intent(inout) :: y(:)
+    real(wp), intent(in) :: c
+    real(wp), intent(in) :: s
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer, intent(in), optional :: incy
+    integer :: local_incy
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    n = size(x)
+    call srot(n,x,local_incx,y,local_incy,c,s)
+end subroutine
+!> Given two vectors x and y,
+!> each vector element of these vectors is replaced as follows:
+!>```fortran
+!> xi = c*xi + s*yi
+!> yi = c*yi - s*xi
+!>```
+pure subroutine mfi_drot(x, y, c, s, incx, incy)
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: x(:)
+    real(wp), intent(inout) :: y(:)
+    real(wp), intent(in) :: c
+    real(wp), intent(in) :: s
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer, intent(in), optional :: incy
+    integer :: local_incy
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    n = size(x)
+    call drot(n,x,local_incx,y,local_incy,c,s)
+end subroutine
+!> Given two vectors x and y,
+!> each vector element of these vectors is replaced as follows:
+!>```fortran
+!> xi = c*xi + s*yi
+!> yi = c*yi - conj(s)*xi
+!>```
+pure subroutine mfi_crot(x, y, c, s, incx, incy)
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: x(:)
+    complex(wp), intent(inout) :: y(:)
+    real(wp), intent(in) :: c
+    complex(wp), intent(in) :: s
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer, intent(in), optional :: incy
+    integer :: local_incy
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    n = size(x)
+    call crot(n,x,local_incx,y,local_incy,c,s)
+end subroutine
+!> Given two vectors x and y,
+!> each vector element of these vectors is replaced as follows:
+!>```fortran
+!> xi = c*xi + s*yi
+!> yi = c*yi - conj(s)*xi
+!>```
+pure subroutine mfi_zrot(x, y, c, s, incx, incy)
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: x(:)
+    complex(wp), intent(inout) :: y(:)
+    real(wp), intent(in) :: c
+    complex(wp), intent(in) :: s
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer, intent(in), optional :: incy
+    integer :: local_incy
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    n = size(x)
+    call zrot(n,x,local_incx,y,local_incy,c,s)
+end subroutine
+!> Given two vectors x and y,
+!> each vector element of these vectors is replaced as follows:
+!>```fortran
+!> xi = c*xi + s*yi
+!> yi = c*yi - conj(s)*xi
+!>```
+pure subroutine mfi_csrot(x, y, c, s, incx, incy)
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: x(:)
+    complex(wp), intent(inout) :: y(:)
+    real(wp), intent(in) :: c
+    real(wp), intent(in) :: s
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer, intent(in), optional :: incy
+    integer :: local_incy
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    n = size(x)
+    call csrot(n,x,local_incx,y,local_incy,c,s)
+end subroutine
+!> Given two vectors x and y,
+!> each vector element of these vectors is replaced as follows:
+!>```fortran
+!> xi = c*xi + s*yi
+!> yi = c*yi - conj(s)*xi
+!>```
+pure subroutine mfi_zdrot(x, y, c, s, incx, incy)
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: x(:)
+    complex(wp), intent(inout) :: y(:)
+    real(wp), intent(in) :: c
+    real(wp), intent(in) :: s
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer, intent(in), optional :: incy
+    integer :: local_incy
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    n = size(x)
+    call zdrot(n,x,local_incx,y,local_incy,c,s)
+end subroutine
 !$:mfi_interface('?rotg',  DEFAULT_TYPES)
 pure subroutine mfi_srotm(x, y, param, incx, incy)
     integer, parameter :: wp = REAL32
@@ -707,7 +899,102 @@ pure subroutine mfi_drotm(x, y, param, incx, incy)
     call drotm(n,x,local_incx,y,local_incy,param)
 end subroutine
 !$:mfi_implement('?rotmg', REAL_TYPES, rotmg)
-!$:f77_interface('?scal')
+!> MFI_SSCAL scales a vector by a constant.
+pure subroutine mfi_sscal(x, a, incx)
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: x(:)
+    real(wp), intent(in) :: a
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    call sscal(n,a,x,local_incx)
+end subroutine
+!> MFI_DSCAL scales a vector by a constant.
+pure subroutine mfi_dscal(x, a, incx)
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: x(:)
+    real(wp), intent(in) :: a
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    call dscal(n,a,x,local_incx)
+end subroutine
+!> MFI_CSCAL scales a vector by a constant.
+pure subroutine mfi_cscal(x, a, incx)
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: x(:)
+    complex(wp), intent(in) :: a
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    call cscal(n,a,x,local_incx)
+end subroutine
+!> MFI_ZSCAL scales a vector by a constant.
+pure subroutine mfi_zscal(x, a, incx)
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: x(:)
+    complex(wp), intent(in) :: a
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    call zscal(n,a,x,local_incx)
+end subroutine
+!> MFI_CSSCAL scales a vector by a constant.
+pure subroutine mfi_csscal(x, a, incx)
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: x(:)
+    real(wp), intent(in) :: a
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    call csscal(n,a,x,local_incx)
+end subroutine
+!> MFI_ZDSCAL scales a vector by a constant.
+pure subroutine mfi_zdscal(x, a, incx)
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: x(:)
+    real(wp), intent(in) :: a
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    call zdscal(n,a,x,local_incx)
+end subroutine
 pure subroutine mfi_sswap(x, y, incx, incy)
     integer, parameter :: wp = REAL32
     real(wp), intent(in) :: x(:)
