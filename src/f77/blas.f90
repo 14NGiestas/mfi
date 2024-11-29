@@ -192,7 +192,77 @@ interface f77_dotc
     procedure :: zdotc
 end interface
 
-!$:f77_interface('?rotg', DEFAULT_TYPES, rotg, result=REAL_TYPES)
+
+interface
+!>srotg generates a Givens rotation with real cosine and complex sine:
+!>```
+!> [  c  s ] [ a ] = [ r ]
+!> [ -s  c ] [ b ]   [ 0 ]
+!>```
+!> satisfying `c**2 + s**2 = 1`.
+pure subroutine srotg(a, b, c, s)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a
+    real(wp), intent(inout) :: b
+    real(wp), intent(out) :: c
+    real(wp), intent(out) :: s
+end subroutine
+
+!>drotg generates a Givens rotation with real cosine and complex sine:
+!>```
+!> [  c  s ] [ a ] = [ r ]
+!> [ -s  c ] [ b ]   [ 0 ]
+!>```
+!> satisfying `c**2 + s**2 = 1`.
+pure subroutine drotg(a, b, c, s)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a
+    real(wp), intent(inout) :: b
+    real(wp), intent(out) :: c
+    real(wp), intent(out) :: s
+end subroutine
+
+!>crotg generates a Givens rotation with real cosine and complex sine:
+!>```
+!>  [  c         s ] [ a ] = [ r ]
+!>  [ -conjg(s)  c ] [ b ]   [ 0 ]
+!>```
+!> where c is real, s is complex, and `c**2 + conjg(s)*s = 1`.
+pure subroutine crotg(a, b, c, s)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a
+    complex(wp), intent(inout) :: b
+    real(wp), intent(out) :: c
+    complex(wp), intent(out) :: s
+end subroutine
+
+!>zrotg generates a Givens rotation with real cosine and complex sine:
+!>```
+!>  [  c         s ] [ a ] = [ r ]
+!>  [ -conjg(s)  c ] [ b ]   [ 0 ]
+!>```
+!> where c is real, s is complex, and `c**2 + conjg(s)*s = 1`.
+pure subroutine zrotg(a, b, c, s)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a
+    complex(wp), intent(inout) :: b
+    real(wp), intent(out) :: c
+    complex(wp), intent(out) :: s
+end subroutine
+
+end interface
+
+interface f77_rotg
+    procedure :: srotg
+    procedure :: drotg
+    procedure :: crotg
+    procedure :: zrotg
+end interface
+
 
 interface
 pure subroutine srotm(n, x, incx, y, incy, param)
