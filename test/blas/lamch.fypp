@@ -1,0 +1,30 @@
+#:mute
+#:def lamch(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+subroutine test_${ORIGINAL}$
+    use f77_blas, only: ${ORIGINAL}$
+    use mfi_blas, only: ${MODERN}$
+
+    integer, parameter :: wp = ${KIND}$
+    integer, parameter :: N = 20
+    character, parameter :: options(*) = ['E','e', &
+                                          'S','s', &
+                                          'B','b', &
+                                          'P','p', &
+                                          'N','n', &
+                                          'R','r', &
+                                          'M','m', &
+                                          'U','u', &
+                                          'L','l', &
+                                          'O','o']
+    ${TYPE}$ :: a, b 
+    integer :: i
+    
+    do i=1,size(options)
+        a = ${ORIGINAL}$(options(i))
+        b = ${MODERN}$(options(i),1.0_wp)
+        call assert(a == b, "different results for option "//options(i))
+    end do
+
+end subroutine
+#:enddef
+#:endmute

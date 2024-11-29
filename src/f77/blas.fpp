@@ -126,15 +126,17 @@ end interface
 
 ! Extensions
 ! BLAS Level 1 - Utils / Extensions
-$:f77_interface('i?amax', DEFAULT_TYPES, iamax_iamin)
 #:if defined('MFI_EXTENSIONS')
   #:if defined('MFI_LINK_EXTERNAL')
 ! Link with a external source
+$:f77_interface('i?amax', DEFAULT_TYPES, iamax_iamin)
 $:f77_interface('i?amin', DEFAULT_TYPES, iamax_iamin)
   #:else
 ! Implement the blas extensions in
+$:f77_interface_improved('i?amax', DEFAULT_TYPES)
 $:f77_interface_improved('i?amin', DEFAULT_TYPES)
 contains
+$:f77_implement('i?amax', DEFAULT_TYPES, iamin_stub)
 $:f77_implement('i?amin', DEFAULT_TYPES, iamin_stub)
   #:endif
 #:endif

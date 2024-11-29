@@ -1,0 +1,69 @@
+#:def gemv(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+subroutine test_${ORIGINAL}$
+    use f77_blas, only: ${ORIGINAL}$, ${IMPROVED}$
+    use mfi_blas, only: ${MODERN}$, mfi_${ORIGINAL}$
+
+    integer, parameter :: wp = ${KIND}$
+    integer, parameter :: N = 20
+    ${TYPE}$ :: M(N,N),    X(N),    Y(N),   &
+                M_in(N,N), X_in(N), Y_in(N),&
+                M_rf(N,N), X_rf(N), Y_rf(N)
+    ${TYPE}$ :: alpha, beta
+    character, parameter :: options(*) = ['N','n','T','t','C','c']
+    character :: trans
+    integer :: i
+
+#:if TYPE == COMPLEX_TYPE
+    @:random_complex(M,(N,N))
+    @:random_complex(X,(N))
+    @:random_complex(Y,(N))
+    @:random_complex(alpha)
+    @:random_complex(beta)
+#:else
+    call random_number(M)
+    call random_number(X)
+    call random_number(Y)
+    call random_number(alpha)
+    call random_number(beta)
+#:endif
+
+
+    do i=1,size(options)
+        trans = options(i)
+
+        M_in = M
+        X_in = X
+        Y_in = Y
+        call ${ORIGINAL}$(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
+        M_rf = M_in
+        X_rf = X_in
+        Y_rf = Y_in
+
+        M_in = M
+        X_in = X
+        Y_in = Y
+        call ${IMPROVED}$(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
+        call assert(all(M_in == M_rf) .and. &
+                    all(X_in == X_rf) .and. &
+                    all(Y_in == Y_rf), "different results")
+
+        M_in = M
+        X_in = X
+        Y_in = Y
+        call mfi_${ORIGINAL}$(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
+        call assert(all(M_in == M_rf) .and. &
+                    all(X_in == X_rf) .and. &
+                    all(Y_in == Y_rf), "different results")
+
+        M_in = M
+        X_in = X
+        Y_in = Y
+        call ${MODERN}$(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
+
+        call assert(all(M_in == M_rf) .and. &
+                    all(X_in == X_rf) .and. &
+                    all(Y_in == Y_rf), "different results")
+    end do
+
+end subroutine
+#:enddef

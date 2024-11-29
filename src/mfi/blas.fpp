@@ -95,8 +95,8 @@ $:mfi_interface('?trsm',  DEFAULT_TYPES)
 
 ! Extensions
 ! BLAS level 1 - Utils / Extensions
-$:mfi_interface('i?amax', DEFAULT_TYPES)
 #:if defined('MFI_EXTENSIONS')
+$:mfi_interface('i?amax', DEFAULT_TYPES)
 $:mfi_interface('i?amin', DEFAULT_TYPES)
 #:endif
 $:mfi_interface('?lamch', REAL_TYPES)
@@ -161,8 +161,8 @@ $:mfi_implement('?trsm',  DEFAULT_TYPES, trmm_trsm)
 
 ! Extensions
 ! BLAS level 1 - Utils / Extensions
-$:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
 #:if defined('MFI_EXTENSIONS')
+$:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
 $:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
 #:endif
 $:mfi_implement('?lamch', REAL_TYPES, lamch)

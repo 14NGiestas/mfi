@@ -150,7 +150,8 @@ $:code(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
 #:def test_run(name, supports, f=lambda x: x)
 #:for PREFIX in supports
 #:set ORIGINAL = name.replace('?',f(PREFIX))
-@:timeit("testing against ${ORIGINAL}$", { call test_${ORIGINAL}$ })
+#:set MODERN   = "mfi_" + name.replace('?','')
+@:timeit("testing ${MODERN}$ against ${ORIGINAL}$", { call test_${ORIGINAL}$ })
 #:endfor
 #:enddef
 
@@ -161,6 +162,16 @@ call cpu_time(t1)
 $:code
 call cpu_time(t2)
 print '(A," (",G0,"s)")', ${message}$, t2-t1
+end block
+#:enddef
+
+#:def random_complex(name, shape='')
+block
+    ${REAL_TYPE}$ :: re${shape}$
+    ${REAL_TYPE}$ :: im${shape}$
+    call random_number(im)
+    call random_number(re)
+    ${name}$ = cmplx(re,im)
 end block
 #:enddef
 #:endmute

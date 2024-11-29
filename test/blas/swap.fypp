@@ -1,0 +1,54 @@
+#:mute
+#:def swap(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+subroutine test_${ORIGINAL}$
+    use f77_blas, only: ${ORIGINAL}$, ${IMPROVED}$
+    use mfi_blas, only: ${MODERN}$, mfi_${ORIGINAL}$
+
+    integer, parameter :: wp = ${KIND}$
+    integer, parameter :: N = 20
+
+    ${REAL_TYPE}$ :: rnd(N)
+
+    ${TYPE}$ :: x(N),    y(N),    &
+                x_in(N), y_in(N), &
+                x_rf(N), y_rf(N)
+
+#:if TYPE == COMPLEX_TYPE
+    call random_number(rnd)
+    x%re = rnd
+    call random_number(rnd)
+    x%im = rnd
+    call random_number(rnd)
+    y%re = rnd
+    call random_number(rnd)
+    y%im = rnd
+#:else
+    call random_number(X)
+    call random_number(Y)
+#:endif
+
+    x_in = x
+    y_in = y
+    ! The test is always against the original
+    call ${ORIGINAL}$(N, x_in, 1, y_in, 1)
+    x_rf = x_in
+    y_rf = y_in
+
+    x_in = x
+    y_in = y
+    call ${IMPROVED}$(N, x_in, 1, y_in, 1)
+    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+
+    x_in = x
+    y_in = y
+    call mfi_${ORIGINAL}$(x_in, y_in)
+    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+
+    x_in = x
+    y_in = y
+    call ${MODERN}$(x_in, y_in)
+    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+
+end subroutine
+#:enddef
+#:endmute

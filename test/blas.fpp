@@ -1,145 +1,58 @@
 #:include "common.fpp"
+#:include "test/blas/asum_nrm2.fypp"
+#:include "test/blas/iamin_iamax.fypp"
+#:include "test/blas/axpy.fypp"
+#:include "test/blas/rot.fypp"
+#:include "test/blas/copy.fypp"
+#:include "test/blas/swap.fypp"
+#:include "test/blas/scal.fypp"
+#:include "test/blas/lamch.fypp"
+#:include "test/blas/gemv.fypp"
+#:include "test/blas/gemm.fypp"
+program main
+use iso_fortran_env
+implicit none
+$:test_run('?lamch',REAL_TYPES)
+$:test_run('?copy', DEFAULT_TYPES)
+$:test_run('?swap', DEFAULT_TYPES)
+$:test_run('?axpy', DEFAULT_TYPES)
+$:test_run('?gemv', DEFAULT_TYPES)
+$:test_run('?gemm', DEFAULT_TYPES)
+$:test_run('?asum', DEFAULT_TYPES, f=MIX_REAL_COMPLEX)
+$:test_run('?nrm2', DEFAULT_TYPES, f=MIX_REAL_COMPLEX)
+$:test_run('?rot',  DEFAULT_TYPES + COMPLEX_REAL_TYPES)
+$:test_run('?scal', DEFAULT_TYPES + COMPLEX_REAL_TYPES)
 
-program test_mfi_blas
-    use iso_fortran_env
-    use mfi_blas
-    use f77_blas
-    implicit none
-    integer, parameter :: N = 2000
-    real(REAL64) :: A(N,N), B(N,N), C(N,N), D(N,N)
-    real(REAL64) :: X(N), Y(N), Z(N), U(N)
-    real(REAL64) :: alpha, beta
-    integer :: i, j, k
-
-    ! Auxiliary
-    call test_lamch
-    ! BLAS 1
-    call test_axpy
-    call test_copy
-    call test_rotmg
-    call test_swap
-    call test_iamax
 #:if defined('MFI_EXTENSIONS')
-    call test_iamin
+$:test_run('i?amin',DEFAULT_TYPES)
+$:test_run('i?amax',DEFAULT_TYPES)
 #:endif
-    ! BLAS 2
-    call test_gemv
-    ! BLAS 3
-    call test_gemm
 
 contains
-    subroutine test_defaults
-        C = .0_REAL64
-        D = .0_REAL64
-        Y = .0_REAL64
-        Z = .0_REAL64
-        alpha = 1.0_REAL64
-        beta  = 0.0_REAL64
-        call random_number(A)
-        call random_number(B)
-        call random_number(X)
-    end subroutine
 
-    subroutine test_rotmg
-        real(REAL64) :: x1, y1, d1, d2, params(5)
-        real(REAL64) :: expected(5)
-        expected = [-1.d0, 1.6110934624105326d-6, -2.44140625d-4, 2.44140625d-4, 1.62760416d-6]
-        d1 = 5.9d-8; d2 = 5.960464d-8; x1 = 1.d0; y1 = 150.d0; params = .0_REAL64
-        @:timeit("time f77_rotmg: ", { call f77_rotmg(d1, d2, x1, y1, params) })
-        call assert(all(is_almost_equal(params, expected)))
-        d1 = 5.9d-8; d2 = 5.960464d-8; x1 = 1.d0; y1 = 150.d0; params = .0_REAL64
-        @:timeit("time mfi_rotmg: ", { call mfi_rotmg(d1, d2, x1, y1, params) })
-        call assert(all(is_almost_equal(params, expected)))
-        d1 = 5.9d-8; d2 = 5.960464d-8; x1 = 1.d0; y1 = 150.d0; params = .0_REAL64
-        @:timeit("time drotmg:    ", { call drotmg(d1, d2, x1, y1, params) })
-        call assert(all(is_almost_equal(params, expected)))
-    end subroutine
-
-    subroutine test_axpy
-        call test_defaults
-        @:timeit("time f77_axpy: ", { call f77_axpy(N,2*alpha,X,1,Y,1) })
-        Y = .0_REAL64
-        @:timeit("time mfi_axpy: ", { call mfi_axpy(X,Y,2*alpha)       })
-        @:timeit("time fortran:  ", { Z=2*X                            })
-        call assert(all(is_almost_equal(2*X,Y) .and. is_almost_equal(2*X,Z)))
-    end subroutine
-
-    subroutine test_copy
-        call test_defaults
-        @:timeit("time f77_copy: ", { call f77_copy(N,X,1,Y,1) })
-        @:timeit("time mfi_copy: ", { call mfi_copy(X,Y)       })
-        @:timeit("time fortran:  ", { Z=X                      })
-        call assert(all(is_almost_equal(X,Y) .and. is_almost_equal(X,Z)))
-    end subroutine
-
-    subroutine test_swap
-        call test_defaults
-        @:timeit("time f77_swap: ", { call f77_swap(N,X,1,Y,1) })
-        @:timeit("time mfi_swap: ", { call mfi_swap(X,Y)       })
-    end subroutine
-
-    subroutine test_iamax
-        call test_defaults
-        @:timeit("time f77_iamax: ", { i = f77_iamax(N,X,1) })
-        @:timeit("time mfi_iamax: ", { j = mfi_iamax(X)     })
-        @:timeit("time maxloc:    ", { k = maxloc(X,1)      })
-        call assert(i == j .and. j == k)
-    end subroutine
+$:test_implement('?lamch',REAL_TYPES, lamch)
+$:test_implement('?copy', DEFAULT_TYPES, copy)
+$:test_implement('?swap', DEFAULT_TYPES, swap)
+$:test_implement('?axpy', DEFAULT_TYPES, axpy)
+$:test_implement('?gemv', DEFAULT_TYPES, gemv)
+$:test_implement('?gemm', DEFAULT_TYPES, gemm)
+$:test_implement('?asum', DEFAULT_TYPES, asum, f=MIX_REAL_COMPLEX)
+$:test_implement('?nrm2', DEFAULT_TYPES, asum, f=MIX_REAL_COMPLEX)
+$:test_implement('?rot',  DEFAULT_TYPES, rot)
+$:test_implement('?rot',  COMPLEX_TYPES, rot_mixed, MIX_COMPLEX_REAL)
+$:test_implement('?scal', DEFAULT_TYPES, scal)
+$:test_implement('?scal', COMPLEX_TYPES, scal_mixed, MIX_COMPLEX_REAL)
 
 #:if defined('MFI_EXTENSIONS')
-    subroutine test_iamin
-        call test_defaults
-        @:timeit("time f77_iamin: ", { i = f77_iamin(N,X,1) })
-        @:timeit("time mfi_iamin: ", { j = mfi_iamin(X)     })
-        @:timeit("time minloc:    ", { k = minloc(X,1)      })
-        call assert(i == j .and. j == k)
-    end subroutine
+$:test_implement('i?amin',DEFAULT_TYPES, iamin_iamax)
+$:test_implement('i?amax',DEFAULT_TYPES, iamin_iamax)
 #:endif
 
-    subroutine test_gemm
-        call test_defaults
-        @:timeit("time f77_gemm: ", { call f77_gemm('N', 'N', N, N, N, alpha, A, N, B, N, beta, C, N) })
-        @:timeit("time mfi_gemm: ", { call mfi_gemm(A,B,C) })
-        @:timeit("time matmul:   ", { D = matmul(A,B)      })
-        call assert(all(is_almost_equal(C,D)))
-
-        @:timeit("time f77_gemm, transa=T:     ", { call f77_gemm('T', 'N', N, N, N, alpha, A, N, B, N, beta, C, N) })
-        @:timeit("time mfi_gemm, transa=T:     ", { call mfi_gemm(A,B,C,transa='T') })
-        @:timeit("time matmul,   transpose(A): ", { D = matmul(transpose(A),B)      })
-        call assert(all(is_almost_equal(C,D)))
-    end subroutine
-
-    subroutine test_gemv
-        call test_defaults
-        @:timeit("time f77_gemv: ", { call f77_gemv('N', N, N, alpha, A, N, X, 1, beta, Y, 1) })
-        @:timeit("time mfi_gemv: ", { call mfi_gemv(A,X,Y) })
-        @:timeit("time matmul:   ", { Z = matmul(A,X)      })
-        call assert(all(is_almost_equal(Y,Z)))
-
-        @:timeit("time f77_gemv: trans=T:      ", { call f77_gemv('T', N, N, alpha, A, N, X, 1, beta, Y, 1) })
-        @:timeit("time mfi_gemv, trans=T:      ", { call mfi_gemv(A,X,Y,trans='T') })
-        @:timeit("time matmul,   transpose(A): ", { Z = matmul(transpose(A),X)     })
-        call assert(all(is_almost_equal(Y,Z)))
-    end subroutine
-
-    subroutine test_lamch
-        real(REAL32) :: sa
-        real(REAL64) :: da
-        sa = mfi_lamch('E',1.0_REAL32)
-        da = mfi_lamch('E',1.0_REAL64)
-        call assert(sa > da)
-    end subroutine
-
-    pure subroutine assert(test)
+    pure subroutine assert(test, msg)
         logical, intent(in) :: test
+        character(*), intent(in) :: msg
         if (.not. test) then
-            error stop 'different results'
+            error stop msg
         end if
     end subroutine
-
-    logical pure elemental function is_almost_equal(x, y)
-        real(REAL64), intent(in) :: x, y
-        is_almost_equal = abs(x-y) < 10**6*epsilon(x)
-    end function
-
 end program
