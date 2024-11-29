@@ -1,0 +1,67 @@
+#:mute
+#:def scal_template(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX,mixed=False)
+subroutine test_${ORIGINAL}$
+    use f77_blas, only: ${ORIGINAL}$, ${IMPROVED}$
+    use mfi_blas, only: ${MODERN}$, mfi_${ORIGINAL}$
+
+    integer,     parameter :: wp = ${KIND}$
+    real(wp),    parameter :: pi = 4.0_wp * atan(1.0_wp)
+    complex(wp), parameter :: i = (0.0_wp,1.0_wp)
+
+    integer, parameter :: N = 20
+    ${REAL_TYPE}$ :: rnd_vector(N), rnd
+    ${TYPE}$ :: x(N),    &
+                x_in(N), &
+                x_rf(N)
+#:if not mixed
+    ${TYPE}$ :: alpha
+#:else
+    ${REAL_TYPE}$ :: alpha
+#:endif
+
+#:if TYPE == COMPLEX_TYPE
+    call random_number(rnd_vector)
+    x%re = rnd_vector
+    call random_number(rnd_vector)
+    x%im = rnd_vector
+#:if not mixed
+    call random_number(rnd)
+    alpha%re = rnd
+    call random_number(rnd)
+    alpha%im = rnd
+#:else
+    call random_number(alpha)
+#:endif
+#:else
+    call random_number(X)
+    call random_number(alpha)
+#:endif
+
+    ! The test is always against the original
+    x_in = x
+    call ${ORIGINAL}$(N, alpha, x_in, 1)
+    x_rf = x_in
+
+    x_in = x
+    call ${IMPROVED}$(N, alpha, x_in, 1)
+    call assert(all(x_in == x_rf), "different results")
+
+    x_in = x
+    call mfi_${ORIGINAL}$(x_in, alpha)
+    call assert(all(x_in == x_rf), "different results")
+
+    x_in = x
+    call ${MODERN}$(x_in, alpha)
+    call assert(all(x_in == x_rf), "different results")
+
+end subroutine
+#:enddef
+
+#:def scal(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+$:scal_template(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+#:enddef
+
+#:def scal_mixed(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+$:scal_template(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX, mixed=True)
+#:enddef
+#:endmute

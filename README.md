@@ -112,11 +112,11 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 | :+1:  | dotc   | Dot product conjugated                                  | |
 | :+1:  | dotu   | Dot product unconjugated                                | |
 | :+1:  | nrm2   | Vector 2-norm (Euclidean norm)                          | [norm2](https://gcc.gnu.org/onlinedocs/gfortran/NORM2.html) |
-|       | rot    | Plane rotation of points                                | |
+| :+1:  | rot    | Plane rotation of points                                | |
 |       | rotg   | Generate Givens rotation of points                      | |
 | :+1:  | rotm   | Modified Givens plane rotation of points                | |
 | :+1:  | rotmg  | Generate modified Givens plane rotation of points       | |
-|       | scal   | Vector-scalar product                                   | `a*x + b` |
+| :+1:  | scal   | Vector-scalar product                                   | `a*x + b` |
 | :+1:  | swap   | Vector-vector swap                                      | |
 </details>
 

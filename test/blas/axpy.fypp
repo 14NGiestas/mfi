@@ -1,0 +1,56 @@
+#:def axpy(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+subroutine test_${ORIGINAL}$
+    use f77_blas, only: ${ORIGINAL}$, ${IMPROVED}$
+    use mfi_blas, only: ${MODERN}$, mfi_${ORIGINAL}$
+
+    integer, parameter :: wp = ${KIND}$
+    integer, parameter :: N = 20
+    ${REAL_TYPE}$ :: rnd_vector(N), rnd
+    ${TYPE}$ :: x(N), Y(N), &
+                x_in(N), y_in(N), &
+                x_rf(N), y_rf(N)
+    ${TYPE}$ :: alpha
+
+#:if TYPE == COMPLEX_TYPE
+    call random_number(rnd_vector)
+    X%re = rnd_vector
+    call random_number(rnd_vector)
+    X%im = rnd_vector
+    call random_number(rnd_vector)
+    Y%re = rnd_vector
+    call random_number(rnd_vector)
+    Y%im = rnd_vector
+    call random_number(rnd)
+    alpha%re = rnd
+    call random_number(rnd)
+    alpha%im= rnd
+#:else
+    call random_number(X)
+    call random_number(Y)
+    call random_number(alpha)
+#:endif
+
+    x_in = X
+    y_in = Y
+    call ${ORIGINAL}$(N, alpha, x_in, 1, y_in, 1)
+    x_rf = x_in
+    y_rf = y_in
+
+    x_in = X
+    y_in = Y
+    call ${IMPROVED}$(N, alpha, x_in, 1, y_in, 1)
+    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+
+    x_in = X
+    y_in = Y
+    call mfi_${ORIGINAL}$(x_in,y_in,alpha)
+    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+
+    x_in = X
+    y_in = Y
+    call ${MODERN}$(x_in, y_in, alpha)
+
+    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+
+end subroutine
+#:enddef

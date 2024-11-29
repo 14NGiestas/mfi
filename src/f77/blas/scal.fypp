@@ -3,8 +3,9 @@
 pure subroutine ${NAME}$(n, a, x, incx)
     import :: ${KIND}$
 @:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, inout, x(*), a)
-@:args(integer,  in, n, incx)
+@:args(${TYPE}$, inout, x(*))
+@:args(${TYPE}$, in,    a)
+@:args(integer,  in,    n, incx)
 end subroutine
 #:enddef
 

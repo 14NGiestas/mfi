@@ -1,0 +1,45 @@
+#:mute
+subroutine {s,d,c,z}rot (
+    integer  n,
+    type(wp) x(*),
+    integer  incx,
+    type(wp) y(*),
+    integer  incy,
+    real(wp) c,
+    type(wp) s
+)
+subroutine {sc,zd}rot (
+    integer  n,
+    type(wp) x(*),
+    integer  incx,
+    type(wp) y(*),
+    integer  incy,
+    real(wp) c,
+    real(wp) s
+)
+#:def rot(NAME,TYPE,KIND,PREFIX)
+!> ${NAME.upper()}$ applies a plane rotation.
+pure subroutine ${NAME}$(n, x, incx, y, incy, c, s)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      in, x(*), y(*))
+@:args(integer,       in, n, incx, incy)
+@:args(${REAL_TYPE}$, in, c)
+@:args(${TYPE}$,      in, s)
+end subroutine
+#:enddef
+
+#:def rot_mixed(NAME,TYPE,KIND,PREFIX)
+!> ${NAME.upper()}$ applies a plane rotation,
+!> where the cos and sin (c and s) are real
+!> and the vectors x and y are complex.
+pure subroutine ${NAME}$(n, x, incx, y, incy, c, s)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      in, x(*), y(*))
+@:args(integer,       in, n, incx, incy)
+@:args(${REAL_TYPE}$, in, c, s)
+end subroutine
+#:enddef
+
+#:endmute

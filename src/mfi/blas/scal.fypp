@@ -1,0 +1,27 @@
+#:def scal(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+!> ${MFI_NAME.upper()}$ scales a vector by a constant.
+pure subroutine ${MFI_NAME}$(x, a, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, x(:))
+@:args(${TYPE}$,      in,    a)
+@:optional(integer, in, incx)
+    integer :: n
+@:defaults(incx=1)
+    n = size(x)
+    call ${F77_NAME}$(n,a,x,local_incx)
+end subroutine
+#:enddef
+
+#:def scal_mixed(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+!> ${MFI_NAME.upper()}$ scales a vector by a constant.
+pure subroutine ${MFI_NAME}$(x, a, incx)
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$,      inout, x(:))
+@:args(${REAL_TYPE}$,    in,    a)
+@:optional(integer,      in, incx)
+    integer :: n
+@:defaults(incx=1)
+    n = size(x)
+    call ${F77_NAME}$(n,a,x,local_incx)
+end subroutine
+#:enddef

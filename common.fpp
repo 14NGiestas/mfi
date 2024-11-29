@@ -1,9 +1,18 @@
 #:mute
-#:set REAL_TYPE='real(wp)'
-#:set COMPLEX_TYPE='complex(wp)'
-#:set REAL_TYPES=['s','d']
-#:set COMPLEX_TYPES=['c','z']
-#:set DEFAULT_TYPES=REAL_TYPES+COMPLEX_TYPES
+#:set REAL_TYPE     = 'real(wp)'
+#:set COMPLEX_TYPE  = 'complex(wp)'
+#:set REAL_TYPES    = ['s','d']
+#:set COMPLEX_TYPES = ['c','z']
+#:set DEFAULT_TYPES = REAL_TYPES + COMPLEX_TYPES
+#:set REAL_COMPLEX_TYPES = ['sc','dz']
+#:set COMPLEX_REAL_TYPES = ['cs','zd']
+
+#! Function that handles mixed types conventions
+#:set MIX = lambda when, use, pfx: &
+    use[when.index(pfx)] if pfx in when else pfx
+
+#:set MIX_REAL_COMPLEX = lambda pfx: MIX(COMPLEX_TYPES,REAL_COMPLEX_TYPES,pfx)
+#:set MIX_COMPLEX_REAL = lambda pfx: MIX(COMPLEX_TYPES,COMPLEX_REAL_TYPES,pfx)
 
 #:set PREFIX_TO_TYPE={   &
     's':   REAL_TYPE,    &
@@ -141,8 +150,7 @@ $:code(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
 #:def test_run(name, supports, f=lambda x: x)
 #:for PREFIX in supports
 #:set ORIGINAL = name.replace('?',f(PREFIX))
-print*, 'calling ${ORIGINAL}$'
-call test_${ORIGINAL}$
+@:timeit("testing against ${ORIGINAL}$", { call test_${ORIGINAL}$ })
 #:endfor
 #:enddef
 
@@ -152,7 +160,7 @@ real :: t1, t2
 call cpu_time(t1)
 $:code
 call cpu_time(t2)
-print '(A,G0)', ${message}$, t2-t1
+print '(A," (",G0,"s)")', ${message}$, t2-t1
 end block
 #:enddef
 #:endmute

@@ -3,8 +3,10 @@
 #:include "src/mfi/blas/lamch.fypp"
 #:include "src/mfi/blas/asum_nrm2.fypp"
 #:include "src/mfi/blas/axpy.fypp"
+#:include "src/mfi/blas/scal.fypp"
 #:include "src/mfi/blas/copy_swap.fypp"
 #:include "src/mfi/blas/dot_product.fypp"
+#:include "src/mfi/blas/rot.fypp"
 #:include "src/mfi/blas/rotm.fypp"
 #:include "src/mfi/blas/iamin_iamax.fypp"
 #:include "src/mfi/blas/gbmv.fypp"
@@ -38,24 +40,19 @@ use f77_blas, only: mfi_rotmg => f77_rotmg
 implicit none
 
 ! BLAS level 1
-$:mfi_interface('?asum',  DEFAULT_TYPES, &
-    f=lambda pfx: 'sc' if pfx == 'c' else &
-                  'dz' if pfx == 'z' else pfx)
-$:mfi_interface('?nrm2',  DEFAULT_TYPES, &
-    f=lambda pfx: 'sc' if pfx == 'c' else &
-                  'dz' if pfx == 'z' else pfx)
+$:mfi_interface('?asum',  REAL_TYPES + REAL_COMPLEX_TYPES)
+$:mfi_interface('?nrm2',  REAL_TYPES + REAL_COMPLEX_TYPES)
 $:mfi_interface('?axpy',  DEFAULT_TYPES)
 $:mfi_interface('?copy',  DEFAULT_TYPES)
 !$:mfi_interface('?dot',   REAL_TYPES)
 !$:mfi_interface('sdsdot', REAL_TYPES)
 $:mfi_interface('?dotu',  COMPLEX_TYPES)
 $:mfi_interface('?dotc',  COMPLEX_TYPES)
-!$:mfi_interface('?nrm2',  DEFAULT_TYPES)
-!$:mfi_interface('?rot',   DEFAULT_TYPES)
+$:mfi_interface('?rot',   DEFAULT_TYPES + COMPLEX_REAL_TYPES)
 !$:mfi_interface('?rotg',  DEFAULT_TYPES)
 $:mfi_interface('?rotm',  REAL_TYPES)
 !$:mfi_interface('?rotmg', REAL_TYPES)
-!$:f77_interface('?scal')
+$:mfi_interface('?scal',  DEFAULT_TYPES + COMPLEX_REAL_TYPES)
 $:mfi_interface('?swap',  DEFAULT_TYPES)
 
 ! BLAS level 2
@@ -107,23 +104,21 @@ $:mfi_interface('?lamch', REAL_TYPES)
 contains
 
 ! BLAS level 1
-$:mfi_implement('?nrm2',  DEFAULT_TYPES, asum_nrm2, &
-    f=lambda pfx: 'sc' if pfx == 'c' else &
-                  'dz' if pfx == 'z' else pfx)
-$:mfi_implement('?asum',  DEFAULT_TYPES, asum_nrm2, &
-    f=lambda pfx: 'sc' if pfx == 'c' else &
-                  'dz' if pfx == 'z' else pfx)
+$:mfi_implement('?nrm2',  DEFAULT_TYPES, asum_nrm2, MIX_REAL_COMPLEX)
+$:mfi_implement('?asum',  DEFAULT_TYPES, asum_nrm2, MIX_REAL_COMPLEX)
 $:mfi_implement('?axpy',  DEFAULT_TYPES, axpy)
 $:mfi_implement('?copy',  DEFAULT_TYPES, copy_swap)
 !$:mfi_interface('?dot',   REAL_TYPES)
 !$:mfi_interface('sdsdot', REAL_TYPES)
 $:mfi_implement('?dotu',  COMPLEX_TYPES, dot_product)
 $:mfi_implement('?dotc',  COMPLEX_TYPES, dot_product)
-!$:mfi_interface('?rot',   DEFAULT_TYPES)
+$:mfi_implement('?rot',   DEFAULT_TYPES, rot)
+$:mfi_implement('?rot',   COMPLEX_TYPES, rot_mixed, MIX_COMPLEX_REAL)
 !$:mfi_interface('?rotg',  DEFAULT_TYPES)
 $:mfi_implement('?rotm',  REAL_TYPES, rotm)
 !$:mfi_implement('?rotmg', REAL_TYPES, rotmg)
-!$:f77_interface('?scal')
+$:mfi_implement('?scal',  DEFAULT_TYPES, scal)
+$:mfi_implement('?scal',  COMPLEX_TYPES, scal_mixed, MIX_COMPLEX_REAL)
 $:mfi_implement('?swap',  DEFAULT_TYPES, copy_swap)
 
 ! BLAS level 2
