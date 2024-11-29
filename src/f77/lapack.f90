@@ -861,6 +861,646 @@ interface f77_pocon
 end interface
 
 
+interface
+!> SGELS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine sgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> DGELS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine dgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> CGELS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine cgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> ZGELS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine zgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+
+interface f77_gels
+    procedure :: sgels
+    procedure :: dgels
+    procedure :: cgels
+    procedure :: zgels
+end interface
+
+
+interface
+!> SGELST solves overdetermined or underdetermined systems for GE matrices
+!> using QR or LQ factorization with compact WY representation of Q.
+pure subroutine sgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> DGELST solves overdetermined or underdetermined systems for GE matrices
+!> using QR or LQ factorization with compact WY representation of Q.
+pure subroutine dgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> CGELST solves overdetermined or underdetermined systems for GE matrices
+!> using QR or LQ factorization with compact WY representation of Q.
+pure subroutine cgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> ZGELST solves overdetermined or underdetermined systems for GE matrices
+!> using QR or LQ factorization with compact WY representation of Q.
+pure subroutine zgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+
+interface f77_gelst
+    procedure :: sgelst
+    procedure :: dgelst
+    procedure :: cgelst
+    procedure :: zgelst
+end interface
+
+
+interface
+!> SGETSLS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine sgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> DGETSLS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine dgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> CGETSLS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine cgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> ZGETSLS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine zgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+
+interface f77_getsls
+    procedure :: sgetsls
+    procedure :: dgetsls
+    procedure :: cgetsls
+    procedure :: zgetsls
+end interface
+
+
+interface
+!> SGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
+pure subroutine sgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(in) :: rcond
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: s(*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: iwork(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> DGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
+pure subroutine dgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(in) :: rcond
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: s(*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: iwork(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> CGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
+pure subroutine cgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(in) :: rcond
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(out) :: s(*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: iwork(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> ZGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
+pure subroutine zgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(in) :: rcond
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(out) :: s(*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: iwork(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+
+interface f77_gelsd
+    procedure :: sgelsd
+    procedure :: dgelsd
+    procedure :: cgelsd
+    procedure :: zgelsd
+end interface
+
+
+interface
+!> SGELSS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine sgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(in) :: rcond
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: s(*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> DGELSS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine dgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(in) :: rcond
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(out) :: s(*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> CGELSS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine cgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(in) :: rcond
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(out) :: s(*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> ZGELSS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine zgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(in) :: rcond
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(out) :: s(*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+
+interface f77_gelss
+    procedure :: sgelss
+    procedure :: dgelss
+    procedure :: cgelss
+    procedure :: zgelss
+end interface
+
+
+interface
+!> SGELSY solves overdetermined or underdetermined systems for GE matrices
+pure subroutine sgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(in) :: rcond
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    integer, intent(inout) :: jpvt(*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> DGELSY solves overdetermined or underdetermined systems for GE matrices
+pure subroutine dgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(in) :: rcond
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    integer, intent(inout) :: jpvt(*)
+    real(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> CGELSY solves overdetermined or underdetermined systems for GE matrices
+pure subroutine cgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(in) :: rcond
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    integer, intent(inout) :: jpvt(*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> ZGELSY solves overdetermined or underdetermined systems for GE matrices
+pure subroutine zgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(in) :: rcond
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    integer, intent(inout) :: jpvt(*)
+    complex(wp), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+
+interface f77_gelsy
+    procedure :: sgelsy
+    procedure :: dgelsy
+    procedure :: cgelsy
+    procedure :: zgelsy
+end interface
+
+
+interface
+pure subroutine sgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(inout) :: c(*)
+    real(wp), intent(inout) :: d(*)
+    real(wp), intent(out) :: work(*)
+    real(wp), intent(out) :: x(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine dgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(inout) :: c(*)
+    real(wp), intent(inout) :: d(*)
+    real(wp), intent(out) :: work(*)
+    real(wp), intent(out) :: x(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine cgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(inout) :: c(*)
+    complex(wp), intent(inout) :: d(*)
+    complex(wp), intent(out) :: work(*)
+    complex(wp), intent(out) :: x(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine zgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(inout) :: c(*)
+    complex(wp), intent(inout) :: d(*)
+    complex(wp), intent(out) :: work(*)
+    complex(wp), intent(out) :: x(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+
+interface f77_gglse
+    procedure :: sgglse
+    procedure :: dgglse
+    procedure :: cgglse
+    procedure :: zgglse
+end interface
+
+
+interface
+pure subroutine sgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(inout) :: d(*)
+    real(wp), intent(out) :: work(*)
+    real(wp), intent(out) :: x(*)
+    real(wp), intent(out) :: y(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine dgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: a(lda,*)
+    real(wp), intent(inout) :: b(ldb,*)
+    real(wp), intent(inout) :: d(*)
+    real(wp), intent(out) :: work(*)
+    real(wp), intent(out) :: x(*)
+    real(wp), intent(out) :: y(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine cgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(inout) :: d(*)
+    complex(wp), intent(out) :: work(*)
+    complex(wp), intent(out) :: x(*)
+    complex(wp), intent(out) :: y(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+pure subroutine zgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(wp), intent(inout) :: a(lda,*)
+    complex(wp), intent(inout) :: b(ldb,*)
+    complex(wp), intent(inout) :: d(*)
+    complex(wp), intent(out) :: work(*)
+    complex(wp), intent(out) :: x(*)
+    complex(wp), intent(out) :: y(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+
+interface f77_gglsm
+    procedure :: sgglsm
+    procedure :: dgglsm
+    procedure :: cgglsm
+    procedure :: zgglsm
+end interface
+
+
 ! Other Auxiliary Routines
 
 interface
