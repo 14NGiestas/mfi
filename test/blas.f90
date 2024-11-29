@@ -47,7 +47,7 @@ real :: t1, t2
 call cpu_time(t1)
  call f77_rotmg(d1, d2, x1, y1, params) 
 call cpu_time(t2)
-print '(A,G0)', "time f77_rotmg: ", t2-t1
+print '(A," (",G0,"s)")', "time f77_rotmg: ", t2-t1
 end block
         call assert(all(is_almost_equal(params, expected)))
         d1 = 5.9d-8; d2 = 5.960464d-8; x1 = 1.d0; y1 = 150.d0; params = .0_REAL64
@@ -56,7 +56,7 @@ real :: t1, t2
 call cpu_time(t1)
  call mfi_rotmg(d1, d2, x1, y1, params) 
 call cpu_time(t2)
-print '(A,G0)', "time mfi_rotmg: ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_rotmg: ", t2-t1
 end block
         call assert(all(is_almost_equal(params, expected)))
         d1 = 5.9d-8; d2 = 5.960464d-8; x1 = 1.d0; y1 = 150.d0; params = .0_REAL64
@@ -65,7 +65,7 @@ real :: t1, t2
 call cpu_time(t1)
  call drotmg(d1, d2, x1, y1, params) 
 call cpu_time(t2)
-print '(A,G0)', "time drotmg:    ", t2-t1
+print '(A," (",G0,"s)")', "time drotmg:    ", t2-t1
 end block
         call assert(all(is_almost_equal(params, expected)))
     end subroutine
@@ -77,7 +77,7 @@ real :: t1, t2
 call cpu_time(t1)
  call f77_axpy(N,2*alpha,X,1,Y,1) 
 call cpu_time(t2)
-print '(A,G0)', "time f77_axpy: ", t2-t1
+print '(A," (",G0,"s)")', "time f77_axpy: ", t2-t1
 end block
         Y = .0_REAL64
 block
@@ -85,14 +85,14 @@ real :: t1, t2
 call cpu_time(t1)
  call mfi_axpy(X,Y,2*alpha)       
 call cpu_time(t2)
-print '(A,G0)', "time mfi_axpy: ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_axpy: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  Z=2*X                            
 call cpu_time(t2)
-print '(A,G0)', "time fortran:  ", t2-t1
+print '(A," (",G0,"s)")', "time fortran:  ", t2-t1
 end block
         call assert(all(is_almost_equal(2*X,Y) .and. is_almost_equal(2*X,Z)))
     end subroutine
@@ -104,21 +104,21 @@ real :: t1, t2
 call cpu_time(t1)
  call f77_copy(N,X,1,Y,1) 
 call cpu_time(t2)
-print '(A,G0)', "time f77_copy: ", t2-t1
+print '(A," (",G0,"s)")', "time f77_copy: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call mfi_copy(X,Y)       
 call cpu_time(t2)
-print '(A,G0)', "time mfi_copy: ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_copy: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  Z=X                      
 call cpu_time(t2)
-print '(A,G0)', "time fortran:  ", t2-t1
+print '(A," (",G0,"s)")', "time fortran:  ", t2-t1
 end block
         call assert(all(is_almost_equal(X,Y) .and. is_almost_equal(X,Z)))
     end subroutine
@@ -130,14 +130,14 @@ real :: t1, t2
 call cpu_time(t1)
  call f77_swap(N,X,1,Y,1) 
 call cpu_time(t2)
-print '(A,G0)', "time f77_swap: ", t2-t1
+print '(A," (",G0,"s)")', "time f77_swap: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call mfi_swap(X,Y)       
 call cpu_time(t2)
-print '(A,G0)', "time mfi_swap: ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_swap: ", t2-t1
 end block
     end subroutine
 
@@ -148,21 +148,21 @@ real :: t1, t2
 call cpu_time(t1)
  i = f77_iamax(N,X,1) 
 call cpu_time(t2)
-print '(A,G0)', "time f77_iamax: ", t2-t1
+print '(A," (",G0,"s)")', "time f77_iamax: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  j = mfi_iamax(X)     
 call cpu_time(t2)
-print '(A,G0)', "time mfi_iamax: ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_iamax: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  k = maxloc(X,1)      
 call cpu_time(t2)
-print '(A,G0)', "time maxloc:    ", t2-t1
+print '(A," (",G0,"s)")', "time maxloc:    ", t2-t1
 end block
         call assert(i == j .and. j == k)
     end subroutine
@@ -174,21 +174,21 @@ real :: t1, t2
 call cpu_time(t1)
  i = f77_iamin(N,X,1) 
 call cpu_time(t2)
-print '(A,G0)', "time f77_iamin: ", t2-t1
+print '(A," (",G0,"s)")', "time f77_iamin: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  j = mfi_iamin(X)     
 call cpu_time(t2)
-print '(A,G0)', "time mfi_iamin: ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_iamin: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  k = minloc(X,1)      
 call cpu_time(t2)
-print '(A,G0)', "time minloc:    ", t2-t1
+print '(A," (",G0,"s)")', "time minloc:    ", t2-t1
 end block
         call assert(i == j .and. j == k)
     end subroutine
@@ -200,21 +200,21 @@ real :: t1, t2
 call cpu_time(t1)
  call f77_gemm('N', 'N', N, N, N, alpha, A, N, B, N, beta, C, N) 
 call cpu_time(t2)
-print '(A,G0)', "time f77_gemm: ", t2-t1
+print '(A," (",G0,"s)")', "time f77_gemm: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call mfi_gemm(A,B,C) 
 call cpu_time(t2)
-print '(A,G0)', "time mfi_gemm: ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_gemm: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  D = matmul(A,B)      
 call cpu_time(t2)
-print '(A,G0)', "time matmul:   ", t2-t1
+print '(A," (",G0,"s)")', "time matmul:   ", t2-t1
 end block
         call assert(all(is_almost_equal(C,D)))
 
@@ -223,21 +223,21 @@ real :: t1, t2
 call cpu_time(t1)
  call f77_gemm('T', 'N', N, N, N, alpha, A, N, B, N, beta, C, N) 
 call cpu_time(t2)
-print '(A,G0)', "time f77_gemm, transa=T:     ", t2-t1
+print '(A," (",G0,"s)")', "time f77_gemm, transa=T:     ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call mfi_gemm(A,B,C,transa='T') 
 call cpu_time(t2)
-print '(A,G0)', "time mfi_gemm, transa=T:     ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_gemm, transa=T:     ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  D = matmul(transpose(A),B)      
 call cpu_time(t2)
-print '(A,G0)', "time matmul,   transpose(A): ", t2-t1
+print '(A," (",G0,"s)")', "time matmul,   transpose(A): ", t2-t1
 end block
         call assert(all(is_almost_equal(C,D)))
     end subroutine
@@ -249,21 +249,21 @@ real :: t1, t2
 call cpu_time(t1)
  call f77_gemv('N', N, N, alpha, A, N, X, 1, beta, Y, 1) 
 call cpu_time(t2)
-print '(A,G0)', "time f77_gemv: ", t2-t1
+print '(A," (",G0,"s)")', "time f77_gemv: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call mfi_gemv(A,X,Y) 
 call cpu_time(t2)
-print '(A,G0)', "time mfi_gemv: ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_gemv: ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  Z = matmul(A,X)      
 call cpu_time(t2)
-print '(A,G0)', "time matmul:   ", t2-t1
+print '(A," (",G0,"s)")', "time matmul:   ", t2-t1
 end block
         call assert(all(is_almost_equal(Y,Z)))
 
@@ -272,21 +272,21 @@ real :: t1, t2
 call cpu_time(t1)
  call f77_gemv('T', N, N, alpha, A, N, X, 1, beta, Y, 1) 
 call cpu_time(t2)
-print '(A,G0)', "time f77_gemv: trans=T:      ", t2-t1
+print '(A," (",G0,"s)")', "time f77_gemv: trans=T:      ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call mfi_gemv(A,X,Y,trans='T') 
 call cpu_time(t2)
-print '(A,G0)', "time mfi_gemv, trans=T:      ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_gemv, trans=T:      ", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  Z = matmul(transpose(A),X)     
 call cpu_time(t2)
-print '(A,G0)', "time matmul,   transpose(A): ", t2-t1
+print '(A," (",G0,"s)")', "time matmul,   transpose(A): ", t2-t1
 end block
         call assert(all(is_almost_equal(Y,Z)))
     end subroutine

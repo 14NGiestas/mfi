@@ -41,7 +41,7 @@ real :: t1, t2
 call cpu_time(t1)
  call mfi_gesvd(A,S) 
 call cpu_time(t2)
-print '(A,G0)', "mfi_gesvd: ", t2-t1
+print '(A," (",G0,"s)")', "mfi_gesvd: ", t2-t1
 end block
         call assert(all(abs(S-ES) < 1e-4))
     end subroutine
@@ -73,7 +73,7 @@ real :: t1, t2
 call cpu_time(t1)
  call mfi_geqrf(A, tau) 
 call cpu_time(t2)
-print '(A,G0)', "mfi_geqrf: ", t2-t1
+print '(A," (",G0,"s)")', "mfi_geqrf: ", t2-t1
 end block
         call assert(all(abs(A-B) < 1e-6))
         call assert(all(abs(tau-tau_) < 1e-6))
@@ -86,7 +86,7 @@ real :: t1, t2
 call cpu_time(t1)
  call f77_potrf('U',N,S,N,info) 
 call cpu_time(t2)
-print '(A,G0)', "f77_potrf: ", t2-t1
+print '(A," (",G0,"s)")', "f77_potrf: ", t2-t1
 end block
         call assert(info == 0)
 
@@ -96,7 +96,7 @@ real :: t1, t2
 call cpu_time(t1)
  call mfi_potrf(S,info)         
 call cpu_time(t2)
-print '(A,G0)', "mfi_potrf: ", t2-t1
+print '(A," (",G0,"s)")', "mfi_potrf: ", t2-t1
 end block
         call assert(info == 0)
     end subroutine
@@ -109,7 +109,7 @@ real :: t1, t2
 call cpu_time(t1)
  call f77_potri('U',N,S,N,info) 
 call cpu_time(t2)
-print '(A,G0)', "f77_potri: ", t2-t1
+print '(A," (",G0,"s)")', "f77_potri: ", t2-t1
 end block
         call assert(info == 0)
 
@@ -120,7 +120,7 @@ real :: t1, t2
 call cpu_time(t1)
  call mfi_potri(S,info)         
 call cpu_time(t2)
-print '(A,G0)', "mfi_potri: ", t2-t1
+print '(A," (",G0,"s)")', "mfi_potri: ", t2-t1
 end block
         call assert(info == 0)
     end subroutine
