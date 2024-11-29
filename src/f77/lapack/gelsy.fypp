@@ -1,0 +1,32 @@
+#:mute
+
+subroutine {s,d,c,z}gelsy(
+        integer  in             m,
+        integer  in             n,
+        integer  in          nrhs,
+        type(wp) inout  a(lda,*),
+        integer  in           lda,
+        type(wp) inout  b(ldb,*),
+        integer  in           ldb,
+        integer  inout    jpvt(*),
+        type(wp) in         rcond,
+        integer  out         rank,
+        type(wp) out      work(*),
+        integer  in         lwork,
+        integer  out         info
+)
+#:def gelsy(NAME,TYPE,KIND,PREFIX)
+!> ${NAME.upper()}$ solves overdetermined or underdetermined systems for GE matrices
+pure subroutine ${NAME}$(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    rcond)
+@:args(${TYPE}$, inout, a(lda,*))
+@:args(${TYPE}$, inout, b(ldb,*))
+@:args(integer,  inout,  jpvt(*))
+@:args(${TYPE}$, out,   work(*))
+@:args(integer, out, info, rank)
+@:args(integer, in, n, m, nrhs, lda, ldb, lwork)
+end subroutine
+#:enddef
+#:endmute

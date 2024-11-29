@@ -1,0 +1,27 @@
+#:mute
+subroutine {s,d,c,z}gglse (
+    integer  in    m
+    integer  in    n
+    integer  in    p
+    type(wp) inout a(lda,*)
+    integer  in    lda
+    type(wp) inout b(ldb,*)
+    integer  in    ldb
+    type(wp) inout c(*)
+    type(wp) inout d(*)
+    type(wp) out   x(*)
+    type(wp) out   work(*)
+    integer  in    lwork
+    integer  out   info
+)
+#:def gglse(NAME,TYPE,KIND,PREFIX)
+pure subroutine ${NAME}$(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(lda,*), b(ldb,*), c(*), d(*))
+@:args(${TYPE}$,   out, work(*), x(*))
+@:args(integer,    out, info)
+@:args(integer,     in, m, n, p, lda, ldb, lwork)
+end subroutine
+#:enddef
+#:endmute

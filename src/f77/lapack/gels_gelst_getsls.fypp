@@ -1,0 +1,30 @@
+#:mute
+subroutine {s,d,c,z}gels / gelst / getsls (
+        character   trans,
+        integer         m,
+        integer         n,
+        integer      nrhs,
+        type(wp) a(lda,*),
+        integer       lda,
+        type(wp) b(ldb,*),
+        integer       ldb,
+        type(wp)  work(*),
+        integer     lwork,
+        integer      info
+)
+#:def gels_gelst_getsls(NAME,TYPE,KIND,PREFIX)
+!> ${NAME.upper()}$ solves overdetermined or underdetermined systems for GE matrices
+#:if NAME.endswith('t')
+!> using QR or LQ factorization with compact WY representation of Q.
+#:endif
+pure subroutine ${NAME}$(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(character,   in, trans)
+@:args(${TYPE}$, inout, a(lda,*), b(ldb,*))
+@:args(${TYPE}$,   out, work(*))
+@:args(integer,    out, info)
+@:args(integer,     in, m, n, lda, ldb, nrhs, lwork)
+end subroutine
+#:enddef
+#:endmute

@@ -275,6 +275,18 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 |      | ungtr | Generates the complex unitary matrix Q determined by hetrd. |
 |      | unmtr | Multiplies a complex matrix by the unitary matrix Q determined by hetrd. |
 
+##### Least squares
+|done| name  | description                                    |
+|----| ----- | ---------------------------------------------- |
+|f77 | gels  | least squares using QR/LQ                      |
+|f77 | gelst | least squares using QR/LQ with T matrix        |
+|f77 | gelss | least squares using SVD, QR iteration          |
+|f77 | gelsd | least squares using SVD, divide and conquer    |
+|f77 | gelsy | least squares using complete orthogonal factor |
+|f77 | getsls| least squares using tall-skinny QR/LQ          |
+|f77 | gglse | equality-constrained least squares             |
+|f77 | ggglm | Gauss-Markov linear model                      |
+
 #### Other Auxiliary Routines
 
 There are some other auxiliary lapack routines around, that may apear here:

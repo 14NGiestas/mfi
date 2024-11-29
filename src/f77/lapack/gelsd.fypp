@@ -1,0 +1,34 @@
+#:mute
+
+subroutine {s,d,c,z}gelsd(
+        integer  in             m,
+        integer  in             n,
+        integer  in          nrhs,
+        type(wp) inout  a(lda,*),
+        integer  in           lda,
+        type(wp) inout  b(ldb,*),
+        integer  in           ldb,
+        type(wp) out         s(*),
+        type(wp) in         rcond,
+        integer  out         rank,
+        type(wp) out      work(*),
+        integer  in         lwork,
+        integer  out     iwork(*),
+        integer  out         info
+)
+#:def gelsd(NAME,TYPE,KIND,PREFIX)
+!> ${NAME.upper()}$ computes the minimum-norm solution to a linear least squares problem for GE matrices
+pure subroutine ${NAME}$(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, in,    rcond)
+@:args(${TYPE}$, inout, a(lda,*))
+@:args(${TYPE}$, inout, b(ldb,*))
+@:args(${TYPE}$, out,   s(*))
+@:args(${TYPE}$, out,   work(*))
+@:args(integer, out, iwork(*))
+@:args(integer, out, info, rank)
+@:args(integer, in, n, m, nrhs, lda, ldb, lwork)
+end subroutine
+#:enddef
+#:endmute

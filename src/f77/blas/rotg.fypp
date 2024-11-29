@@ -3,7 +3,7 @@ subroutine {s,d,c,z}rotg (
     type(wp)  a,
     type(wp)  b,
     real(wp)  c,
-    type(wp)  s 
+    type(wp)  s
 )
 #:def rotg(NAME,TYPE,KIND,PREFIX)
 !>${NAME}$ generates a Givens rotation with real cosine and complex sine:

@@ -1,0 +1,28 @@
+#:mute
+subroutine {s,d,c,z}gglsm (
+    integer  in    n
+    integer  in    m
+    integer  in    p
+    type(wp) inout a(lda,*)
+    integer  in    lda
+    type(wp) inout b(ldb,*)
+    integer  in    ldb
+    type(wp) inout d(*)
+    type(wp) out   x(*)
+    type(wp) out   y(*)
+    type(wp) out   work(*)
+    integer  in    lwork
+    integer  out   info
+)
+
+#:def gglsm(NAME,TYPE,KIND,PREFIX)
+pure subroutine ${NAME}$(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
+    import :: ${KIND}$
+@:parameter(integer, wp=${KIND}$)
+@:args(${TYPE}$, inout, a(lda,*), b(ldb,*), d(*))
+@:args(${TYPE}$,   out, work(*), x(*), y(*))
+@:args(integer,    out, info)
+@:args(integer,     in, m, n, p, lda, ldb, lwork)
+end subroutine
+#:enddef
+#:endmute

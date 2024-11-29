@@ -14,6 +14,12 @@
 #:include "src/f77/lapack/potrf_potri.fypp"
 #:include "src/f77/lapack/potrs.fypp"
 #:include "src/f77/lapack/pocon.fypp"
+#:include "src/f77/lapack/gels_gelst_getsls.fypp"
+#:include "src/f77/lapack/gelsd.fypp"
+#:include "src/f77/lapack/gelss.fypp"
+#:include "src/f77/lapack/gelsy.fypp"
+#:include "src/f77/lapack/gglse.fypp"
+#:include "src/f77/lapack/gglsm.fypp"
 #:endmute
 !> Improved and original F77 interfaces for LAPACK
 module f77_lapack
@@ -35,6 +41,14 @@ $:f77_interface('?potrf',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potri',  DEFAULT_TYPES, potrf_potri)
 $:f77_interface('?potrs',  DEFAULT_TYPES, potrs)
 $:f77_interface('?pocon',  DEFAULT_TYPES, pocon)
+$:f77_interface('?gels',   DEFAULT_TYPES, gels_gelst_getsls)
+$:f77_interface('?gelst',  DEFAULT_TYPES, gels_gelst_getsls)
+$:f77_interface('?getsls', DEFAULT_TYPES, gels_gelst_getsls)
+$:f77_interface('?gelsd',  DEFAULT_TYPES, gelsd)
+$:f77_interface('?gelss',  DEFAULT_TYPES, gelss)
+$:f77_interface('?gelsy',  DEFAULT_TYPES, gelsy)
+$:f77_interface('?gglse',  DEFAULT_TYPES, gglse)
+$:f77_interface('?gglsm',  DEFAULT_TYPES, gglsm)
 
 ! Other Auxiliary Routines
 $:f77_interface('?lartg',  DEFAULT_TYPES, aux_lartg)
