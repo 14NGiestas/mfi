@@ -2144,50 +2144,13 @@ end interface
 
 ! Extensions
 ! BLAS Level 1 - Utils / Extensions
-
-interface
-pure function isamax(n, x, incx)
-    import :: REAL32
-    integer, parameter :: wp = REAL32
-    integer :: isamax
-    real(wp), intent(in) :: x(*)
-    integer, intent(in) :: n
-    integer, intent(in) :: incx
-end function
-pure function idamax(n, x, incx)
-    import :: REAL64
-    integer, parameter :: wp = REAL64
-    integer :: idamax
-    real(wp), intent(in) :: x(*)
-    integer, intent(in) :: n
-    integer, intent(in) :: incx
-end function
-pure function icamax(n, x, incx)
-    import :: REAL32
-    integer, parameter :: wp = REAL32
-    integer :: icamax
-    complex(wp), intent(in) :: x(*)
-    integer, intent(in) :: n
-    integer, intent(in) :: incx
-end function
-pure function izamax(n, x, incx)
-    import :: REAL64
-    integer, parameter :: wp = REAL64
-    integer :: izamax
-    complex(wp), intent(in) :: x(*)
-    integer, intent(in) :: n
-    integer, intent(in) :: incx
-end function
-end interface
-
+! Implement the blas extensions in
 interface f77_iamax
     procedure :: isamax
     procedure :: idamax
     procedure :: icamax
     procedure :: izamax
 end interface
-
-! Implement the blas extensions in
 interface f77_iamin
     procedure :: isamin
     procedure :: idamin
@@ -2195,6 +2158,58 @@ interface f77_iamin
     procedure :: izamin
 end interface
 contains
+pure function isamax(n, x, incx)
+    integer, parameter :: wp = REAL32
+    integer :: isamax
+    real(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    !If either n or incx are not positive, the routine returns 0.
+    if (n <= 0 .or. incx <= 0) then
+        isamax = 0
+        return
+    end if
+    isamax = minloc(x(1:n:incx),dim=1)
+end function
+pure function idamax(n, x, incx)
+    integer, parameter :: wp = REAL64
+    integer :: idamax
+    real(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    !If either n or incx are not positive, the routine returns 0.
+    if (n <= 0 .or. incx <= 0) then
+        idamax = 0
+        return
+    end if
+    idamax = minloc(x(1:n:incx),dim=1)
+end function
+pure function icamax(n, x, incx)
+    integer, parameter :: wp = REAL32
+    integer :: icamax
+    complex(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    !If either n or incx are not positive, the routine returns 0.
+    if (n <= 0 .or. incx <= 0) then
+        icamax = 0
+        return
+    end if
+    icamax = minloc(abs(real(x(1:n:incx))) + abs(aimag(x(1:n:incx))),dim=1)
+end function
+pure function izamax(n, x, incx)
+    integer, parameter :: wp = REAL64
+    integer :: izamax
+    complex(wp), intent(in) :: x(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    !If either n or incx are not positive, the routine returns 0.
+    if (n <= 0 .or. incx <= 0) then
+        izamax = 0
+        return
+    end if
+    izamax = minloc(abs(real(x(1:n:incx))) + abs(aimag(x(1:n:incx))),dim=1)
+end function
 pure function isamin(n, x, incx)
     integer, parameter :: wp = REAL32
     integer :: isamin
