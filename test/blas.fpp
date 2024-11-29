@@ -4,6 +4,7 @@
 #:include "test/blas/dot_product.fypp"
 #:include "test/blas/axpy.fypp"
 #:include "test/blas/rot.fypp"
+#:include "test/blas/rotg.fypp"
 #:include "test/blas/copy.fypp"
 #:include "test/blas/swap.fypp"
 #:include "test/blas/scal.fypp"
@@ -25,6 +26,7 @@ $:test_run('?gemm', DEFAULT_TYPES)
 $:test_run('?asum', DEFAULT_TYPES, f=MIX_REAL_COMPLEX)
 $:test_run('?nrm2', DEFAULT_TYPES, f=MIX_REAL_COMPLEX)
 $:test_run('?rot',  DEFAULT_TYPES + COMPLEX_REAL_TYPES)
+$:test_run('?rotg', DEFAULT_TYPES)
 $:test_run('?scal', DEFAULT_TYPES + COMPLEX_REAL_TYPES)
 
 #:if defined('MFI_EXTENSIONS')
@@ -47,6 +49,7 @@ $:test_implement('?asum', DEFAULT_TYPES, asum, f=MIX_REAL_COMPLEX)
 $:test_implement('?nrm2', DEFAULT_TYPES, asum, f=MIX_REAL_COMPLEX)
 $:test_implement('?rot',  DEFAULT_TYPES, rot)
 $:test_implement('?rot',  COMPLEX_TYPES, rot_mixed, MIX_COMPLEX_REAL)
+$:test_implement('?rotg', DEFAULT_TYPES, rotg)
 $:test_implement('?scal', DEFAULT_TYPES, scal)
 $:test_implement('?scal', COMPLEX_TYPES, scal_mixed, MIX_COMPLEX_REAL)
 

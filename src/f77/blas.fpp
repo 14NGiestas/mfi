@@ -5,8 +5,8 @@
 #:include "src/f77/blas/axpy.fypp"
 #:include "src/f77/blas/copy_swap.fypp"
 #:include "src/f77/blas/dot_product.fypp"
-#:include "src/f77/blas/sdsdot.fypp"
 #:include "src/f77/blas/rot.fypp"
+#:include "src/f77/blas/rotg.fypp"
 #:include "src/f77/blas/rotm.fypp"
 #:include "src/f77/blas/rotmg.fypp"
 #:include "src/f77/blas/gbmv.fypp"
@@ -49,7 +49,7 @@ $:f77_interface('?copy',  DEFAULT_TYPES, copy_swap)
 $:f77_interface('?dot',   REAL_TYPES,    dot_product)
 $:f77_interface('?dotu',  COMPLEX_TYPES, dot_product)
 $:f77_interface('?dotc',  COMPLEX_TYPES, dot_product)
-!$:f77_interface('?rotg', DEFAULT_TYPES, rotg, result=REAL_TYPES)
+$:f77_interface('?rotg',  DEFAULT_TYPES, rotg)
 $:f77_interface('?rotm',  REAL_TYPES,    rotm)
 $:f77_interface('?rotmg', REAL_TYPES,    rotmg)
 $:f77_interface('?swap',  DEFAULT_TYPES, copy_swap)

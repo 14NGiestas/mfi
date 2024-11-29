@@ -1,0 +1,54 @@
+#:def rotg(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+subroutine test_${ORIGINAL}$
+    use f77_blas, only: ${ORIGINAL}$
+    use mfi_blas, only: ${MODERN}$
+
+    integer, parameter :: wp = ${KIND}$
+    integer, parameter :: N = 200
+    ${TYPE}$      :: a, b, s
+    ${REAL_TYPE}$ :: c
+
+    ${TYPE}$      :: a_in, b_in, s_in
+    ${REAL_TYPE}$ :: c_in
+
+    ${TYPE}$      :: a_rf, b_rf, s_rf
+    ${REAL_TYPE}$ :: c_rf
+    integer :: i
+
+#:if TYPE == COMPLEX_TYPE
+    @:random_complex(a)
+    @:random_complex(b)
+    call random_number(c)
+    @:random_complex(s)
+#:else
+    call random_number(a)
+    call random_number(b)
+    call random_number(c)
+    call random_number(s)
+#:endif
+
+    do i=1,N
+        a_in = a
+        b_in = b
+        c_in = c
+        s_in = s
+        call ${ORIGINAL}$(a_in, b_in, c_in, s_in)
+        a_rf = a_in
+        b_rf = b_in
+        c_rf = c_in
+        s_rf = s_in
+
+        a_in = a
+        b_in = b
+        c_in = c
+        s_in = s
+        call ${MODERN}$(a_in, b_in, c_in, s_in)
+
+        call assert(a_in == a_rf .and. &
+                    b_in == b_rf .and. &
+                    s_in == s_rf .and. &
+                    c_in == c_rf, "different results")
+    end do
+
+end subroutine
+#:enddef

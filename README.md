@@ -137,7 +137,7 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 |og77| dsdot  | Compute the inner product of two vectors with extended precision accumulation and result. | |
 |:+1:| nrm2   | Vector 2-norm (Euclidean norm)                          | [norm2](https://gcc.gnu.org/onlinedocs/gfortran/NORM2.html) |
 |:+1:| rot    | Plane rotation of points                                | |
-|    | rotg   | Generate Givens rotation of points                      | |
+|:+1:| rotg   | Generate Givens rotation of points                      | |
 |:+1:| rotm   | Modified Givens plane rotation of points                | |
 |:+1:| rotmg  | Generate modified Givens plane rotation of points       | |
 |:+1:| scal   | Vector-scalar product                                   | `a*x + b` |

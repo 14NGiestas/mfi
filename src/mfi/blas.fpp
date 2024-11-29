@@ -36,6 +36,7 @@
 module mfi_blas
 use iso_fortran_env
 use f77_blas
+use f77_blas, only: mfi_rotg  => f77_rotg
 use f77_blas, only: mfi_rotmg => f77_rotmg
 implicit none
 
