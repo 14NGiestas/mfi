@@ -5,15 +5,16 @@ subroutine {s,d,c,z}rotg (
     real(wp)  c,
     type(wp)  s
 )
-#:def rotg(NAME,TYPE,KIND,PREFIX)
+#:def rotg(NAME,pfxs)
+#:set wp = pfxs[0]
 !>${NAME}$ generates a Givens rotation with real cosine and complex sine:
-#:if TYPE == REAL_TYPE
+#:if type(wp) == real(wp)
 !>```
 !> [  c  s ] [ a ] = [ r ]
 !> [ -s  c ] [ b ]   [ 0 ]
 !>```
 !> satisfying `c**2 + s**2 = 1`.
-#:elif TYPE == COMPLEX_TYPE
+#:elif type(wp) == complex(wp)
 !>```
 !>  [  c         s ] [ a ] = [ r ]
 !>  [ -conjg(s)  c ] [ b ]   [ 0 ]
@@ -21,11 +22,11 @@ subroutine {s,d,c,z}rotg (
 !> where c is real, s is complex, and `c**2 + conjg(s)*s = 1`.
 #:endif
 pure subroutine ${NAME}$(a, b, c, s)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, inout, a, b)
-@:args(${REAL_TYPE}$, out, c)
-@:args(${TYPE}$,      out, s)
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, inout, a, b)
+@:args(${real(wp)}$, out, c)
+@:args(${type(wp)}$,      out, s)
 end subroutine
 
 #:enddef

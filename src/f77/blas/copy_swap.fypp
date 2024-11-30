@@ -1,9 +1,10 @@
-#:def copy_swap(NAME,TYPE,KIND,PREFIX)
+#:def copy_swap(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(n, x, incx, y, incy)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    x(*))
-@:args(${TYPE}$, inout, y(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    x(*))
+@:args(${type(wp)}$, inout, y(*))
 @:args(integer,  in,    n, incx, incy)
 end subroutine
 #:enddef

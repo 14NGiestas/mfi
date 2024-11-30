@@ -1,18 +1,19 @@
-#:def gesvd(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def gesvd(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,      inout, a(:,:))
-@:args(${REAL_TYPE}$, out, s(:))
-    ${TYPE}$,      intent(out), optional, target :: u(:,:), vt(:,:)
-    ${REAL_TYPE}$, intent(out), optional, target :: ww(:)
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,      inout, a(:,:))
+@:args(${real(wp)}$, out, s(:))
+    ${type(wp)}$,      intent(out), optional, target :: u(:,:), vt(:,:)
+    ${real(wp)}$, intent(out), optional, target :: ww(:)
 @:optional(character, in, job)
 @:optional(integer, out, info)
     character :: jobu, jobvt
     integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    ${TYPE}$,      target  :: s_work(1), l_a2(1,1)
-    ${TYPE}$,      pointer :: local_u(:,:), local_vt(:,:), work(:)
-#:if TYPE == COMPLEX_TYPE
-    ${REAL_TYPE}$, pointer :: rwork(:)
+    ${type(wp)}$,      target  :: s_work(1), l_a2(1,1)
+    ${type(wp)}$,      pointer :: local_u(:,:), local_vt(:,:), work(:)
+#:if type(wp) == complex(wp)
+    ${real(wp)}$, pointer :: rwork(:)
 #:endif
 @:defaults(job='N')
     lda = max(1,size(a,1))
@@ -52,7 +53,7 @@ pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
     end if
     allocation_status = 0
     lwork = -1
-#:if TYPE == COMPLEX_TYPE
+#:if type(wp) == complex(wp)
     allocate(rwork(5*min(m,n)), stat=allocation_status)
     call ${F77_NAME}$(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,rwork,local_info)
 #:else
@@ -64,7 +65,7 @@ pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
     lwork = int(s_work(1))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
-#:if TYPE == COMPLEX_TYPE
+#:if type(wp) == complex(wp)
         call ${F77_NAME}$(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)
 #:else
         call ${F77_NAME}$(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
@@ -78,7 +79,7 @@ pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
     end if
     deallocate(work, stat=deallocation_status)
 404 continue
-#:if TYPE == COMPLEX_TYPE
+#:if type(wp) == complex(wp)
     deallocate(rwork, stat=deallocation_status)
 #:endif
     if (present(info)) then

@@ -1,11 +1,12 @@
-#:def trmm_trsm(NAME,TYPE,KIND,PREFIX)
+#:def trmm_trsm(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in,    a(lda,*))
-@:args(${TYPE}$,  inout, b(ldb,*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in,    a(lda,*))
+@:args(${type(wp)}$,  inout, b(ldb,*))
 @:args(character, in,    side, uplo, transa, diag)
-@:args(${TYPE}$,  in,    alpha)
+@:args(${type(wp)}$,  in,    alpha)
 @:args(integer,   in,    m, n, lda, ldb)
 end subroutine
 #:enddef

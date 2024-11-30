@@ -1,0 +1,54 @@
+#:mute
+subroutine {s,d,c,z}gesv (
+    integer  in           n,
+    integer  in        nrhs,
+    type(wp) inout a(lda,*),
+    integer  in         lda,
+    integer  out    ipiv(*),
+    type(wp) inout b(ldb,*),
+    integer  in         ldb,
+    integer  out       info 
+)
+
+#:def gesv(NAME,pfxs)
+#:set wp=pfxs[0]
+!> ${NAME.upper()}$ computes the solution to system
+!> of linear equations \( A \times X = B \) for GE matrices
+pure subroutine ${NAME}$(n,nhrs,a,lda,ipiv,b,ldb,info)
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  inout, a(lda,*), b(ldb,*))
+@:args(integer,   out,   ipiv(*))
+@:args(integer,   out,   info)
+@:args(integer,   in,    n, nrhs, lda, ldb)
+end subroutine
+#:enddef
+
+subroutine dsgesv  (
+    integer   n,
+    integer   nrhs,
+    real(dp)  a( lda, * ),
+    integer   lda,
+    integer   ipiv( * ),
+    real(dp)  b( ldb, * ),
+    integer   ldb,
+    real(dp)  x( ldx, * ),
+    integer   ldx,
+    real(dp)  work( n, * ),
+    real(sp)  swork( * ),
+    integer   iter,
+    integer   info 
+)  
+
+#:def gesv_mixed(NAME,pfxs)
+#:set wp=pfxs[0]
+!> ${NAME.upper()}$ computes the solution to system of linear equations \( A \times X = B \) for GE matrices (mixed precision with iterative refinement)
+pure subroutine ${NAME}$(n,nhrs,a,lda,ipiv,b,ldb,info)
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  inout, a(lda,*), b(ldb,*))
+@:args(integer,   out,   ipiv(*))
+@:args(integer,   out,   info)
+@:args(integer,   in,    n, nrhs, lda, ldb)
+end subroutine
+#:enddef

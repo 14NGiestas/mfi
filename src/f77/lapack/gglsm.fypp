@@ -15,12 +15,13 @@ subroutine {s,d,c,z}gglsm (
     integer  out   info
 )
 
-#:def gglsm(NAME,TYPE,KIND,PREFIX)
+#:def gglsm(NAME,pfxs)
+#:set wp=pfxs[0]
 pure subroutine ${NAME}$(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, inout, a(lda,*), b(ldb,*), d(*))
-@:args(${TYPE}$,   out, work(*), x(*), y(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, inout, a(lda,*), b(ldb,*), d(*))
+@:args(${type(wp)}$,   out, work(*), x(*), y(*))
 @:args(integer,    out, info)
 @:args(integer,     in, m, n, p, lda, ldb, lwork)
 end subroutine

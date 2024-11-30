@@ -12,17 +12,18 @@ subroutine {s,d,c,z}gels / gelst / getsls (
         integer     lwork,
         integer      info
 )
-#:def gels_gelst_getsls(NAME,TYPE,KIND,PREFIX)
+#:def gels_gelst_getsls(NAME,pfxs)
+#:set wp=pfxs[0]
 !> ${NAME.upper()}$ solves overdetermined or underdetermined systems for GE matrices
 #:if NAME.endswith('t')
 !> using QR or LQ factorization with compact WY representation of Q.
 #:endif
 pure subroutine ${NAME}$(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
 @:args(character,   in, trans)
-@:args(${TYPE}$, inout, a(lda,*), b(ldb,*))
-@:args(${TYPE}$,   out, work(*))
+@:args(${type(wp)}$, inout, a(lda,*), b(ldb,*))
+@:args(${type(wp)}$,   out, work(*))
 @:args(integer,    out, info)
 @:args(integer,     in, m, n, lda, ldb, nrhs, lwork)
 end subroutine

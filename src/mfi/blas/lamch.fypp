@@ -1,10 +1,11 @@
-#:def lamch(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def lamch(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure function ${MFI_NAME}$(cmach, kind) result(res)
-@:parameter(integer, wp=${KIND}$)
+@:parameter(integer, wp=${kind(wp)}$)
 @:args(character, in, cmach)
-@:args(${TYPE}$, in, kind)
+@:args(${type(wp)}$, in, kind)
     !! Just a kind placeholder
-    ${TYPE}$ :: res
+    ${type(wp)}$ :: res
     res = ${F77_NAME}$(cmach)
 end function
 #:enddef

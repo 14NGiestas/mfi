@@ -1,12 +1,13 @@
-#:def syr2k(NAME,TYPE,KIND,PREFIX)
+#:def syr2k(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in,    a(lda,*))
-@:args(${TYPE}$,  in,    b(ldb,*))
-@:args(${TYPE}$,  inout, c(ldc,*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in,    a(lda,*))
+@:args(${type(wp)}$,  in,    b(ldb,*))
+@:args(${type(wp)}$,  inout, c(ldc,*))
 @:args(character, in,    trans, uplo)
-@:args(${TYPE}$,  in,    alpha, beta)
+@:args(${type(wp)}$,  in,    alpha, beta)
 @:args(integer,   in,    n, k, lda, ldb, ldc)
 end subroutine
 #:enddef

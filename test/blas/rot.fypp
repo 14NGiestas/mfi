@@ -1,81 +1,53 @@
 #:mute
-#:def rot_template(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX,mixed=False)
-subroutine test_${ORIGINAL}$
-    use f77_blas, only: ${ORIGINAL}$, ${IMPROVED}$
-    use mfi_blas, only: ${MODERN}$, mfi_${ORIGINAL}$
+#:def rot(f77,f90,mfi,pfxs)
+#:set A, B = get_types(pfxs)
+subroutine test_${f77}$
+    use f77_blas, only: ${f77}$, ${f90}$
+    use mfi_blas, only: ${mfi}$, mfi_${f77}$
 
-    integer,     parameter :: wp = ${KIND}$
+    integer,     parameter :: wp = ${kind(A)}$
     real(wp),    parameter :: pi = 4.0_wp * atan(1.0_wp)
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    ${REAL_TYPE}$ :: rnd(N)
-    ${TYPE}$ :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
-    ${REAL_TYPE}$ :: angle
-    ${REAL_TYPE}$ :: c
-#:if not mixed
-    ${TYPE}$ :: s
-#:else
-    ${REAL_TYPE}$ :: s
-#:endif
+    ${type(A)}$ :: x(N),    y(N),    &
+                   x_in(N), y_in(N), &
+                   x_rf(N), y_rf(N)
+    real(wp) :: angle
+    ${real(A)}$ :: c
+    ${type(B)}$ :: s
 
     call random_number(angle)
     angle = angle * 2.0_wp * pi
 
-#:if TYPE == COMPLEX_TYPE
-    call random_number(rnd)
-    x%re = rnd
-    call random_number(rnd)
-    x%im = rnd
-    call random_number(rnd)
-    y%re = rnd
-    call random_number(rnd)
-    y%im = rnd
-#:else
-    call random_number(X)
-    call random_number(Y)
-#:endif
+    $:random_number(type(A),'X','(N)')
+    $:random_number(type(A),'Y','(N)')
 
     c = cos(angle)
-
-#:if not mixed
-    s = i * sin(angle)
-#:else
     s = sin(angle)
-#:endif
 
     x_in = x
     y_in = y
     ! The test is always against the original
-    call ${ORIGINAL}$(N, x_in, 1, y_in, 1, c, s)
+    call ${f77}$(N, x_in, 1, y_in, 1, c, s)
     x_rf = x_in
     y_rf = y_in
 
     x_in = x
     y_in = y
-    call ${IMPROVED}$(N, x_in, 1, y_in, 1, c, s)
+    call ${f90}$(N, x_in, 1, y_in, 1, c, s)
     call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
 
     x_in = x
     y_in = y
-    call mfi_${ORIGINAL}$(x_in, y_in, c, s)
+    call mfi_${f77}$(x_in, y_in, c, s)
     call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
 
     x_in = x
     y_in = y
-    call ${MODERN}$(x_in, y_in, c, s)
+    call ${mfi}$(x_in, y_in, c, s)
     call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
 
 end subroutine
-#:enddef
-
-#:def rot(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
-$:rot_template(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
-#:enddef
-
-#:def rot_mixed(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
-$:rot_template(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX, mixed=True)
 #:enddef
 #:endmute

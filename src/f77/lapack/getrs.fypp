@@ -1,9 +1,10 @@
-#:def getrs(NAME,TYPE,KIND,PREFIX)
+#:def getrs(NAME,pfxs)
+#:set wp=pfxs[0]
 pure subroutine ${NAME}$(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, inout, a(lda,*))
-@:args(${TYPE}$, inout, b(ldb,*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, inout, a(lda,*))
+@:args(${type(wp)}$, inout, b(ldb,*))
 @:args(character,   in, trans)
 @:args(integer,     in, ipiv(*))
 @:args(integer,    out, info)

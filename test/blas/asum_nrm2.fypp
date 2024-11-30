@@ -1,35 +1,28 @@
-#:def asum_nrm2(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
-subroutine test_${ORIGINAL}$
-    use f77_blas, only: ${ORIGINAL}$, ${IMPROVED}$
-    use mfi_blas, only: ${MODERN}$, mfi_${ORIGINAL}$
+#:def asum_nrm2(f77,f90,mfi,pfxs)
+#:set A, B = get_types(pfxs)
+subroutine test_${f77}$
+    use f77_blas, only: ${f77}$, ${f90}$
+    use mfi_blas, only: ${mfi}$, mfi_${f77}$
 
-    integer, parameter :: wp = ${KIND}$
+    integer, parameter :: wp = ${kind(A)}$
     integer, parameter :: N = 20
-    ${REAL_TYPE}$ :: rnd(N)
-    ${TYPE}$ :: array(N)
-    ${TYPE}$ :: res(4)
+    ${type(B)}$ :: array(N)
+    ${type(A)}$ :: res(4)
     integer :: i
 
     ! Test sequential array
     array = [(1.0_wp*i,i=1,N)]
-    res(1) = ${ORIGINAL}$(N, array, 1)
-    res(2) = mfi_${ORIGINAL}$(array)
-    res(3) = ${IMPROVED}$(N, array, 1)
-    res(4) = ${MODERN}$(array)
+    res(1) = ${f77}$(N, array, 1)
+    res(3) = ${f90}$(N, array, 1)
+    res(2) = mfi_${f77}$(array)
+    res(4) = ${mfi}$(array)
     call assert(all(res == res(1)), "different results for sequential array")
 
-#:if TYPE == COMPLEX_TYPE
-    call random_number(rnd)
-    array%re = rnd
-    call random_number(rnd)
-    array%im = rnd
-#:else
-    call random_number(array)
-#:endif
-    res(1) = ${ORIGINAL}$(N, array, 1)
-    res(2) = ${IMPROVED}$(N, array, 1)
-    res(3) = mfi_${ORIGINAL}$(array)
-    res(4) = ${MODERN}$(array)
+    $:random_number(type(B),'array','(N)')
+    res(1) = ${f77}$(N, array, 1)
+    res(2) = ${f90}$(N, array, 1)
+    res(3) = mfi_${f77}$(array)
+    res(4) = ${mfi}$(array)
     call assert(all(res == res(1)), "different results for random array")
 
 end subroutine

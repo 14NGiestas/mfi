@@ -1,8 +1,9 @@
-#:def potrf_potri(NAME,TYPE,KIND,PREFIX)
+#:def potrf_potri(NAME,pfxs)
+#:set wp=pfxs[0]
 pure subroutine ${NAME}$(uplo, n, a, lda, info)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in, a(lda,*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in, a(lda,*))
 @:args(character, in,  uplo)
 @:args(integer,   in,  n, lda)
 @:args(integer,   out, info)

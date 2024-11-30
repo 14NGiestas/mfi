@@ -1,9 +1,10 @@
-#:def axpy(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def axpy(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(x, y, a, incx, incy)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    x(:))
-@:args(${TYPE}$, inout, y(:))
-@:optional(${TYPE}$, in, a)
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    x(:))
+@:args(${type(wp)}$, inout, y(:))
+@:optional(${type(wp)}$, in, a)
 @:optional(integer, in, incx, incy)
     integer :: n
 @:defaults(a=1.0_wp, incx=1, incy=1)

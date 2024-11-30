@@ -8,21 +8,22 @@
 !   integer                   info
 !)
 
-#:def pocon(MFI_NAME, F77_NAME, TYPE, KIND,PREFIX)
+#:def pocon(MFI_NAME, F77_NAME, pfxs)
+#:set wp = pfxs[0]
 !> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
 pure subroutine ${MFI_NAME}$(a, anorm, rcond, uplo, info)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, inout, a(:,:))
-@:args(${REAL_TYPE}$, in, anorm)
-@:args(${REAL_TYPE}$, out, rcond)
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, inout, a(:,:))
+@:args(${real(wp)}$, in, anorm)
+@:args(${real(wp)}$, out, rcond)
 @:optional(character, in, uplo)
 @:optional(integer, out, info)
     integer :: n, lda, allocation_status, deallocation_status
-    ${TYPE}$, pointer :: work(:)
-#:if TYPE == REAL_TYPE
+    ${type(wp)}$, pointer :: work(:)
+#:if type(wp) == real(wp)
     integer, pointer :: xwork(:)
-#:elif TYPE == COMPLEX_TYPE
-    ${REAL_TYPE}$, pointer :: xwork(:)
+#:elif type(wp) == complex(wp)
+    ${real(wp)}$, pointer :: xwork(:)
 #:endif
 @:defaults(uplo='U')
     lda = max(1,size(a,1))

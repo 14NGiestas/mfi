@@ -1,9 +1,10 @@
-#:def axpy(NAME,TYPE,KIND,PREFIX)
+#:def axpy(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(n, a, x, incx, y, incy)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    x(*), a)
-@:args(${TYPE}$, inout, y(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    x(*), a)
+@:args(${type(wp)}$, inout, y(*))
 @:args(integer,  in,    n, incx, incy)
 end subroutine
 #:enddef

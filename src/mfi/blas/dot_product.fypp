@@ -1,8 +1,9 @@
-#:def dot_product(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def dot_product(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure function ${MFI_NAME}$(x, y, incx, incy)
-@:parameter(integer, wp=${KIND}$)
-    ${TYPE}$ :: ${MFI_NAME}$
-@:args(${TYPE}$, in, x(:), y(:))
+@:parameter(integer, wp=${kind(wp)}$)
+    ${type(wp)}$ :: ${MFI_NAME}$
+@:args(${type(wp)}$, in, x(:), y(:))
     integer :: n
 @:optional(integer, in, incx, incy)
 @:defaults(incx=1, incy=1)

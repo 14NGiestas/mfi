@@ -1,8 +1,9 @@
-#:def tpmv_tpsv(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def tpmv_tpsv(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(ap, x, uplo, trans, diag, incx)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    ap(:))
-@:args(${TYPE}$, inout, x(:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    ap(:))
+@:args(${type(wp)}$, inout, x(:))
 @:optional(character, in, uplo, trans, diag)
 @:optional(integer,   in, incx)
     integer :: n

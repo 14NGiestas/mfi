@@ -16,16 +16,17 @@ subroutine {s,d,c,z}gelsd(
         integer  out     iwork(*),
         integer  out         info
 )
-#:def gelsd(NAME,TYPE,KIND,PREFIX)
+#:def gelsd(NAME,pfxs)
+#:set wp=pfxs[0]
 !> ${NAME.upper()}$ computes the minimum-norm solution to a linear least squares problem for GE matrices
 pure subroutine ${NAME}$(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    rcond)
-@:args(${TYPE}$, inout, a(lda,*))
-@:args(${TYPE}$, inout, b(ldb,*))
-@:args(${TYPE}$, out,   s(*))
-@:args(${TYPE}$, out,   work(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    rcond)
+@:args(${type(wp)}$, inout, a(lda,*))
+@:args(${type(wp)}$, inout, b(ldb,*))
+@:args(${type(wp)}$, out,   s(*))
+@:args(${type(wp)}$, out,   work(*))
 @:args(integer, out, iwork(*))
 @:args(integer, out, info, rank)
 @:args(integer, in, n, m, nrhs, lda, ldb, lwork)

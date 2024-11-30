@@ -1,9 +1,10 @@
-#:def ger_gerc_geru(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def ger_gerc_geru(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, x, y, alpha, incx, incy)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    x(:), y(:))
-@:args(${TYPE}$, inout, a(:,:))
-@:optional(${TYPE}$,  in, alpha)
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    x(:), y(:))
+@:args(${type(wp)}$, inout, a(:,:))
+@:optional(${type(wp)}$,  in, alpha)
 @:optional(integer,   in, incx, incy)
     integer :: m, n, lda
 @:defaults(alpha=1.0_wp, incx=1, incy=1)

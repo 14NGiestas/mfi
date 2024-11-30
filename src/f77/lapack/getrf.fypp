@@ -1,8 +1,9 @@
-#:def getrf(NAME,TYPE,KIND,PREFIX)
+#:def getrf(NAME,pfxs)
+#:set wp=pfxs[0]
 pure subroutine ${NAME}$(m,n,a,lda,ipiv,info)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, inout, a(lda,*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, inout, a(lda,*))
 @:args(integer,    out, ipiv(*))
 @:args(integer,    out, info)
 @:args(integer,     in, m, n, lda)

@@ -1,45 +1,22 @@
-#:def rot(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def rot(MFI_NAME,F77_NAME,pfxs)
+#:set A, B = get_types(pfxs)
 !> Given two vectors x and y,
 !> each vector element of these vectors is replaced as follows:
 !>```fortran
-#:if TYPE == REAL_TYPE
+#:if type(A) == real(A) 
 !> xi = c*xi + s*yi
 !> yi = c*yi - s*xi
-#:elif TYPE == COMPLEX_TYPE
+#:elif type(A) == complex(A)
 !> xi = c*xi + s*yi
 !> yi = c*yi - conj(s)*xi
 #:endif
 !>```
 pure subroutine ${MFI_NAME}$(x, y, c, s, incx, incy)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,      inout, x(:), y(:))
-@:args(${REAL_TYPE}$, in, c)
-@:args(${TYPE}$,      in, s)
+@:parameter(integer, wp=${kind(A)}$)
+@:args(${type(A)}$, inout, x(:), y(:))
+@:args(${real(A)}$, in, c)
+@:args(${type(B)}$, in, s)
 @:optional(integer, in, incx, incy)
-    integer :: n
-@:defaults(incx=1, incy=1)
-    n = size(x)
-    call ${F77_NAME}$(n,x,local_incx,y,local_incy,c,s)
-end subroutine
-#:enddef
-
-#:def rot_mixed(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
-!> Given two vectors x and y,
-!> each vector element of these vectors is replaced as follows:
-!>```fortran
-#:if TYPE == REAL_TYPE
-!> xi = c*xi + s*yi
-!> yi = c*yi - s*xi
-#:elif TYPE == COMPLEX_TYPE
-!> xi = c*xi + s*yi
-!> yi = c*yi - conj(s)*xi
-#:endif
-!>```
-pure subroutine ${MFI_NAME}$(x, y, c, s, incx, incy)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,      inout, x(:), y(:))
-@:args(${REAL_TYPE}$,    in, c, s)
-@:optional(integer,      in, incx, incy)
     integer :: n
 @:defaults(incx=1, incy=1)
     n = size(x)

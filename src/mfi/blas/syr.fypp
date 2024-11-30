@@ -1,10 +1,11 @@
-#:def syr(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def syr(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, x, uplo, alpha, incx)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    x(:))
-@:args(${TYPE}$, inout, a(:,:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    x(:))
+@:args(${type(wp)}$, inout, a(:,:))
 @:optional(character, in, uplo)
-@:optional(${TYPE}$,  in, alpha)
+@:optional(${type(wp)}$,  in, alpha)
 @:optional(integer,   in, incx)
     integer :: n, lda
 @:defaults(uplo='U', alpha=1.0_wp, incx=1)

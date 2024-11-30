@@ -1,6 +1,6 @@
 #:mute
 #:include "common.fpp"
-#:include "src/f77/lapack/aux_lartg.fypp"
+#:include "src/f77/lapack/lartg.fypp"
 #:include "src/f77/lapack/geqrf_gerqf.fypp"
 #:include "src/f77/lapack/getrf.fypp"
 #:include "src/f77/lapack/getri.fypp"
@@ -20,38 +20,46 @@
 #:include "src/f77/lapack/gelsy.fypp"
 #:include "src/f77/lapack/gglse.fypp"
 #:include "src/f77/lapack/gglsm.fypp"
-#:endmute
+#:set COLLECT = [                                  &
+    ('?geqrf',  DEFAULT_TYPES, geqrf_gerqf),       &
+    ('?gerqf',  DEFAULT_TYPES, geqrf_gerqf),       &
+    ('?getrf',  DEFAULT_TYPES, getrf),             &
+    ('?getri',  DEFAULT_TYPES, getri),             &
+    ('?getrs',  DEFAULT_TYPES, getrs),             &
+    ('?hetrf',  COMPLEX_TYPES, hetrf),             &
+    ('?hegv',   COMPLEX_TYPES, hegv),              &
+    ('?heevd',  COMPLEX_TYPES, heevd),             &
+    ('?gesvd',  DEFAULT_TYPES, gesvd),             &
+    ('?potrf',  DEFAULT_TYPES, potrf_potri),       &
+    ('?potri',  DEFAULT_TYPES, potrf_potri),       &
+    ('?potrs',  DEFAULT_TYPES, potrs),             &
+    ('?pocon',  DEFAULT_TYPES, pocon),             &
+    ('?heevx',  COMPLEX_TYPES, heevx),             &
+    ('?heevr',  COMPLEX_TYPES, heevr),             &
+    ('?gels',   DEFAULT_TYPES, gels_gelst_getsls), &
+    ('?gelst',  DEFAULT_TYPES, gels_gelst_getsls), &
+    ('?getsls', DEFAULT_TYPES, gels_gelst_getsls), &
+    ('?gelsd',  DEFAULT_TYPES, gelsd),             &
+    ('?gelss',  DEFAULT_TYPES, gelss),             &
+    ('?gelsy',  DEFAULT_TYPES, gelsy),             &
+    ('?gglse',  DEFAULT_TYPES, gglse),             &
+    ('?gglsm',  DEFAULT_TYPES, gglsm),             &
+    ('?lartg',  DEFAULT_TYPES, lartg),             &
+]
+#:endmute                                          
 !> Improved and original F77 interfaces for LAPACK
 module f77_lapack
 use iso_fortran_env
 implicit none
 
-$:f77_interface('?geqrf',  DEFAULT_TYPES, geqrf_gerqf)
-$:f77_interface('?gerqf',  DEFAULT_TYPES, geqrf_gerqf)
-$:f77_interface('?getrf',  DEFAULT_TYPES, getrf)
-$:f77_interface('?getri',  DEFAULT_TYPES, getri)
-$:f77_interface('?getrs',  DEFAULT_TYPES, getrs)
-$:f77_interface('?hetrf',  COMPLEX_TYPES, hetrf)
-$:f77_interface('?hegv',   COMPLEX_TYPES, hegv)
-$:f77_interface('?heevd',  COMPLEX_TYPES, heevd)
-$:f77_interface('?heevx',  COMPLEX_TYPES, heevx)
-$:f77_interface('?heevr',  COMPLEX_TYPES, heevr)
-$:f77_interface('?gesvd',  DEFAULT_TYPES, gesvd)
-$:f77_interface('?potrf',  DEFAULT_TYPES, potrf_potri)
-$:f77_interface('?potri',  DEFAULT_TYPES, potrf_potri)
-$:f77_interface('?potrs',  DEFAULT_TYPES, potrs)
-$:f77_interface('?pocon',  DEFAULT_TYPES, pocon)
-$:f77_interface('?gels',   DEFAULT_TYPES, gels_gelst_getsls)
-$:f77_interface('?gelst',  DEFAULT_TYPES, gels_gelst_getsls)
-$:f77_interface('?getsls', DEFAULT_TYPES, gels_gelst_getsls)
-$:f77_interface('?gelsd',  DEFAULT_TYPES, gelsd)
-$:f77_interface('?gelss',  DEFAULT_TYPES, gelss)
-$:f77_interface('?gelsy',  DEFAULT_TYPES, gelsy)
-$:f77_interface('?gglse',  DEFAULT_TYPES, gglse)
-$:f77_interface('?gglsm',  DEFAULT_TYPES, gglsm)
 
-! Other Auxiliary Routines
-$:f77_interface('?lartg',  DEFAULT_TYPES, aux_lartg)
+#:for name, supported_types, code in COLLECT
+$:f77_original(name, supported_types, code)
+#:endfor
+
+#:for name, supported_types, code in COLLECT
+$:f77_improved(name, supported_types)
+#:endfor
 
     interface f77_xerbla
         pure subroutine xerbla(name,info)

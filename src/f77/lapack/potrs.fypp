@@ -1,9 +1,10 @@
-#:def potrs(NAME,TYPE,KIND,PREFIX)
+#:def potrs(NAME,pfxs)
+#:set wp=pfxs[0]
 pure subroutine ${NAME}$(uplo, n, nrhs, a, lda, b, ldb, info)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in, a(lda,*))
-@:args(${TYPE}$,  in, b(ldb,*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in, a(lda,*))
+@:args(${type(wp)}$,  in, b(ldb,*))
 @:args(character, in,  uplo)
 @:args(integer,   in,  n, nrhs, lda, ldb)
 @:args(integer,   out, info)

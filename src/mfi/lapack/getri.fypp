@@ -1,10 +1,11 @@
-#:def getri(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def getri(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, ipiv, info)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, inout, a(:,:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, inout, a(:,:))
 @:args(integer,     in, ipiv(:))
-    ${TYPE}$, pointer :: work(:)
-    ${TYPE}$ :: s_work(1)
+    ${type(wp)}$, pointer :: work(:)
+    ${type(wp)}$ :: s_work(1)
 @:optional(integer, out, info)
     integer :: n, lda, lwork, allocation_status, deallocation_status
     lda = max(1,size(a,1))

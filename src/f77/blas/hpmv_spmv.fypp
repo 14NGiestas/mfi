@@ -1,11 +1,12 @@
-#:def hpmv_spmv(NAME,TYPE,KIND,PREFIX)
+#:def hpmv_spmv(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(uplo, n, alpha, ap, x, incx, beta, y, incy)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in,    ap(*), x(*))
-@:args(${TYPE}$,  inout, y(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in,    ap(*), x(*))
+@:args(${type(wp)}$,  inout, y(*))
 @:args(character, in,    uplo)
-@:args(${TYPE}$,  in,    alpha, beta)
+@:args(${type(wp)}$,  in,    alpha, beta)
 @:args(integer,   in,    n, incx, incy)
 end subroutine
 #:enddef

@@ -1,11 +1,12 @@
-#:def syr2k(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def syr2k(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, b, c, uplo, trans, alpha, beta)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    a(:,:))
-@:args(${TYPE}$, in,    b(:,:))
-@:args(${TYPE}$, inout, c(:,:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    a(:,:))
+@:args(${type(wp)}$, in,    b(:,:))
+@:args(${type(wp)}$, inout, c(:,:))
 @:optional(character, in, trans, uplo)
-@:optional(${TYPE}$,  in, alpha, beta)
+@:optional(${type(wp)}$,  in, alpha, beta)
     integer :: n, k, lda, ldb, ldc
 @:defaults(trans='N', uplo='U', alpha=1.0_wp, beta=0.0_wp)
     n = size(c,2)

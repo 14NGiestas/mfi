@@ -1,7 +1,8 @@
-#:def getrf(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def getrf(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, ipiv, info)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,      inout, a(:,:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,      inout, a(:,:))
     integer, intent(out), optional, target :: ipiv(:)
 @:optional(integer, out, info)
     integer :: m, n, lda, allocation_status, deallocation_status

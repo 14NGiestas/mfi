@@ -1,8 +1,9 @@
-#:def herk(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def herk(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, c, uplo, trans, alpha, beta)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    a(:,:))
-@:args(${TYPE}$, inout, c(:,:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    a(:,:))
+@:args(${type(wp)}$, inout, c(:,:))
 @:optional(character, in, trans, uplo)
 @:optional(real(wp),  in, alpha, beta)
     integer :: n, k, lda, ldc

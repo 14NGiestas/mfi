@@ -1,9 +1,9 @@
-#:def asum_nrm2(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def asum_nrm2(MFI_NAME,F77_NAME,pfxs)
+#:set A, B = get_types(pfxs)
 pure function ${MFI_NAME}$(x, incx)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,    in, x(:))
+    ${type(A)}$ :: ${MFI_NAME}$
+@:args(${type(B)}$, in, x(:))
 @:optional(integer, in, incx)
-    ${REAL_TYPE}$ :: ${MFI_NAME}$
     integer :: n
 @:defaults(incx=1)
     n = size(x)

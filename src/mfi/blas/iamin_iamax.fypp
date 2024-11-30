@@ -1,8 +1,9 @@
-#:def iamin_iamax(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def iamin_iamax(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure function ${MFI_NAME}$(x, incx)
-@:parameter(integer, wp=${KIND}$)
+@:parameter(integer, wp=${kind(wp)}$)
     integer :: ${MFI_NAME}$
-@:args(${TYPE}$, in, x(:))
+@:args(${type(wp)}$, in, x(:))
 @:optional(integer, in, incx)
     integer :: n
 @:defaults(incx=1)

@@ -1,10 +1,11 @@
-#:def hpr_spr2(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def hpr_spr2(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(ap, x, y, uplo, alpha, incx, incy)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    x(:), y(:))
-@:args(${TYPE}$, inout, ap(:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    x(:), y(:))
+@:args(${type(wp)}$, inout, ap(:))
 @:optional(character, in, uplo)
-@:optional(${TYPE}$,  in, alpha)
+@:optional(${type(wp)}$,  in, alpha)
 @:optional(integer,   in, incx, incy)
     integer :: n
 @:defaults(uplo='U', alpha=1.0_wp, incx=1, incy=1)

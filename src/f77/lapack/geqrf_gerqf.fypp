@@ -1,11 +1,12 @@
-#:def geqrf_gerqf(NAME,TYPE,KIND,PREFIX)
+#:def geqrf_gerqf(NAME,pfxs)
+#:set wp=pfxs[0]
 pure subroutine ${NAME}$(m,n,a,lda,tau,work,lwork,info)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, inout, a(lda,*))
-@:args(${TYPE}$,   out, tau(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, inout, a(lda,*))
+@:args(${type(wp)}$,   out, tau(*))
 @:args(integer,    out, info)
 @:args(integer,     in, m, n, lda, lwork)
-@:args(${TYPE}$, inout, work(*))
+@:args(${type(wp)}$, inout, work(*))
 end subroutine
 #:enddef

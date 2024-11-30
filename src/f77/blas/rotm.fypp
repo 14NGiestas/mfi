@@ -1,9 +1,10 @@
-#:def rotm(NAME,TYPE,KIND,PREFIX)
+#:def rotm(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(n, x, incx, y, incy, param)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, inout, x(*), y(*))
-@:args(${TYPE}$, in, param(5))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, inout, x(*), y(*))
+@:args(${type(wp)}$, in, param(5))
 @:args(integer,  in, n, incx, incy)
 end subroutine
 #:enddef

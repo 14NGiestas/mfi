@@ -31,6 +31,54 @@
 #:include "src/mfi/blas/her2k.fypp"
 #:include "src/mfi/blas/syr2k.fypp"
 #:include "src/mfi/blas/trmm_trsm.fypp"
+#:set COLLECT = [                                              &
+    ('?copy', DEFAULT_TYPES,                    copy_swap),    &
+    ('?swap', DEFAULT_TYPES,                    copy_swap),    &
+    ('?axpy', DEFAULT_TYPES,                    axpy),         &
+    ('?dot',  REAL_TYPES,                       dot_product),  &
+    ('?dotc', COMPLEX_TYPES,                    dot_product),  &
+    ('?dotu', COMPLEX_TYPES,                    dot_product),  &
+    ('?asum', REAL_TYPES    + MIX_REAL_COMPLEX, asum_nrm2),    &
+    ('?nrm2', REAL_TYPES    + MIX_REAL_COMPLEX, asum_nrm2),    &
+    ('?rot',  DEFAULT_TYPES + MIX_COMPLEX_REAL, rot),          &
+    ('?rotm', REAL_TYPES,                       rotm),         &
+    ('?scal', DEFAULT_TYPES + MIX_COMPLEX_REAL, scal),         &
+    ('?gbmv', DEFAULT_TYPES,                    gbmv),         &
+    ('?gemv', DEFAULT_TYPES,                    gemv),         &
+    ('?ger',  REAL_TYPES,                       ger_gerc_geru),&
+    ('?gerc', COMPLEX_TYPES,                    ger_gerc_geru),&
+    ('?geru', COMPLEX_TYPES,                    ger_gerc_geru),&
+    ('?hbmv', COMPLEX_TYPES,                    hbmv_sbmv),    &
+    ('?hemv', COMPLEX_TYPES,                    hemv_symv),    &
+    ('?her',  COMPLEX_TYPES,                    her),          &
+    ('?her2', COMPLEX_TYPES,                    her_syr2),     &
+    ('?hpmv', COMPLEX_TYPES,                    hpmv_spmv),    &
+    ('?hpr',  COMPLEX_TYPES,                    hpr),          &
+    ('?hpr2', COMPLEX_TYPES,                    hpr_spr2),     &
+    ('?sbmv', REAL_TYPES,                       hbmv_sbmv),    &
+    ('?spmv', REAL_TYPES,                       hpmv_spmv),    &
+    ('?spr',  REAL_TYPES,                       spr),          &
+    ('?spr2', REAL_TYPES,                       hpr_spr2),     &
+    ('?symv', REAL_TYPES,                       hemv_symv),    &
+    ('?syr',  REAL_TYPES,                       syr),          &
+    ('?syr2', REAL_TYPES,                       her_syr2),     &
+    ('?tbmv', DEFAULT_TYPES,                    tbmv_tbsv),    &
+    ('?tbsv', DEFAULT_TYPES,                    tbmv_tbsv),    &
+    ('?tpmv', DEFAULT_TYPES,                    tpmv_tpsv),    &
+    ('?tpsv', DEFAULT_TYPES,                    tpmv_tpsv),    &
+    ('?trmv', DEFAULT_TYPES,                    trmv_trsv),    &
+    ('?trsv', DEFAULT_TYPES,                    trmv_trsv),    &
+    ('?gemm', DEFAULT_TYPES,                    gemm),         &
+    ('?hemm', COMPLEX_TYPES,                    hemm_symm),    &
+    ('?herk', COMPLEX_TYPES,                    herk),         &
+    ('?her2k',COMPLEX_TYPES,                    her2k),        &
+    ('?symm', REAL_TYPES,                       hemm_symm),    &
+    ('?syrk', REAL_TYPES,                       syrk),         &
+    ('?syr2k',REAL_TYPES,                       syr2k),        &
+    ('?trmm', DEFAULT_TYPES,                    trmm_trsm),    &
+    ('?trsm', DEFAULT_TYPES,                    trmm_trsm),    &
+    ('?lamch',REAL_TYPES,                       lamch),        &
+]
 #:endmute
 !> Modern fortran interfaces for BLAS
 module mfi_blas
@@ -40,56 +88,9 @@ use f77_blas, only: mfi_rotg  => f77_rotg
 use f77_blas, only: mfi_rotmg => f77_rotmg
 implicit none
 
-! BLAS level 1
-$:mfi_interface('?asum',  REAL_TYPES + REAL_COMPLEX_TYPES)
-$:mfi_interface('?nrm2',  REAL_TYPES + REAL_COMPLEX_TYPES)
-$:mfi_interface('?axpy',  DEFAULT_TYPES)
-$:mfi_interface('?copy',  DEFAULT_TYPES)
-$:mfi_interface('?dot',   REAL_TYPES)
-$:mfi_interface('?dotu',  COMPLEX_TYPES)
-$:mfi_interface('?dotc',  COMPLEX_TYPES)
-$:mfi_interface('?rot',   DEFAULT_TYPES + COMPLEX_REAL_TYPES)
-$:mfi_interface('?rotm',  REAL_TYPES)
-$:mfi_interface('?scal',  DEFAULT_TYPES + COMPLEX_REAL_TYPES)
-$:mfi_interface('?swap',  DEFAULT_TYPES)
-
-! BLAS level 2
-$:mfi_interface('?gbmv',  DEFAULT_TYPES)
-$:mfi_interface('?gemv',  DEFAULT_TYPES)
-$:mfi_interface('?ger',   REAL_TYPES)
-$:mfi_interface('?gerc',  COMPLEX_TYPES)
-$:mfi_interface('?geru',  COMPLEX_TYPES)
-$:mfi_interface('?hbmv',  COMPLEX_TYPES)
-$:mfi_interface('?hemv',  COMPLEX_TYPES)
-$:mfi_interface('?her',   COMPLEX_TYPES)
-$:mfi_interface('?her2',  COMPLEX_TYPES)
-$:mfi_interface('?hpmv',  COMPLEX_TYPES)
-$:mfi_interface('?hpr',   COMPLEX_TYPES)
-$:mfi_interface('?hpr2',  COMPLEX_TYPES)
-$:mfi_interface('?sbmv',  REAL_TYPES)
-$:mfi_interface('?spmv',  REAL_TYPES)
-$:mfi_interface('?spr',   REAL_TYPES)
-$:mfi_interface('?spr2',  REAL_TYPES)
-$:mfi_interface('?symv',  REAL_TYPES)
-$:mfi_interface('?syr',   REAL_TYPES)
-$:mfi_interface('?syr2',  REAL_TYPES)
-$:mfi_interface('?tbmv',  DEFAULT_TYPES)
-$:mfi_interface('?tbsv',  DEFAULT_TYPES)
-$:mfi_interface('?tpmv',  DEFAULT_TYPES)
-$:mfi_interface('?tpsv',  DEFAULT_TYPES)
-$:mfi_interface('?trmv',  DEFAULT_TYPES)
-$:mfi_interface('?trsv',  DEFAULT_TYPES)
-
-! BLAS level 3
-$:mfi_interface('?gemm',  DEFAULT_TYPES)
-$:mfi_interface('?hemm',  COMPLEX_TYPES)
-$:mfi_interface('?herk',  COMPLEX_TYPES)
-$:mfi_interface('?her2k', COMPLEX_TYPES)
-$:mfi_interface('?symm',  REAL_TYPES)
-$:mfi_interface('?syrk',  REAL_TYPES)
-$:mfi_interface('?syr2k', REAL_TYPES)
-$:mfi_interface('?trmm',  DEFAULT_TYPES)
-$:mfi_interface('?trsm',  DEFAULT_TYPES)
+#:for name, supported_types, code in COLLECT
+$:mfi_interface(name, supported_types)
+#:endfor
 
 ! Extensions
 ! BLAS level 1 - Utils / Extensions
@@ -97,62 +98,13 @@ $:mfi_interface('?trsm',  DEFAULT_TYPES)
 $:mfi_interface('i?amax', DEFAULT_TYPES)
 $:mfi_interface('i?amin', DEFAULT_TYPES)
 #:endif
-$:mfi_interface('?lamch', REAL_TYPES)
 
 contains
 
-! BLAS level 1
-$:mfi_implement('?nrm2',  DEFAULT_TYPES, asum_nrm2, MIX_REAL_COMPLEX)
-$:mfi_implement('?asum',  DEFAULT_TYPES, asum_nrm2, MIX_REAL_COMPLEX)
-$:mfi_implement('?axpy',  DEFAULT_TYPES, axpy)
-$:mfi_implement('?copy',  DEFAULT_TYPES, copy_swap)
-$:mfi_implement('?dot',   REAL_TYPES,    dot_product)
-$:mfi_implement('?dotu',  COMPLEX_TYPES, dot_product)
-$:mfi_implement('?dotc',  COMPLEX_TYPES, dot_product)
-$:mfi_implement('?rot',   DEFAULT_TYPES, rot)
-$:mfi_implement('?rot',   COMPLEX_TYPES, rot_mixed, MIX_COMPLEX_REAL)
-$:mfi_implement('?rotm',  REAL_TYPES, rotm)
-$:mfi_implement('?scal',  DEFAULT_TYPES, scal)
-$:mfi_implement('?scal',  COMPLEX_TYPES, scal_mixed, MIX_COMPLEX_REAL)
-$:mfi_implement('?swap',  DEFAULT_TYPES, copy_swap)
 
-! BLAS level 2
-$:mfi_implement('?gbmv',  DEFAULT_TYPES, gbmv)
-$:mfi_implement('?gemv',  DEFAULT_TYPES, gemv)
-$:mfi_implement('?ger',   REAL_TYPES,    ger_gerc_geru)
-$:mfi_implement('?gerc',  COMPLEX_TYPES, ger_gerc_geru)
-$:mfi_implement('?geru',  COMPLEX_TYPES, ger_gerc_geru)
-$:mfi_implement('?hbmv',  COMPLEX_TYPES, hbmv_sbmv)
-$:mfi_implement('?hemv',  COMPLEX_TYPES, hemv_symv)
-$:mfi_implement('?her',   COMPLEX_TYPES, her)
-$:mfi_implement('?her2',  COMPLEX_TYPES, her_syr2)
-$:mfi_implement('?hpmv',  COMPLEX_TYPES, hpmv_spmv)
-$:mfi_implement('?hpr',   COMPLEX_TYPES, hpr)
-$:mfi_implement('?hpr2',  COMPLEX_TYPES, hpr_spr2)
-$:mfi_implement('?sbmv',  REAL_TYPES,    hbmv_sbmv)
-$:mfi_implement('?spmv',  REAL_TYPES,    hpmv_spmv)
-$:mfi_implement('?spr',   REAL_TYPES,    spr)
-$:mfi_implement('?spr2',  REAL_TYPES,    hpr_spr2)
-$:mfi_implement('?symv',  REAL_TYPES,    hemv_symv)
-$:mfi_implement('?syr',   REAL_TYPES,    syr)
-$:mfi_implement('?syr2',  REAL_TYPES,    her_syr2)
-$:mfi_implement('?tbmv',  DEFAULT_TYPES, tbmv_tbsv)
-$:mfi_implement('?tbsv',  DEFAULT_TYPES, tbmv_tbsv)
-$:mfi_implement('?tpmv',  DEFAULT_TYPES, tpmv_tpsv)
-$:mfi_implement('?tpsv',  DEFAULT_TYPES, tpmv_tpsv)
-$:mfi_implement('?trmv',  DEFAULT_TYPES, trmv_trsv)
-$:mfi_implement('?trsv',  DEFAULT_TYPES, trmv_trsv)
-
-! BLAS level 3
-$:mfi_implement('?gemm',  DEFAULT_TYPES, gemm)
-$:mfi_implement('?hemm',  COMPLEX_TYPES, hemm_symm)
-$:mfi_implement('?herk',  COMPLEX_TYPES, herk)
-$:mfi_implement('?her2k', COMPLEX_TYPES, her2k)
-$:mfi_implement('?symm',  REAL_TYPES,    hemm_symm)
-$:mfi_implement('?syrk',  REAL_TYPES,    syrk)
-$:mfi_implement('?syr2k', REAL_TYPES,    syr2k)
-$:mfi_implement('?trmm',  DEFAULT_TYPES, trmm_trsm)
-$:mfi_implement('?trsm',  DEFAULT_TYPES, trmm_trsm)
+#:for name, supported_types, code in COLLECT
+$:mfi_implement(name, supported_types, code)
+#:endfor
 
 ! Extensions
 ! BLAS level 1 - Utils / Extensions
@@ -160,6 +112,5 @@ $:mfi_implement('?trsm',  DEFAULT_TYPES, trmm_trsm)
 $:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
 $:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
 #:endif
-$:mfi_implement('?lamch', REAL_TYPES, lamch)
 
 end module

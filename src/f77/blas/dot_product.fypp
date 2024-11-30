@@ -1,9 +1,10 @@
-#:def dot_product(NAME,TYPE,KIND,PREFIX)
+#:def dot_product(NAME,pfxs)
+#:set wp = pfxs[0]
 pure function ${NAME}$(n, x, incx, y, incy)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-    ${TYPE}$ :: ${NAME}$
-@:args(${TYPE}$, in, x(*), y(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+    ${type(wp)}$ :: ${NAME}$
+@:args(${type(wp)}$, in, x(*), y(*))
 @:args(integer,  in, n, incx, incy)
 end function
 #:enddef

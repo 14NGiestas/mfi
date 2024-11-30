@@ -1,9 +1,10 @@
-#:def trmv_trsv(NAME,TYPE,KIND,PREFIX)
+#:def trmv_trsv(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(uplo, trans, diag, n, a, lda, x, incx)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in,    a(lda,*))
-@:args(${TYPE}$,  inout, x(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in,    a(lda,*))
+@:args(${type(wp)}$,  inout, x(*))
 @:args(character, in,    uplo, trans, diag)
 @:args(integer,   in,    n, lda, incx)
 end subroutine

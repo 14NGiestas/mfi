@@ -1,8 +1,9 @@
-#:def getrs(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def getrs(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a,ipiv,b,trans,info)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, inout, a(:,:))
-@:args(${TYPE}$, inout, b(:,:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, inout, a(:,:))
+@:args(${type(wp)}$, inout, b(:,:))
 @:args(integer,     in, ipiv(:))
 @:optional(integer, out, info)
 @:optional(character, in, trans)

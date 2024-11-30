@@ -1,38 +1,32 @@
-#:def rotg(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
-subroutine test_${ORIGINAL}$
-    use f77_blas, only: ${ORIGINAL}$
-    use mfi_blas, only: ${MODERN}$
+#:def rotg(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_blas, only: ${f77}$
+    use mfi_blas, only: ${mfi}$
 
-    integer, parameter :: wp = ${KIND}$
+    integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 200
-    ${TYPE}$      :: a, b, s
-    ${REAL_TYPE}$ :: c
+    ${type(wp)}$ :: a, b, s
+    ${real(wp)}$ :: c
 
-    ${TYPE}$      :: a_in, b_in, s_in
-    ${REAL_TYPE}$ :: c_in
+    ${type(wp)}$ :: a_in, b_in, s_in
+    ${real(wp)}$ :: c_in
 
-    ${TYPE}$      :: a_rf, b_rf, s_rf
-    ${REAL_TYPE}$ :: c_rf
+    ${type(wp)}$ :: a_rf, b_rf, s_rf
+    ${real(wp)}$ :: c_rf
     integer :: i
 
-#:if TYPE == COMPLEX_TYPE
-    @:random_complex(a)
-    @:random_complex(b)
-    call random_number(c)
-    @:random_complex(s)
-#:else
-    call random_number(a)
-    call random_number(b)
-    call random_number(c)
-    call random_number(s)
-#:endif
+    $:random_number(type(wp),'a')
+    $:random_number(type(wp),'b')
+    $:random_number(real(wp),'c')
+    $:random_number(type(wp),'s')
 
     do i=1,N
         a_in = a
         b_in = b
         c_in = c
         s_in = s
-        call ${ORIGINAL}$(a_in, b_in, c_in, s_in)
+        call ${f77}$(a_in, b_in, c_in, s_in)
         a_rf = a_in
         b_rf = b_in
         c_rf = c_in
@@ -42,7 +36,7 @@ subroutine test_${ORIGINAL}$
         b_in = b
         c_in = c
         s_in = s
-        call ${MODERN}$(a_in, b_in, c_in, s_in)
+        call ${mfi}$(a_in, b_in, c_in, s_in)
 
         call assert(a_in == a_rf .and. &
                     b_in == b_rf .and. &

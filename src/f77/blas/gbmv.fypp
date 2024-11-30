@@ -1,11 +1,12 @@
-#:def gbmv(NAME,TYPE,KIND,PREFIX)
+#:def gbmv(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in,    a(lda,*), x(*))
-@:args(${TYPE}$,  inout, y(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in,    a(lda,*), x(*))
+@:args(${type(wp)}$,  inout, y(*))
 @:args(character, in,    trans)
-@:args(${TYPE}$,  in,    alpha, beta)
+@:args(${type(wp)}$,  in,    alpha, beta)
 @:args(integer,   in,    m, n, kl, ku, lda, incx, incy)
 end subroutine
 #:enddef

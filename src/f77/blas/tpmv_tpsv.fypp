@@ -1,9 +1,10 @@
-#:def tpmv_tpsv(NAME,TYPE,KIND,PREFIX)
+#:def tpmv_tpsv(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(uplo, trans, diag, n, ap, x, incx)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in,    ap(*))
-@:args(${TYPE}$,  inout, x(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in,    ap(*))
+@:args(${type(wp)}$,  inout, x(*))
 @:args(character, in,    uplo, trans, diag)
 @:args(integer,   in,    n, incx)
 end subroutine

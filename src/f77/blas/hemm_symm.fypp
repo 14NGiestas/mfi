@@ -1,11 +1,12 @@
-#:def hemm_symm(NAME,TYPE,KIND,PREFIX)
+#:def hemm_symm(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in,    a(lda,*), b(ldb,*))
-@:args(${TYPE}$,  inout, c(ldc,*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in,    a(lda,*), b(ldb,*))
+@:args(${type(wp)}$,  inout, c(ldc,*))
 @:args(character, in,    side, uplo)
-@:args(${TYPE}$,  in,    alpha, beta)
+@:args(${type(wp)}$,  in,    alpha, beta)
 @:args(integer,   in,    m, n, lda, ldb, ldc)
 end subroutine
 #:enddef

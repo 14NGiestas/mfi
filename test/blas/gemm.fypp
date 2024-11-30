@@ -1,32 +1,24 @@
-#:def gemm(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
-subroutine test_${ORIGINAL}$
-    use f77_blas, only: ${ORIGINAL}$, ${IMPROVED}$
-    use mfi_blas, only: ${MODERN}$, mfi_${ORIGINAL}$
+#:def gemm(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_blas, only: ${f77}$, ${f90}$
+    use mfi_blas, only: ${mfi}$, mfi_${f77}$
 
-    integer, parameter :: wp = ${KIND}$
+    integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 20
     character, parameter :: options(*) = ['N','n','T','t','C','c']
-    ${TYPE}$ :: A(N,N),    B(N,N),    C(N,N),   &
+    ${type(wp)}$ :: A(N,N),    B(N,N),    C(N,N),   &
                 A_in(N,N), B_in(N,N), C_in(N,N),&
                 A_rf(N,N), B_rf(N,N), C_rf(N,N)
-    ${TYPE}$ :: alpha, beta
+    ${type(wp)}$ :: alpha, beta
     character :: transa, transb
     integer :: i, j
 
-#:if TYPE == COMPLEX_TYPE
-    @:random_complex(A,(N,N))
-    @:random_complex(B,(N,N))
-    @:random_complex(C,(N,N))
-    @:random_complex(alpha)
-    @:random_complex(beta)
-#:else
-    call random_number(A)
-    call random_number(B)
-    call random_number(C)
-    call random_number(alpha)
-    call random_number(beta)
-#:endif
-
+    $:random_number(type(wp),'A','(N,N)')
+    $:random_number(type(wp),'B','(N,N)')
+    $:random_number(type(wp),'C','(N,N)')
+    $:random_number(type(wp),'alpha')
+    $:random_number(type(wp),'beta')
 
     do i=1,size(options)
     do j=1,size(options)
@@ -36,7 +28,7 @@ subroutine test_${ORIGINAL}$
         A_in = A
         B_in = B
         C_in = C
-        call ${ORIGINAL}$(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
+        call ${f77}$(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
         A_rf = A_in
         B_rf = B_in
         C_rf = C_in
@@ -44,7 +36,7 @@ subroutine test_${ORIGINAL}$
         A_in = A
         B_in = B
         C_in = C
-        call ${IMPROVED}$(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
+        call ${f90}$(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
                     all(C_in == C_rf), "different results")
@@ -52,7 +44,7 @@ subroutine test_${ORIGINAL}$
         A_in = A
         B_in = B
         C_in = C
-        call mfi_${ORIGINAL}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
+        call mfi_${f77}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
                     all(C_in == C_rf), "different results")
@@ -60,7 +52,7 @@ subroutine test_${ORIGINAL}$
         A_in = A
         B_in = B
         C_in = C
-        call ${MODERN}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
+        call ${mfi}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
 
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &

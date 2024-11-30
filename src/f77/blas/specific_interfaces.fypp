@@ -1,5 +1,5 @@
+!> ?lamch supports s, d. See [[mfi_lamch]] for the modern version.
 interface
-
     !> SLAMCH determines single precision machine parameters.
     pure real(REAL32) function slamch(cmach)
         import :: REAL32
@@ -11,7 +11,9 @@ interface
         import :: REAL64
         character, intent(in) :: cmach
     end function
+end interface
 
+interface
     !> Compute the inner product of two vectors with extended
     !> precision accumulation.
     !>

@@ -1,10 +1,11 @@
-#:def hemm_symm(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def hemm_symm(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, b, c, side, uplo, alpha, beta)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    a(:,:), b(:,:))
-@:args(${TYPE}$, inout, c(:,:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    a(:,:), b(:,:))
+@:args(${type(wp)}$, inout, c(:,:))
 @:optional(character, in, side,  uplo)
-@:optional(${TYPE}$,  in, alpha, beta)
+@:optional(${type(wp)}$,  in, alpha, beta)
     integer :: m, n, lda, ldb, ldc
 @:defaults(side='L', uplo='U', alpha=1.0_wp, beta=0.0_wp)
     lda = max(1,size(a,1))

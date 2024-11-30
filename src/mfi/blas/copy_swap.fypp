@@ -1,8 +1,9 @@
-#:def copy_swap(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def copy_swap(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(x, y, incx, incy)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    x(:))
-@:args(${TYPE}$, inout, y(:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    x(:))
+@:args(${type(wp)}$, inout, y(:))
 @:optional(integer, in, incx, incy)
     integer :: n
 @:defaults(incx=1, incy=1)

@@ -1,9 +1,10 @@
-#:def her(NAME,TYPE,KIND,PREFIX)
+#:def her(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, a, lda)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in,    x(*))
-@:args(${TYPE}$,  inout, a(lda,*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in,    x(*))
+@:args(${type(wp)}$,  inout, a(lda,*))
 @:args(character, in,    uplo)
 @:args(real(wp),  in,    alpha)
 @:args(integer,   in,    n, lda, incx)

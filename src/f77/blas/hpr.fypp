@@ -1,9 +1,10 @@
-#:def hpr(NAME,TYPE,KIND,PREFIX)
+#:def hpr(NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${NAME}$(uplo, n, alpha, x, incx, ap)
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$,  in,    x(*))
-@:args(${TYPE}$,  inout, ap(*))
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in,    x(*))
+@:args(${type(wp)}$,  inout, ap(*))
 @:args(character, in,    uplo)
 @:args(real(wp),  in,    alpha)
 @:args(integer,   in,    n, incx)

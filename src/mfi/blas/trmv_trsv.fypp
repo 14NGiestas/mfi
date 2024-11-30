@@ -1,8 +1,9 @@
-#:def trmv_trsv(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def trmv_trsv(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, x, uplo, trans, diag, incx)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in, a(:,:))
-@:args(${TYPE}$, inout, x(:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in, a(:,:))
+@:args(${type(wp)}$, inout, x(:))
 @:optional(character, in, uplo, trans, diag)
 @:optional(integer,   in, incx)
     integer :: n, lda

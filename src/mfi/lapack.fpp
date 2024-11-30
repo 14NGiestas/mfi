@@ -11,6 +11,21 @@
 #:include "src/mfi/lapack/potrf_potri.fypp"
 #:include "src/mfi/lapack/potrs.fypp"
 #:include "src/mfi/lapack/pocon.fypp"
+#:set COLLECT = [                            &
+    ('?geqrf',  DEFAULT_TYPES, geqrf_gerqf), &
+    ('?gerqf',  DEFAULT_TYPES, geqrf_gerqf), &
+    ('?getrf',  DEFAULT_TYPES, getrf),       &
+    ('?getri',  DEFAULT_TYPES, getri),       &
+    ('?getrs',  DEFAULT_TYPES, getrs),       &
+    ('?hetrf',  COMPLEX_TYPES, hetrf),       &
+    ('?hegv',   COMPLEX_TYPES, hegv),        &
+    ('?heevd',  COMPLEX_TYPES, heevd),       &
+    ('?gesvd',  DEFAULT_TYPES, gesvd),       &
+    ('?potrf',  DEFAULT_TYPES, potrf_potri), &
+    ('?potri',  DEFAULT_TYPES, potrf_potri), &
+    ('?potrs',  DEFAULT_TYPES, potrs),       &
+    ('?pocon',  DEFAULT_TYPES, pocon),       &
+]
 #:endmute
 !> Modern fortran interfaces for LAPACK
 module mfi_lapack
@@ -19,35 +34,15 @@ use f77_lapack
 use f77_lapack, only: mfi_lartg => f77_lartg
 implicit none
 
-$:mfi_interface('?geqrf',  DEFAULT_TYPES)
-$:mfi_interface('?gerqf',  DEFAULT_TYPES)
-$:mfi_interface('?getrf',  DEFAULT_TYPES)
-$:mfi_interface('?getri',  DEFAULT_TYPES)
-$:mfi_interface('?getrs',  DEFAULT_TYPES)
-$:mfi_interface('?hetrf',  COMPLEX_TYPES)
-$:mfi_interface('?hegv',   COMPLEX_TYPES)
-$:mfi_interface('?heevd',  COMPLEX_TYPES)
-$:mfi_interface('?gesvd',  DEFAULT_TYPES)
-$:mfi_interface('?potrf',  DEFAULT_TYPES)
-$:mfi_interface('?potri',  DEFAULT_TYPES)
-$:mfi_interface('?potrs',  DEFAULT_TYPES)
-$:mfi_interface('?pocon',  DEFAULT_TYPES)
+#:for name, supported_types, code in COLLECT
+$:mfi_interface(name, supported_types)
+#:endfor
 
 contains
 
-$:mfi_implement('?geqrf',  DEFAULT_TYPES, geqrf_gerqf)
-$:mfi_implement('?gerqf',  DEFAULT_TYPES, geqrf_gerqf)
-$:mfi_implement('?getrf',  DEFAULT_TYPES, getrf)
-$:mfi_implement('?getri',  DEFAULT_TYPES, getri)
-$:mfi_implement('?getrs',  DEFAULT_TYPES, getrs)
-$:mfi_implement('?hetrf',  COMPLEX_TYPES, hetrf)
-$:mfi_implement('?hegv',   COMPLEX_TYPES, hegv)
-$:mfi_implement('?heevd',  COMPLEX_TYPES, heevd)
-$:mfi_implement('?gesvd',  DEFAULT_TYPES, gesvd)
-$:mfi_implement('?potrf',  DEFAULT_TYPES, potrf_potri)
-$:mfi_implement('?potri',  DEFAULT_TYPES, potrf_potri)
-$:mfi_implement('?potrs',  DEFAULT_TYPES, potrs)
-$:mfi_implement('?pocon',  DEFAULT_TYPES, pocon)
+#:for name, supported_types, code in COLLECT
+$:mfi_implement(name, supported_types, code)
+#:endfor
 
     pure subroutine mfi_error(name, info)
         character(*), intent(in) :: name

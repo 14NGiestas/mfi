@@ -8,36 +8,37 @@
 !   real(wp)                      anorm,
 !   real(wp)                      rcond,
 !   type(wp),    dimension( * )    work,
-! if REAL_TYPES then,
+! if real(wp)S then,
 !   integer,      dimension( * )   iwork,
-! if COMPLEX_TYPES then,
+! if complex(wp)S then,
 !   real(wp),     dimension( * )   rwork,
 !   integer                        info
 !)
-#:def pocon(NAME,TYPE,KIND,PREFIX)
-#:set TYPE_AND_KIND = TYPE.replace('wp',KIND)
+#:def pocon(NAME,pfxs)
+#:set wp=pfxs[0]
+#:set wp = pfxs[0]
 !> ${NAME}$ estimates the reciprocal of the condition number (in the
-!> 1-norm) of a ${TYPE_AND_KIND}$ Hermitian positive definite matrix using the
-!> Cholesky factorization A = U**H*U or A = L*L**H computed by ${PREFIX}$POTRF.
+!> 1-norm) of a ${type(wp)}$ Hermitian positive definite matrix using the
+!> Cholesky factorization A = U**H*U or A = L*L**H computed by ${wp}$POTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
-#:if TYPE == REAL_TYPE
+#:if type(wp) == real(wp)
 pure subroutine ${NAME}$(uplo, n, a, lda, anorm, rcond, work, iwork, info)
-#:elif TYPE == COMPLEX_TYPE
+#:elif type(wp) == complex(wp)
 pure subroutine ${NAME}$(uplo, n, a, lda, anorm, rcond, work, rwork, info)
 #:endif
-    import :: ${KIND}$
-@:parameter(integer, wp=${KIND}$)
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
 @:args(character,     in,    uplo)
 @:args(integer,       in,    n, lda)
-@:args(${TYPE}$,      inout, a(lda,*))
-@:args(${REAL_TYPE}$, in,    anorm)
-@:args(${REAL_TYPE}$, out,   rcond)
-@:args(${TYPE}$,      inout, work(*))
-#:if TYPE == REAL_TYPE
+@:args(${type(wp)}$,      inout, a(lda,*))
+@:args(${real(wp)}$, in,    anorm)
+@:args(${real(wp)}$, out,   rcond)
+@:args(${type(wp)}$,      inout, work(*))
+#:if type(wp) == real(wp)
 @:args(integer,       inout, iwork(*))
-#:elif TYPE == COMPLEX_TYPE
-@:args(${REAL_TYPE}$, inout, rwork(*))
+#:elif type(wp) == complex(wp)
+@:args(${real(wp)}$, inout, rwork(*))
 #:endif
 @:args(integer,       out,   info)
 end subroutine

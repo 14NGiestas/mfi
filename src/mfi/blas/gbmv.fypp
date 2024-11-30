@@ -1,10 +1,11 @@
-#:def gbmv(MFI_NAME,F77_NAME,TYPE,KIND,PREFIX)
+#:def gbmv(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, x, y, kl, m, alpha, beta, trans, incx, incy)
-@:parameter(integer, wp=${KIND}$)
-@:args(${TYPE}$, in,    a(:,:), x(:))
-@:args(${TYPE}$, inout, y(:))
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    a(:,:), x(:))
+@:args(${type(wp)}$, inout, y(:))
 @:optional(character, in, trans)
-@:optional(${TYPE}$,  in, alpha, beta)
+@:optional(${type(wp)}$,  in, alpha, beta)
 @:optional(integer,   in, kl, m, incx,  incy)
     integer :: n, ku, lda
     n = size(a,2)
