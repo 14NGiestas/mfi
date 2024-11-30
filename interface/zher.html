@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine zher(uplo, n, alpha, x, incx, a, lda)  
-</h2>    
+      <h2>interface</h2>
+      <p>?her supports c, z.
+See also: <a href="../interface/mfi_her.html">mfi_her</a>, <a href="../interface/f77_her.html">f77_her</a>.</p>
+      <br>
+      <h2>public pure subroutine zher(uplo, n, alpha, x, incx, a, lda)  
+</h2>
 
     
 
@@ -196,7 +199,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-x~60"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~34"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

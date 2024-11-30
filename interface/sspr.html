@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine sspr(uplo, n, alpha, x, incx, ap)  
-</h2>    
+      <h2>interface</h2>
+      <p>?spr supports s, d.
+See also: <a href="../interface/mfi_spr.html">mfi_spr</a>, <a href="../interface/f77_spr.html">f77_spr</a>.</p>
+      <br>
+      <h2>public pure subroutine sspr(uplo, n, alpha, x, incx, ap)  
+</h2>
 
     
 
@@ -181,7 +184,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-alpha~33"></span>
-              real(kind=wp),
+              real(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -196,7 +199,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-x~73"></span>
-              real(kind=wp),
+              real(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-ap~9"></span>
-              real(kind=wp),
+              real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

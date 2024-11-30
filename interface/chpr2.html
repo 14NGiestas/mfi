@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.2% of total for procedures.">26 statements</a>
+                 title=" 0.1% of total for procedures.">26 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine chpr2(uplo, n, alpha, x, incx, y, incy, ap)  
-</h2>    
+      <h2>interface</h2>
+      <p>?hpr2 supports c, z.
+See also: <a href="../interface/mfi_hpr2.html">mfi_hpr2</a>, <a href="../interface/f77_hpr2.html">f77_hpr2</a>.</p>
+      <br>
+      <h2>public pure subroutine chpr2(uplo, n, alpha, x, incx, y, incy, ap)  
+</h2>
 
     
 
@@ -181,7 +184,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-alpha~27"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -196,7 +199,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-x~67"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-y~49"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -256,7 +259,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-ap~5"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

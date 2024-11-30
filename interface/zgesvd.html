@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine zgesvd(jobu, jobvt, m, n, a, lda, s, u, ldu, vt, ldvt, work, lwork, rwork, info)  
-</h2>    
+      <h2>interface</h2>
+      <p>?gesvd supports s, d, c, z.
+See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../interface/f77_gesvd.html">f77_gesvd</a>.</p>
+      <br>
+      <h2>public pure subroutine zgesvd(jobu, jobvt, m, n, a, lda, s, u, ldu, vt, ldvt, work, lwork, rwork, info)  
+</h2>
 
     
 
@@ -180,7 +183,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~66"></span>
+              <span class="anchor" id="variable-m~92"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -195,7 +198,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~220"></span>
+              <span class="anchor" id="variable-n~354"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -210,8 +213,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~164"></span>
-              complex(kind=wp),
+              <span class="anchor" id="variable-a~240"></span>
+              complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -225,7 +228,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~150"></span>
+              <span class="anchor" id="variable-lda~216"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -240,8 +243,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~18"></span>
-              real(kind=wp),
+              <span class="anchor" id="variable-s~24"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(out)</td>
               <td></td>            <td>
@@ -256,7 +259,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-u~8"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(out)</td>
               <td></td>            <td>
@@ -286,7 +289,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-vt~8"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(out)</td>
               <td></td>            <td>
@@ -315,8 +318,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~52"></span>
-              complex(kind=wp),
+              <span class="anchor" id="variable-work~48"></span>
+              complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -330,7 +333,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~48"></span>
+              <span class="anchor" id="variable-lwork~44"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -345,8 +348,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rwork~16"></span>
-              real(kind=wp),
+              <span class="anchor" id="variable-rwork~12"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -360,7 +363,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~81"></span>
+              <span class="anchor" id="variable-info~77"></span>
               integer,
             </td>
 <td>intent(out)</td>

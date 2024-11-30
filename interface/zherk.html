@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine zherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)  
-</h2>    
+      <h2>interface</h2>
+      <p>?herk supports c, z.
+See also: <a href="../interface/mfi_herk.html">mfi_herk</a>, <a href="../interface/f77_herk.html">f77_herk</a>.</p>
+      <br>
+      <h2>public pure subroutine zherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)  
+</h2>
 
     
 
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~68"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -271,7 +274,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-c~18"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

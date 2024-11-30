@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine zher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)  
-</h2>    
+      <h2>interface</h2>
+      <p>?her2k supports c, z.
+See also: <a href="../interface/mfi_her2k.html">mfi_her2k</a>, <a href="../interface/f77_her2k.html">f77_her2k</a>.</p>
+      <br>
+      <h2>public pure subroutine zher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)  
+</h2>
 
     
 
@@ -211,7 +214,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-alpha~52"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~70"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -256,7 +259,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-b~12"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -301,7 +304,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-c~20"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

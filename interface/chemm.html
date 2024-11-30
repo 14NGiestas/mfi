@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine chemm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)  
-</h2>    
+      <h2>interface</h2>
+      <p>?hemm supports c, z.
+See also: <a href="../interface/mfi_hemm.html">mfi_hemm</a>, <a href="../interface/f77_hemm.html">f77_hemm</a>.</p>
+      <br>
+      <h2>public pure subroutine chemm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)  
+</h2>
 
     
 
@@ -211,7 +214,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-alpha~47"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~65"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -256,7 +259,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-b~9"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -286,7 +289,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-beta~25"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -301,7 +304,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-c~15"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

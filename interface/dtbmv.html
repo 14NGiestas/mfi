@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine dtbmv(uplo, trans, diag, n, k, a, lda, x, incx)  
-</h2>    
+      <h2>interface</h2>
+      <p>?tbmv supports s, d, c, z.
+See also: <a href="../interface/mfi_tbmv.html">mfi_tbmv</a>, <a href="../interface/f77_tbmv.html">f77_tbmv</a>.</p>
+      <br>
+      <h2>public pure subroutine dtbmv(uplo, trans, diag, n, k, a, lda, x, incx)  
+</h2>
 
     
 
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~46"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -256,7 +259,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-x~84"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

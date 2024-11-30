@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)  
-</h2>    
+      <h2>interface</h2>
+      <p>?gemm supports s, d, c, z.
+See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interface/f77_gemm.html">f77_gemm</a>.</p>
+      <br>
+      <h2>public pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)  
+</h2>
 
     
 
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-alpha~43"></span>
-              real(kind=wp),
+              real(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -241,7 +244,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~61"></span>
-              real(kind=wp),
+              real(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -271,7 +274,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-b~5"></span>
-              real(kind=wp),
+              real(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -301,7 +304,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-beta~21"></span>
-              real(kind=wp),
+              real(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -316,7 +319,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-c~11"></span>
-              real(kind=wp),
+              real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

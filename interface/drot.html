@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.3% of total for procedures.">46 statements</a>
+                 title=" 0.4% of total for procedures.">62 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine drot(n, x, incx, y, incy, c, s)  
-</h2>    
+      <h2>interface</h2>
+      <p>?rot supports s, d, c, z, cs, zd.
+See also: <a href="../interface/mfi_rot.html">mfi_rot</a>, <a href="../interface/f77_rot.html">f77_rot</a>.</p>
+      <br>
+      <h2>public pure subroutine drot(n, x, incx, y, incy, c, s)  
+</h2>
 
     
 
@@ -150,7 +153,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~36"></span>
+              <span class="anchor" id="variable-n~28"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -165,8 +168,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~36"></span>
-              real(kind=wp),
+              <span class="anchor" id="variable-x~28"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -180,7 +183,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~36"></span>
+              <span class="anchor" id="variable-incx~28"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -195,8 +198,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~22"></span>
-              real(kind=wp),
+              <span class="anchor" id="variable-y~20"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -210,7 +213,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incy~22"></span>
+              <span class="anchor" id="variable-incy~20"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -225,8 +228,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~6"></span>
-              real(kind=wp),
+              <span class="anchor" id="variable-c~2"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -240,8 +243,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~6"></span>
-              real(kind=wp),
+              <span class="anchor" id="variable-s~2"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -257,7 +260,8 @@
   </table>
 
     <h3>Description</h3>
-    <p>DROT applies a plane rotation.</p>
+    <p>DROT applies a plane rotation.
+['d']</p>
     <br>
 
  </div>

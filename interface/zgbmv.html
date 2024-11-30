@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine zgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)  
-</h2>    
+      <h2>interface</h2>
+      <p>?gbmv supports s, d, c, z.
+See also: <a href="../interface/mfi_gbmv.html">mfi_gbmv</a>, <a href="../interface/f77_gbmv.html">f77_gbmv</a>.</p>
+      <br>
+      <h2>public pure subroutine zgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)  
+</h2>
 
     
 
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-alpha~4"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -241,7 +244,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~18"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -271,7 +274,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-x~44"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -301,7 +304,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-beta~4"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -316,7 +319,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-y~30"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

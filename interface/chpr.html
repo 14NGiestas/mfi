@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine chpr(uplo, n, alpha, x, incx, ap)  
-</h2>    
+      <h2>interface</h2>
+      <p>?hpr supports c, z.
+See also: <a href="../interface/mfi_hpr.html">mfi_hpr</a>, <a href="../interface/f77_hpr.html">f77_hpr</a>.</p>
+      <br>
+      <h2>public pure subroutine chpr(uplo, n, alpha, x, incx, ap)  
+</h2>
 
     
 
@@ -196,7 +199,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-x~65"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-ap~3"></span>
-              complex(kind=wp),
+              complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

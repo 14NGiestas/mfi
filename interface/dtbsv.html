@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine dtbsv(uplo, trans, diag, n, k, a, lda, x, incx)  
-</h2>    
+      <h2>interface</h2>
+      <p>?tbsv supports s, d, c, z.
+See also: <a href="../interface/mfi_tbsv.html">mfi_tbsv</a>, <a href="../interface/f77_tbsv.html">f77_tbsv</a>.</p>
+      <br>
+      <h2>public pure subroutine dtbsv(uplo, trans, diag, n, k, a, lda, x, incx)  
+</h2>
 
     
 
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~50"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -256,7 +259,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-x~88"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

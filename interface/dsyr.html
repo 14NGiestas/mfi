@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine dsyr(uplo, n, alpha, x, incx, a, lda)  
-</h2>    
+      <h2>interface</h2>
+      <p>?syr supports s, d.
+See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface/f77_syr.html">f77_syr</a>.</p>
+      <br>
+      <h2>public pure subroutine dsyr(uplo, n, alpha, x, incx, a, lda)  
+</h2>
 
     
 
@@ -181,7 +184,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-alpha~40"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -196,7 +199,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-x~80"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~42"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

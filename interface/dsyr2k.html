@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine dsyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)  
-</h2>    
+      <h2>interface</h2>
+      <p>?syr2k supports s, d.
+See also: <a href="../interface/mfi_syr2k.html">mfi_syr2k</a>, <a href="../interface/f77_syr2k.html">f77_syr2k</a>.</p>
+      <br>
+      <h2>public pure subroutine dsyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)  
+</h2>
 
     
 
@@ -211,7 +214,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-alpha~58"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -226,7 +229,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~76"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -256,7 +259,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-b~16"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -286,7 +289,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-beta~36"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -301,7 +304,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-c~26"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>

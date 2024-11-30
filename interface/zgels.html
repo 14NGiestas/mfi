@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine zgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)  
-</h2>    
+      <h2>interface</h2>
+      <p>?gels supports s, d, c, z.
+See also: <a>mfi_gels</a>, <a href="../interface/f77_gels.html">f77_gels</a>.</p>
+      <br>
+      <h2>public pure subroutine zgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)  
+</h2>
 
     
 
@@ -150,7 +153,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~52"></span>
+              <span class="anchor" id="variable-trans~92"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -165,7 +168,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~70"></span>
+              <span class="anchor" id="variable-m~100"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -180,7 +183,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~240"></span>
+              <span class="anchor" id="variable-n~378"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -210,8 +213,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~184"></span>
-              complex(kind=wp),
+              <span class="anchor" id="variable-a~264"></span>
+              complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -225,7 +228,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~170"></span>
+              <span class="anchor" id="variable-lda~240"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -240,8 +243,8 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~48"></span>
-              complex(kind=wp),
+              <span class="anchor" id="variable-b~68"></span>
+              complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -255,7 +258,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ldb~44"></span>
+              <span class="anchor" id="variable-ldb~64"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -271,7 +274,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-work~60"></span>
-              complex(kind=wp),
+              complex(kind=REAL64),
             </td>
 <td>intent(out)</td>
               <td></td>            <td>

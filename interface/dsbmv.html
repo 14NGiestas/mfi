@@ -131,9 +131,12 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>interface <br>
-      public pure subroutine dsbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)  
-</h2>    
+      <h2>interface</h2>
+      <p>?sbmv supports s, d.
+See also: <a href="../interface/mfi_sbmv.html">mfi_sbmv</a>, <a href="../interface/f77_sbmv.html">f77_sbmv</a>.</p>
+      <br>
+      <h2>public pure subroutine dsbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)  
+</h2>
 
     
 
@@ -196,7 +199,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-alpha~30"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -211,7 +214,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-a~38"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -241,7 +244,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-x~70"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -271,7 +274,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-beta~16"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -286,7 +289,7 @@
         <tr>
             <td>
               <span class="anchor" id="variable-y~52"></span>
-              real(kind=wp),
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
