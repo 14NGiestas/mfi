@@ -32,20 +32,6 @@ end block
 block
 real :: t1, t2
 call cpu_time(t1)
- call test_cdotu 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_dotu against cdotu", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_zdotu 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_dotu against zdotu", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
  call test_cdotc 
 call cpu_time(t2)
 print '(A," (",G0,"s)")', "testing mfi_dotc against cdotc", t2-t1
@@ -56,6 +42,20 @@ call cpu_time(t1)
  call test_zdotc 
 call cpu_time(t2)
 print '(A," (",G0,"s)")', "testing mfi_dotc against zdotc", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_cdotu 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_dotu against cdotu", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_zdotu 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_dotu against zdotu", t2-t1
 end block
 block
 real :: t1, t2
@@ -430,6 +430,7 @@ subroutine test_slamch
     use mfi_blas, only: mfi_lamch
 
     integer, parameter :: wp = REAL32
+
     integer, parameter :: N = 20
     character, parameter :: options(*) = ['E','e', &
                                           'S','s', &
@@ -441,7 +442,7 @@ subroutine test_slamch
                                           'U','u', &
                                           'L','l', &
                                           'O','o']
-    real(wp) :: a, b
+    real(REAL32) :: a, b
     integer :: i
 
     do i=1,size(options)
@@ -456,6 +457,7 @@ subroutine test_dlamch
     use mfi_blas, only: mfi_lamch
 
     integer, parameter :: wp = REAL64
+
     integer, parameter :: N = 20
     character, parameter :: options(*) = ['E','e', &
                                           'S','s', &
@@ -467,7 +469,7 @@ subroutine test_dlamch
                                           'U','u', &
                                           'L','l', &
                                           'O','o']
-    real(wp) :: a, b
+    real(REAL64) :: a, b
     integer :: i
 
     do i=1,size(options)
@@ -484,9 +486,9 @@ subroutine test_sdot
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
 
-    real(wp) :: res, ref
+    real(REAL32) :: res, ref
 
-    real(wp) :: x(N), y(N)
+    real(REAL32) :: x(N), y(N)
 
     call random_number(X)
     call random_number(Y)
@@ -511,9 +513,9 @@ subroutine test_ddot
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
 
-    real(wp) :: res, ref
+    real(REAL64) :: res, ref
 
-    real(wp) :: x(N), y(N)
+    real(REAL64) :: x(N), y(N)
 
     call random_number(X)
     call random_number(Y)
@@ -538,20 +540,20 @@ subroutine test_cdotc
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
 
-    complex(wp) :: res, ref
+    complex(REAL32) :: res, ref
 
-    complex(wp) :: x(N), y(N)
+    complex(REAL32) :: x(N), y(N)
 
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
     X = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
     Y = cmplx(re,im)
@@ -577,20 +579,20 @@ subroutine test_zdotc
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
 
-    complex(wp) :: res, ref
+    complex(REAL64) :: res, ref
 
-    complex(wp) :: x(N), y(N)
+    complex(REAL64) :: x(N), y(N)
 
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
     X = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
     Y = cmplx(re,im)
@@ -616,20 +618,20 @@ subroutine test_cdotu
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
 
-    complex(wp) :: res, ref
+    complex(REAL32) :: res, ref
 
-    complex(wp) :: x(N), y(N)
+    complex(REAL32) :: x(N), y(N)
 
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
     X = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
     Y = cmplx(re,im)
@@ -655,20 +657,20 @@ subroutine test_zdotu
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
 
-    complex(wp) :: res, ref
+    complex(REAL64) :: res, ref
 
-    complex(wp) :: x(N), y(N)
+    complex(REAL64) :: x(N), y(N)
 
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
     X = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
     Y = cmplx(re,im)
@@ -694,14 +696,12 @@ subroutine test_scopy
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
 
-    real(wp) :: rnd(N)
+    real(REAL32) :: x(N),    y(N),    &
+                    x_in(N), y_in(N), &
+                    x_rf(N), y_rf(N)
 
-    real(wp) :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
-
-    call random_number(X)
-    Y = 0.0_wp
+    call random_number(x)
+    call random_number(y)
 
     x_in = x
     y_in = y
@@ -733,14 +733,12 @@ subroutine test_dcopy
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
 
-    real(wp) :: rnd(N)
+    real(REAL64) :: x(N),    y(N),    &
+                    x_in(N), y_in(N), &
+                    x_rf(N), y_rf(N)
 
-    real(wp) :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
-
-    call random_number(X)
-    Y = 0.0_wp
+    call random_number(x)
+    call random_number(y)
 
     x_in = x
     y_in = y
@@ -772,18 +770,24 @@ subroutine test_ccopy
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
 
-    real(wp) :: rnd(N)
+    complex(REAL32) :: x(N),    y(N),    &
+                    x_in(N), y_in(N), &
+                    x_rf(N), y_rf(N)
 
-    complex(wp) :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
-
-    call random_number(rnd)
-    x%re = rnd
-    call random_number(rnd)
-    x%im = rnd
-    y%re = 0.0_wp
-    y%im = 0.0_wp
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    x = cmplx(re,im)
+end block
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    y = cmplx(re,im)
+end block
 
     x_in = x
     y_in = y
@@ -815,18 +819,24 @@ subroutine test_zcopy
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
 
-    real(wp) :: rnd(N)
+    complex(REAL64) :: x(N),    y(N),    &
+                    x_in(N), y_in(N), &
+                    x_rf(N), y_rf(N)
 
-    complex(wp) :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
-
-    call random_number(rnd)
-    x%re = rnd
-    call random_number(rnd)
-    x%im = rnd
-    y%re = 0.0_wp
-    y%im = 0.0_wp
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    x = cmplx(re,im)
+end block
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    y = cmplx(re,im)
+end block
 
     x_in = x
     y_in = y
@@ -858,9 +868,9 @@ subroutine test_sswap
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
 
-    real(wp) :: rnd(N)
+    real(REAL32) :: rnd(N)
 
-    real(wp) :: x(N),    y(N),    &
+    real(REAL32) :: x(N),    y(N),    &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
 
@@ -897,9 +907,9 @@ subroutine test_dswap
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
 
-    real(wp) :: rnd(N)
+    real(REAL64) :: rnd(N)
 
-    real(wp) :: x(N),    y(N),    &
+    real(REAL64) :: x(N),    y(N),    &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
 
@@ -936,9 +946,9 @@ subroutine test_cswap
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
 
-    real(wp) :: rnd(N)
+    real(REAL32) :: rnd(N)
 
-    complex(wp) :: x(N),    y(N),    &
+    complex(REAL32) :: x(N),    y(N),    &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
 
@@ -981,9 +991,9 @@ subroutine test_zswap
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
 
-    real(wp) :: rnd(N)
+    real(REAL64) :: rnd(N)
 
-    complex(wp) :: x(N),    y(N),    &
+    complex(REAL64) :: x(N),    y(N),    &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
 
@@ -1025,11 +1035,11 @@ subroutine test_saxpy
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: rnd_vector(N), rnd
-    real(wp) :: x(N), Y(N), &
+    real(REAL32) :: rnd_vector(N), rnd
+    real(REAL32) :: x(N), Y(N), &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
-    real(wp) :: alpha
+    real(REAL32) :: alpha
 
     call random_number(X)
     call random_number(Y)
@@ -1064,11 +1074,11 @@ subroutine test_daxpy
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: rnd_vector(N), rnd
-    real(wp) :: x(N), Y(N), &
+    real(REAL64) :: rnd_vector(N), rnd
+    real(REAL64) :: x(N), Y(N), &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
-    real(wp) :: alpha
+    real(REAL64) :: alpha
 
     call random_number(X)
     call random_number(Y)
@@ -1103,11 +1113,11 @@ subroutine test_caxpy
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: rnd_vector(N), rnd
-    complex(wp) :: x(N), Y(N), &
+    real(REAL32) :: rnd_vector(N), rnd
+    complex(REAL32) :: x(N), Y(N), &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
-    complex(wp) :: alpha
+    complex(REAL32) :: alpha
 
     call random_number(rnd_vector)
     X%re = rnd_vector
@@ -1151,11 +1161,11 @@ subroutine test_zaxpy
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: rnd_vector(N), rnd
-    complex(wp) :: x(N), Y(N), &
+    real(REAL64) :: rnd_vector(N), rnd
+    complex(REAL64) :: x(N), Y(N), &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
-    complex(wp) :: alpha
+    complex(REAL64) :: alpha
 
     call random_number(rnd_vector)
     X%re = rnd_vector
@@ -1199,10 +1209,10 @@ subroutine test_sgemv
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: M(N,N),    X(N),    Y(N),   &
+    real(REAL32) :: M(N,N),    X(N),    Y(N),   &
                 M_in(N,N), X_in(N), Y_in(N),&
                 M_rf(N,N), X_rf(N), Y_rf(N)
-    real(wp) :: alpha, beta
+    real(REAL32) :: alpha, beta
     character, parameter :: options(*) = ['N','n','T','t','C','c']
     character :: trans
     integer :: i
@@ -1258,10 +1268,10 @@ subroutine test_dgemv
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: M(N,N),    X(N),    Y(N),   &
+    real(REAL64) :: M(N,N),    X(N),    Y(N),   &
                 M_in(N,N), X_in(N), Y_in(N),&
                 M_rf(N,N), X_rf(N), Y_rf(N)
-    real(wp) :: alpha, beta
+    real(REAL64) :: alpha, beta
     character, parameter :: options(*) = ['N','n','T','t','C','c']
     character :: trans
     integer :: i
@@ -1317,45 +1327,45 @@ subroutine test_cgemv
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    complex(wp) :: M(N,N),    X(N),    Y(N),   &
+    complex(REAL32) :: M(N,N),    X(N),    Y(N),   &
                 M_in(N,N), X_in(N), Y_in(N),&
                 M_rf(N,N), X_rf(N), Y_rf(N)
-    complex(wp) :: alpha, beta
+    complex(REAL32) :: alpha, beta
     character, parameter :: options(*) = ['N','n','T','t','C','c']
     character :: trans
     integer :: i
 
 block
-    real(wp) :: re(N,N)
-    real(wp) :: im(N,N)
+    real(REAL32) :: re(N,N)
+    real(REAL32) :: im(N,N)
     call random_number(im)
     call random_number(re)
     M = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
     X = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
     Y = cmplx(re,im)
 end block
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL32) :: re
+    real(REAL32) :: im
     call random_number(im)
     call random_number(re)
     alpha = cmplx(re,im)
 end block
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL32) :: re
+    real(REAL32) :: im
     call random_number(im)
     call random_number(re)
     beta = cmplx(re,im)
@@ -1406,45 +1416,45 @@ subroutine test_zgemv
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    complex(wp) :: M(N,N),    X(N),    Y(N),   &
+    complex(REAL64) :: M(N,N),    X(N),    Y(N),   &
                 M_in(N,N), X_in(N), Y_in(N),&
                 M_rf(N,N), X_rf(N), Y_rf(N)
-    complex(wp) :: alpha, beta
+    complex(REAL64) :: alpha, beta
     character, parameter :: options(*) = ['N','n','T','t','C','c']
     character :: trans
     integer :: i
 
 block
-    real(wp) :: re(N,N)
-    real(wp) :: im(N,N)
+    real(REAL64) :: re(N,N)
+    real(REAL64) :: im(N,N)
     call random_number(im)
     call random_number(re)
     M = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
     X = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N)
-    real(wp) :: im(N)
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
     Y = cmplx(re,im)
 end block
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL64) :: re
+    real(REAL64) :: im
     call random_number(im)
     call random_number(re)
     alpha = cmplx(re,im)
 end block
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL64) :: re
+    real(REAL64) :: im
     call random_number(im)
     call random_number(re)
     beta = cmplx(re,im)
@@ -1496,10 +1506,10 @@ subroutine test_sgemm
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
     character, parameter :: options(*) = ['N','n','T','t','C','c']
-    real(wp) :: A(N,N),    B(N,N),    C(N,N),   &
+    real(REAL32) :: A(N,N),    B(N,N),    C(N,N),   &
                 A_in(N,N), B_in(N,N), C_in(N,N),&
                 A_rf(N,N), B_rf(N,N), C_rf(N,N)
-    real(wp) :: alpha, beta
+    real(REAL32) :: alpha, beta
     character :: transa, transb
     integer :: i, j
 
@@ -1508,7 +1518,6 @@ subroutine test_sgemm
     call random_number(C)
     call random_number(alpha)
     call random_number(beta)
-
 
     do i=1,size(options)
     do j=1,size(options)
@@ -1558,10 +1567,10 @@ subroutine test_dgemm
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
     character, parameter :: options(*) = ['N','n','T','t','C','c']
-    real(wp) :: A(N,N),    B(N,N),    C(N,N),   &
+    real(REAL64) :: A(N,N),    B(N,N),    C(N,N),   &
                 A_in(N,N), B_in(N,N), C_in(N,N),&
                 A_rf(N,N), B_rf(N,N), C_rf(N,N)
-    real(wp) :: alpha, beta
+    real(REAL64) :: alpha, beta
     character :: transa, transb
     integer :: i, j
 
@@ -1570,7 +1579,6 @@ subroutine test_dgemm
     call random_number(C)
     call random_number(alpha)
     call random_number(beta)
-
 
     do i=1,size(options)
     do j=1,size(options)
@@ -1620,49 +1628,48 @@ subroutine test_cgemm
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
     character, parameter :: options(*) = ['N','n','T','t','C','c']
-    complex(wp) :: A(N,N),    B(N,N),    C(N,N),   &
+    complex(REAL32) :: A(N,N),    B(N,N),    C(N,N),   &
                 A_in(N,N), B_in(N,N), C_in(N,N),&
                 A_rf(N,N), B_rf(N,N), C_rf(N,N)
-    complex(wp) :: alpha, beta
+    complex(REAL32) :: alpha, beta
     character :: transa, transb
     integer :: i, j
 
 block
-    real(wp) :: re(N,N)
-    real(wp) :: im(N,N)
+    real(REAL32) :: re(N,N)
+    real(REAL32) :: im(N,N)
     call random_number(im)
     call random_number(re)
     A = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N,N)
-    real(wp) :: im(N,N)
+    real(REAL32) :: re(N,N)
+    real(REAL32) :: im(N,N)
     call random_number(im)
     call random_number(re)
     B = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N,N)
-    real(wp) :: im(N,N)
+    real(REAL32) :: re(N,N)
+    real(REAL32) :: im(N,N)
     call random_number(im)
     call random_number(re)
     C = cmplx(re,im)
 end block
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL32) :: re
+    real(REAL32) :: im
     call random_number(im)
     call random_number(re)
     alpha = cmplx(re,im)
 end block
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL32) :: re
+    real(REAL32) :: im
     call random_number(im)
     call random_number(re)
     beta = cmplx(re,im)
 end block
-
 
     do i=1,size(options)
     do j=1,size(options)
@@ -1712,49 +1719,48 @@ subroutine test_zgemm
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
     character, parameter :: options(*) = ['N','n','T','t','C','c']
-    complex(wp) :: A(N,N),    B(N,N),    C(N,N),   &
+    complex(REAL64) :: A(N,N),    B(N,N),    C(N,N),   &
                 A_in(N,N), B_in(N,N), C_in(N,N),&
                 A_rf(N,N), B_rf(N,N), C_rf(N,N)
-    complex(wp) :: alpha, beta
+    complex(REAL64) :: alpha, beta
     character :: transa, transb
     integer :: i, j
 
 block
-    real(wp) :: re(N,N)
-    real(wp) :: im(N,N)
+    real(REAL64) :: re(N,N)
+    real(REAL64) :: im(N,N)
     call random_number(im)
     call random_number(re)
     A = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N,N)
-    real(wp) :: im(N,N)
+    real(REAL64) :: re(N,N)
+    real(REAL64) :: im(N,N)
     call random_number(im)
     call random_number(re)
     B = cmplx(re,im)
 end block
 block
-    real(wp) :: re(N,N)
-    real(wp) :: im(N,N)
+    real(REAL64) :: re(N,N)
+    real(REAL64) :: im(N,N)
     call random_number(im)
     call random_number(re)
     C = cmplx(re,im)
 end block
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL64) :: re
+    real(REAL64) :: im
     call random_number(im)
     call random_number(re)
     alpha = cmplx(re,im)
 end block
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL64) :: re
+    real(REAL64) :: im
     call random_number(im)
     call random_number(re)
     beta = cmplx(re,im)
 end block
-
 
     do i=1,size(options)
     do j=1,size(options)
@@ -1803,16 +1809,15 @@ subroutine test_sasum
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    real(wp) :: array(N)
-    real(wp) :: res(4)
+    real(REAL32) :: array(N)
+    real(REAL32) :: res(4)
     integer :: i
 
     ! Test sequential array
     array = [(1.0_wp*i,i=1,N)]
     res(1) = sasum(N, array, 1)
-    res(2) = mfi_sasum(array)
     res(3) = f77_asum(N, array, 1)
+    res(2) = mfi_sasum(array)
     res(4) = mfi_asum(array)
     call assert(all(res == res(1)), "different results for sequential array")
 
@@ -1830,16 +1835,15 @@ subroutine test_dasum
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    real(wp) :: array(N)
-    real(wp) :: res(4)
+    real(REAL64) :: array(N)
+    real(REAL64) :: res(4)
     integer :: i
 
     ! Test sequential array
     array = [(1.0_wp*i,i=1,N)]
     res(1) = dasum(N, array, 1)
-    res(2) = mfi_dasum(array)
     res(3) = f77_asum(N, array, 1)
+    res(2) = mfi_dasum(array)
     res(4) = mfi_asum(array)
     call assert(all(res == res(1)), "different results for sequential array")
 
@@ -1857,23 +1861,25 @@ subroutine test_scasum
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: array(N)
-    complex(wp) :: res(4)
+    complex(REAL32) :: array(N)
+    real(REAL32) :: res(4)
     integer :: i
 
     ! Test sequential array
     array = [(1.0_wp*i,i=1,N)]
     res(1) = scasum(N, array, 1)
-    res(2) = mfi_scasum(array)
     res(3) = f77_asum(N, array, 1)
+    res(2) = mfi_scasum(array)
     res(4) = mfi_asum(array)
     call assert(all(res == res(1)), "different results for sequential array")
 
-    call random_number(rnd)
-    array%re = rnd
-    call random_number(rnd)
-    array%im = rnd
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    array = cmplx(re,im)
+end block
     res(1) = scasum(N, array, 1)
     res(2) = f77_asum(N, array, 1)
     res(3) = mfi_scasum(array)
@@ -1887,23 +1893,25 @@ subroutine test_dzasum
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: array(N)
-    complex(wp) :: res(4)
+    complex(REAL64) :: array(N)
+    real(REAL64) :: res(4)
     integer :: i
 
     ! Test sequential array
     array = [(1.0_wp*i,i=1,N)]
     res(1) = dzasum(N, array, 1)
-    res(2) = mfi_dzasum(array)
     res(3) = f77_asum(N, array, 1)
+    res(2) = mfi_dzasum(array)
     res(4) = mfi_asum(array)
     call assert(all(res == res(1)), "different results for sequential array")
 
-    call random_number(rnd)
-    array%re = rnd
-    call random_number(rnd)
-    array%im = rnd
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    array = cmplx(re,im)
+end block
     res(1) = dzasum(N, array, 1)
     res(2) = f77_asum(N, array, 1)
     res(3) = mfi_dzasum(array)
@@ -1917,16 +1925,15 @@ subroutine test_snrm2
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    real(wp) :: array(N)
-    real(wp) :: res(4)
+    real(REAL32) :: array(N)
+    real(REAL32) :: res(4)
     integer :: i
 
     ! Test sequential array
     array = [(1.0_wp*i,i=1,N)]
     res(1) = snrm2(N, array, 1)
-    res(2) = mfi_snrm2(array)
     res(3) = f77_nrm2(N, array, 1)
+    res(2) = mfi_snrm2(array)
     res(4) = mfi_nrm2(array)
     call assert(all(res == res(1)), "different results for sequential array")
 
@@ -1944,16 +1951,15 @@ subroutine test_dnrm2
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    real(wp) :: array(N)
-    real(wp) :: res(4)
+    real(REAL64) :: array(N)
+    real(REAL64) :: res(4)
     integer :: i
 
     ! Test sequential array
     array = [(1.0_wp*i,i=1,N)]
     res(1) = dnrm2(N, array, 1)
-    res(2) = mfi_dnrm2(array)
     res(3) = f77_nrm2(N, array, 1)
+    res(2) = mfi_dnrm2(array)
     res(4) = mfi_nrm2(array)
     call assert(all(res == res(1)), "different results for sequential array")
 
@@ -1971,23 +1977,25 @@ subroutine test_scnrm2
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: array(N)
-    complex(wp) :: res(4)
+    complex(REAL32) :: array(N)
+    real(REAL32) :: res(4)
     integer :: i
 
     ! Test sequential array
     array = [(1.0_wp*i,i=1,N)]
     res(1) = scnrm2(N, array, 1)
-    res(2) = mfi_scnrm2(array)
     res(3) = f77_nrm2(N, array, 1)
+    res(2) = mfi_scnrm2(array)
     res(4) = mfi_nrm2(array)
     call assert(all(res == res(1)), "different results for sequential array")
 
-    call random_number(rnd)
-    array%re = rnd
-    call random_number(rnd)
-    array%im = rnd
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    array = cmplx(re,im)
+end block
     res(1) = scnrm2(N, array, 1)
     res(2) = f77_nrm2(N, array, 1)
     res(3) = mfi_scnrm2(array)
@@ -2001,23 +2009,25 @@ subroutine test_dznrm2
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: array(N)
-    complex(wp) :: res(4)
+    complex(REAL64) :: array(N)
+    real(REAL64) :: res(4)
     integer :: i
 
     ! Test sequential array
     array = [(1.0_wp*i,i=1,N)]
     res(1) = dznrm2(N, array, 1)
-    res(2) = mfi_dznrm2(array)
     res(3) = f77_nrm2(N, array, 1)
+    res(2) = mfi_dznrm2(array)
     res(4) = mfi_nrm2(array)
     call assert(all(res == res(1)), "different results for sequential array")
 
-    call random_number(rnd)
-    array%re = rnd
-    call random_number(rnd)
-    array%im = rnd
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    array = cmplx(re,im)
+end block
     res(1) = dznrm2(N, array, 1)
     res(2) = f77_nrm2(N, array, 1)
     res(3) = mfi_dznrm2(array)
@@ -2034,13 +2044,12 @@ subroutine test_srot
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    real(wp) :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    real(REAL32) :: x(N),    y(N),    &
+                   x_in(N), y_in(N), &
+                   x_rf(N), y_rf(N)
     real(wp) :: angle
-    real(wp) :: c
-    real(wp) :: s
+    real(REAL32) :: c
+    real(REAL32) :: s
 
     call random_number(angle)
     angle = angle * 2.0_wp * pi
@@ -2049,8 +2058,7 @@ subroutine test_srot
     call random_number(Y)
 
     c = cos(angle)
-
-    s = i * sin(angle)
+    s = sin(angle)
 
     x_in = x
     y_in = y
@@ -2084,13 +2092,12 @@ subroutine test_drot
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    real(wp) :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    real(REAL64) :: x(N),    y(N),    &
+                   x_in(N), y_in(N), &
+                   x_rf(N), y_rf(N)
     real(wp) :: angle
-    real(wp) :: c
-    real(wp) :: s
+    real(REAL64) :: c
+    real(REAL64) :: s
 
     call random_number(angle)
     angle = angle * 2.0_wp * pi
@@ -2099,8 +2106,7 @@ subroutine test_drot
     call random_number(Y)
 
     c = cos(angle)
-
-    s = i * sin(angle)
+    s = sin(angle)
 
     x_in = x
     y_in = y
@@ -2134,29 +2140,33 @@ subroutine test_crot
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    complex(REAL32) :: x(N),    y(N),    &
+                   x_in(N), y_in(N), &
+                   x_rf(N), y_rf(N)
     real(wp) :: angle
-    real(wp) :: c
-    complex(wp) :: s
+    real(REAL32) :: c
+    complex(REAL32) :: s
 
     call random_number(angle)
     angle = angle * 2.0_wp * pi
 
-    call random_number(rnd)
-    x%re = rnd
-    call random_number(rnd)
-    x%im = rnd
-    call random_number(rnd)
-    y%re = rnd
-    call random_number(rnd)
-    y%im = rnd
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    Y = cmplx(re,im)
+end block
 
     c = cos(angle)
-
-    s = i * sin(angle)
+    s = sin(angle)
 
     x_in = x
     y_in = y
@@ -2190,29 +2200,33 @@ subroutine test_zrot
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    complex(REAL64) :: x(N),    y(N),    &
+                   x_in(N), y_in(N), &
+                   x_rf(N), y_rf(N)
     real(wp) :: angle
-    real(wp) :: c
-    complex(wp) :: s
+    real(REAL64) :: c
+    complex(REAL64) :: s
 
     call random_number(angle)
     angle = angle * 2.0_wp * pi
 
-    call random_number(rnd)
-    x%re = rnd
-    call random_number(rnd)
-    x%im = rnd
-    call random_number(rnd)
-    y%re = rnd
-    call random_number(rnd)
-    y%im = rnd
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    Y = cmplx(re,im)
+end block
 
     c = cos(angle)
-
-    s = i * sin(angle)
+    s = sin(angle)
 
     x_in = x
     y_in = y
@@ -2246,28 +2260,32 @@ subroutine test_csrot
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    complex(REAL32) :: x(N),    y(N),    &
+                   x_in(N), y_in(N), &
+                   x_rf(N), y_rf(N)
     real(wp) :: angle
-    real(wp) :: c
-    real(wp) :: s
+    real(REAL32) :: c
+    real(REAL32) :: s
 
     call random_number(angle)
     angle = angle * 2.0_wp * pi
 
-    call random_number(rnd)
-    x%re = rnd
-    call random_number(rnd)
-    x%im = rnd
-    call random_number(rnd)
-    y%re = rnd
-    call random_number(rnd)
-    y%im = rnd
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    Y = cmplx(re,im)
+end block
 
     c = cos(angle)
-
     s = sin(angle)
 
     x_in = x
@@ -2302,28 +2320,32 @@ subroutine test_zdrot
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: x(N),    y(N),    &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    complex(REAL64) :: x(N),    y(N),    &
+                   x_in(N), y_in(N), &
+                   x_rf(N), y_rf(N)
     real(wp) :: angle
-    real(wp) :: c
-    real(wp) :: s
+    real(REAL64) :: c
+    real(REAL64) :: s
 
     call random_number(angle)
     angle = angle * 2.0_wp * pi
 
-    call random_number(rnd)
-    x%re = rnd
-    call random_number(rnd)
-    x%im = rnd
-    call random_number(rnd)
-    y%re = rnd
-    call random_number(rnd)
-    y%im = rnd
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    Y = cmplx(re,im)
+end block
 
     c = cos(angle)
-
     s = sin(angle)
 
     x_in = x
@@ -2355,14 +2377,14 @@ subroutine test_srotg
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 200
-    real(wp)      :: a, b, s
-    real(wp) :: c
+    real(REAL32) :: a, b, s
+    real(REAL32) :: c
 
-    real(wp)      :: a_in, b_in, s_in
-    real(wp) :: c_in
+    real(REAL32) :: a_in, b_in, s_in
+    real(REAL32) :: c_in
 
-    real(wp)      :: a_rf, b_rf, s_rf
-    real(wp) :: c_rf
+    real(REAL32) :: a_rf, b_rf, s_rf
+    real(REAL32) :: c_rf
     integer :: i
 
     call random_number(a)
@@ -2400,14 +2422,14 @@ subroutine test_drotg
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 200
-    real(wp)      :: a, b, s
-    real(wp) :: c
+    real(REAL64) :: a, b, s
+    real(REAL64) :: c
 
-    real(wp)      :: a_in, b_in, s_in
-    real(wp) :: c_in
+    real(REAL64) :: a_in, b_in, s_in
+    real(REAL64) :: c_in
 
-    real(wp)      :: a_rf, b_rf, s_rf
-    real(wp) :: c_rf
+    real(REAL64) :: a_rf, b_rf, s_rf
+    real(REAL64) :: c_rf
     integer :: i
 
     call random_number(a)
@@ -2445,34 +2467,34 @@ subroutine test_crotg
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 200
-    complex(wp)      :: a, b, s
-    real(wp) :: c
+    complex(REAL32) :: a, b, s
+    real(REAL32) :: c
 
-    complex(wp)      :: a_in, b_in, s_in
-    real(wp) :: c_in
+    complex(REAL32) :: a_in, b_in, s_in
+    real(REAL32) :: c_in
 
-    complex(wp)      :: a_rf, b_rf, s_rf
-    real(wp) :: c_rf
+    complex(REAL32) :: a_rf, b_rf, s_rf
+    real(REAL32) :: c_rf
     integer :: i
 
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL32) :: re
+    real(REAL32) :: im
     call random_number(im)
     call random_number(re)
     a = cmplx(re,im)
 end block
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL32) :: re
+    real(REAL32) :: im
     call random_number(im)
     call random_number(re)
     b = cmplx(re,im)
 end block
     call random_number(c)
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL32) :: re
+    real(REAL32) :: im
     call random_number(im)
     call random_number(re)
     s = cmplx(re,im)
@@ -2508,34 +2530,34 @@ subroutine test_zrotg
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 200
-    complex(wp)      :: a, b, s
-    real(wp) :: c
+    complex(REAL64) :: a, b, s
+    real(REAL64) :: c
 
-    complex(wp)      :: a_in, b_in, s_in
-    real(wp) :: c_in
+    complex(REAL64) :: a_in, b_in, s_in
+    real(REAL64) :: c_in
 
-    complex(wp)      :: a_rf, b_rf, s_rf
-    real(wp) :: c_rf
+    complex(REAL64) :: a_rf, b_rf, s_rf
+    real(REAL64) :: c_rf
     integer :: i
 
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL64) :: re
+    real(REAL64) :: im
     call random_number(im)
     call random_number(re)
     a = cmplx(re,im)
 end block
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL64) :: re
+    real(REAL64) :: im
     call random_number(im)
     call random_number(re)
     b = cmplx(re,im)
 end block
     call random_number(c)
 block
-    real(wp) :: re
-    real(wp) :: im
+    real(REAL64) :: re
+    real(REAL64) :: im
     call random_number(im)
     call random_number(re)
     s = cmplx(re,im)
@@ -2574,11 +2596,10 @@ subroutine test_sscal
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd_vector(N), rnd
-    real(wp) :: x(N),    &
-                x_in(N), &
-                x_rf(N)
-    real(wp) :: alpha
+    real(REAL32) :: x(N),    &
+                   x_in(N), &
+                   x_rf(N)
+    real(REAL32) :: alpha
 
     call random_number(X)
     call random_number(alpha)
@@ -2593,11 +2614,11 @@ subroutine test_sscal
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_sscal(x_in, alpha)
+    call mfi_sscal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_scal(x_in, alpha)
+    call mfi_scal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
 end subroutine
@@ -2610,11 +2631,10 @@ subroutine test_dscal
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd_vector(N), rnd
-    real(wp) :: x(N),    &
-                x_in(N), &
-                x_rf(N)
-    real(wp) :: alpha
+    real(REAL64) :: x(N),    &
+                   x_in(N), &
+                   x_rf(N)
+    real(REAL64) :: alpha
 
     call random_number(X)
     call random_number(alpha)
@@ -2629,11 +2649,11 @@ subroutine test_dscal
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_dscal(x_in, alpha)
+    call mfi_dscal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_scal(x_in, alpha)
+    call mfi_scal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
 end subroutine
@@ -2646,20 +2666,25 @@ subroutine test_cscal
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd_vector(N), rnd
-    complex(wp) :: x(N),    &
-                x_in(N), &
-                x_rf(N)
-    complex(wp) :: alpha
+    complex(REAL32) :: x(N),    &
+                   x_in(N), &
+                   x_rf(N)
+    complex(REAL32) :: alpha
 
-    call random_number(rnd_vector)
-    x%re = rnd_vector
-    call random_number(rnd_vector)
-    x%im = rnd_vector
-    call random_number(rnd)
-    alpha%re = rnd
-    call random_number(rnd)
-    alpha%im = rnd
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
+block
+    real(REAL32) :: re
+    real(REAL32) :: im
+    call random_number(im)
+    call random_number(re)
+    alpha = cmplx(re,im)
+end block
 
     ! The test is always against the original
     x_in = x
@@ -2671,11 +2696,11 @@ subroutine test_cscal
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_cscal(x_in, alpha)
+    call mfi_cscal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_scal(x_in, alpha)
+    call mfi_scal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
 end subroutine
@@ -2688,20 +2713,25 @@ subroutine test_zscal
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd_vector(N), rnd
-    complex(wp) :: x(N),    &
-                x_in(N), &
-                x_rf(N)
-    complex(wp) :: alpha
+    complex(REAL64) :: x(N),    &
+                   x_in(N), &
+                   x_rf(N)
+    complex(REAL64) :: alpha
 
-    call random_number(rnd_vector)
-    x%re = rnd_vector
-    call random_number(rnd_vector)
-    x%im = rnd_vector
-    call random_number(rnd)
-    alpha%re = rnd
-    call random_number(rnd)
-    alpha%im = rnd
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
+block
+    real(REAL64) :: re
+    real(REAL64) :: im
+    call random_number(im)
+    call random_number(re)
+    alpha = cmplx(re,im)
+end block
 
     ! The test is always against the original
     x_in = x
@@ -2713,11 +2743,11 @@ subroutine test_zscal
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_zscal(x_in, alpha)
+    call mfi_zscal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_scal(x_in, alpha)
+    call mfi_scal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
 end subroutine
@@ -2730,16 +2760,18 @@ subroutine test_csscal
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd_vector(N), rnd
-    complex(wp) :: x(N),    &
-                x_in(N), &
-                x_rf(N)
-    real(wp) :: alpha
+    complex(REAL32) :: x(N),    &
+                   x_in(N), &
+                   x_rf(N)
+    real(REAL32) :: alpha
 
-    call random_number(rnd_vector)
-    x%re = rnd_vector
-    call random_number(rnd_vector)
-    x%im = rnd_vector
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
     call random_number(alpha)
 
     ! The test is always against the original
@@ -2752,11 +2784,11 @@ subroutine test_csscal
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_csscal(x_in, alpha)
+    call mfi_csscal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_scal(x_in, alpha)
+    call mfi_scal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
 end subroutine
@@ -2769,16 +2801,18 @@ subroutine test_zdscal
     complex(wp), parameter :: i = (0.0_wp,1.0_wp)
 
     integer, parameter :: N = 20
-    real(wp) :: rnd_vector(N), rnd
-    complex(wp) :: x(N),    &
-                x_in(N), &
-                x_rf(N)
-    real(wp) :: alpha
+    complex(REAL64) :: x(N),    &
+                   x_in(N), &
+                   x_rf(N)
+    real(REAL64) :: alpha
 
-    call random_number(rnd_vector)
-    x%re = rnd_vector
-    call random_number(rnd_vector)
-    x%im = rnd_vector
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    X = cmplx(re,im)
+end block
     call random_number(alpha)
 
     ! The test is always against the original
@@ -2791,11 +2825,11 @@ subroutine test_zdscal
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_zdscal(x_in, alpha)
+    call mfi_zdscal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
     x_in = x
-    call mfi_scal(x_in, alpha)
+    call mfi_scal(alpha, x_in)
     call assert(all(x_in == x_rf), "different results")
 
 end subroutine
@@ -2806,8 +2840,8 @@ subroutine test_isamin
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    real(wp) :: array(N)
+    real(REAL32) :: rnd(N)
+    real(REAL32) :: array(N)
     integer :: res(4)
     integer :: i
 
@@ -2833,8 +2867,8 @@ subroutine test_idamin
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    real(wp) :: array(N)
+    real(REAL64) :: rnd(N)
+    real(REAL64) :: array(N)
     integer :: res(4)
     integer :: i
 
@@ -2860,8 +2894,8 @@ subroutine test_icamin
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: array(N)
+    real(REAL32) :: rnd(N)
+    complex(REAL32) :: array(N)
     integer :: res(4)
     integer :: i
 
@@ -2890,8 +2924,8 @@ subroutine test_izamin
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: array(N)
+    real(REAL64) :: rnd(N)
+    complex(REAL64) :: array(N)
     integer :: res(4)
     integer :: i
 
@@ -2920,8 +2954,8 @@ subroutine test_isamax
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    real(wp) :: array(N)
+    real(REAL32) :: rnd(N)
+    real(REAL32) :: array(N)
     integer :: res(4)
     integer :: i
 
@@ -2947,8 +2981,8 @@ subroutine test_idamax
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    real(wp) :: array(N)
+    real(REAL64) :: rnd(N)
+    real(REAL64) :: array(N)
     integer :: res(4)
     integer :: i
 
@@ -2974,8 +3008,8 @@ subroutine test_icamax
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: array(N)
+    real(REAL32) :: rnd(N)
+    complex(REAL32) :: array(N)
     integer :: res(4)
     integer :: i
 
@@ -3004,8 +3038,8 @@ subroutine test_izamax
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(wp) :: rnd(N)
-    complex(wp) :: array(N)
+    real(REAL64) :: rnd(N)
+    complex(REAL64) :: array(N)
     integer :: res(4)
     integer :: i
 
@@ -3029,11 +3063,12 @@ subroutine test_izamax
 
 end subroutine
 
-    pure subroutine assert(test, msg)
-        logical, intent(in) :: test
-        character(*), intent(in) :: msg
-        if (.not. test) then
-            error stop msg
-        end if
-    end subroutine
+pure subroutine assert(test, msg)
+    logical, intent(in) :: test
+    character(*), intent(in) :: msg
+    if (.not. test) then
+        error stop msg
+    end if
+end subroutine
+
 end program

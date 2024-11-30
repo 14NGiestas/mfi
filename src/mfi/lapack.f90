@@ -6,89 +6,89 @@ use f77_lapack, only: mfi_lartg => f77_lartg
 implicit none
 
 interface mfi_geqrf
-    module procedure mfi_sgeqrf
-    module procedure mfi_dgeqrf
-    module procedure mfi_cgeqrf
-    module procedure mfi_zgeqrf
+    module procedure :: mfi_sgeqrf
+    module procedure :: mfi_dgeqrf
+    module procedure :: mfi_cgeqrf
+    module procedure :: mfi_zgeqrf
 end interface
 interface mfi_gerqf
-    module procedure mfi_sgerqf
-    module procedure mfi_dgerqf
-    module procedure mfi_cgerqf
-    module procedure mfi_zgerqf
+    module procedure :: mfi_sgerqf
+    module procedure :: mfi_dgerqf
+    module procedure :: mfi_cgerqf
+    module procedure :: mfi_zgerqf
 end interface
 interface mfi_getrf
-    module procedure mfi_sgetrf
-    module procedure mfi_dgetrf
-    module procedure mfi_cgetrf
-    module procedure mfi_zgetrf
+    module procedure :: mfi_sgetrf
+    module procedure :: mfi_dgetrf
+    module procedure :: mfi_cgetrf
+    module procedure :: mfi_zgetrf
 end interface
 interface mfi_getri
-    module procedure mfi_sgetri
-    module procedure mfi_dgetri
-    module procedure mfi_cgetri
-    module procedure mfi_zgetri
+    module procedure :: mfi_sgetri
+    module procedure :: mfi_dgetri
+    module procedure :: mfi_cgetri
+    module procedure :: mfi_zgetri
 end interface
 interface mfi_getrs
-    module procedure mfi_sgetrs
-    module procedure mfi_dgetrs
-    module procedure mfi_cgetrs
-    module procedure mfi_zgetrs
+    module procedure :: mfi_sgetrs
+    module procedure :: mfi_dgetrs
+    module procedure :: mfi_cgetrs
+    module procedure :: mfi_zgetrs
 end interface
 interface mfi_hetrf
-    module procedure mfi_chetrf
-    module procedure mfi_zhetrf
+    module procedure :: mfi_chetrf
+    module procedure :: mfi_zhetrf
 end interface
 interface mfi_hegv
-    module procedure mfi_chegv
-    module procedure mfi_zhegv
+    module procedure :: mfi_chegv
+    module procedure :: mfi_zhegv
 end interface
 interface mfi_heevd
-    module procedure mfi_cheevd
-    module procedure mfi_zheevd
+    module procedure :: mfi_cheevd
+    module procedure :: mfi_zheevd
 end interface
 interface mfi_gesvd
-    module procedure mfi_sgesvd
-    module procedure mfi_dgesvd
-    module procedure mfi_cgesvd
-    module procedure mfi_zgesvd
+    module procedure :: mfi_sgesvd
+    module procedure :: mfi_dgesvd
+    module procedure :: mfi_cgesvd
+    module procedure :: mfi_zgesvd
 end interface
 interface mfi_potrf
-    module procedure mfi_spotrf
-    module procedure mfi_dpotrf
-    module procedure mfi_cpotrf
-    module procedure mfi_zpotrf
+    module procedure :: mfi_spotrf
+    module procedure :: mfi_dpotrf
+    module procedure :: mfi_cpotrf
+    module procedure :: mfi_zpotrf
 end interface
 interface mfi_potri
-    module procedure mfi_spotri
-    module procedure mfi_dpotri
-    module procedure mfi_cpotri
-    module procedure mfi_zpotri
+    module procedure :: mfi_spotri
+    module procedure :: mfi_dpotri
+    module procedure :: mfi_cpotri
+    module procedure :: mfi_zpotri
 end interface
 interface mfi_potrs
-    module procedure mfi_spotrs
-    module procedure mfi_dpotrs
-    module procedure mfi_cpotrs
-    module procedure mfi_zpotrs
+    module procedure :: mfi_spotrs
+    module procedure :: mfi_dpotrs
+    module procedure :: mfi_cpotrs
+    module procedure :: mfi_zpotrs
 end interface
 interface mfi_pocon
-    module procedure mfi_spocon
-    module procedure mfi_dpocon
-    module procedure mfi_cpocon
-    module procedure mfi_zpocon
+    module procedure :: mfi_spocon
+    module procedure :: mfi_dpocon
+    module procedure :: mfi_cpocon
+    module procedure :: mfi_zpocon
 end interface
 
 contains
 
 pure subroutine mfi_sgeqrf(a, tau, info)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out), optional, target :: tau(:)
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(out), optional, target :: tau(:)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(wp), pointer :: local_tau(:), work(:)
-    real(wp), target  :: s_work(1)
+    real(REAL32), pointer :: local_tau(:), work(:)
+    real(REAL32), target  :: s_work(1)
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -127,13 +127,13 @@ pure subroutine mfi_sgeqrf(a, tau, info)
 end subroutine
 pure subroutine mfi_dgeqrf(a, tau, info)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out), optional, target :: tau(:)
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(out), optional, target :: tau(:)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(wp), pointer :: local_tau(:), work(:)
-    real(wp), target  :: s_work(1)
+    real(REAL64), pointer :: local_tau(:), work(:)
+    real(REAL64), target  :: s_work(1)
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -172,13 +172,13 @@ pure subroutine mfi_dgeqrf(a, tau, info)
 end subroutine
 pure subroutine mfi_cgeqrf(a, tau, info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(out), optional, target :: tau(:)
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(out), optional, target :: tau(:)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), pointer :: local_tau(:), work(:)
-    complex(wp), target  :: s_work(1)
+    complex(REAL32), pointer :: local_tau(:), work(:)
+    complex(REAL32), target  :: s_work(1)
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -217,13 +217,13 @@ pure subroutine mfi_cgeqrf(a, tau, info)
 end subroutine
 pure subroutine mfi_zgeqrf(a, tau, info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(out), optional, target :: tau(:)
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(out), optional, target :: tau(:)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), pointer :: local_tau(:), work(:)
-    complex(wp), target  :: s_work(1)
+    complex(REAL64), pointer :: local_tau(:), work(:)
+    complex(REAL64), target  :: s_work(1)
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -262,13 +262,13 @@ pure subroutine mfi_zgeqrf(a, tau, info)
 end subroutine
 pure subroutine mfi_sgerqf(a, tau, info)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out), optional, target :: tau(:)
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(out), optional, target :: tau(:)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(wp), pointer :: local_tau(:), work(:)
-    real(wp), target  :: s_work(1)
+    real(REAL32), pointer :: local_tau(:), work(:)
+    real(REAL32), target  :: s_work(1)
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -307,13 +307,13 @@ pure subroutine mfi_sgerqf(a, tau, info)
 end subroutine
 pure subroutine mfi_dgerqf(a, tau, info)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out), optional, target :: tau(:)
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(out), optional, target :: tau(:)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(wp), pointer :: local_tau(:), work(:)
-    real(wp), target  :: s_work(1)
+    real(REAL64), pointer :: local_tau(:), work(:)
+    real(REAL64), target  :: s_work(1)
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -352,13 +352,13 @@ pure subroutine mfi_dgerqf(a, tau, info)
 end subroutine
 pure subroutine mfi_cgerqf(a, tau, info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(out), optional, target :: tau(:)
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(out), optional, target :: tau(:)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), pointer :: local_tau(:), work(:)
-    complex(wp), target  :: s_work(1)
+    complex(REAL32), pointer :: local_tau(:), work(:)
+    complex(REAL32), target  :: s_work(1)
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -397,13 +397,13 @@ pure subroutine mfi_cgerqf(a, tau, info)
 end subroutine
 pure subroutine mfi_zgerqf(a, tau, info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(out), optional, target :: tau(:)
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(out), optional, target :: tau(:)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), pointer :: local_tau(:), work(:)
-    complex(wp), target  :: s_work(1)
+    complex(REAL64), pointer :: local_tau(:), work(:)
+    complex(REAL64), target  :: s_work(1)
     lda = max(1,size(a,1))
     m = size(a,1)
     n = size(a,2)
@@ -442,7 +442,7 @@ pure subroutine mfi_zgerqf(a, tau, info)
 end subroutine
 pure subroutine mfi_sgetrf(a, ipiv, info)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL32), intent(inout) :: a(:,:)
     integer, intent(out), optional, target :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
@@ -473,7 +473,7 @@ pure subroutine mfi_sgetrf(a, ipiv, info)
 end subroutine
 pure subroutine mfi_dgetrf(a, ipiv, info)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL64), intent(inout) :: a(:,:)
     integer, intent(out), optional, target :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
@@ -504,7 +504,7 @@ pure subroutine mfi_dgetrf(a, ipiv, info)
 end subroutine
 pure subroutine mfi_cgetrf(a, ipiv, info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL32), intent(inout) :: a(:,:)
     integer, intent(out), optional, target :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
@@ -535,7 +535,7 @@ pure subroutine mfi_cgetrf(a, ipiv, info)
 end subroutine
 pure subroutine mfi_zgetrf(a, ipiv, info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL64), intent(inout) :: a(:,:)
     integer, intent(out), optional, target :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
@@ -566,10 +566,10 @@ pure subroutine mfi_zgetrf(a, ipiv, info)
 end subroutine
 pure subroutine mfi_sgetri(a, ipiv, info)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL32), intent(inout) :: a(:,:)
     integer, intent(in) :: ipiv(:)
-    real(wp), pointer :: work(:)
-    real(wp) :: s_work(1)
+    real(REAL32), pointer :: work(:)
+    real(REAL32) :: s_work(1)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
@@ -595,10 +595,10 @@ pure subroutine mfi_sgetri(a, ipiv, info)
 end subroutine
 pure subroutine mfi_dgetri(a, ipiv, info)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL64), intent(inout) :: a(:,:)
     integer, intent(in) :: ipiv(:)
-    real(wp), pointer :: work(:)
-    real(wp) :: s_work(1)
+    real(REAL64), pointer :: work(:)
+    real(REAL64) :: s_work(1)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
@@ -624,10 +624,10 @@ pure subroutine mfi_dgetri(a, ipiv, info)
 end subroutine
 pure subroutine mfi_cgetri(a, ipiv, info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL32), intent(inout) :: a(:,:)
     integer, intent(in) :: ipiv(:)
-    complex(wp), pointer :: work(:)
-    complex(wp) :: s_work(1)
+    complex(REAL32), pointer :: work(:)
+    complex(REAL32) :: s_work(1)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
@@ -653,10 +653,10 @@ pure subroutine mfi_cgetri(a, ipiv, info)
 end subroutine
 pure subroutine mfi_zgetri(a, ipiv, info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL64), intent(inout) :: a(:,:)
     integer, intent(in) :: ipiv(:)
-    complex(wp), pointer :: work(:)
-    complex(wp) :: s_work(1)
+    complex(REAL64), pointer :: work(:)
+    complex(REAL64) :: s_work(1)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
@@ -682,8 +682,8 @@ pure subroutine mfi_zgetri(a, ipiv, info)
 end subroutine
 pure subroutine mfi_sgetrs(a,ipiv,b,trans,info)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(inout) :: b(:,:)
     integer, intent(in) :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
@@ -708,8 +708,8 @@ pure subroutine mfi_sgetrs(a,ipiv,b,trans,info)
 end subroutine
 pure subroutine mfi_dgetrs(a,ipiv,b,trans,info)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(inout) :: b(:,:)
     integer, intent(in) :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
@@ -734,8 +734,8 @@ pure subroutine mfi_dgetrs(a,ipiv,b,trans,info)
 end subroutine
 pure subroutine mfi_cgetrs(a,ipiv,b,trans,info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(inout) :: b(:,:)
     integer, intent(in) :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
@@ -760,8 +760,8 @@ pure subroutine mfi_cgetrs(a,ipiv,b,trans,info)
 end subroutine
 pure subroutine mfi_zgetrs(a,ipiv,b,trans,info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(inout) :: b(:,:)
     integer, intent(in) :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
@@ -786,7 +786,7 @@ pure subroutine mfi_zgetrs(a,ipiv,b,trans,info)
 end subroutine
 pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL32), intent(inout) :: a(:,:)
     integer, intent(out), optional, target :: ipiv(:)
     integer, pointer :: local_ipiv(:)
     character, intent(in), optional :: uplo
@@ -794,8 +794,8 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer   :: n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), target :: s_work(1)
-    complex(wp), pointer :: work(:)
+    complex(REAL32), target :: s_work(1)
+    complex(REAL32), pointer :: work(:)
     if (present(uplo)) then
         local_uplo = uplo
     else
@@ -828,7 +828,7 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
 end subroutine
 pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL64), intent(inout) :: a(:,:)
     integer, intent(out), optional, target :: ipiv(:)
     integer, pointer :: local_ipiv(:)
     character, intent(in), optional :: uplo
@@ -836,8 +836,8 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer   :: n, lda, lwork, allocation_status, deallocation_status
-    complex(wp), target :: s_work(1)
-    complex(wp), pointer :: work(:)
+    complex(REAL64), target :: s_work(1)
+    complex(REAL64), pointer :: work(:)
     if (present(uplo)) then
         local_uplo = uplo
     else
@@ -870,9 +870,9 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
 end subroutine
 pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
-    real(wp), intent(out) :: w(:)
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(inout) :: b(:,:)
+    real(REAL32), intent(out) :: w(:)
     integer, intent(in), optional :: itype
     integer :: local_itype
     character, intent(in), optional :: jobz
@@ -881,9 +881,9 @@ pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
     character :: local_uplo
     integer, intent(out), optional :: info
     integer :: local_info
-    complex(wp),      pointer :: work(:)
-    real(wp), pointer :: rwork(:)
-    complex(wp) :: s_work(1)
+    complex(REAL32),      pointer :: work(:)
+    real(REAL32), pointer :: rwork(:)
+    complex(REAL32) :: s_work(1)
     integer :: n, lda, ldb, lwork, allocation_status, deallocation_status
     if (present(itype)) then
         local_itype = itype
@@ -928,9 +928,9 @@ pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
 end subroutine
 pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
-    real(wp), intent(out) :: w(:)
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(inout) :: b(:,:)
+    real(REAL64), intent(out) :: w(:)
     integer, intent(in), optional :: itype
     integer :: local_itype
     character, intent(in), optional :: jobz
@@ -939,9 +939,9 @@ pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
     character :: local_uplo
     integer, intent(out), optional :: info
     integer :: local_info
-    complex(wp),      pointer :: work(:)
-    real(wp), pointer :: rwork(:)
-    complex(wp) :: s_work(1)
+    complex(REAL64),      pointer :: work(:)
+    real(REAL64), pointer :: rwork(:)
+    complex(REAL64) :: s_work(1)
     integer :: n, lda, ldb, lwork, allocation_status, deallocation_status
     if (present(itype)) then
         local_itype = itype
@@ -986,19 +986,19 @@ pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
 end subroutine
 pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: w(:)
+    complex(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(out) :: w(:)
     integer, intent(out), optional :: info
     integer :: local_info
     character, intent(in), optional :: jobz
     character :: local_jobz
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp),      pointer :: work(:)
-    real(wp), pointer :: rwork(:)
+    complex(REAL32),      pointer :: work(:)
+    real(REAL32), pointer :: rwork(:)
     integer,       pointer :: iwork(:)
-    complex(wp)      :: s_work(1)
-    real(wp) :: s_rwork(1)
+    complex(REAL32)      :: s_work(1)
+    real(REAL32) :: s_rwork(1)
     integer       :: s_iwork(1)
     integer :: n, lda, lwork, lrwork, liwork, allocation_status, deallocation_status
     if (present(jobz)) then
@@ -1047,19 +1047,19 @@ pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
 end subroutine
 pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: w(:)
+    complex(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(out) :: w(:)
     integer, intent(out), optional :: info
     integer :: local_info
     character, intent(in), optional :: jobz
     character :: local_jobz
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp),      pointer :: work(:)
-    real(wp), pointer :: rwork(:)
+    complex(REAL64),      pointer :: work(:)
+    real(REAL64), pointer :: rwork(:)
     integer,       pointer :: iwork(:)
-    complex(wp)      :: s_work(1)
-    real(wp) :: s_rwork(1)
+    complex(REAL64)      :: s_work(1)
+    real(REAL64) :: s_rwork(1)
     integer       :: s_iwork(1)
     integer :: n, lda, lwork, lrwork, liwork, allocation_status, deallocation_status
     if (present(jobz)) then
@@ -1108,18 +1108,18 @@ pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
 end subroutine
 pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: s(:)
-    real(wp),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(wp), intent(out), optional, target :: ww(:)
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(out) :: s(:)
+    real(REAL32),      intent(out), optional, target :: u(:,:), vt(:,:)
+    real(REAL32), intent(out), optional, target :: ww(:)
     character, intent(in), optional :: job
     character :: local_job
     integer, intent(out), optional :: info
     integer :: local_info
     character :: jobu, jobvt
     integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    real(wp),      target  :: s_work(1), l_a2(1,1)
-    real(wp),      pointer :: local_u(:,:), local_vt(:,:), work(:)
+    real(REAL32),      target  :: s_work(1), l_a2(1,1)
+    real(REAL32),      pointer :: local_u(:,:), local_vt(:,:), work(:)
     if (present(job)) then
         local_job = job
     else
@@ -1195,18 +1195,18 @@ pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
 end subroutine
 pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: s(:)
-    real(wp),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(wp), intent(out), optional, target :: ww(:)
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(out) :: s(:)
+    real(REAL64),      intent(out), optional, target :: u(:,:), vt(:,:)
+    real(REAL64), intent(out), optional, target :: ww(:)
     character, intent(in), optional :: job
     character :: local_job
     integer, intent(out), optional :: info
     integer :: local_info
     character :: jobu, jobvt
     integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    real(wp),      target  :: s_work(1), l_a2(1,1)
-    real(wp),      pointer :: local_u(:,:), local_vt(:,:), work(:)
+    real(REAL64),      target  :: s_work(1), l_a2(1,1)
+    real(REAL64),      pointer :: local_u(:,:), local_vt(:,:), work(:)
     if (present(job)) then
         local_job = job
     else
@@ -1282,19 +1282,19 @@ pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
 end subroutine
 pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: s(:)
-    complex(wp),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(wp), intent(out), optional, target :: ww(:)
+    complex(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(out) :: s(:)
+    complex(REAL32),      intent(out), optional, target :: u(:,:), vt(:,:)
+    real(REAL32), intent(out), optional, target :: ww(:)
     character, intent(in), optional :: job
     character :: local_job
     integer, intent(out), optional :: info
     integer :: local_info
     character :: jobu, jobvt
     integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    complex(wp),      target  :: s_work(1), l_a2(1,1)
-    complex(wp),      pointer :: local_u(:,:), local_vt(:,:), work(:)
-    real(wp), pointer :: rwork(:)
+    complex(REAL32),      target  :: s_work(1), l_a2(1,1)
+    complex(REAL32),      pointer :: local_u(:,:), local_vt(:,:), work(:)
+    real(REAL32), pointer :: rwork(:)
     if (present(job)) then
         local_job = job
     else
@@ -1372,19 +1372,19 @@ pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
 end subroutine
 pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    real(wp), intent(out) :: s(:)
-    complex(wp),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(wp), intent(out), optional, target :: ww(:)
+    complex(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(out) :: s(:)
+    complex(REAL64),      intent(out), optional, target :: u(:,:), vt(:,:)
+    real(REAL64), intent(out), optional, target :: ww(:)
     character, intent(in), optional :: job
     character :: local_job
     integer, intent(out), optional :: info
     integer :: local_info
     character :: jobu, jobvt
     integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    complex(wp),      target  :: s_work(1), l_a2(1,1)
-    complex(wp),      pointer :: local_u(:,:), local_vt(:,:), work(:)
-    real(wp), pointer :: rwork(:)
+    complex(REAL64),      target  :: s_work(1), l_a2(1,1)
+    complex(REAL64),      pointer :: local_u(:,:), local_vt(:,:), work(:)
+    real(REAL64), pointer :: rwork(:)
     if (present(job)) then
         local_job = job
     else
@@ -1462,7 +1462,7 @@ pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
 end subroutine
 pure subroutine mfi_spotrf(a, info, uplo)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL32), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1484,7 +1484,7 @@ pure subroutine mfi_spotrf(a, info, uplo)
 end subroutine
 pure subroutine mfi_dpotrf(a, info, uplo)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL64), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1506,7 +1506,7 @@ pure subroutine mfi_dpotrf(a, info, uplo)
 end subroutine
 pure subroutine mfi_cpotrf(a, info, uplo)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL32), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1528,7 +1528,7 @@ pure subroutine mfi_cpotrf(a, info, uplo)
 end subroutine
 pure subroutine mfi_zpotrf(a, info, uplo)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL64), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1550,7 +1550,7 @@ pure subroutine mfi_zpotrf(a, info, uplo)
 end subroutine
 pure subroutine mfi_spotri(a, info, uplo)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL32), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1572,7 +1572,7 @@ pure subroutine mfi_spotri(a, info, uplo)
 end subroutine
 pure subroutine mfi_dpotri(a, info, uplo)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL64), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1594,7 +1594,7 @@ pure subroutine mfi_dpotri(a, info, uplo)
 end subroutine
 pure subroutine mfi_cpotri(a, info, uplo)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL32), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1616,7 +1616,7 @@ pure subroutine mfi_cpotri(a, info, uplo)
 end subroutine
 pure subroutine mfi_zpotri(a, info, uplo)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL64), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1638,8 +1638,8 @@ pure subroutine mfi_zpotri(a, info, uplo)
 end subroutine
 pure subroutine mfi_spotrs(a, b, uplo, info)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: b(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1663,8 +1663,8 @@ pure subroutine mfi_spotrs(a, b, uplo, info)
 end subroutine
 pure subroutine mfi_dpotrs(a, b, uplo, info)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: b(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1688,8 +1688,8 @@ pure subroutine mfi_dpotrs(a, b, uplo, info)
 end subroutine
 pure subroutine mfi_cpotrs(a, b, uplo, info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: b(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1713,8 +1713,8 @@ pure subroutine mfi_cpotrs(a, b, uplo, info)
 end subroutine
 pure subroutine mfi_zpotrs(a, b, uplo, info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: b(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
@@ -1739,15 +1739,15 @@ end subroutine
 !> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
 pure subroutine mfi_spocon(a, anorm, rcond, uplo, info)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(in) :: anorm
-    real(wp), intent(out) :: rcond
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(in) :: anorm
+    real(REAL32), intent(out) :: rcond
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, allocation_status, deallocation_status
-    real(wp), pointer :: work(:)
+    real(REAL32), pointer :: work(:)
     integer, pointer :: xwork(:)
     if (present(uplo)) then
         local_uplo = uplo
@@ -1778,15 +1778,15 @@ end subroutine
 !> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
 pure subroutine mfi_dpocon(a, anorm, rcond, uplo, info)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(in) :: anorm
-    real(wp), intent(out) :: rcond
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(in) :: anorm
+    real(REAL64), intent(out) :: rcond
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, allocation_status, deallocation_status
-    real(wp), pointer :: work(:)
+    real(REAL64), pointer :: work(:)
     integer, pointer :: xwork(:)
     if (present(uplo)) then
         local_uplo = uplo
@@ -1817,16 +1817,16 @@ end subroutine
 !> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
 pure subroutine mfi_cpocon(a, anorm, rcond, uplo, info)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: a(:,:)
-    real(wp), intent(in) :: anorm
-    real(wp), intent(out) :: rcond
+    complex(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(in) :: anorm
+    real(REAL32), intent(out) :: rcond
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, allocation_status, deallocation_status
-    complex(wp), pointer :: work(:)
-    real(wp), pointer :: xwork(:)
+    complex(REAL32), pointer :: work(:)
+    real(REAL32), pointer :: xwork(:)
     if (present(uplo)) then
         local_uplo = uplo
     else
@@ -1856,16 +1856,16 @@ end subroutine
 !> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
 pure subroutine mfi_zpocon(a, anorm, rcond, uplo, info)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: a(:,:)
-    real(wp), intent(in) :: anorm
-    real(wp), intent(out) :: rcond
+    complex(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(in) :: anorm
+    real(REAL64), intent(out) :: rcond
     character, intent(in), optional :: uplo
     character :: local_uplo
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, allocation_status, deallocation_status
-    complex(wp), pointer :: work(:)
-    real(wp), pointer :: xwork(:)
+    complex(REAL64), pointer :: work(:)
+    real(REAL64), pointer :: xwork(:)
     if (present(uplo)) then
         local_uplo = uplo
     else

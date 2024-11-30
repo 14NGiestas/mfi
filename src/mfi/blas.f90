@@ -6,380 +6,431 @@ use f77_blas, only: mfi_rotg  => f77_rotg
 use f77_blas, only: mfi_rotmg => f77_rotmg
 implicit none
 
-! BLAS level 1
-interface mfi_asum
-    module procedure mfi_sasum
-    module procedure mfi_dasum
-    module procedure mfi_scasum
-    module procedure mfi_dzasum
-end interface
-interface mfi_nrm2
-    module procedure mfi_snrm2
-    module procedure mfi_dnrm2
-    module procedure mfi_scnrm2
-    module procedure mfi_dznrm2
-end interface
-interface mfi_axpy
-    module procedure mfi_saxpy
-    module procedure mfi_daxpy
-    module procedure mfi_caxpy
-    module procedure mfi_zaxpy
-end interface
 interface mfi_copy
-    module procedure mfi_scopy
-    module procedure mfi_dcopy
-    module procedure mfi_ccopy
-    module procedure mfi_zcopy
-end interface
-interface mfi_dot
-    module procedure mfi_sdot
-    module procedure mfi_ddot
-end interface
-interface mfi_dotu
-    module procedure mfi_cdotu
-    module procedure mfi_zdotu
-end interface
-interface mfi_dotc
-    module procedure mfi_cdotc
-    module procedure mfi_zdotc
-end interface
-interface mfi_rot
-    module procedure mfi_srot
-    module procedure mfi_drot
-    module procedure mfi_crot
-    module procedure mfi_zrot
-    module procedure mfi_csrot
-    module procedure mfi_zdrot
-end interface
-interface mfi_rotm
-    module procedure mfi_srotm
-    module procedure mfi_drotm
-end interface
-interface mfi_scal
-    module procedure mfi_sscal
-    module procedure mfi_dscal
-    module procedure mfi_cscal
-    module procedure mfi_zscal
-    module procedure mfi_csscal
-    module procedure mfi_zdscal
+    module procedure :: mfi_scopy
+    module procedure :: mfi_dcopy
+    module procedure :: mfi_ccopy
+    module procedure :: mfi_zcopy
 end interface
 interface mfi_swap
-    module procedure mfi_sswap
-    module procedure mfi_dswap
-    module procedure mfi_cswap
-    module procedure mfi_zswap
+    module procedure :: mfi_sswap
+    module procedure :: mfi_dswap
+    module procedure :: mfi_cswap
+    module procedure :: mfi_zswap
 end interface
-
-! BLAS level 2
+interface mfi_axpy
+    module procedure :: mfi_saxpy
+    module procedure :: mfi_daxpy
+    module procedure :: mfi_caxpy
+    module procedure :: mfi_zaxpy
+end interface
+interface mfi_dot
+    module procedure :: mfi_sdot
+    module procedure :: mfi_ddot
+end interface
+interface mfi_dotc
+    module procedure :: mfi_cdotc
+    module procedure :: mfi_zdotc
+end interface
+interface mfi_dotu
+    module procedure :: mfi_cdotu
+    module procedure :: mfi_zdotu
+end interface
+interface mfi_asum
+    module procedure :: mfi_sasum
+    module procedure :: mfi_dasum
+    module procedure :: mfi_scasum
+    module procedure :: mfi_dzasum
+end interface
+interface mfi_nrm2
+    module procedure :: mfi_snrm2
+    module procedure :: mfi_dnrm2
+    module procedure :: mfi_scnrm2
+    module procedure :: mfi_dznrm2
+end interface
+interface mfi_rot
+    module procedure :: mfi_srot
+    module procedure :: mfi_drot
+    module procedure :: mfi_crot
+    module procedure :: mfi_zrot
+    module procedure :: mfi_csrot
+    module procedure :: mfi_zdrot
+end interface
+interface mfi_rotm
+    module procedure :: mfi_srotm
+    module procedure :: mfi_drotm
+end interface
+interface mfi_scal
+    module procedure :: mfi_sscal
+    module procedure :: mfi_dscal
+    module procedure :: mfi_cscal
+    module procedure :: mfi_zscal
+    module procedure :: mfi_csscal
+    module procedure :: mfi_zdscal
+end interface
 interface mfi_gbmv
-    module procedure mfi_sgbmv
-    module procedure mfi_dgbmv
-    module procedure mfi_cgbmv
-    module procedure mfi_zgbmv
+    module procedure :: mfi_sgbmv
+    module procedure :: mfi_dgbmv
+    module procedure :: mfi_cgbmv
+    module procedure :: mfi_zgbmv
 end interface
 interface mfi_gemv
-    module procedure mfi_sgemv
-    module procedure mfi_dgemv
-    module procedure mfi_cgemv
-    module procedure mfi_zgemv
+    module procedure :: mfi_sgemv
+    module procedure :: mfi_dgemv
+    module procedure :: mfi_cgemv
+    module procedure :: mfi_zgemv
 end interface
 interface mfi_ger
-    module procedure mfi_sger
-    module procedure mfi_dger
+    module procedure :: mfi_sger
+    module procedure :: mfi_dger
 end interface
 interface mfi_gerc
-    module procedure mfi_cgerc
-    module procedure mfi_zgerc
+    module procedure :: mfi_cgerc
+    module procedure :: mfi_zgerc
 end interface
 interface mfi_geru
-    module procedure mfi_cgeru
-    module procedure mfi_zgeru
+    module procedure :: mfi_cgeru
+    module procedure :: mfi_zgeru
 end interface
 interface mfi_hbmv
-    module procedure mfi_chbmv
-    module procedure mfi_zhbmv
+    module procedure :: mfi_chbmv
+    module procedure :: mfi_zhbmv
 end interface
 interface mfi_hemv
-    module procedure mfi_chemv
-    module procedure mfi_zhemv
+    module procedure :: mfi_chemv
+    module procedure :: mfi_zhemv
 end interface
 interface mfi_her
-    module procedure mfi_cher
-    module procedure mfi_zher
+    module procedure :: mfi_cher
+    module procedure :: mfi_zher
 end interface
 interface mfi_her2
-    module procedure mfi_cher2
-    module procedure mfi_zher2
+    module procedure :: mfi_cher2
+    module procedure :: mfi_zher2
 end interface
 interface mfi_hpmv
-    module procedure mfi_chpmv
-    module procedure mfi_zhpmv
+    module procedure :: mfi_chpmv
+    module procedure :: mfi_zhpmv
 end interface
 interface mfi_hpr
-    module procedure mfi_chpr
-    module procedure mfi_zhpr
+    module procedure :: mfi_chpr
+    module procedure :: mfi_zhpr
 end interface
 interface mfi_hpr2
-    module procedure mfi_chpr2
-    module procedure mfi_zhpr2
+    module procedure :: mfi_chpr2
+    module procedure :: mfi_zhpr2
 end interface
 interface mfi_sbmv
-    module procedure mfi_ssbmv
-    module procedure mfi_dsbmv
+    module procedure :: mfi_ssbmv
+    module procedure :: mfi_dsbmv
 end interface
 interface mfi_spmv
-    module procedure mfi_sspmv
-    module procedure mfi_dspmv
+    module procedure :: mfi_sspmv
+    module procedure :: mfi_dspmv
 end interface
 interface mfi_spr
-    module procedure mfi_sspr
-    module procedure mfi_dspr
+    module procedure :: mfi_sspr
+    module procedure :: mfi_dspr
 end interface
 interface mfi_spr2
-    module procedure mfi_sspr2
-    module procedure mfi_dspr2
+    module procedure :: mfi_sspr2
+    module procedure :: mfi_dspr2
 end interface
 interface mfi_symv
-    module procedure mfi_ssymv
-    module procedure mfi_dsymv
+    module procedure :: mfi_ssymv
+    module procedure :: mfi_dsymv
 end interface
 interface mfi_syr
-    module procedure mfi_ssyr
-    module procedure mfi_dsyr
+    module procedure :: mfi_ssyr
+    module procedure :: mfi_dsyr
 end interface
 interface mfi_syr2
-    module procedure mfi_ssyr2
-    module procedure mfi_dsyr2
+    module procedure :: mfi_ssyr2
+    module procedure :: mfi_dsyr2
 end interface
 interface mfi_tbmv
-    module procedure mfi_stbmv
-    module procedure mfi_dtbmv
-    module procedure mfi_ctbmv
-    module procedure mfi_ztbmv
+    module procedure :: mfi_stbmv
+    module procedure :: mfi_dtbmv
+    module procedure :: mfi_ctbmv
+    module procedure :: mfi_ztbmv
 end interface
 interface mfi_tbsv
-    module procedure mfi_stbsv
-    module procedure mfi_dtbsv
-    module procedure mfi_ctbsv
-    module procedure mfi_ztbsv
+    module procedure :: mfi_stbsv
+    module procedure :: mfi_dtbsv
+    module procedure :: mfi_ctbsv
+    module procedure :: mfi_ztbsv
 end interface
 interface mfi_tpmv
-    module procedure mfi_stpmv
-    module procedure mfi_dtpmv
-    module procedure mfi_ctpmv
-    module procedure mfi_ztpmv
+    module procedure :: mfi_stpmv
+    module procedure :: mfi_dtpmv
+    module procedure :: mfi_ctpmv
+    module procedure :: mfi_ztpmv
 end interface
 interface mfi_tpsv
-    module procedure mfi_stpsv
-    module procedure mfi_dtpsv
-    module procedure mfi_ctpsv
-    module procedure mfi_ztpsv
+    module procedure :: mfi_stpsv
+    module procedure :: mfi_dtpsv
+    module procedure :: mfi_ctpsv
+    module procedure :: mfi_ztpsv
 end interface
 interface mfi_trmv
-    module procedure mfi_strmv
-    module procedure mfi_dtrmv
-    module procedure mfi_ctrmv
-    module procedure mfi_ztrmv
+    module procedure :: mfi_strmv
+    module procedure :: mfi_dtrmv
+    module procedure :: mfi_ctrmv
+    module procedure :: mfi_ztrmv
 end interface
 interface mfi_trsv
-    module procedure mfi_strsv
-    module procedure mfi_dtrsv
-    module procedure mfi_ctrsv
-    module procedure mfi_ztrsv
+    module procedure :: mfi_strsv
+    module procedure :: mfi_dtrsv
+    module procedure :: mfi_ctrsv
+    module procedure :: mfi_ztrsv
 end interface
-
-! BLAS level 3
 interface mfi_gemm
-    module procedure mfi_sgemm
-    module procedure mfi_dgemm
-    module procedure mfi_cgemm
-    module procedure mfi_zgemm
+    module procedure :: mfi_sgemm
+    module procedure :: mfi_dgemm
+    module procedure :: mfi_cgemm
+    module procedure :: mfi_zgemm
 end interface
 interface mfi_hemm
-    module procedure mfi_chemm
-    module procedure mfi_zhemm
+    module procedure :: mfi_chemm
+    module procedure :: mfi_zhemm
 end interface
 interface mfi_herk
-    module procedure mfi_cherk
-    module procedure mfi_zherk
+    module procedure :: mfi_cherk
+    module procedure :: mfi_zherk
 end interface
 interface mfi_her2k
-    module procedure mfi_cher2k
-    module procedure mfi_zher2k
+    module procedure :: mfi_cher2k
+    module procedure :: mfi_zher2k
 end interface
 interface mfi_symm
-    module procedure mfi_ssymm
-    module procedure mfi_dsymm
+    module procedure :: mfi_ssymm
+    module procedure :: mfi_dsymm
 end interface
 interface mfi_syrk
-    module procedure mfi_ssyrk
-    module procedure mfi_dsyrk
+    module procedure :: mfi_ssyrk
+    module procedure :: mfi_dsyrk
 end interface
 interface mfi_syr2k
-    module procedure mfi_ssyr2k
-    module procedure mfi_dsyr2k
+    module procedure :: mfi_ssyr2k
+    module procedure :: mfi_dsyr2k
 end interface
 interface mfi_trmm
-    module procedure mfi_strmm
-    module procedure mfi_dtrmm
-    module procedure mfi_ctrmm
-    module procedure mfi_ztrmm
+    module procedure :: mfi_strmm
+    module procedure :: mfi_dtrmm
+    module procedure :: mfi_ctrmm
+    module procedure :: mfi_ztrmm
 end interface
 interface mfi_trsm
-    module procedure mfi_strsm
-    module procedure mfi_dtrsm
-    module procedure mfi_ctrsm
-    module procedure mfi_ztrsm
+    module procedure :: mfi_strsm
+    module procedure :: mfi_dtrsm
+    module procedure :: mfi_ctrsm
+    module procedure :: mfi_ztrsm
+end interface
+interface mfi_lamch
+    module procedure :: mfi_slamch
+    module procedure :: mfi_dlamch
 end interface
 
 ! Extensions
 ! BLAS level 1 - Utils / Extensions
 interface mfi_iamax
-    module procedure mfi_isamax
-    module procedure mfi_idamax
-    module procedure mfi_icamax
-    module procedure mfi_izamax
+    module procedure :: mfi_isamax
+    module procedure :: mfi_idamax
+    module procedure :: mfi_icamax
+    module procedure :: mfi_izamax
 end interface
 interface mfi_iamin
-    module procedure mfi_isamin
-    module procedure mfi_idamin
-    module procedure mfi_icamin
-    module procedure mfi_izamin
-end interface
-interface mfi_lamch
-    module procedure mfi_slamch
-    module procedure mfi_dlamch
+    module procedure :: mfi_isamin
+    module procedure :: mfi_idamin
+    module procedure :: mfi_icamin
+    module procedure :: mfi_izamin
 end interface
 
 contains
 
-! BLAS level 1
-pure function mfi_snrm2(x, incx)
+
+pure subroutine mfi_scopy(x, y, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(inout) :: y(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
-    real(wp) :: mfi_snrm2
+    integer, intent(in), optional :: incy
+    integer :: local_incy
     integer :: n
     if (present(incx)) then
         local_incx = incx
     else
         local_incx = 1
     end if
-    n = size(x)
-    mfi_snrm2 = snrm2(n, x, local_incx)
-end function
-pure function mfi_dnrm2(x, incx)
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    call scopy(n,x,local_incx,y,local_incy)
+end subroutine
+pure subroutine mfi_dcopy(x, y, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(inout) :: y(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
-    real(wp) :: mfi_dnrm2
+    integer, intent(in), optional :: incy
+    integer :: local_incy
     integer :: n
     if (present(incx)) then
         local_incx = incx
     else
         local_incx = 1
     end if
-    n = size(x)
-    mfi_dnrm2 = dnrm2(n, x, local_incx)
-end function
-pure function mfi_scnrm2(x, incx)
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    call dcopy(n,x,local_incx,y,local_incy)
+end subroutine
+pure subroutine mfi_ccopy(x, y, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(inout) :: y(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
-    real(wp) :: mfi_scnrm2
+    integer, intent(in), optional :: incy
+    integer :: local_incy
     integer :: n
     if (present(incx)) then
         local_incx = incx
     else
         local_incx = 1
     end if
-    n = size(x)
-    mfi_scnrm2 = scnrm2(n, x, local_incx)
-end function
-pure function mfi_dznrm2(x, incx)
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    call ccopy(n,x,local_incx,y,local_incy)
+end subroutine
+pure subroutine mfi_zcopy(x, y, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(inout) :: y(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
-    real(wp) :: mfi_dznrm2
+    integer, intent(in), optional :: incy
+    integer :: local_incy
     integer :: n
     if (present(incx)) then
         local_incx = incx
     else
         local_incx = 1
     end if
-    n = size(x)
-    mfi_dznrm2 = dznrm2(n, x, local_incx)
-end function
-pure function mfi_sasum(x, incx)
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    call zcopy(n,x,local_incx,y,local_incy)
+end subroutine
+pure subroutine mfi_sswap(x, y, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(inout) :: y(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
-    real(wp) :: mfi_sasum
+    integer, intent(in), optional :: incy
+    integer :: local_incy
     integer :: n
     if (present(incx)) then
         local_incx = incx
     else
         local_incx = 1
     end if
-    n = size(x)
-    mfi_sasum = sasum(n, x, local_incx)
-end function
-pure function mfi_dasum(x, incx)
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    call sswap(n,x,local_incx,y,local_incy)
+end subroutine
+pure subroutine mfi_dswap(x, y, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(inout) :: y(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
-    real(wp) :: mfi_dasum
+    integer, intent(in), optional :: incy
+    integer :: local_incy
     integer :: n
     if (present(incx)) then
         local_incx = incx
     else
         local_incx = 1
     end if
-    n = size(x)
-    mfi_dasum = dasum(n, x, local_incx)
-end function
-pure function mfi_scasum(x, incx)
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    call dswap(n,x,local_incx,y,local_incy)
+end subroutine
+pure subroutine mfi_cswap(x, y, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(inout) :: y(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
-    real(wp) :: mfi_scasum
+    integer, intent(in), optional :: incy
+    integer :: local_incy
     integer :: n
     if (present(incx)) then
         local_incx = incx
     else
         local_incx = 1
     end if
-    n = size(x)
-    mfi_scasum = scasum(n, x, local_incx)
-end function
-pure function mfi_dzasum(x, incx)
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    call cswap(n,x,local_incx,y,local_incy)
+end subroutine
+pure subroutine mfi_zswap(x, y, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(inout) :: y(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
-    real(wp) :: mfi_dzasum
+    integer, intent(in), optional :: incy
+    integer :: local_incy
     integer :: n
     if (present(incx)) then
         local_incx = incx
     else
         local_incx = 1
     end if
-    n = size(x)
-    mfi_dzasum = dzasum(n, x, local_incx)
-end function
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    call zswap(n,x,local_incx,y,local_incy)
+end subroutine
 pure subroutine mfi_saxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: y(:)
-    real(wp), intent(in), optional :: a
-    real(wp) :: local_a
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(inout) :: y(:)
+    real(REAL32), intent(in), optional :: a
+    real(REAL32) :: local_a
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -405,10 +456,10 @@ pure subroutine mfi_saxpy(x, y, a, incx, incy)
 end subroutine
 pure subroutine mfi_daxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: y(:)
-    real(wp), intent(in), optional :: a
-    real(wp) :: local_a
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(inout) :: y(:)
+    real(REAL64), intent(in), optional :: a
+    real(REAL64) :: local_a
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -434,10 +485,10 @@ pure subroutine mfi_daxpy(x, y, a, incx, incy)
 end subroutine
 pure subroutine mfi_caxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: y(:)
-    complex(wp), intent(in), optional :: a
-    complex(wp) :: local_a
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(inout) :: y(:)
+    complex(REAL32), intent(in), optional :: a
+    complex(REAL32) :: local_a
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -463,10 +514,10 @@ pure subroutine mfi_caxpy(x, y, a, incx, incy)
 end subroutine
 pure subroutine mfi_zaxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: y(:)
-    complex(wp), intent(in), optional :: a
-    complex(wp) :: local_a
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(inout) :: y(:)
+    complex(REAL64), intent(in), optional :: a
+    complex(REAL64) :: local_a
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -490,99 +541,11 @@ pure subroutine mfi_zaxpy(x, y, a, incx, incy)
     N = size(X)
     call zaxpy(n,local_a,x,local_incx,y,local_incy)
 end subroutine
-pure subroutine mfi_scopy(x, y, incx, incy)
-    integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call scopy(n,x,local_incx,y,local_incy)
-end subroutine
-pure subroutine mfi_dcopy(x, y, incx, incy)
-    integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call dcopy(n,x,local_incx,y,local_incy)
-end subroutine
-pure subroutine mfi_ccopy(x, y, incx, incy)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call ccopy(n,x,local_incx,y,local_incy)
-end subroutine
-pure subroutine mfi_zcopy(x, y, incx, incy)
-    integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call zcopy(n,x,local_incx,y,local_incy)
-end subroutine
 pure function mfi_sdot(x, y, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp) :: mfi_sdot
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: y(:)
+    real(REAL32) :: mfi_sdot
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(in) :: y(:)
     integer :: n
     integer, intent(in), optional :: incx
     integer :: local_incx
@@ -603,9 +566,9 @@ pure function mfi_sdot(x, y, incx, incy)
 end function
 pure function mfi_ddot(x, y, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp) :: mfi_ddot
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: y(:)
+    real(REAL64) :: mfi_ddot
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(in) :: y(:)
     integer :: n
     integer, intent(in), optional :: incx
     integer :: local_incx
@@ -624,57 +587,11 @@ pure function mfi_ddot(x, y, incx, incy)
     N = size(X)
     mfi_ddot = ddot(n,x,local_incx,y,local_incy)
 end function
-pure function mfi_cdotu(x, y, incx, incy)
-    integer, parameter :: wp = REAL32
-    complex(wp) :: mfi_cdotu
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
-    integer :: n
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    mfi_cdotu = cdotu(n,x,local_incx,y,local_incy)
-end function
-pure function mfi_zdotu(x, y, incx, incy)
-    integer, parameter :: wp = REAL64
-    complex(wp) :: mfi_zdotu
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
-    integer :: n
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    mfi_zdotu = zdotu(n,x,local_incx,y,local_incy)
-end function
 pure function mfi_cdotc(x, y, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp) :: mfi_cdotc
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
+    complex(REAL32) :: mfi_cdotc
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: y(:)
     integer :: n
     integer, intent(in), optional :: incx
     integer :: local_incx
@@ -695,9 +612,9 @@ pure function mfi_cdotc(x, y, incx, incy)
 end function
 pure function mfi_zdotc(x, y, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp) :: mfi_zdotc
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
+    complex(REAL64) :: mfi_zdotc
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: y(:)
     integer :: n
     integer, intent(in), optional :: incx
     integer :: local_incx
@@ -716,6 +633,164 @@ pure function mfi_zdotc(x, y, incx, incy)
     N = size(X)
     mfi_zdotc = zdotc(n,x,local_incx,y,local_incy)
 end function
+pure function mfi_cdotu(x, y, incx, incy)
+    integer, parameter :: wp = REAL32
+    complex(REAL32) :: mfi_cdotu
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: y(:)
+    integer :: n
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer, intent(in), optional :: incy
+    integer :: local_incy
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    mfi_cdotu = cdotu(n,x,local_incx,y,local_incy)
+end function
+pure function mfi_zdotu(x, y, incx, incy)
+    integer, parameter :: wp = REAL64
+    complex(REAL64) :: mfi_zdotu
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: y(:)
+    integer :: n
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer, intent(in), optional :: incy
+    integer :: local_incy
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    if (present(incy)) then
+        local_incy = incy
+    else
+        local_incy = 1
+    end if
+    N = size(X)
+    mfi_zdotu = zdotu(n,x,local_incx,y,local_incy)
+end function
+pure function mfi_sasum(x, incx)
+    real(REAL32) :: mfi_sasum
+    real(REAL32), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_sasum = sasum(n, x, local_incx)
+end function
+pure function mfi_dasum(x, incx)
+    real(REAL64) :: mfi_dasum
+    real(REAL64), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_dasum = dasum(n, x, local_incx)
+end function
+pure function mfi_scasum(x, incx)
+    real(REAL32) :: mfi_scasum
+    complex(REAL32), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_scasum = scasum(n, x, local_incx)
+end function
+pure function mfi_dzasum(x, incx)
+    real(REAL64) :: mfi_dzasum
+    complex(REAL64), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_dzasum = dzasum(n, x, local_incx)
+end function
+pure function mfi_snrm2(x, incx)
+    real(REAL32) :: mfi_snrm2
+    real(REAL32), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_snrm2 = snrm2(n, x, local_incx)
+end function
+pure function mfi_dnrm2(x, incx)
+    real(REAL64) :: mfi_dnrm2
+    real(REAL64), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_dnrm2 = dnrm2(n, x, local_incx)
+end function
+pure function mfi_scnrm2(x, incx)
+    real(REAL32) :: mfi_scnrm2
+    complex(REAL32), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_scnrm2 = scnrm2(n, x, local_incx)
+end function
+pure function mfi_dznrm2(x, incx)
+    real(REAL64) :: mfi_dznrm2
+    complex(REAL64), intent(in) :: x(:)
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    n = size(x)
+    mfi_dznrm2 = dznrm2(n, x, local_incx)
+end function
 !> Given two vectors x and y,
 !> each vector element of these vectors is replaced as follows:
 !>```fortran
@@ -724,10 +799,10 @@ end function
 !>```
 pure subroutine mfi_srot(x, y, c, s, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: x(:)
-    real(wp), intent(inout) :: y(:)
-    real(wp), intent(in) :: c
-    real(wp), intent(in) :: s
+    real(REAL32), intent(inout) :: x(:)
+    real(REAL32), intent(inout) :: y(:)
+    real(REAL32), intent(in) :: c
+    real(REAL32), intent(in) :: s
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -754,10 +829,10 @@ end subroutine
 !>```
 pure subroutine mfi_drot(x, y, c, s, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: x(:)
-    real(wp), intent(inout) :: y(:)
-    real(wp), intent(in) :: c
-    real(wp), intent(in) :: s
+    real(REAL64), intent(inout) :: x(:)
+    real(REAL64), intent(inout) :: y(:)
+    real(REAL64), intent(in) :: c
+    real(REAL64), intent(in) :: s
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -784,10 +859,10 @@ end subroutine
 !>```
 pure subroutine mfi_crot(x, y, c, s, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: x(:)
-    complex(wp), intent(inout) :: y(:)
-    real(wp), intent(in) :: c
-    complex(wp), intent(in) :: s
+    complex(REAL32), intent(inout) :: x(:)
+    complex(REAL32), intent(inout) :: y(:)
+    real(REAL32), intent(in) :: c
+    complex(REAL32), intent(in) :: s
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -814,10 +889,10 @@ end subroutine
 !>```
 pure subroutine mfi_zrot(x, y, c, s, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: x(:)
-    complex(wp), intent(inout) :: y(:)
-    real(wp), intent(in) :: c
-    complex(wp), intent(in) :: s
+    complex(REAL64), intent(inout) :: x(:)
+    complex(REAL64), intent(inout) :: y(:)
+    real(REAL64), intent(in) :: c
+    complex(REAL64), intent(in) :: s
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -844,10 +919,10 @@ end subroutine
 !>```
 pure subroutine mfi_csrot(x, y, c, s, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: x(:)
-    complex(wp), intent(inout) :: y(:)
-    real(wp), intent(in) :: c
-    real(wp), intent(in) :: s
+    complex(REAL32), intent(inout) :: x(:)
+    complex(REAL32), intent(inout) :: y(:)
+    real(REAL32), intent(in) :: c
+    real(REAL32), intent(in) :: s
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -874,10 +949,10 @@ end subroutine
 !>```
 pure subroutine mfi_zdrot(x, y, c, s, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: x(:)
-    complex(wp), intent(inout) :: y(:)
-    real(wp), intent(in) :: c
-    real(wp), intent(in) :: s
+    complex(REAL64), intent(inout) :: x(:)
+    complex(REAL64), intent(inout) :: y(:)
+    real(REAL64), intent(in) :: c
+    real(REAL64), intent(in) :: s
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -898,9 +973,9 @@ pure subroutine mfi_zdrot(x, y, c, s, incx, incy)
 end subroutine
 pure subroutine mfi_srotm(x, y, param, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: x(:)
-    real(wp), intent(inout) :: y(:)
-    real(wp), intent(in) :: param(5)
+    real(REAL32), intent(inout) :: x(:)
+    real(REAL32), intent(inout) :: y(:)
+    real(REAL32), intent(in) :: param(5)
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -921,9 +996,9 @@ pure subroutine mfi_srotm(x, y, param, incx, incy)
 end subroutine
 pure subroutine mfi_drotm(x, y, param, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: x(:)
-    real(wp), intent(inout) :: y(:)
-    real(wp), intent(in) :: param(5)
+    real(REAL64), intent(inout) :: x(:)
+    real(REAL64), intent(inout) :: y(:)
+    real(REAL64), intent(in) :: param(5)
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -943,10 +1018,9 @@ pure subroutine mfi_drotm(x, y, param, incx, incy)
     call drotm(n,x,local_incx,y,local_incy,param)
 end subroutine
 !> MFI_SSCAL scales a vector by a constant.
-pure subroutine mfi_sscal(x, a, incx)
-    integer, parameter :: wp = REAL32
-    real(wp), intent(inout) :: x(:)
-    real(wp), intent(in) :: a
+pure subroutine mfi_sscal(a, x, incx)
+    real(REAL32), intent(inout) :: x(:)
+    real(REAL32), intent(in) :: a
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -959,10 +1033,9 @@ pure subroutine mfi_sscal(x, a, incx)
     call sscal(n,a,x,local_incx)
 end subroutine
 !> MFI_DSCAL scales a vector by a constant.
-pure subroutine mfi_dscal(x, a, incx)
-    integer, parameter :: wp = REAL64
-    real(wp), intent(inout) :: x(:)
-    real(wp), intent(in) :: a
+pure subroutine mfi_dscal(a, x, incx)
+    real(REAL64), intent(inout) :: x(:)
+    real(REAL64), intent(in) :: a
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -975,10 +1048,9 @@ pure subroutine mfi_dscal(x, a, incx)
     call dscal(n,a,x,local_incx)
 end subroutine
 !> MFI_CSCAL scales a vector by a constant.
-pure subroutine mfi_cscal(x, a, incx)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: x(:)
-    complex(wp), intent(in) :: a
+pure subroutine mfi_cscal(a, x, incx)
+    complex(REAL32), intent(inout) :: x(:)
+    complex(REAL32), intent(in) :: a
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -991,10 +1063,9 @@ pure subroutine mfi_cscal(x, a, incx)
     call cscal(n,a,x,local_incx)
 end subroutine
 !> MFI_ZSCAL scales a vector by a constant.
-pure subroutine mfi_zscal(x, a, incx)
-    integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: x(:)
-    complex(wp), intent(in) :: a
+pure subroutine mfi_zscal(a, x, incx)
+    complex(REAL64), intent(inout) :: x(:)
+    complex(REAL64), intent(in) :: a
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -1007,10 +1078,9 @@ pure subroutine mfi_zscal(x, a, incx)
     call zscal(n,a,x,local_incx)
 end subroutine
 !> MFI_CSSCAL scales a vector by a constant.
-pure subroutine mfi_csscal(x, a, incx)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(inout) :: x(:)
-    real(wp), intent(in) :: a
+pure subroutine mfi_csscal(a, x, incx)
+    complex(REAL32), intent(inout) :: x(:)
+    real(REAL32), intent(in) :: a
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -1023,10 +1093,9 @@ pure subroutine mfi_csscal(x, a, incx)
     call csscal(n,a,x,local_incx)
 end subroutine
 !> MFI_ZDSCAL scales a vector by a constant.
-pure subroutine mfi_zdscal(x, a, incx)
-    integer, parameter :: wp = REAL64
-    complex(wp), intent(inout) :: x(:)
-    real(wp), intent(in) :: a
+pure subroutine mfi_zdscal(a, x, incx)
+    complex(REAL64), intent(inout) :: x(:)
+    real(REAL64), intent(in) :: a
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -1038,107 +1107,17 @@ pure subroutine mfi_zdscal(x, a, incx)
     n = size(x)
     call zdscal(n,a,x,local_incx)
 end subroutine
-pure subroutine mfi_sswap(x, y, incx, incy)
-    integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call sswap(n,x,local_incx,y,local_incy)
-end subroutine
-pure subroutine mfi_dswap(x, y, incx, incy)
-    integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call dswap(n,x,local_incx,y,local_incy)
-end subroutine
-pure subroutine mfi_cswap(x, y, incx, incy)
-    integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call cswap(n,x,local_incx,y,local_incy)
-end subroutine
-pure subroutine mfi_zswap(x, y, incx, incy)
-    integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call zswap(n,x,local_incx,y,local_incy)
-end subroutine
-
-! BLAS level 2
 pure subroutine mfi_sgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: y(:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(inout) :: y(:)
     character, intent(in), optional :: trans
     character :: local_trans
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
+    real(REAL32), intent(in), optional :: beta
+    real(REAL32) :: local_beta
     integer, intent(in), optional :: kl
     integer :: local_kl
     integer, intent(in), optional :: m
@@ -1190,15 +1169,15 @@ pure subroutine mfi_sgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
 end subroutine
 pure subroutine mfi_dgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: y(:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(inout) :: y(:)
     character, intent(in), optional :: trans
     character :: local_trans
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
+    real(REAL64), intent(in), optional :: beta
+    real(REAL64) :: local_beta
     integer, intent(in), optional :: kl
     integer :: local_kl
     integer, intent(in), optional :: m
@@ -1250,15 +1229,15 @@ pure subroutine mfi_dgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
 end subroutine
 pure subroutine mfi_cgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: y(:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(inout) :: y(:)
     character, intent(in), optional :: trans
     character :: local_trans
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
+    complex(REAL32), intent(in), optional :: beta
+    complex(REAL32) :: local_beta
     integer, intent(in), optional :: kl
     integer :: local_kl
     integer, intent(in), optional :: m
@@ -1310,15 +1289,15 @@ pure subroutine mfi_cgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
 end subroutine
 pure subroutine mfi_zgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: y(:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(inout) :: y(:)
     character, intent(in), optional :: trans
     character :: local_trans
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
+    complex(REAL64), intent(in), optional :: beta
+    complex(REAL64) :: local_beta
     integer, intent(in), optional :: kl
     integer :: local_kl
     integer, intent(in), optional :: m
@@ -1370,15 +1349,15 @@ pure subroutine mfi_zgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
 end subroutine
 pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: y(:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(inout) :: y(:)
     character, intent(in), optional :: trans
     character :: local_trans
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
+    real(REAL32), intent(in), optional :: beta
+    real(REAL32) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1416,15 +1395,15 @@ pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: y(:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(inout) :: y(:)
     character, intent(in), optional :: trans
     character :: local_trans
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
+    real(REAL64), intent(in), optional :: beta
+    real(REAL64) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1462,15 +1441,15 @@ pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: y(:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(inout) :: y(:)
     character, intent(in), optional :: trans
     character :: local_trans
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
+    complex(REAL32), intent(in), optional :: beta
+    complex(REAL32) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1508,15 +1487,15 @@ pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: y(:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(inout) :: y(:)
     character, intent(in), optional :: trans
     character :: local_trans
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
+    complex(REAL64), intent(in), optional :: beta
+    complex(REAL64) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1554,11 +1533,11 @@ pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_sger(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: y(:)
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(in) :: y(:)
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1586,11 +1565,11 @@ pure subroutine mfi_sger(a, x, y, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_dger(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: y(:)
-    real(wp), intent(inout) :: a(:,:)
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(in) :: y(:)
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1618,11 +1597,11 @@ pure subroutine mfi_dger(a, x, y, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_cgerc(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: y(:)
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1650,11 +1629,11 @@ pure subroutine mfi_cgerc(a, x, y, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_zgerc(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: y(:)
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1682,11 +1661,11 @@ pure subroutine mfi_zgerc(a, x, y, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_cgeru(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: y(:)
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1714,11 +1693,11 @@ pure subroutine mfi_cgeru(a, x, y, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_zgeru(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
-    complex(wp), intent(inout) :: a(:,:)
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: y(:)
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1746,15 +1725,15 @@ pure subroutine mfi_zgeru(a, x, y, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_chbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: y(:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
+    complex(REAL32), intent(in), optional :: beta
+    complex(REAL32) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1792,15 +1771,15 @@ pure subroutine mfi_chbmv(a, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_zhbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: y(:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
+    complex(REAL64), intent(in), optional :: beta
+    complex(REAL64) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1838,15 +1817,15 @@ pure subroutine mfi_zhbmv(a, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_chemv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: y(:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
+    complex(REAL32), intent(in), optional :: beta
+    complex(REAL32) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1883,15 +1862,15 @@ pure subroutine mfi_chemv(a, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_zhemv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: y(:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
+    complex(REAL64), intent(in), optional :: beta
+    complex(REAL64) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -1928,8 +1907,8 @@ pure subroutine mfi_zhemv(a, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_cher(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     real(wp), intent(in), optional :: alpha
@@ -1958,8 +1937,8 @@ pure subroutine mfi_cher(a, x, uplo, alpha, incx)
 end subroutine
 pure subroutine mfi_zher(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     real(wp), intent(in), optional :: alpha
@@ -1988,13 +1967,13 @@ pure subroutine mfi_zher(a, x, uplo, alpha, incx)
 end subroutine
 pure subroutine mfi_cher2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: y(:)
+    complex(REAL32), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2026,13 +2005,13 @@ pure subroutine mfi_cher2(a, x, y, uplo, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_zher2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
-    complex(wp), intent(inout) :: a(:,:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: y(:)
+    complex(REAL64), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2064,15 +2043,15 @@ pure subroutine mfi_zher2(a, x, y, uplo, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_chpmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: ap(:)
-    complex(wp), intent(inout) :: y(:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: ap(:)
+    complex(REAL32), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
+    complex(REAL32), intent(in), optional :: beta
+    complex(REAL32) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2108,15 +2087,15 @@ pure subroutine mfi_chpmv(ap, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_zhpmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: ap(:)
-    complex(wp), intent(inout) :: y(:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: ap(:)
+    complex(REAL64), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
+    complex(REAL64), intent(in), optional :: beta
+    complex(REAL64) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2152,8 +2131,8 @@ pure subroutine mfi_zhpmv(ap, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_chpr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: ap(:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(inout) :: ap(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     real(wp), intent(in), optional :: alpha
@@ -2181,8 +2160,8 @@ pure subroutine mfi_chpr(ap, x, uplo, alpha, incx)
 end subroutine
 pure subroutine mfi_zhpr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(inout) :: ap(:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(inout) :: ap(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     real(wp), intent(in), optional :: alpha
@@ -2210,13 +2189,13 @@ pure subroutine mfi_zhpr(ap, x, uplo, alpha, incx)
 end subroutine
 pure subroutine mfi_chpr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
-    complex(wp), intent(inout) :: ap(:)
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: y(:)
+    complex(REAL32), intent(inout) :: ap(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2247,13 +2226,13 @@ pure subroutine mfi_chpr2(ap, x, y, uplo, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_zhpr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: x(:)
-    complex(wp), intent(in) :: y(:)
-    complex(wp), intent(inout) :: ap(:)
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: y(:)
+    complex(REAL64), intent(inout) :: ap(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2284,15 +2263,15 @@ pure subroutine mfi_zhpr2(ap, x, y, uplo, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_ssbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: y(:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
+    real(REAL32), intent(in), optional :: beta
+    real(REAL32) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2330,15 +2309,15 @@ pure subroutine mfi_ssbmv(a, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_dsbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: y(:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
+    real(REAL64), intent(in), optional :: beta
+    real(REAL64) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2376,15 +2355,15 @@ pure subroutine mfi_dsbmv(a, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_sspmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: ap(:)
-    real(wp), intent(inout) :: y(:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(in) :: ap(:)
+    real(REAL32), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
+    real(REAL32), intent(in), optional :: beta
+    real(REAL32) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2420,15 +2399,15 @@ pure subroutine mfi_sspmv(ap, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_dspmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: ap(:)
-    real(wp), intent(inout) :: y(:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(in) :: ap(:)
+    real(REAL64), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
+    real(REAL64), intent(in), optional :: beta
+    real(REAL64) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2464,12 +2443,12 @@ pure subroutine mfi_dspmv(ap, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_sspr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: ap(:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(inout) :: ap(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -2493,12 +2472,12 @@ pure subroutine mfi_sspr(ap, x, uplo, alpha, incx)
 end subroutine
 pure subroutine mfi_dspr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: ap(:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(inout) :: ap(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -2522,13 +2501,13 @@ pure subroutine mfi_dspr(ap, x, uplo, alpha, incx)
 end subroutine
 pure subroutine mfi_sspr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: y(:)
-    real(wp), intent(inout) :: ap(:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(in) :: y(:)
+    real(REAL32), intent(inout) :: ap(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2559,13 +2538,13 @@ pure subroutine mfi_sspr2(ap, x, y, uplo, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_dspr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: y(:)
-    real(wp), intent(inout) :: ap(:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(in) :: y(:)
+    real(REAL64), intent(inout) :: ap(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2596,15 +2575,15 @@ pure subroutine mfi_dspr2(ap, x, y, uplo, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_ssymv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: y(:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
+    real(REAL32), intent(in), optional :: beta
+    real(REAL32) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2641,15 +2620,15 @@ pure subroutine mfi_ssymv(a, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_dsymv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: y(:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: y(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
+    real(REAL64), intent(in), optional :: beta
+    real(REAL64) :: local_beta
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2686,12 +2665,12 @@ pure subroutine mfi_dsymv(a, x, y, uplo, alpha, beta, incx, incy)
 end subroutine
 pure subroutine mfi_ssyr(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n, lda
@@ -2716,12 +2695,12 @@ pure subroutine mfi_ssyr(a, x, uplo, alpha, incx)
 end subroutine
 pure subroutine mfi_dsyr(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n, lda
@@ -2746,13 +2725,13 @@ pure subroutine mfi_dsyr(a, x, uplo, alpha, incx)
 end subroutine
 pure subroutine mfi_ssyr2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: y(:)
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL32), intent(in) :: x(:)
+    real(REAL32), intent(in) :: y(:)
+    real(REAL32), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2784,13 +2763,13 @@ pure subroutine mfi_ssyr2(a, x, y, uplo, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_dsyr2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: x(:)
-    real(wp), intent(in) :: y(:)
-    real(wp), intent(inout) :: a(:,:)
+    real(REAL64), intent(in) :: x(:)
+    real(REAL64), intent(in) :: y(:)
+    real(REAL64), intent(inout) :: a(:,:)
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer, intent(in), optional :: incy
@@ -2822,8 +2801,8 @@ pure subroutine mfi_dsyr2(a, x, y, uplo, alpha, incx, incy)
 end subroutine
 pure subroutine mfi_stbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -2860,8 +2839,8 @@ pure subroutine mfi_stbmv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_dtbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -2898,8 +2877,8 @@ pure subroutine mfi_dtbmv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ctbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -2936,8 +2915,8 @@ pure subroutine mfi_ctbmv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ztbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -2974,8 +2953,8 @@ pure subroutine mfi_ztbmv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_stbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3012,8 +2991,8 @@ pure subroutine mfi_stbsv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_dtbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3050,8 +3029,8 @@ pure subroutine mfi_dtbsv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ctbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3088,8 +3067,8 @@ pure subroutine mfi_ctbsv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ztbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3126,8 +3105,8 @@ pure subroutine mfi_ztbsv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_stpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: ap(:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL32), intent(in) :: ap(:)
+    real(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3162,8 +3141,8 @@ pure subroutine mfi_stpmv(ap, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_dtpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: ap(:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL64), intent(in) :: ap(:)
+    real(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3198,8 +3177,8 @@ pure subroutine mfi_dtpmv(ap, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ctpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: ap(:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL32), intent(in) :: ap(:)
+    complex(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3234,8 +3213,8 @@ pure subroutine mfi_ctpmv(ap, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ztpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: ap(:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL64), intent(in) :: ap(:)
+    complex(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3270,8 +3249,8 @@ pure subroutine mfi_ztpmv(ap, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_stpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: ap(:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL32), intent(in) :: ap(:)
+    real(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3306,8 +3285,8 @@ pure subroutine mfi_stpsv(ap, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_dtpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: ap(:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL64), intent(in) :: ap(:)
+    real(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3342,8 +3321,8 @@ pure subroutine mfi_dtpsv(ap, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ctpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: ap(:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL32), intent(in) :: ap(:)
+    complex(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3378,8 +3357,8 @@ pure subroutine mfi_ctpsv(ap, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ztpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: ap(:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL64), intent(in) :: ap(:)
+    complex(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3414,8 +3393,8 @@ pure subroutine mfi_ztpsv(ap, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_strmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3451,8 +3430,8 @@ pure subroutine mfi_strmv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_dtrmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3488,8 +3467,8 @@ pure subroutine mfi_dtrmv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ctrmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3525,8 +3504,8 @@ pure subroutine mfi_ctrmv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ztrmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3562,8 +3541,8 @@ pure subroutine mfi_ztrmv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_strsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3599,8 +3578,8 @@ pure subroutine mfi_strsv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_dtrsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: x(:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3636,8 +3615,8 @@ pure subroutine mfi_dtrsv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ctrsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3673,8 +3652,8 @@ pure subroutine mfi_ctrsv(a, x, uplo, trans, diag, incx)
 end subroutine
 pure subroutine mfi_ztrsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: x(:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: x(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
     character, intent(in), optional :: trans
@@ -3708,21 +3687,19 @@ pure subroutine mfi_ztrsv(a, x, uplo, trans, diag, incx)
     n = size(a,2)
     call ztrsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
-
-! BLAS level 3
 pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(in) :: b(:,:)
-    real(wp), intent(inout) :: c(:,:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(in) :: b(:,:)
+    real(REAL32), intent(inout) :: c(:,:)
     character, intent(in), optional :: transa
     character :: local_transa
     character, intent(in), optional :: transb
     character :: local_transb
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
+    real(REAL32), intent(in), optional :: beta
+    real(REAL32) :: local_beta
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -3758,17 +3735,17 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
 end subroutine
 pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(in) :: b(:,:)
-    real(wp), intent(inout) :: c(:,:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(in) :: b(:,:)
+    real(REAL64), intent(inout) :: c(:,:)
     character, intent(in), optional :: transa
     character :: local_transa
     character, intent(in), optional :: transb
     character :: local_transb
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
+    real(REAL64), intent(in), optional :: beta
+    real(REAL64) :: local_beta
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -3804,17 +3781,17 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
 end subroutine
 pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(in) :: b(:,:)
-    complex(wp), intent(inout) :: c(:,:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(in) :: b(:,:)
+    complex(REAL32), intent(inout) :: c(:,:)
     character, intent(in), optional :: transa
     character :: local_transa
     character, intent(in), optional :: transb
     character :: local_transb
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
+    complex(REAL32), intent(in), optional :: beta
+    complex(REAL32) :: local_beta
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -3850,17 +3827,17 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
 end subroutine
 pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(in) :: b(:,:)
-    complex(wp), intent(inout) :: c(:,:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(in) :: b(:,:)
+    complex(REAL64), intent(inout) :: c(:,:)
     character, intent(in), optional :: transa
     character :: local_transa
     character, intent(in), optional :: transb
     character :: local_transb
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
+    complex(REAL64), intent(in), optional :: beta
+    complex(REAL64) :: local_beta
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -3896,17 +3873,17 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
 end subroutine
 pure subroutine mfi_chemm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(in) :: b(:,:)
-    complex(wp), intent(inout) :: c(:,:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(in) :: b(:,:)
+    complex(REAL32), intent(inout) :: c(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
+    complex(REAL32), intent(in), optional :: beta
+    complex(REAL32) :: local_beta
     integer :: m, n, lda, ldb, ldc
     if (present(side)) then
         local_side = side
@@ -3937,17 +3914,17 @@ pure subroutine mfi_chemm(a, b, c, side, uplo, alpha, beta)
 end subroutine
 pure subroutine mfi_zhemm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(in) :: b(:,:)
-    complex(wp), intent(inout) :: c(:,:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(in) :: b(:,:)
+    complex(REAL64), intent(inout) :: c(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
-    complex(wp), intent(in), optional :: beta
-    complex(wp) :: local_beta
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
+    complex(REAL64), intent(in), optional :: beta
+    complex(REAL64) :: local_beta
     integer :: m, n, lda, ldb, ldc
     if (present(side)) then
         local_side = side
@@ -3978,8 +3955,8 @@ pure subroutine mfi_zhemm(a, b, c, side, uplo, alpha, beta)
 end subroutine
 pure subroutine mfi_cherk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: c(:,:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: c(:,:)
     character, intent(in), optional :: trans
     character :: local_trans
     character, intent(in), optional :: uplo
@@ -4021,8 +3998,8 @@ pure subroutine mfi_cherk(a, c, uplo, trans, alpha, beta)
 end subroutine
 pure subroutine mfi_zherk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: c(:,:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: c(:,:)
     character, intent(in), optional :: trans
     character :: local_trans
     character, intent(in), optional :: uplo
@@ -4064,15 +4041,15 @@ pure subroutine mfi_zherk(a, c, uplo, trans, alpha, beta)
 end subroutine
 pure subroutine mfi_cher2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(in) :: b(:,:)
-    complex(wp), intent(inout) :: c(:,:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(in) :: b(:,:)
+    complex(REAL32), intent(inout) :: c(:,:)
     character, intent(in), optional :: trans
     character :: local_trans
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
     real(wp), intent(in), optional :: beta
     real(wp) :: local_beta
     integer :: n, k, lda, ldb, ldc
@@ -4109,15 +4086,15 @@ pure subroutine mfi_cher2k(a, b, c, uplo, trans, alpha, beta)
 end subroutine
 pure subroutine mfi_zher2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(in) :: b(:,:)
-    complex(wp), intent(inout) :: c(:,:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(in) :: b(:,:)
+    complex(REAL64), intent(inout) :: c(:,:)
     character, intent(in), optional :: trans
     character :: local_trans
     character, intent(in), optional :: uplo
     character :: local_uplo
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
     real(wp), intent(in), optional :: beta
     real(wp) :: local_beta
     integer :: n, k, lda, ldb, ldc
@@ -4154,17 +4131,17 @@ pure subroutine mfi_zher2k(a, b, c, uplo, trans, alpha, beta)
 end subroutine
 pure subroutine mfi_ssymm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(in) :: b(:,:)
-    real(wp), intent(inout) :: c(:,:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(in) :: b(:,:)
+    real(REAL32), intent(inout) :: c(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
+    real(REAL32), intent(in), optional :: beta
+    real(REAL32) :: local_beta
     integer :: m, n, lda, ldb, ldc
     if (present(side)) then
         local_side = side
@@ -4195,17 +4172,17 @@ pure subroutine mfi_ssymm(a, b, c, side, uplo, alpha, beta)
 end subroutine
 pure subroutine mfi_dsymm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(in) :: b(:,:)
-    real(wp), intent(inout) :: c(:,:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(in) :: b(:,:)
+    real(REAL64), intent(inout) :: c(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
+    real(REAL64), intent(in), optional :: beta
+    real(REAL64) :: local_beta
     integer :: m, n, lda, ldb, ldc
     if (present(side)) then
         local_side = side
@@ -4236,16 +4213,16 @@ pure subroutine mfi_dsymm(a, b, c, side, uplo, alpha, beta)
 end subroutine
 pure subroutine mfi_ssyrk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: c(:,:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: c(:,:)
     character, intent(in), optional :: trans
     character :: local_trans
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
+    real(REAL32), intent(in), optional :: beta
+    real(REAL32) :: local_beta
     integer :: n, k, lda, ldc
     if (present(trans)) then
         local_trans = trans
@@ -4279,16 +4256,16 @@ pure subroutine mfi_ssyrk(a, c, uplo, trans, alpha, beta)
 end subroutine
 pure subroutine mfi_dsyrk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: c(:,:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: c(:,:)
     character, intent(in), optional :: trans
     character :: local_trans
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
+    real(REAL64), intent(in), optional :: beta
+    real(REAL64) :: local_beta
     integer :: n, k, lda, ldc
     if (present(trans)) then
         local_trans = trans
@@ -4322,17 +4299,17 @@ pure subroutine mfi_dsyrk(a, c, uplo, trans, alpha, beta)
 end subroutine
 pure subroutine mfi_ssyr2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(in) :: b(:,:)
-    real(wp), intent(inout) :: c(:,:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(in) :: b(:,:)
+    real(REAL32), intent(inout) :: c(:,:)
     character, intent(in), optional :: trans
     character :: local_trans
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
+    real(REAL32), intent(in), optional :: beta
+    real(REAL32) :: local_beta
     integer :: n, k, lda, ldb, ldc
     if (present(trans)) then
         local_trans = trans
@@ -4367,17 +4344,17 @@ pure subroutine mfi_ssyr2k(a, b, c, uplo, trans, alpha, beta)
 end subroutine
 pure subroutine mfi_dsyr2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(in) :: b(:,:)
-    real(wp), intent(inout) :: c(:,:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(in) :: b(:,:)
+    real(REAL64), intent(inout) :: c(:,:)
     character, intent(in), optional :: trans
     character :: local_trans
     character, intent(in), optional :: uplo
     character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
+    real(REAL64), intent(in), optional :: beta
+    real(REAL64) :: local_beta
     integer :: n, k, lda, ldb, ldc
     if (present(trans)) then
         local_trans = trans
@@ -4412,8 +4389,8 @@ pure subroutine mfi_dsyr2k(a, b, c, uplo, trans, alpha, beta)
 end subroutine
 pure subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: b(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
@@ -4422,8 +4399,8 @@ pure subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
     character :: local_transa
     character, intent(in), optional :: diag
     character :: local_diag
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
     integer :: m, n, lda, ldb
     if (present(side)) then
         local_side = side
@@ -4458,8 +4435,8 @@ pure subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 pure subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: b(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
@@ -4468,8 +4445,8 @@ pure subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
     character :: local_transa
     character, intent(in), optional :: diag
     character :: local_diag
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
     integer :: m, n, lda, ldb
     if (present(side)) then
         local_side = side
@@ -4504,8 +4481,8 @@ pure subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 pure subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: b(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
@@ -4514,8 +4491,8 @@ pure subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
     character :: local_transa
     character, intent(in), optional :: diag
     character :: local_diag
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
     integer :: m, n, lda, ldb
     if (present(side)) then
         local_side = side
@@ -4550,8 +4527,8 @@ pure subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 pure subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: b(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
@@ -4560,8 +4537,8 @@ pure subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
     character :: local_transa
     character, intent(in), optional :: diag
     character :: local_diag
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
     integer :: m, n, lda, ldb
     if (present(side)) then
         local_side = side
@@ -4596,8 +4573,8 @@ pure subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 pure subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: b(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
@@ -4606,8 +4583,8 @@ pure subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
     character :: local_transa
     character, intent(in), optional :: diag
     character :: local_diag
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL32), intent(in), optional :: alpha
+    real(REAL32) :: local_alpha
     integer :: m, n, lda, ldb
     if (present(side)) then
         local_side = side
@@ -4642,8 +4619,8 @@ pure subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 pure subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
-    real(wp), intent(in) :: a(:,:)
-    real(wp), intent(inout) :: b(:,:)
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: b(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
@@ -4652,8 +4629,8 @@ pure subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
     character :: local_transa
     character, intent(in), optional :: diag
     character :: local_diag
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
+    real(REAL64), intent(in), optional :: alpha
+    real(REAL64) :: local_alpha
     integer :: m, n, lda, ldb
     if (present(side)) then
         local_side = side
@@ -4688,8 +4665,8 @@ pure subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 pure subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: b(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
@@ -4698,8 +4675,8 @@ pure subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
     character :: local_transa
     character, intent(in), optional :: diag
     character :: local_diag
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL32), intent(in), optional :: alpha
+    complex(REAL32) :: local_alpha
     integer :: m, n, lda, ldb
     if (present(side)) then
         local_side = side
@@ -4734,8 +4711,8 @@ pure subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
-    complex(wp), intent(in) :: a(:,:)
-    complex(wp), intent(inout) :: b(:,:)
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: b(:,:)
     character, intent(in), optional :: side
     character :: local_side
     character, intent(in), optional :: uplo
@@ -4744,8 +4721,8 @@ pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
     character :: local_transa
     character, intent(in), optional :: diag
     character :: local_diag
-    complex(wp), intent(in), optional :: alpha
-    complex(wp) :: local_alpha
+    complex(REAL64), intent(in), optional :: alpha
+    complex(REAL64) :: local_alpha
     integer :: m, n, lda, ldb
     if (present(side)) then
         local_side = side
@@ -4778,13 +4755,29 @@ pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
     ldb = max(1,size(b,1))
     call ztrsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
+pure function mfi_slamch(cmach, kind) result(res)
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: cmach
+    real(REAL32), intent(in) :: kind
+    !! Just a kind placeholder
+    real(REAL32) :: res
+    res = slamch(cmach)
+end function
+pure function mfi_dlamch(cmach, kind) result(res)
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: cmach
+    real(REAL64), intent(in) :: kind
+    !! Just a kind placeholder
+    real(REAL64) :: res
+    res = dlamch(cmach)
+end function
 
 ! Extensions
 ! BLAS level 1 - Utils / Extensions
 pure function mfi_isamax(x, incx)
     integer, parameter :: wp = REAL32
     integer :: mfi_isamax
-    real(wp), intent(in) :: x(:)
+    real(REAL32), intent(in) :: x(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -4799,7 +4792,7 @@ end function
 pure function mfi_idamax(x, incx)
     integer, parameter :: wp = REAL64
     integer :: mfi_idamax
-    real(wp), intent(in) :: x(:)
+    real(REAL64), intent(in) :: x(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -4814,7 +4807,7 @@ end function
 pure function mfi_icamax(x, incx)
     integer, parameter :: wp = REAL32
     integer :: mfi_icamax
-    complex(wp), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: x(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -4829,7 +4822,7 @@ end function
 pure function mfi_izamax(x, incx)
     integer, parameter :: wp = REAL64
     integer :: mfi_izamax
-    complex(wp), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: x(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -4844,7 +4837,7 @@ end function
 pure function mfi_isamin(x, incx)
     integer, parameter :: wp = REAL32
     integer :: mfi_isamin
-    real(wp), intent(in) :: x(:)
+    real(REAL32), intent(in) :: x(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -4859,7 +4852,7 @@ end function
 pure function mfi_idamin(x, incx)
     integer, parameter :: wp = REAL64
     integer :: mfi_idamin
-    real(wp), intent(in) :: x(:)
+    real(REAL64), intent(in) :: x(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -4874,7 +4867,7 @@ end function
 pure function mfi_icamin(x, incx)
     integer, parameter :: wp = REAL32
     integer :: mfi_icamin
-    complex(wp), intent(in) :: x(:)
+    complex(REAL32), intent(in) :: x(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -4889,7 +4882,7 @@ end function
 pure function mfi_izamin(x, incx)
     integer, parameter :: wp = REAL64
     integer :: mfi_izamin
-    complex(wp), intent(in) :: x(:)
+    complex(REAL64), intent(in) :: x(:)
     integer, intent(in), optional :: incx
     integer :: local_incx
     integer :: n
@@ -4900,22 +4893,6 @@ pure function mfi_izamin(x, incx)
     end if
     n = size(x)
     mfi_izamin = izamin(n,x,local_incx)
-end function
-pure function mfi_slamch(cmach, kind) result(res)
-    integer, parameter :: wp = REAL32
-    character, intent(in) :: cmach
-    real(wp), intent(in) :: kind
-    !! Just a kind placeholder
-    real(wp) :: res
-    res = slamch(cmach)
-end function
-pure function mfi_dlamch(cmach, kind) result(res)
-    integer, parameter :: wp = REAL64
-    character, intent(in) :: cmach
-    real(wp), intent(in) :: kind
-    !! Just a kind placeholder
-    real(wp) :: res
-    res = dlamch(cmach)
 end function
 
 end module
