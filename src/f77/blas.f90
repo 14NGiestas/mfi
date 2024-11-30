@@ -1,12 +1,9 @@
-!> Improved and original F77 interfaces for blas
+!> Improved and original F77 interfaces for BLAS
 module f77_blas
 use iso_fortran_env
 implicit none
 
-!FIXME rot, dot, rotg, nrm2: problem with functions that have TYPE /= TYPE_result
-
 ! BLAS level 1
-
 
 interface
 pure subroutine saxpy(n, a, x, incx, y, incy)
