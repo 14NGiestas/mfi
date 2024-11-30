@@ -20,7 +20,6 @@ subroutine {sc,zd}rot (
 #:def rot(name,pfxs)
 #:set A, B = get_types(pfxs)
 !> ${name.upper()}$ applies a plane rotation.
-!> ${pfxs}$
 pure subroutine ${name}$(n, x, incx, y, incy, c, s)
 $:imports(pfxs)
 @:args(${type(A)}$,   in, x(*), y(*))
