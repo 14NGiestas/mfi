@@ -267,7 +267,6 @@ end interface
 !> See also: [[mfi_rot]], [[f77_rot]].
 interface
 !> SROT applies a plane rotation.
-!> ['s']
 pure subroutine srot(n, x, incx, y, incy, c, s)
     import :: REAL32
     real(REAL32), intent(in) :: x(*)
@@ -279,7 +278,6 @@ pure subroutine srot(n, x, incx, y, incy, c, s)
     real(REAL32), intent(in) :: s
 end subroutine
 !> DROT applies a plane rotation.
-!> ['d']
 pure subroutine drot(n, x, incx, y, incy, c, s)
     import :: REAL64
     real(REAL64), intent(in) :: x(*)
@@ -291,7 +289,6 @@ pure subroutine drot(n, x, incx, y, incy, c, s)
     real(REAL64), intent(in) :: s
 end subroutine
 !> CROT applies a plane rotation.
-!> ['c']
 pure subroutine crot(n, x, incx, y, incy, c, s)
     import :: REAL32
     complex(REAL32), intent(in) :: x(*)
@@ -303,7 +300,6 @@ pure subroutine crot(n, x, incx, y, incy, c, s)
     complex(REAL32), intent(in) :: s
 end subroutine
 !> ZROT applies a plane rotation.
-!> ['z']
 pure subroutine zrot(n, x, incx, y, incy, c, s)
     import :: REAL64
     complex(REAL64), intent(in) :: x(*)
@@ -315,7 +311,6 @@ pure subroutine zrot(n, x, incx, y, incy, c, s)
     complex(REAL64), intent(in) :: s
 end subroutine
 !> CSROT applies a plane rotation.
-!> ['c', 's']
 pure subroutine csrot(n, x, incx, y, incy, c, s)
     import :: REAL32
     complex(REAL32), intent(in) :: x(*)
@@ -327,7 +322,6 @@ pure subroutine csrot(n, x, incx, y, incy, c, s)
     real(REAL32), intent(in) :: s
 end subroutine
 !> ZDROT applies a plane rotation.
-!> ['z', 'd']
 pure subroutine zdrot(n, x, incx, y, incy, c, s)
     import :: REAL64
     complex(REAL64), intent(in) :: x(*)
