@@ -51,12 +51,10 @@ interface mfi_rot
     module procedure mfi_csrot
     module procedure mfi_zdrot
 end interface
-!$:mfi_interface('?rotg',  DEFAULT_TYPES)
 interface mfi_rotm
     module procedure mfi_srotm
     module procedure mfi_drotm
 end interface
-!$:mfi_interface('?rotmg', REAL_TYPES)
 interface mfi_scal
     module procedure mfi_sscal
     module procedure mfi_dscal
@@ -898,7 +896,6 @@ pure subroutine mfi_zdrot(x, y, c, s, incx, incy)
     n = size(x)
     call zdrot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!$:mfi_interface('?rotg',  DEFAULT_TYPES)
 pure subroutine mfi_srotm(x, y, param, incx, incy)
     integer, parameter :: wp = REAL32
     real(wp), intent(inout) :: x(:)
@@ -945,7 +942,6 @@ pure subroutine mfi_drotm(x, y, param, incx, incy)
     N = size(X)
     call drotm(n,x,local_incx,y,local_incy,param)
 end subroutine
-!$:mfi_implement('?rotmg', REAL_TYPES, rotmg)
 !> MFI_SSCAL scales a vector by a constant.
 pure subroutine mfi_sscal(x, a, incx)
     integer, parameter :: wp = REAL32
