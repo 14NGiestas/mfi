@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 146 statements,  0.8% of total for procedures.">6 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 146 statements,  1.5% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90.html'>lapack.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90~2.html'>lapack.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_lapack.html'>mfi_lapack</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_pocon</li>
           </ol>
@@ -145,8 +145,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface mfi_pocon</h2>
-      
-
+      <p>Generic modern interface for POCON.
+Supports s, d, c, z.
+See also:
+<a href="../interface/f77_pocon.html#proc-spocon">spocon</a>,<a href="../interface/f77_pocon.html#proc-dpocon">dpocon</a>,<a href="../interface/f77_pocon.html#proc-cpocon">cpocon</a>,<a href="../interface/f77_pocon.html#proc-zpocon">zpocon</a>.</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -155,7 +158,9 @@
 </h3></div>
     <div class="card-body">
           
-  <p>Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF</p>
+  <p>Modern interface for <a href="../interface/f77_pocon.html#proc-spocon">spocon</a>.
+See also: <a href="../interface/mfi_pocon.html">mfi_pocon</a>, <a href="../interface/f77_pocon.html">f77_pocon</a>.
+Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -170,7 +175,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~43"></span>
+              <span class="anchor" id="variable-a~289"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -185,7 +190,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-anorm"></span>
+              <span class="anchor" id="variable-anorm~5"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -200,7 +205,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcond"></span>
+              <span class="anchor" id="variable-rcond~17"></span>
               real(kind=REAL32),
             </td>
 <td>intent(out)</td>
@@ -215,7 +220,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~19"></span>
+              <span class="anchor" id="variable-uplo~189"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -230,7 +235,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~43"></span>
+              <span class="anchor" id="variable-info~126"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -255,7 +260,9 @@
 </h3></div>
     <div class="card-body">
           
-  <p>Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF</p>
+  <p>Modern interface for <a href="../interface/f77_pocon.html#proc-dpocon">dpocon</a>.
+See also: <a href="../interface/mfi_pocon.html">mfi_pocon</a>, <a href="../interface/f77_pocon.html">f77_pocon</a>.
+Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -270,7 +277,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~44"></span>
+              <span class="anchor" id="variable-a~290"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -285,7 +292,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-anorm~2"></span>
+              <span class="anchor" id="variable-anorm~6"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -300,7 +307,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcond~2"></span>
+              <span class="anchor" id="variable-rcond~18"></span>
               real(kind=REAL64),
             </td>
 <td>intent(out)</td>
@@ -315,7 +322,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~20"></span>
+              <span class="anchor" id="variable-uplo~190"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -330,7 +337,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~44"></span>
+              <span class="anchor" id="variable-info~127"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -355,7 +362,9 @@
 </h3></div>
     <div class="card-body">
           
-  <p>Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF</p>
+  <p>Modern interface for <a href="../interface/f77_pocon.html#proc-cpocon">cpocon</a>.
+See also: <a href="../interface/mfi_pocon.html">mfi_pocon</a>, <a href="../interface/f77_pocon.html">f77_pocon</a>.
+Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -370,7 +379,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~45"></span>
+              <span class="anchor" id="variable-a~291"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -385,7 +394,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-anorm~3"></span>
+              <span class="anchor" id="variable-anorm~7"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -400,7 +409,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcond~3"></span>
+              <span class="anchor" id="variable-rcond~19"></span>
               real(kind=REAL32),
             </td>
 <td>intent(out)</td>
@@ -415,7 +424,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~21"></span>
+              <span class="anchor" id="variable-uplo~191"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -430,7 +439,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~45"></span>
+              <span class="anchor" id="variable-info~128"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -455,7 +464,9 @@
 </h3></div>
     <div class="card-body">
           
-  <p>Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF</p>
+  <p>Modern interface for <a href="../interface/f77_pocon.html#proc-zpocon">zpocon</a>.
+See also: <a href="../interface/mfi_pocon.html">mfi_pocon</a>, <a href="../interface/f77_pocon.html">f77_pocon</a>.
+Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -470,7 +481,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~46"></span>
+              <span class="anchor" id="variable-a~292"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -485,7 +496,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-anorm~4"></span>
+              <span class="anchor" id="variable-anorm~8"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -500,7 +511,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcond~4"></span>
+              <span class="anchor" id="variable-rcond~20"></span>
               real(kind=REAL64),
             </td>
 <td>intent(out)</td>
@@ -515,7 +526,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~22"></span>
+              <span class="anchor" id="variable-uplo~192"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -530,7 +541,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~46"></span>
+              <span class="anchor" id="variable-info~129"></span>
               integer,
             </td>
 <td>intent(out),</td>

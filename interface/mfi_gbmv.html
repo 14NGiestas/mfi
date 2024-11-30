@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 246 statements,  1.4% of total for procedures.">6 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 246 statements,  2.5% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_blas.html'>mfi_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_gbmv</li>
           </ol>
@@ -145,8 +145,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface mfi_gbmv</h2>
-      
-
+      <p>Generic modern interface for GBMV.
+Supports s, d, c, z.
+See also:
+<a href="../interface/f77_gbmv.html#proc-sgbmv">sgbmv</a>,<a href="../interface/f77_gbmv.html#proc-dgbmv">dgbmv</a>,<a href="../interface/f77_gbmv.html#proc-cgbmv">cgbmv</a>,<a href="../interface/f77_gbmv.html#proc-zgbmv">zgbmv</a>.</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -155,7 +158,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_gbmv.html#proc-sgbmv">sgbmv</a>.
+See also: <a href="../interface/mfi_gbmv.html">mfi_gbmv</a>, <a href="../interface/f77_gbmv.html">f77_gbmv</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -170,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~139"></span>
+              <span class="anchor" id="variable-a~177"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -185,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~49"></span>
+              <span class="anchor" id="variable-x~163"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -200,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~31"></span>
+              <span class="anchor" id="variable-y~91"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -215,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kl"></span>
+              <span class="anchor" id="variable-kl~5"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -230,7 +234,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~69"></span>
+              <span class="anchor" id="variable-m~83"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -245,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha"></span>
+              <span class="anchor" id="variable-alpha~67"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -260,7 +264,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta"></span>
+              <span class="anchor" id="variable-beta~37"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -275,7 +279,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~21"></span>
+              <span class="anchor" id="variable-trans~57"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -290,7 +294,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~41"></span>
+              <span class="anchor" id="variable-incx~157"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -305,7 +309,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incy~27"></span>
+              <span class="anchor" id="variable-incy~89"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -330,7 +334,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_gbmv.html#proc-dgbmv">dgbmv</a>.
+See also: <a href="../interface/mfi_gbmv.html">mfi_gbmv</a>, <a href="../interface/f77_gbmv.html">f77_gbmv</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -345,7 +350,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~140"></span>
+              <span class="anchor" id="variable-a~178"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -360,7 +365,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~50"></span>
+              <span class="anchor" id="variable-x~164"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -375,7 +380,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~32"></span>
+              <span class="anchor" id="variable-y~92"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -390,7 +395,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kl~2"></span>
+              <span class="anchor" id="variable-kl~6"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -405,7 +410,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~70"></span>
+              <span class="anchor" id="variable-m~84"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -420,7 +425,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~2"></span>
+              <span class="anchor" id="variable-alpha~68"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -435,7 +440,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~2"></span>
+              <span class="anchor" id="variable-beta~38"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -450,7 +455,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~22"></span>
+              <span class="anchor" id="variable-trans~58"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -465,7 +470,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~42"></span>
+              <span class="anchor" id="variable-incx~158"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -480,7 +485,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incy~28"></span>
+              <span class="anchor" id="variable-incy~90"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -505,7 +510,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_gbmv.html#proc-cgbmv">cgbmv</a>.
+See also: <a href="../interface/mfi_gbmv.html">mfi_gbmv</a>, <a href="../interface/f77_gbmv.html">f77_gbmv</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -520,7 +526,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~141"></span>
+              <span class="anchor" id="variable-a~179"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -535,7 +541,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~51"></span>
+              <span class="anchor" id="variable-x~165"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -550,7 +556,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~33"></span>
+              <span class="anchor" id="variable-y~93"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -565,7 +571,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kl~3"></span>
+              <span class="anchor" id="variable-kl~7"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -580,7 +586,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~71"></span>
+              <span class="anchor" id="variable-m~85"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -595,7 +601,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~3"></span>
+              <span class="anchor" id="variable-alpha~69"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -610,7 +616,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~3"></span>
+              <span class="anchor" id="variable-beta~39"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -625,7 +631,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~23"></span>
+              <span class="anchor" id="variable-trans~59"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -640,7 +646,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~43"></span>
+              <span class="anchor" id="variable-incx~159"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -655,7 +661,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incy~29"></span>
+              <span class="anchor" id="variable-incy~91"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -680,7 +686,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_gbmv.html#proc-zgbmv">zgbmv</a>.
+See also: <a href="../interface/mfi_gbmv.html">mfi_gbmv</a>, <a href="../interface/f77_gbmv.html">f77_gbmv</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -695,7 +702,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~142"></span>
+              <span class="anchor" id="variable-a~180"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -710,7 +717,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~52"></span>
+              <span class="anchor" id="variable-x~166"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -725,7 +732,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~34"></span>
+              <span class="anchor" id="variable-y~94"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -740,7 +747,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-kl~4"></span>
+              <span class="anchor" id="variable-kl~8"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -755,7 +762,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~72"></span>
+              <span class="anchor" id="variable-m~86"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -770,7 +777,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~4"></span>
+              <span class="anchor" id="variable-alpha~70"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -785,7 +792,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~4"></span>
+              <span class="anchor" id="variable-beta~40"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -800,7 +807,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~24"></span>
+              <span class="anchor" id="variable-trans~60"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -815,7 +822,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~44"></span>
+              <span class="anchor" id="variable-incx~160"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -830,7 +837,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incy~30"></span>
+              <span class="anchor" id="variable-incy~92"></span>
               integer,
             </td>
 <td>intent(in),</td>

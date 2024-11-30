@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.1% of total for procedures.">24 statements</a>
+                 title=" 0.2% of total for procedures.">24 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_blas.html'>mfi_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_srot</li>
           </ol>
@@ -134,7 +134,9 @@
 </h2>
     
 
-    <p>Given two vectors x and y,
+    <p>Modern interface for <a href="../interface/f77_rot.html#proc-srot">srot</a>.
+ See also: <a href="../interface/mfi_rot.html">mfi_rot</a>, <a href="../interface/f77_rot.html">f77_rot</a>.
+ Given two vectors x and y,
  each vector element of these vectors is replaced as follows:</p>
 <div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="n">xi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="o">*</span><span class="n">xi</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s</span><span class="o">*</span><span class="n">yi</span>
 <span class="w"> </span><span class="n">yi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="o">*</span><span class="n">yi</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">s</span><span class="o">*</span><span class="n">xi</span>
@@ -154,7 +156,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~35"></span>
+              <span class="anchor" id="variable-x~149"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -169,7 +171,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~23"></span>
+              <span class="anchor" id="variable-y~83"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -184,7 +186,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~9"></span>
+              <span class="anchor" id="variable-c~35"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -199,7 +201,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~21"></span>
+              <span class="anchor" id="variable-s~27"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -214,7 +216,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~27"></span>
+              <span class="anchor" id="variable-incx~143"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -229,7 +231,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incy~19"></span>
+              <span class="anchor" id="variable-incy~81"></span>
               integer,
             </td>
 <td>intent(in),</td>

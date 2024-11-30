@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 126 statements,  0.7% of total for procedures.">6 statements</a>
+                 title="<p> 0.3% of total for procedures.</p>Including implementation: 30 statements,  0.3% of total for procedures.">30 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/f77_blas.html'>f77_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_nrm2</li>
           </ol>
@@ -114,28 +114,28 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#modprocs-0"
-         aria-expanded="false" aria-controls="modprocs-0">
-         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
       </a>
-      <div id="modprocs-0" class="collapse">
+      <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/f77_nrm2.html#moduleprocedure-snrm2~2">snrm2</a>
-            <a class="list-group-item" href="../interface/f77_nrm2.html#moduleprocedure-dnrm2~2">dnrm2</a>
-            <a class="list-group-item" href="../interface/f77_nrm2.html#moduleprocedure-scnrm2~2">scnrm2</a>
-            <a class="list-group-item" href="../interface/f77_nrm2.html#moduleprocedure-dznrm2~2">dznrm2</a>
+            <a class="list-group-item" href="../interface/f77_nrm2.html#proc-snrm2">snrm2</a>
+            <a class="list-group-item" href="../interface/f77_nrm2.html#proc-dnrm2">dnrm2</a>
+            <a class="list-group-item" href="../interface/f77_nrm2.html#proc-scnrm2">scnrm2</a>
+            <a class="list-group-item" href="../interface/f77_nrm2.html#proc-dznrm2">dznrm2</a>
         </div>
       </div>
     </div>
 
+  
+  
+  
+  
+  
+  
+  
   
 
 
@@ -145,66 +145,312 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface f77_nrm2</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
+      <p>Generic old style interface for NRM2.
+Supports s, d, sc, dz.
+See also: <a href="../interface/mfi_nrm2.html">mfi_nrm2</a>, <a href="../interface/f77_nrm2.html#proc-snrm2">snrm2</a>,<a href="../interface/f77_nrm2.html#proc-dnrm2">dnrm2</a>,<a href="../interface/f77_nrm2.html#proc-scnrm2">scnrm2</a>,<a href="../interface/f77_nrm2.html#proc-dznrm2">dznrm2</a>.</p>
+<br>
+        <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-snrm2"></span> <h3>public  interface <a href='snrm2.html'>snrm2</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-snrm2"></span> <h3>public pure function snrm2(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?nrm2 supports s, d, sc, dz.
+        <p>Original interface for SNRM2
 See also: <a href="../interface/mfi_nrm2.html">mfi_nrm2</a>, <a href="../interface/f77_nrm2.html">f77_nrm2</a>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~105"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~31"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~23"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=REAL32)</small>
+    </h4>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-dnrm2"></span> <h3>public  interface <a href='dnrm2.html'>dnrm2</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dnrm2"></span> <h3>public pure function dnrm2(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?nrm2 supports s, d, sc, dz.
+        <p>Original interface for DNRM2
 See also: <a href="../interface/mfi_nrm2.html">mfi_nrm2</a>, <a href="../interface/f77_nrm2.html">f77_nrm2</a>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~106"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~32"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~24"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=REAL64)</small>
+    </h4>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-scnrm2"></span> <h3>public  interface <a href='scnrm2.html'>scnrm2</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-scnrm2"></span> <h3>public pure function scnrm2(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?nrm2 supports s, d, sc, dz.
+        <p>Original interface for SCNRM2
 See also: <a href="../interface/mfi_nrm2.html">mfi_nrm2</a>, <a href="../interface/f77_nrm2.html">f77_nrm2</a>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~107"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~33"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~25"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=REAL32)</small>
+    </h4>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-dznrm2"></span> <h3>public  interface <a href='dznrm2.html'>dznrm2</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dznrm2"></span> <h3>public pure function dznrm2(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?nrm2 supports s, d, sc, dz.
+        <p>Original interface for DZNRM2
 See also: <a href="../interface/mfi_nrm2.html">mfi_nrm2</a>, <a href="../interface/f77_nrm2.html">f77_nrm2</a>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~108"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~34"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~26"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=REAL64)</small>
+    </h4>
+    
 
     </div>
   </div>
+
+
 
 </div>
   </div>

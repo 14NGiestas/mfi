@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 272 statements,  1.6% of total for procedures.">8 statements</a>
+                 title="<p> 0.4% of total for procedures.</p>Including implementation: 44 statements,  0.4% of total for procedures.">44 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/f77_blas.html'>f77_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_scal</li>
           </ol>
@@ -115,29 +115,29 @@
   
   
   
-  
-  
-  
-  
-  
-  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#modprocs-0"
-         aria-expanded="false" aria-controls="modprocs-0">
-         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
       </a>
-      <div id="modprocs-0" class="collapse">
+      <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/f77_scal.html#moduleprocedure-sscal">sscal</a>
-            <a class="list-group-item" href="../interface/f77_scal.html#moduleprocedure-dscal">dscal</a>
-            <a class="list-group-item" href="../interface/f77_scal.html#moduleprocedure-cscal">cscal</a>
-            <a class="list-group-item" href="../interface/f77_scal.html#moduleprocedure-zscal">zscal</a>
-            <a class="list-group-item" href="../interface/f77_scal.html#moduleprocedure-csscal">csscal</a>
-            <a class="list-group-item" href="../interface/f77_scal.html#moduleprocedure-zdscal">zdscal</a>
+            <a class="list-group-item" href="../interface/f77_scal.html#proc-sscal">sscal</a>
+            <a class="list-group-item" href="../interface/f77_scal.html#proc-dscal">dscal</a>
+            <a class="list-group-item" href="../interface/f77_scal.html#proc-cscal">cscal</a>
+            <a class="list-group-item" href="../interface/f77_scal.html#proc-zscal">zscal</a>
+            <a class="list-group-item" href="../interface/f77_scal.html#proc-csscal">csscal</a>
+            <a class="list-group-item" href="../interface/f77_scal.html#proc-zdscal">zdscal</a>
         </div>
       </div>
     </div>
 
+  
+  
+  
+  
+  
+  
   
 
 
@@ -147,94 +147,528 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface f77_scal</h2>
-      
+      <p>Generic old style interface for SCAL.
+Supports s, d, c, z, cs, zd.
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html#proc-sscal">sscal</a>,<a href="../interface/f77_scal.html#proc-dscal">dscal</a>,<a href="../interface/f77_scal.html#proc-cscal">cscal</a>,<a href="../interface/f77_scal.html#proc-zscal">zscal</a>,<a href="../interface/f77_scal.html#proc-csscal">csscal</a>,<a href="../interface/f77_scal.html#proc-zdscal">zdscal</a>.</p>
+<br>
 
-
-
-        <h2>Module Procedures</h2>
+        <h2>Subroutines</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-sscal"></span> <h3>public  interface <a href='sscal.html'>sscal</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-sscal"></span> <h3>public pure subroutine sscal(n, a, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?scal supports s, d, c, z, cs, zd.
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.</p>
+        <p>Original interface for SSCAL
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+SSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~117"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~91"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~43"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~35"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-dscal"></span> <h3>public  interface <a href='dscal.html'>dscal</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dscal"></span> <h3>public pure subroutine dscal(n, a, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?scal supports s, d, c, z, cs, zd.
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.</p>
+        <p>Original interface for DSCAL
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+DSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~118"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~92"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~44"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~36"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-cscal"></span> <h3>public  interface <a href='cscal.html'>cscal</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-cscal"></span> <h3>public pure subroutine cscal(n, a, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?scal supports s, d, c, z, cs, zd.
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.</p>
+        <p>Original interface for CSCAL
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+CSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~119"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~93"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~45"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~37"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-zscal"></span> <h3>public  interface <a href='zscal.html'>zscal</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-zscal"></span> <h3>public pure subroutine zscal(n, a, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?scal supports s, d, c, z, cs, zd.
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.</p>
+        <p>Original interface for ZSCAL
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+ZSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~120"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~94"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~46"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~38"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-csscal"></span> <h3>public  interface <a href='csscal.html'>csscal</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-csscal"></span> <h3>public pure subroutine csscal(n, a, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?scal supports s, d, c, z, cs, zd.
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.</p>
+        <p>Original interface for CSSCAL
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+CSSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~121"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~95"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~47"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~39"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-zdscal"></span> <h3>public  interface <a href='zdscal.html'>zdscal</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-zdscal"></span> <h3>public pure subroutine zdscal(n, a, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?scal supports s, d, c, z, cs, zd.
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.</p>
+        <p>Original interface for ZDSCAL
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+ZDSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~122"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~96"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~48"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~40"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
+
 
 </div>
   </div>

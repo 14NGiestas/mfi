@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 64 statements,  0.4% of total for procedures.">4 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 64 statements,  0.7% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_blas.html'>mfi_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_syr</li>
           </ol>
@@ -143,8 +143,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface mfi_syr</h2>
-      
-
+      <p>Generic modern interface for SYR.
+Supports s, d.
+See also:
+<a href="../interface/f77_syr.html#proc-ssyr">ssyr</a>,<a href="../interface/f77_syr.html#proc-dsyr">dsyr</a>.</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -153,7 +156,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_syr.html#proc-ssyr">ssyr</a>.
+See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface/f77_syr.html">f77_syr</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -168,7 +172,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~165"></span>
+              <span class="anchor" id="variable-a~203"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -183,7 +187,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~87"></span>
+              <span class="anchor" id="variable-x~201"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -198,7 +202,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~73"></span>
+              <span class="anchor" id="variable-uplo~123"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -213,7 +217,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~39"></span>
+              <span class="anchor" id="variable-alpha~105"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -228,7 +232,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~79"></span>
+              <span class="anchor" id="variable-incx~195"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -253,7 +257,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_syr.html#proc-dsyr">dsyr</a>.
+See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface/f77_syr.html">f77_syr</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -268,7 +273,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~166"></span>
+              <span class="anchor" id="variable-a~204"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -283,7 +288,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~88"></span>
+              <span class="anchor" id="variable-x~202"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -298,7 +303,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~74"></span>
+              <span class="anchor" id="variable-uplo~124"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -313,7 +318,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~40"></span>
+              <span class="anchor" id="variable-alpha~106"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -328,7 +333,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~80"></span>
+              <span class="anchor" id="variable-incx~196"></span>
               integer,
             </td>
 <td>intent(in),</td>

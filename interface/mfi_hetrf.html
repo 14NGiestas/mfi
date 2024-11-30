@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 88 statements,  0.5% of total for procedures.">4 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 88 statements,  0.9% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90.html'>lapack.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90~2.html'>lapack.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_lapack.html'>mfi_lapack</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_hetrf</li>
           </ol>
@@ -143,8 +143,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface mfi_hetrf</h2>
-      
-
+      <p>Generic modern interface for HETRF.
+Supports c, z.
+See also:
+<a href="../interface/f77_hetrf.html#proc-chetrf">chetrf</a>,<a href="../interface/f77_hetrf.html#proc-zhetrf">zhetrf</a>.</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -153,7 +156,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_hetrf.html#proc-chetrf">chetrf</a>.
+See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../interface/f77_hetrf.html">f77_hetrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -168,7 +172,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~21"></span>
+              <span class="anchor" id="variable-a~267"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -183,7 +187,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo"></span>
+              <span class="anchor" id="variable-uplo~171"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -198,7 +202,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ipiv~13"></span>
+              <span class="anchor" id="variable-ipiv~27"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -213,7 +217,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~21"></span>
+              <span class="anchor" id="variable-info~104"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -238,7 +242,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_hetrf.html#proc-zhetrf">zhetrf</a>.
+See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../interface/f77_hetrf.html">f77_hetrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -253,7 +258,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~22"></span>
+              <span class="anchor" id="variable-a~268"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -268,7 +273,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~2"></span>
+              <span class="anchor" id="variable-uplo~172"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -283,7 +288,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ipiv~14"></span>
+              <span class="anchor" id="variable-ipiv~28"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -298,7 +303,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~22"></span>
+              <span class="anchor" id="variable-info~105"></span>
               integer,
             </td>
 <td>intent(out),</td>

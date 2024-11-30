@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 142 statements,  0.8% of total for procedures.">6 statements</a>
+                 title="<p> 0.3% of total for procedures.</p>Including implementation: 34 statements,  0.3% of total for procedures.">34 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/f77_blas.html'>f77_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_rotg</li>
           </ol>
@@ -115,27 +115,27 @@
   
   
   
-  
-  
-  
-  
-  
-  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#modprocs-0"
-         aria-expanded="false" aria-controls="modprocs-0">
-         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      <a data-bs-toggle="collapse" href="#subs-0"
+         aria-expanded="false" aria-controls="subs-0">
+         <h4 class="card-header bg-primary text-white">Subroutines</h4>
       </a>
-      <div id="modprocs-0" class="collapse">
+      <div id="subs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/f77_rotg.html#moduleprocedure-srotg">srotg</a>
-            <a class="list-group-item" href="../interface/f77_rotg.html#moduleprocedure-drotg">drotg</a>
-            <a class="list-group-item" href="../interface/f77_rotg.html#moduleprocedure-crotg">crotg</a>
-            <a class="list-group-item" href="../interface/f77_rotg.html#moduleprocedure-zrotg">zrotg</a>
+            <a class="list-group-item" href="../interface/f77_rotg.html#proc-srotg">srotg</a>
+            <a class="list-group-item" href="../interface/f77_rotg.html#proc-drotg">drotg</a>
+            <a class="list-group-item" href="../interface/f77_rotg.html#proc-crotg">crotg</a>
+            <a class="list-group-item" href="../interface/f77_rotg.html#proc-zrotg">zrotg</a>
         </div>
       </div>
     </div>
 
+  
+  
+  
+  
+  
+  
   
 
 
@@ -145,66 +145,376 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface f77_rotg</h2>
-      
+      <p>Generic old style interface for ROTG.
+Supports s, d, c, z.
+See also: <a>mfi_rotg</a>, <a href="../interface/f77_rotg.html#proc-srotg">srotg</a>,<a href="../interface/f77_rotg.html#proc-drotg">drotg</a>,<a href="../interface/f77_rotg.html#proc-crotg">crotg</a>,<a href="../interface/f77_rotg.html#proc-zrotg">zrotg</a>.</p>
+<br>
 
-
-
-        <h2>Module Procedures</h2>
+        <h2>Subroutines</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-srotg"></span> <h3>public  interface <a href='srotg.html'>srotg</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-srotg"></span> <h3>public pure subroutine srotg(a, b, c, s)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?rotg supports s, d, c, z.
-See also: <a>mfi_rotg</a>, <a href="../interface/f77_rotg.html">f77_rotg</a>.</p>
+        <p>Original interface for SROTG
+ See also: <a>mfi_rotg</a>, <a href="../interface/f77_rotg.html">f77_rotg</a>.
+srotg generates a Givens rotation with real cosine and complex sine:</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="p">[</span><span class="w">  </span><span class="n">c</span><span class="w">  </span><span class="n">s</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="p">]</span>
+<span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w">  </span><span class="n">c</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">]</span><span class="w">   </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span>
+</code></pre></div>
+
+<p>satisfying <code>c**2 + s**2 = 1</code>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~87"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~43"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~15"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s~23"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-drotg"></span> <h3>public  interface <a href='drotg.html'>drotg</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-drotg"></span> <h3>public pure subroutine drotg(a, b, c, s)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?rotg supports s, d, c, z.
-See also: <a>mfi_rotg</a>, <a href="../interface/f77_rotg.html">f77_rotg</a>.</p>
+        <p>Original interface for DROTG
+ See also: <a>mfi_rotg</a>, <a href="../interface/f77_rotg.html">f77_rotg</a>.
+drotg generates a Givens rotation with real cosine and complex sine:</p>
+<div class="codehilite"><pre><span></span><code><span class="w"> </span><span class="p">[</span><span class="w">  </span><span class="n">c</span><span class="w">  </span><span class="n">s</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="p">]</span>
+<span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w">  </span><span class="n">c</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">]</span><span class="w">   </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span>
+</code></pre></div>
+
+<p>satisfying <code>c**2 + s**2 = 1</code>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~88"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~44"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~16"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s~24"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-crotg"></span> <h3>public  interface <a href='crotg.html'>crotg</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-crotg"></span> <h3>public pure subroutine crotg(a, b, c, s)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?rotg supports s, d, c, z.
-See also: <a>mfi_rotg</a>, <a href="../interface/f77_rotg.html">f77_rotg</a>.</p>
+        <p>Original interface for CROTG
+ See also: <a>mfi_rotg</a>, <a href="../interface/f77_rotg.html">f77_rotg</a>.
+crotg generates a Givens rotation with real cosine and complex sine:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="p">[</span><span class="w">  </span><span class="n">c</span><span class="w">         </span><span class="n">s</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="w"> </span><span class="o">-</span><span class="n">conjg</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">  </span><span class="n">c</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">]</span><span class="w">   </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span>
+</code></pre></div>
+
+<p>where c is real, s is complex, and <code>c**2 + conjg(s)*s = 1</code>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~89"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~45"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~17"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s~25"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-zrotg"></span> <h3>public  interface <a href='zrotg.html'>zrotg</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-zrotg"></span> <h3>public pure subroutine zrotg(a, b, c, s)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?rotg supports s, d, c, z.
-See also: <a>mfi_rotg</a>, <a href="../interface/f77_rotg.html">f77_rotg</a>.</p>
+        <p>Original interface for ZROTG
+ See also: <a>mfi_rotg</a>, <a href="../interface/f77_rotg.html">f77_rotg</a>.
+zrotg generates a Givens rotation with real cosine and complex sine:</p>
+<div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="p">[</span><span class="w">  </span><span class="n">c</span><span class="w">         </span><span class="n">s</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="w"> </span><span class="o">-</span><span class="n">conjg</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">  </span><span class="n">c</span><span class="w"> </span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">]</span><span class="w">   </span><span class="p">[</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">]</span>
+</code></pre></div>
+
+<p>where c is real, s is complex, and <code>c**2 + conjg(s)*s = 1</code>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~90"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~46"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~18"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s~26"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
 
     </div>
   </div>
+
 
 </div>
   </div>

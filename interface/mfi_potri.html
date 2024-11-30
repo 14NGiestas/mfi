@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 94 statements,  0.5% of total for procedures.">6 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 94 statements,  1.0% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90.html'>lapack.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90~2.html'>lapack.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_lapack.html'>mfi_lapack</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_potri</li>
           </ol>
@@ -145,8 +145,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface mfi_potri</h2>
-      
-
+      <p>Generic modern interface for POTRI.
+Supports s, d, c, z.
+See also:
+<a href="../interface/f77_potri.html#proc-spotri">spotri</a>,<a href="../interface/f77_potri.html#proc-dpotri">dpotri</a>,<a href="../interface/f77_potri.html#proc-cpotri">cpotri</a>,<a href="../interface/f77_potri.html#proc-zpotri">zpotri</a>.</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -155,7 +158,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-spotri">spotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -170,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~35"></span>
+              <span class="anchor" id="variable-a~281"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -185,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~35"></span>
+              <span class="anchor" id="variable-info~118"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -200,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~11"></span>
+              <span class="anchor" id="variable-uplo~181"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -225,7 +229,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-dpotri">dpotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -240,7 +245,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~36"></span>
+              <span class="anchor" id="variable-a~282"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -255,7 +260,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~36"></span>
+              <span class="anchor" id="variable-info~119"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -270,7 +275,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~12"></span>
+              <span class="anchor" id="variable-uplo~182"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -295,7 +300,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-cpotri">cpotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -310,7 +316,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~37"></span>
+              <span class="anchor" id="variable-a~283"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -325,7 +331,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~37"></span>
+              <span class="anchor" id="variable-info~120"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -340,7 +346,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~13"></span>
+              <span class="anchor" id="variable-uplo~183"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -365,7 +371,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-zpotri">zpotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -380,7 +387,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~38"></span>
+              <span class="anchor" id="variable-a~284"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -395,7 +402,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~38"></span>
+              <span class="anchor" id="variable-info~121"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -410,7 +417,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~14"></span>
+              <span class="anchor" id="variable-uplo~184"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>

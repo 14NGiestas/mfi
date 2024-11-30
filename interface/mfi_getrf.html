@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 130 statements,  0.7% of total for procedures.">6 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 130 statements,  1.3% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90.html'>lapack.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90~2.html'>lapack.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_lapack.html'>mfi_lapack</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_getrf</li>
           </ol>
@@ -145,8 +145,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface mfi_getrf</h2>
-      
-
+      <p>Generic modern interface for GETRF.
+Supports s, d, c, z.
+See also:
+<a href="../interface/f77_getrf.html#proc-sgetrf">sgetrf</a>,<a href="../interface/f77_getrf.html#proc-dgetrf">dgetrf</a>,<a href="../interface/f77_getrf.html#proc-cgetrf">cgetrf</a>,<a href="../interface/f77_getrf.html#proc-zgetrf">zgetrf</a>.</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -155,7 +158,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_getrf.html#proc-sgetrf">sgetrf</a>.
+See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../interface/f77_getrf.html">f77_getrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -170,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~9"></span>
+              <span class="anchor" id="variable-a~255"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -185,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ipiv"></span>
+              <span class="anchor" id="variable-ipiv~15"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -200,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~9"></span>
+              <span class="anchor" id="variable-info~92"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -225,7 +229,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_getrf.html#proc-dgetrf">dgetrf</a>.
+See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../interface/f77_getrf.html">f77_getrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -240,7 +245,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~10"></span>
+              <span class="anchor" id="variable-a~256"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -255,7 +260,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ipiv~2"></span>
+              <span class="anchor" id="variable-ipiv~16"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -270,7 +275,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~10"></span>
+              <span class="anchor" id="variable-info~93"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -295,7 +300,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_getrf.html#proc-cgetrf">cgetrf</a>.
+See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../interface/f77_getrf.html">f77_getrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -310,7 +316,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~11"></span>
+              <span class="anchor" id="variable-a~257"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -325,7 +331,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ipiv~3"></span>
+              <span class="anchor" id="variable-ipiv~17"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -340,7 +346,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~11"></span>
+              <span class="anchor" id="variable-info~94"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -365,7 +371,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_getrf.html#proc-zgetrf">zgetrf</a>.
+See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../interface/f77_getrf.html">f77_getrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -380,7 +387,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~12"></span>
+              <span class="anchor" id="variable-a~258"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -395,7 +402,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ipiv~4"></span>
+              <span class="anchor" id="variable-ipiv~18"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -410,7 +417,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~12"></span>
+              <span class="anchor" id="variable-info~95"></span>
               integer,
             </td>
 <td>intent(out),</td>

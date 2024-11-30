@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 190 statements,  1.1% of total for procedures.">6 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 190 statements,  1.9% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_blas.html'>mfi_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_gemm</li>
           </ol>
@@ -145,8 +145,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface mfi_gemm</h2>
-      
-
+      <p>Generic modern interface for GEMM.
+Supports s, d, c, z.
+See also:
+<a href="../interface/f77_gemm.html#proc-sgemm">sgemm</a>,<a href="../interface/f77_gemm.html#proc-dgemm">dgemm</a>,<a href="../interface/f77_gemm.html#proc-cgemm">cgemm</a>,<a href="../interface/f77_gemm.html#proc-zgemm">zgemm</a>.</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -155,7 +158,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_gemm.html#proc-sgemm">sgemm</a>.
+See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interface/f77_gemm.html">f77_gemm</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -170,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~185"></span>
+              <span class="anchor" id="variable-a~223"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -185,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~53"></span>
+              <span class="anchor" id="variable-b~67"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -200,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~15"></span>
+              <span class="anchor" id="variable-c~41"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -215,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa"></span>
+              <span class="anchor" id="variable-transa~13"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -230,7 +234,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb"></span>
+              <span class="anchor" id="variable-transb~5"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -245,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~43"></span>
+              <span class="anchor" id="variable-alpha~109"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -260,7 +264,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~21"></span>
+              <span class="anchor" id="variable-beta~57"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -285,7 +289,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_gemm.html#proc-dgemm">dgemm</a>.
+See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interface/f77_gemm.html">f77_gemm</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -300,7 +305,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~186"></span>
+              <span class="anchor" id="variable-a~224"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -315,7 +320,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~54"></span>
+              <span class="anchor" id="variable-b~68"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -330,7 +335,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~16"></span>
+              <span class="anchor" id="variable-c~42"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -345,7 +350,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~2"></span>
+              <span class="anchor" id="variable-transa~14"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -360,7 +365,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~2"></span>
+              <span class="anchor" id="variable-transb~6"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -375,7 +380,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~44"></span>
+              <span class="anchor" id="variable-alpha~110"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -390,7 +395,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~22"></span>
+              <span class="anchor" id="variable-beta~58"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -415,7 +420,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_gemm.html#proc-cgemm">cgemm</a>.
+See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interface/f77_gemm.html">f77_gemm</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -430,7 +436,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~187"></span>
+              <span class="anchor" id="variable-a~225"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -445,7 +451,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~55"></span>
+              <span class="anchor" id="variable-b~69"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -460,7 +466,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~17"></span>
+              <span class="anchor" id="variable-c~43"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -475,7 +481,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~3"></span>
+              <span class="anchor" id="variable-transa~15"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -490,7 +496,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~3"></span>
+              <span class="anchor" id="variable-transb~7"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -505,7 +511,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~45"></span>
+              <span class="anchor" id="variable-alpha~111"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -520,7 +526,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~23"></span>
+              <span class="anchor" id="variable-beta~59"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -545,7 +551,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_gemm.html#proc-zgemm">zgemm</a>.
+See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interface/f77_gemm.html">f77_gemm</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -560,7 +567,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~188"></span>
+              <span class="anchor" id="variable-a~226"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -575,7 +582,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~56"></span>
+              <span class="anchor" id="variable-b~70"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -590,7 +597,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~18"></span>
+              <span class="anchor" id="variable-c~44"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -605,7 +612,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~4"></span>
+              <span class="anchor" id="variable-transa~16"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -620,7 +627,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transb~4"></span>
+              <span class="anchor" id="variable-transb~8"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -635,7 +642,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~46"></span>
+              <span class="anchor" id="variable-alpha~112"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -650,7 +657,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~24"></span>
+              <span class="anchor" id="variable-beta~60"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in),</td>

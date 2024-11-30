@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 122 statements,  0.7% of total for procedures.">6 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 122 statements,  1.2% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_blas.html'>mfi_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_axpy</li>
           </ol>
@@ -145,8 +145,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface mfi_axpy</h2>
-      
-
+      <p>Generic modern interface for AXPY.
+Supports s, d, c, z.
+See also:
+<a href="../interface/f77_axpy.html#proc-saxpy">saxpy</a>,<a href="../interface/f77_axpy.html#proc-daxpy">daxpy</a>,<a href="../interface/f77_axpy.html#proc-caxpy">caxpy</a>,<a href="../interface/f77_axpy.html#proc-zaxpy">zaxpy</a>.</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -155,7 +158,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_axpy.html#proc-saxpy">saxpy</a>.
+See also: <a href="../interface/mfi_axpy.html">mfi_axpy</a>, <a href="../interface/f77_axpy.html">f77_axpy</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -170,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~17"></span>
+              <span class="anchor" id="variable-x~131"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -185,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~13"></span>
+              <span class="anchor" id="variable-y~73"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -200,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~129"></span>
+              <span class="anchor" id="variable-a~167"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -215,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~9"></span>
+              <span class="anchor" id="variable-incx~125"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -230,7 +234,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incy~9"></span>
+              <span class="anchor" id="variable-incy~71"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -255,7 +259,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_axpy.html#proc-daxpy">daxpy</a>.
+See also: <a href="../interface/mfi_axpy.html">mfi_axpy</a>, <a href="../interface/f77_axpy.html">f77_axpy</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -270,7 +275,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~18"></span>
+              <span class="anchor" id="variable-x~132"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -285,7 +290,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~14"></span>
+              <span class="anchor" id="variable-y~74"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -300,7 +305,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~130"></span>
+              <span class="anchor" id="variable-a~168"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -315,7 +320,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~10"></span>
+              <span class="anchor" id="variable-incx~126"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -330,7 +335,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incy~10"></span>
+              <span class="anchor" id="variable-incy~72"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -355,7 +360,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_axpy.html#proc-caxpy">caxpy</a>.
+See also: <a href="../interface/mfi_axpy.html">mfi_axpy</a>, <a href="../interface/f77_axpy.html">f77_axpy</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -370,7 +376,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~19"></span>
+              <span class="anchor" id="variable-x~133"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -385,7 +391,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~15"></span>
+              <span class="anchor" id="variable-y~75"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -400,7 +406,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~131"></span>
+              <span class="anchor" id="variable-a~169"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -415,7 +421,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~11"></span>
+              <span class="anchor" id="variable-incx~127"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -430,7 +436,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incy~11"></span>
+              <span class="anchor" id="variable-incy~73"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -455,7 +461,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_axpy.html#proc-zaxpy">zaxpy</a>.
+See also: <a href="../interface/mfi_axpy.html">mfi_axpy</a>, <a href="../interface/f77_axpy.html">f77_axpy</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -470,7 +477,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~20"></span>
+              <span class="anchor" id="variable-x~134"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -485,7 +492,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-y~16"></span>
+              <span class="anchor" id="variable-y~76"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -500,7 +507,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~132"></span>
+              <span class="anchor" id="variable-a~170"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -515,7 +522,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~12"></span>
+              <span class="anchor" id="variable-incx~128"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -530,7 +537,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incy~12"></span>
+              <span class="anchor" id="variable-incy~74"></span>
               integer,
             </td>
 <td>intent(in),</td>

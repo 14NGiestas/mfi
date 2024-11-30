@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 154 statements,  0.9% of total for procedures.">6 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 154 statements,  1.6% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_blas.html'>mfi_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_trsv</li>
           </ol>
@@ -145,8 +145,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface mfi_trsv</h2>
-      
-
+      <p>Generic modern interface for TRSV.
+Supports s, d, c, z.
+See also:
+<a href="../interface/f77_trsv.html#proc-strsv">strsv</a>,<a href="../interface/f77_trsv.html#proc-dtrsv">dtrsv</a>,<a href="../interface/f77_trsv.html#proc-ctrsv">ctrsv</a>,<a href="../interface/f77_trsv.html#proc-ztrsv">ztrsv</a>.</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -155,7 +158,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_trsv.html#proc-strsv">strsv</a>.
+See also: <a href="../interface/mfi_trsv.html">mfi_trsv</a>, <a href="../interface/f77_trsv.html">f77_trsv</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -170,7 +174,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~181"></span>
+              <span class="anchor" id="variable-a~219"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -185,7 +189,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~111"></span>
+              <span class="anchor" id="variable-x~225"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -200,7 +204,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~97"></span>
+              <span class="anchor" id="variable-uplo~147"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -215,7 +219,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~49"></span>
+              <span class="anchor" id="variable-trans~85"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -230,7 +234,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~21"></span>
+              <span class="anchor" id="variable-diag~53"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -245,7 +249,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~103"></span>
+              <span class="anchor" id="variable-incx~219"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -270,7 +274,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_trsv.html#proc-dtrsv">dtrsv</a>.
+See also: <a href="../interface/mfi_trsv.html">mfi_trsv</a>, <a href="../interface/f77_trsv.html">f77_trsv</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -285,7 +290,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~182"></span>
+              <span class="anchor" id="variable-a~220"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -300,7 +305,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~112"></span>
+              <span class="anchor" id="variable-x~226"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -315,7 +320,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~98"></span>
+              <span class="anchor" id="variable-uplo~148"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -330,7 +335,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~50"></span>
+              <span class="anchor" id="variable-trans~86"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -345,7 +350,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~22"></span>
+              <span class="anchor" id="variable-diag~54"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -360,7 +365,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~104"></span>
+              <span class="anchor" id="variable-incx~220"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -385,7 +390,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_trsv.html#proc-ctrsv">ctrsv</a>.
+See also: <a href="../interface/mfi_trsv.html">mfi_trsv</a>, <a href="../interface/f77_trsv.html">f77_trsv</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -400,7 +406,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~183"></span>
+              <span class="anchor" id="variable-a~221"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -415,7 +421,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~113"></span>
+              <span class="anchor" id="variable-x~227"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -430,7 +436,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~99"></span>
+              <span class="anchor" id="variable-uplo~149"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -445,7 +451,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~51"></span>
+              <span class="anchor" id="variable-trans~87"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -460,7 +466,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~23"></span>
+              <span class="anchor" id="variable-diag~55"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -475,7 +481,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~105"></span>
+              <span class="anchor" id="variable-incx~221"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -500,7 +506,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_trsv.html#proc-ztrsv">ztrsv</a>.
+See also: <a href="../interface/mfi_trsv.html">mfi_trsv</a>, <a href="../interface/f77_trsv.html">f77_trsv</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -515,7 +522,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~184"></span>
+              <span class="anchor" id="variable-a~222"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -530,7 +537,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~114"></span>
+              <span class="anchor" id="variable-x~228"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -545,7 +552,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~100"></span>
+              <span class="anchor" id="variable-uplo~150"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -560,7 +567,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~52"></span>
+              <span class="anchor" id="variable-trans~88"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -575,7 +582,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~24"></span>
+              <span class="anchor" id="variable-diag~56"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -590,7 +597,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~106"></span>
+              <span class="anchor" id="variable-incx~222"></span>
               integer,
             </td>
 <td>intent(in),</td>

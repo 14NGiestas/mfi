@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 94 statements,  0.5% of total for procedures.">4 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 94 statements,  1.0% of total for procedures.">4 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_blas.html'>mfi_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_syr2k</li>
           </ol>
@@ -143,8 +143,11 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface mfi_syr2k</h2>
-      
-
+      <p>Generic modern interface for SYR2K.
+Supports s, d.
+See also:
+<a href="../interface/f77_syr2k.html#proc-ssyr2k">ssyr2k</a>,<a href="../interface/f77_syr2k.html#proc-dsyr2k">dsyr2k</a>.</p>
+<br>
 
 
         <h2>Module Procedures</h2>
@@ -153,7 +156,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_syr2k.html#proc-ssyr2k">ssyr2k</a>.
+See also: <a href="../interface/mfi_syr2k.html">mfi_syr2k</a>, <a href="../interface/f77_syr2k.html">f77_syr2k</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -168,7 +172,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~199"></span>
+              <span class="anchor" id="variable-a~237"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -183,7 +187,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~63"></span>
+              <span class="anchor" id="variable-b~77"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -198,7 +202,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~29"></span>
+              <span class="anchor" id="variable-c~55"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -213,7 +217,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~111"></span>
+              <span class="anchor" id="variable-uplo~161"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -228,7 +232,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~59"></span>
+              <span class="anchor" id="variable-trans~95"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -243,7 +247,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~57"></span>
+              <span class="anchor" id="variable-alpha~123"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -258,7 +262,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~35"></span>
+              <span class="anchor" id="variable-beta~71"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -283,7 +287,8 @@
 </h3></div>
     <div class="card-body">
           
-  
+  <p>Modern interface for <a href="../interface/f77_syr2k.html#proc-dsyr2k">dsyr2k</a>.
+See also: <a href="../interface/mfi_syr2k.html">mfi_syr2k</a>, <a href="../interface/f77_syr2k.html">f77_syr2k</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -298,7 +303,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~200"></span>
+              <span class="anchor" id="variable-a~238"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -313,7 +318,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~64"></span>
+              <span class="anchor" id="variable-b~78"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -328,7 +333,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~30"></span>
+              <span class="anchor" id="variable-c~56"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -343,7 +348,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~112"></span>
+              <span class="anchor" id="variable-uplo~162"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -358,7 +363,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~60"></span>
+              <span class="anchor" id="variable-trans~96"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -373,7 +378,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~58"></span>
+              <span class="anchor" id="variable-alpha~124"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -388,7 +393,7 @@
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~36"></span>
+              <span class="anchor" id="variable-beta~72"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>

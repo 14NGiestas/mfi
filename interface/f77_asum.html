@@ -71,7 +71,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.0% of total for procedures.</p>Including implementation: 126 statements,  0.7% of total for procedures.">6 statements</a>
+                 title="<p> 0.3% of total for procedures.</p>Including implementation: 30 statements,  0.3% of total for procedures.">30 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/f77_blas.html'>f77_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_asum</li>
           </ol>
@@ -114,28 +114,28 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#modprocs-0"
-         aria-expanded="false" aria-controls="modprocs-0">
-         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
       </a>
-      <div id="modprocs-0" class="collapse">
+      <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/f77_asum.html#moduleprocedure-sasum~2">sasum</a>
-            <a class="list-group-item" href="../interface/f77_asum.html#moduleprocedure-dasum~2">dasum</a>
-            <a class="list-group-item" href="../interface/f77_asum.html#moduleprocedure-scasum~2">scasum</a>
-            <a class="list-group-item" href="../interface/f77_asum.html#moduleprocedure-dzasum~2">dzasum</a>
+            <a class="list-group-item" href="../interface/f77_asum.html#proc-sasum">sasum</a>
+            <a class="list-group-item" href="../interface/f77_asum.html#proc-dasum">dasum</a>
+            <a class="list-group-item" href="../interface/f77_asum.html#proc-scasum">scasum</a>
+            <a class="list-group-item" href="../interface/f77_asum.html#proc-dzasum">dzasum</a>
         </div>
       </div>
     </div>
 
+  
+  
+  
+  
+  
+  
+  
   
 
 
@@ -145,66 +145,312 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface f77_asum</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
+      <p>Generic old style interface for ASUM.
+Supports s, d, sc, dz.
+See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interface/f77_asum.html#proc-sasum">sasum</a>,<a href="../interface/f77_asum.html#proc-dasum">dasum</a>,<a href="../interface/f77_asum.html#proc-scasum">scasum</a>,<a href="../interface/f77_asum.html#proc-dzasum">dzasum</a>.</p>
+<br>
+        <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-sasum"></span> <h3>public  interface <a href='sasum.html'>sasum</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-sasum"></span> <h3>public pure function sasum(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?asum supports s, d, sc, dz.
+        <p>Original interface for SASUM
 See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interface/f77_asum.html">f77_asum</a>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~101"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~27"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~19"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=REAL32)</small>
+    </h4>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-dasum"></span> <h3>public  interface <a href='dasum.html'>dasum</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dasum"></span> <h3>public pure function dasum(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?asum supports s, d, sc, dz.
+        <p>Original interface for DASUM
 See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interface/f77_asum.html">f77_asum</a>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~102"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~28"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~20"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=REAL64)</small>
+    </h4>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-scasum"></span> <h3>public  interface <a href='scasum.html'>scasum</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-scasum"></span> <h3>public pure function scasum(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?asum supports s, d, sc, dz.
+        <p>Original interface for SCASUM
 See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interface/f77_asum.html">f77_asum</a>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~103"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~29"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~21"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=REAL32)</small>
+    </h4>
+    
 
     </div>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="interface-dzasum"></span> <h3>public  interface <a href='dzasum.html'>dzasum</a>()  
+    <div class="card-header codesum"><span class="anchor" id="proc-dzasum"></span> <h3>public pure function dzasum(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  <p>?asum supports s, d, sc, dz.
+        <p>Original interface for DZASUM
 See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interface/f77_asum.html">f77_asum</a>.</p>
 
   <h4>Arguments</h4>
-    <em>None</em>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~104"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~30"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~22"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=REAL64)</small>
+    </h4>
+    
 
     </div>
   </div>
+
+
 
 </div>
   </div>
