@@ -35,15 +35,12 @@
 #:include "src/f77/blas/iamax_iamin.fypp"
 #:include "src/f77/blas/iamin_stub.fypp"
 #:endmute
-!> Improved and original F77 interfaces for blas
+!> Improved and original F77 interfaces for BLAS
 module f77_blas
 use iso_fortran_env
 implicit none
 
-!FIXME rot, dot, rotg, nrm2: problem with functions that have TYPE /= TYPE_result
-
 ! BLAS level 1
-
 $:f77_interface('?axpy',  DEFAULT_TYPES, axpy)
 $:f77_interface('?copy',  DEFAULT_TYPES, copy_swap)
 $:f77_interface('?dot',   REAL_TYPES,    dot_product)
@@ -56,9 +53,9 @@ $:f77_interface('?swap',  DEFAULT_TYPES, copy_swap)
 
 #! Problematic functions
 #! asum has special names indicating the returns are real types
-$:f77_interface('?asum',  DEFAULT_TYPES, asum_nrm2, f=MIX_REAL_COMPLEX)
+$:f77_interface('?asum',  DEFAULT_TYPES, asum_nrm2, MIX_REAL_COMPLEX)
 #! nrm2 has the same interface as asum
-$:f77_interface('?nrm2',  DEFAULT_TYPES, asum_nrm2, f=MIX_REAL_COMPLEX)
+$:f77_interface('?nrm2',  DEFAULT_TYPES, asum_nrm2, MIX_REAL_COMPLEX)
 #! scal has mixed types scalars so it can multiply a real constant by a complex vector
 $:f77_interface('?scal',  DEFAULT_TYPES, scal,       improved_f77=False)
 $:f77_interface('?scal',  COMPLEX_TYPES, scal_mixed, improved_f77=False, f=MIX_COMPLEX_REAL)

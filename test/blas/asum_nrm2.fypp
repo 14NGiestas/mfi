@@ -1,4 +1,4 @@
-#:def asum(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
+#:def asum_nrm2(ORIGINAL,IMPROVED,MODERN,TYPE,KIND,PREFIX)
 subroutine test_${ORIGINAL}$
     use f77_blas, only: ${ORIGINAL}$, ${IMPROVED}$
     use mfi_blas, only: ${MODERN}$, mfi_${ORIGINAL}$
