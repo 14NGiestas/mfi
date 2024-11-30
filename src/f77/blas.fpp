@@ -94,10 +94,6 @@ implicit none
 $:f77_original(name, supported_types, code)
 #:endfor
 
-#:for name, supported_types, code in COLLECT
-$:f77_improved(name, supported_types)
-#:endfor
-
 #:include "src/f77/blas/specific_interfaces.fypp"
 
 ! Extensions

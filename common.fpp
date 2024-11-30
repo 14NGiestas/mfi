@@ -32,20 +32,6 @@
 #:set MIX_SINGLE_DOUBLE = mix(SINGLE_TYPES,DOUBLE_TYPES)
 #:set MIX_DOUBLE_SINGLE = mix(DOUBLE_TYPES,SINGLE_TYPES)
 
-${type('s')}$ :: variable
-${get('s','wp')}$
-${prefix('s','?gemm')}$
-
-${mix(REAL_TYPES,COMPLEX_TYPES)}$
-${mix(COMPLEX_TYPES,REAL_TYPES)}$
-${mix(SINGLE_TYPES,DOUBLE_TYPES)}$
-${mix(DOUBLE_TYPES,SINGLE_TYPES)}$
-
-${list(map(split, mix(REAL_TYPES, COMPLEX_TYPES)))}$
-${list(map(split, mix(COMPLEX_TYPES, REAL_TYPES)))}$
-${list(map(split, mix(SINGLE_TYPES,DOUBLE_TYPES)))}$
-${list(map(split, mix(DOUBLE_TYPES,SINGLE_TYPES)))}$
-
 #:def timeit(message, code)
 block
 real :: t1, t2
@@ -139,13 +125,17 @@ end interface
 #! code must implement a routine interface
 #:def f77_original(generic_name, prefixes, code)
 #:set mfi = 'mfi_' + prefix('',generic_name)
-#:set f77 = 'f77_' + prefix('',generic_name)
-!> ${generic_name}$ supports ${', '.join(prefixes)}$.
-!> See also: [[${mfi}$]], [[${f77}$]].
-interface
+#:set f90 = 'f77_' + prefix('',generic_name)
+#:set f77 = [prefix(pfx,generic_name) for pfx in prefixes]
+!> Generic old style interface for ${prefix('',generic_name).upper()}$.
+!> Supports ${', '.join(prefixes)}$.
+!> See also: [[${mfi}$]], ${'[[' + ']],[['.join(f77) + ']]'}$.
+interface f77_${prefix('',generic_name)}$
 #:for pfx in prefixes
 #:set name = prefix(pfx,generic_name)
 #:set pfxs = list(map(split,pfx))
+!> Original interface for ${name.upper()}$
+!> See also: [[${mfi}$]], [[${f90}$]].
 $:code(name,pfxs)
 #:endfor
 end interface
@@ -170,6 +160,11 @@ $:code(name,pfxs)
 #:enddef
 
 #:def mfi_interface(generic_name, prefixes)
+#:set f77 = ['f77_' + prefix('',generic_name) + ':' + prefix(pfx,generic_name) for pfx in prefixes]
+!> Generic modern interface for ${prefix('',generic_name).upper()}$.
+!> Supports ${', '.join(prefixes)}$.
+!> See also:
+!> ${'[[' + ']],[['.join(f77) + ']]'}$.
 #:set functions = map(lambda pfx: 'mfi_' + prefix(pfx,generic_name), prefixes)
 $:interface(functions, &
             procedure='module procedure', &
@@ -184,6 +179,9 @@ $:interface(functions, &
 #:set mfi_name  = 'mfi_' + prefix(pfx,generic_name)
 #:set f77_name  =          prefix(pfx,generic_name)
 #:set pfxs      = list(map(split,pfx))
+#:set fun       = prefix('',generic_name)
+!> Modern interface for [[f77_${fun}$:${f77_name}$]].
+!> See also: [[mfi_${fun}$]], [[f77_${fun}$]].
 $:code(mfi_name,f77_name,pfxs)
 #:endfor
 #:enddef
@@ -209,49 +207,5 @@ $:code(f77,f90,mfi,pfxs)
 @:timeit("testing ${mfi}$ against ${f77}$", { call test_${f77}$ })
 #:endfor
 #:enddef
-
-#:def rot_f77(name,pfxs)
-#:set A = pfxs[0]
-#:set B = A if len(pfxs) == 1 else pfxs[1]
-!> ${name.upper()}$ applies a plane rotation.
-pure subroutine ${name}$(n, x, incx, y, incy, c, s)
-    $:imports(pfxs)
-@:args(${type(A)}$, in, x(*), y(*))
-@:args(${real(A)}$, in, c)
-@:args(${type(B)}$, in, s)
-    integer,     intent(in) :: n, incx, incy
-end subroutine
-#:enddef
-
-#:def rot_mfi(mfi_name,f77_name,pfxs)
-#:set A = pfxs[0]
-#:set B = A if len(pfxs) == 1 else pfxs[1]
-!> Given two vectors x and y,
-!> each vector element of these vectors is replaced as follows:
-!>```fortran
-#:if type(A) == real(A)
-!> xi = c*xi + s*yi
-!> yi = c*yi - s*xi
-#:elif type(A) == complex(A)
-!> xi = c*xi + s*yi
-!> yi = c*yi - conj(s)*xi
-#:endif
-!>```
-pure subroutine ${mfi_name}$(x, y, c, s, incx, incy)
-@:args(${type(A)}$, inout, x(:), y(:))
-@:args(${real(A)}$, in, c)
-@:args(${type(B)}$, in, s)
-@:optional(integer, in, incx, incy)
-    integer :: n
-@:defaults(incx=1, incy=1)
-    n = size(x)
-    call ${f77_name}$(n,x,local_incx,y,local_incy,c,s)
-end subroutine
-#:enddef
-
-$:f77_original('?rot', DEFAULT_TYPES + mix(COMPLEX_TYPES,REAL_TYPES), rot_f77)
-$:mfi_interface('?rot', DEFAULT_TYPES + mix(COMPLEX_TYPES,REAL_TYPES))
-$:mfi_implement('?rot', DEFAULT_TYPES + mix(COMPLEX_TYPES,REAL_TYPES), rot_mfi)
-
 
 #:endmute

@@ -57,10 +57,6 @@ implicit none
 $:f77_original(name, supported_types, code)
 #:endfor
 
-#:for name, supported_types, code in COLLECT
-$:f77_improved(name, supported_types)
-#:endfor
-
     interface f77_xerbla
         pure subroutine xerbla(name,info)
             character(*), intent(in) :: name
