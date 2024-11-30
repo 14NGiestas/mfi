@@ -10,7 +10,7 @@ pure function ${NAME}$(n, x, incx)
         ${NAME}$ = 0
         return
     end if
-#:if type(wp) is complex(wp)
+#:if type(wp) == complex(wp)
     ${NAME}$ = minloc(abs(real(x(1:n:incx))) + abs(aimag(x(1:n:incx))),dim=1)
 #:else
     ${NAME}$ = minloc(x(1:n:incx),dim=1)
