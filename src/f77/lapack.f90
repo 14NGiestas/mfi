@@ -4,9 +4,12 @@ use iso_fortran_env
 implicit none
 
 
-!> ?geqrf supports s, d, c, z.
+!> Generic old style interface for GEQRF.
+!> Supports s, d, c, z.
+!> See also: [[mfi_geqrf]], [[sgeqrf]],[[dgeqrf]],[[cgeqrf]],[[zgeqrf]].
+interface f77_geqrf
+!> Original interface for SGEQRF
 !> See also: [[mfi_geqrf]], [[f77_geqrf]].
-interface
 pure subroutine sgeqrf(m,n,a,lda,tau,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -19,6 +22,8 @@ pure subroutine sgeqrf(m,n,a,lda,tau,work,lwork,info)
     integer, intent(in) :: lwork
     real(REAL32), intent(inout) :: work(*)
 end subroutine
+!> Original interface for DGEQRF
+!> See also: [[mfi_geqrf]], [[f77_geqrf]].
 pure subroutine dgeqrf(m,n,a,lda,tau,work,lwork,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -31,6 +36,8 @@ pure subroutine dgeqrf(m,n,a,lda,tau,work,lwork,info)
     integer, intent(in) :: lwork
     real(REAL64), intent(inout) :: work(*)
 end subroutine
+!> Original interface for CGEQRF
+!> See also: [[mfi_geqrf]], [[f77_geqrf]].
 pure subroutine cgeqrf(m,n,a,lda,tau,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -43,6 +50,8 @@ pure subroutine cgeqrf(m,n,a,lda,tau,work,lwork,info)
     integer, intent(in) :: lwork
     complex(REAL32), intent(inout) :: work(*)
 end subroutine
+!> Original interface for ZGEQRF
+!> See also: [[mfi_geqrf]], [[f77_geqrf]].
 pure subroutine zgeqrf(m,n,a,lda,tau,work,lwork,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -56,9 +65,12 @@ pure subroutine zgeqrf(m,n,a,lda,tau,work,lwork,info)
     complex(REAL64), intent(inout) :: work(*)
 end subroutine
 end interface
-!> ?gerqf supports s, d, c, z.
+!> Generic old style interface for GERQF.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gerqf]], [[sgerqf]],[[dgerqf]],[[cgerqf]],[[zgerqf]].
+interface f77_gerqf
+!> Original interface for SGERQF
 !> See also: [[mfi_gerqf]], [[f77_gerqf]].
-interface
 pure subroutine sgerqf(m,n,a,lda,tau,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -71,6 +83,8 @@ pure subroutine sgerqf(m,n,a,lda,tau,work,lwork,info)
     integer, intent(in) :: lwork
     real(REAL32), intent(inout) :: work(*)
 end subroutine
+!> Original interface for DGERQF
+!> See also: [[mfi_gerqf]], [[f77_gerqf]].
 pure subroutine dgerqf(m,n,a,lda,tau,work,lwork,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -83,6 +97,8 @@ pure subroutine dgerqf(m,n,a,lda,tau,work,lwork,info)
     integer, intent(in) :: lwork
     real(REAL64), intent(inout) :: work(*)
 end subroutine
+!> Original interface for CGERQF
+!> See also: [[mfi_gerqf]], [[f77_gerqf]].
 pure subroutine cgerqf(m,n,a,lda,tau,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -95,6 +111,8 @@ pure subroutine cgerqf(m,n,a,lda,tau,work,lwork,info)
     integer, intent(in) :: lwork
     complex(REAL32), intent(inout) :: work(*)
 end subroutine
+!> Original interface for ZGERQF
+!> See also: [[mfi_gerqf]], [[f77_gerqf]].
 pure subroutine zgerqf(m,n,a,lda,tau,work,lwork,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -108,9 +126,12 @@ pure subroutine zgerqf(m,n,a,lda,tau,work,lwork,info)
     complex(REAL64), intent(inout) :: work(*)
 end subroutine
 end interface
-!> ?getrf supports s, d, c, z.
+!> Generic old style interface for GETRF.
+!> Supports s, d, c, z.
+!> See also: [[mfi_getrf]], [[sgetrf]],[[dgetrf]],[[cgetrf]],[[zgetrf]].
+interface f77_getrf
+!> Original interface for SGETRF
 !> See also: [[mfi_getrf]], [[f77_getrf]].
-interface
 pure subroutine sgetrf(m,n,a,lda,ipiv,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -121,6 +142,8 @@ pure subroutine sgetrf(m,n,a,lda,ipiv,info)
     integer, intent(in) :: n
     integer, intent(in) :: lda
 end subroutine
+!> Original interface for DGETRF
+!> See also: [[mfi_getrf]], [[f77_getrf]].
 pure subroutine dgetrf(m,n,a,lda,ipiv,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -131,6 +154,8 @@ pure subroutine dgetrf(m,n,a,lda,ipiv,info)
     integer, intent(in) :: n
     integer, intent(in) :: lda
 end subroutine
+!> Original interface for CGETRF
+!> See also: [[mfi_getrf]], [[f77_getrf]].
 pure subroutine cgetrf(m,n,a,lda,ipiv,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -141,6 +166,8 @@ pure subroutine cgetrf(m,n,a,lda,ipiv,info)
     integer, intent(in) :: n
     integer, intent(in) :: lda
 end subroutine
+!> Original interface for ZGETRF
+!> See also: [[mfi_getrf]], [[f77_getrf]].
 pure subroutine zgetrf(m,n,a,lda,ipiv,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -152,9 +179,12 @@ pure subroutine zgetrf(m,n,a,lda,ipiv,info)
     integer, intent(in) :: lda
 end subroutine
 end interface
-!> ?getri supports s, d, c, z.
+!> Generic old style interface for GETRI.
+!> Supports s, d, c, z.
+!> See also: [[mfi_getri]], [[sgetri]],[[dgetri]],[[cgetri]],[[zgetri]].
+interface f77_getri
+!> Original interface for SGETRI
 !> See also: [[mfi_getri]], [[f77_getri]].
-interface
 pure subroutine sgetri(n,a,lda,ipiv,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -166,6 +196,8 @@ pure subroutine sgetri(n,a,lda,ipiv,work,lwork,info)
     integer, intent(in) :: lda
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for DGETRI
+!> See also: [[mfi_getri]], [[f77_getri]].
 pure subroutine dgetri(n,a,lda,ipiv,work,lwork,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -177,6 +209,8 @@ pure subroutine dgetri(n,a,lda,ipiv,work,lwork,info)
     integer, intent(in) :: lda
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for CGETRI
+!> See also: [[mfi_getri]], [[f77_getri]].
 pure subroutine cgetri(n,a,lda,ipiv,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -188,6 +222,8 @@ pure subroutine cgetri(n,a,lda,ipiv,work,lwork,info)
     integer, intent(in) :: lda
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for ZGETRI
+!> See also: [[mfi_getri]], [[f77_getri]].
 pure subroutine zgetri(n,a,lda,ipiv,work,lwork,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -200,9 +236,12 @@ pure subroutine zgetri(n,a,lda,ipiv,work,lwork,info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
-!> ?getrs supports s, d, c, z.
+!> Generic old style interface for GETRS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_getrs]], [[sgetrs]],[[dgetrs]],[[cgetrs]],[[zgetrs]].
+interface f77_getrs
+!> Original interface for SGETRS
 !> See also: [[mfi_getrs]], [[f77_getrs]].
-interface
 pure subroutine sgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -216,6 +255,8 @@ pure subroutine sgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     integer, intent(in) :: lda
     integer, intent(in) :: ldb
 end subroutine
+!> Original interface for DGETRS
+!> See also: [[mfi_getrs]], [[f77_getrs]].
 pure subroutine dgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -229,6 +270,8 @@ pure subroutine dgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     integer, intent(in) :: lda
     integer, intent(in) :: ldb
 end subroutine
+!> Original interface for CGETRS
+!> See also: [[mfi_getrs]], [[f77_getrs]].
 pure subroutine cgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -242,6 +285,8 @@ pure subroutine cgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     integer, intent(in) :: lda
     integer, intent(in) :: ldb
 end subroutine
+!> Original interface for ZGETRS
+!> See also: [[mfi_getrs]], [[f77_getrs]].
 pure subroutine zgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -256,9 +301,12 @@ pure subroutine zgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
     integer, intent(in) :: ldb
 end subroutine
 end interface
-!> ?hetrf supports c, z.
+!> Generic old style interface for HETRF.
+!> Supports c, z.
+!> See also: [[mfi_hetrf]], [[chetrf]],[[zhetrf]].
+interface f77_hetrf
+!> Original interface for CHETRF
 !> See also: [[mfi_hetrf]], [[f77_hetrf]].
-interface
 pure subroutine chetrf(uplo, n, a, lda, ipiv, work, lwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -271,6 +319,8 @@ pure subroutine chetrf(uplo, n, a, lda, ipiv, work, lwork, info)
     integer, intent(in) :: lda
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for ZHETRF
+!> See also: [[mfi_hetrf]], [[f77_hetrf]].
 pure subroutine zhetrf(uplo, n, a, lda, ipiv, work, lwork, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -284,9 +334,12 @@ pure subroutine zhetrf(uplo, n, a, lda, ipiv, work, lwork, info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
-!> ?hegv supports c, z.
+!> Generic old style interface for HEGV.
+!> Supports c, z.
+!> See also: [[mfi_hegv]], [[chegv]],[[zhegv]].
+interface f77_hegv
+!> Original interface for CHEGV
 !> See also: [[mfi_hegv]], [[f77_hegv]].
-interface
 pure subroutine chegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -304,6 +357,8 @@ pure subroutine chegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwor
     complex(REAL32), intent(inout) :: work(*)
     real(REAL32), intent(in) :: rwork(*)
 end subroutine
+!> Original interface for ZHEGV
+!> See also: [[mfi_hegv]], [[f77_hegv]].
 pure subroutine zhegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -322,9 +377,12 @@ pure subroutine zhegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwor
     real(REAL64), intent(in) :: rwork(*)
 end subroutine
 end interface
-!> ?heevd supports c, z.
+!> Generic old style interface for HEEVD.
+!> Supports c, z.
+!> See also: [[mfi_heevd]], [[cheevd]],[[zheevd]].
+interface f77_heevd
+!> Original interface for CHEEVD
 !> See also: [[mfi_heevd]], [[f77_heevd]].
-interface
 pure subroutine cheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -342,6 +400,8 @@ pure subroutine cheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwo
     real(REAL32), intent(inout) :: rwork(*)
     integer, intent(inout) :: iwork(*)
 end subroutine
+!> Original interface for ZHEEVD
+!> See also: [[mfi_heevd]], [[f77_heevd]].
 pure subroutine zheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -360,9 +420,12 @@ pure subroutine zheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwo
     integer, intent(inout) :: iwork(*)
 end subroutine
 end interface
-!> ?gesvd supports s, d, c, z.
+!> Generic old style interface for GESVD.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gesvd]], [[sgesvd]],[[dgesvd]],[[cgesvd]],[[zgesvd]].
+interface f77_gesvd
+!> Original interface for SGESVD
 !> See also: [[mfi_gesvd]], [[f77_gesvd]].
-interface
 pure subroutine sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -381,6 +444,8 @@ pure subroutine sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
     integer, intent(in) :: lwork
     real(REAL32), intent(inout) :: work(*)
 end subroutine
+!> Original interface for DGESVD
+!> See also: [[mfi_gesvd]], [[f77_gesvd]].
 pure subroutine dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -399,6 +464,8 @@ pure subroutine dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
     integer, intent(in) :: lwork
     real(REAL64), intent(inout) :: work(*)
 end subroutine
+!> Original interface for CGESVD
+!> See also: [[mfi_gesvd]], [[f77_gesvd]].
 pure subroutine cgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -418,6 +485,8 @@ pure subroutine cgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,inf
     complex(REAL32), intent(inout) :: work(*)
     real(REAL32), intent(in) :: rwork(*)
 end subroutine
+!> Original interface for ZGESVD
+!> See also: [[mfi_gesvd]], [[f77_gesvd]].
 pure subroutine zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -438,9 +507,12 @@ pure subroutine zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,inf
     real(REAL64), intent(in) :: rwork(*)
 end subroutine
 end interface
-!> ?potrf supports s, d, c, z.
+!> Generic old style interface for POTRF.
+!> Supports s, d, c, z.
+!> See also: [[mfi_potrf]], [[spotrf]],[[dpotrf]],[[cpotrf]],[[zpotrf]].
+interface f77_potrf
+!> Original interface for SPOTRF
 !> See also: [[mfi_potrf]], [[f77_potrf]].
-interface
 pure subroutine spotrf(uplo, n, a, lda, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -450,6 +522,8 @@ pure subroutine spotrf(uplo, n, a, lda, info)
     integer, intent(in) :: lda
     integer, intent(out) :: info
 end subroutine
+!> Original interface for DPOTRF
+!> See also: [[mfi_potrf]], [[f77_potrf]].
 pure subroutine dpotrf(uplo, n, a, lda, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -459,6 +533,8 @@ pure subroutine dpotrf(uplo, n, a, lda, info)
     integer, intent(in) :: lda
     integer, intent(out) :: info
 end subroutine
+!> Original interface for CPOTRF
+!> See also: [[mfi_potrf]], [[f77_potrf]].
 pure subroutine cpotrf(uplo, n, a, lda, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -468,6 +544,8 @@ pure subroutine cpotrf(uplo, n, a, lda, info)
     integer, intent(in) :: lda
     integer, intent(out) :: info
 end subroutine
+!> Original interface for ZPOTRF
+!> See also: [[mfi_potrf]], [[f77_potrf]].
 pure subroutine zpotrf(uplo, n, a, lda, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -478,9 +556,12 @@ pure subroutine zpotrf(uplo, n, a, lda, info)
     integer, intent(out) :: info
 end subroutine
 end interface
-!> ?potri supports s, d, c, z.
+!> Generic old style interface for POTRI.
+!> Supports s, d, c, z.
+!> See also: [[mfi_potri]], [[spotri]],[[dpotri]],[[cpotri]],[[zpotri]].
+interface f77_potri
+!> Original interface for SPOTRI
 !> See also: [[mfi_potri]], [[f77_potri]].
-interface
 pure subroutine spotri(uplo, n, a, lda, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -490,6 +571,8 @@ pure subroutine spotri(uplo, n, a, lda, info)
     integer, intent(in) :: lda
     integer, intent(out) :: info
 end subroutine
+!> Original interface for DPOTRI
+!> See also: [[mfi_potri]], [[f77_potri]].
 pure subroutine dpotri(uplo, n, a, lda, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -499,6 +582,8 @@ pure subroutine dpotri(uplo, n, a, lda, info)
     integer, intent(in) :: lda
     integer, intent(out) :: info
 end subroutine
+!> Original interface for CPOTRI
+!> See also: [[mfi_potri]], [[f77_potri]].
 pure subroutine cpotri(uplo, n, a, lda, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -508,6 +593,8 @@ pure subroutine cpotri(uplo, n, a, lda, info)
     integer, intent(in) :: lda
     integer, intent(out) :: info
 end subroutine
+!> Original interface for ZPOTRI
+!> See also: [[mfi_potri]], [[f77_potri]].
 pure subroutine zpotri(uplo, n, a, lda, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -518,9 +605,12 @@ pure subroutine zpotri(uplo, n, a, lda, info)
     integer, intent(out) :: info
 end subroutine
 end interface
-!> ?potrs supports s, d, c, z.
+!> Generic old style interface for POTRS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_potrs]], [[spotrs]],[[dpotrs]],[[cpotrs]],[[zpotrs]].
+interface f77_potrs
+!> Original interface for SPOTRS
 !> See also: [[mfi_potrs]], [[f77_potrs]].
-interface
 pure subroutine spotrs(uplo, n, nrhs, a, lda, b, ldb, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -533,6 +623,8 @@ pure subroutine spotrs(uplo, n, nrhs, a, lda, b, ldb, info)
     integer, intent(in) :: ldb
     integer, intent(out) :: info
 end subroutine
+!> Original interface for DPOTRS
+!> See also: [[mfi_potrs]], [[f77_potrs]].
 pure subroutine dpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -545,6 +637,8 @@ pure subroutine dpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
     integer, intent(in) :: ldb
     integer, intent(out) :: info
 end subroutine
+!> Original interface for CPOTRS
+!> See also: [[mfi_potrs]], [[f77_potrs]].
 pure subroutine cpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -557,6 +651,8 @@ pure subroutine cpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
     integer, intent(in) :: ldb
     integer, intent(out) :: info
 end subroutine
+!> Original interface for ZPOTRS
+!> See also: [[mfi_potrs]], [[f77_potrs]].
 pure subroutine zpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -570,9 +666,12 @@ pure subroutine zpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
     integer, intent(out) :: info
 end subroutine
 end interface
-!> ?pocon supports s, d, c, z.
+!> Generic old style interface for POCON.
+!> Supports s, d, c, z.
+!> See also: [[mfi_pocon]], [[spocon]],[[dpocon]],[[cpocon]],[[zpocon]].
+interface f77_pocon
+!> Original interface for SPOCON
 !> See also: [[mfi_pocon]], [[f77_pocon]].
-interface
 !> spocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a real(REAL32) Hermitian positive definite matrix using the
 !> Cholesky factorization A = U**H*U or A = L*L**H computed by sPOTRF.
@@ -591,6 +690,8 @@ pure subroutine spocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
     integer, intent(inout) :: iwork(*)
     integer, intent(out) :: info
 end subroutine
+!> Original interface for DPOCON
+!> See also: [[mfi_pocon]], [[f77_pocon]].
 !> dpocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a real(REAL64) Hermitian positive definite matrix using the
 !> Cholesky factorization A = U**H*U or A = L*L**H computed by dPOTRF.
@@ -609,6 +710,8 @@ pure subroutine dpocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
     integer, intent(inout) :: iwork(*)
     integer, intent(out) :: info
 end subroutine
+!> Original interface for CPOCON
+!> See also: [[mfi_pocon]], [[f77_pocon]].
 !> cpocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a complex(REAL32) Hermitian positive definite matrix using the
 !> Cholesky factorization A = U**H*U or A = L*L**H computed by cPOTRF.
@@ -627,6 +730,8 @@ pure subroutine cpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
     real(REAL32), intent(inout) :: rwork(*)
     integer, intent(out) :: info
 end subroutine
+!> Original interface for ZPOCON
+!> See also: [[mfi_pocon]], [[f77_pocon]].
 !> zpocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a complex(REAL64) Hermitian positive definite matrix using the
 !> Cholesky factorization A = U**H*U or A = L*L**H computed by zPOTRF.
@@ -646,9 +751,12 @@ pure subroutine zpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
     integer, intent(out) :: info
 end subroutine
 end interface
-!> ?heevx supports c, z.
+!> Generic old style interface for HEEVX.
+!> Supports c, z.
+!> See also: [[mfi_heevx]], [[cheevx]],[[zheevx]].
+interface f77_heevx
+!> Original interface for CHEEVX
 !> See also: [[mfi_heevx]], [[f77_heevx]].
-interface
 pure subroutine cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
                          work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
     import :: REAL32
@@ -677,6 +785,8 @@ pure subroutine cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
     real(REAL32), intent(inout) :: rwork(*)
     integer, intent(inout) :: iwork(*)
 end subroutine
+!> Original interface for ZHEEVX
+!> See also: [[mfi_heevx]], [[f77_heevx]].
 pure subroutine zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
                          work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
     import :: REAL64
@@ -706,9 +816,12 @@ pure subroutine zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
     integer, intent(inout) :: iwork(*)
 end subroutine
 end interface
-!> ?heevr supports c, z.
+!> Generic old style interface for HEEVR.
+!> Supports c, z.
+!> See also: [[mfi_heevr]], [[cheevr]],[[zheevr]].
+interface f77_heevr
+!> Original interface for CHEEVR
 !> See also: [[mfi_heevr]], [[f77_heevr]].
-interface
 pure subroutine cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
                          isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
     import :: REAL32
@@ -737,6 +850,8 @@ pure subroutine cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
     real(REAL32), intent(inout) :: rwork(*)
     integer, intent(inout) :: iwork(*)
 end subroutine
+!> Original interface for ZHEEVR
+!> See also: [[mfi_heevr]], [[f77_heevr]].
 pure subroutine zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
                          isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
     import :: REAL64
@@ -766,9 +881,12 @@ pure subroutine zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
     integer, intent(inout) :: iwork(*)
 end subroutine
 end interface
-!> ?gels supports s, d, c, z.
+!> Generic old style interface for GELS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gels]], [[sgels]],[[dgels]],[[cgels]],[[zgels]].
+interface f77_gels
+!> Original interface for SGELS
 !> See also: [[mfi_gels]], [[f77_gels]].
-interface
 !> SGELS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine sgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     import :: REAL32
@@ -785,6 +903,8 @@ pure subroutine sgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: nrhs
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for DGELS
+!> See also: [[mfi_gels]], [[f77_gels]].
 !> DGELS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine dgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     import :: REAL64
@@ -801,6 +921,8 @@ pure subroutine dgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: nrhs
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for CGELS
+!> See also: [[mfi_gels]], [[f77_gels]].
 !> CGELS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine cgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     import :: REAL32
@@ -817,6 +939,8 @@ pure subroutine cgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: nrhs
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for ZGELS
+!> See also: [[mfi_gels]], [[f77_gels]].
 !> ZGELS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine zgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     import :: REAL64
@@ -834,9 +958,12 @@ pure subroutine zgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
-!> ?gelst supports s, d, c, z.
+!> Generic old style interface for GELST.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gelst]], [[sgelst]],[[dgelst]],[[cgelst]],[[zgelst]].
+interface f77_gelst
+!> Original interface for SGELST
 !> See also: [[mfi_gelst]], [[f77_gelst]].
-interface
 !> SGELST solves overdetermined or underdetermined systems for GE matrices
 !> using QR or LQ factorization with compact WY representation of Q.
 pure subroutine sgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
@@ -854,6 +981,8 @@ pure subroutine sgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: nrhs
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for DGELST
+!> See also: [[mfi_gelst]], [[f77_gelst]].
 !> DGELST solves overdetermined or underdetermined systems for GE matrices
 !> using QR or LQ factorization with compact WY representation of Q.
 pure subroutine dgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
@@ -871,6 +1000,8 @@ pure subroutine dgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: nrhs
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for CGELST
+!> See also: [[mfi_gelst]], [[f77_gelst]].
 !> CGELST solves overdetermined or underdetermined systems for GE matrices
 !> using QR or LQ factorization with compact WY representation of Q.
 pure subroutine cgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
@@ -888,6 +1019,8 @@ pure subroutine cgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: nrhs
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for ZGELST
+!> See also: [[mfi_gelst]], [[f77_gelst]].
 !> ZGELST solves overdetermined or underdetermined systems for GE matrices
 !> using QR or LQ factorization with compact WY representation of Q.
 pure subroutine zgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
@@ -906,9 +1039,12 @@ pure subroutine zgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
-!> ?getsls supports s, d, c, z.
+!> Generic old style interface for GETSLS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_getsls]], [[sgetsls]],[[dgetsls]],[[cgetsls]],[[zgetsls]].
+interface f77_getsls
+!> Original interface for SGETSLS
 !> See also: [[mfi_getsls]], [[f77_getsls]].
-interface
 !> SGETSLS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine sgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     import :: REAL32
@@ -925,6 +1061,8 @@ pure subroutine sgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: nrhs
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for DGETSLS
+!> See also: [[mfi_getsls]], [[f77_getsls]].
 !> DGETSLS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine dgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     import :: REAL64
@@ -941,6 +1079,8 @@ pure subroutine dgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: nrhs
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for CGETSLS
+!> See also: [[mfi_getsls]], [[f77_getsls]].
 !> CGETSLS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine cgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     import :: REAL32
@@ -957,6 +1097,8 @@ pure subroutine cgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: nrhs
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for ZGETSLS
+!> See also: [[mfi_getsls]], [[f77_getsls]].
 !> ZGETSLS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine zgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     import :: REAL64
@@ -974,9 +1116,12 @@ pure subroutine zgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
-!> ?gelsd supports s, d, c, z.
+!> Generic old style interface for GELSD.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gelsd]], [[sgelsd]],[[dgelsd]],[[cgelsd]],[[zgelsd]].
+interface f77_gelsd
+!> Original interface for SGELSD
 !> See also: [[mfi_gelsd]], [[f77_gelsd]].
-interface
 !> SGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
 pure subroutine sgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
     import :: REAL32
@@ -996,6 +1141,8 @@ pure subroutine sgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, 
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for DGELSD
+!> See also: [[mfi_gelsd]], [[f77_gelsd]].
 !> DGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
 pure subroutine dgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
     import :: REAL64
@@ -1015,6 +1162,8 @@ pure subroutine dgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, 
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for CGELSD
+!> See also: [[mfi_gelsd]], [[f77_gelsd]].
 !> CGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
 pure subroutine cgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
     import :: REAL32
@@ -1034,6 +1183,8 @@ pure subroutine cgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, 
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for ZGELSD
+!> See also: [[mfi_gelsd]], [[f77_gelsd]].
 !> ZGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
 pure subroutine zgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
     import :: REAL64
@@ -1054,9 +1205,12 @@ pure subroutine zgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, 
     integer, intent(in) :: lwork
 end subroutine
 end interface
-!> ?gelss supports s, d, c, z.
+!> Generic old style interface for GELSS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gelss]], [[sgelss]],[[dgelss]],[[cgelss]],[[zgelss]].
+interface f77_gelss
+!> Original interface for SGELSS
 !> See also: [[mfi_gelss]], [[f77_gelss]].
-interface
 !> SGELSS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine sgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
     import :: REAL32
@@ -1075,6 +1229,8 @@ pure subroutine sgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, 
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for DGELSS
+!> See also: [[mfi_gelss]], [[f77_gelss]].
 !> DGELSS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine dgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
     import :: REAL64
@@ -1093,6 +1249,8 @@ pure subroutine dgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, 
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for CGELSS
+!> See also: [[mfi_gelss]], [[f77_gelss]].
 !> CGELSS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine cgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
     import :: REAL32
@@ -1111,6 +1269,8 @@ pure subroutine cgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, 
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for ZGELSS
+!> See also: [[mfi_gelss]], [[f77_gelss]].
 !> ZGELSS solves overdetermined or underdetermined systems for GE matrices
 pure subroutine zgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
     import :: REAL64
@@ -1130,9 +1290,12 @@ pure subroutine zgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, 
     integer, intent(in) :: lwork
 end subroutine
 end interface
-!> ?gelsy supports s, d, c, z.
+!> Generic old style interface for GELSY.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gelsy]], [[sgelsy]],[[dgelsy]],[[cgelsy]],[[zgelsy]].
+interface f77_gelsy
+!> Original interface for SGELSY
 !> See also: [[mfi_gelsy]], [[f77_gelsy]].
-interface
 !> SGELSY solves overdetermined or underdetermined systems for GE matrices
 pure subroutine sgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
     import :: REAL32
@@ -1151,6 +1314,8 @@ pure subroutine sgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwor
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for DGELSY
+!> See also: [[mfi_gelsy]], [[f77_gelsy]].
 !> DGELSY solves overdetermined or underdetermined systems for GE matrices
 pure subroutine dgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
     import :: REAL64
@@ -1169,6 +1334,8 @@ pure subroutine dgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwor
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for CGELSY
+!> See also: [[mfi_gelsy]], [[f77_gelsy]].
 !> CGELSY solves overdetermined or underdetermined systems for GE matrices
 pure subroutine cgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
     import :: REAL32
@@ -1187,6 +1354,8 @@ pure subroutine cgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwor
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for ZGELSY
+!> See also: [[mfi_gelsy]], [[f77_gelsy]].
 !> ZGELSY solves overdetermined or underdetermined systems for GE matrices
 pure subroutine zgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
     import :: REAL64
@@ -1206,9 +1375,12 @@ pure subroutine zgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwor
     integer, intent(in) :: lwork
 end subroutine
 end interface
-!> ?gglse supports s, d, c, z.
+!> Generic old style interface for GGLSE.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gglse]], [[sgglse]],[[dgglse]],[[cgglse]],[[zgglse]].
+interface f77_gglse
+!> Original interface for SGGLSE
 !> See also: [[mfi_gglse]], [[f77_gglse]].
-interface
 pure subroutine sgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1226,6 +1398,8 @@ pure subroutine sgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for DGGLSE
+!> See also: [[mfi_gglse]], [[f77_gglse]].
 pure subroutine dgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1243,6 +1417,8 @@ pure subroutine dgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for CGGLSE
+!> See also: [[mfi_gglse]], [[f77_gglse]].
 pure subroutine cgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1260,6 +1436,8 @@ pure subroutine cgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for ZGGLSE
+!> See also: [[mfi_gglse]], [[f77_gglse]].
 pure subroutine zgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1278,9 +1456,12 @@ pure subroutine zgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
-!> ?gglsm supports s, d, c, z.
+!> Generic old style interface for GGLSM.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gglsm]], [[sgglsm]],[[dgglsm]],[[cgglsm]],[[zgglsm]].
+interface f77_gglsm
+!> Original interface for SGGLSM
 !> See also: [[mfi_gglsm]], [[f77_gglsm]].
-interface
 pure subroutine sgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1298,6 +1479,8 @@ pure subroutine sgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for DGGLSM
+!> See also: [[mfi_gglsm]], [[f77_gglsm]].
 pure subroutine dgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1315,6 +1498,8 @@ pure subroutine dgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for CGGLSM
+!> See also: [[mfi_gglsm]], [[f77_gglsm]].
 pure subroutine cgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1332,6 +1517,8 @@ pure subroutine cgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
     integer, intent(in) :: ldb
     integer, intent(in) :: lwork
 end subroutine
+!> Original interface for ZGGLSM
+!> See also: [[mfi_gglsm]], [[f77_gglsm]].
 pure subroutine zgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1350,9 +1537,12 @@ pure subroutine zgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
-!> ?lartg supports s, d, c, z.
+!> Generic old style interface for LARTG.
+!> Supports s, d, c, z.
+!> See also: [[mfi_lartg]], [[slartg]],[[dlartg]],[[clartg]],[[zlartg]].
+interface f77_lartg
+!> Original interface for SLARTG
 !> See also: [[mfi_lartg]], [[f77_lartg]].
-interface
 pure subroutine slartg(f, g, c, s, r)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1362,6 +1552,8 @@ pure subroutine slartg(f, g, c, s, r)
     real(REAL32), intent(inout) :: r
     real(REAL32), intent(inout) :: s
 end subroutine
+!> Original interface for DLARTG
+!> See also: [[mfi_lartg]], [[f77_lartg]].
 pure subroutine dlartg(f, g, c, s, r)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1371,6 +1563,8 @@ pure subroutine dlartg(f, g, c, s, r)
     real(REAL64), intent(inout) :: r
     real(REAL64), intent(inout) :: s
 end subroutine
+!> Original interface for CLARTG
+!> See also: [[mfi_lartg]], [[f77_lartg]].
 pure subroutine clartg(f, g, c, s, r)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1380,6 +1574,8 @@ pure subroutine clartg(f, g, c, s, r)
     complex(REAL32), intent(inout) :: r
     complex(REAL32), intent(inout) :: s
 end subroutine
+!> Original interface for ZLARTG
+!> See also: [[mfi_lartg]], [[f77_lartg]].
 pure subroutine zlartg(f, g, c, s, r)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1389,141 +1585,6 @@ pure subroutine zlartg(f, g, c, s, r)
     complex(REAL64), intent(inout) :: r
     complex(REAL64), intent(inout) :: s
 end subroutine
-end interface
-
-interface f77_geqrf
-    procedure :: sgeqrf
-    procedure :: dgeqrf
-    procedure :: cgeqrf
-    procedure :: zgeqrf
-end interface
-interface f77_gerqf
-    procedure :: sgerqf
-    procedure :: dgerqf
-    procedure :: cgerqf
-    procedure :: zgerqf
-end interface
-interface f77_getrf
-    procedure :: sgetrf
-    procedure :: dgetrf
-    procedure :: cgetrf
-    procedure :: zgetrf
-end interface
-interface f77_getri
-    procedure :: sgetri
-    procedure :: dgetri
-    procedure :: cgetri
-    procedure :: zgetri
-end interface
-interface f77_getrs
-    procedure :: sgetrs
-    procedure :: dgetrs
-    procedure :: cgetrs
-    procedure :: zgetrs
-end interface
-interface f77_hetrf
-    procedure :: chetrf
-    procedure :: zhetrf
-end interface
-interface f77_hegv
-    procedure :: chegv
-    procedure :: zhegv
-end interface
-interface f77_heevd
-    procedure :: cheevd
-    procedure :: zheevd
-end interface
-interface f77_gesvd
-    procedure :: sgesvd
-    procedure :: dgesvd
-    procedure :: cgesvd
-    procedure :: zgesvd
-end interface
-interface f77_potrf
-    procedure :: spotrf
-    procedure :: dpotrf
-    procedure :: cpotrf
-    procedure :: zpotrf
-end interface
-interface f77_potri
-    procedure :: spotri
-    procedure :: dpotri
-    procedure :: cpotri
-    procedure :: zpotri
-end interface
-interface f77_potrs
-    procedure :: spotrs
-    procedure :: dpotrs
-    procedure :: cpotrs
-    procedure :: zpotrs
-end interface
-interface f77_pocon
-    procedure :: spocon
-    procedure :: dpocon
-    procedure :: cpocon
-    procedure :: zpocon
-end interface
-interface f77_heevx
-    procedure :: cheevx
-    procedure :: zheevx
-end interface
-interface f77_heevr
-    procedure :: cheevr
-    procedure :: zheevr
-end interface
-interface f77_gels
-    procedure :: sgels
-    procedure :: dgels
-    procedure :: cgels
-    procedure :: zgels
-end interface
-interface f77_gelst
-    procedure :: sgelst
-    procedure :: dgelst
-    procedure :: cgelst
-    procedure :: zgelst
-end interface
-interface f77_getsls
-    procedure :: sgetsls
-    procedure :: dgetsls
-    procedure :: cgetsls
-    procedure :: zgetsls
-end interface
-interface f77_gelsd
-    procedure :: sgelsd
-    procedure :: dgelsd
-    procedure :: cgelsd
-    procedure :: zgelsd
-end interface
-interface f77_gelss
-    procedure :: sgelss
-    procedure :: dgelss
-    procedure :: cgelss
-    procedure :: zgelss
-end interface
-interface f77_gelsy
-    procedure :: sgelsy
-    procedure :: dgelsy
-    procedure :: cgelsy
-    procedure :: zgelsy
-end interface
-interface f77_gglse
-    procedure :: sgglse
-    procedure :: dgglse
-    procedure :: cgglse
-    procedure :: zgglse
-end interface
-interface f77_gglsm
-    procedure :: sgglsm
-    procedure :: dgglsm
-    procedure :: cgglsm
-    procedure :: zgglsm
-end interface
-interface f77_lartg
-    procedure :: slartg
-    procedure :: dlartg
-    procedure :: clartg
-    procedure :: zlartg
 end interface
 
     interface f77_xerbla

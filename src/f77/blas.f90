@@ -3,9 +3,12 @@ module f77_blas
 use iso_fortran_env
 implicit none
 
-!> ?copy supports s, d, c, z.
+!> Generic old style interface for COPY.
+!> Supports s, d, c, z.
+!> See also: [[mfi_copy]], [[scopy]],[[dcopy]],[[ccopy]],[[zcopy]].
+interface f77_copy
+!> Original interface for SCOPY
 !> See also: [[mfi_copy]], [[f77_copy]].
-interface
 pure subroutine scopy(n, x, incx, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -15,6 +18,8 @@ pure subroutine scopy(n, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DCOPY
+!> See also: [[mfi_copy]], [[f77_copy]].
 pure subroutine dcopy(n, x, incx, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -24,6 +29,8 @@ pure subroutine dcopy(n, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for CCOPY
+!> See also: [[mfi_copy]], [[f77_copy]].
 pure subroutine ccopy(n, x, incx, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -33,6 +40,8 @@ pure subroutine ccopy(n, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZCOPY
+!> See also: [[mfi_copy]], [[f77_copy]].
 pure subroutine zcopy(n, x, incx, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -43,9 +52,12 @@ pure subroutine zcopy(n, x, incx, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?swap supports s, d, c, z.
+!> Generic old style interface for SWAP.
+!> Supports s, d, c, z.
+!> See also: [[mfi_swap]], [[sswap]],[[dswap]],[[cswap]],[[zswap]].
+interface f77_swap
+!> Original interface for SSWAP
 !> See also: [[mfi_swap]], [[f77_swap]].
-interface
 pure subroutine sswap(n, x, incx, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -55,6 +67,8 @@ pure subroutine sswap(n, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DSWAP
+!> See also: [[mfi_swap]], [[f77_swap]].
 pure subroutine dswap(n, x, incx, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -64,6 +78,8 @@ pure subroutine dswap(n, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for CSWAP
+!> See also: [[mfi_swap]], [[f77_swap]].
 pure subroutine cswap(n, x, incx, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -73,6 +89,8 @@ pure subroutine cswap(n, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZSWAP
+!> See also: [[mfi_swap]], [[f77_swap]].
 pure subroutine zswap(n, x, incx, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -83,9 +101,12 @@ pure subroutine zswap(n, x, incx, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?axpy supports s, d, c, z.
+!> Generic old style interface for AXPY.
+!> Supports s, d, c, z.
+!> See also: [[mfi_axpy]], [[saxpy]],[[daxpy]],[[caxpy]],[[zaxpy]].
+interface f77_axpy
+!> Original interface for SAXPY
 !> See also: [[mfi_axpy]], [[f77_axpy]].
-interface
 pure subroutine saxpy(n, a, x, incx, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -96,6 +117,8 @@ pure subroutine saxpy(n, a, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DAXPY
+!> See also: [[mfi_axpy]], [[f77_axpy]].
 pure subroutine daxpy(n, a, x, incx, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -106,6 +129,8 @@ pure subroutine daxpy(n, a, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for CAXPY
+!> See also: [[mfi_axpy]], [[f77_axpy]].
 pure subroutine caxpy(n, a, x, incx, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -116,6 +141,8 @@ pure subroutine caxpy(n, a, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZAXPY
+!> See also: [[mfi_axpy]], [[f77_axpy]].
 pure subroutine zaxpy(n, a, x, incx, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -127,9 +154,12 @@ pure subroutine zaxpy(n, a, x, incx, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?dot supports s, d.
+!> Generic old style interface for DOT.
+!> Supports s, d.
+!> See also: [[mfi_dot]], [[sdot]],[[ddot]].
+interface f77_dot
+!> Original interface for SDOT
 !> See also: [[mfi_dot]], [[f77_dot]].
-interface
 pure function sdot(n, x, incx, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -140,6 +170,8 @@ pure function sdot(n, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end function
+!> Original interface for DDOT
+!> See also: [[mfi_dot]], [[f77_dot]].
 pure function ddot(n, x, incx, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -151,9 +183,12 @@ pure function ddot(n, x, incx, y, incy)
     integer, intent(in) :: incy
 end function
 end interface
-!> ?dotc supports c, z.
+!> Generic old style interface for DOTC.
+!> Supports c, z.
+!> See also: [[mfi_dotc]], [[cdotc]],[[zdotc]].
+interface f77_dotc
+!> Original interface for CDOTC
 !> See also: [[mfi_dotc]], [[f77_dotc]].
-interface
 pure function cdotc(n, x, incx, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -164,6 +199,8 @@ pure function cdotc(n, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end function
+!> Original interface for ZDOTC
+!> See also: [[mfi_dotc]], [[f77_dotc]].
 pure function zdotc(n, x, incx, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -175,9 +212,12 @@ pure function zdotc(n, x, incx, y, incy)
     integer, intent(in) :: incy
 end function
 end interface
-!> ?dotu supports c, z.
+!> Generic old style interface for DOTU.
+!> Supports c, z.
+!> See also: [[mfi_dotu]], [[cdotu]],[[zdotu]].
+interface f77_dotu
+!> Original interface for CDOTU
 !> See also: [[mfi_dotu]], [[f77_dotu]].
-interface
 pure function cdotu(n, x, incx, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -188,6 +228,8 @@ pure function cdotu(n, x, incx, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end function
+!> Original interface for ZDOTU
+!> See also: [[mfi_dotu]], [[f77_dotu]].
 pure function zdotu(n, x, incx, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -199,9 +241,12 @@ pure function zdotu(n, x, incx, y, incy)
     integer, intent(in) :: incy
 end function
 end interface
-!> ?asum supports s, d, sc, dz.
+!> Generic old style interface for ASUM.
+!> Supports s, d, sc, dz.
+!> See also: [[mfi_asum]], [[sasum]],[[dasum]],[[scasum]],[[dzasum]].
+interface f77_asum
+!> Original interface for SASUM
 !> See also: [[mfi_asum]], [[f77_asum]].
-interface
 pure function sasum(n, x, incx)
     import :: REAL32
     real(REAL32) :: sasum
@@ -209,6 +254,8 @@ pure function sasum(n, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end function
+!> Original interface for DASUM
+!> See also: [[mfi_asum]], [[f77_asum]].
 pure function dasum(n, x, incx)
     import :: REAL64
     real(REAL64) :: dasum
@@ -216,6 +263,8 @@ pure function dasum(n, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end function
+!> Original interface for SCASUM
+!> See also: [[mfi_asum]], [[f77_asum]].
 pure function scasum(n, x, incx)
     import :: REAL32
     real(REAL32) :: scasum
@@ -223,6 +272,8 @@ pure function scasum(n, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end function
+!> Original interface for DZASUM
+!> See also: [[mfi_asum]], [[f77_asum]].
 pure function dzasum(n, x, incx)
     import :: REAL64
     real(REAL64) :: dzasum
@@ -231,9 +282,12 @@ pure function dzasum(n, x, incx)
     integer, intent(in) :: incx
 end function
 end interface
-!> ?nrm2 supports s, d, sc, dz.
+!> Generic old style interface for NRM2.
+!> Supports s, d, sc, dz.
+!> See also: [[mfi_nrm2]], [[snrm2]],[[dnrm2]],[[scnrm2]],[[dznrm2]].
+interface f77_nrm2
+!> Original interface for SNRM2
 !> See also: [[mfi_nrm2]], [[f77_nrm2]].
-interface
 pure function snrm2(n, x, incx)
     import :: REAL32
     real(REAL32) :: snrm2
@@ -241,6 +295,8 @@ pure function snrm2(n, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end function
+!> Original interface for DNRM2
+!> See also: [[mfi_nrm2]], [[f77_nrm2]].
 pure function dnrm2(n, x, incx)
     import :: REAL64
     real(REAL64) :: dnrm2
@@ -248,6 +304,8 @@ pure function dnrm2(n, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end function
+!> Original interface for SCNRM2
+!> See also: [[mfi_nrm2]], [[f77_nrm2]].
 pure function scnrm2(n, x, incx)
     import :: REAL32
     real(REAL32) :: scnrm2
@@ -255,6 +313,8 @@ pure function scnrm2(n, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end function
+!> Original interface for DZNRM2
+!> See also: [[mfi_nrm2]], [[f77_nrm2]].
 pure function dznrm2(n, x, incx)
     import :: REAL64
     real(REAL64) :: dznrm2
@@ -263,9 +323,12 @@ pure function dznrm2(n, x, incx)
     integer, intent(in) :: incx
 end function
 end interface
-!> ?rot supports s, d, c, z, cs, zd.
+!> Generic old style interface for ROT.
+!> Supports s, d, c, z, cs, zd.
+!> See also: [[mfi_rot]], [[srot]],[[drot]],[[crot]],[[zrot]],[[csrot]],[[zdrot]].
+interface f77_rot
+!> Original interface for SROT
 !> See also: [[mfi_rot]], [[f77_rot]].
-interface
 !> SROT applies a plane rotation.
 pure subroutine srot(n, x, incx, y, incy, c, s)
     import :: REAL32
@@ -277,6 +340,8 @@ pure subroutine srot(n, x, incx, y, incy, c, s)
     real(REAL32), intent(in) :: c
     real(REAL32), intent(in) :: s
 end subroutine
+!> Original interface for DROT
+!> See also: [[mfi_rot]], [[f77_rot]].
 !> DROT applies a plane rotation.
 pure subroutine drot(n, x, incx, y, incy, c, s)
     import :: REAL64
@@ -288,6 +353,8 @@ pure subroutine drot(n, x, incx, y, incy, c, s)
     real(REAL64), intent(in) :: c
     real(REAL64), intent(in) :: s
 end subroutine
+!> Original interface for CROT
+!> See also: [[mfi_rot]], [[f77_rot]].
 !> CROT applies a plane rotation.
 pure subroutine crot(n, x, incx, y, incy, c, s)
     import :: REAL32
@@ -299,6 +366,8 @@ pure subroutine crot(n, x, incx, y, incy, c, s)
     real(REAL32), intent(in) :: c
     complex(REAL32), intent(in) :: s
 end subroutine
+!> Original interface for ZROT
+!> See also: [[mfi_rot]], [[f77_rot]].
 !> ZROT applies a plane rotation.
 pure subroutine zrot(n, x, incx, y, incy, c, s)
     import :: REAL64
@@ -310,6 +379,8 @@ pure subroutine zrot(n, x, incx, y, incy, c, s)
     real(REAL64), intent(in) :: c
     complex(REAL64), intent(in) :: s
 end subroutine
+!> Original interface for CSROT
+!> See also: [[mfi_rot]], [[f77_rot]].
 !> CSROT applies a plane rotation.
 pure subroutine csrot(n, x, incx, y, incy, c, s)
     import :: REAL32
@@ -321,6 +392,8 @@ pure subroutine csrot(n, x, incx, y, incy, c, s)
     real(REAL32), intent(in) :: c
     real(REAL32), intent(in) :: s
 end subroutine
+!> Original interface for ZDROT
+!> See also: [[mfi_rot]], [[f77_rot]].
 !> ZDROT applies a plane rotation.
 pure subroutine zdrot(n, x, incx, y, incy, c, s)
     import :: REAL64
@@ -333,9 +406,12 @@ pure subroutine zdrot(n, x, incx, y, incy, c, s)
     real(REAL64), intent(in) :: s
 end subroutine
 end interface
-!> ?rotg supports s, d, c, z.
+!> Generic old style interface for ROTG.
+!> Supports s, d, c, z.
+!> See also: [[mfi_rotg]], [[srotg]],[[drotg]],[[crotg]],[[zrotg]].
+interface f77_rotg
+!> Original interface for SROTG
 !> See also: [[mfi_rotg]], [[f77_rotg]].
-interface
 !>srotg generates a Givens rotation with real cosine and complex sine:
 !>```
 !> [  c  s ] [ a ] = [ r ]
@@ -351,6 +427,8 @@ pure subroutine srotg(a, b, c, s)
     real(REAL32), intent(out) :: s
 end subroutine
 
+!> Original interface for DROTG
+!> See also: [[mfi_rotg]], [[f77_rotg]].
 !>drotg generates a Givens rotation with real cosine and complex sine:
 !>```
 !> [  c  s ] [ a ] = [ r ]
@@ -366,6 +444,8 @@ pure subroutine drotg(a, b, c, s)
     real(REAL64), intent(out) :: s
 end subroutine
 
+!> Original interface for CROTG
+!> See also: [[mfi_rotg]], [[f77_rotg]].
 !>crotg generates a Givens rotation with real cosine and complex sine:
 !>```
 !>  [  c         s ] [ a ] = [ r ]
@@ -381,6 +461,8 @@ pure subroutine crotg(a, b, c, s)
     complex(REAL32), intent(out) :: s
 end subroutine
 
+!> Original interface for ZROTG
+!> See also: [[mfi_rotg]], [[f77_rotg]].
 !>zrotg generates a Givens rotation with real cosine and complex sine:
 !>```
 !>  [  c         s ] [ a ] = [ r ]
@@ -397,9 +479,12 @@ pure subroutine zrotg(a, b, c, s)
 end subroutine
 
 end interface
-!> ?rotm supports s, d.
+!> Generic old style interface for ROTM.
+!> Supports s, d.
+!> See also: [[mfi_rotm]], [[srotm]],[[drotm]].
+interface f77_rotm
+!> Original interface for SROTM
 !> See also: [[mfi_rotm]], [[f77_rotm]].
-interface
 pure subroutine srotm(n, x, incx, y, incy, param)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -410,6 +495,8 @@ pure subroutine srotm(n, x, incx, y, incy, param)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DROTM
+!> See also: [[mfi_rotm]], [[f77_rotm]].
 pure subroutine drotm(n, x, incx, y, incy, param)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -421,9 +508,12 @@ pure subroutine drotm(n, x, incx, y, incy, param)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?rotmg supports s, d.
+!> Generic old style interface for ROTMG.
+!> Supports s, d.
+!> See also: [[mfi_rotmg]], [[srotmg]],[[drotmg]].
+interface f77_rotmg
+!> Original interface for SROTMG
 !> See also: [[mfi_rotmg]], [[f77_rotmg]].
-interface
 pure subroutine srotmg(d1, d2, x1, y1, param)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -433,6 +523,8 @@ pure subroutine srotmg(d1, d2, x1, y1, param)
     real(REAL32), intent(inout) :: d2
     real(REAL32), intent(inout) :: x1
 end subroutine
+!> Original interface for DROTMG
+!> See also: [[mfi_rotmg]], [[f77_rotmg]].
 pure subroutine drotmg(d1, d2, x1, y1, param)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -443,9 +535,12 @@ pure subroutine drotmg(d1, d2, x1, y1, param)
     real(REAL64), intent(inout) :: x1
 end subroutine
 end interface
-!> ?scal supports s, d, c, z, cs, zd.
+!> Generic old style interface for SCAL.
+!> Supports s, d, c, z, cs, zd.
+!> See also: [[mfi_scal]], [[sscal]],[[dscal]],[[cscal]],[[zscal]],[[csscal]],[[zdscal]].
+interface f77_scal
+!> Original interface for SSCAL
 !> See also: [[mfi_scal]], [[f77_scal]].
-interface
 !> SSCAL scales a vector by a constant.
 pure subroutine sscal(n, a, x, incx)
     import :: REAL32
@@ -454,6 +549,8 @@ pure subroutine sscal(n, a, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for DSCAL
+!> See also: [[mfi_scal]], [[f77_scal]].
 !> DSCAL scales a vector by a constant.
 pure subroutine dscal(n, a, x, incx)
     import :: REAL64
@@ -462,6 +559,8 @@ pure subroutine dscal(n, a, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for CSCAL
+!> See also: [[mfi_scal]], [[f77_scal]].
 !> CSCAL scales a vector by a constant.
 pure subroutine cscal(n, a, x, incx)
     import :: REAL32
@@ -470,6 +569,8 @@ pure subroutine cscal(n, a, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for ZSCAL
+!> See also: [[mfi_scal]], [[f77_scal]].
 !> ZSCAL scales a vector by a constant.
 pure subroutine zscal(n, a, x, incx)
     import :: REAL64
@@ -478,6 +579,8 @@ pure subroutine zscal(n, a, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for CSSCAL
+!> See also: [[mfi_scal]], [[f77_scal]].
 !> CSSCAL scales a vector by a constant.
 pure subroutine csscal(n, a, x, incx)
     import :: REAL32
@@ -486,6 +589,8 @@ pure subroutine csscal(n, a, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for ZDSCAL
+!> See also: [[mfi_scal]], [[f77_scal]].
 !> ZDSCAL scales a vector by a constant.
 pure subroutine zdscal(n, a, x, incx)
     import :: REAL64
@@ -495,9 +600,12 @@ pure subroutine zdscal(n, a, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?gbmv supports s, d, c, z.
+!> Generic old style interface for GBMV.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gbmv]], [[sgbmv]],[[dgbmv]],[[cgbmv]],[[zgbmv]].
+interface f77_gbmv
+!> Original interface for SGBMV
 !> See also: [[mfi_gbmv]], [[f77_gbmv]].
-interface
 pure subroutine sgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -515,6 +623,8 @@ pure subroutine sgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DGBMV
+!> See also: [[mfi_gbmv]], [[f77_gbmv]].
 pure subroutine dgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -532,6 +642,8 @@ pure subroutine dgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for CGBMV
+!> See also: [[mfi_gbmv]], [[f77_gbmv]].
 pure subroutine cgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -549,6 +661,8 @@ pure subroutine cgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZGBMV
+!> See also: [[mfi_gbmv]], [[f77_gbmv]].
 pure subroutine zgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -567,9 +681,12 @@ pure subroutine zgbmv(trans, m, n, kl, ku, alpha, a, lda, x, incx, beta, y, incy
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?gemv supports s, d, c, z.
+!> Generic old style interface for GEMV.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gemv]], [[sgemv]],[[dgemv]],[[cgemv]],[[zgemv]].
+interface f77_gemv
+!> Original interface for SGEMV
 !> See also: [[mfi_gemv]], [[f77_gemv]].
-interface
 pure subroutine sgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -585,6 +702,8 @@ pure subroutine sgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DGEMV
+!> See also: [[mfi_gemv]], [[f77_gemv]].
 pure subroutine dgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -600,6 +719,8 @@ pure subroutine dgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for CGEMV
+!> See also: [[mfi_gemv]], [[f77_gemv]].
 pure subroutine cgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -615,6 +736,8 @@ pure subroutine cgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZGEMV
+!> See also: [[mfi_gemv]], [[f77_gemv]].
 pure subroutine zgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -631,9 +754,12 @@ pure subroutine zgemv(trans, m, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?ger supports s, d.
+!> Generic old style interface for GER.
+!> Supports s, d.
+!> See also: [[mfi_ger]], [[sger]],[[dger]].
+interface f77_ger
+!> Original interface for SGER
 !> See also: [[mfi_ger]], [[f77_ger]].
-interface
 pure subroutine sger(m, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -647,6 +773,8 @@ pure subroutine sger(m, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DGER
+!> See also: [[mfi_ger]], [[f77_ger]].
 pure subroutine dger(m, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -661,9 +789,12 @@ pure subroutine dger(m, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?gerc supports c, z.
+!> Generic old style interface for GERC.
+!> Supports c, z.
+!> See also: [[mfi_gerc]], [[cgerc]],[[zgerc]].
+interface f77_gerc
+!> Original interface for CGERC
 !> See also: [[mfi_gerc]], [[f77_gerc]].
-interface
 pure subroutine cgerc(m, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -677,6 +808,8 @@ pure subroutine cgerc(m, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZGERC
+!> See also: [[mfi_gerc]], [[f77_gerc]].
 pure subroutine zgerc(m, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -691,9 +824,12 @@ pure subroutine zgerc(m, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?geru supports c, z.
+!> Generic old style interface for GERU.
+!> Supports c, z.
+!> See also: [[mfi_geru]], [[cgeru]],[[zgeru]].
+interface f77_geru
+!> Original interface for CGERU
 !> See also: [[mfi_geru]], [[f77_geru]].
-interface
 pure subroutine cgeru(m, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -707,6 +843,8 @@ pure subroutine cgeru(m, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZGERU
+!> See also: [[mfi_geru]], [[f77_geru]].
 pure subroutine zgeru(m, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -721,9 +859,12 @@ pure subroutine zgeru(m, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?hbmv supports c, z.
+!> Generic old style interface for HBMV.
+!> Supports c, z.
+!> See also: [[mfi_hbmv]], [[chbmv]],[[zhbmv]].
+interface f77_hbmv
+!> Original interface for CHBMV
 !> See also: [[mfi_hbmv]], [[f77_hbmv]].
-interface
 pure subroutine chbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -739,6 +880,8 @@ pure subroutine chbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZHBMV
+!> See also: [[mfi_hbmv]], [[f77_hbmv]].
 pure subroutine zhbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -755,9 +898,12 @@ pure subroutine zhbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?hemv supports c, z.
+!> Generic old style interface for HEMV.
+!> Supports c, z.
+!> See also: [[mfi_hemv]], [[chemv]],[[zhemv]].
+interface f77_hemv
+!> Original interface for CHEMV
 !> See also: [[mfi_hemv]], [[f77_hemv]].
-interface
 pure subroutine chemv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -772,6 +918,8 @@ pure subroutine chemv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZHEMV
+!> See also: [[mfi_hemv]], [[f77_hemv]].
 pure subroutine zhemv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -787,9 +935,12 @@ pure subroutine zhemv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?her supports c, z.
+!> Generic old style interface for HER.
+!> Supports c, z.
+!> See also: [[mfi_her]], [[cher]],[[zher]].
+interface f77_her
+!> Original interface for CHER
 !> See also: [[mfi_her]], [[f77_her]].
-interface
 pure subroutine cher(uplo, n, alpha, x, incx, a, lda)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -801,6 +952,8 @@ pure subroutine cher(uplo, n, alpha, x, incx, a, lda)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for ZHER
+!> See also: [[mfi_her]], [[f77_her]].
 pure subroutine zher(uplo, n, alpha, x, incx, a, lda)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -813,9 +966,12 @@ pure subroutine zher(uplo, n, alpha, x, incx, a, lda)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?her2 supports c, z.
+!> Generic old style interface for HER2.
+!> Supports c, z.
+!> See also: [[mfi_her2]], [[cher2]],[[zher2]].
+interface f77_her2
+!> Original interface for CHER2
 !> See also: [[mfi_her2]], [[f77_her2]].
-interface
 pure subroutine cher2(uplo, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -829,6 +985,8 @@ pure subroutine cher2(uplo, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZHER2
+!> See also: [[mfi_her2]], [[f77_her2]].
 pure subroutine zher2(uplo, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -843,9 +1001,12 @@ pure subroutine zher2(uplo, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?hpmv supports c, z.
+!> Generic old style interface for HPMV.
+!> Supports c, z.
+!> See also: [[mfi_hpmv]], [[chpmv]],[[zhpmv]].
+interface f77_hpmv
+!> Original interface for CHPMV
 !> See also: [[mfi_hpmv]], [[f77_hpmv]].
-interface
 pure subroutine chpmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -859,6 +1020,8 @@ pure subroutine chpmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZHPMV
+!> See also: [[mfi_hpmv]], [[f77_hpmv]].
 pure subroutine zhpmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -873,9 +1036,12 @@ pure subroutine zhpmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?hpr supports c, z.
+!> Generic old style interface for HPR.
+!> Supports c, z.
+!> See also: [[mfi_hpr]], [[chpr]],[[zhpr]].
+interface f77_hpr
+!> Original interface for CHPR
 !> See also: [[mfi_hpr]], [[f77_hpr]].
-interface
 pure subroutine chpr(uplo, n, alpha, x, incx, ap)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -886,6 +1052,8 @@ pure subroutine chpr(uplo, n, alpha, x, incx, ap)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for ZHPR
+!> See also: [[mfi_hpr]], [[f77_hpr]].
 pure subroutine zhpr(uplo, n, alpha, x, incx, ap)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -897,9 +1065,12 @@ pure subroutine zhpr(uplo, n, alpha, x, incx, ap)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?hpr2 supports c, z.
+!> Generic old style interface for HPR2.
+!> Supports c, z.
+!> See also: [[mfi_hpr2]], [[chpr2]],[[zhpr2]].
+interface f77_hpr2
+!> Original interface for CHPR2
 !> See also: [[mfi_hpr2]], [[f77_hpr2]].
-interface
 pure subroutine chpr2(uplo, n, alpha, x, incx, y, incy, ap)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -912,6 +1083,8 @@ pure subroutine chpr2(uplo, n, alpha, x, incx, y, incy, ap)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for ZHPR2
+!> See also: [[mfi_hpr2]], [[f77_hpr2]].
 pure subroutine zhpr2(uplo, n, alpha, x, incx, y, incy, ap)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -925,9 +1098,12 @@ pure subroutine zhpr2(uplo, n, alpha, x, incx, y, incy, ap)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?sbmv supports s, d.
+!> Generic old style interface for SBMV.
+!> Supports s, d.
+!> See also: [[mfi_sbmv]], [[ssbmv]],[[dsbmv]].
+interface f77_sbmv
+!> Original interface for SSBMV
 !> See also: [[mfi_sbmv]], [[f77_sbmv]].
-interface
 pure subroutine ssbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -943,6 +1119,8 @@ pure subroutine ssbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DSBMV
+!> See also: [[mfi_sbmv]], [[f77_sbmv]].
 pure subroutine dsbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -959,9 +1137,12 @@ pure subroutine dsbmv(uplo, n, k, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?spmv supports s, d.
+!> Generic old style interface for SPMV.
+!> Supports s, d.
+!> See also: [[mfi_spmv]], [[sspmv]],[[dspmv]].
+interface f77_spmv
+!> Original interface for SSPMV
 !> See also: [[mfi_spmv]], [[f77_spmv]].
-interface
 pure subroutine sspmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -975,6 +1156,8 @@ pure subroutine sspmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DSPMV
+!> See also: [[mfi_spmv]], [[f77_spmv]].
 pure subroutine dspmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -989,9 +1172,12 @@ pure subroutine dspmv(uplo, n, alpha, ap, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?spr supports s, d.
+!> Generic old style interface for SPR.
+!> Supports s, d.
+!> See also: [[mfi_spr]], [[sspr]],[[dspr]].
+interface f77_spr
+!> Original interface for SSPR
 !> See also: [[mfi_spr]], [[f77_spr]].
-interface
 pure subroutine sspr(uplo, n, alpha, x, incx, ap)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1002,6 +1188,8 @@ pure subroutine sspr(uplo, n, alpha, x, incx, ap)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for DSPR
+!> See also: [[mfi_spr]], [[f77_spr]].
 pure subroutine dspr(uplo, n, alpha, x, incx, ap)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1013,9 +1201,12 @@ pure subroutine dspr(uplo, n, alpha, x, incx, ap)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?spr2 supports s, d.
+!> Generic old style interface for SPR2.
+!> Supports s, d.
+!> See also: [[mfi_spr2]], [[sspr2]],[[dspr2]].
+interface f77_spr2
+!> Original interface for SSPR2
 !> See also: [[mfi_spr2]], [[f77_spr2]].
-interface
 pure subroutine sspr2(uplo, n, alpha, x, incx, y, incy, ap)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1028,6 +1219,8 @@ pure subroutine sspr2(uplo, n, alpha, x, incx, y, incy, ap)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DSPR2
+!> See also: [[mfi_spr2]], [[f77_spr2]].
 pure subroutine dspr2(uplo, n, alpha, x, incx, y, incy, ap)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1041,9 +1234,12 @@ pure subroutine dspr2(uplo, n, alpha, x, incx, y, incy, ap)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?symv supports s, d.
+!> Generic old style interface for SYMV.
+!> Supports s, d.
+!> See also: [[mfi_symv]], [[ssymv]],[[dsymv]].
+interface f77_symv
+!> Original interface for SSYMV
 !> See also: [[mfi_symv]], [[f77_symv]].
-interface
 pure subroutine ssymv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1058,6 +1254,8 @@ pure subroutine ssymv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DSYMV
+!> See also: [[mfi_symv]], [[f77_symv]].
 pure subroutine dsymv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1073,9 +1271,12 @@ pure subroutine dsymv(uplo, n, alpha, a, lda, x, incx, beta, y, incy)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?syr supports s, d.
+!> Generic old style interface for SYR.
+!> Supports s, d.
+!> See also: [[mfi_syr]], [[ssyr]],[[dsyr]].
+interface f77_syr
+!> Original interface for SSYR
 !> See also: [[mfi_syr]], [[f77_syr]].
-interface
 pure subroutine ssyr(uplo, n, alpha, x, incx, a, lda)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1087,6 +1288,8 @@ pure subroutine ssyr(uplo, n, alpha, x, incx, a, lda)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for DSYR
+!> See also: [[mfi_syr]], [[f77_syr]].
 pure subroutine dsyr(uplo, n, alpha, x, incx, a, lda)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1099,9 +1302,12 @@ pure subroutine dsyr(uplo, n, alpha, x, incx, a, lda)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?syr2 supports s, d.
+!> Generic old style interface for SYR2.
+!> Supports s, d.
+!> See also: [[mfi_syr2]], [[ssyr2]],[[dsyr2]].
+interface f77_syr2
+!> Original interface for SSYR2
 !> See also: [[mfi_syr2]], [[f77_syr2]].
-interface
 pure subroutine ssyr2(uplo, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1115,6 +1321,8 @@ pure subroutine ssyr2(uplo, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incx
     integer, intent(in) :: incy
 end subroutine
+!> Original interface for DSYR2
+!> See also: [[mfi_syr2]], [[f77_syr2]].
 pure subroutine dsyr2(uplo, n, alpha, x, incx, y, incy, a, lda)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1129,9 +1337,12 @@ pure subroutine dsyr2(uplo, n, alpha, x, incx, y, incy, a, lda)
     integer, intent(in) :: incy
 end subroutine
 end interface
-!> ?tbmv supports s, d, c, z.
+!> Generic old style interface for TBMV.
+!> Supports s, d, c, z.
+!> See also: [[mfi_tbmv]], [[stbmv]],[[dtbmv]],[[ctbmv]],[[ztbmv]].
+interface f77_tbmv
+!> Original interface for STBMV
 !> See also: [[mfi_tbmv]], [[f77_tbmv]].
-interface
 pure subroutine stbmv(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1145,6 +1356,8 @@ pure subroutine stbmv(uplo, trans, diag, n, k, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for DTBMV
+!> See also: [[mfi_tbmv]], [[f77_tbmv]].
 pure subroutine dtbmv(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1158,6 +1371,8 @@ pure subroutine dtbmv(uplo, trans, diag, n, k, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for CTBMV
+!> See also: [[mfi_tbmv]], [[f77_tbmv]].
 pure subroutine ctbmv(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1171,6 +1386,8 @@ pure subroutine ctbmv(uplo, trans, diag, n, k, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for ZTBMV
+!> See also: [[mfi_tbmv]], [[f77_tbmv]].
 pure subroutine ztbmv(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1185,9 +1402,12 @@ pure subroutine ztbmv(uplo, trans, diag, n, k, a, lda, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?tbsv supports s, d, c, z.
+!> Generic old style interface for TBSV.
+!> Supports s, d, c, z.
+!> See also: [[mfi_tbsv]], [[stbsv]],[[dtbsv]],[[ctbsv]],[[ztbsv]].
+interface f77_tbsv
+!> Original interface for STBSV
 !> See also: [[mfi_tbsv]], [[f77_tbsv]].
-interface
 pure subroutine stbsv(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1201,6 +1421,8 @@ pure subroutine stbsv(uplo, trans, diag, n, k, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for DTBSV
+!> See also: [[mfi_tbsv]], [[f77_tbsv]].
 pure subroutine dtbsv(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1214,6 +1436,8 @@ pure subroutine dtbsv(uplo, trans, diag, n, k, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for CTBSV
+!> See also: [[mfi_tbsv]], [[f77_tbsv]].
 pure subroutine ctbsv(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1227,6 +1451,8 @@ pure subroutine ctbsv(uplo, trans, diag, n, k, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for ZTBSV
+!> See also: [[mfi_tbsv]], [[f77_tbsv]].
 pure subroutine ztbsv(uplo, trans, diag, n, k, a, lda, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1241,9 +1467,12 @@ pure subroutine ztbsv(uplo, trans, diag, n, k, a, lda, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?tpmv supports s, d, c, z.
+!> Generic old style interface for TPMV.
+!> Supports s, d, c, z.
+!> See also: [[mfi_tpmv]], [[stpmv]],[[dtpmv]],[[ctpmv]],[[ztpmv]].
+interface f77_tpmv
+!> Original interface for STPMV
 !> See also: [[mfi_tpmv]], [[f77_tpmv]].
-interface
 pure subroutine stpmv(uplo, trans, diag, n, ap, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1255,6 +1484,8 @@ pure subroutine stpmv(uplo, trans, diag, n, ap, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for DTPMV
+!> See also: [[mfi_tpmv]], [[f77_tpmv]].
 pure subroutine dtpmv(uplo, trans, diag, n, ap, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1266,6 +1497,8 @@ pure subroutine dtpmv(uplo, trans, diag, n, ap, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for CTPMV
+!> See also: [[mfi_tpmv]], [[f77_tpmv]].
 pure subroutine ctpmv(uplo, trans, diag, n, ap, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1277,6 +1510,8 @@ pure subroutine ctpmv(uplo, trans, diag, n, ap, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for ZTPMV
+!> See also: [[mfi_tpmv]], [[f77_tpmv]].
 pure subroutine ztpmv(uplo, trans, diag, n, ap, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1289,9 +1524,12 @@ pure subroutine ztpmv(uplo, trans, diag, n, ap, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?tpsv supports s, d, c, z.
+!> Generic old style interface for TPSV.
+!> Supports s, d, c, z.
+!> See also: [[mfi_tpsv]], [[stpsv]],[[dtpsv]],[[ctpsv]],[[ztpsv]].
+interface f77_tpsv
+!> Original interface for STPSV
 !> See also: [[mfi_tpsv]], [[f77_tpsv]].
-interface
 pure subroutine stpsv(uplo, trans, diag, n, ap, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1303,6 +1541,8 @@ pure subroutine stpsv(uplo, trans, diag, n, ap, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for DTPSV
+!> See also: [[mfi_tpsv]], [[f77_tpsv]].
 pure subroutine dtpsv(uplo, trans, diag, n, ap, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1314,6 +1554,8 @@ pure subroutine dtpsv(uplo, trans, diag, n, ap, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for CTPSV
+!> See also: [[mfi_tpsv]], [[f77_tpsv]].
 pure subroutine ctpsv(uplo, trans, diag, n, ap, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1325,6 +1567,8 @@ pure subroutine ctpsv(uplo, trans, diag, n, ap, x, incx)
     integer, intent(in) :: n
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for ZTPSV
+!> See also: [[mfi_tpsv]], [[f77_tpsv]].
 pure subroutine ztpsv(uplo, trans, diag, n, ap, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1337,9 +1581,12 @@ pure subroutine ztpsv(uplo, trans, diag, n, ap, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?trmv supports s, d, c, z.
+!> Generic old style interface for TRMV.
+!> Supports s, d, c, z.
+!> See also: [[mfi_trmv]], [[strmv]],[[dtrmv]],[[ctrmv]],[[ztrmv]].
+interface f77_trmv
+!> Original interface for STRMV
 !> See also: [[mfi_trmv]], [[f77_trmv]].
-interface
 pure subroutine strmv(uplo, trans, diag, n, a, lda, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1352,6 +1599,8 @@ pure subroutine strmv(uplo, trans, diag, n, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for DTRMV
+!> See also: [[mfi_trmv]], [[f77_trmv]].
 pure subroutine dtrmv(uplo, trans, diag, n, a, lda, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1364,6 +1613,8 @@ pure subroutine dtrmv(uplo, trans, diag, n, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for CTRMV
+!> See also: [[mfi_trmv]], [[f77_trmv]].
 pure subroutine ctrmv(uplo, trans, diag, n, a, lda, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1376,6 +1627,8 @@ pure subroutine ctrmv(uplo, trans, diag, n, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for ZTRMV
+!> See also: [[mfi_trmv]], [[f77_trmv]].
 pure subroutine ztrmv(uplo, trans, diag, n, a, lda, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1389,9 +1642,12 @@ pure subroutine ztrmv(uplo, trans, diag, n, a, lda, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?trsv supports s, d, c, z.
+!> Generic old style interface for TRSV.
+!> Supports s, d, c, z.
+!> See also: [[mfi_trsv]], [[strsv]],[[dtrsv]],[[ctrsv]],[[ztrsv]].
+interface f77_trsv
+!> Original interface for STRSV
 !> See also: [[mfi_trsv]], [[f77_trsv]].
-interface
 pure subroutine strsv(uplo, trans, diag, n, a, lda, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1404,6 +1660,8 @@ pure subroutine strsv(uplo, trans, diag, n, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for DTRSV
+!> See also: [[mfi_trsv]], [[f77_trsv]].
 pure subroutine dtrsv(uplo, trans, diag, n, a, lda, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1416,6 +1674,8 @@ pure subroutine dtrsv(uplo, trans, diag, n, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for CTRSV
+!> See also: [[mfi_trsv]], [[f77_trsv]].
 pure subroutine ctrsv(uplo, trans, diag, n, a, lda, x, incx)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1428,6 +1688,8 @@ pure subroutine ctrsv(uplo, trans, diag, n, a, lda, x, incx)
     integer, intent(in) :: lda
     integer, intent(in) :: incx
 end subroutine
+!> Original interface for ZTRSV
+!> See also: [[mfi_trsv]], [[f77_trsv]].
 pure subroutine ztrsv(uplo, trans, diag, n, a, lda, x, incx)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1441,9 +1703,12 @@ pure subroutine ztrsv(uplo, trans, diag, n, a, lda, x, incx)
     integer, intent(in) :: incx
 end subroutine
 end interface
-!> ?gemm supports s, d, c, z.
+!> Generic old style interface for GEMM.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gemm]], [[sgemm]],[[dgemm]],[[cgemm]],[[zgemm]].
+interface f77_gemm
+!> Original interface for SGEMM
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-interface
 pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1461,6 +1726,8 @@ pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+!> Original interface for DGEMM
+!> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1478,6 +1745,8 @@ pure subroutine dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+!> Original interface for CGEMM
+!> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine cgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1495,6 +1764,8 @@ pure subroutine cgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+!> Original interface for ZGEMM
+!> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine zgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1513,9 +1784,12 @@ pure subroutine zgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldc
 end subroutine
 end interface
-!> ?hemm supports c, z.
+!> Generic old style interface for HEMM.
+!> Supports c, z.
+!> See also: [[mfi_hemm]], [[chemm]],[[zhemm]].
+interface f77_hemm
+!> Original interface for CHEMM
 !> See also: [[mfi_hemm]], [[f77_hemm]].
-interface
 pure subroutine chemm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1532,6 +1806,8 @@ pure subroutine chemm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+!> Original interface for ZHEMM
+!> See also: [[mfi_hemm]], [[f77_hemm]].
 pure subroutine zhemm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1549,9 +1825,12 @@ pure subroutine zhemm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
-!> ?herk supports c, z.
+!> Generic old style interface for HERK.
+!> Supports c, z.
+!> See also: [[mfi_herk]], [[cherk]],[[zherk]].
+interface f77_herk
+!> Original interface for CHERK
 !> See also: [[mfi_herk]], [[f77_herk]].
-interface
 pure subroutine cherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1566,6 +1845,8 @@ pure subroutine cherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     integer, intent(in) :: lda
     integer, intent(in) :: ldc
 end subroutine
+!> Original interface for ZHERK
+!> See also: [[mfi_herk]], [[f77_herk]].
 pure subroutine zherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1581,9 +1862,12 @@ pure subroutine zherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
-!> ?her2k supports c, z.
+!> Generic old style interface for HER2K.
+!> Supports c, z.
+!> See also: [[mfi_her2k]], [[cher2k]],[[zher2k]].
+interface f77_her2k
+!> Original interface for CHER2K
 !> See also: [[mfi_her2k]], [[f77_her2k]].
-interface
 pure subroutine cher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1600,6 +1884,8 @@ pure subroutine cher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+!> Original interface for ZHER2K
+!> See also: [[mfi_her2k]], [[f77_her2k]].
 pure subroutine zher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1617,9 +1903,12 @@ pure subroutine zher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
-!> ?symm supports s, d.
+!> Generic old style interface for SYMM.
+!> Supports s, d.
+!> See also: [[mfi_symm]], [[ssymm]],[[dsymm]].
+interface f77_symm
+!> Original interface for SSYMM
 !> See also: [[mfi_symm]], [[f77_symm]].
-interface
 pure subroutine ssymm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1636,6 +1925,8 @@ pure subroutine ssymm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+!> Original interface for DSYMM
+!> See also: [[mfi_symm]], [[f77_symm]].
 pure subroutine dsymm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1653,9 +1944,12 @@ pure subroutine dsymm(side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
-!> ?syrk supports s, d.
+!> Generic old style interface for SYRK.
+!> Supports s, d.
+!> See also: [[mfi_syrk]], [[ssyrk]],[[dsyrk]].
+interface f77_syrk
+!> Original interface for SSYRK
 !> See also: [[mfi_syrk]], [[f77_syrk]].
-interface
 pure subroutine ssyrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1670,6 +1964,8 @@ pure subroutine ssyrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     integer, intent(in) :: lda
     integer, intent(in) :: ldc
 end subroutine
+!> Original interface for DSYRK
+!> See also: [[mfi_syrk]], [[f77_syrk]].
 pure subroutine dsyrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1685,9 +1981,12 @@ pure subroutine dsyrk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
-!> ?syr2k supports s, d.
+!> Generic old style interface for SYR2K.
+!> Supports s, d.
+!> See also: [[mfi_syr2k]], [[ssyr2k]],[[dsyr2k]].
+interface f77_syr2k
+!> Original interface for SSYR2K
 !> See also: [[mfi_syr2k]], [[f77_syr2k]].
-interface
 pure subroutine ssyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1704,6 +2003,8 @@ pure subroutine ssyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+!> Original interface for DSYR2K
+!> See also: [[mfi_syr2k]], [[f77_syr2k]].
 pure subroutine dsyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1721,9 +2022,12 @@ pure subroutine dsyr2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     integer, intent(in) :: ldc
 end subroutine
 end interface
-!> ?trmm supports s, d, c, z.
+!> Generic old style interface for TRMM.
+!> Supports s, d, c, z.
+!> See also: [[mfi_trmm]], [[strmm]],[[dtrmm]],[[ctrmm]],[[ztrmm]].
+interface f77_trmm
+!> Original interface for STRMM
 !> See also: [[mfi_trmm]], [[f77_trmm]].
-interface
 pure subroutine strmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1739,6 +2043,8 @@ pure subroutine strmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     integer, intent(in) :: lda
     integer, intent(in) :: ldb
 end subroutine
+!> Original interface for DTRMM
+!> See also: [[mfi_trmm]], [[f77_trmm]].
 pure subroutine dtrmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1754,6 +2060,8 @@ pure subroutine dtrmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     integer, intent(in) :: lda
     integer, intent(in) :: ldb
 end subroutine
+!> Original interface for CTRMM
+!> See also: [[mfi_trmm]], [[f77_trmm]].
 pure subroutine ctrmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1769,6 +2077,8 @@ pure subroutine ctrmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     integer, intent(in) :: lda
     integer, intent(in) :: ldb
 end subroutine
+!> Original interface for ZTRMM
+!> See also: [[mfi_trmm]], [[f77_trmm]].
 pure subroutine ztrmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1785,9 +2095,12 @@ pure subroutine ztrmm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     integer, intent(in) :: ldb
 end subroutine
 end interface
-!> ?trsm supports s, d, c, z.
+!> Generic old style interface for TRSM.
+!> Supports s, d, c, z.
+!> See also: [[mfi_trsm]], [[strsm]],[[dtrsm]],[[ctrsm]],[[ztrsm]].
+interface f77_trsm
+!> Original interface for STRSM
 !> See also: [[mfi_trsm]], [[f77_trsm]].
-interface
 pure subroutine strsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1803,6 +2116,8 @@ pure subroutine strsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     integer, intent(in) :: lda
     integer, intent(in) :: ldb
 end subroutine
+!> Original interface for DTRSM
+!> See also: [[mfi_trsm]], [[f77_trsm]].
 pure subroutine dtrsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1818,6 +2133,8 @@ pure subroutine dtrsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     integer, intent(in) :: lda
     integer, intent(in) :: ldb
 end subroutine
+!> Original interface for CTRSM
+!> See also: [[mfi_trsm]], [[f77_trsm]].
 pure subroutine ctrsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: REAL32
     integer, parameter :: wp = REAL32
@@ -1833,6 +2150,8 @@ pure subroutine ctrsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     integer, intent(in) :: lda
     integer, intent(in) :: ldb
 end subroutine
+!> Original interface for ZTRSM
+!> See also: [[mfi_trsm]], [[f77_trsm]].
 pure subroutine ztrsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     import :: REAL64
     integer, parameter :: wp = REAL64
@@ -1848,237 +2167,6 @@ pure subroutine ztrsm(side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb)
     integer, intent(in) :: lda
     integer, intent(in) :: ldb
 end subroutine
-end interface
-
-interface f77_copy
-    procedure :: scopy
-    procedure :: dcopy
-    procedure :: ccopy
-    procedure :: zcopy
-end interface
-interface f77_swap
-    procedure :: sswap
-    procedure :: dswap
-    procedure :: cswap
-    procedure :: zswap
-end interface
-interface f77_axpy
-    procedure :: saxpy
-    procedure :: daxpy
-    procedure :: caxpy
-    procedure :: zaxpy
-end interface
-interface f77_dot
-    procedure :: sdot
-    procedure :: ddot
-end interface
-interface f77_dotc
-    procedure :: cdotc
-    procedure :: zdotc
-end interface
-interface f77_dotu
-    procedure :: cdotu
-    procedure :: zdotu
-end interface
-interface f77_asum
-    procedure :: sasum
-    procedure :: dasum
-    procedure :: scasum
-    procedure :: dzasum
-end interface
-interface f77_nrm2
-    procedure :: snrm2
-    procedure :: dnrm2
-    procedure :: scnrm2
-    procedure :: dznrm2
-end interface
-interface f77_rot
-    procedure :: srot
-    procedure :: drot
-    procedure :: crot
-    procedure :: zrot
-    procedure :: csrot
-    procedure :: zdrot
-end interface
-interface f77_rotg
-    procedure :: srotg
-    procedure :: drotg
-    procedure :: crotg
-    procedure :: zrotg
-end interface
-interface f77_rotm
-    procedure :: srotm
-    procedure :: drotm
-end interface
-interface f77_rotmg
-    procedure :: srotmg
-    procedure :: drotmg
-end interface
-interface f77_scal
-    procedure :: sscal
-    procedure :: dscal
-    procedure :: cscal
-    procedure :: zscal
-    procedure :: csscal
-    procedure :: zdscal
-end interface
-interface f77_gbmv
-    procedure :: sgbmv
-    procedure :: dgbmv
-    procedure :: cgbmv
-    procedure :: zgbmv
-end interface
-interface f77_gemv
-    procedure :: sgemv
-    procedure :: dgemv
-    procedure :: cgemv
-    procedure :: zgemv
-end interface
-interface f77_ger
-    procedure :: sger
-    procedure :: dger
-end interface
-interface f77_gerc
-    procedure :: cgerc
-    procedure :: zgerc
-end interface
-interface f77_geru
-    procedure :: cgeru
-    procedure :: zgeru
-end interface
-interface f77_hbmv
-    procedure :: chbmv
-    procedure :: zhbmv
-end interface
-interface f77_hemv
-    procedure :: chemv
-    procedure :: zhemv
-end interface
-interface f77_her
-    procedure :: cher
-    procedure :: zher
-end interface
-interface f77_her2
-    procedure :: cher2
-    procedure :: zher2
-end interface
-interface f77_hpmv
-    procedure :: chpmv
-    procedure :: zhpmv
-end interface
-interface f77_hpr
-    procedure :: chpr
-    procedure :: zhpr
-end interface
-interface f77_hpr2
-    procedure :: chpr2
-    procedure :: zhpr2
-end interface
-interface f77_sbmv
-    procedure :: ssbmv
-    procedure :: dsbmv
-end interface
-interface f77_spmv
-    procedure :: sspmv
-    procedure :: dspmv
-end interface
-interface f77_spr
-    procedure :: sspr
-    procedure :: dspr
-end interface
-interface f77_spr2
-    procedure :: sspr2
-    procedure :: dspr2
-end interface
-interface f77_symv
-    procedure :: ssymv
-    procedure :: dsymv
-end interface
-interface f77_syr
-    procedure :: ssyr
-    procedure :: dsyr
-end interface
-interface f77_syr2
-    procedure :: ssyr2
-    procedure :: dsyr2
-end interface
-interface f77_tbmv
-    procedure :: stbmv
-    procedure :: dtbmv
-    procedure :: ctbmv
-    procedure :: ztbmv
-end interface
-interface f77_tbsv
-    procedure :: stbsv
-    procedure :: dtbsv
-    procedure :: ctbsv
-    procedure :: ztbsv
-end interface
-interface f77_tpmv
-    procedure :: stpmv
-    procedure :: dtpmv
-    procedure :: ctpmv
-    procedure :: ztpmv
-end interface
-interface f77_tpsv
-    procedure :: stpsv
-    procedure :: dtpsv
-    procedure :: ctpsv
-    procedure :: ztpsv
-end interface
-interface f77_trmv
-    procedure :: strmv
-    procedure :: dtrmv
-    procedure :: ctrmv
-    procedure :: ztrmv
-end interface
-interface f77_trsv
-    procedure :: strsv
-    procedure :: dtrsv
-    procedure :: ctrsv
-    procedure :: ztrsv
-end interface
-interface f77_gemm
-    procedure :: sgemm
-    procedure :: dgemm
-    procedure :: cgemm
-    procedure :: zgemm
-end interface
-interface f77_hemm
-    procedure :: chemm
-    procedure :: zhemm
-end interface
-interface f77_herk
-    procedure :: cherk
-    procedure :: zherk
-end interface
-interface f77_her2k
-    procedure :: cher2k
-    procedure :: zher2k
-end interface
-interface f77_symm
-    procedure :: ssymm
-    procedure :: dsymm
-end interface
-interface f77_syrk
-    procedure :: ssyrk
-    procedure :: dsyrk
-end interface
-interface f77_syr2k
-    procedure :: ssyr2k
-    procedure :: dsyr2k
-end interface
-interface f77_trmm
-    procedure :: strmm
-    procedure :: dtrmm
-    procedure :: ctrmm
-    procedure :: ztrmm
-end interface
-interface f77_trsm
-    procedure :: strsm
-    procedure :: dtrsm
-    procedure :: ctrsm
-    procedure :: ztrsm
 end interface
 
 !> ?lamch supports s, d. See [[mfi_lamch]] for the modern version.
