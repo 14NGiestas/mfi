@@ -46,7 +46,7 @@
     ('?gglsm',  DEFAULT_TYPES, gglsm),             &
     ('?lartg',  DEFAULT_TYPES, lartg),             &
 ]
-#:endmute                                          
+#:endmute
 !> Improved and original F77 interfaces for LAPACK
 module f77_lapack
 use iso_fortran_env

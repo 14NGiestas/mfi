@@ -1,12 +1,33 @@
 #:def gemm(NAME,pfxs)
 #:set wp = pfxs[0]
+#:if defined('USE_GPU')
+pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) &
+    bind(C,name="cublas${NAME.title()}$")
+#:else
 pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
-    import :: ${kind(wp)}$
-@:parameter(integer, wp=${kind(wp)}$)
+#:endif
+$:imports(pfxs) 
 @:args(${type(wp)}$,  in,    a(lda,*), b(ldb,*))
 @:args(${type(wp)}$,  inout, c(ldc,*))
 @:args(character, in,    transa, transb)
 @:args(${type(wp)}$,  in,    alpha, beta)
 @:args(integer,   in,    m, n, k, lda, ldb, ldc)
+end subroutine
+
+#:if defined('USE_GPU') and defined('USE_CUBLAS')
+$:gemm_gpu(NAME,pfxs)
+#:endif
+#:enddef
+
+#:def gemm_gpu(NAME,pfxs)
+#:set wp = pfxs[0]
+pure subroutine cublas_${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) &
+    bind(C,name="cublas${NAME.title()}$")
+    import :: ${kind(wp)}$, c_ptr, c_int, c_char
+@:args(type(c_ptr),       value, a, b)
+@:args(type(c_ptr),       value, c)
+@:args(character(c_char), in, transa, transb)
+@:args(${type(wp)}$,      in, alpha, beta)
+@:args(integer(c_int),    in, m, n, k, lda, ldb, ldc)
 end subroutine
 #:enddef

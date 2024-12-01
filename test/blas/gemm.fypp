@@ -13,12 +13,19 @@ subroutine test_${f77}$
     ${type(wp)}$ :: alpha, beta
     character :: transa, transb
     integer :: i, j
+    logical :: use_gpu
 
     $:random_number(type(wp),'A','(N,N)')
     $:random_number(type(wp),'B','(N,N)')
     $:random_number(type(wp),'C','(N,N)')
     $:random_number(type(wp),'alpha')
     $:random_number(type(wp),'beta')
+
+#:if defined('USE_GPU')
+    use_gpu = .true.
+#:else
+    use_gpu = .false.
+#:endif
 
     do i=1,size(options)
     do j=1,size(options)
@@ -44,7 +51,7 @@ subroutine test_${f77}$
         A_in = A
         B_in = B
         C_in = C
-        call mfi_${f77}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
+        call mfi_${f77}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb, use_gpu=use_gpu)
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
                     all(C_in == C_rf), "different results")
@@ -52,7 +59,7 @@ subroutine test_${f77}$
         A_in = A
         B_in = B
         C_in = C
-        call ${mfi}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
+        call ${mfi}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb, use_gpu=use_gpu)
 
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &

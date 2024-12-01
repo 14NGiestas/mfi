@@ -7,7 +7,7 @@ subroutine {s,d,c,z}gesv (
     integer  out    ipiv(*),
     type(wp) inout b(ldb,*),
     integer  in         ldb,
-    integer  out       info 
+    integer  out       info
 )
 
 #:def gesv(NAME,pfxs)
@@ -37,8 +37,8 @@ subroutine dsgesv  (
     real(dp)  work( n, * ),
     real(sp)  swork( * ),
     integer   iter,
-    integer   info 
-)  
+    integer   info
+)
 
 #:def gesv_mixed(NAME,pfxs)
 #:set wp=pfxs[0]

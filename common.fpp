@@ -1,4 +1,7 @@
 #:mute
+#:if defined('USE_CUBLAS')
+#:include "cublas.fpp"
+#:endif
 
 #:set REAL    = 'real(wp)'
 #:set COMPLEX = 'complex(wp)'
@@ -81,7 +84,11 @@ end block
 #! Handles the input/output arguments
 #:def args(dtype, intent, *args)
 #:for variable in args
+#:if intent == 'value'
+    ${dtype}$, value :: ${variable}$
+#:else
     ${dtype}$, intent(${intent}$) :: ${variable}$
+#:endif
 #:endfor
 #:enddef
 

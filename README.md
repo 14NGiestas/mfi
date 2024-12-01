@@ -3,7 +3,7 @@
 ## Modern Fortran interfaces to BLAS and LAPACK
 
 This project aims to be a collection of modern fortran interfaces to commonly used procedure, for now BLAS and LAPACK.
-The main goal is to reduce the pain of using such libraries, providing a generic interface to the intrinsic supported types and 
+The main goal is to reduce the pain of using such libraries, providing a generic interface to the intrinsic supported types and
 identifying the optional or reconstructible arguments of a given procedure. The code uses [fypp](https://github.com/aradi/fypp),
 to generate the interfaces automatically to all supported types and kinds.
 
@@ -20,10 +20,12 @@ implicit none
 call cgemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)
 ! Improved F77 interface: still a lot of arguments
 call f77_gemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)
-! Modern fortran interface: less arguments and more readable 
+! Modern fortran interface: less arguments and more readable
 call mfi_gemm(A,B,C)
 end program
 ```
+
+If you are searching for a specific interface check the [API reference](https://14ngiestas.github.io/mfi/)
 
 ## Getting Started
 
@@ -72,8 +74,12 @@ Usually you can do the following:
 
 ```sh
 make
-fpm test
+fpm test blas
+fpm test lapack
 ```
+
+<details>
+<summary> In case you run into trouble click here </summary>
 
 By default, the `lapack-dev` package (which provides the reference blas) do not provide the `i?amin` implementation (among other extensions)
 in such cases you can use blas extensions with:
@@ -92,6 +98,7 @@ fpm test
 
 which will generate the code linking extensions to the external library
 
+</details>
 
 ## Support
 
@@ -115,10 +122,6 @@ call mfi_sgemm(A,B,C)
 ```fortran
 call mfi_gemm(A,B,C)
 ```
-
-If you are searching for a specific interface check the [API reference](https://14ngiestas.github.io/mfi/)
-
-
 
 ### BLAS
 #### Level 1
@@ -215,7 +218,7 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 <!-- ##### LU: General matrix, driver -->
 
 <!-- ##### LU: computational routines (factor, cond, etc.) -->
- 
+
 <!-- ##### Cholesky: Hermitian/symmetric positive definite matrix, driver -->
 
 ##### Cholesky: computational routines (factor, cond, etc.)
@@ -224,11 +227,11 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 | :+1: | pocon | condition number estimate |
 
 <!-- ##### LDL: Hermitian/symmetric indefinite matrix, driver -->
- 
+
 <!-- ##### LDL: computational routines (factor, cond, etc.) -->
- 
+
 <!-- ##### Triangular computational routines (solve, cond, etc.) -->
- 
+
 <!-- ##### Auxiliary routines -->
 </details>
 
@@ -294,4 +297,41 @@ There are some other auxiliary lapack routines around, that may apear here:
 | name      | Data Types | Description |
 | --------- | ---------- | ------------|
 | mfi_lartg | s, d, c, z | Generates a plane rotation with real cosine and real/complex sine. |
+
+</details>
+
+### CUBLAS :warning:
+
+A experimental API for GPUs is available for testing.
+So far the only implemented routine that uses a GPU throught CUBLAS is the GEMM.
+
+```toml
+# fpm.toml
+[ dependencies ]
+mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas" }
+```
+
+#### Manual compiling
+
+You can experiment with different flags:
+
+For using cublas through openacc (note that the modern interface will not be pure)
+
+```sh
+make FYPPFLAGS="-DUSE_GPU"
+fpm test --flag="-fopenacc" --link-flag="-lcublas"
+```
+
+For using cublas through C-bindings (and keeping thus keeping the interfaces pure)
+
+```sh
+make FYPPFLAGS="-DUSE_GPU -DUSE_CUBLAS"
+fpm test --link-flag="-lcublas"
+```
+
+If your cublas is installed in a non-standard place you may need to:
+```sh
+fpm test --link-flag="-L/opt/cuda/lib64 -lcublas"
+```
+Where `-L/opt/cuda/lib64` should be changed to your cuda library path.
 

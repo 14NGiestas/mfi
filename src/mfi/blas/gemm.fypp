@@ -1,13 +1,15 @@
 #:def gemm(MFI_NAME,F77_NAME,pfxs)
 #:set wp = pfxs[0]
-pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
+#:set pure = "pure" if not defined('USE_GPU') or defined('USE_CUBLAS') else "impure"
+${pure}$ subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta, use_gpu)
 @:parameter(integer, wp=${kind(wp)}$)
 @:args(${type(wp)}$, in,    a(:,:), b(:,:))
 @:args(${type(wp)}$, inout, c(:,:))
 @:optional(character, in, transa, transb)
 @:optional(${type(wp)}$,  in, alpha, beta)
+@:optional(logical, in, use_gpu)
     integer :: m, n, k, lda, ldb, ldc
-@:defaults(transa='N', transb='N', alpha=1.0_wp, beta=0.0_wp)
+@:defaults(transa='N', transb='N', alpha=1.0_wp, beta=0.0_wp, use_gpu=.false.)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
@@ -18,6 +20,29 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
+    if (local_use_gpu) then; block
+#:if defined('USE_GPU')
+#:set GPU_NAME = f"cublas_{F77_NAME}"
+#:  if defined('USE_CUBLAS')
+        @:allocate(a,b,c)
+        @:set_matrix(a,b,c)
+        call ${GPU_NAME}$(local_transa,local_transb,m,n,k, &
+                 local_alpha,device_a,lda,device_b,ldb,local_beta,device_c,ldc)
+        @:get_matrix(c)
+        @:deallocate(a,b,c)
+#:  else
+        !$acc enter data copyin(a, b, c)
+        !$acc host_data use_device(a, b, c)
+        call ${F77_NAME}$(local_transa,local_transb,m,n,k, &
+                          local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+        !$acc end host_data
+        !$acc exit data copyout(c) delete(a, b)
+#:  endif
+#:else
+        error stop "Not compiled with -DUSE_GPU and/or -DUSE_CUBLAS"
+#:endif
+        return
+    end block; end if
     call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 #:enddef
