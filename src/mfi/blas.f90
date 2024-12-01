@@ -438,6 +438,8 @@ interface mfi_iamin
     module procedure :: mfi_izamin
 end interface
 
+
+
 contains
 
 
@@ -4093,7 +4095,7 @@ pure subroutine mfi_ztrsv(a, x, uplo, trans, diag, incx)
 end subroutine
 !> Modern interface for [[f77_gemm:sgemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
+pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     integer, parameter :: wp = REAL32
     real(REAL32), intent(in) :: a(:,:)
     real(REAL32), intent(in) :: b(:,:)
@@ -4106,6 +4108,8 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
     real(REAL32) :: local_alpha
     real(REAL32), intent(in), optional :: beta
     real(REAL32) :: local_beta
+    logical, intent(in), optional :: use_gpu
+    logical :: local_use_gpu
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -4127,6 +4131,11 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
     else
         local_beta = 0.0_wp
     end if
+    if (present(use_gpu)) then
+        local_use_gpu = use_gpu
+    else
+        local_use_gpu = .false.
+    end if
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
@@ -4137,11 +4146,15 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
+    if (local_use_gpu) then; block
+        error stop "Not compiled with -DUSE_GPU and/or -DUSE_CUBLAS"
+        return
+    end block; end if
     call sgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_gemm:dgemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
+pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     integer, parameter :: wp = REAL64
     real(REAL64), intent(in) :: a(:,:)
     real(REAL64), intent(in) :: b(:,:)
@@ -4154,6 +4167,8 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     real(REAL64) :: local_alpha
     real(REAL64), intent(in), optional :: beta
     real(REAL64) :: local_beta
+    logical, intent(in), optional :: use_gpu
+    logical :: local_use_gpu
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -4175,6 +4190,11 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     else
         local_beta = 0.0_wp
     end if
+    if (present(use_gpu)) then
+        local_use_gpu = use_gpu
+    else
+        local_use_gpu = .false.
+    end if
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
@@ -4185,11 +4205,15 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
+    if (local_use_gpu) then; block
+        error stop "Not compiled with -DUSE_GPU and/or -DUSE_CUBLAS"
+        return
+    end block; end if
     call dgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_gemm:cgemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
+pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     integer, parameter :: wp = REAL32
     complex(REAL32), intent(in) :: a(:,:)
     complex(REAL32), intent(in) :: b(:,:)
@@ -4202,6 +4226,8 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     complex(REAL32) :: local_alpha
     complex(REAL32), intent(in), optional :: beta
     complex(REAL32) :: local_beta
+    logical, intent(in), optional :: use_gpu
+    logical :: local_use_gpu
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -4223,6 +4249,11 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     else
         local_beta = 0.0_wp
     end if
+    if (present(use_gpu)) then
+        local_use_gpu = use_gpu
+    else
+        local_use_gpu = .false.
+    end if
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
@@ -4233,11 +4264,15 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
+    if (local_use_gpu) then; block
+        error stop "Not compiled with -DUSE_GPU and/or -DUSE_CUBLAS"
+        return
+    end block; end if
     call cgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_gemm:zgemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
+pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     integer, parameter :: wp = REAL64
     complex(REAL64), intent(in) :: a(:,:)
     complex(REAL64), intent(in) :: b(:,:)
@@ -4250,6 +4285,8 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     complex(REAL64) :: local_alpha
     complex(REAL64), intent(in), optional :: beta
     complex(REAL64) :: local_beta
+    logical, intent(in), optional :: use_gpu
+    logical :: local_use_gpu
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -4271,6 +4308,11 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     else
         local_beta = 0.0_wp
     end if
+    if (present(use_gpu)) then
+        local_use_gpu = use_gpu
+    else
+        local_use_gpu = .false.
+    end if
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
@@ -4281,6 +4323,10 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
+    if (local_use_gpu) then; block
+        error stop "Not compiled with -DUSE_GPU and/or -DUSE_CUBLAS"
+        return
+    end block; end if
     call zgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_hemm:chemm]].
@@ -5366,5 +5412,6 @@ pure function mfi_izamin(x, incx)
     n = size(x)
     mfi_izamin = izamin(n,x,local_incx)
 end function
+
 
 end module

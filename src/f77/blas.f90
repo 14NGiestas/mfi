@@ -1,6 +1,7 @@
 !> Improved and original F77 interfaces for BLAS
 module f77_blas
 use iso_fortran_env
+use iso_c_binding
 implicit none
 
 !> Generic old style interface for COPY.
@@ -1711,7 +1712,6 @@ interface f77_gemm
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
-    integer, parameter :: wp = REAL32
     real(REAL32), intent(in) :: a(lda,*)
     real(REAL32), intent(in) :: b(ldb,*)
     real(REAL32), intent(inout) :: c(ldc,*)
@@ -1726,11 +1726,11 @@ pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+
 !> Original interface for DGEMM
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
-    integer, parameter :: wp = REAL64
     real(REAL64), intent(in) :: a(lda,*)
     real(REAL64), intent(in) :: b(ldb,*)
     real(REAL64), intent(inout) :: c(ldc,*)
@@ -1745,11 +1745,11 @@ pure subroutine dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+
 !> Original interface for CGEMM
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine cgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
-    integer, parameter :: wp = REAL32
     complex(REAL32), intent(in) :: a(lda,*)
     complex(REAL32), intent(in) :: b(ldb,*)
     complex(REAL32), intent(inout) :: c(ldc,*)
@@ -1764,11 +1764,11 @@ pure subroutine cgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+
 !> Original interface for ZGEMM
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine zgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
-    integer, parameter :: wp = REAL64
     complex(REAL64), intent(in) :: a(lda,*)
     complex(REAL64), intent(in) :: b(ldb,*)
     complex(REAL64), intent(inout) :: c(ldc,*)
@@ -1783,6 +1783,7 @@ pure subroutine zgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
+
 end interface
 !> Generic old style interface for HEMM.
 !> Supports c, z.
