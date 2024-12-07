@@ -20,6 +20,10 @@
 #:include "src/f77/lapack/gelsy.fypp"
 #:include "src/f77/lapack/gglse.fypp"
 #:include "src/f77/lapack/gglsm.fypp"
+#:include "src/f77/lapack/org2r_orgr2_ung2r_ungr2.fypp"
+#:include "src/f77/lapack/orgqr_orgrq_ungqr_ungrq.fypp"
+#:include "src/f77/lapack/orm2r_ormr2_unm2r_unmr2.fypp"
+#:include "src/f77/lapack/ormqr_ormrq_unmqr_unmrq.fypp"
 #:set COLLECT = [                                  &
     ('?geqrf',  DEFAULT_TYPES, geqrf_gerqf),       &
     ('?gerqf',  DEFAULT_TYPES, geqrf_gerqf),       &
@@ -44,14 +48,29 @@
     ('?gelsy',  DEFAULT_TYPES, gelsy),             &
     ('?gglse',  DEFAULT_TYPES, gglse),             &
     ('?gglsm',  DEFAULT_TYPES, gglsm),             &
+    ('?org2r',  REAL_TYPES,    org2r_orgr2_ung2r_ungr2), &
+    ('?orgr2',  REAL_TYPES,    org2r_orgr2_ung2r_ungr2), &
+    ('?orm2r',  REAL_TYPES,    orm2r_ormr2_unm2r_unmr2), &
+    ('?ormr2',  REAL_TYPES,    orm2r_ormr2_unm2r_unmr2), &
+    ('?ormqr',  REAL_TYPES,    ormqr_ormrq_unmqr_unmrq), &
+    ('?ormrq',  REAL_TYPES,    ormqr_ormrq_unmqr_unmrq), &
+    ('?orgqr',  REAL_TYPES,    orgqr_orgrq_ungqr_ungrq), &
+    ('?orgrq',  REAL_TYPES,    orgqr_orgrq_ungqr_ungrq), &
+    ('?ung2r',  COMPLEX_TYPES, org2r_orgr2_ung2r_ungr2), &
+    ('?ungr2',  COMPLEX_TYPES, org2r_orgr2_ung2r_ungr2), &
+    ('?unm2r',  COMPLEX_TYPES, orm2r_ormr2_unm2r_unmr2), &
+    ('?unmr2',  COMPLEX_TYPES, orm2r_ormr2_unm2r_unmr2), &
+    ('?unmqr',  COMPLEX_TYPES, ormqr_ormrq_unmqr_unmrq), &
+    ('?unmrq',  COMPLEX_TYPES, ormqr_ormrq_unmqr_unmrq), &
+    ('?ungqr',  COMPLEX_TYPES, orgqr_orgrq_ungqr_ungrq), &
+    ('?ungrq',  COMPLEX_TYPES, orgqr_orgrq_ungqr_ungrq), &
     ('?lartg',  DEFAULT_TYPES, lartg),             &
 ]
-#:endmute                                          
+#:endmute
 !> Improved and original F77 interfaces for LAPACK
 module f77_lapack
 use iso_fortran_env
 implicit none
-
 
 #:for name, supported_types, code in COLLECT
 $:f77_original(name, supported_types, code)

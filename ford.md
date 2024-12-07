@@ -20,6 +20,7 @@ display: public
 source: true 
 graph: true 
 search: true 
+sort: type
 license: by-nc
 max_frontpage_items: 4
 extra_mods: iso_fortran_env:https://gcc.gnu.org/onlinedocs/gfortran/ISO_005fFORTRAN_005fENV.html

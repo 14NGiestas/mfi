@@ -3,7 +3,7 @@
 !> Given two vectors x and y,
 !> each vector element of these vectors is replaced as follows:
 !>```fortran
-#:if type(A) == real(A) 
+#:if type(A) == real(A)
 !> xi = c*xi + s*yi
 !> yi = c*yi - s*xi
 #:elif type(A) == complex(A)

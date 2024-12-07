@@ -1,0 +1,49 @@
+#:mute
+subroutine {s,d}orm{qr,rq} (
+subroutine {c,z}unm{qr,rq} (
+    character side,
+    character trans,
+    integer  m,
+    integer  n,
+    integer  k,
+    type(wp) a(lda,*),
+    integer  lda,
+    type(wp) tau(*),
+    type(wp) c(ldc,*),
+    integer  ldc,
+    type(wp) work(*),
+    integer  lwork,
+    integer  info
+)
+
+#:def ormqr_ormrq_unmqr_unmrq(NAME,pfxs)
+#:set wp=pfxs[0]
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+#:if NAME.endswith('qr')
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:${wp}$geqrf]].
+#:elif NAME.endswith('rq')
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:${wp}$gerqf]].
+#:endif
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine ${NAME}$(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+$:imports(pfxs)
+@:args(character,    in,    side, trans)
+@:args(${type(wp)}$, inout, a(lda,*), c(ldc,*))
+@:args(${type(wp)}$, out,   work(*))
+@:args(${type(wp)}$, in,    tau(*))
+@:args(integer,      in,    m, n, k, lda, ldc, lwork)
+@:args(integer,      out,   info)
+end subroutine
+#:enddef
+#:endmute
