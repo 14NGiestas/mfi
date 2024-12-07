@@ -129,7 +129,7 @@ end interface
 #:set f77 = [prefix(pfx,generic_name) for pfx in prefixes]
 !> Generic old style interface for ${prefix('',generic_name).upper()}$.
 !> Supports ${', '.join(prefixes)}$.
-!> See also: [[${mfi}$]], ${'[[' + ']],[['.join(f77) + ']]'}$.
+!> See also: [[${mfi}$]], ${'[[' + ']], [['.join(f77) + ']]'}$.
 interface f77_${prefix('',generic_name)}$
 #:for pfx in prefixes
 #:set name = prefix(pfx,generic_name)
@@ -164,7 +164,7 @@ $:code(name,pfxs)
 !> Generic modern interface for ${prefix('',generic_name).upper()}$.
 !> Supports ${', '.join(prefixes)}$.
 !> See also:
-!> ${'[[' + ']],[['.join(f77) + ']]'}$.
+!> ${'[[' + ']], [['.join(f77) + ']]'}$.
 #:set functions = map(lambda pfx: 'mfi_' + prefix(pfx,generic_name), prefixes)
 $:interface(functions, &
             procedure='module procedure', &
