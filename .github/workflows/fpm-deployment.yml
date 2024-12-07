@@ -2,7 +2,7 @@ name: fpm-deployment
 
 on: [push, pull_request]
 env:
-  GCC_V: "10"
+  GCC_V: "14"
   PROJECT_NAME: "mfi"
 
 jobs:
