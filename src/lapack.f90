@@ -8,7 +8,7 @@ implicit none
 !> Generic modern interface for GEQRF.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_geqrf:sgeqrf]],[[f77_geqrf:dgeqrf]],[[f77_geqrf:cgeqrf]],[[f77_geqrf:zgeqrf]].
+!> [[f77_geqrf:sgeqrf]], [[f77_geqrf:dgeqrf]], [[f77_geqrf:cgeqrf]], [[f77_geqrf:zgeqrf]].
 interface mfi_geqrf
     module procedure :: mfi_sgeqrf
     module procedure :: mfi_dgeqrf
@@ -18,7 +18,7 @@ end interface
 !> Generic modern interface for GERQF.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_gerqf:sgerqf]],[[f77_gerqf:dgerqf]],[[f77_gerqf:cgerqf]],[[f77_gerqf:zgerqf]].
+!> [[f77_gerqf:sgerqf]], [[f77_gerqf:dgerqf]], [[f77_gerqf:cgerqf]], [[f77_gerqf:zgerqf]].
 interface mfi_gerqf
     module procedure :: mfi_sgerqf
     module procedure :: mfi_dgerqf
@@ -28,7 +28,7 @@ end interface
 !> Generic modern interface for GETRF.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_getrf:sgetrf]],[[f77_getrf:dgetrf]],[[f77_getrf:cgetrf]],[[f77_getrf:zgetrf]].
+!> [[f77_getrf:sgetrf]], [[f77_getrf:dgetrf]], [[f77_getrf:cgetrf]], [[f77_getrf:zgetrf]].
 interface mfi_getrf
     module procedure :: mfi_sgetrf
     module procedure :: mfi_dgetrf
@@ -38,7 +38,7 @@ end interface
 !> Generic modern interface for GETRI.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_getri:sgetri]],[[f77_getri:dgetri]],[[f77_getri:cgetri]],[[f77_getri:zgetri]].
+!> [[f77_getri:sgetri]], [[f77_getri:dgetri]], [[f77_getri:cgetri]], [[f77_getri:zgetri]].
 interface mfi_getri
     module procedure :: mfi_sgetri
     module procedure :: mfi_dgetri
@@ -48,7 +48,7 @@ end interface
 !> Generic modern interface for GETRS.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_getrs:sgetrs]],[[f77_getrs:dgetrs]],[[f77_getrs:cgetrs]],[[f77_getrs:zgetrs]].
+!> [[f77_getrs:sgetrs]], [[f77_getrs:dgetrs]], [[f77_getrs:cgetrs]], [[f77_getrs:zgetrs]].
 interface mfi_getrs
     module procedure :: mfi_sgetrs
     module procedure :: mfi_dgetrs
@@ -58,7 +58,7 @@ end interface
 !> Generic modern interface for HETRF.
 !> Supports c, z.
 !> See also:
-!> [[f77_hetrf:chetrf]],[[f77_hetrf:zhetrf]].
+!> [[f77_hetrf:chetrf]], [[f77_hetrf:zhetrf]].
 interface mfi_hetrf
     module procedure :: mfi_chetrf
     module procedure :: mfi_zhetrf
@@ -66,7 +66,7 @@ end interface
 !> Generic modern interface for HEGV.
 !> Supports c, z.
 !> See also:
-!> [[f77_hegv:chegv]],[[f77_hegv:zhegv]].
+!> [[f77_hegv:chegv]], [[f77_hegv:zhegv]].
 interface mfi_hegv
     module procedure :: mfi_chegv
     module procedure :: mfi_zhegv
@@ -74,7 +74,7 @@ end interface
 !> Generic modern interface for HEEVD.
 !> Supports c, z.
 !> See also:
-!> [[f77_heevd:cheevd]],[[f77_heevd:zheevd]].
+!> [[f77_heevd:cheevd]], [[f77_heevd:zheevd]].
 interface mfi_heevd
     module procedure :: mfi_cheevd
     module procedure :: mfi_zheevd
@@ -82,7 +82,7 @@ end interface
 !> Generic modern interface for GESVD.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_gesvd:sgesvd]],[[f77_gesvd:dgesvd]],[[f77_gesvd:cgesvd]],[[f77_gesvd:zgesvd]].
+!> [[f77_gesvd:sgesvd]], [[f77_gesvd:dgesvd]], [[f77_gesvd:cgesvd]], [[f77_gesvd:zgesvd]].
 interface mfi_gesvd
     module procedure :: mfi_sgesvd
     module procedure :: mfi_dgesvd
@@ -92,7 +92,7 @@ end interface
 !> Generic modern interface for POTRF.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_potrf:spotrf]],[[f77_potrf:dpotrf]],[[f77_potrf:cpotrf]],[[f77_potrf:zpotrf]].
+!> [[f77_potrf:spotrf]], [[f77_potrf:dpotrf]], [[f77_potrf:cpotrf]], [[f77_potrf:zpotrf]].
 interface mfi_potrf
     module procedure :: mfi_spotrf
     module procedure :: mfi_dpotrf
@@ -102,7 +102,7 @@ end interface
 !> Generic modern interface for POTRI.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_potri:spotri]],[[f77_potri:dpotri]],[[f77_potri:cpotri]],[[f77_potri:zpotri]].
+!> [[f77_potri:spotri]], [[f77_potri:dpotri]], [[f77_potri:cpotri]], [[f77_potri:zpotri]].
 interface mfi_potri
     module procedure :: mfi_spotri
     module procedure :: mfi_dpotri
@@ -112,7 +112,7 @@ end interface
 !> Generic modern interface for POTRS.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_potrs:spotrs]],[[f77_potrs:dpotrs]],[[f77_potrs:cpotrs]],[[f77_potrs:zpotrs]].
+!> [[f77_potrs:spotrs]], [[f77_potrs:dpotrs]], [[f77_potrs:cpotrs]], [[f77_potrs:zpotrs]].
 interface mfi_potrs
     module procedure :: mfi_spotrs
     module procedure :: mfi_dpotrs
@@ -122,7 +122,7 @@ end interface
 !> Generic modern interface for POCON.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_pocon:spocon]],[[f77_pocon:dpocon]],[[f77_pocon:cpocon]],[[f77_pocon:zpocon]].
+!> [[f77_pocon:spocon]], [[f77_pocon:dpocon]], [[f77_pocon:cpocon]], [[f77_pocon:zpocon]].
 interface mfi_pocon
     module procedure :: mfi_spocon
     module procedure :: mfi_dpocon
