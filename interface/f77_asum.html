@@ -83,7 +83,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/f77_blas.html'>f77_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_asum</li>
           </ol>
@@ -122,8 +122,8 @@
       <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
             <a class="list-group-item" href="../interface/f77_asum.html#proc-sasum">sasum</a>
-            <a class="list-group-item" href="../interface/f77_asum.html#proc-dasum">dasum</a>
             <a class="list-group-item" href="../interface/f77_asum.html#proc-scasum">scasum</a>
+            <a class="list-group-item" href="../interface/f77_asum.html#proc-dasum">dasum</a>
             <a class="list-group-item" href="../interface/f77_asum.html#proc-dzasum">dzasum</a>
         </div>
       </div>
@@ -170,7 +170,7 @@ See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~101"></span>
+              <span class="anchor" id="variable-n~317"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -185,7 +185,7 @@ See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~27"></span>
+              <span class="anchor" id="variable-x~141"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -200,7 +200,82 @@ See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~19"></span>
+              <span class="anchor" id="variable-incx~133"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=REAL32)</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-scasum"></span> <h3>public pure function scasum(n, x, incx)  
+</h3></div>
+    <div class="card-body">
+        <p>Original interface for SCASUM
+See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interface/f77_asum.html">f77_asum</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~319"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~143"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~135"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -245,7 +320,7 @@ See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~102"></span>
+              <span class="anchor" id="variable-n~318"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -260,7 +335,7 @@ See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~28"></span>
+              <span class="anchor" id="variable-x~142"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -275,7 +350,7 @@ See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~20"></span>
+              <span class="anchor" id="variable-incx~134"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -294,81 +369,6 @@ See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interfa
     <h4>
     Return Value
     <small>real(kind=REAL64)</small>
-    </h4>
-    
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-scasum"></span> <h3>public pure function scasum(n, x, incx)  
-</h3></div>
-    <div class="card-body">
-        <p>Original interface for SCASUM
-See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interface/f77_asum.html">f77_asum</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~103"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-x~29"></span>
-              complex(kind=REAL32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>x</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incx~21"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incx</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-    <h4>
-    Return Value
-    <small>real(kind=REAL32)</small>
     </h4>
     
 
@@ -395,7 +395,7 @@ See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~104"></span>
+              <span class="anchor" id="variable-n~320"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -410,7 +410,7 @@ See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~30"></span>
+              <span class="anchor" id="variable-x~144"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -425,7 +425,7 @@ See also: <a href="../interface/mfi_asum.html">mfi_asum</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~22"></span>
+              <span class="anchor" id="variable-incx~136"></span>
               integer,
             </td>
 <td>intent(in)</td>
