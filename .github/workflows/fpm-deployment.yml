@@ -43,9 +43,10 @@ jobs:
         sudo apt install libblas3* liblapack3* libtmglib3*
 
     - name: Install fpm latest release
-      uses: fortran-lang/setup-fpm@v3
+      uses: fortran-lang/setup-fpm@v5
       with:
-        fpm-version: 'v0.4.0'
+        fpm-version: 'v0.10.0'
+    
 
     - name: Run fpm build ⚙
       run: |
