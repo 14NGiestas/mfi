@@ -1,12 +1,11 @@
 !> Improved and original F77 interfaces for BLAS
 module f77_blas
 use iso_fortran_env
-use iso_c_binding
 implicit none
 
 !> Generic old style interface for COPY.
 !> Supports s, d, c, z.
-!> See also: [[mfi_copy]], [[scopy]],[[dcopy]],[[ccopy]],[[zcopy]].
+!> See also: [[mfi_copy]], [[scopy]], [[dcopy]], [[ccopy]], [[zcopy]].
 interface f77_copy
 !> Original interface for SCOPY
 !> See also: [[mfi_copy]], [[f77_copy]].
@@ -55,7 +54,7 @@ end subroutine
 end interface
 !> Generic old style interface for SWAP.
 !> Supports s, d, c, z.
-!> See also: [[mfi_swap]], [[sswap]],[[dswap]],[[cswap]],[[zswap]].
+!> See also: [[mfi_swap]], [[sswap]], [[dswap]], [[cswap]], [[zswap]].
 interface f77_swap
 !> Original interface for SSWAP
 !> See also: [[mfi_swap]], [[f77_swap]].
@@ -104,7 +103,7 @@ end subroutine
 end interface
 !> Generic old style interface for AXPY.
 !> Supports s, d, c, z.
-!> See also: [[mfi_axpy]], [[saxpy]],[[daxpy]],[[caxpy]],[[zaxpy]].
+!> See also: [[mfi_axpy]], [[saxpy]], [[daxpy]], [[caxpy]], [[zaxpy]].
 interface f77_axpy
 !> Original interface for SAXPY
 !> See also: [[mfi_axpy]], [[f77_axpy]].
@@ -157,7 +156,7 @@ end subroutine
 end interface
 !> Generic old style interface for DOT.
 !> Supports s, d.
-!> See also: [[mfi_dot]], [[sdot]],[[ddot]].
+!> See also: [[mfi_dot]], [[sdot]], [[ddot]].
 interface f77_dot
 !> Original interface for SDOT
 !> See also: [[mfi_dot]], [[f77_dot]].
@@ -186,7 +185,7 @@ end function
 end interface
 !> Generic old style interface for DOTC.
 !> Supports c, z.
-!> See also: [[mfi_dotc]], [[cdotc]],[[zdotc]].
+!> See also: [[mfi_dotc]], [[cdotc]], [[zdotc]].
 interface f77_dotc
 !> Original interface for CDOTC
 !> See also: [[mfi_dotc]], [[f77_dotc]].
@@ -215,7 +214,7 @@ end function
 end interface
 !> Generic old style interface for DOTU.
 !> Supports c, z.
-!> See also: [[mfi_dotu]], [[cdotu]],[[zdotu]].
+!> See also: [[mfi_dotu]], [[cdotu]], [[zdotu]].
 interface f77_dotu
 !> Original interface for CDOTU
 !> See also: [[mfi_dotu]], [[f77_dotu]].
@@ -244,7 +243,7 @@ end function
 end interface
 !> Generic old style interface for ASUM.
 !> Supports s, d, sc, dz.
-!> See also: [[mfi_asum]], [[sasum]],[[dasum]],[[scasum]],[[dzasum]].
+!> See also: [[mfi_asum]], [[sasum]], [[dasum]], [[scasum]], [[dzasum]].
 interface f77_asum
 !> Original interface for SASUM
 !> See also: [[mfi_asum]], [[f77_asum]].
@@ -285,7 +284,7 @@ end function
 end interface
 !> Generic old style interface for NRM2.
 !> Supports s, d, sc, dz.
-!> See also: [[mfi_nrm2]], [[snrm2]],[[dnrm2]],[[scnrm2]],[[dznrm2]].
+!> See also: [[mfi_nrm2]], [[snrm2]], [[dnrm2]], [[scnrm2]], [[dznrm2]].
 interface f77_nrm2
 !> Original interface for SNRM2
 !> See also: [[mfi_nrm2]], [[f77_nrm2]].
@@ -326,7 +325,7 @@ end function
 end interface
 !> Generic old style interface for ROT.
 !> Supports s, d, c, z, cs, zd.
-!> See also: [[mfi_rot]], [[srot]],[[drot]],[[crot]],[[zrot]],[[csrot]],[[zdrot]].
+!> See also: [[mfi_rot]], [[srot]], [[drot]], [[crot]], [[zrot]], [[csrot]], [[zdrot]].
 interface f77_rot
 !> Original interface for SROT
 !> See also: [[mfi_rot]], [[f77_rot]].
@@ -409,7 +408,7 @@ end subroutine
 end interface
 !> Generic old style interface for ROTG.
 !> Supports s, d, c, z.
-!> See also: [[mfi_rotg]], [[srotg]],[[drotg]],[[crotg]],[[zrotg]].
+!> See also: [[mfi_rotg]], [[srotg]], [[drotg]], [[crotg]], [[zrotg]].
 interface f77_rotg
 !> Original interface for SROTG
 !> See also: [[mfi_rotg]], [[f77_rotg]].
@@ -482,7 +481,7 @@ end subroutine
 end interface
 !> Generic old style interface for ROTM.
 !> Supports s, d.
-!> See also: [[mfi_rotm]], [[srotm]],[[drotm]].
+!> See also: [[mfi_rotm]], [[srotm]], [[drotm]].
 interface f77_rotm
 !> Original interface for SROTM
 !> See also: [[mfi_rotm]], [[f77_rotm]].
@@ -511,7 +510,7 @@ end subroutine
 end interface
 !> Generic old style interface for ROTMG.
 !> Supports s, d.
-!> See also: [[mfi_rotmg]], [[srotmg]],[[drotmg]].
+!> See also: [[mfi_rotmg]], [[srotmg]], [[drotmg]].
 interface f77_rotmg
 !> Original interface for SROTMG
 !> See also: [[mfi_rotmg]], [[f77_rotmg]].
@@ -538,7 +537,7 @@ end subroutine
 end interface
 !> Generic old style interface for SCAL.
 !> Supports s, d, c, z, cs, zd.
-!> See also: [[mfi_scal]], [[sscal]],[[dscal]],[[cscal]],[[zscal]],[[csscal]],[[zdscal]].
+!> See also: [[mfi_scal]], [[sscal]], [[dscal]], [[cscal]], [[zscal]], [[csscal]], [[zdscal]].
 interface f77_scal
 !> Original interface for SSCAL
 !> See also: [[mfi_scal]], [[f77_scal]].
@@ -603,7 +602,7 @@ end subroutine
 end interface
 !> Generic old style interface for GBMV.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gbmv]], [[sgbmv]],[[dgbmv]],[[cgbmv]],[[zgbmv]].
+!> See also: [[mfi_gbmv]], [[sgbmv]], [[dgbmv]], [[cgbmv]], [[zgbmv]].
 interface f77_gbmv
 !> Original interface for SGBMV
 !> See also: [[mfi_gbmv]], [[f77_gbmv]].
@@ -684,7 +683,7 @@ end subroutine
 end interface
 !> Generic old style interface for GEMV.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gemv]], [[sgemv]],[[dgemv]],[[cgemv]],[[zgemv]].
+!> See also: [[mfi_gemv]], [[sgemv]], [[dgemv]], [[cgemv]], [[zgemv]].
 interface f77_gemv
 !> Original interface for SGEMV
 !> See also: [[mfi_gemv]], [[f77_gemv]].
@@ -757,7 +756,7 @@ end subroutine
 end interface
 !> Generic old style interface for GER.
 !> Supports s, d.
-!> See also: [[mfi_ger]], [[sger]],[[dger]].
+!> See also: [[mfi_ger]], [[sger]], [[dger]].
 interface f77_ger
 !> Original interface for SGER
 !> See also: [[mfi_ger]], [[f77_ger]].
@@ -792,7 +791,7 @@ end subroutine
 end interface
 !> Generic old style interface for GERC.
 !> Supports c, z.
-!> See also: [[mfi_gerc]], [[cgerc]],[[zgerc]].
+!> See also: [[mfi_gerc]], [[cgerc]], [[zgerc]].
 interface f77_gerc
 !> Original interface for CGERC
 !> See also: [[mfi_gerc]], [[f77_gerc]].
@@ -827,7 +826,7 @@ end subroutine
 end interface
 !> Generic old style interface for GERU.
 !> Supports c, z.
-!> See also: [[mfi_geru]], [[cgeru]],[[zgeru]].
+!> See also: [[mfi_geru]], [[cgeru]], [[zgeru]].
 interface f77_geru
 !> Original interface for CGERU
 !> See also: [[mfi_geru]], [[f77_geru]].
@@ -862,7 +861,7 @@ end subroutine
 end interface
 !> Generic old style interface for HBMV.
 !> Supports c, z.
-!> See also: [[mfi_hbmv]], [[chbmv]],[[zhbmv]].
+!> See also: [[mfi_hbmv]], [[chbmv]], [[zhbmv]].
 interface f77_hbmv
 !> Original interface for CHBMV
 !> See also: [[mfi_hbmv]], [[f77_hbmv]].
@@ -901,7 +900,7 @@ end subroutine
 end interface
 !> Generic old style interface for HEMV.
 !> Supports c, z.
-!> See also: [[mfi_hemv]], [[chemv]],[[zhemv]].
+!> See also: [[mfi_hemv]], [[chemv]], [[zhemv]].
 interface f77_hemv
 !> Original interface for CHEMV
 !> See also: [[mfi_hemv]], [[f77_hemv]].
@@ -938,7 +937,7 @@ end subroutine
 end interface
 !> Generic old style interface for HER.
 !> Supports c, z.
-!> See also: [[mfi_her]], [[cher]],[[zher]].
+!> See also: [[mfi_her]], [[cher]], [[zher]].
 interface f77_her
 !> Original interface for CHER
 !> See also: [[mfi_her]], [[f77_her]].
@@ -969,7 +968,7 @@ end subroutine
 end interface
 !> Generic old style interface for HER2.
 !> Supports c, z.
-!> See also: [[mfi_her2]], [[cher2]],[[zher2]].
+!> See also: [[mfi_her2]], [[cher2]], [[zher2]].
 interface f77_her2
 !> Original interface for CHER2
 !> See also: [[mfi_her2]], [[f77_her2]].
@@ -1004,7 +1003,7 @@ end subroutine
 end interface
 !> Generic old style interface for HPMV.
 !> Supports c, z.
-!> See also: [[mfi_hpmv]], [[chpmv]],[[zhpmv]].
+!> See also: [[mfi_hpmv]], [[chpmv]], [[zhpmv]].
 interface f77_hpmv
 !> Original interface for CHPMV
 !> See also: [[mfi_hpmv]], [[f77_hpmv]].
@@ -1039,7 +1038,7 @@ end subroutine
 end interface
 !> Generic old style interface for HPR.
 !> Supports c, z.
-!> See also: [[mfi_hpr]], [[chpr]],[[zhpr]].
+!> See also: [[mfi_hpr]], [[chpr]], [[zhpr]].
 interface f77_hpr
 !> Original interface for CHPR
 !> See also: [[mfi_hpr]], [[f77_hpr]].
@@ -1068,7 +1067,7 @@ end subroutine
 end interface
 !> Generic old style interface for HPR2.
 !> Supports c, z.
-!> See also: [[mfi_hpr2]], [[chpr2]],[[zhpr2]].
+!> See also: [[mfi_hpr2]], [[chpr2]], [[zhpr2]].
 interface f77_hpr2
 !> Original interface for CHPR2
 !> See also: [[mfi_hpr2]], [[f77_hpr2]].
@@ -1101,7 +1100,7 @@ end subroutine
 end interface
 !> Generic old style interface for SBMV.
 !> Supports s, d.
-!> See also: [[mfi_sbmv]], [[ssbmv]],[[dsbmv]].
+!> See also: [[mfi_sbmv]], [[ssbmv]], [[dsbmv]].
 interface f77_sbmv
 !> Original interface for SSBMV
 !> See also: [[mfi_sbmv]], [[f77_sbmv]].
@@ -1140,7 +1139,7 @@ end subroutine
 end interface
 !> Generic old style interface for SPMV.
 !> Supports s, d.
-!> See also: [[mfi_spmv]], [[sspmv]],[[dspmv]].
+!> See also: [[mfi_spmv]], [[sspmv]], [[dspmv]].
 interface f77_spmv
 !> Original interface for SSPMV
 !> See also: [[mfi_spmv]], [[f77_spmv]].
@@ -1175,7 +1174,7 @@ end subroutine
 end interface
 !> Generic old style interface for SPR.
 !> Supports s, d.
-!> See also: [[mfi_spr]], [[sspr]],[[dspr]].
+!> See also: [[mfi_spr]], [[sspr]], [[dspr]].
 interface f77_spr
 !> Original interface for SSPR
 !> See also: [[mfi_spr]], [[f77_spr]].
@@ -1204,7 +1203,7 @@ end subroutine
 end interface
 !> Generic old style interface for SPR2.
 !> Supports s, d.
-!> See also: [[mfi_spr2]], [[sspr2]],[[dspr2]].
+!> See also: [[mfi_spr2]], [[sspr2]], [[dspr2]].
 interface f77_spr2
 !> Original interface for SSPR2
 !> See also: [[mfi_spr2]], [[f77_spr2]].
@@ -1237,7 +1236,7 @@ end subroutine
 end interface
 !> Generic old style interface for SYMV.
 !> Supports s, d.
-!> See also: [[mfi_symv]], [[ssymv]],[[dsymv]].
+!> See also: [[mfi_symv]], [[ssymv]], [[dsymv]].
 interface f77_symv
 !> Original interface for SSYMV
 !> See also: [[mfi_symv]], [[f77_symv]].
@@ -1274,7 +1273,7 @@ end subroutine
 end interface
 !> Generic old style interface for SYR.
 !> Supports s, d.
-!> See also: [[mfi_syr]], [[ssyr]],[[dsyr]].
+!> See also: [[mfi_syr]], [[ssyr]], [[dsyr]].
 interface f77_syr
 !> Original interface for SSYR
 !> See also: [[mfi_syr]], [[f77_syr]].
@@ -1305,7 +1304,7 @@ end subroutine
 end interface
 !> Generic old style interface for SYR2.
 !> Supports s, d.
-!> See also: [[mfi_syr2]], [[ssyr2]],[[dsyr2]].
+!> See also: [[mfi_syr2]], [[ssyr2]], [[dsyr2]].
 interface f77_syr2
 !> Original interface for SSYR2
 !> See also: [[mfi_syr2]], [[f77_syr2]].
@@ -1340,7 +1339,7 @@ end subroutine
 end interface
 !> Generic old style interface for TBMV.
 !> Supports s, d, c, z.
-!> See also: [[mfi_tbmv]], [[stbmv]],[[dtbmv]],[[ctbmv]],[[ztbmv]].
+!> See also: [[mfi_tbmv]], [[stbmv]], [[dtbmv]], [[ctbmv]], [[ztbmv]].
 interface f77_tbmv
 !> Original interface for STBMV
 !> See also: [[mfi_tbmv]], [[f77_tbmv]].
@@ -1405,7 +1404,7 @@ end subroutine
 end interface
 !> Generic old style interface for TBSV.
 !> Supports s, d, c, z.
-!> See also: [[mfi_tbsv]], [[stbsv]],[[dtbsv]],[[ctbsv]],[[ztbsv]].
+!> See also: [[mfi_tbsv]], [[stbsv]], [[dtbsv]], [[ctbsv]], [[ztbsv]].
 interface f77_tbsv
 !> Original interface for STBSV
 !> See also: [[mfi_tbsv]], [[f77_tbsv]].
@@ -1470,7 +1469,7 @@ end subroutine
 end interface
 !> Generic old style interface for TPMV.
 !> Supports s, d, c, z.
-!> See also: [[mfi_tpmv]], [[stpmv]],[[dtpmv]],[[ctpmv]],[[ztpmv]].
+!> See also: [[mfi_tpmv]], [[stpmv]], [[dtpmv]], [[ctpmv]], [[ztpmv]].
 interface f77_tpmv
 !> Original interface for STPMV
 !> See also: [[mfi_tpmv]], [[f77_tpmv]].
@@ -1527,7 +1526,7 @@ end subroutine
 end interface
 !> Generic old style interface for TPSV.
 !> Supports s, d, c, z.
-!> See also: [[mfi_tpsv]], [[stpsv]],[[dtpsv]],[[ctpsv]],[[ztpsv]].
+!> See also: [[mfi_tpsv]], [[stpsv]], [[dtpsv]], [[ctpsv]], [[ztpsv]].
 interface f77_tpsv
 !> Original interface for STPSV
 !> See also: [[mfi_tpsv]], [[f77_tpsv]].
@@ -1584,7 +1583,7 @@ end subroutine
 end interface
 !> Generic old style interface for TRMV.
 !> Supports s, d, c, z.
-!> See also: [[mfi_trmv]], [[strmv]],[[dtrmv]],[[ctrmv]],[[ztrmv]].
+!> See also: [[mfi_trmv]], [[strmv]], [[dtrmv]], [[ctrmv]], [[ztrmv]].
 interface f77_trmv
 !> Original interface for STRMV
 !> See also: [[mfi_trmv]], [[f77_trmv]].
@@ -1645,7 +1644,7 @@ end subroutine
 end interface
 !> Generic old style interface for TRSV.
 !> Supports s, d, c, z.
-!> See also: [[mfi_trsv]], [[strsv]],[[dtrsv]],[[ctrsv]],[[ztrsv]].
+!> See also: [[mfi_trsv]], [[strsv]], [[dtrsv]], [[ctrsv]], [[ztrsv]].
 interface f77_trsv
 !> Original interface for STRSV
 !> See also: [[mfi_trsv]], [[f77_trsv]].
@@ -1706,12 +1705,13 @@ end subroutine
 end interface
 !> Generic old style interface for GEMM.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gemm]], [[sgemm]],[[dgemm]],[[cgemm]],[[zgemm]].
+!> See also: [[mfi_gemm]], [[sgemm]], [[dgemm]], [[cgemm]], [[zgemm]].
 interface f77_gemm
 !> Original interface for SGEMM
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
+    integer, parameter :: wp = REAL32
     real(REAL32), intent(in) :: a(lda,*)
     real(REAL32), intent(in) :: b(ldb,*)
     real(REAL32), intent(inout) :: c(ldc,*)
@@ -1726,11 +1726,11 @@ pure subroutine sgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
-
 !> Original interface for DGEMM
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
+    integer, parameter :: wp = REAL64
     real(REAL64), intent(in) :: a(lda,*)
     real(REAL64), intent(in) :: b(ldb,*)
     real(REAL64), intent(inout) :: c(ldc,*)
@@ -1745,11 +1745,11 @@ pure subroutine dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
-
 !> Original interface for CGEMM
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine cgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL32
+    integer, parameter :: wp = REAL32
     complex(REAL32), intent(in) :: a(lda,*)
     complex(REAL32), intent(in) :: b(ldb,*)
     complex(REAL32), intent(inout) :: c(ldc,*)
@@ -1764,11 +1764,11 @@ pure subroutine cgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
-
 !> Original interface for ZGEMM
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine zgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: REAL64
+    integer, parameter :: wp = REAL64
     complex(REAL64), intent(in) :: a(lda,*)
     complex(REAL64), intent(in) :: b(ldb,*)
     complex(REAL64), intent(inout) :: c(ldc,*)
@@ -1783,11 +1783,10 @@ pure subroutine zgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, l
     integer, intent(in) :: ldb
     integer, intent(in) :: ldc
 end subroutine
-
 end interface
 !> Generic old style interface for HEMM.
 !> Supports c, z.
-!> See also: [[mfi_hemm]], [[chemm]],[[zhemm]].
+!> See also: [[mfi_hemm]], [[chemm]], [[zhemm]].
 interface f77_hemm
 !> Original interface for CHEMM
 !> See also: [[mfi_hemm]], [[f77_hemm]].
@@ -1828,7 +1827,7 @@ end subroutine
 end interface
 !> Generic old style interface for HERK.
 !> Supports c, z.
-!> See also: [[mfi_herk]], [[cherk]],[[zherk]].
+!> See also: [[mfi_herk]], [[cherk]], [[zherk]].
 interface f77_herk
 !> Original interface for CHERK
 !> See also: [[mfi_herk]], [[f77_herk]].
@@ -1865,7 +1864,7 @@ end subroutine
 end interface
 !> Generic old style interface for HER2K.
 !> Supports c, z.
-!> See also: [[mfi_her2k]], [[cher2k]],[[zher2k]].
+!> See also: [[mfi_her2k]], [[cher2k]], [[zher2k]].
 interface f77_her2k
 !> Original interface for CHER2K
 !> See also: [[mfi_her2k]], [[f77_her2k]].
@@ -1906,7 +1905,7 @@ end subroutine
 end interface
 !> Generic old style interface for SYMM.
 !> Supports s, d.
-!> See also: [[mfi_symm]], [[ssymm]],[[dsymm]].
+!> See also: [[mfi_symm]], [[ssymm]], [[dsymm]].
 interface f77_symm
 !> Original interface for SSYMM
 !> See also: [[mfi_symm]], [[f77_symm]].
@@ -1947,7 +1946,7 @@ end subroutine
 end interface
 !> Generic old style interface for SYRK.
 !> Supports s, d.
-!> See also: [[mfi_syrk]], [[ssyrk]],[[dsyrk]].
+!> See also: [[mfi_syrk]], [[ssyrk]], [[dsyrk]].
 interface f77_syrk
 !> Original interface for SSYRK
 !> See also: [[mfi_syrk]], [[f77_syrk]].
@@ -1984,7 +1983,7 @@ end subroutine
 end interface
 !> Generic old style interface for SYR2K.
 !> Supports s, d.
-!> See also: [[mfi_syr2k]], [[ssyr2k]],[[dsyr2k]].
+!> See also: [[mfi_syr2k]], [[ssyr2k]], [[dsyr2k]].
 interface f77_syr2k
 !> Original interface for SSYR2K
 !> See also: [[mfi_syr2k]], [[f77_syr2k]].
@@ -2025,7 +2024,7 @@ end subroutine
 end interface
 !> Generic old style interface for TRMM.
 !> Supports s, d, c, z.
-!> See also: [[mfi_trmm]], [[strmm]],[[dtrmm]],[[ctrmm]],[[ztrmm]].
+!> See also: [[mfi_trmm]], [[strmm]], [[dtrmm]], [[ctrmm]], [[ztrmm]].
 interface f77_trmm
 !> Original interface for STRMM
 !> See also: [[mfi_trmm]], [[f77_trmm]].
@@ -2098,7 +2097,7 @@ end subroutine
 end interface
 !> Generic old style interface for TRSM.
 !> Supports s, d, c, z.
-!> See also: [[mfi_trsm]], [[strsm]],[[dtrsm]],[[ctrsm]],[[ztrsm]].
+!> See also: [[mfi_trsm]], [[strsm]], [[dtrsm]], [[ctrsm]], [[ztrsm]].
 interface f77_trsm
 !> Original interface for STRSM
 !> See also: [[mfi_trsm]], [[f77_trsm]].

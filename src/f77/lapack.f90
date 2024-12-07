@@ -3,10 +3,9 @@ module f77_lapack
 use iso_fortran_env
 implicit none
 
-
 !> Generic old style interface for GEQRF.
 !> Supports s, d, c, z.
-!> See also: [[mfi_geqrf]], [[sgeqrf]],[[dgeqrf]],[[cgeqrf]],[[zgeqrf]].
+!> See also: [[mfi_geqrf]], [[sgeqrf]], [[dgeqrf]], [[cgeqrf]], [[zgeqrf]].
 interface f77_geqrf
 !> Original interface for SGEQRF
 !> See also: [[mfi_geqrf]], [[f77_geqrf]].
@@ -67,7 +66,7 @@ end subroutine
 end interface
 !> Generic old style interface for GERQF.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gerqf]], [[sgerqf]],[[dgerqf]],[[cgerqf]],[[zgerqf]].
+!> See also: [[mfi_gerqf]], [[sgerqf]], [[dgerqf]], [[cgerqf]], [[zgerqf]].
 interface f77_gerqf
 !> Original interface for SGERQF
 !> See also: [[mfi_gerqf]], [[f77_gerqf]].
@@ -128,7 +127,7 @@ end subroutine
 end interface
 !> Generic old style interface for GETRF.
 !> Supports s, d, c, z.
-!> See also: [[mfi_getrf]], [[sgetrf]],[[dgetrf]],[[cgetrf]],[[zgetrf]].
+!> See also: [[mfi_getrf]], [[sgetrf]], [[dgetrf]], [[cgetrf]], [[zgetrf]].
 interface f77_getrf
 !> Original interface for SGETRF
 !> See also: [[mfi_getrf]], [[f77_getrf]].
@@ -181,7 +180,7 @@ end subroutine
 end interface
 !> Generic old style interface for GETRI.
 !> Supports s, d, c, z.
-!> See also: [[mfi_getri]], [[sgetri]],[[dgetri]],[[cgetri]],[[zgetri]].
+!> See also: [[mfi_getri]], [[sgetri]], [[dgetri]], [[cgetri]], [[zgetri]].
 interface f77_getri
 !> Original interface for SGETRI
 !> See also: [[mfi_getri]], [[f77_getri]].
@@ -238,7 +237,7 @@ end subroutine
 end interface
 !> Generic old style interface for GETRS.
 !> Supports s, d, c, z.
-!> See also: [[mfi_getrs]], [[sgetrs]],[[dgetrs]],[[cgetrs]],[[zgetrs]].
+!> See also: [[mfi_getrs]], [[sgetrs]], [[dgetrs]], [[cgetrs]], [[zgetrs]].
 interface f77_getrs
 !> Original interface for SGETRS
 !> See also: [[mfi_getrs]], [[f77_getrs]].
@@ -303,7 +302,7 @@ end subroutine
 end interface
 !> Generic old style interface for HETRF.
 !> Supports c, z.
-!> See also: [[mfi_hetrf]], [[chetrf]],[[zhetrf]].
+!> See also: [[mfi_hetrf]], [[chetrf]], [[zhetrf]].
 interface f77_hetrf
 !> Original interface for CHETRF
 !> See also: [[mfi_hetrf]], [[f77_hetrf]].
@@ -336,7 +335,7 @@ end subroutine
 end interface
 !> Generic old style interface for HEGV.
 !> Supports c, z.
-!> See also: [[mfi_hegv]], [[chegv]],[[zhegv]].
+!> See also: [[mfi_hegv]], [[chegv]], [[zhegv]].
 interface f77_hegv
 !> Original interface for CHEGV
 !> See also: [[mfi_hegv]], [[f77_hegv]].
@@ -379,7 +378,7 @@ end subroutine
 end interface
 !> Generic old style interface for HEEVD.
 !> Supports c, z.
-!> See also: [[mfi_heevd]], [[cheevd]],[[zheevd]].
+!> See also: [[mfi_heevd]], [[cheevd]], [[zheevd]].
 interface f77_heevd
 !> Original interface for CHEEVD
 !> See also: [[mfi_heevd]], [[f77_heevd]].
@@ -422,7 +421,7 @@ end subroutine
 end interface
 !> Generic old style interface for GESVD.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gesvd]], [[sgesvd]],[[dgesvd]],[[cgesvd]],[[zgesvd]].
+!> See also: [[mfi_gesvd]], [[sgesvd]], [[dgesvd]], [[cgesvd]], [[zgesvd]].
 interface f77_gesvd
 !> Original interface for SGESVD
 !> See also: [[mfi_gesvd]], [[f77_gesvd]].
@@ -509,7 +508,7 @@ end subroutine
 end interface
 !> Generic old style interface for POTRF.
 !> Supports s, d, c, z.
-!> See also: [[mfi_potrf]], [[spotrf]],[[dpotrf]],[[cpotrf]],[[zpotrf]].
+!> See also: [[mfi_potrf]], [[spotrf]], [[dpotrf]], [[cpotrf]], [[zpotrf]].
 interface f77_potrf
 !> Original interface for SPOTRF
 !> See also: [[mfi_potrf]], [[f77_potrf]].
@@ -558,7 +557,7 @@ end subroutine
 end interface
 !> Generic old style interface for POTRI.
 !> Supports s, d, c, z.
-!> See also: [[mfi_potri]], [[spotri]],[[dpotri]],[[cpotri]],[[zpotri]].
+!> See also: [[mfi_potri]], [[spotri]], [[dpotri]], [[cpotri]], [[zpotri]].
 interface f77_potri
 !> Original interface for SPOTRI
 !> See also: [[mfi_potri]], [[f77_potri]].
@@ -607,7 +606,7 @@ end subroutine
 end interface
 !> Generic old style interface for POTRS.
 !> Supports s, d, c, z.
-!> See also: [[mfi_potrs]], [[spotrs]],[[dpotrs]],[[cpotrs]],[[zpotrs]].
+!> See also: [[mfi_potrs]], [[spotrs]], [[dpotrs]], [[cpotrs]], [[zpotrs]].
 interface f77_potrs
 !> Original interface for SPOTRS
 !> See also: [[mfi_potrs]], [[f77_potrs]].
@@ -668,13 +667,13 @@ end subroutine
 end interface
 !> Generic old style interface for POCON.
 !> Supports s, d, c, z.
-!> See also: [[mfi_pocon]], [[spocon]],[[dpocon]],[[cpocon]],[[zpocon]].
+!> See also: [[mfi_pocon]], [[spocon]], [[dpocon]], [[cpocon]], [[zpocon]].
 interface f77_pocon
 !> Original interface for SPOCON
 !> See also: [[mfi_pocon]], [[f77_pocon]].
 !> spocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a real(REAL32) Hermitian positive definite matrix using the
-!> Cholesky factorization A = U**H*U or A = L*L**H computed by sPOTRF.
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by SPOTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 pure subroutine spocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
@@ -694,7 +693,7 @@ end subroutine
 !> See also: [[mfi_pocon]], [[f77_pocon]].
 !> dpocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a real(REAL64) Hermitian positive definite matrix using the
-!> Cholesky factorization A = U**H*U or A = L*L**H computed by dPOTRF.
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by DPOTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 pure subroutine dpocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
@@ -714,7 +713,7 @@ end subroutine
 !> See also: [[mfi_pocon]], [[f77_pocon]].
 !> cpocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a complex(REAL32) Hermitian positive definite matrix using the
-!> Cholesky factorization A = U**H*U or A = L*L**H computed by cPOTRF.
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by CPOTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 pure subroutine cpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
@@ -734,7 +733,7 @@ end subroutine
 !> See also: [[mfi_pocon]], [[f77_pocon]].
 !> zpocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a complex(REAL64) Hermitian positive definite matrix using the
-!> Cholesky factorization A = U**H*U or A = L*L**H computed by zPOTRF.
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by ZPOTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 pure subroutine zpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
@@ -753,7 +752,7 @@ end subroutine
 end interface
 !> Generic old style interface for HEEVX.
 !> Supports c, z.
-!> See also: [[mfi_heevx]], [[cheevx]],[[zheevx]].
+!> See also: [[mfi_heevx]], [[cheevx]], [[zheevx]].
 interface f77_heevx
 !> Original interface for CHEEVX
 !> See also: [[mfi_heevx]], [[f77_heevx]].
@@ -818,7 +817,7 @@ end subroutine
 end interface
 !> Generic old style interface for HEEVR.
 !> Supports c, z.
-!> See also: [[mfi_heevr]], [[cheevr]],[[zheevr]].
+!> See also: [[mfi_heevr]], [[cheevr]], [[zheevr]].
 interface f77_heevr
 !> Original interface for CHEEVR
 !> See also: [[mfi_heevr]], [[f77_heevr]].
@@ -883,7 +882,7 @@ end subroutine
 end interface
 !> Generic old style interface for GELS.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gels]], [[sgels]],[[dgels]],[[cgels]],[[zgels]].
+!> See also: [[mfi_gels]], [[sgels]], [[dgels]], [[cgels]], [[zgels]].
 interface f77_gels
 !> Original interface for SGELS
 !> See also: [[mfi_gels]], [[f77_gels]].
@@ -960,7 +959,7 @@ end subroutine
 end interface
 !> Generic old style interface for GELST.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gelst]], [[sgelst]],[[dgelst]],[[cgelst]],[[zgelst]].
+!> See also: [[mfi_gelst]], [[sgelst]], [[dgelst]], [[cgelst]], [[zgelst]].
 interface f77_gelst
 !> Original interface for SGELST
 !> See also: [[mfi_gelst]], [[f77_gelst]].
@@ -1041,7 +1040,7 @@ end subroutine
 end interface
 !> Generic old style interface for GETSLS.
 !> Supports s, d, c, z.
-!> See also: [[mfi_getsls]], [[sgetsls]],[[dgetsls]],[[cgetsls]],[[zgetsls]].
+!> See also: [[mfi_getsls]], [[sgetsls]], [[dgetsls]], [[cgetsls]], [[zgetsls]].
 interface f77_getsls
 !> Original interface for SGETSLS
 !> See also: [[mfi_getsls]], [[f77_getsls]].
@@ -1118,7 +1117,7 @@ end subroutine
 end interface
 !> Generic old style interface for GELSD.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gelsd]], [[sgelsd]],[[dgelsd]],[[cgelsd]],[[zgelsd]].
+!> See also: [[mfi_gelsd]], [[sgelsd]], [[dgelsd]], [[cgelsd]], [[zgelsd]].
 interface f77_gelsd
 !> Original interface for SGELSD
 !> See also: [[mfi_gelsd]], [[f77_gelsd]].
@@ -1207,7 +1206,7 @@ end subroutine
 end interface
 !> Generic old style interface for GELSS.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gelss]], [[sgelss]],[[dgelss]],[[cgelss]],[[zgelss]].
+!> See also: [[mfi_gelss]], [[sgelss]], [[dgelss]], [[cgelss]], [[zgelss]].
 interface f77_gelss
 !> Original interface for SGELSS
 !> See also: [[mfi_gelss]], [[f77_gelss]].
@@ -1292,7 +1291,7 @@ end subroutine
 end interface
 !> Generic old style interface for GELSY.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gelsy]], [[sgelsy]],[[dgelsy]],[[cgelsy]],[[zgelsy]].
+!> See also: [[mfi_gelsy]], [[sgelsy]], [[dgelsy]], [[cgelsy]], [[zgelsy]].
 interface f77_gelsy
 !> Original interface for SGELSY
 !> See also: [[mfi_gelsy]], [[f77_gelsy]].
@@ -1377,7 +1376,7 @@ end subroutine
 end interface
 !> Generic old style interface for GGLSE.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gglse]], [[sgglse]],[[dgglse]],[[cgglse]],[[zgglse]].
+!> See also: [[mfi_gglse]], [[sgglse]], [[dgglse]], [[cgglse]], [[zgglse]].
 interface f77_gglse
 !> Original interface for SGGLSE
 !> See also: [[mfi_gglse]], [[f77_gglse]].
@@ -1458,7 +1457,7 @@ end subroutine
 end interface
 !> Generic old style interface for GGLSM.
 !> Supports s, d, c, z.
-!> See also: [[mfi_gglsm]], [[sgglsm]],[[dgglsm]],[[cgglsm]],[[zgglsm]].
+!> See also: [[mfi_gglsm]], [[sgglsm]], [[dgglsm]], [[cgglsm]], [[zgglsm]].
 interface f77_gglsm
 !> Original interface for SGGLSM
 !> See also: [[mfi_gglsm]], [[f77_gglsm]].
@@ -1537,9 +1536,889 @@ pure subroutine zgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
+!> Generic old style interface for ORG2R.
+!> Supports s, d.
+!> See also: [[mfi_org2r]], [[sorg2r]], [[dorg2r]].
+interface f77_org2r
+!> Original interface for SORG2R
+!> See also: [[mfi_org2r]], [[f77_org2r]].
+!> This routine generates an \(M \times N \) real(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:sgeqrf]].
+pure subroutine sorg2r(m, n, k, a, lda, tau, work, info)
+    import :: REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORG2R
+!> See also: [[mfi_org2r]], [[f77_org2r]].
+!> This routine generates an \(M \times N \) real(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:dgeqrf]].
+pure subroutine dorg2r(m, n, k, a, lda, tau, work, info)
+    import :: REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORGR2.
+!> Supports s, d.
+!> See also: [[mfi_orgr2]], [[sorgr2]], [[dorgr2]].
+interface f77_orgr2
+!> Original interface for SORGR2
+!> See also: [[mfi_orgr2]], [[f77_orgr2]].
+!> This routine generates an \(M \times N \) real(REAL32)
+!> matrix \( Q \) with orthonormal rows,
+!> which is defined as the last \( M \) rows of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:sgerqf]].
+pure subroutine sorgr2(m, n, k, a, lda, tau, work, info)
+    import :: REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORGR2
+!> See also: [[mfi_orgr2]], [[f77_orgr2]].
+!> This routine generates an \(M \times N \) real(REAL64)
+!> matrix \( Q \) with orthonormal rows,
+!> which is defined as the last \( M \) rows of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:dgerqf]].
+pure subroutine dorgr2(m, n, k, a, lda, tau, work, info)
+    import :: REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORM2R.
+!> Supports s, d.
+!> See also: [[mfi_orm2r]], [[sorm2r]], [[dorm2r]].
+interface f77_orm2r
+!> Original interface for SORM2R
+!> See also: [[mfi_orm2r]], [[f77_orm2r]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:sgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine sorm2r(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: c(ldc,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORM2R
+!> See also: [[mfi_orm2r]], [[f77_orm2r]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:dgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine dorm2r(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: c(ldc,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORMR2.
+!> Supports s, d.
+!> See also: [[mfi_ormr2]], [[sormr2]], [[dormr2]].
+interface f77_ormr2
+!> Original interface for SORMR2
+!> See also: [[mfi_ormr2]], [[f77_ormr2]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:sgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine sormr2(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: c(ldc,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORMR2
+!> See also: [[mfi_ormr2]], [[f77_ormr2]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:dgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine dormr2(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: c(ldc,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORMQR.
+!> Supports s, d.
+!> See also: [[mfi_ormqr]], [[sormqr]], [[dormqr]].
+interface f77_ormqr
+!> Original interface for SORMQR
+!> See also: [[mfi_ormqr]], [[f77_ormqr]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:sgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine sormqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: c(ldc,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORMQR
+!> See also: [[mfi_ormqr]], [[f77_ormqr]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:dgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine dormqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: c(ldc,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORMRQ.
+!> Supports s, d.
+!> See also: [[mfi_ormrq]], [[sormrq]], [[dormrq]].
+interface f77_ormrq
+!> Original interface for SORMRQ
+!> See also: [[mfi_ormrq]], [[f77_ormrq]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:sgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine sormrq(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: c(ldc,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORMRQ
+!> See also: [[mfi_ormrq]], [[f77_ormrq]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:dgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine dormrq(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: c(ldc,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORGQR.
+!> Supports s, d.
+!> See also: [[mfi_orgqr]], [[sorgqr]], [[dorgqr]].
+interface f77_orgqr
+!> Original interface for SORGQR
+!> See also: [[mfi_orgqr]], [[f77_orgqr]].
+!> This routine generates an \(M \times N \) real(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:sgeqrf]].
+pure subroutine sorgqr(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORGQR
+!> See also: [[mfi_orgqr]], [[f77_orgqr]].
+!> This routine generates an \(M \times N \) real(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:dgeqrf]].
+pure subroutine dorgqr(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORGRQ.
+!> Supports s, d.
+!> See also: [[mfi_orgrq]], [[sorgrq]], [[dorgrq]].
+interface f77_orgrq
+!> Original interface for SORGRQ
+!> See also: [[mfi_orgrq]], [[f77_orgrq]].
+!> This routine generates an \(M \times N \) real(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger . . . H(k)^\dagger \)
+!> as returned by [[f77_gerqf:sgerqf]].
+pure subroutine sorgrq(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORGRQ
+!> See also: [[mfi_orgrq]], [[f77_orgrq]].
+!> This routine generates an \(M \times N \) real(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger . . . H(k)^\dagger \)
+!> as returned by [[f77_gerqf:dgerqf]].
+pure subroutine dorgrq(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNG2R.
+!> Supports c, z.
+!> See also: [[mfi_ung2r]], [[cung2r]], [[zung2r]].
+interface f77_ung2r
+!> Original interface for CUNG2R
+!> See also: [[mfi_ung2r]], [[f77_ung2r]].
+!> This routine generates an \(M \times N \) complex(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:cgeqrf]].
+pure subroutine cung2r(m, n, k, a, lda, tau, work, info)
+    import :: REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNG2R
+!> See also: [[mfi_ung2r]], [[f77_ung2r]].
+!> This routine generates an \(M \times N \) complex(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:zgeqrf]].
+pure subroutine zung2r(m, n, k, a, lda, tau, work, info)
+    import :: REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNGR2.
+!> Supports c, z.
+!> See also: [[mfi_ungr2]], [[cungr2]], [[zungr2]].
+interface f77_ungr2
+!> Original interface for CUNGR2
+!> See also: [[mfi_ungr2]], [[f77_ungr2]].
+!> This routine generates an \(M \times N \) complex(REAL32)
+!> matrix \( Q \) with orthonormal rows,
+!> which is defined as the last \( M \) rows of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:cgerqf]].
+pure subroutine cungr2(m, n, k, a, lda, tau, work, info)
+    import :: REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNGR2
+!> See also: [[mfi_ungr2]], [[f77_ungr2]].
+!> This routine generates an \(M \times N \) complex(REAL64)
+!> matrix \( Q \) with orthonormal rows,
+!> which is defined as the last \( M \) rows of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:zgerqf]].
+pure subroutine zungr2(m, n, k, a, lda, tau, work, info)
+    import :: REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNM2R.
+!> Supports c, z.
+!> See also: [[mfi_unm2r]], [[cunm2r]], [[zunm2r]].
+interface f77_unm2r
+!> Original interface for CUNM2R
+!> See also: [[mfi_unm2r]], [[f77_unm2r]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:cgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine cunm2r(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: c(ldc,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNM2R
+!> See also: [[mfi_unm2r]], [[f77_unm2r]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:zgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine zunm2r(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: c(ldc,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNMR2.
+!> Supports c, z.
+!> See also: [[mfi_unmr2]], [[cunmr2]], [[zunmr2]].
+interface f77_unmr2
+!> Original interface for CUNMR2
+!> See also: [[mfi_unmr2]], [[f77_unmr2]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:cgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine cunmr2(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: c(ldc,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNMR2
+!> See also: [[mfi_unmr2]], [[f77_unmr2]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:zgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine zunmr2(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: c(ldc,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNMQR.
+!> Supports c, z.
+!> See also: [[mfi_unmqr]], [[cunmqr]], [[zunmqr]].
+interface f77_unmqr
+!> Original interface for CUNMQR
+!> See also: [[mfi_unmqr]], [[f77_unmqr]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:cgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine cunmqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: c(ldc,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNMQR
+!> See also: [[mfi_unmqr]], [[f77_unmqr]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:zgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine zunmqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: c(ldc,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNMRQ.
+!> Supports c, z.
+!> See also: [[mfi_unmrq]], [[cunmrq]], [[zunmrq]].
+interface f77_unmrq
+!> Original interface for CUNMRQ
+!> See also: [[mfi_unmrq]], [[f77_unmrq]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:cgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine cunmrq(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: c(ldc,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNMRQ
+!> See also: [[mfi_unmrq]], [[f77_unmrq]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:zgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine zunmrq(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: c(ldc,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNGQR.
+!> Supports c, z.
+!> See also: [[mfi_ungqr]], [[cungqr]], [[zungqr]].
+interface f77_ungqr
+!> Original interface for CUNGQR
+!> See also: [[mfi_ungqr]], [[f77_ungqr]].
+!> This routine generates an \(M \times N \) complex(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:cgeqrf]].
+pure subroutine cungqr(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNGQR
+!> See also: [[mfi_ungqr]], [[f77_ungqr]].
+!> This routine generates an \(M \times N \) complex(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:zgeqrf]].
+pure subroutine zungqr(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNGRQ.
+!> Supports c, z.
+!> See also: [[mfi_ungrq]], [[cungrq]], [[zungrq]].
+interface f77_ungrq
+!> Original interface for CUNGRQ
+!> See also: [[mfi_ungrq]], [[f77_ungrq]].
+!> This routine generates an \(M \times N \) complex(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger . . . H(k)^\dagger \)
+!> as returned by [[f77_gerqf:cgerqf]].
+pure subroutine cungrq(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNGRQ
+!> See also: [[mfi_ungrq]], [[f77_ungrq]].
+!> This routine generates an \(M \times N \) complex(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger . . . H(k)^\dagger \)
+!> as returned by [[f77_gerqf:zgerqf]].
+pure subroutine zungrq(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
 !> Generic old style interface for LARTG.
 !> Supports s, d, c, z.
-!> See also: [[mfi_lartg]], [[slartg]],[[dlartg]],[[clartg]],[[zlartg]].
+!> See also: [[mfi_lartg]], [[slartg]], [[dlartg]], [[clartg]], [[zlartg]].
 interface f77_lartg
 !> Original interface for SLARTG
 !> See also: [[mfi_lartg]], [[f77_lartg]].

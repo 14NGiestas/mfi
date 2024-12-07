@@ -9,7 +9,7 @@ implicit none
 !> Generic modern interface for COPY.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_copy:scopy]],[[f77_copy:dcopy]],[[f77_copy:ccopy]],[[f77_copy:zcopy]].
+!> [[f77_copy:scopy]], [[f77_copy:dcopy]], [[f77_copy:ccopy]], [[f77_copy:zcopy]].
 interface mfi_copy
     module procedure :: mfi_scopy
     module procedure :: mfi_dcopy
@@ -19,7 +19,7 @@ end interface
 !> Generic modern interface for SWAP.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_swap:sswap]],[[f77_swap:dswap]],[[f77_swap:cswap]],[[f77_swap:zswap]].
+!> [[f77_swap:sswap]], [[f77_swap:dswap]], [[f77_swap:cswap]], [[f77_swap:zswap]].
 interface mfi_swap
     module procedure :: mfi_sswap
     module procedure :: mfi_dswap
@@ -29,7 +29,7 @@ end interface
 !> Generic modern interface for AXPY.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_axpy:saxpy]],[[f77_axpy:daxpy]],[[f77_axpy:caxpy]],[[f77_axpy:zaxpy]].
+!> [[f77_axpy:saxpy]], [[f77_axpy:daxpy]], [[f77_axpy:caxpy]], [[f77_axpy:zaxpy]].
 interface mfi_axpy
     module procedure :: mfi_saxpy
     module procedure :: mfi_daxpy
@@ -39,7 +39,7 @@ end interface
 !> Generic modern interface for DOT.
 !> Supports s, d.
 !> See also:
-!> [[f77_dot:sdot]],[[f77_dot:ddot]].
+!> [[f77_dot:sdot]], [[f77_dot:ddot]].
 interface mfi_dot
     module procedure :: mfi_sdot
     module procedure :: mfi_ddot
@@ -47,7 +47,7 @@ end interface
 !> Generic modern interface for DOTC.
 !> Supports c, z.
 !> See also:
-!> [[f77_dotc:cdotc]],[[f77_dotc:zdotc]].
+!> [[f77_dotc:cdotc]], [[f77_dotc:zdotc]].
 interface mfi_dotc
     module procedure :: mfi_cdotc
     module procedure :: mfi_zdotc
@@ -55,7 +55,7 @@ end interface
 !> Generic modern interface for DOTU.
 !> Supports c, z.
 !> See also:
-!> [[f77_dotu:cdotu]],[[f77_dotu:zdotu]].
+!> [[f77_dotu:cdotu]], [[f77_dotu:zdotu]].
 interface mfi_dotu
     module procedure :: mfi_cdotu
     module procedure :: mfi_zdotu
@@ -63,7 +63,7 @@ end interface
 !> Generic modern interface for ASUM.
 !> Supports s, d, sc, dz.
 !> See also:
-!> [[f77_asum:sasum]],[[f77_asum:dasum]],[[f77_asum:scasum]],[[f77_asum:dzasum]].
+!> [[f77_asum:sasum]], [[f77_asum:dasum]], [[f77_asum:scasum]], [[f77_asum:dzasum]].
 interface mfi_asum
     module procedure :: mfi_sasum
     module procedure :: mfi_dasum
@@ -73,7 +73,7 @@ end interface
 !> Generic modern interface for NRM2.
 !> Supports s, d, sc, dz.
 !> See also:
-!> [[f77_nrm2:snrm2]],[[f77_nrm2:dnrm2]],[[f77_nrm2:scnrm2]],[[f77_nrm2:dznrm2]].
+!> [[f77_nrm2:snrm2]], [[f77_nrm2:dnrm2]], [[f77_nrm2:scnrm2]], [[f77_nrm2:dznrm2]].
 interface mfi_nrm2
     module procedure :: mfi_snrm2
     module procedure :: mfi_dnrm2
@@ -83,7 +83,7 @@ end interface
 !> Generic modern interface for ROT.
 !> Supports s, d, c, z, cs, zd.
 !> See also:
-!> [[f77_rot:srot]],[[f77_rot:drot]],[[f77_rot:crot]],[[f77_rot:zrot]],[[f77_rot:csrot]],[[f77_rot:zdrot]].
+!> [[f77_rot:srot]], [[f77_rot:drot]], [[f77_rot:crot]], [[f77_rot:zrot]], [[f77_rot:csrot]], [[f77_rot:zdrot]].
 interface mfi_rot
     module procedure :: mfi_srot
     module procedure :: mfi_drot
@@ -95,7 +95,7 @@ end interface
 !> Generic modern interface for ROTM.
 !> Supports s, d.
 !> See also:
-!> [[f77_rotm:srotm]],[[f77_rotm:drotm]].
+!> [[f77_rotm:srotm]], [[f77_rotm:drotm]].
 interface mfi_rotm
     module procedure :: mfi_srotm
     module procedure :: mfi_drotm
@@ -103,7 +103,7 @@ end interface
 !> Generic modern interface for SCAL.
 !> Supports s, d, c, z, cs, zd.
 !> See also:
-!> [[f77_scal:sscal]],[[f77_scal:dscal]],[[f77_scal:cscal]],[[f77_scal:zscal]],[[f77_scal:csscal]],[[f77_scal:zdscal]].
+!> [[f77_scal:sscal]], [[f77_scal:dscal]], [[f77_scal:cscal]], [[f77_scal:zscal]], [[f77_scal:csscal]], [[f77_scal:zdscal]].
 interface mfi_scal
     module procedure :: mfi_sscal
     module procedure :: mfi_dscal
@@ -115,7 +115,7 @@ end interface
 !> Generic modern interface for GBMV.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_gbmv:sgbmv]],[[f77_gbmv:dgbmv]],[[f77_gbmv:cgbmv]],[[f77_gbmv:zgbmv]].
+!> [[f77_gbmv:sgbmv]], [[f77_gbmv:dgbmv]], [[f77_gbmv:cgbmv]], [[f77_gbmv:zgbmv]].
 interface mfi_gbmv
     module procedure :: mfi_sgbmv
     module procedure :: mfi_dgbmv
@@ -125,7 +125,7 @@ end interface
 !> Generic modern interface for GEMV.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_gemv:sgemv]],[[f77_gemv:dgemv]],[[f77_gemv:cgemv]],[[f77_gemv:zgemv]].
+!> [[f77_gemv:sgemv]], [[f77_gemv:dgemv]], [[f77_gemv:cgemv]], [[f77_gemv:zgemv]].
 interface mfi_gemv
     module procedure :: mfi_sgemv
     module procedure :: mfi_dgemv
@@ -135,7 +135,7 @@ end interface
 !> Generic modern interface for GER.
 !> Supports s, d.
 !> See also:
-!> [[f77_ger:sger]],[[f77_ger:dger]].
+!> [[f77_ger:sger]], [[f77_ger:dger]].
 interface mfi_ger
     module procedure :: mfi_sger
     module procedure :: mfi_dger
@@ -143,7 +143,7 @@ end interface
 !> Generic modern interface for GERC.
 !> Supports c, z.
 !> See also:
-!> [[f77_gerc:cgerc]],[[f77_gerc:zgerc]].
+!> [[f77_gerc:cgerc]], [[f77_gerc:zgerc]].
 interface mfi_gerc
     module procedure :: mfi_cgerc
     module procedure :: mfi_zgerc
@@ -151,7 +151,7 @@ end interface
 !> Generic modern interface for GERU.
 !> Supports c, z.
 !> See also:
-!> [[f77_geru:cgeru]],[[f77_geru:zgeru]].
+!> [[f77_geru:cgeru]], [[f77_geru:zgeru]].
 interface mfi_geru
     module procedure :: mfi_cgeru
     module procedure :: mfi_zgeru
@@ -159,7 +159,7 @@ end interface
 !> Generic modern interface for HBMV.
 !> Supports c, z.
 !> See also:
-!> [[f77_hbmv:chbmv]],[[f77_hbmv:zhbmv]].
+!> [[f77_hbmv:chbmv]], [[f77_hbmv:zhbmv]].
 interface mfi_hbmv
     module procedure :: mfi_chbmv
     module procedure :: mfi_zhbmv
@@ -167,7 +167,7 @@ end interface
 !> Generic modern interface for HEMV.
 !> Supports c, z.
 !> See also:
-!> [[f77_hemv:chemv]],[[f77_hemv:zhemv]].
+!> [[f77_hemv:chemv]], [[f77_hemv:zhemv]].
 interface mfi_hemv
     module procedure :: mfi_chemv
     module procedure :: mfi_zhemv
@@ -175,7 +175,7 @@ end interface
 !> Generic modern interface for HER.
 !> Supports c, z.
 !> See also:
-!> [[f77_her:cher]],[[f77_her:zher]].
+!> [[f77_her:cher]], [[f77_her:zher]].
 interface mfi_her
     module procedure :: mfi_cher
     module procedure :: mfi_zher
@@ -183,7 +183,7 @@ end interface
 !> Generic modern interface for HER2.
 !> Supports c, z.
 !> See also:
-!> [[f77_her2:cher2]],[[f77_her2:zher2]].
+!> [[f77_her2:cher2]], [[f77_her2:zher2]].
 interface mfi_her2
     module procedure :: mfi_cher2
     module procedure :: mfi_zher2
@@ -191,7 +191,7 @@ end interface
 !> Generic modern interface for HPMV.
 !> Supports c, z.
 !> See also:
-!> [[f77_hpmv:chpmv]],[[f77_hpmv:zhpmv]].
+!> [[f77_hpmv:chpmv]], [[f77_hpmv:zhpmv]].
 interface mfi_hpmv
     module procedure :: mfi_chpmv
     module procedure :: mfi_zhpmv
@@ -199,7 +199,7 @@ end interface
 !> Generic modern interface for HPR.
 !> Supports c, z.
 !> See also:
-!> [[f77_hpr:chpr]],[[f77_hpr:zhpr]].
+!> [[f77_hpr:chpr]], [[f77_hpr:zhpr]].
 interface mfi_hpr
     module procedure :: mfi_chpr
     module procedure :: mfi_zhpr
@@ -207,7 +207,7 @@ end interface
 !> Generic modern interface for HPR2.
 !> Supports c, z.
 !> See also:
-!> [[f77_hpr2:chpr2]],[[f77_hpr2:zhpr2]].
+!> [[f77_hpr2:chpr2]], [[f77_hpr2:zhpr2]].
 interface mfi_hpr2
     module procedure :: mfi_chpr2
     module procedure :: mfi_zhpr2
@@ -215,7 +215,7 @@ end interface
 !> Generic modern interface for SBMV.
 !> Supports s, d.
 !> See also:
-!> [[f77_sbmv:ssbmv]],[[f77_sbmv:dsbmv]].
+!> [[f77_sbmv:ssbmv]], [[f77_sbmv:dsbmv]].
 interface mfi_sbmv
     module procedure :: mfi_ssbmv
     module procedure :: mfi_dsbmv
@@ -223,7 +223,7 @@ end interface
 !> Generic modern interface for SPMV.
 !> Supports s, d.
 !> See also:
-!> [[f77_spmv:sspmv]],[[f77_spmv:dspmv]].
+!> [[f77_spmv:sspmv]], [[f77_spmv:dspmv]].
 interface mfi_spmv
     module procedure :: mfi_sspmv
     module procedure :: mfi_dspmv
@@ -231,7 +231,7 @@ end interface
 !> Generic modern interface for SPR.
 !> Supports s, d.
 !> See also:
-!> [[f77_spr:sspr]],[[f77_spr:dspr]].
+!> [[f77_spr:sspr]], [[f77_spr:dspr]].
 interface mfi_spr
     module procedure :: mfi_sspr
     module procedure :: mfi_dspr
@@ -239,7 +239,7 @@ end interface
 !> Generic modern interface for SPR2.
 !> Supports s, d.
 !> See also:
-!> [[f77_spr2:sspr2]],[[f77_spr2:dspr2]].
+!> [[f77_spr2:sspr2]], [[f77_spr2:dspr2]].
 interface mfi_spr2
     module procedure :: mfi_sspr2
     module procedure :: mfi_dspr2
@@ -247,7 +247,7 @@ end interface
 !> Generic modern interface for SYMV.
 !> Supports s, d.
 !> See also:
-!> [[f77_symv:ssymv]],[[f77_symv:dsymv]].
+!> [[f77_symv:ssymv]], [[f77_symv:dsymv]].
 interface mfi_symv
     module procedure :: mfi_ssymv
     module procedure :: mfi_dsymv
@@ -255,7 +255,7 @@ end interface
 !> Generic modern interface for SYR.
 !> Supports s, d.
 !> See also:
-!> [[f77_syr:ssyr]],[[f77_syr:dsyr]].
+!> [[f77_syr:ssyr]], [[f77_syr:dsyr]].
 interface mfi_syr
     module procedure :: mfi_ssyr
     module procedure :: mfi_dsyr
@@ -263,7 +263,7 @@ end interface
 !> Generic modern interface for SYR2.
 !> Supports s, d.
 !> See also:
-!> [[f77_syr2:ssyr2]],[[f77_syr2:dsyr2]].
+!> [[f77_syr2:ssyr2]], [[f77_syr2:dsyr2]].
 interface mfi_syr2
     module procedure :: mfi_ssyr2
     module procedure :: mfi_dsyr2
@@ -271,7 +271,7 @@ end interface
 !> Generic modern interface for TBMV.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_tbmv:stbmv]],[[f77_tbmv:dtbmv]],[[f77_tbmv:ctbmv]],[[f77_tbmv:ztbmv]].
+!> [[f77_tbmv:stbmv]], [[f77_tbmv:dtbmv]], [[f77_tbmv:ctbmv]], [[f77_tbmv:ztbmv]].
 interface mfi_tbmv
     module procedure :: mfi_stbmv
     module procedure :: mfi_dtbmv
@@ -281,7 +281,7 @@ end interface
 !> Generic modern interface for TBSV.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_tbsv:stbsv]],[[f77_tbsv:dtbsv]],[[f77_tbsv:ctbsv]],[[f77_tbsv:ztbsv]].
+!> [[f77_tbsv:stbsv]], [[f77_tbsv:dtbsv]], [[f77_tbsv:ctbsv]], [[f77_tbsv:ztbsv]].
 interface mfi_tbsv
     module procedure :: mfi_stbsv
     module procedure :: mfi_dtbsv
@@ -291,7 +291,7 @@ end interface
 !> Generic modern interface for TPMV.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_tpmv:stpmv]],[[f77_tpmv:dtpmv]],[[f77_tpmv:ctpmv]],[[f77_tpmv:ztpmv]].
+!> [[f77_tpmv:stpmv]], [[f77_tpmv:dtpmv]], [[f77_tpmv:ctpmv]], [[f77_tpmv:ztpmv]].
 interface mfi_tpmv
     module procedure :: mfi_stpmv
     module procedure :: mfi_dtpmv
@@ -301,7 +301,7 @@ end interface
 !> Generic modern interface for TPSV.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_tpsv:stpsv]],[[f77_tpsv:dtpsv]],[[f77_tpsv:ctpsv]],[[f77_tpsv:ztpsv]].
+!> [[f77_tpsv:stpsv]], [[f77_tpsv:dtpsv]], [[f77_tpsv:ctpsv]], [[f77_tpsv:ztpsv]].
 interface mfi_tpsv
     module procedure :: mfi_stpsv
     module procedure :: mfi_dtpsv
@@ -311,7 +311,7 @@ end interface
 !> Generic modern interface for TRMV.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_trmv:strmv]],[[f77_trmv:dtrmv]],[[f77_trmv:ctrmv]],[[f77_trmv:ztrmv]].
+!> [[f77_trmv:strmv]], [[f77_trmv:dtrmv]], [[f77_trmv:ctrmv]], [[f77_trmv:ztrmv]].
 interface mfi_trmv
     module procedure :: mfi_strmv
     module procedure :: mfi_dtrmv
@@ -321,7 +321,7 @@ end interface
 !> Generic modern interface for TRSV.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_trsv:strsv]],[[f77_trsv:dtrsv]],[[f77_trsv:ctrsv]],[[f77_trsv:ztrsv]].
+!> [[f77_trsv:strsv]], [[f77_trsv:dtrsv]], [[f77_trsv:ctrsv]], [[f77_trsv:ztrsv]].
 interface mfi_trsv
     module procedure :: mfi_strsv
     module procedure :: mfi_dtrsv
@@ -331,7 +331,7 @@ end interface
 !> Generic modern interface for GEMM.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_gemm:sgemm]],[[f77_gemm:dgemm]],[[f77_gemm:cgemm]],[[f77_gemm:zgemm]].
+!> [[f77_gemm:sgemm]], [[f77_gemm:dgemm]], [[f77_gemm:cgemm]], [[f77_gemm:zgemm]].
 interface mfi_gemm
     module procedure :: mfi_sgemm
     module procedure :: mfi_dgemm
@@ -341,7 +341,7 @@ end interface
 !> Generic modern interface for HEMM.
 !> Supports c, z.
 !> See also:
-!> [[f77_hemm:chemm]],[[f77_hemm:zhemm]].
+!> [[f77_hemm:chemm]], [[f77_hemm:zhemm]].
 interface mfi_hemm
     module procedure :: mfi_chemm
     module procedure :: mfi_zhemm
@@ -349,7 +349,7 @@ end interface
 !> Generic modern interface for HERK.
 !> Supports c, z.
 !> See also:
-!> [[f77_herk:cherk]],[[f77_herk:zherk]].
+!> [[f77_herk:cherk]], [[f77_herk:zherk]].
 interface mfi_herk
     module procedure :: mfi_cherk
     module procedure :: mfi_zherk
@@ -357,7 +357,7 @@ end interface
 !> Generic modern interface for HER2K.
 !> Supports c, z.
 !> See also:
-!> [[f77_her2k:cher2k]],[[f77_her2k:zher2k]].
+!> [[f77_her2k:cher2k]], [[f77_her2k:zher2k]].
 interface mfi_her2k
     module procedure :: mfi_cher2k
     module procedure :: mfi_zher2k
@@ -365,7 +365,7 @@ end interface
 !> Generic modern interface for SYMM.
 !> Supports s, d.
 !> See also:
-!> [[f77_symm:ssymm]],[[f77_symm:dsymm]].
+!> [[f77_symm:ssymm]], [[f77_symm:dsymm]].
 interface mfi_symm
     module procedure :: mfi_ssymm
     module procedure :: mfi_dsymm
@@ -373,7 +373,7 @@ end interface
 !> Generic modern interface for SYRK.
 !> Supports s, d.
 !> See also:
-!> [[f77_syrk:ssyrk]],[[f77_syrk:dsyrk]].
+!> [[f77_syrk:ssyrk]], [[f77_syrk:dsyrk]].
 interface mfi_syrk
     module procedure :: mfi_ssyrk
     module procedure :: mfi_dsyrk
@@ -381,7 +381,7 @@ end interface
 !> Generic modern interface for SYR2K.
 !> Supports s, d.
 !> See also:
-!> [[f77_syr2k:ssyr2k]],[[f77_syr2k:dsyr2k]].
+!> [[f77_syr2k:ssyr2k]], [[f77_syr2k:dsyr2k]].
 interface mfi_syr2k
     module procedure :: mfi_ssyr2k
     module procedure :: mfi_dsyr2k
@@ -389,7 +389,7 @@ end interface
 !> Generic modern interface for TRMM.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_trmm:strmm]],[[f77_trmm:dtrmm]],[[f77_trmm:ctrmm]],[[f77_trmm:ztrmm]].
+!> [[f77_trmm:strmm]], [[f77_trmm:dtrmm]], [[f77_trmm:ctrmm]], [[f77_trmm:ztrmm]].
 interface mfi_trmm
     module procedure :: mfi_strmm
     module procedure :: mfi_dtrmm
@@ -399,7 +399,7 @@ end interface
 !> Generic modern interface for TRSM.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_trsm:strsm]],[[f77_trsm:dtrsm]],[[f77_trsm:ctrsm]],[[f77_trsm:ztrsm]].
+!> [[f77_trsm:strsm]], [[f77_trsm:dtrsm]], [[f77_trsm:ctrsm]], [[f77_trsm:ztrsm]].
 interface mfi_trsm
     module procedure :: mfi_strsm
     module procedure :: mfi_dtrsm
@@ -409,7 +409,7 @@ end interface
 !> Generic modern interface for LAMCH.
 !> Supports s, d.
 !> See also:
-!> [[f77_lamch:slamch]],[[f77_lamch:dlamch]].
+!> [[f77_lamch:slamch]], [[f77_lamch:dlamch]].
 interface mfi_lamch
     module procedure :: mfi_slamch
     module procedure :: mfi_dlamch
@@ -420,7 +420,7 @@ end interface
 !> Generic modern interface for IAMAX.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_iamax:isamax]],[[f77_iamax:idamax]],[[f77_iamax:icamax]],[[f77_iamax:izamax]].
+!> [[f77_iamax:isamax]], [[f77_iamax:idamax]], [[f77_iamax:icamax]], [[f77_iamax:izamax]].
 interface mfi_iamax
     module procedure :: mfi_isamax
     module procedure :: mfi_idamax
@@ -430,15 +430,13 @@ end interface
 !> Generic modern interface for IAMIN.
 !> Supports s, d, c, z.
 !> See also:
-!> [[f77_iamin:isamin]],[[f77_iamin:idamin]],[[f77_iamin:icamin]],[[f77_iamin:izamin]].
+!> [[f77_iamin:isamin]], [[f77_iamin:idamin]], [[f77_iamin:icamin]], [[f77_iamin:izamin]].
 interface mfi_iamin
     module procedure :: mfi_isamin
     module procedure :: mfi_idamin
     module procedure :: mfi_icamin
     module procedure :: mfi_izamin
 end interface
-
-
 
 contains
 
@@ -4095,7 +4093,7 @@ pure subroutine mfi_ztrsv(a, x, uplo, trans, diag, incx)
 end subroutine
 !> Modern interface for [[f77_gemm:sgemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
+pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL32
     real(REAL32), intent(in) :: a(:,:)
     real(REAL32), intent(in) :: b(:,:)
@@ -4108,8 +4106,6 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     real(REAL32) :: local_alpha
     real(REAL32), intent(in), optional :: beta
     real(REAL32) :: local_beta
-    logical, intent(in), optional :: use_gpu
-    logical :: local_use_gpu
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -4131,11 +4127,6 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     else
         local_beta = 0.0_wp
     end if
-    if (present(use_gpu)) then
-        local_use_gpu = use_gpu
-    else
-        local_use_gpu = .false.
-    end if
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
@@ -4146,15 +4137,11 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     else
         k = size(a,1)
     end if
-    if (local_use_gpu) then; block
-        error stop "Not compiled with -DUSE_GPU and/or -DUSE_CUBLAS"
-        return
-    end block; end if
     call sgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_gemm:dgemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
+pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL64
     real(REAL64), intent(in) :: a(:,:)
     real(REAL64), intent(in) :: b(:,:)
@@ -4167,8 +4154,6 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     real(REAL64) :: local_alpha
     real(REAL64), intent(in), optional :: beta
     real(REAL64) :: local_beta
-    logical, intent(in), optional :: use_gpu
-    logical :: local_use_gpu
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -4190,11 +4175,6 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     else
         local_beta = 0.0_wp
     end if
-    if (present(use_gpu)) then
-        local_use_gpu = use_gpu
-    else
-        local_use_gpu = .false.
-    end if
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
@@ -4205,15 +4185,11 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     else
         k = size(a,1)
     end if
-    if (local_use_gpu) then; block
-        error stop "Not compiled with -DUSE_GPU and/or -DUSE_CUBLAS"
-        return
-    end block; end if
     call dgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_gemm:cgemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
+pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL32
     complex(REAL32), intent(in) :: a(:,:)
     complex(REAL32), intent(in) :: b(:,:)
@@ -4226,8 +4202,6 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     complex(REAL32) :: local_alpha
     complex(REAL32), intent(in), optional :: beta
     complex(REAL32) :: local_beta
-    logical, intent(in), optional :: use_gpu
-    logical :: local_use_gpu
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -4249,11 +4223,6 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     else
         local_beta = 0.0_wp
     end if
-    if (present(use_gpu)) then
-        local_use_gpu = use_gpu
-    else
-        local_use_gpu = .false.
-    end if
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
@@ -4264,15 +4233,11 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     else
         k = size(a,1)
     end if
-    if (local_use_gpu) then; block
-        error stop "Not compiled with -DUSE_GPU and/or -DUSE_CUBLAS"
-        return
-    end block; end if
     call cgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_gemm:zgemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
+pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL64
     complex(REAL64), intent(in) :: a(:,:)
     complex(REAL64), intent(in) :: b(:,:)
@@ -4285,8 +4250,6 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     complex(REAL64) :: local_alpha
     complex(REAL64), intent(in), optional :: beta
     complex(REAL64) :: local_beta
-    logical, intent(in), optional :: use_gpu
-    logical :: local_use_gpu
     integer :: m, n, k, lda, ldb, ldc
     if (present(transa)) then
         local_transa = transa
@@ -4308,11 +4271,6 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     else
         local_beta = 0.0_wp
     end if
-    if (present(use_gpu)) then
-        local_use_gpu = use_gpu
-    else
-        local_use_gpu = .false.
-    end if
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
@@ -4323,10 +4281,6 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta, use_gpu)
     else
         k = size(a,1)
     end if
-    if (local_use_gpu) then; block
-        error stop "Not compiled with -DUSE_GPU and/or -DUSE_CUBLAS"
-        return
-    end block; end if
     call zgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_hemm:chemm]].
@@ -5412,6 +5366,5 @@ pure function mfi_izamin(x, incx)
     n = size(x)
     mfi_izamin = izamin(n,x,local_incx)
 end function
-
 
 end module

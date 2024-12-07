@@ -1512,15 +1512,12 @@ subroutine test_sgemm
     real(REAL32) :: alpha, beta
     character :: transa, transb
     integer :: i, j
-    logical :: use_gpu
 
     call random_number(A)
     call random_number(B)
     call random_number(C)
     call random_number(alpha)
     call random_number(beta)
-
-    use_gpu = .false.
 
     do i=1,size(options)
     do j=1,size(options)
@@ -1546,7 +1543,7 @@ subroutine test_sgemm
         A_in = A
         B_in = B
         C_in = C
-        call mfi_sgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb, use_gpu=use_gpu)
+        call mfi_sgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
                     all(C_in == C_rf), "different results")
@@ -1554,7 +1551,7 @@ subroutine test_sgemm
         A_in = A
         B_in = B
         C_in = C
-        call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb, use_gpu=use_gpu)
+        call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
 
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
@@ -1576,15 +1573,12 @@ subroutine test_dgemm
     real(REAL64) :: alpha, beta
     character :: transa, transb
     integer :: i, j
-    logical :: use_gpu
 
     call random_number(A)
     call random_number(B)
     call random_number(C)
     call random_number(alpha)
     call random_number(beta)
-
-    use_gpu = .false.
 
     do i=1,size(options)
     do j=1,size(options)
@@ -1610,7 +1604,7 @@ subroutine test_dgemm
         A_in = A
         B_in = B
         C_in = C
-        call mfi_dgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb, use_gpu=use_gpu)
+        call mfi_dgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
                     all(C_in == C_rf), "different results")
@@ -1618,7 +1612,7 @@ subroutine test_dgemm
         A_in = A
         B_in = B
         C_in = C
-        call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb, use_gpu=use_gpu)
+        call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
 
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
@@ -1640,7 +1634,6 @@ subroutine test_cgemm
     complex(REAL32) :: alpha, beta
     character :: transa, transb
     integer :: i, j
-    logical :: use_gpu
 
 block
     real(REAL32) :: re(N,N)
@@ -1677,8 +1670,6 @@ block
     call random_number(re)
     beta = cmplx(re,im)
 end block
-
-    use_gpu = .false.
 
     do i=1,size(options)
     do j=1,size(options)
@@ -1704,7 +1695,7 @@ end block
         A_in = A
         B_in = B
         C_in = C
-        call mfi_cgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb, use_gpu=use_gpu)
+        call mfi_cgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
                     all(C_in == C_rf), "different results")
@@ -1712,7 +1703,7 @@ end block
         A_in = A
         B_in = B
         C_in = C
-        call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb, use_gpu=use_gpu)
+        call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
 
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
@@ -1734,7 +1725,6 @@ subroutine test_zgemm
     complex(REAL64) :: alpha, beta
     character :: transa, transb
     integer :: i, j
-    logical :: use_gpu
 
 block
     real(REAL64) :: re(N,N)
@@ -1772,8 +1762,6 @@ block
     beta = cmplx(re,im)
 end block
 
-    use_gpu = .false.
-
     do i=1,size(options)
     do j=1,size(options)
         transa = options(i)
@@ -1798,7 +1786,7 @@ end block
         A_in = A
         B_in = B
         C_in = C
-        call mfi_zgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb, use_gpu=use_gpu)
+        call mfi_zgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
                     all(C_in == C_rf), "different results")
@@ -1806,7 +1794,7 @@ end block
         A_in = A
         B_in = B
         C_in = C
-        call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb, use_gpu=use_gpu)
+        call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
 
         call assert(all(A_in == A_rf) .and. &
                     all(B_in == B_rf) .and. &
