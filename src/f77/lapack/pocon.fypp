@@ -19,7 +19,7 @@
 #:set wp = pfxs[0]
 !> ${NAME}$ estimates the reciprocal of the condition number (in the
 !> 1-norm) of a ${type(wp)}$ Hermitian positive definite matrix using the
-!> Cholesky factorization A = U**H*U or A = L*L**H computed by ${wp}$POTRF.
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by ${wp}$POTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 #:if type(wp) == real(wp)
