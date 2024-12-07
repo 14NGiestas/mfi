@@ -673,7 +673,7 @@ interface f77_pocon
 !> See also: [[mfi_pocon]], [[f77_pocon]].
 !> spocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a real(REAL32) Hermitian positive definite matrix using the
-!> Cholesky factorization A = U**H*U or A = L*L**H computed by sPOTRF.
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by sPOTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 pure subroutine spocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
@@ -693,7 +693,7 @@ end subroutine
 !> See also: [[mfi_pocon]], [[f77_pocon]].
 !> dpocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a real(REAL64) Hermitian positive definite matrix using the
-!> Cholesky factorization A = U**H*U or A = L*L**H computed by dPOTRF.
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by dPOTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 pure subroutine dpocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
@@ -713,7 +713,7 @@ end subroutine
 !> See also: [[mfi_pocon]], [[f77_pocon]].
 !> cpocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a complex(REAL32) Hermitian positive definite matrix using the
-!> Cholesky factorization A = U**H*U or A = L*L**H computed by cPOTRF.
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by cPOTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 pure subroutine cpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
@@ -733,7 +733,7 @@ end subroutine
 !> See also: [[mfi_pocon]], [[f77_pocon]].
 !> zpocon estimates the reciprocal of the condition number (in the
 !> 1-norm) of a complex(REAL64) Hermitian positive definite matrix using the
-!> Cholesky factorization A = U**H*U or A = L*L**H computed by zPOTRF.
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by zPOTRF.
 !> An estimate is obtained for norm(inv(A)), and the reciprocal of the
 !> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
 pure subroutine zpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
