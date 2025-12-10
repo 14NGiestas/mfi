@@ -1,4 +1,4 @@
-#:mute
+
 #:def scal(f77,f90,mfi,pfxs)
 #:set A, B = get_types(pfxs)
 subroutine test_${f77}$
@@ -37,4 +37,4 @@ subroutine test_${f77}$
 
 end subroutine
 #:enddef
-#:endmute
+

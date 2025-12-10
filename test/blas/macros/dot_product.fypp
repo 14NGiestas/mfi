@@ -1,4 +1,4 @@
-#:mute
+
 #:def dot_product(f77,f90,mfi,pfxs)
 #:set wp = pfxs[0]
 subroutine test_${f77}$
@@ -29,4 +29,4 @@ subroutine test_${f77}$
 
 end subroutine
 #:enddef
-#:endmute
+
