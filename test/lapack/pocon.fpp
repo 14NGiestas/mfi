@@ -4,14 +4,7 @@
 program test_pocon
     use iso_fortran_env
     implicit none
-
-    write(*,'(A)') 'Starting pocon tests...'
-    call test_spocon
-    call test_dpocon
-    call test_cpocon
-    call test_zpocon
-    write(*,'(A)') 'All pocon tests completed successfully.'
-
+    $:test_run('?pocon', DEFAULT_TYPES)
 contains
 
 $:test_implement('?pocon', DEFAULT_TYPES, pocon)

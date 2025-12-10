@@ -4,12 +4,7 @@
 program test_potrf
     use iso_fortran_env
     implicit none
-
-    call test_spotrf
-    call test_dpotrf
-    call test_cpotrf
-    call test_zpotrf
-
+    $:test_run('?potrf', DEFAULT_TYPES)
 contains
 
 $:test_implement('?potrf', DEFAULT_TYPES, potrf_potri)

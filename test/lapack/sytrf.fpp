@@ -4,10 +4,7 @@
 program test_sytrf
     use iso_fortran_env
     implicit none
-
-    call test_ssytrf
-    call test_dsytrf
-
+    $:test_run('?sytrf', REAL_TYPES)
 contains
 
 $:test_implement('?sytrf', REAL_TYPES, sytrf)

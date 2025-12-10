@@ -4,14 +4,7 @@
 program test_geqrf
     use iso_fortran_env
     implicit none
-
-    write(*,*) 'Starting geqrf tests...'
-    call test_sgeqrf
-    call test_dgeqrf
-    call test_cgeqrf
-    call test_zgeqrf
-    write(*,*) 'All geqrf tests completed successfully.'
-
+    $:test_run('?geqrf', DEFAULT_TYPES)
 contains
 
 $:test_implement('?geqrf', DEFAULT_TYPES, geqrf_gerqf)

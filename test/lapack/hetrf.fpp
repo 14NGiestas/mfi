@@ -4,14 +4,8 @@
 program test_hetrf
     use iso_fortran_env
     implicit none
-
-    write(*,'(A)') 'Starting hetrf tests...'
-    call test_chetrf
-    call test_zhetrf
-    write(*,'(A)') 'All hetrf tests completed successfully.'
-
+    $:test_run('?hetrf', COMPLEX_TYPES)
 contains
-
 $:test_implement('?hetrf', COMPLEX_TYPES, hetrf)
 
 #:include "test/lapack/test_common.inc"

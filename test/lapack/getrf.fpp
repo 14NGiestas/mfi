@@ -4,14 +4,7 @@
 program test_getrf
     use iso_fortran_env
     implicit none
-
-    write(*,'(A)') 'Starting getrf tests...'
-    call test_sgetrf
-    call test_dgetrf
-    call test_cgetrf
-    call test_zgetrf
-    write(*,'(A)') 'All getrf tests completed successfully.'
-
+    $:test_run('?getrf', DEFAULT_TYPES)
 contains
 
 $:test_implement('?getrf', DEFAULT_TYPES, getrf)

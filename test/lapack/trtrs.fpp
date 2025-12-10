@@ -4,14 +4,7 @@
 program test_trtrs
     use iso_fortran_env
     implicit none
-
-    write(*,*) 'Starting trtrs tests...'
-    call test_strtrs
-    call test_dtrtrs
-    call test_ctrtrs
-    call test_ztrtrs
-    write(*,*) 'All trtrs tests completed successfully.'
-
+    $:test_run('?trtrs', DEFAULT_TYPES)
 contains
 
 $:test_implement('?trtrs', DEFAULT_TYPES, trtrs)

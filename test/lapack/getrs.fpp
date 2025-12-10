@@ -4,12 +4,7 @@
 program test_getrs
     use iso_fortran_env
     implicit none
-
-    call test_sgetrs
-    call test_dgetrs
-    call test_cgetrs
-    call test_zgetrs
-
+    $:test_run('?getrs', DEFAULT_TYPES)
 contains
 
 $:test_implement('?getrs', DEFAULT_TYPES, getrs)
