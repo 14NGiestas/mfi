@@ -12,6 +12,7 @@
 #:include "src/mfi/lapack/potrs.fypp"
 #:include "src/mfi/lapack/pocon.fypp"
 #:include "src/mfi/lapack/trtrs.fypp"
+#:include "src/mfi/lapack/sytrf.fypp"
 #:set COLLECT = [                            &
     ('?geqrf',  DEFAULT_TYPES, geqrf_gerqf), &
     ('?gerqf',  DEFAULT_TYPES, geqrf_gerqf), &
@@ -27,6 +28,7 @@
     ('?potrs',  DEFAULT_TYPES, potrs),       &
     ('?pocon',  DEFAULT_TYPES, pocon),       &
     ('?trtrs',  DEFAULT_TYPES, trtrs),       &
+    ('?sytrf',  REAL_TYPES,    sytrf),       &
 ]
 #:endmute
 !> Modern fortran interfaces for LAPACK

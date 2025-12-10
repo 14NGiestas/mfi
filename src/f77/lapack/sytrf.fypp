@@ -1,0 +1,18 @@
+#:def sytrf(NAME,pfxs)
+#:set wp=pfxs[0]
+!> ${NAME.upper()}$ computes the factorization of a real symmetric matrix A
+!> using the Bunch-Kaufman diagonal pivoting method. The form of the
+!> factorization is A = U*D*U**T or A = L*D*L**T, where U (or L) is a
+!> product of permutation and unit upper (lower) triangular matrices,
+!> and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+pure subroutine ${NAME}$(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  inout, a(lda,*))
+@:args(character, in,    uplo)
+@:args(integer,   out,   ipiv(*))
+@:args(${type(wp)}$,  inout, work(*))
+@:args(integer,    out,   info)
+@:args(integer,     in,    n, lda, lwork)
+end subroutine
+#:enddef
