@@ -2,14 +2,34 @@
 program test_trtrs
     use iso_fortran_env
     implicit none
-
-    write(*,*) 'Starting trtrs tests...'
-    call test_strtrs
-    call test_dtrtrs
-    call test_ctrtrs
-    call test_ztrtrs
-    write(*,*) 'All trtrs tests completed successfully.'
-
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_strtrs 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_trtrs against strtrs", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_dtrtrs 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_trtrs against dtrtrs", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_ctrtrs 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_trtrs against ctrtrs", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_ztrtrs 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_trtrs against ztrtrs", t2-t1
+end block
 contains
 
 subroutine test_strtrs

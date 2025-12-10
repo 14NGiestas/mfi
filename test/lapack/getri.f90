@@ -2,14 +2,34 @@
 program test_getri
     use iso_fortran_env
     implicit none
-
-    write(*,'(A)') 'Starting getri tests...'
-    call test_sgetri
-    call test_dgetri
-    call test_cgetri
-    call test_zgetri
-    write(*,'(A)') 'All getri tests completed successfully.'
-
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_sgetri 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_getri against sgetri", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_dgetri 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_getri against dgetri", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_cgetri 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_getri against cgetri", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_zgetri 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_getri against zgetri", t2-t1
+end block
 contains
 
 subroutine test_sgetri

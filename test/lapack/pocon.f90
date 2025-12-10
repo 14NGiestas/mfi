@@ -2,14 +2,34 @@
 program test_pocon
     use iso_fortran_env
     implicit none
-
-    write(*,'(A)') 'Starting pocon tests...'
-    call test_spocon
-    call test_dpocon
-    call test_cpocon
-    call test_zpocon
-    write(*,'(A)') 'All pocon tests completed successfully.'
-
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_spocon 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_pocon against spocon", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_dpocon 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_pocon against dpocon", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_cpocon 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_pocon against cpocon", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_zpocon 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_pocon against zpocon", t2-t1
+end block
 contains
 
 subroutine test_spocon

@@ -2,12 +2,34 @@
 program test_getrs
     use iso_fortran_env
     implicit none
-
-    call test_sgetrs
-    call test_dgetrs
-    call test_cgetrs
-    call test_zgetrs
-
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_sgetrs 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_getrs against sgetrs", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_dgetrs 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_getrs against dgetrs", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_cgetrs 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_getrs against cgetrs", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_zgetrs 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_getrs against zgetrs", t2-t1
+end block
 contains
 
 subroutine test_sgetrs

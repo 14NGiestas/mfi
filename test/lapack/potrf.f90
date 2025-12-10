@@ -2,12 +2,34 @@
 program test_potrf
     use iso_fortran_env
     implicit none
-
-    call test_spotrf
-    call test_dpotrf
-    call test_cpotrf
-    call test_zpotrf
-
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_spotrf 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_potrf against spotrf", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_dpotrf 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_potrf against dpotrf", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_cpotrf 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_potrf against cpotrf", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_zpotrf 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_potrf against zpotrf", t2-t1
+end block
 contains
 
 subroutine test_spotrf

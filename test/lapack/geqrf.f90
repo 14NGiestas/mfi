@@ -2,14 +2,34 @@
 program test_geqrf
     use iso_fortran_env
     implicit none
-
-    write(*,*) 'Starting geqrf tests...'
-    call test_sgeqrf
-    call test_dgeqrf
-    call test_cgeqrf
-    call test_zgeqrf
-    write(*,*) 'All geqrf tests completed successfully.'
-
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_sgeqrf 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_geqrf against sgeqrf", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_dgeqrf 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_geqrf against dgeqrf", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_cgeqrf 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_geqrf against cgeqrf", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_zgeqrf 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_geqrf against zgeqrf", t2-t1
+end block
 contains
 
 subroutine test_sgeqrf

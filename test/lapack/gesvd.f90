@@ -2,14 +2,34 @@
 program test_gesvd
     use iso_fortran_env
     implicit none
-
-    write(*,'(A)') 'Starting gesvd tests...'
-    call test_sgesvd
-    call test_dgesvd
-    call test_cgesvd
-    call test_zgesvd
-    write(*,'(A)') 'All gesvd tests completed successfully.'
-
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_sgesvd 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_gesvd against sgesvd", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_dgesvd 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_gesvd against dgesvd", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_cgesvd 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_gesvd against cgesvd", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_zgesvd 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_gesvd against zgesvd", t2-t1
+end block
 contains
 
 subroutine test_sgesvd

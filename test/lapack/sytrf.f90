@@ -2,10 +2,20 @@
 program test_sytrf
     use iso_fortran_env
     implicit none
-
-    call test_ssytrf
-    call test_dsytrf
-
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_ssytrf 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_sytrf against ssytrf", t2-t1
+end block
+block
+real :: t1, t2
+call cpu_time(t1)
+ call test_dsytrf 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "testing mfi_sytrf against dsytrf", t2-t1
+end block
 contains
 
 subroutine test_ssytrf
