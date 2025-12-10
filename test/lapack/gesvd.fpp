@@ -5,28 +5,17 @@ program test_gesvd
     use iso_fortran_env
     implicit none
 
+    write(*,'(A)') 'Starting gesvd tests...'
     call test_sgesvd
     call test_dgesvd
     call test_cgesvd
     call test_zgesvd
+    write(*,'(A)') 'All gesvd tests completed successfully.'
 
 contains
 
 $:test_implement('?gesvd', DEFAULT_TYPES, gesvd)
 
-    pure subroutine assert(test, msg, info)
-        logical, intent(in) :: test
-        character(*), intent(in) :: msg
-        integer, intent(in), optional :: info
-        character(1024) :: buffer
-        if (.not. test) then
-            if (present(info)) then
-                write(buffer, *) 'Error ', info, ': ', msg
-            else
-                write(buffer, *) 'Error: ', msg
-            end if
-            error stop buffer
-        end if
-    end subroutine
+#:include "test/lapack/test_common.inc"
 
 end program

@@ -33,11 +33,12 @@ subroutine test_${f77}$
 
     if (info == 0) then
         lwork = int(real(work(1), wp))  ! Get workspace size
-        #:if type(wp) == complex(wp)
-            allocate(rwork(5*min(M,N)))
-        #:endif
         deallocate(work)
         allocate(work(max(1, lwork)))
+        #:if type(wp) == complex(wp)
+            deallocate(rwork)  ! Deallocate workspace from query
+            allocate(rwork(5*min(M,N)))  ! Then reallocate for actual call
+        #:endif
 
         A_in = A
         #:if type(wp) == complex(wp)
