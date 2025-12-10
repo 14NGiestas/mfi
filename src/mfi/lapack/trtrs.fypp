@@ -10,9 +10,9 @@
 !> - `uplo`: 'U' (upper triangular, default) or 'L' (lower triangular)
 !> - `trans`: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
 !> - `diag`: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
-!> - `info`: if not present and `info ≠ 0`, calls [[mfi_error]].
+!> - `info`: if not present and `info /= 0`, calls [[mfi_error]].
 !>
-!> The shapes are inferred from `a` (N×N) and `b` (N×NRHS).
+!> The shapes are inferred from `a` (N-by-N) and `b` (N-by-NRHS).
 pure subroutine ${MFI_NAME}$(a, b, uplo, trans, diag, info)
 @:parameter(integer, wp=${kind(wp)}$)
 @:args(${type(wp)}$, in,    a(:,:))
