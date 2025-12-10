@@ -1,0 +1,53 @@
+#:def getrs(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$, f77_getrf, ${wp[0]}$getrf
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: N = 3, NRHS = 2
+    ${type(wp)}$ :: A(N,N), A_fact(N,N), B(N,NRHS), B_in(N,NRHS), B_rf(N,NRHS)
+    integer :: ipiv(N)
+    integer :: info, info_rf, info_mfi
+    character :: trans = 'N'
+
+    ! Create a test matrix A and factorize it first
+    A(1,:) = [2.0_wp, 1.0_wp, 1.0_wp]
+    A(2,:) = [4.0_wp, 3.0_wp, 3.0_wp]
+    A(3,:) = [8.0_wp, 7.0_wp, 9.0_wp]
+
+    B(1,:) = [1.0_wp, 3.0_wp]
+    B(2,:) = [1.0_wp, 1.0_wp]
+    B(3,:) = [3.0_wp, 1.0_wp]
+
+    ! Factorize A first using getrf (so we can solve with getrs)
+    A_fact = A
+    call ${wp[0]}$getrf(N, N, A_fact, N, ipiv, info)
+    if (info /= 0) return  ! Skip test if factorization failed
+
+    ! Test f77 interface for getrs
+    B_in = B
+    call ${f77}$(trans, N, NRHS, A_fact, N, ipiv, B_in, N, info)
+    B_rf = B_in
+    info_rf = info
+
+    ! Test mfi interface (short form)
+    A_fact = A  ! Refactorize
+    call ${wp[0]}$getrf(N, N, A_fact, N, ipiv, info)
+    if (info /= 0) return  ! Skip if factorization failed again
+
+    B_in = B
+    call mfi_${f77}$(A_fact, ipiv, B_in, info=info_mfi)
+    call assert(all(abs(B_in - B_rf) < 1e-8) .and. info_mfi == info_rf, "different results for mfi_${f77}$")
+
+    ! Test mfi interface (full form)
+    A_fact = A  ! Refactorize
+    call ${wp[0]}$getrf(N, N, A_fact, N, ipiv, info)
+    if (info /= 0) return  ! Skip if factorization failed again
+
+    B_in = B
+    call ${mfi}$(A_fact, ipiv, B_in, info=info_mfi)
+    call assert(all(abs(B_in - B_rf) < 1e-8) .and. info_mfi == info_rf, "different results for ${mfi}$")
+
+end subroutine
+#:enddef

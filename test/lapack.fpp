@@ -1,134 +1,63 @@
+#:mute
 #:include "common.fpp"
+#:include "test/lapack/geqrf_gerqf.fypp"
+#:include "test/lapack/getrf.fypp"
+#:include "test/lapack/getri.fypp"
+#:include "test/lapack/getrs.fypp"
+#:include "test/lapack/hetrf.fypp"
+#:include "test/lapack/gesvd.fypp"
+#:include "test/lapack/hegv.fypp"
+#:include "test/lapack/heevd.fypp"
+#:include "test/lapack/potrf_potri.fypp"
+#:include "test/lapack/potrs.fypp"
+#:include "test/lapack/pocon.fypp"
+#:include "test/lapack/trtrs.fypp"
+#:include "test/lapack/sytrf.fypp"
+#:set COLLECT = [                                  &
+    ('?geqrf',  DEFAULT_TYPES, geqrf_gerqf),       &
+    ('?gerqf',  DEFAULT_TYPES, geqrf_gerqf),       &
+    ('?getrf',  DEFAULT_TYPES, getrf),             &
+    ('?getri',  DEFAULT_TYPES, getri),             &
+    ('?getrs',  DEFAULT_TYPES, getrs),             &
+    ('?hetrf',  COMPLEX_TYPES, hetrf),             &
+    ('?hegv',   COMPLEX_TYPES, hegv),              &
+    ('?heevd',  COMPLEX_TYPES, heevd),             &
+    ('?gesvd',  DEFAULT_TYPES, gesvd),             &
+    ('?potrf',  DEFAULT_TYPES, potrf_potri),       &
+    ('?potri',  DEFAULT_TYPES, potrf_potri),       &
+    ('?potrs',  DEFAULT_TYPES, potrs),             &
+    ('?pocon',  DEFAULT_TYPES, pocon),             &
+    ('?trtrs',  DEFAULT_TYPES, trtrs),             &
+    ('?sytrf',  REAL_TYPES,    sytrf),             &
+]
+#:endmute
 
 program test_mfi_lapack
     use iso_fortran_env
-    use mfi_lapack
-    use f77_lapack
     implicit none
-    integer, parameter :: N = 2000
-    real(REAL64) :: S(N,N)
-    integer :: i, j, info
 
-    call test_geqrf
-    call test_gesvd
-    call test_potrf
-    call test_potri
-    call test_sytrf
-    call test_trtrs
+#:for name, supported_types, code in COLLECT
+$:test_run(name, supported_types)
+#:endfor
 
 contains
 
-    subroutine symmetric
-        call random_number(S)
-        do j=1,N
-            do i=j+1,N
-                S(i,j) = S(j,i)
-            end do
-        end do
-    end subroutine
+#:for name, supported_types, code in COLLECT
+$:test_implement(name, supported_types, code)
+#:endfor
 
-    subroutine positive_definite
-        call symmetric
-        S = matmul(S,S)
-    end subroutine
-
-    subroutine test_trtrs
-        real(REAL64) :: A(3,3), B(3,2)
-        ! Lower triangular matrix: [4,0,0; 2,3,0; 1,2,5]
-        A = reshape([4.0d0, 2.0d0, 1.0d0, &
-                    0.0d0, 3.0d0, 2.0d0, &
-                    0.0d0, 0.0d0, 5.0d0], [3,3])
-        ! To get expected solution X = [[1,2],[2,1],[1,0]],
-        ! we need B = A * X (for lower triangular solve)
-        ! Column 1: [4,0,0; 2,3,0; 1,2,5] * [1;2;1] = [4; 2*1+3*2; 1*1+2*2+5*1] = [4;8;10]
-        ! Column 2: [4,0,0; 2,3,0; 1,2,5] * [2;1;0] = [8; 2*2+3*1; 1*2+2*1+5*0] = [8;7;4]
-        B = reshape([4.0d0, 8.0d0, 10.0d0, &
-                    8.0d0, 7.0d0, 4.0d0], [3,2])
-        call mfi_trtrs(A, B)
-        ! Expected solution X = [[1,2],[2,1],[1,0]]
-        call assert(all(abs(B - reshape([1.0d0,2.0d0,1.0d0,2.0d0,1.0d0,0.0d0],[3,2])) < 1e-6))
-    end subroutine
-
-    subroutine test_gesvd
-        real(REAL64) :: A(3,5)
-        real(REAL64) :: S(3), ES(3)
-        ES = [real(REAL64) :: 14.0828, 10.1124, 3.92600]
-        A(1,:) = [real(REAL64) :: -2,  1, -5, 11, 2]
-        A(2,:) = [real(REAL64) ::  2, -2,  0,  1, 4]
-        A(3,:) = [real(REAL64) ::  6, -8,  0,  6, 0]
-        @:timeit("mfi_gesvd: ", { call mfi_gesvd(A,S) })
-        call assert(all(abs(S-ES) < 1e-4))
-    end subroutine
-
-    subroutine test_geqrf
-        integer, parameter :: wp=REAL64
-        integer, parameter :: N=6, M=2
-        real(wp) :: A(N,M), B(N,M)
-        real(wp) :: tau(min(N,M)), tau_(min(N,M))
-
-        A(1,:) = [  .000000_wp,  2.000000_wp]
-        A(2,:) = [ 2.000000_wp, -1.000000_wp]
-        A(3,:) = [ 2.000000_wp, -1.000000_wp]
-        A(4,:) = [  .000000_wp,  1.500000_wp]
-        A(5,:) = [ 2.000000_wp, -1.000000_wp]
-        A(6,:) = [ 2.000000_wp, -1.000000_wp]
-
-        B(1,:) = [ -4.000000_wp, 2.000000_wp]
-        B(2,:) = [   .500000_wp, 2.500000_wp]
-        B(3,:) = [   .500000_wp,  .285714_wp]
-        B(4,:) = [   .000000_wp, -.428571_wp]
-        B(5,:) = [   .500000_wp,  .285714_wp]
-        B(6,:) = [   .500000_wp,  .285714_wp]
-
-        tau_ = [1.0_wp, 1.4_wp]
-
-        @:timeit("mfi_geqrf: ", { call mfi_geqrf(A, tau) })
-        call assert(all(abs(A-B) < 1e-6))
-        call assert(all(abs(tau-tau_) < 1e-6))
-    end subroutine
-
-    subroutine test_potrf
-        call positive_definite
-        @:timeit("f77_potrf: ", { call f77_potrf('U',N,S,N,info) })
-        call assert(info == 0)
-
-        call positive_definite
-        @:timeit("mfi_potrf: ", { call mfi_potrf(S,info)         })
-        call assert(info == 0)
-    end subroutine
-
-    subroutine test_potri
-        call positive_definite
-        call f77_potrf('U',N,S,N,info)
-        @:timeit("f77_potri: ", { call f77_potri('U',N,S,N,info) })
-        call assert(info == 0)
-
-        call positive_definite
-        call mfi_potrf(S,info)
-        @:timeit("mfi_potri: ", { call mfi_potri(S,info)         })
-        call assert(info == 0)
-    end subroutine
-
-    subroutine test_sytrf
-        integer, parameter :: wp = REAL64
-        real(wp) :: A(4,4), A_copy(4,4)
-        integer :: ipiv(4), info
-
-        ! Create a symmetric matrix to factorize
-        A = reshape([2.0_wp, -1.0_wp,  0.0_wp,  0.0_wp, &
-                    -1.0_wp,  2.0_wp, -1.0_wp,  0.0_wp, &
-                     0.0_wp, -1.0_wp,  2.0_wp, -1.0_wp, &
-                     0.0_wp,  0.0_wp, -1.0_wp,  2.0_wp], [4,4])
-
-        A_copy = A  ! Keep a copy for comparison
-        @:timeit("mfi_sytrf: ", { call mfi_sytrf(A, info=info) })
-        call assert(info == 0)
-    end subroutine
-
-    pure subroutine assert(test)
+    pure subroutine assert(test, msg, info)
         logical, intent(in) :: test
+        character(*), intent(in) :: msg
+        integer, intent(in), optional :: info
+        character(1024) :: buffer
         if (.not. test) then
-            error stop 'assertion failed'
+            if (present(info)) then
+              write(buffer, *) 'Error ', info, ': ', msg
+            else
+              write(buffer, *) 'Error: ', msg
+            end if
+            error stop buffer
         end if
     end subroutine
 

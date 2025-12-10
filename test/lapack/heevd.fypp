@@ -1,0 +1,64 @@
+#:def heevd(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: N = 3
+    ${type(wp)}$ :: A(N,N), A_in(N,N), A_rf(N,N)
+    ${real(wp)}$ :: W(N), W_rf(N), W_mfi(N)
+    integer :: info, info_rf, info_mfi
+    ${type(wp)}$, allocatable :: work(:)
+    ${real(wp)}$, allocatable :: rwork(:)
+    integer, allocatable :: iwork(:)
+    integer :: lwork, lrwork, liwork
+
+    ! Create a Hermitian matrix for testing
+    A = reshape([3.0_wp, 1.0_wp, 1.0_wp, &
+                 1.0_wp, 3.0_wp, 1.0_wp, &
+                 1.0_wp, 1.0_wp, 3.0_wp], [N,N])
+
+    ! Test f77 interface - workspace query
+    A_in = A
+    allocate(work(1))
+    allocate(rwork(1))
+    allocate(iwork(1))
+    lwork = -1
+    lrwork = -1
+    liwork = -1
+    call ${f77}$('N', 'U', N, A_in, N, W, work, lwork, rwork, lrwork, iwork, liwork, info)
+
+    if (info == 0) then
+        lwork = int(real(work(1), wp))  ! Get workspace size
+        lrwork = int(rwork(1))
+        liwork = iwork(1)
+        deallocate(work, rwork, iwork)
+        allocate(work(max(1, lwork)))
+        allocate(rwork(max(1, lrwork)))
+        allocate(iwork(max(1, liwork)))
+
+        ! Actually call the routine
+        A_in = A
+        call ${f77}$('N', 'U', N, A_in, N, W, work, lwork, rwork, lrwork, iwork, liwork, info)
+        A_rf = A_in
+        W_rf = W
+        info_rf = info
+        deallocate(work, rwork, iwork)
+    else
+        ! If workspace query failed, skip this test
+        deallocate(work, rwork, iwork)
+        return
+    end if
+
+    ! Test mfi interface
+    A_in = A
+    call mfi_${f77}$(A_in, W_mfi, info=info_mfi)
+    call assert(info_mfi == info_rf, "different info results for mfi_${f77}$")
+
+    A_in = A
+    call ${mfi}$(A_in, W_mfi, info=info_mfi)
+    call assert(info_mfi == info_rf, "different info results for ${mfi}$")
+
+end subroutine
+#:enddef

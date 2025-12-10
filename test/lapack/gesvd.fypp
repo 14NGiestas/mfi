@@ -1,0 +1,74 @@
+#:def gesvd(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: M = 3, N = 3
+    ${type(wp)}$ :: A(M,N), A_in(M,N), A_rf(M,N)
+    ${real(wp)}$ :: S(min(M,N)), S_rf(min(M,N)), S_mfi(min(M,N))
+    integer :: info, info_rf, info_mfi
+    ${type(wp)}$, allocatable :: work(:)
+    ${real(wp)}$, allocatable :: rwork(:)  ! Needed for complex types
+    integer :: lwork
+
+    ! Create test matrix
+    A(1,:) = [1.0_wp, 2.0_wp, 3.0_wp]
+    A(2,:) = [4.0_wp, 5.0_wp, 6.0_wp]
+    A(3,:) = [7.0_wp, 8.0_wp, 9.0_wp]
+
+    ! Test f77 interface (just get S values, not U/V)
+    A_in = A
+    allocate(work(1))
+    lwork = -1  ! Workspace query
+    #:if type(wp) == complex(wp)
+        ! For complex types, we need rwork as well
+        allocate(rwork(5*min(M,N)))
+        call ${f77}$('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, rwork, info)
+    #:else
+        ! For real types, no rwork needed
+        call ${f77}$('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, info)
+    #:endif
+
+    if (info == 0) then
+        lwork = int(real(work(1), wp))  ! Get workspace size
+        #:if type(wp) == complex(wp)
+            allocate(rwork(5*min(M,N)))
+        #:endif
+        deallocate(work)
+        allocate(work(max(1, lwork)))
+
+        A_in = A
+        #:if type(wp) == complex(wp)
+            call ${f77}$('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, rwork, info)
+        #:else
+            call ${f77}$('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, info)
+        #:endif
+        A_rf = A_in
+        S_rf = S
+        info_rf = info
+        deallocate(work)
+        #:if type(wp) == complex(wp)
+            if (allocated(rwork)) deallocate(rwork)
+        #:endif
+    else
+        ! If workspace query failed, skip this test
+        deallocate(work)
+        #:if type(wp) == complex(wp)
+            if (allocated(rwork)) deallocate(rwork)
+        #:endif
+        return
+    end if
+
+    ! Test mfi interface
+    A_in = A
+    call mfi_${f77}$(A_in, S_mfi, info=info_mfi)
+    call assert(info_mfi == info_rf, "different info results for mfi_${f77}$")
+
+    A_in = A
+    call ${mfi}$(A_in, S_mfi, info=info_mfi)
+    call assert(info_mfi == info_rf, "different info results for ${mfi}$")
+
+end subroutine
+#:enddef

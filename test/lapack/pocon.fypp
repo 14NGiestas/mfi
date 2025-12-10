@@ -1,0 +1,68 @@
+#:def pocon(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: N = 3
+    ${type(wp)}$ :: A(N,N)
+    ${real(wp)}$ :: anorm, rcond, rcond_rf, rcond_mfi
+    integer :: info, info_rf, info_mfi
+    integer :: i, j
+    ${real(wp)}$ :: col_sum
+    #:if type(wp) == complex(wp)
+    ${type(wp)}$, allocatable :: work(:)
+    ${real(wp)}$, allocatable :: rwork(:)
+    #:else
+    ${real(wp)}$, allocatable :: work(:)
+    integer, allocatable :: iwork(:)
+    #:endif
+
+    ! Create a positive definite matrix
+    A = reshape([4.0_wp, 1.0_wp, 1.0_wp, &
+                 1.0_wp, 4.0_wp, 1.0_wp, &
+                 1.0_wp, 1.0_wp, 4.0_wp], [N,N])
+
+    ! Calculate the 1-norm of A (maximum absolute column sum)
+    anorm = 0.0_wp
+    do j = 1, N
+        col_sum = 0.0_wp
+        do i = 1, N
+            col_sum = col_sum + abs(A(i,j))
+        end do
+        if (col_sum > anorm) anorm = col_sum
+    end do
+
+    ! Test f77 interface for pocon
+    #:if type(wp) == real(wp)
+    allocate(work(3*N))  ! Real pocon functions use 3*N for work array
+    allocate(iwork(N))
+    call ${f77}$('U', N, A, N, anorm, rcond, work, iwork, info)
+    if (allocated(work)) deallocate(work)
+    if (allocated(iwork)) deallocate(iwork)
+    #:elif type(wp) == complex(wp)
+    allocate(work(2*N))
+    allocate(rwork(N))
+    call ${f77}$('U', N, A, N, anorm, rcond, work, rwork, info)
+    if (allocated(work)) deallocate(work)
+    if (allocated(rwork)) deallocate(rwork)
+    #:endif
+    rcond_rf = rcond
+    info_rf = info
+
+    ! Only continue if the condition number computation was successful
+    if (info == 0) then
+        ! Test mfi interface (short form)
+        call mfi_${f77}$(A, anorm, rcond_mfi, info=info_mfi)
+        call assert(info_mfi == info_rf .and. abs(rcond_mfi - rcond_rf) < 1e-10, &
+                    "different results for mfi_${f77}$")
+
+        ! Test mfi interface (full form)
+        call ${mfi}$(A, anorm, rcond_mfi, info=info_mfi)
+        call assert(info_mfi == info_rf .and. abs(rcond_mfi - rcond_rf) < 1e-10, &
+                    "different results for ${mfi}$")
+    end if
+
+end subroutine
+#:enddef

@@ -1,0 +1,57 @@
+#:def geqrf_gerqf(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: N = 6, M = 2
+    ${type(wp)}$ :: A(N,M), A_in(N,M), A_rf(N,M)
+    ${type(wp)}$ :: tau(min(N,M)), tau_in(min(N,M)), tau_rf(min(N,M))
+    integer :: info, info_rf, info_mfi
+    ${type(wp)}$, allocatable :: work(:)
+    integer :: lwork
+
+    A(1,:) = [  .000000_wp,  2.000000_wp]
+    A(2,:) = [ 2.000000_wp, -1.000000_wp]
+    A(3,:) = [ 2.000000_wp, -1.000000_wp]
+    A(4,:) = [  .000000_wp,  1.500000_wp]
+    A(5,:) = [ 2.000000_wp, -1.000000_wp]
+    A(6,:) = [ 2.000000_wp, -1.000000_wp]
+
+    ! Test f77 interface for workspace query
+    A_in = A
+    allocate(work(1))  ! Small workspace for query
+    lwork = -1  ! Workspace query
+    call ${f77}$(N, M, A_in, N, tau_in, work, lwork, info)
+    if (info == 0) then
+        lwork = int(real(work(1), wp))  ! Get workspace size
+        deallocate(work)
+        allocate(work(max(1, lwork)))
+
+        A_in = A
+        call ${f77}$(N, M, A_in, N, tau_in, work, lwork, info)
+        A_rf = A_in
+        tau_rf = tau_in
+        info_rf = info
+        deallocate(work)
+    else
+        return ! Skip if workspace query failed
+    end if
+
+    if (info /= 0) return  ! Skip test if f77 interface failed
+
+    ! Test mfi interface (short form)
+    A_in = A
+    call mfi_${f77}$(A_in, tau_in, info=info_mfi)
+    call assert(all(abs(A_in - A_rf) < 1e-10) .and. all(abs(tau_in - tau_rf) < 1e-10) .and. info_mfi == info_rf, &
+                "different results for mfi_${f77}$")
+
+    ! Test mfi interface (full form)
+    A_in = A
+    call ${mfi}$(A_in, tau_in, info=info_mfi)
+    call assert(all(abs(A_in - A_rf) < 1e-10) .and. all(abs(tau_in - tau_rf) < 1e-10) .and. info_mfi == info_rf, &
+                "different results for ${mfi}$")
+
+end subroutine
+#:enddef

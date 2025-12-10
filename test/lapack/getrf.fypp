@@ -1,0 +1,40 @@
+#:def getrf(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$, ${wp[0]}$getrf
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: N = 3
+    ${type(wp)}$ :: A(N,N), A_in(N,N), A_rf(N,N)
+    integer :: ipiv(N), ipiv_in(N), ipiv_rf(N)
+    integer :: info, info_rf, info_mfi
+
+    ! Create a test matrix for LU factorization
+    A(1,:) = [2.0_wp, 1.0_wp, 1.0_wp]
+    A(2,:) = [4.0_wp, 3.0_wp, 3.0_wp]
+    A(3,:) = [8.0_wp, 7.0_wp, 9.0_wp]
+
+    ! Test f77 interface for getrf
+    A_in = A
+    call ${f77}$(N, N, A_in, N, ipiv_in, info)
+    A_rf = A_in
+    ipiv_rf = ipiv_in
+    info_rf = info
+    
+    call assert(info == 0, "f77_${f77}$ failed")
+
+    ! Test mfi interface (short form)
+    A_in = A
+    call mfi_${f77}$(A_in, ipiv_in, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < 1e-10) .and. all(ipiv_in == ipiv_rf), &
+                "different results for mfi_${f77}$")
+
+    ! Test mfi interface (full form)
+    A_in = A
+    call ${mfi}$(A_in, ipiv_in, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < 1e-10) .and. all(ipiv_in == ipiv_rf), &
+                "different results for ${mfi}$")
+
+end subroutine
+#:enddef

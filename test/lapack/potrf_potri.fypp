@@ -1,0 +1,39 @@
+#:def potrf_potri(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$, f77_${wp[0]}$potrf => ${wp[0]}$potrf
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: N = 3
+    ${type(wp)}$ :: A(N,N), A_in(N,N), A_rf(N,N)
+    integer :: info, info_rf, info_mfi
+
+    ! Create a positive definite matrix
+    A = reshape([4.0_wp, 1.0_wp, 1.0_wp, &
+                 1.0_wp, 4.0_wp, 1.0_wp, &
+                 1.0_wp, 1.0_wp, 4.0_wp], [N,N])
+
+    ! Test f77 interface for potrf
+    A_in = A
+    call ${f77}$('U', N, A_in, N, info)
+    A_rf = A_in
+    info_rf = info
+
+    ! Check if factorization was successful
+    call assert(info == 0, "f77_${f77}$ failed")
+
+    ! Test mfi interface (short form)
+    A_in = A
+    call mfi_${f77}$(A_in, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < 1e-10), &
+                "different results for mfi_${f77}$")
+
+    ! Test mfi interface (full form)
+    A_in = A
+    call ${mfi}$(A_in, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < 1e-10), &
+                "different results for ${mfi}$")
+
+end subroutine
+#:enddef

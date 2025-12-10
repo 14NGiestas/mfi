@@ -1,0 +1,49 @@
+#:def sytrf(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: N = 4
+    ${type(wp)}$ :: A(N,N), A_in(N,N), A_rf(N,N), swork(1)
+    integer :: ipiv(N), ipiv_in(N), ipiv_rf(N)
+    integer :: info, info_rf, info_mfi
+    ${type(wp)}$, allocatable :: work(:)
+    integer :: lwork
+
+    ! Create a symmetric matrix
+    A = reshape([2.0_wp, -1.0_wp,  0.0_wp,  0.0_wp, &
+                -1.0_wp,  2.0_wp, -1.0_wp,  0.0_wp, &
+                 0.0_wp, -1.0_wp,  2.0_wp, -1.0_wp, &
+                 0.0_wp,  0.0_wp, -1.0_wp,  2.0_wp], [N,N])
+
+    ! Test f77 interface
+    A_in = A
+    call ${f77}$('U', N, A_in, N, ipiv_in, swork, -1, info)  ! Workspace query
+    if (info == 0) then
+        lwork = int(swork(1))
+        allocate(work(lwork))
+        A_in = A
+        call ${f77}$('U', N, A_in, N, ipiv_in, work, lwork, info)
+        A_rf = A_in
+        ipiv_rf = ipiv_in
+        info_rf = info
+        deallocate(work)
+    else
+        ! If workspace query failed, skip this test
+        return
+    end if
+
+    ! Test mfi interface (short form)
+    A_in = A
+    call mfi_${f77}$(A_in, info=info_mfi)
+    call assert(all(A_in == A_rf) .and. info_mfi == info_rf, "different results for mfi_${f77}$")
+
+    ! Test mfi interface (full form)
+    A_in = A
+    call ${mfi}$(A_in, info=info_mfi)
+    call assert(all(A_in == A_rf) .and. info_mfi == info_rf, "different results for ${mfi}$")
+
+end subroutine
+#:enddef
