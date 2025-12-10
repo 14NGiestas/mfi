@@ -8,6 +8,6 @@ program test_hetrf
 contains
 $:test_implement('?hetrf', COMPLEX_TYPES, hetrf)
 
-#:include "test/lapack/test_common.inc"
+#:include "test/assert.inc"
 
 end program

@@ -9,6 +9,6 @@ contains
 
 $:test_implement('?getrf', DEFAULT_TYPES, getrf)
 
-#:include "test/lapack/test_common.inc"
+#:include "test/assert.inc"
 
 end program

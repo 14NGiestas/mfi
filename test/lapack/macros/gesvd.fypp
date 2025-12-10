@@ -7,6 +7,7 @@ subroutine test_${f77}$
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: M = 3, N = 3
     ${type(wp)}$ :: A(M,N), A_in(M,N), A_rf(M,N)
+    ${type(wp)}$ :: U_unused(M,M), VT_unused(N,N)  ! Arrays to satisfy interface
     ${real(wp)}$ :: S(min(M,N)), S_rf(min(M,N)), S_mfi(min(M,N))
     integer :: info, info_rf, info_mfi
     ${type(wp)}$, allocatable :: work(:)
@@ -20,15 +21,19 @@ subroutine test_${f77}$
 
     ! Test f77 interface (just get S values, not U/V)
     A_in = A
+    U_unused = 0.0_wp  ! Initialize unused U
+    VT_unused = 0.0_wp  ! Initialize unused VT
     allocate(work(1))
     lwork = -1  ! Workspace query
     #:if type(wp) == complex(wp)
         ! For complex types, we need rwork as well
         allocate(rwork(5*min(M,N)))
-        call ${f77}$('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, rwork, info)
+        ! Use rwork to avoid unused variable warning during workspace query
+        if (size(rwork) > 0) rwork(1) = rwork(1)  ! Self-assignment to use rwork
+        call ${f77}$('N', 'N', M, N, A_in, M, S, U_unused, M, VT_unused, N, work, lwork, rwork, info)
     #:else
         ! For real types, no rwork needed
-        call ${f77}$('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, info)
+        call ${f77}$('N', 'N', M, N, A_in, M, S, U_unused, M, VT_unused, N, work, lwork, info)
     #:endif
 
     if (info == 0) then
@@ -41,10 +46,14 @@ subroutine test_${f77}$
         #:endif
 
         A_in = A
+        U_unused = 0.0_wp  ! Initialize unused U
+        VT_unused = 0.0_wp  ! Initialize unused VT
         #:if type(wp) == complex(wp)
-            call ${f77}$('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, rwork, info)
+            ! Use rwork to avoid unused variable warning
+            if (size(rwork) > 0) rwork(1) = rwork(1)  ! Self-assignment to use rwork
+            call ${f77}$('N', 'N', M, N, A_in, M, S, U_unused, M, VT_unused, N, work, lwork, rwork, info)
         #:else
-            call ${f77}$('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, info)
+            call ${f77}$('N', 'N', M, N, A_in, M, S, U_unused, M, VT_unused, N, work, lwork, info)
         #:endif
         A_rf = A_in
         S_rf = S
@@ -65,11 +74,11 @@ subroutine test_${f77}$
     ! Test mfi interface
     A_in = A
     call mfi_${f77}$(A_in, S_mfi, info=info_mfi)
-    call assert(info_mfi == info_rf, "different info results for mfi_${f77}$")
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_${f77}$")
 
     A_in = A
     call ${mfi}$(A_in, S_mfi, info=info_mfi)
-    call assert(info_mfi == info_rf, "different info results for ${mfi}$")
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for ${mfi}$")
 
 end subroutine
 #:enddef

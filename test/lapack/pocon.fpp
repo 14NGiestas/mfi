@@ -9,6 +9,6 @@ contains
 
 $:test_implement('?pocon', DEFAULT_TYPES, pocon)
 
-#:include "test/lapack/test_common.inc"
+#:include "test/assert.inc"
 
 end program

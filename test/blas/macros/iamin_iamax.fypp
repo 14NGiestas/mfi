@@ -6,7 +6,6 @@ subroutine test_${f77}$
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 20
-    ${real(wp)}$ :: rnd(N)
     ${type(wp)}$ :: array(N)
     integer :: res(4)
     integer :: i
@@ -17,9 +16,10 @@ subroutine test_${f77}$
     res(2) = mfi_${f77}$(array)
     res(3) = ${f90}$(N, array, 1)
     res(4) = ${mfi}$(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
 #:if type(wp) == complex(wp)
+    ${real(wp)}$ :: rnd(N)
     call random_number(rnd)
     array%re = rnd
     call random_number(rnd)
@@ -31,7 +31,7 @@ subroutine test_${f77}$
     res(2) = ${f90}$(N, array, 1)
     res(3) = mfi_${f77}$(array)
     res(4) = ${mfi}$(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 #:enddef

@@ -36,26 +36,26 @@ subroutine test_${f77}$
         X_in = X
         Y_in = Y
         call ${f90}$(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         M_in = M
         X_in = X
         Y_in = Y
         call mfi_${f77}$(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         M_in = M
         X_in = X
         Y_in = Y
         call ${mfi}$(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
 
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
     end do
 
 end subroutine

@@ -9,6 +9,6 @@ contains
 
 $:test_implement('?potrf', DEFAULT_TYPES, potrf_potri)
 
-#:include "test/lapack/test_common.inc"
+#:include "test/assert.inc"
 
 end program

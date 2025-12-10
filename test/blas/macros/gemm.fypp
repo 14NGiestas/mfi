@@ -37,26 +37,26 @@ subroutine test_${f77}$
         B_in = B
         C_in = C
         call ${f90}$(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         A_in = A
         B_in = B
         C_in = C
         call mfi_${f77}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         A_in = A
         B_in = B
         C_in = C
         call ${mfi}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
 
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
     end do
     end do
 

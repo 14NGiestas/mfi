@@ -9,6 +9,6 @@ contains
 
 $:test_implement('?trtrs', DEFAULT_TYPES, trtrs)
 
-#:include "test/lapack/test_common.inc"
+#:include "test/assert.inc"
 
 end program

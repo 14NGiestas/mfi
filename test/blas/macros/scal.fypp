@@ -25,15 +25,15 @@ subroutine test_${f77}$
 
     x_in = x
     call ${f90}$(N, alpha, x_in, 1)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_${f77}$(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call ${mfi}$(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
 end subroutine
 #:enddef

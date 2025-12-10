@@ -7,7 +7,7 @@ subroutine test_${f77}$
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 6, M = 2
     ${type(wp)}$ :: A(N,M), A_in(N,M), A_rf(N,M)
-    ${type(wp)}$ :: tau(min(N,M)), tau_in(min(N,M)), tau_rf(min(N,M))
+    ${type(wp)}$ :: tau_in(min(N,M)), tau_rf(min(N,M))
     integer :: info, info_rf, info_mfi
     ${type(wp)}$, allocatable :: work(:)
     integer :: lwork

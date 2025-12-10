@@ -9,6 +9,6 @@ contains
 
 $:test_implement('?geqrf', DEFAULT_TYPES, geqrf_gerqf)
 
-#:include "test/lapack/test_common.inc"
+#:include "test/assert.inc"
 
 end program

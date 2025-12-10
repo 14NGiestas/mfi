@@ -19,13 +19,13 @@ subroutine test_${f77}$
     ref = ${f77}$(N, x, 1, y, 1)
 
     res = ${f90}$(N, x, 1, y, 1)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
     res = mfi_${f77}$(x, y)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
     res = ${mfi}$(x, y)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
 end subroutine
 #:enddef

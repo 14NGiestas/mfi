@@ -13,14 +13,3 @@ subroutine assert(test, msg, info)
         error stop trim(buffer)
     end if
 end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
-    end if
-end subroutine

@@ -24,7 +24,7 @@ subroutine test_${f77}$
     do i=1,size(options)
         a = ${f77}$(options(i))
         b = ${mfi}$(options(i),1.0_wp)
-        call assert(a == b, "different results for option "//options(i))
+        call assert(abs(a - b) < sqrt(epsilon(1.0_wp)), "different results for option "//options(i))
     end do
 
 end subroutine

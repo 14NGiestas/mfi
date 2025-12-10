@@ -1,33 +1,35 @@
 # Project Summary
 
 ## Overall Goal
-Restructure the BLAS test files in the MFI (Modern Fortran interfaces to BLAS and LAPACK) project to use separate individual test files like the LAPACK tests, instead of a single consolidated file.
+Restructure the MFI (Modern Fortran Interfaces) project test suite to make BLAS and LAPACK tests follow consistent patterns, moving from consolidated test files to individual test files for better maintainability.
 
 ## Key Knowledge
-- **Technology Stack**: Fortran with fypp (Fortran preprocessor), fpm (Fortran Package Manager), BLAS/LAPACK libraries
-- **Project Structure**: 
-  - Source: `src/mfi/` and `src/f77/`
-  - Tests: `test/blas/`, `test/lapack/`, and `test/assert.inc`
-  - Build: Makefile using fypp to convert `.fpp` to `.f90` files
-- **Build Commands**: `make` for fypp processing, `fpm test` for running tests
-- **Extensions Handling**: MFI_EXTENSIONS flag enables optional BLAS routines like i?amin and i?amax
-- **File Structure**: LAPACK tests already use separate files per routine, BLAS tests were consolidated in a single file
+- Project is located at `/home/ian/gits/mfi/` with Fortran source code in `src/mfi/` and legacy F77 code in `src/f77/`
+- Uses fpm (Fortran Package Manager) with `fpm.toml` configuration and Makefile for build process
+- Built with gfortran compiler, with fypp (Fortran preprocessor) for generating interfaces
+- BLAS tests were originally in a single consolidated file `test/blas.fpp`, while LAPACK tests were already in individual files
+- Uses conditional compilation with `-DMFI_EXTENSIONS` flag for BLAS extension routines (iamin/iamax)
+- Both BLAS and LAPACK tests now use consistent structure with `test_run` macro generating timed test blocks
+- Shared `test/assert.inc` file provides consistent assert subroutine with optional info parameter
+- Tests are built with `make` and run with `fpm test`, with extensions enabled via `FYPPFLAGS=-DMFI_EXTENSIONS`
 
 ## Recent Actions
-1. [DONE] **Analyzed original structure**: Found that `blas.fpp` contained consolidated tests with conditional compilation for extensions using `#:if defined('MFI_EXTENSIONS')`
-2. [DONE] **Created individual test files**: Split into 16 separate BLAS test files (asum.fpp, axpy.fpp, copy.fpp, dot.fpp, dotc.fpp, dotu.fpp, gemm.fpp, gemv.fpp, iamax.fpp, iamin.fpp, lamch.fpp, nrm2.fpp, rot.fpp, rotg.fpp, scal.fpp, swap.fpp)
-3. [DONE] **Implemented conditional compilation**: Applied `#:if defined('MFI_EXTENSIONS')` to iamin.fpp and iamax.fpp to generate either full tests (when extensions enabled) or minimal "skipped" programs (when extensions not available)
-4. [DONE] **Created shared utilities**: Created `test/assert.inc` with common assert subroutine
-5. [DONE] **Verified build compatibility**: Confirmed that all files convert properly from `.fpp` to `.f90` with both extensions and non-extensions flags
-6. [DONE] **Tested functionality**: Verified that conditional compilation works as expected - full tests generated with MFI_EXTENSIONS flag, minimal programs without it
+- [DONE] Converted single BLAS test file (`test/blas.fpp`) to 16 individual test files: asum.fpp, axpy.fpp, copy.fpp, dot.fpp, dotc.fpp, dotu.fpp, gemm.fpp, gemv.fpp, iamax.fpp, iamin.fpp, lamch.fpp, nrm2.fpp, rot.fpp, rotg.fpp, scal.fpp, swap.fpp
+- [DONE] Moved BLAS test macros to `test/blas/macros/` directory for better organization
+- [DONE] Added conditional compilation to extension tests (iamin, iamax) to only run when MFI_EXTENSIONS is defined
+- [DONE] Created shared `test/assert.inc` for common assert subroutine
+- [DONE] Made LAPACK tests consistent with BLAS tests by updating all LAPACK test files to use the same `test_run` macro structure
+- [DONE] Enhanced assert subroutine to support optional info parameter for better error reporting
+- [DONE] Verified all changes maintain compatibility with both Makefile and fpm build systems
 
 ## Current Plan
-1. [DONE] Restructure BLAS tests from consolidated to separate files
-2. [DONE] Handle conditional compilation for extension tests
-3. [DONE] Maintain compatibility with existing build system
-4. [DONE] Verify all tests compile and run correctly
+- [DONE] Restructure BLAS tests from consolidated to individual files
+- [DONE] Make LAPACK test structure consistent with BLAS test structure  
+- [DONE] Ensure build system compatibility with both approaches
+- [TODO] Address pre-existing LAPACK hetrf test failure (unrelated to restructuring changes)
+- [TODO] Consider if additional test consistency improvements are needed
 
 ---
 
 ## Summary Metadata
-**Update time**: 2025-12-10T21:44:53.829Z 
+**Update time**: 2025-12-10T21:57:32.317Z 

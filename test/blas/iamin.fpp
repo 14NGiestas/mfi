@@ -1,11 +1,11 @@
 
 #:include "common.fpp"
-#:include "test/blas/macros/iamin_iamax.fypp"
 
 program test_iamin
 use iso_fortran_env
 implicit none
 #:if defined('MFI_EXTENSIONS')
+#:include "test/blas/macros/iamin_iamax.fypp"
 $:test_run('i?amin', DEFAULT_TYPES)
 contains
 $:test_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
@@ -14,8 +14,7 @@ $:test_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
 
 end program
 #:else
-! Extensions not enabled, provide minimal program to avoid compilation errors
-write(*,*) 'i?amin tests skipped: extensions not enabled'
+    write(*,*) 'i?amin tests skipped: extensions not enabled'
 end program
 #:endif
 

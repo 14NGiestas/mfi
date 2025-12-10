@@ -57,7 +57,7 @@ block
     ${REAL}$ :: im${shape}$
     call random_number(im)
     call random_number(re)
-    ${name}$ = cmplx(re,im)
+    ${name}$ = cmplx(re,im, kind=${type.replace('complex(', '').replace(')', '')}$)
 end block
 #:enddef
 

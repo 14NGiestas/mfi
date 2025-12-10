@@ -7,7 +7,7 @@ subroutine test_${f77}$
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 3
     ${type(wp)}$ :: A(N,N), A_in(N,N), A_rf(N,N)
-    integer :: ipiv(N), ipiv_in(N), ipiv_rf(N)
+    integer :: ipiv_in(N), ipiv_rf(N)
     integer :: info, info_rf, info_mfi
 
     ! Create a test matrix for LU factorization

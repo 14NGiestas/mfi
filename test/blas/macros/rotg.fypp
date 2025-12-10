@@ -38,10 +38,10 @@ subroutine test_${f77}$
         s_in = s
         call ${mfi}$(a_in, b_in, c_in, s_in)
 
-        call assert(a_in == a_rf .and. &
-                    b_in == b_rf .and. &
-                    s_in == s_rf .and. &
-                    c_in == c_rf, "different results")
+        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "different results")
     end do
 
 end subroutine

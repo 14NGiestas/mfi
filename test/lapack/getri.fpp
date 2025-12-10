@@ -9,6 +9,6 @@ contains
 
 $:test_implement('?getri', DEFAULT_TYPES, getri)
 
-#:include "test/lapack/test_common.inc"
+#:include "test/assert.inc"
 
 end program

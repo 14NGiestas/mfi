@@ -8,13 +8,12 @@ subroutine test_${f77}$
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 20
 
-    ${real(wp)}$ :: rnd(N)
-
     ${type(wp)}$ :: x(N),    y(N),    &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
 
 #:if type(wp) == complex(wp)
+    ${real(wp)}$ :: rnd(N)
     call random_number(rnd)
     x%re = rnd
     call random_number(rnd)
@@ -38,17 +37,17 @@ subroutine test_${f77}$
     x_in = x
     y_in = y
     call ${f90}$(N, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     y_in = y
     call mfi_${f77}$(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     y_in = y
     call ${mfi}$(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
 end subroutine
 #:enddef

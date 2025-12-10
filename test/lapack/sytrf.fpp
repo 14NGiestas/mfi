@@ -9,6 +9,6 @@ contains
 
 $:test_implement('?sytrf', REAL_TYPES, sytrf)
 
-#:include "test/lapack/test_common.inc"
+#:include "test/assert.inc"
 
 end program

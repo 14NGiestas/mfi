@@ -9,6 +9,6 @@ contains
 
 $:test_implement('?gesvd', DEFAULT_TYPES, gesvd)
 
-#:include "test/lapack/test_common.inc"
+#:include "test/assert.inc"
 
 end program
