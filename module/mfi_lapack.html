@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="17.8% of total for modules and submodules.">1834 statements</a>
+                 title="19.0% of total for modules and submodules.">1996 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -147,6 +147,7 @@
             <a class="list-group-item" href="../module/mfi_lapack.html#interface-mfi_potri">mfi_potri</a>
             <a class="list-group-item" href="../module/mfi_lapack.html#interface-mfi_potrs">mfi_potrs</a>
             <a class="list-group-item" href="../module/mfi_lapack.html#interface-mfi_pocon">mfi_pocon</a>
+            <a class="list-group-item" href="../module/mfi_lapack.html#interface-mfi_trtrs">mfi_trtrs</a>
         </div>
       </div>
     </div>
@@ -207,6 +208,10 @@
             <a class="list-group-item" href="../module/mfi_lapack.html#proc-mfi_dpocon">mfi_dpocon</a>
             <a class="list-group-item" href="../module/mfi_lapack.html#proc-mfi_cpocon">mfi_cpocon</a>
             <a class="list-group-item" href="../module/mfi_lapack.html#proc-mfi_zpocon">mfi_zpocon</a>
+            <a class="list-group-item" href="../module/mfi_lapack.html#proc-mfi_strtrs">mfi_strtrs</a>
+            <a class="list-group-item" href="../module/mfi_lapack.html#proc-mfi_dtrtrs">mfi_dtrtrs</a>
+            <a class="list-group-item" href="../module/mfi_lapack.html#proc-mfi_ctrtrs">mfi_ctrtrs</a>
+            <a class="list-group-item" href="../module/mfi_lapack.html#proc-mfi_ztrtrs">mfi_ztrtrs</a>
             <a class="list-group-item" href="../module/mfi_lapack.html#proc-mfi_error">mfi_error</a>
         </div>
       </div>
@@ -233,8 +238,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
-                  <li class="list-inline-item"><a href='f77_lapack.html'>f77_lapack</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
+                  <li class="list-inline-item"><a href='f77_lapack.html'>f77_lapack</a></li>
               </ul>
             </li>
         </ul>
@@ -284,7 +289,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~279"></span>
+              <span class="anchor" id="variable-a~283"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -314,7 +319,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~116"></span>
+              <span class="anchor" id="variable-info~120"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -354,7 +359,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~280"></span>
+              <span class="anchor" id="variable-a~284"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -384,7 +389,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~117"></span>
+              <span class="anchor" id="variable-info~121"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -424,7 +429,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~281"></span>
+              <span class="anchor" id="variable-a~285"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -454,7 +459,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~118"></span>
+              <span class="anchor" id="variable-info~122"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -494,7 +499,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~282"></span>
+              <span class="anchor" id="variable-a~286"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -524,7 +529,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~119"></span>
+              <span class="anchor" id="variable-info~123"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -580,7 +585,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~283"></span>
+              <span class="anchor" id="variable-a~287"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -610,7 +615,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~120"></span>
+              <span class="anchor" id="variable-info~124"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -650,7 +655,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~284"></span>
+              <span class="anchor" id="variable-a~288"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -680,7 +685,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~121"></span>
+              <span class="anchor" id="variable-info~125"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -720,7 +725,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~285"></span>
+              <span class="anchor" id="variable-a~289"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -750,7 +755,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~122"></span>
+              <span class="anchor" id="variable-info~126"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -790,7 +795,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~286"></span>
+              <span class="anchor" id="variable-a~290"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -820,7 +825,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~123"></span>
+              <span class="anchor" id="variable-info~127"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -876,7 +881,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~287"></span>
+              <span class="anchor" id="variable-a~291"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -906,7 +911,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~124"></span>
+              <span class="anchor" id="variable-info~128"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -946,7 +951,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~288"></span>
+              <span class="anchor" id="variable-a~292"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -976,7 +981,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~125"></span>
+              <span class="anchor" id="variable-info~129"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1016,7 +1021,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~289"></span>
+              <span class="anchor" id="variable-a~293"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -1046,7 +1051,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~126"></span>
+              <span class="anchor" id="variable-info~130"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1086,7 +1091,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~290"></span>
+              <span class="anchor" id="variable-a~294"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -1116,7 +1121,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~127"></span>
+              <span class="anchor" id="variable-info~131"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1172,7 +1177,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~291"></span>
+              <span class="anchor" id="variable-a~295"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -1202,7 +1207,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~128"></span>
+              <span class="anchor" id="variable-info~132"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1242,7 +1247,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~292"></span>
+              <span class="anchor" id="variable-a~296"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -1272,7 +1277,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~129"></span>
+              <span class="anchor" id="variable-info~133"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1312,7 +1317,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~293"></span>
+              <span class="anchor" id="variable-a~297"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -1342,7 +1347,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~130"></span>
+              <span class="anchor" id="variable-info~134"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1382,7 +1387,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~294"></span>
+              <span class="anchor" id="variable-a~298"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -1412,7 +1417,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~131"></span>
+              <span class="anchor" id="variable-info~135"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1468,7 +1473,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~295"></span>
+              <span class="anchor" id="variable-a~299"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -1498,7 +1503,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~87"></span>
+              <span class="anchor" id="variable-b~91"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -1513,7 +1518,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~113"></span>
+              <span class="anchor" id="variable-trans~117"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -1528,7 +1533,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~132"></span>
+              <span class="anchor" id="variable-info~136"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1568,7 +1573,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~296"></span>
+              <span class="anchor" id="variable-a~300"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -1598,7 +1603,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~88"></span>
+              <span class="anchor" id="variable-b~92"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -1613,7 +1618,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~114"></span>
+              <span class="anchor" id="variable-trans~118"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -1628,7 +1633,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~133"></span>
+              <span class="anchor" id="variable-info~137"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1668,7 +1673,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~297"></span>
+              <span class="anchor" id="variable-a~301"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -1698,7 +1703,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~89"></span>
+              <span class="anchor" id="variable-b~93"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -1713,7 +1718,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~115"></span>
+              <span class="anchor" id="variable-trans~119"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -1728,7 +1733,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~134"></span>
+              <span class="anchor" id="variable-info~138"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1768,7 +1773,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~298"></span>
+              <span class="anchor" id="variable-a~302"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -1798,7 +1803,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~90"></span>
+              <span class="anchor" id="variable-b~94"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -1813,7 +1818,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~116"></span>
+              <span class="anchor" id="variable-trans~120"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -1828,7 +1833,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~135"></span>
+              <span class="anchor" id="variable-info~139"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1884,7 +1889,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~299"></span>
+              <span class="anchor" id="variable-a~303"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -1899,7 +1904,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~171"></span>
+              <span class="anchor" id="variable-uplo~175"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -1929,7 +1934,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~136"></span>
+              <span class="anchor" id="variable-info~140"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -1969,7 +1974,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~300"></span>
+              <span class="anchor" id="variable-a~304"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -1984,7 +1989,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~172"></span>
+              <span class="anchor" id="variable-uplo~176"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -2014,7 +2019,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~137"></span>
+              <span class="anchor" id="variable-info~141"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2070,7 +2075,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~301"></span>
+              <span class="anchor" id="variable-a~305"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -2085,7 +2090,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~91"></span>
+              <span class="anchor" id="variable-b~95"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -2145,7 +2150,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~173"></span>
+              <span class="anchor" id="variable-uplo~177"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -2160,7 +2165,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~138"></span>
+              <span class="anchor" id="variable-info~142"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2200,7 +2205,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~302"></span>
+              <span class="anchor" id="variable-a~306"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -2215,7 +2220,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~92"></span>
+              <span class="anchor" id="variable-b~96"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -2275,7 +2280,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~174"></span>
+              <span class="anchor" id="variable-uplo~178"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -2290,7 +2295,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~139"></span>
+              <span class="anchor" id="variable-info~143"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2346,7 +2351,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~303"></span>
+              <span class="anchor" id="variable-a~307"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -2391,7 +2396,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~175"></span>
+              <span class="anchor" id="variable-uplo~179"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -2406,7 +2411,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~140"></span>
+              <span class="anchor" id="variable-info~144"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2446,7 +2451,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~304"></span>
+              <span class="anchor" id="variable-a~308"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -2491,7 +2496,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~176"></span>
+              <span class="anchor" id="variable-uplo~180"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -2506,7 +2511,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~141"></span>
+              <span class="anchor" id="variable-info~145"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2562,7 +2567,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~305"></span>
+              <span class="anchor" id="variable-a~309"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -2652,7 +2657,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~142"></span>
+              <span class="anchor" id="variable-info~146"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2692,7 +2697,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~306"></span>
+              <span class="anchor" id="variable-a~310"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -2782,7 +2787,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~143"></span>
+              <span class="anchor" id="variable-info~147"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2822,7 +2827,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~307"></span>
+              <span class="anchor" id="variable-a~311"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -2912,7 +2917,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~144"></span>
+              <span class="anchor" id="variable-info~148"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -2952,7 +2957,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~308"></span>
+              <span class="anchor" id="variable-a~312"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -3042,7 +3047,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~145"></span>
+              <span class="anchor" id="variable-info~149"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -3084,302 +3089,6 @@ See also:
     
   <p>Modern interface for <a href="../interface/f77_potrf.html#proc-spotrf">spotrf</a>.
 See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~309"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~146"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~177"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    public pure subroutine <a href='../proc/mfi_dpotrf.html'>mfi_dpotrf</a>(a, info, uplo)  
-
-    </h3>
-    
-  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-dpotrf">dpotrf</a>.
-See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~310"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~147"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~178"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    public pure subroutine <a href='../proc/mfi_cpotrf.html'>mfi_cpotrf</a>(a, info, uplo)  
-
-    </h3>
-    
-  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-cpotrf">cpotrf</a>.
-See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~311"></span>
-              complex(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~148"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~179"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-          <li class="list-group-item">
-                <h3>
-    public pure subroutine <a href='../proc/mfi_zpotrf.html'>mfi_zpotrf</a>(a, info, uplo)  
-
-    </h3>
-    
-  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-zpotrf">zpotrf</a>.
-See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~312"></span>
-              complex(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~149"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~180"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-          </li>
-    </ul>
-  </div>
-
-              <div class="card">
-    <div class="card-header bg-light codesum">
-      <span class="anchor" id="interface-mfi_potri"></span>
-      <h3>public        interface <a href='../interface/mfi_potri.html'>mfi_potri</a> 
-      </h3>
-    </div>
-      <div class="card-body">
-        <p>Generic modern interface for POTRI.
-Supports s, d, c, z.
-See also:
-<a href="../interface/f77_potri.html#proc-spotri">spotri</a>, <a href="../interface/f77_potri.html#proc-dpotri">dpotri</a>, <a href="../interface/f77_potri.html#proc-cpotri">cpotri</a>, <a href="../interface/f77_potri.html#proc-zpotri">zpotri</a>.</p>
-      </div>
-    <ul class="list-group">
-          <li class="list-group-item">
-                <h3>
-    public pure subroutine <a href='../proc/mfi_spotri.html'>mfi_spotri</a>(a, info, uplo)  
-
-    </h3>
-    
-  <p>Modern interface for <a href="../interface/f77_potri.html#proc-spotri">spotri</a>.
-See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -3444,12 +3153,12 @@ See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../inter
           </li>
           <li class="list-group-item">
                 <h3>
-    public pure subroutine <a href='../proc/mfi_dpotri.html'>mfi_dpotri</a>(a, info, uplo)  
+    public pure subroutine <a href='../proc/mfi_dpotrf.html'>mfi_dpotrf</a>(a, info, uplo)  
 
     </h3>
     
-  <p>Modern interface for <a href="../interface/f77_potri.html#proc-dpotri">dpotri</a>.
-See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-dpotrf">dpotrf</a>.
+See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -3514,12 +3223,12 @@ See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../inter
           </li>
           <li class="list-group-item">
                 <h3>
-    public pure subroutine <a href='../proc/mfi_cpotri.html'>mfi_cpotri</a>(a, info, uplo)  
+    public pure subroutine <a href='../proc/mfi_cpotrf.html'>mfi_cpotrf</a>(a, info, uplo)  
 
     </h3>
     
-  <p>Modern interface for <a href="../interface/f77_potri.html#proc-cpotri">cpotri</a>.
-See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-cpotrf">cpotrf</a>.
+See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -3584,12 +3293,12 @@ See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../inter
           </li>
           <li class="list-group-item">
                 <h3>
-    public pure subroutine <a href='../proc/mfi_zpotri.html'>mfi_zpotri</a>(a, info, uplo)  
+    public pure subroutine <a href='../proc/mfi_zpotrf.html'>mfi_zpotrf</a>(a, info, uplo)  
 
     </h3>
     
-  <p>Modern interface for <a href="../interface/f77_potri.html#proc-zpotri">zpotri</a>.
-See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-zpotrf">zpotrf</a>.
+See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -3657,6 +3366,302 @@ See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../inter
 
               <div class="card">
     <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-mfi_potri"></span>
+      <h3>public        interface <a href='../interface/mfi_potri.html'>mfi_potri</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Generic modern interface for POTRI.
+Supports s, d, c, z.
+See also:
+<a href="../interface/f77_potri.html#proc-spotri">spotri</a>, <a href="../interface/f77_potri.html#proc-dpotri">dpotri</a>, <a href="../interface/f77_potri.html#proc-cpotri">cpotri</a>, <a href="../interface/f77_potri.html#proc-zpotri">zpotri</a>.</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    public pure subroutine <a href='../proc/mfi_spotri.html'>mfi_spotri</a>(a, info, uplo)  
+
+    </h3>
+    
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-spotri">spotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~317"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~154"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~185"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    public pure subroutine <a href='../proc/mfi_dpotri.html'>mfi_dpotri</a>(a, info, uplo)  
+
+    </h3>
+    
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-dpotri">dpotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~318"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~155"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~186"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    public pure subroutine <a href='../proc/mfi_cpotri.html'>mfi_cpotri</a>(a, info, uplo)  
+
+    </h3>
+    
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-cpotri">cpotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~319"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~156"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~187"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    public pure subroutine <a href='../proc/mfi_zpotri.html'>mfi_zpotri</a>(a, info, uplo)  
+
+    </h3>
+    
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-zpotri">zpotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~320"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~157"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~188"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-mfi_potrs"></span>
       <h3>public        interface <a href='../interface/mfi_potrs.html'>mfi_potrs</a> 
       </h3>
@@ -3690,7 +3695,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~317"></span>
+              <span class="anchor" id="variable-a~321"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -3705,7 +3710,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~93"></span>
+              <span class="anchor" id="variable-b~97"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -3720,7 +3725,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~185"></span>
+              <span class="anchor" id="variable-uplo~189"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -3735,7 +3740,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~154"></span>
+              <span class="anchor" id="variable-info~158"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -3775,7 +3780,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~318"></span>
+              <span class="anchor" id="variable-a~322"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -3790,7 +3795,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~94"></span>
+              <span class="anchor" id="variable-b~98"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -3805,7 +3810,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~186"></span>
+              <span class="anchor" id="variable-uplo~190"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -3820,7 +3825,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~155"></span>
+              <span class="anchor" id="variable-info~159"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -3860,7 +3865,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~319"></span>
+              <span class="anchor" id="variable-a~323"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -3875,7 +3880,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~95"></span>
+              <span class="anchor" id="variable-b~99"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -3890,7 +3895,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~187"></span>
+              <span class="anchor" id="variable-uplo~191"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -3905,7 +3910,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~156"></span>
+              <span class="anchor" id="variable-info~160"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -3945,7 +3950,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~320"></span>
+              <span class="anchor" id="variable-a~324"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -3960,7 +3965,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~96"></span>
+              <span class="anchor" id="variable-b~100"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -3975,7 +3980,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~188"></span>
+              <span class="anchor" id="variable-uplo~192"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -3990,7 +3995,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~157"></span>
+              <span class="anchor" id="variable-info~161"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4047,7 +4052,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~321"></span>
+              <span class="anchor" id="variable-a~325"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -4092,7 +4097,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~189"></span>
+              <span class="anchor" id="variable-uplo~193"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -4107,7 +4112,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~158"></span>
+              <span class="anchor" id="variable-info~162"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4148,7 +4153,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~322"></span>
+              <span class="anchor" id="variable-a~326"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -4193,7 +4198,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~190"></span>
+              <span class="anchor" id="variable-uplo~194"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -4208,7 +4213,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~159"></span>
+              <span class="anchor" id="variable-info~163"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4249,7 +4254,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~323"></span>
+              <span class="anchor" id="variable-a~327"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -4294,7 +4299,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~191"></span>
+              <span class="anchor" id="variable-uplo~195"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -4309,7 +4314,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~160"></span>
+              <span class="anchor" id="variable-info~164"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4350,7 +4355,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~324"></span>
+              <span class="anchor" id="variable-a~328"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -4395,7 +4400,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~192"></span>
+              <span class="anchor" id="variable-uplo~196"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -4410,7 +4415,527 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~161"></span>
+              <span class="anchor" id="variable-info~165"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-mfi_trtrs"></span>
+      <h3>public        interface <a href='../interface/mfi_trtrs.html'>mfi_trtrs</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Generic modern interface for TRTRS.
+Supports s, d, c, z.
+See also:
+<a href="../interface/f77_trtrs.html#proc-strtrs">strtrs</a>, <a href="../interface/f77_trtrs.html#proc-dtrtrs">dtrtrs</a>, <a href="../interface/f77_trtrs.html#proc-ctrtrs">ctrtrs</a>, <a href="../interface/f77_trtrs.html#proc-ztrtrs">ztrtrs</a>.</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    public pure subroutine <a href='../proc/mfi_strtrs.html'>mfi_strtrs</a>(a, b, uplo, trans, diag, info)  
+
+    </h3>
+    
+  <p>Modern interface for <a href="../interface/f77_trtrs.html#proc-strtrs">strtrs</a>.
+See also: <a href="../interface/mfi_trtrs.html">mfi_trtrs</a>, <a href="../interface/f77_trtrs.html">f77_trtrs</a>.
+Solves a triangular linear system with multiple right-hand sides:</p>
+<div class="codehilite"><pre><span></span><code>A <span class="gs">* X = B  or  A*</span>*T <span class="gs">* X = B  or  A*</span>*H * X = B,
+</code></pre></div>
+
+<p>where A is a triangular matrix (stored in <code>a</code>), and B is overwritten by the solution X.</p>
+<p>Optional arguments:
+- <code>uplo</code>: 'U' (upper triangular, default) or 'L' (lower triangular)
+- <code>trans</code>: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
+- <code>diag</code>: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
+- <code>info</code>: if not present and <code>info /= 0</code>, calls <a href="../proc/mfi_error.html">mfi_error</a>.</p>
+<p>The shapes are inferred from <code>a</code> (N-by-N) and <code>b</code> (N-by-NRHS).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~329"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~101"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~197"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans~121"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trans</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~69"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~166"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    public pure subroutine <a href='../proc/mfi_dtrtrs.html'>mfi_dtrtrs</a>(a, b, uplo, trans, diag, info)  
+
+    </h3>
+    
+  <p>Modern interface for <a href="../interface/f77_trtrs.html#proc-dtrtrs">dtrtrs</a>.
+See also: <a href="../interface/mfi_trtrs.html">mfi_trtrs</a>, <a href="../interface/f77_trtrs.html">f77_trtrs</a>.
+Solves a triangular linear system with multiple right-hand sides:</p>
+<div class="codehilite"><pre><span></span><code>A <span class="gs">* X = B  or  A*</span>*T <span class="gs">* X = B  or  A*</span>*H * X = B,
+</code></pre></div>
+
+<p>where A is a triangular matrix (stored in <code>a</code>), and B is overwritten by the solution X.</p>
+<p>Optional arguments:
+- <code>uplo</code>: 'U' (upper triangular, default) or 'L' (lower triangular)
+- <code>trans</code>: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
+- <code>diag</code>: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
+- <code>info</code>: if not present and <code>info /= 0</code>, calls <a href="../proc/mfi_error.html">mfi_error</a>.</p>
+<p>The shapes are inferred from <code>a</code> (N-by-N) and <code>b</code> (N-by-NRHS).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~330"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~102"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~198"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans~122"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trans</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~70"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~167"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    public pure subroutine <a href='../proc/mfi_ctrtrs.html'>mfi_ctrtrs</a>(a, b, uplo, trans, diag, info)  
+
+    </h3>
+    
+  <p>Modern interface for <a href="../interface/f77_trtrs.html#proc-ctrtrs">ctrtrs</a>.
+See also: <a href="../interface/mfi_trtrs.html">mfi_trtrs</a>, <a href="../interface/f77_trtrs.html">f77_trtrs</a>.
+Solves a triangular linear system with multiple right-hand sides:</p>
+<div class="codehilite"><pre><span></span><code>A <span class="gs">* X = B  or  A*</span>*T <span class="gs">* X = B  or  A*</span>*H * X = B,
+</code></pre></div>
+
+<p>where A is a triangular matrix (stored in <code>a</code>), and B is overwritten by the solution X.</p>
+<p>Optional arguments:
+- <code>uplo</code>: 'U' (upper triangular, default) or 'L' (lower triangular)
+- <code>trans</code>: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
+- <code>diag</code>: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
+- <code>info</code>: if not present and <code>info /= 0</code>, calls <a href="../proc/mfi_error.html">mfi_error</a>.</p>
+<p>The shapes are inferred from <code>a</code> (N-by-N) and <code>b</code> (N-by-NRHS).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~331"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~103"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~199"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans~123"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trans</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~71"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~168"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    public pure subroutine <a href='../proc/mfi_ztrtrs.html'>mfi_ztrtrs</a>(a, b, uplo, trans, diag, info)  
+
+    </h3>
+    
+  <p>Modern interface for <a href="../interface/f77_trtrs.html#proc-ztrtrs">ztrtrs</a>.
+See also: <a href="../interface/mfi_trtrs.html">mfi_trtrs</a>, <a href="../interface/f77_trtrs.html">f77_trtrs</a>.
+Solves a triangular linear system with multiple right-hand sides:</p>
+<div class="codehilite"><pre><span></span><code>A <span class="gs">* X = B  or  A*</span>*T <span class="gs">* X = B  or  A*</span>*H * X = B,
+</code></pre></div>
+
+<p>where A is a triangular matrix (stored in <code>a</code>), and B is overwritten by the solution X.</p>
+<p>Optional arguments:
+- <code>uplo</code>: 'U' (upper triangular, default) or 'L' (lower triangular)
+- <code>trans</code>: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
+- <code>diag</code>: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
+- <code>info</code>: if not present and <code>info /= 0</code>, calls <a href="../proc/mfi_error.html">mfi_error</a>.</p>
+<p>The shapes are inferred from <code>a</code> (N-by-N) and <code>b</code> (N-by-NRHS).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~332"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~104"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~200"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans~124"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trans</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~72"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~169"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4460,7 +4985,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~279"></span>
+              <span class="anchor" id="variable-a~283"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -4490,7 +5015,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~116"></span>
+              <span class="anchor" id="variable-info~120"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4531,7 +5056,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~280"></span>
+              <span class="anchor" id="variable-a~284"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -4561,7 +5086,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~117"></span>
+              <span class="anchor" id="variable-info~121"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4602,7 +5127,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~281"></span>
+              <span class="anchor" id="variable-a~285"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -4632,7 +5157,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~118"></span>
+              <span class="anchor" id="variable-info~122"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4673,7 +5198,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~282"></span>
+              <span class="anchor" id="variable-a~286"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -4703,7 +5228,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~119"></span>
+              <span class="anchor" id="variable-info~123"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4744,7 +5269,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~283"></span>
+              <span class="anchor" id="variable-a~287"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -4774,7 +5299,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~120"></span>
+              <span class="anchor" id="variable-info~124"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4815,7 +5340,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~284"></span>
+              <span class="anchor" id="variable-a~288"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -4845,7 +5370,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~121"></span>
+              <span class="anchor" id="variable-info~125"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4886,7 +5411,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~285"></span>
+              <span class="anchor" id="variable-a~289"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -4916,7 +5441,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~122"></span>
+              <span class="anchor" id="variable-info~126"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -4957,7 +5482,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~286"></span>
+              <span class="anchor" id="variable-a~290"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -4987,7 +5512,7 @@ See also: <a href="../interface/mfi_gerqf.html">mfi_gerqf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~123"></span>
+              <span class="anchor" id="variable-info~127"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5028,7 +5553,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~287"></span>
+              <span class="anchor" id="variable-a~291"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -5058,7 +5583,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~124"></span>
+              <span class="anchor" id="variable-info~128"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5099,7 +5624,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~288"></span>
+              <span class="anchor" id="variable-a~292"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -5129,7 +5654,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~125"></span>
+              <span class="anchor" id="variable-info~129"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5170,7 +5695,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~289"></span>
+              <span class="anchor" id="variable-a~293"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -5200,7 +5725,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~126"></span>
+              <span class="anchor" id="variable-info~130"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5241,7 +5766,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~290"></span>
+              <span class="anchor" id="variable-a~294"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -5271,7 +5796,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~127"></span>
+              <span class="anchor" id="variable-info~131"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5312,7 +5837,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~291"></span>
+              <span class="anchor" id="variable-a~295"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -5342,7 +5867,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~128"></span>
+              <span class="anchor" id="variable-info~132"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5383,7 +5908,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~292"></span>
+              <span class="anchor" id="variable-a~296"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -5413,7 +5938,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~129"></span>
+              <span class="anchor" id="variable-info~133"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5454,7 +5979,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~293"></span>
+              <span class="anchor" id="variable-a~297"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -5484,7 +6009,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~130"></span>
+              <span class="anchor" id="variable-info~134"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5525,7 +6050,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~294"></span>
+              <span class="anchor" id="variable-a~298"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -5555,7 +6080,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~131"></span>
+              <span class="anchor" id="variable-info~135"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5596,7 +6121,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~295"></span>
+              <span class="anchor" id="variable-a~299"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -5626,7 +6151,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~87"></span>
+              <span class="anchor" id="variable-b~91"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -5641,7 +6166,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~113"></span>
+              <span class="anchor" id="variable-trans~117"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -5656,7 +6181,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~132"></span>
+              <span class="anchor" id="variable-info~136"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5697,7 +6222,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~296"></span>
+              <span class="anchor" id="variable-a~300"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -5727,7 +6252,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~88"></span>
+              <span class="anchor" id="variable-b~92"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -5742,7 +6267,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~114"></span>
+              <span class="anchor" id="variable-trans~118"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -5757,7 +6282,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~133"></span>
+              <span class="anchor" id="variable-info~137"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5798,7 +6323,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~297"></span>
+              <span class="anchor" id="variable-a~301"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -5828,7 +6353,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~89"></span>
+              <span class="anchor" id="variable-b~93"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -5843,7 +6368,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~115"></span>
+              <span class="anchor" id="variable-trans~119"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -5858,7 +6383,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~134"></span>
+              <span class="anchor" id="variable-info~138"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -5899,7 +6424,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~298"></span>
+              <span class="anchor" id="variable-a~302"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -5929,7 +6454,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~90"></span>
+              <span class="anchor" id="variable-b~94"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -5944,7 +6469,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~116"></span>
+              <span class="anchor" id="variable-trans~120"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -5959,7 +6484,7 @@ See also: <a href="../interface/mfi_getrs.html">mfi_getrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~135"></span>
+              <span class="anchor" id="variable-info~139"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6000,7 +6525,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~299"></span>
+              <span class="anchor" id="variable-a~303"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -6015,7 +6540,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~171"></span>
+              <span class="anchor" id="variable-uplo~175"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -6045,7 +6570,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~136"></span>
+              <span class="anchor" id="variable-info~140"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6086,7 +6611,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~300"></span>
+              <span class="anchor" id="variable-a~304"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -6101,7 +6626,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~172"></span>
+              <span class="anchor" id="variable-uplo~176"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -6131,7 +6656,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~137"></span>
+              <span class="anchor" id="variable-info~141"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6172,7 +6697,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~301"></span>
+              <span class="anchor" id="variable-a~305"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -6187,7 +6712,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~91"></span>
+              <span class="anchor" id="variable-b~95"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -6247,7 +6772,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~173"></span>
+              <span class="anchor" id="variable-uplo~177"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -6262,7 +6787,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~138"></span>
+              <span class="anchor" id="variable-info~142"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6303,7 +6828,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~302"></span>
+              <span class="anchor" id="variable-a~306"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -6318,7 +6843,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~92"></span>
+              <span class="anchor" id="variable-b~96"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -6378,7 +6903,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~174"></span>
+              <span class="anchor" id="variable-uplo~178"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -6393,7 +6918,7 @@ See also: <a href="../interface/mfi_hegv.html">mfi_hegv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~139"></span>
+              <span class="anchor" id="variable-info~143"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6434,7 +6959,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~303"></span>
+              <span class="anchor" id="variable-a~307"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -6479,7 +7004,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~175"></span>
+              <span class="anchor" id="variable-uplo~179"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -6494,7 +7019,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~140"></span>
+              <span class="anchor" id="variable-info~144"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6535,7 +7060,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~304"></span>
+              <span class="anchor" id="variable-a~308"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -6580,7 +7105,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~176"></span>
+              <span class="anchor" id="variable-uplo~180"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -6595,7 +7120,7 @@ See also: <a href="../interface/mfi_heevd.html">mfi_heevd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~141"></span>
+              <span class="anchor" id="variable-info~145"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6636,7 +7161,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~305"></span>
+              <span class="anchor" id="variable-a~309"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -6726,7 +7251,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~142"></span>
+              <span class="anchor" id="variable-info~146"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6767,7 +7292,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~306"></span>
+              <span class="anchor" id="variable-a~310"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -6857,7 +7382,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~143"></span>
+              <span class="anchor" id="variable-info~147"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -6898,7 +7423,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~307"></span>
+              <span class="anchor" id="variable-a~311"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -6988,7 +7513,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~144"></span>
+              <span class="anchor" id="variable-info~148"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -7029,7 +7554,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~308"></span>
+              <span class="anchor" id="variable-a~312"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -7119,7 +7644,7 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~145"></span>
+              <span class="anchor" id="variable-info~149"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -7146,290 +7671,6 @@ See also: <a href="../interface/mfi_gesvd.html">mfi_gesvd</a>, <a href="../inter
           
   <p>Modern interface for <a href="../interface/f77_potrf.html#proc-spotrf">spotrf</a>.
 See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~309"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~146"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~177"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dpotrf"></span> <h3>public pure subroutine <a href='../proc/mfi_dpotrf.html'>mfi_dpotrf</a>(a, info, uplo)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-dpotrf">dpotrf</a>.
-See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~310"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~147"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~178"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_cpotrf"></span> <h3>public pure subroutine <a href='../proc/mfi_cpotrf.html'>mfi_cpotrf</a>(a, info, uplo)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-cpotrf">cpotrf</a>.
-See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~311"></span>
-              complex(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~148"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~179"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_zpotrf"></span> <h3>public pure subroutine <a href='../proc/mfi_zpotrf.html'>mfi_zpotrf</a>(a, info, uplo)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-zpotrf">zpotrf</a>.
-See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~312"></span>
-              complex(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~149"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~180"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-              <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_spotri"></span> <h3>public pure subroutine <a href='../proc/mfi_spotri.html'>mfi_spotri</a>(a, info, uplo)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_potri.html#proc-spotri">spotri</a>.
-See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -7495,12 +7736,12 @@ See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../inter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dpotri"></span> <h3>public pure subroutine <a href='../proc/mfi_dpotri.html'>mfi_dpotri</a>(a, info, uplo)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dpotrf"></span> <h3>public pure subroutine <a href='../proc/mfi_dpotrf.html'>mfi_dpotrf</a>(a, info, uplo)  
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_potri.html#proc-dpotri">dpotri</a>.
-See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-dpotrf">dpotrf</a>.
+See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -7566,12 +7807,12 @@ See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../inter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_cpotri"></span> <h3>public pure subroutine <a href='../proc/mfi_cpotri.html'>mfi_cpotri</a>(a, info, uplo)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_cpotrf"></span> <h3>public pure subroutine <a href='../proc/mfi_cpotrf.html'>mfi_cpotrf</a>(a, info, uplo)  
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_potri.html#proc-cpotri">cpotri</a>.
-See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-cpotrf">cpotrf</a>.
+See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -7637,12 +7878,12 @@ See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../inter
   </div>
 
               <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_zpotri"></span> <h3>public pure subroutine <a href='../proc/mfi_zpotri.html'>mfi_zpotri</a>(a, info, uplo)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_zpotrf"></span> <h3>public pure subroutine <a href='../proc/mfi_zpotrf.html'>mfi_zpotrf</a>(a, info, uplo)  
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_potri.html#proc-zpotri">zpotri</a>.
-See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+  <p>Modern interface for <a href="../interface/f77_potrf.html#proc-zpotrf">zpotrf</a>.
+See also: <a href="../interface/mfi_potrf.html">mfi_potrf</a>, <a href="../interface/f77_potrf.html">f77_potrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -7708,6 +7949,290 @@ See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../inter
   </div>
 
               <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_spotri"></span> <h3>public pure subroutine <a href='../proc/mfi_spotri.html'>mfi_spotri</a>(a, info, uplo)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-spotri">spotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~317"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~154"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~185"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dpotri"></span> <h3>public pure subroutine <a href='../proc/mfi_dpotri.html'>mfi_dpotri</a>(a, info, uplo)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-dpotri">dpotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~318"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~155"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~186"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_cpotri"></span> <h3>public pure subroutine <a href='../proc/mfi_cpotri.html'>mfi_cpotri</a>(a, info, uplo)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-cpotri">cpotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~319"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~156"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~187"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_zpotri"></span> <h3>public pure subroutine <a href='../proc/mfi_zpotri.html'>mfi_zpotri</a>(a, info, uplo)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_potri.html#proc-zpotri">zpotri</a>.
+See also: <a href="../interface/mfi_potri.html">mfi_potri</a>, <a href="../interface/f77_potri.html">f77_potri</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~320"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~157"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~188"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-mfi_spotrs"></span> <h3>public pure subroutine <a href='../proc/mfi_spotrs.html'>mfi_spotrs</a>(a, b, uplo, info)  
 </h3></div>
     <div class="card-body">
@@ -7728,7 +8253,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~317"></span>
+              <span class="anchor" id="variable-a~321"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -7743,7 +8268,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~93"></span>
+              <span class="anchor" id="variable-b~97"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -7758,7 +8283,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~185"></span>
+              <span class="anchor" id="variable-uplo~189"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -7773,7 +8298,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~154"></span>
+              <span class="anchor" id="variable-info~158"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -7814,7 +8339,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~318"></span>
+              <span class="anchor" id="variable-a~322"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -7829,7 +8354,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~94"></span>
+              <span class="anchor" id="variable-b~98"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -7844,7 +8369,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~186"></span>
+              <span class="anchor" id="variable-uplo~190"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -7859,7 +8384,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~155"></span>
+              <span class="anchor" id="variable-info~159"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -7900,7 +8425,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~319"></span>
+              <span class="anchor" id="variable-a~323"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -7915,7 +8440,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~95"></span>
+              <span class="anchor" id="variable-b~99"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -7930,7 +8455,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~187"></span>
+              <span class="anchor" id="variable-uplo~191"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -7945,7 +8470,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~156"></span>
+              <span class="anchor" id="variable-info~160"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -7986,7 +8511,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~320"></span>
+              <span class="anchor" id="variable-a~324"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -8001,7 +8526,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~96"></span>
+              <span class="anchor" id="variable-b~100"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -8016,7 +8541,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~188"></span>
+              <span class="anchor" id="variable-uplo~192"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -8031,7 +8556,7 @@ See also: <a href="../interface/mfi_potrs.html">mfi_potrs</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~157"></span>
+              <span class="anchor" id="variable-info~161"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -8073,7 +8598,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~321"></span>
+              <span class="anchor" id="variable-a~325"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -8118,7 +8643,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~189"></span>
+              <span class="anchor" id="variable-uplo~193"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -8133,7 +8658,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~158"></span>
+              <span class="anchor" id="variable-info~162"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -8175,7 +8700,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~322"></span>
+              <span class="anchor" id="variable-a~326"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -8220,7 +8745,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~190"></span>
+              <span class="anchor" id="variable-uplo~194"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -8235,7 +8760,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~159"></span>
+              <span class="anchor" id="variable-info~163"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -8277,7 +8802,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~323"></span>
+              <span class="anchor" id="variable-a~327"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -8322,7 +8847,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~191"></span>
+              <span class="anchor" id="variable-uplo~195"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -8337,7 +8862,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~160"></span>
+              <span class="anchor" id="variable-info~164"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -8379,7 +8904,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~324"></span>
+              <span class="anchor" id="variable-a~328"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -8424,7 +8949,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~192"></span>
+              <span class="anchor" id="variable-uplo~196"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -8439,7 +8964,475 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~161"></span>
+              <span class="anchor" id="variable-info~165"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_strtrs"></span> <h3>public pure subroutine <a href='../proc/mfi_strtrs.html'>mfi_strtrs</a>(a, b, uplo, trans, diag, info)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_trtrs.html#proc-strtrs">strtrs</a>.
+See also: <a href="../interface/mfi_trtrs.html">mfi_trtrs</a>, <a href="../interface/f77_trtrs.html">f77_trtrs</a>.
+Solves a triangular linear system with multiple right-hand sides:</p><a href="../proc/mfi_strtrs.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~329"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~101"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~197"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans~121"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trans</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~69"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~166"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dtrtrs"></span> <h3>public pure subroutine <a href='../proc/mfi_dtrtrs.html'>mfi_dtrtrs</a>(a, b, uplo, trans, diag, info)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_trtrs.html#proc-dtrtrs">dtrtrs</a>.
+See also: <a href="../interface/mfi_trtrs.html">mfi_trtrs</a>, <a href="../interface/f77_trtrs.html">f77_trtrs</a>.
+Solves a triangular linear system with multiple right-hand sides:</p><a href="../proc/mfi_dtrtrs.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~330"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~102"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~198"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans~122"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trans</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~70"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~167"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_ctrtrs"></span> <h3>public pure subroutine <a href='../proc/mfi_ctrtrs.html'>mfi_ctrtrs</a>(a, b, uplo, trans, diag, info)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_trtrs.html#proc-ctrtrs">ctrtrs</a>.
+See also: <a href="../interface/mfi_trtrs.html">mfi_trtrs</a>, <a href="../interface/f77_trtrs.html">f77_trtrs</a>.
+Solves a triangular linear system with multiple right-hand sides:</p><a href="../proc/mfi_ctrtrs.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~331"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~103"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~199"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans~123"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trans</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~71"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~168"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_ztrtrs"></span> <h3>public pure subroutine <a href='../proc/mfi_ztrtrs.html'>mfi_ztrtrs</a>(a, b, uplo, trans, diag, info)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_trtrs.html#proc-ztrtrs">ztrtrs</a>.
+See also: <a href="../interface/mfi_trtrs.html">mfi_trtrs</a>, <a href="../interface/f77_trtrs.html">f77_trtrs</a>.
+Solves a triangular linear system with multiple right-hand sides:</p><a href="../proc/mfi_ztrtrs.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~332"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~104"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~200"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans~124"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trans</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~72"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~169"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -8494,7 +9487,7 @@ Estimates the reciprocal of the condition number of a real symmetric / complex H
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~162"></span>
+              <span class="anchor" id="variable-info~170"></span>
               integer,
             </td>
 <td>intent(in)</td>
