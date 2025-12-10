@@ -12,14 +12,29 @@
 
     <title>mfi_scal &ndash; MFI - Modern Fortran Interfaces</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -83,7 +98,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_blas.html'>mfi_blas</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_scal</li>
           </ol>
@@ -92,9 +107,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -177,7 +194,7 @@ MFI_SSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~5"></span>
+              <span class="anchor" id="variable-a~89"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -192,7 +209,7 @@ MFI_SSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~35"></span>
+              <span class="anchor" id="variable-x~149"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -207,7 +224,7 @@ MFI_SSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~35"></span>
+              <span class="anchor" id="variable-incx~151"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -249,7 +266,7 @@ MFI_DSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~6"></span>
+              <span class="anchor" id="variable-a~90"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -264,7 +281,7 @@ MFI_DSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~36"></span>
+              <span class="anchor" id="variable-x~150"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -279,7 +296,7 @@ MFI_DSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~36"></span>
+              <span class="anchor" id="variable-incx~152"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -321,7 +338,7 @@ MFI_CSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~7"></span>
+              <span class="anchor" id="variable-a~91"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -336,7 +353,7 @@ MFI_CSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~37"></span>
+              <span class="anchor" id="variable-x~151"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -351,7 +368,7 @@ MFI_CSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~37"></span>
+              <span class="anchor" id="variable-incx~153"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -393,7 +410,7 @@ MFI_ZSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~8"></span>
+              <span class="anchor" id="variable-a~92"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -408,7 +425,7 @@ MFI_ZSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~38"></span>
+              <span class="anchor" id="variable-x~152"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -423,7 +440,7 @@ MFI_ZSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~38"></span>
+              <span class="anchor" id="variable-incx~154"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -465,7 +482,7 @@ MFI_CSSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~9"></span>
+              <span class="anchor" id="variable-a~93"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -480,7 +497,7 @@ MFI_CSSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~39"></span>
+              <span class="anchor" id="variable-x~153"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -495,7 +512,7 @@ MFI_CSSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~39"></span>
+              <span class="anchor" id="variable-incx~155"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -537,7 +554,7 @@ MFI_ZDSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~10"></span>
+              <span class="anchor" id="variable-a~94"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -552,7 +569,7 @@ MFI_ZDSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~40"></span>
+              <span class="anchor" id="variable-x~154"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -567,7 +584,7 @@ MFI_ZDSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~40"></span>
+              <span class="anchor" id="variable-incx~156"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -597,7 +614,7 @@ MFI_ZDSCAL scales a vector by a constant.</p>
           <div class="col">
             <p>
               MFI - Modern Fortran Interfaces
- was developed by I. G. Pauli<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by I. G. Pauli<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">
@@ -610,27 +627,5 @@ MFI_ZDSCAL scales a vector by a constant.</p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>

@@ -12,14 +12,29 @@
 
     <title>f77_gelsy &ndash; MFI - Modern Fortran Interfaces</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="../css/pygments.css" rel="stylesheet">
-    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
     <link href="../css/local.css" rel="stylesheet">
-      <link  href="../tipuesearch/tipuesearch.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="../css/pygments.css" rel="stylesheet">
     <script src="../js/svg-pan-zoom.min.js"></script>
   </head>
 
@@ -83,7 +98,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90~2.html'>lapack.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90.html'>lapack.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/f77_lapack.html'>f77_lapack</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_gelsy</li>
           </ol>
@@ -92,9 +107,11 @@
     </div>
   </div>
   <script>
-    $(function () {
-    $('[data-bs-toggle="tooltip"]').tooltip()
-    })
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
   </script>
 
   </div>
@@ -172,7 +189,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~87"></span>
+              <span class="anchor" id="variable-m~101"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -187,7 +204,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~255"></span>
+              <span class="anchor" id="variable-n~349"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -202,7 +219,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrhs~37"></span>
+              <span class="anchor" id="variable-nrhs~29"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -217,7 +234,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~197"></span>
+              <span class="anchor" id="variable-a~235"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -232,7 +249,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~187"></span>
+              <span class="anchor" id="variable-lda~211"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -247,7 +264,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~61"></span>
+              <span class="anchor" id="variable-b~75"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -262,7 +279,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ldb~61"></span>
+              <span class="anchor" id="variable-ldb~71"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -292,7 +309,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcond~17"></span>
+              <span class="anchor" id="variable-rcond~13"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -322,7 +339,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~77"></span>
+              <span class="anchor" id="variable-work~51"></span>
               real(kind=REAL32),
             </td>
 <td>intent(out)</td>
@@ -337,7 +354,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~69"></span>
+              <span class="anchor" id="variable-lwork~47"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -352,7 +369,7 @@ SGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~118"></span>
+              <span class="anchor" id="variable-info~71"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -393,7 +410,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~88"></span>
+              <span class="anchor" id="variable-m~102"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -408,7 +425,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~256"></span>
+              <span class="anchor" id="variable-n~350"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -423,7 +440,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrhs~38"></span>
+              <span class="anchor" id="variable-nrhs~30"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -438,7 +455,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~198"></span>
+              <span class="anchor" id="variable-a~236"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -453,7 +470,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~188"></span>
+              <span class="anchor" id="variable-lda~212"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -468,7 +485,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~62"></span>
+              <span class="anchor" id="variable-b~76"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -483,7 +500,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ldb~62"></span>
+              <span class="anchor" id="variable-ldb~72"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -513,7 +530,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcond~18"></span>
+              <span class="anchor" id="variable-rcond~14"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -543,7 +560,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~78"></span>
+              <span class="anchor" id="variable-work~52"></span>
               real(kind=REAL64),
             </td>
 <td>intent(out)</td>
@@ -558,7 +575,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~70"></span>
+              <span class="anchor" id="variable-lwork~48"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -573,7 +590,7 @@ DGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~119"></span>
+              <span class="anchor" id="variable-info~72"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -614,7 +631,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~89"></span>
+              <span class="anchor" id="variable-m~103"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -629,7 +646,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~257"></span>
+              <span class="anchor" id="variable-n~351"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -644,7 +661,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrhs~39"></span>
+              <span class="anchor" id="variable-nrhs~31"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -659,7 +676,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~199"></span>
+              <span class="anchor" id="variable-a~237"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -674,7 +691,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~189"></span>
+              <span class="anchor" id="variable-lda~213"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -689,7 +706,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~63"></span>
+              <span class="anchor" id="variable-b~77"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -704,7 +721,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ldb~63"></span>
+              <span class="anchor" id="variable-ldb~73"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -734,7 +751,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcond~19"></span>
+              <span class="anchor" id="variable-rcond~15"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -764,7 +781,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~79"></span>
+              <span class="anchor" id="variable-work~53"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(out)</td>
@@ -779,7 +796,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~71"></span>
+              <span class="anchor" id="variable-lwork~49"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -794,7 +811,7 @@ CGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~120"></span>
+              <span class="anchor" id="variable-info~73"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -835,7 +852,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~90"></span>
+              <span class="anchor" id="variable-m~104"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -850,7 +867,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~258"></span>
+              <span class="anchor" id="variable-n~352"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -865,7 +882,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-nrhs~40"></span>
+              <span class="anchor" id="variable-nrhs~32"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -880,7 +897,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~200"></span>
+              <span class="anchor" id="variable-a~238"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -895,7 +912,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~190"></span>
+              <span class="anchor" id="variable-lda~214"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -910,7 +927,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~64"></span>
+              <span class="anchor" id="variable-b~78"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -925,7 +942,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ldb~64"></span>
+              <span class="anchor" id="variable-ldb~74"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -955,7 +972,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rcond~20"></span>
+              <span class="anchor" id="variable-rcond~16"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -985,7 +1002,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~80"></span>
+              <span class="anchor" id="variable-work~54"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(out)</td>
@@ -1000,7 +1017,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~72"></span>
+              <span class="anchor" id="variable-lwork~50"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -1015,7 +1032,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~121"></span>
+              <span class="anchor" id="variable-info~74"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -1046,7 +1063,7 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
           <div class="col">
             <p>
               MFI - Modern Fortran Interfaces
- was developed by I. G. Pauli<br>              &copy; 2024 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by I. G. Pauli<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">
@@ -1059,27 +1076,5 @@ ZGELSY solves overdetermined or underdetermined systems for GE matrices</p>
         <br>
       </div> <!-- /container -->
     </footer>
-
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
-
-    <!-- MathJax JavaScript
-             ================================================== -->
-             <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/x-mathjax-config">
-          MathJax.Hub.Config({
-          TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
-          jax: ['input/TeX','input/MathML','output/HTML-CSS'],
-          extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
-          });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-          <script src="../tipuesearch/tipuesearch_content.js"></script>
-          <script src="../tipuesearch/tipuesearch_set.js"></script>
-          <script src="../tipuesearch/tipuesearch.js"></script>
-
   </body>
 </html>
