@@ -1,0 +1,35 @@
+#:def trtrs(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
+!> Solves a triangular linear system with multiple right-hand sides:
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix (stored in `a`), and B is overwritten by the solution X.
+!>
+!> Optional arguments:
+!> - `uplo`: 'U' (upper triangular, default) or 'L' (lower triangular)
+!> - `trans`: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
+!> - `diag`: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
+!> - `info`: if not present and `info ≠ 0`, calls [[mfi_error]].
+!>
+!> The shapes are inferred from `a` (N×N) and `b` (N×NRHS).
+pure subroutine ${MFI_NAME}$(a, b, uplo, trans, diag, info)
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    a(:,:))
+@:args(${type(wp)}$, inout, b(:,:))
+@:optional(character, in, uplo, trans, diag)
+@:optional(integer, out, info)
+    integer :: n, nrhs, lda, ldb
+@:defaults(uplo='U', trans='N', diag='N')
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call ${F77_NAME}$(local_uplo, local_trans, local_diag, n, nrhs, a, lda, b, ldb, local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('${F77_NAME}$', local_info)
+    end if
+end subroutine
+#:enddef

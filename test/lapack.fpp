@@ -13,6 +13,7 @@ program test_mfi_lapack
     call test_gesvd
     call test_potrf
     call test_potri
+    call test_trtrs
 
 contains
 
@@ -28,6 +29,18 @@ contains
     subroutine positive_definite
         call symmetric
         S = matmul(S,S)
+    end subroutine
+
+    subroutine test_trtrs
+        real(REAL64) :: A(3,3), B(3,2)
+        A = reshape([4.0d0, 0.0d0, 0.0d0, &
+                    2.0d0, 3.0d0, 0.0d0, &
+                    1.0d0, 2.0d0, 5.0d0], [3,3])
+        B = reshape([22.0d0, 13.0d0, 13.0d0, &
+                    8.0d0, 7.0d0, 10.0d0], [3,2])
+        call mfi_trtrs(A, B)
+        ! Expected solution X = [[1,2],[2,1],[1,0]]
+        call assert(all(abs(B - reshape([1.0d0,2.0d0,1.0d0,2.0d0,1.0d0,0.0d0],[3,2])) < 1e-12))
     end subroutine
 
     subroutine test_gesvd
