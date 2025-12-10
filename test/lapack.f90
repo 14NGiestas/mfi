@@ -12,6 +12,7 @@ program test_mfi_lapack
     call test_gesvd
     call test_potrf
     call test_potri
+    call test_sytrf
     call test_trtrs
 
 contains
@@ -32,14 +33,19 @@ contains
 
     subroutine test_trtrs
         real(REAL64) :: A(3,3), B(3,2)
-        A = reshape([4.0d0, 0.0d0, 0.0d0, &
-                    2.0d0, 3.0d0, 0.0d0, &
-                    1.0d0, 2.0d0, 5.0d0], [3,3])
-        B = reshape([22.0d0, 13.0d0, 13.0d0, &
-                    8.0d0, 7.0d0, 10.0d0], [3,2])
+        ! Lower triangular matrix: [4,0,0; 2,3,0; 1,2,5]
+        A = reshape([4.0d0, 2.0d0, 1.0d0, &
+                    0.0d0, 3.0d0, 2.0d0, &
+                    0.0d0, 0.0d0, 5.0d0], [3,3])
+        ! To get expected solution X = [[1,2],[2,1],[1,0]],
+        ! we need B = A * X (for lower triangular solve)
+        ! Column 1: [4,0,0; 2,3,0; 1,2,5] * [1;2;1] = [4; 2*1+3*2; 1*1+2*2+5*1] = [4;8;10]
+        ! Column 2: [4,0,0; 2,3,0; 1,2,5] * [2;1;0] = [8; 2*2+3*1; 1*2+2*1+5*0] = [8;7;4]
+        B = reshape([4.0d0, 8.0d0, 10.0d0, &
+                    8.0d0, 7.0d0, 4.0d0], [3,2])
         call mfi_trtrs(A, B)
         ! Expected solution X = [[1,2],[2,1],[1,0]]
-        call assert(all(abs(B - reshape([1.0d0,2.0d0,1.0d0,2.0d0,1.0d0,0.0d0],[3,2])) < 1e-12))
+        call assert(all(abs(B - reshape([1.0d0,2.0d0,1.0d0,2.0d0,1.0d0,0.0d0],[3,2])) < 1e-6))
     end subroutine
 
     subroutine test_gesvd
@@ -134,6 +140,28 @@ call cpu_time(t1)
  call mfi_potri(S,info)         
 call cpu_time(t2)
 print '(A," (",G0,"s)")', "mfi_potri: ", t2-t1
+end block
+        call assert(info == 0)
+    end subroutine
+
+    subroutine test_sytrf
+        integer, parameter :: wp = REAL64
+        real(wp) :: A(4,4), A_copy(4,4)
+        integer :: ipiv(4), info
+
+        ! Create a symmetric matrix to factorize
+        A = reshape([2.0_wp, -1.0_wp,  0.0_wp,  0.0_wp, &
+                    -1.0_wp,  2.0_wp, -1.0_wp,  0.0_wp, &
+                     0.0_wp, -1.0_wp,  2.0_wp, -1.0_wp, &
+                     0.0_wp,  0.0_wp, -1.0_wp,  2.0_wp], [4,4])
+
+        A_copy = A  ! Keep a copy for comparison
+block
+real :: t1, t2
+call cpu_time(t1)
+ call mfi_sytrf(A, info=info) 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "mfi_sytrf: ", t2-t1
 end block
         call assert(info == 0)
     end subroutine

@@ -2570,6 +2570,49 @@ pure subroutine ztrtrs(uplo, trans, diag, n, nrhs, a, lda, b, ldb, info)
     integer, intent(out) :: info
 end subroutine
 end interface
+!> Generic old style interface for SYTRF.
+!> Supports s, d.
+!> See also: [[mfi_sytrf]], [[ssytrf]], [[dsytrf]].
+interface f77_sytrf
+!> Original interface for SSYTRF
+!> See also: [[mfi_sytrf]], [[f77_sytrf]].
+!> SSYTRF computes the factorization of a real symmetric matrix A
+!> using the Bunch-Kaufman diagonal pivoting method. The form of the
+!> factorization is A = U*D*U**T or A = L*D*L**T, where U (or L) is a
+!> product of permutation and unit upper (lower) triangular matrices,
+!> and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+pure subroutine ssytrf(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(out) :: ipiv(*)
+    real(REAL32), intent(inout) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for DSYTRF
+!> See also: [[mfi_sytrf]], [[f77_sytrf]].
+!> DSYTRF computes the factorization of a real symmetric matrix A
+!> using the Bunch-Kaufman diagonal pivoting method. The form of the
+!> factorization is A = U*D*U**T or A = L*D*L**T, where U (or L) is a
+!> product of permutation and unit upper (lower) triangular matrices,
+!> and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+pure subroutine dsytrf(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(out) :: ipiv(*)
+    real(REAL64), intent(inout) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+end interface
 
     interface f77_xerbla
         pure subroutine xerbla(name,info)
