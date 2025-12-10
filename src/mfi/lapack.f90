@@ -129,6 +129,16 @@ interface mfi_pocon
     module procedure :: mfi_cpocon
     module procedure :: mfi_zpocon
 end interface
+!> Generic modern interface for TRTRS.
+!> Supports s, d, c, z.
+!> See also:
+!> [[f77_trtrs:strtrs]], [[f77_trtrs:dtrtrs]], [[f77_trtrs:ctrtrs]], [[f77_trtrs:ztrtrs]].
+interface mfi_trtrs
+    module procedure :: mfi_strtrs
+    module procedure :: mfi_dtrtrs
+    module procedure :: mfi_ctrtrs
+    module procedure :: mfi_ztrtrs
+end interface
 
 contains
 
@@ -2034,6 +2044,222 @@ pure subroutine mfi_zpocon(a, anorm, rcond, uplo, info)
         info = local_info
     else if (local_info <= -1000) then
         call mfi_error('zpocon',-local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_trtrs:strtrs]].
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> Solves a triangular linear system with multiple right-hand sides:
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix (stored in `a`), and B is overwritten by the solution X.
+!>
+!> Optional arguments:
+!> - `uplo`: 'U' (upper triangular, default) or 'L' (lower triangular)
+!> - `trans`: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
+!> - `diag`: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
+!> - `info`: if not present and `info /= 0`, calls [[mfi_error]].
+!>
+!> The shapes are inferred from `a` (N-by-N) and `b` (N-by-NRHS).
+pure subroutine mfi_strtrs(a, b, uplo, trans, diag, info)
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(in) :: a(:,:)
+    real(REAL32), intent(inout) :: b(:,:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    character, intent(in), optional :: trans
+    character :: local_trans
+    character, intent(in), optional :: diag
+    character :: local_diag
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    if (present(diag)) then
+        local_diag = diag
+    else
+        local_diag = 'N'
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call strtrs(local_uplo, local_trans, local_diag, n, nrhs, a, lda, b, ldb, local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('strtrs', local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_trtrs:dtrtrs]].
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> Solves a triangular linear system with multiple right-hand sides:
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix (stored in `a`), and B is overwritten by the solution X.
+!>
+!> Optional arguments:
+!> - `uplo`: 'U' (upper triangular, default) or 'L' (lower triangular)
+!> - `trans`: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
+!> - `diag`: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
+!> - `info`: if not present and `info /= 0`, calls [[mfi_error]].
+!>
+!> The shapes are inferred from `a` (N-by-N) and `b` (N-by-NRHS).
+pure subroutine mfi_dtrtrs(a, b, uplo, trans, diag, info)
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(in) :: a(:,:)
+    real(REAL64), intent(inout) :: b(:,:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    character, intent(in), optional :: trans
+    character :: local_trans
+    character, intent(in), optional :: diag
+    character :: local_diag
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    if (present(diag)) then
+        local_diag = diag
+    else
+        local_diag = 'N'
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call dtrtrs(local_uplo, local_trans, local_diag, n, nrhs, a, lda, b, ldb, local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('dtrtrs', local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_trtrs:ctrtrs]].
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> Solves a triangular linear system with multiple right-hand sides:
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix (stored in `a`), and B is overwritten by the solution X.
+!>
+!> Optional arguments:
+!> - `uplo`: 'U' (upper triangular, default) or 'L' (lower triangular)
+!> - `trans`: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
+!> - `diag`: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
+!> - `info`: if not present and `info /= 0`, calls [[mfi_error]].
+!>
+!> The shapes are inferred from `a` (N-by-N) and `b` (N-by-NRHS).
+pure subroutine mfi_ctrtrs(a, b, uplo, trans, diag, info)
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(in) :: a(:,:)
+    complex(REAL32), intent(inout) :: b(:,:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    character, intent(in), optional :: trans
+    character :: local_trans
+    character, intent(in), optional :: diag
+    character :: local_diag
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    if (present(diag)) then
+        local_diag = diag
+    else
+        local_diag = 'N'
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call ctrtrs(local_uplo, local_trans, local_diag, n, nrhs, a, lda, b, ldb, local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('ctrtrs', local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_trtrs:ztrtrs]].
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> Solves a triangular linear system with multiple right-hand sides:
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix (stored in `a`), and B is overwritten by the solution X.
+!>
+!> Optional arguments:
+!> - `uplo`: 'U' (upper triangular, default) or 'L' (lower triangular)
+!> - `trans`: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
+!> - `diag`: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
+!> - `info`: if not present and `info /= 0`, calls [[mfi_error]].
+!>
+!> The shapes are inferred from `a` (N-by-N) and `b` (N-by-NRHS).
+pure subroutine mfi_ztrtrs(a, b, uplo, trans, diag, info)
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(in) :: a(:,:)
+    complex(REAL64), intent(inout) :: b(:,:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    character, intent(in), optional :: trans
+    character :: local_trans
+    character, intent(in), optional :: diag
+    character :: local_diag
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    if (present(diag)) then
+        local_diag = diag
+    else
+        local_diag = 'N'
+    end if
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    call ztrtrs(local_uplo, local_trans, local_diag, n, nrhs, a, lda, b, ldb, local_info)
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('ztrtrs', local_info)
     end if
 end subroutine
 

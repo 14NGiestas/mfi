@@ -2465,6 +2465,111 @@ pure subroutine zlartg(f, g, c, s, r)
     complex(REAL64), intent(inout) :: s
 end subroutine
 end interface
+!> Generic old style interface for TRTRS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_trtrs]], [[strtrs]], [[dtrtrs]], [[ctrtrs]], [[ztrtrs]].
+interface f77_trtrs
+!> Original interface for STRTRS
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> STRTRS solves a triangular system of the form
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix of order N, and B is an N-by-NRHS matrix.
+!> The transpose or conjugate-transpose is selected via `trans`.
+!>
+!> A is assumed to be either upper or lower triangular as specified by `uplo`,
+!> and may be unit or non-unit diagonal as specified by `diag`.
+pure subroutine strtrs(uplo, trans, diag, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(in) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    character, intent(in) :: uplo
+    character, intent(in) :: trans
+    character, intent(in) :: diag
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DTRTRS
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> DTRTRS solves a triangular system of the form
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix of order N, and B is an N-by-NRHS matrix.
+!> The transpose or conjugate-transpose is selected via `trans`.
+!>
+!> A is assumed to be either upper or lower triangular as specified by `uplo`,
+!> and may be unit or non-unit diagonal as specified by `diag`.
+pure subroutine dtrtrs(uplo, trans, diag, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(in) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    character, intent(in) :: uplo
+    character, intent(in) :: trans
+    character, intent(in) :: diag
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for CTRTRS
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> CTRTRS solves a triangular system of the form
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix of order N, and B is an N-by-NRHS matrix.
+!> The transpose or conjugate-transpose is selected via `trans`.
+!>
+!> A is assumed to be either upper or lower triangular as specified by `uplo`,
+!> and may be unit or non-unit diagonal as specified by `diag`.
+pure subroutine ctrtrs(uplo, trans, diag, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(in) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    character, intent(in) :: uplo
+    character, intent(in) :: trans
+    character, intent(in) :: diag
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZTRTRS
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> ZTRTRS solves a triangular system of the form
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix of order N, and B is an N-by-NRHS matrix.
+!> The transpose or conjugate-transpose is selected via `trans`.
+!>
+!> A is assumed to be either upper or lower triangular as specified by `uplo`,
+!> and may be unit or non-unit diagonal as specified by `diag`.
+pure subroutine ztrtrs(uplo, trans, diag, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(in) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    character, intent(in) :: uplo
+    character, intent(in) :: trans
+    character, intent(in) :: diag
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+end interface
 
     interface f77_xerbla
         pure subroutine xerbla(name,info)
