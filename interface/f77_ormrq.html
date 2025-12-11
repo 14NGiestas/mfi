@@ -98,7 +98,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90.html'>lapack.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90~2.html'>lapack.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/f77_lapack.html'>f77_lapack</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_ormrq</li>
           </ol>
@@ -162,7 +162,7 @@
       <h2>public interface f77_ormrq</h2>
       <p>Generic old style interface for ORMRQ.
 Supports s, d.
-See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">sormrq</a>, <a href="../interface/f77_ormrq.html#proc-dormrq">dormrq</a>.</p>
+See also: <a href="../interface/mfi_ormrq.html">mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">sormrq</a>, <a href="../interface/f77_ormrq.html#proc-dormrq">dormrq</a>.</p>
 <br>
 
         <h2>Subroutines</h2>
@@ -171,7 +171,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
 </h3></div>
     <div class="card-body">
         <p>Original interface for SORMRQ
- See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html">f77_ormrq</a>.
+ See also: <a href="../interface/mfi_ormrq.html">mfi_ormrq</a>, <a href="../interface/f77_ormrq.html">f77_ormrq</a>.
  This routine overwrites the general complex <script type="math/tex">M \times N</script> matrix <script type="math/tex"> C </script> with</p>
 <div class="codehilite"><pre><span></span><code><span class="w">                 </span><span class="n">SIDE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;L&#39;</span><span class="w">     </span><span class="n">SIDE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;R&#39;</span>
 <span class="w"> </span><span class="n">TRANS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;N&#39;</span><span class="p">:</span><span class="w">      </span><span class="n">Q</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">C</span><span class="w">          </span><span class="n">C</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Q</span>
@@ -199,7 +199,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-side~7"></span>
+              <span class="anchor" id="variable-side~15"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -214,7 +214,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~23"></span>
+              <span class="anchor" id="variable-trans~39"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -229,7 +229,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~63"></span>
+              <span class="anchor" id="variable-m~95"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -244,7 +244,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~93"></span>
+              <span class="anchor" id="variable-n~161"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -259,7 +259,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~11"></span>
+              <span class="anchor" id="variable-k~27"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -274,7 +274,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~93"></span>
+              <span class="anchor" id="variable-a~161"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -289,7 +289,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~93"></span>
+              <span class="anchor" id="variable-lda~161"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -304,7 +304,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~19"></span>
+              <span class="anchor" id="variable-tau~43"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -319,7 +319,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~11"></span>
+              <span class="anchor" id="variable-c~19"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -334,7 +334,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ldc~7"></span>
+              <span class="anchor" id="variable-ldc~15"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -349,7 +349,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~73"></span>
+              <span class="anchor" id="variable-work~117"></span>
               real(kind=REAL32),
             </td>
 <td>intent(out)</td>
@@ -364,7 +364,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~61"></span>
+              <span class="anchor" id="variable-lwork~101"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -379,7 +379,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~93"></span>
+              <span class="anchor" id="variable-info~162"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -404,7 +404,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
 </h3></div>
     <div class="card-body">
         <p>Original interface for DORMRQ
- See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html">f77_ormrq</a>.
+ See also: <a href="../interface/mfi_ormrq.html">mfi_ormrq</a>, <a href="../interface/f77_ormrq.html">f77_ormrq</a>.
  This routine overwrites the general complex <script type="math/tex">M \times N</script> matrix <script type="math/tex"> C </script> with</p>
 <div class="codehilite"><pre><span></span><code><span class="w">                 </span><span class="n">SIDE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;L&#39;</span><span class="w">     </span><span class="n">SIDE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;R&#39;</span>
 <span class="w"> </span><span class="n">TRANS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;N&#39;</span><span class="p">:</span><span class="w">      </span><span class="n">Q</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">C</span><span class="w">          </span><span class="n">C</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Q</span>
@@ -432,7 +432,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-side~8"></span>
+              <span class="anchor" id="variable-side~16"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -447,7 +447,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~24"></span>
+              <span class="anchor" id="variable-trans~40"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -462,7 +462,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~64"></span>
+              <span class="anchor" id="variable-m~96"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -477,7 +477,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~94"></span>
+              <span class="anchor" id="variable-n~162"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -492,7 +492,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-k~12"></span>
+              <span class="anchor" id="variable-k~28"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -507,7 +507,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~94"></span>
+              <span class="anchor" id="variable-a~162"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -522,7 +522,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~94"></span>
+              <span class="anchor" id="variable-lda~162"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -537,7 +537,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~20"></span>
+              <span class="anchor" id="variable-tau~44"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -552,7 +552,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~12"></span>
+              <span class="anchor" id="variable-c~20"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -567,7 +567,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ldc~8"></span>
+              <span class="anchor" id="variable-ldc~16"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -582,7 +582,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~74"></span>
+              <span class="anchor" id="variable-work~118"></span>
               real(kind=REAL64),
             </td>
 <td>intent(out)</td>
@@ -597,7 +597,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~62"></span>
+              <span class="anchor" id="variable-lwork~102"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -612,7 +612,7 @@ See also: <a>mfi_ormrq</a>, <a href="../interface/f77_ormrq.html#proc-sormrq">so
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~94"></span>
+              <span class="anchor" id="variable-info~163"></span>
               integer,
             </td>
 <td>intent(out)</td>

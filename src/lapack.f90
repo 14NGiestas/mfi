@@ -1,2754 +1,2625 @@
-!> Modern fortran interfaces for LAPACK
-module mfi_lapack
+!> Improved and original F77 interfaces for LAPACK
+module f77_lapack
 use iso_fortran_env
-use f77_lapack
-use f77_lapack, only: mfi_lartg => f77_lartg
 implicit none
 
-!> Generic modern interface for GEQRF.
+!> Generic old style interface for GEQRF.
 !> Supports s, d, c, z.
-!> See also:
-!> [[f77_geqrf:sgeqrf]], [[f77_geqrf:dgeqrf]], [[f77_geqrf:cgeqrf]], [[f77_geqrf:zgeqrf]].
-interface mfi_geqrf
-    module procedure :: mfi_sgeqrf
-    module procedure :: mfi_dgeqrf
-    module procedure :: mfi_cgeqrf
-    module procedure :: mfi_zgeqrf
+!> See also: [[mfi_geqrf]], [[sgeqrf]], [[dgeqrf]], [[cgeqrf]], [[zgeqrf]].
+interface f77_geqrf
+!> Original interface for SGEQRF
+!> See also: [[mfi_geqrf]], [[f77_geqrf]].
+pure subroutine sgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(REAL32), intent(inout) :: work(*)
+end subroutine
+!> Original interface for DGEQRF
+!> See also: [[mfi_geqrf]], [[f77_geqrf]].
+pure subroutine dgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(REAL64), intent(inout) :: work(*)
+end subroutine
+!> Original interface for CGEQRF
+!> See also: [[mfi_geqrf]], [[f77_geqrf]].
+pure subroutine cgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(REAL32), intent(inout) :: work(*)
+end subroutine
+!> Original interface for ZGEQRF
+!> See also: [[mfi_geqrf]], [[f77_geqrf]].
+pure subroutine zgeqrf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(REAL64), intent(inout) :: work(*)
+end subroutine
 end interface
-!> Generic modern interface for GERQF.
+!> Generic old style interface for GERQF.
 !> Supports s, d, c, z.
-!> See also:
-!> [[f77_gerqf:sgerqf]], [[f77_gerqf:dgerqf]], [[f77_gerqf:cgerqf]], [[f77_gerqf:zgerqf]].
-interface mfi_gerqf
-    module procedure :: mfi_sgerqf
-    module procedure :: mfi_dgerqf
-    module procedure :: mfi_cgerqf
-    module procedure :: mfi_zgerqf
+!> See also: [[mfi_gerqf]], [[sgerqf]], [[dgerqf]], [[cgerqf]], [[zgerqf]].
+interface f77_gerqf
+!> Original interface for SGERQF
+!> See also: [[mfi_gerqf]], [[f77_gerqf]].
+pure subroutine sgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(REAL32), intent(inout) :: work(*)
+end subroutine
+!> Original interface for DGERQF
+!> See also: [[mfi_gerqf]], [[f77_gerqf]].
+pure subroutine dgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    real(REAL64), intent(inout) :: work(*)
+end subroutine
+!> Original interface for CGERQF
+!> See also: [[mfi_gerqf]], [[f77_gerqf]].
+pure subroutine cgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(REAL32), intent(inout) :: work(*)
+end subroutine
+!> Original interface for ZGERQF
+!> See also: [[mfi_gerqf]], [[f77_gerqf]].
+pure subroutine zgerqf(m,n,a,lda,tau,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(out) :: tau(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    complex(REAL64), intent(inout) :: work(*)
+end subroutine
 end interface
-!> Generic modern interface for GETRF.
+!> Generic old style interface for GETRF.
 !> Supports s, d, c, z.
-!> See also:
-!> [[f77_getrf:sgetrf]], [[f77_getrf:dgetrf]], [[f77_getrf:cgetrf]], [[f77_getrf:zgetrf]].
-interface mfi_getrf
-    module procedure :: mfi_sgetrf
-    module procedure :: mfi_dgetrf
-    module procedure :: mfi_cgetrf
-    module procedure :: mfi_zgetrf
+!> See also: [[mfi_getrf]], [[sgetrf]], [[dgetrf]], [[cgetrf]], [[zgetrf]].
+interface f77_getrf
+!> Original interface for SGETRF
+!> See also: [[mfi_getrf]], [[f77_getrf]].
+pure subroutine sgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
+!> Original interface for DGETRF
+!> See also: [[mfi_getrf]], [[f77_getrf]].
+pure subroutine dgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
+!> Original interface for CGETRF
+!> See also: [[mfi_getrf]], [[f77_getrf]].
+pure subroutine cgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
+!> Original interface for ZGETRF
+!> See also: [[mfi_getrf]], [[f77_getrf]].
+pure subroutine zgetrf(m,n,a,lda,ipiv,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+end subroutine
 end interface
-!> Generic modern interface for GETRI.
+!> Generic old style interface for GETRI.
 !> Supports s, d, c, z.
-!> See also:
-!> [[f77_getri:sgetri]], [[f77_getri:dgetri]], [[f77_getri:cgetri]], [[f77_getri:zgetri]].
-interface mfi_getri
-    module procedure :: mfi_sgetri
-    module procedure :: mfi_dgetri
-    module procedure :: mfi_cgetri
-    module procedure :: mfi_zgetri
+!> See also: [[mfi_getri]], [[sgetri]], [[dgetri]], [[cgetri]], [[zgetri]].
+interface f77_getri
+!> Original interface for SGETRI
+!> See also: [[mfi_getri]], [[f77_getri]].
+pure subroutine sgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for DGETRI
+!> See also: [[mfi_getri]], [[f77_getri]].
+pure subroutine dgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for CGETRI
+!> See also: [[mfi_getri]], [[f77_getri]].
+pure subroutine cgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for ZGETRI
+!> See also: [[mfi_getri]], [[f77_getri]].
+pure subroutine zgetri(n,a,lda,ipiv,work,lwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: work(*)
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+end subroutine
 end interface
-!> Generic modern interface for GETRS.
+!> Generic old style interface for GETRS.
 !> Supports s, d, c, z.
-!> See also:
-!> [[f77_getrs:sgetrs]], [[f77_getrs:dgetrs]], [[f77_getrs:cgetrs]], [[f77_getrs:zgetrs]].
-interface mfi_getrs
-    module procedure :: mfi_sgetrs
-    module procedure :: mfi_dgetrs
-    module procedure :: mfi_cgetrs
-    module procedure :: mfi_zgetrs
+!> See also: [[mfi_getrs]], [[sgetrs]], [[dgetrs]], [[cgetrs]], [[zgetrs]].
+interface f77_getrs
+!> Original interface for SGETRS
+!> See also: [[mfi_getrs]], [[f77_getrs]].
+pure subroutine sgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+end subroutine
+!> Original interface for DGETRS
+!> See also: [[mfi_getrs]], [[f77_getrs]].
+pure subroutine dgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+end subroutine
+!> Original interface for CGETRS
+!> See also: [[mfi_getrs]], [[f77_getrs]].
+pure subroutine cgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+end subroutine
+!> Original interface for ZGETRS
+!> See also: [[mfi_getrs]], [[f77_getrs]].
+pure subroutine zgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    character, intent(in) :: trans
+    integer, intent(in) :: ipiv(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+end subroutine
 end interface
-!> Generic modern interface for HETRF.
+!> Generic old style interface for HETRF.
 !> Supports c, z.
-!> See also:
-!> [[f77_hetrf:chetrf]], [[f77_hetrf:zhetrf]].
-interface mfi_hetrf
-    module procedure :: mfi_chetrf
-    module procedure :: mfi_zhetrf
-end interface
-!> Generic modern interface for HEGV.
-!> Supports c, z.
-!> See also:
-!> [[f77_hegv:chegv]], [[f77_hegv:zhegv]].
-interface mfi_hegv
-    module procedure :: mfi_chegv
-    module procedure :: mfi_zhegv
-end interface
-!> Generic modern interface for HEEVD.
-!> Supports c, z.
-!> See also:
-!> [[f77_heevd:cheevd]], [[f77_heevd:zheevd]].
-interface mfi_heevd
-    module procedure :: mfi_cheevd
-    module procedure :: mfi_zheevd
-end interface
-!> Generic modern interface for GESVD.
-!> Supports s, d, c, z.
-!> See also:
-!> [[f77_gesvd:sgesvd]], [[f77_gesvd:dgesvd]], [[f77_gesvd:cgesvd]], [[f77_gesvd:zgesvd]].
-interface mfi_gesvd
-    module procedure :: mfi_sgesvd
-    module procedure :: mfi_dgesvd
-    module procedure :: mfi_cgesvd
-    module procedure :: mfi_zgesvd
-end interface
-!> Generic modern interface for ORGQR.
-!> Supports s, d.
-!> See also:
-!> [[f77_orgqr:sorgqr]], [[f77_orgqr:dorgqr]].
-interface mfi_orgqr
-    module procedure :: mfi_sorgqr
-    module procedure :: mfi_dorgqr
-end interface
-!> Generic modern interface for ORMQR.
-!> Supports s, d.
-!> See also:
-!> [[f77_ormqr:sormqr]], [[f77_ormqr:dormqr]].
-interface mfi_ormqr
-    module procedure :: mfi_sormqr
-    module procedure :: mfi_dormqr
-end interface
-!> Generic modern interface for POTRF.
-!> Supports s, d, c, z.
-!> See also:
-!> [[f77_potrf:spotrf]], [[f77_potrf:dpotrf]], [[f77_potrf:cpotrf]], [[f77_potrf:zpotrf]].
-interface mfi_potrf
-    module procedure :: mfi_spotrf
-    module procedure :: mfi_dpotrf
-    module procedure :: mfi_cpotrf
-    module procedure :: mfi_zpotrf
-end interface
-!> Generic modern interface for POTRI.
-!> Supports s, d, c, z.
-!> See also:
-!> [[f77_potri:spotri]], [[f77_potri:dpotri]], [[f77_potri:cpotri]], [[f77_potri:zpotri]].
-interface mfi_potri
-    module procedure :: mfi_spotri
-    module procedure :: mfi_dpotri
-    module procedure :: mfi_cpotri
-    module procedure :: mfi_zpotri
-end interface
-!> Generic modern interface for POTRS.
-!> Supports s, d, c, z.
-!> See also:
-!> [[f77_potrs:spotrs]], [[f77_potrs:dpotrs]], [[f77_potrs:cpotrs]], [[f77_potrs:zpotrs]].
-interface mfi_potrs
-    module procedure :: mfi_spotrs
-    module procedure :: mfi_dpotrs
-    module procedure :: mfi_cpotrs
-    module procedure :: mfi_zpotrs
-end interface
-!> Generic modern interface for POCON.
-!> Supports s, d, c, z.
-!> See also:
-!> [[f77_pocon:spocon]], [[f77_pocon:dpocon]], [[f77_pocon:cpocon]], [[f77_pocon:zpocon]].
-interface mfi_pocon
-    module procedure :: mfi_spocon
-    module procedure :: mfi_dpocon
-    module procedure :: mfi_cpocon
-    module procedure :: mfi_zpocon
-end interface
-!> Generic modern interface for TRTRS.
-!> Supports s, d, c, z.
-!> See also:
-!> [[f77_trtrs:strtrs]], [[f77_trtrs:dtrtrs]], [[f77_trtrs:ctrtrs]], [[f77_trtrs:ztrtrs]].
-interface mfi_trtrs
-    module procedure :: mfi_strtrs
-    module procedure :: mfi_dtrtrs
-    module procedure :: mfi_ctrtrs
-    module procedure :: mfi_ztrtrs
-end interface
-!> Generic modern interface for SYTRF.
-!> Supports s, d.
-!> See also:
-!> [[f77_sytrf:ssytrf]], [[f77_sytrf:dsytrf]].
-interface mfi_sytrf
-    module procedure :: mfi_ssytrf
-    module procedure :: mfi_dsytrf
-end interface
-
-contains
-
-!> Modern interface for [[f77_geqrf:sgeqrf]].
-!> See also: [[mfi_geqrf]], [[f77_geqrf]].
-pure subroutine mfi_sgeqrf(a, tau, info)
-    integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
-    real(REAL32), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(REAL32), pointer :: local_tau(:), work(:)
-    real(REAL32), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call sgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call sgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgeqrf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_geqrf:dgeqrf]].
-!> See also: [[mfi_geqrf]], [[f77_geqrf]].
-pure subroutine mfi_dgeqrf(a, tau, info)
-    integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
-    real(REAL64), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(REAL64), pointer :: local_tau(:), work(:)
-    real(REAL64), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call dgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call dgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgeqrf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_geqrf:cgeqrf]].
-!> See also: [[mfi_geqrf]], [[f77_geqrf]].
-pure subroutine mfi_cgeqrf(a, tau, info)
-    integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    complex(REAL32), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(REAL32), pointer :: local_tau(:), work(:)
-    complex(REAL32), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call cgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call cgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgeqrf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_geqrf:zgeqrf]].
-!> See also: [[mfi_geqrf]], [[f77_geqrf]].
-pure subroutine mfi_zgeqrf(a, tau, info)
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    complex(REAL64), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(REAL64), pointer :: local_tau(:), work(:)
-    complex(REAL64), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call zgeqrf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call zgeqrf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgeqrf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_gerqf:sgerqf]].
-!> See also: [[mfi_gerqf]], [[f77_gerqf]].
-pure subroutine mfi_sgerqf(a, tau, info)
-    integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
-    real(REAL32), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(REAL32), pointer :: local_tau(:), work(:)
-    real(REAL32), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call sgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call sgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgerqf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_gerqf:dgerqf]].
-!> See also: [[mfi_gerqf]], [[f77_gerqf]].
-pure subroutine mfi_dgerqf(a, tau, info)
-    integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
-    real(REAL64), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(REAL64), pointer :: local_tau(:), work(:)
-    real(REAL64), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call dgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call dgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgerqf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_gerqf:cgerqf]].
-!> See also: [[mfi_gerqf]], [[f77_gerqf]].
-pure subroutine mfi_cgerqf(a, tau, info)
-    integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    complex(REAL32), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(REAL32), pointer :: local_tau(:), work(:)
-    complex(REAL32), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call cgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call cgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgerqf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_gerqf:zgerqf]].
-!> See also: [[mfi_gerqf]], [[f77_gerqf]].
-pure subroutine mfi_zgerqf(a, tau, info)
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    complex(REAL64), intent(out), optional, target :: tau(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(REAL64), pointer :: local_tau(:), work(:)
-    complex(REAL64), target  :: s_work(1)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(tau)) then
-        local_tau => tau
-    else
-        allocate(local_tau(min(m,n)), stat=allocation_status)
-    end if
-    ! Retrieve work array size
-    lwork = -1
-    call zgerqf(m,n,a,lda,local_tau,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call zgerqf(m,n,a,lda,local_tau,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(tau)) then
-        deallocate(local_tau, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgerqf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getrf:sgetrf]].
-!> See also: [[mfi_getrf]], [[f77_getrf]].
-pure subroutine mfi_sgetrf(a, ipiv, info)
-    integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(min(m,n)), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call sgetrf(m,n,a,lda,local_ipiv,local_info)
-    else
-        local_info = -1000
-    end if
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgetrf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getrf:dgetrf]].
-!> See also: [[mfi_getrf]], [[f77_getrf]].
-pure subroutine mfi_dgetrf(a, ipiv, info)
-    integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(min(m,n)), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call dgetrf(m,n,a,lda,local_ipiv,local_info)
-    else
-        local_info = -1000
-    end if
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgetrf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getrf:cgetrf]].
-!> See also: [[mfi_getrf]], [[f77_getrf]].
-pure subroutine mfi_cgetrf(a, ipiv, info)
-    integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(min(m,n)), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call cgetrf(m,n,a,lda,local_ipiv,local_info)
-    else
-        local_info = -1000
-    end if
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgetrf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getrf:zgetrf]].
-!> See also: [[mfi_getrf]], [[f77_getrf]].
-pure subroutine mfi_zgetrf(a, ipiv, info)
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    allocation_status = 0
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(min(m,n)), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call zgetrf(m,n,a,lda,local_ipiv,local_info)
-    else
-        local_info = -1000
-    end if
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgetrf', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getri:sgetri]].
-!> See also: [[mfi_getri]], [[f77_getri]].
-pure subroutine mfi_sgetri(a, ipiv, info)
-    integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
-    integer, intent(in) :: ipiv(:)
-    real(REAL32), pointer :: work(:)
-    real(REAL32) :: s_work(1)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    lwork = -1
-    call sgetri(n,a,lda,ipiv,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call sgetri(n,a,lda,ipiv,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgetri',-local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getri:dgetri]].
-!> See also: [[mfi_getri]], [[f77_getri]].
-pure subroutine mfi_dgetri(a, ipiv, info)
-    integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
-    integer, intent(in) :: ipiv(:)
-    real(REAL64), pointer :: work(:)
-    real(REAL64) :: s_work(1)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    lwork = -1
-    call dgetri(n,a,lda,ipiv,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call dgetri(n,a,lda,ipiv,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgetri',-local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getri:cgetri]].
-!> See also: [[mfi_getri]], [[f77_getri]].
-pure subroutine mfi_cgetri(a, ipiv, info)
-    integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    integer, intent(in) :: ipiv(:)
-    complex(REAL32), pointer :: work(:)
-    complex(REAL32) :: s_work(1)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    lwork = -1
-    call cgetri(n,a,lda,ipiv,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call cgetri(n,a,lda,ipiv,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgetri',-local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getri:zgetri]].
-!> See also: [[mfi_getri]], [[f77_getri]].
-pure subroutine mfi_zgetri(a, ipiv, info)
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    integer, intent(in) :: ipiv(:)
-    complex(REAL64), pointer :: work(:)
-    complex(REAL64) :: s_work(1)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    lwork = -1
-    call zgetri(n,a,lda,ipiv,s_work,lwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call zgetri(n,a,lda,ipiv,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgetri',-local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getrs:sgetrs]].
-!> See also: [[mfi_getrs]], [[f77_getrs]].
-pure subroutine mfi_sgetrs(a,ipiv,b,trans,info)
-    integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
-    real(REAL32), intent(inout) :: b(:,:)
-    integer, intent(in) :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: trans
-    character :: local_trans
-    integer :: n, nrhs, lda, ldb
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call sgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgetrs',-local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getrs:dgetrs]].
-!> See also: [[mfi_getrs]], [[f77_getrs]].
-pure subroutine mfi_dgetrs(a,ipiv,b,trans,info)
-    integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
-    real(REAL64), intent(inout) :: b(:,:)
-    integer, intent(in) :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: trans
-    character :: local_trans
-    integer :: n, nrhs, lda, ldb
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call dgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgetrs',-local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getrs:cgetrs]].
-!> See also: [[mfi_getrs]], [[f77_getrs]].
-pure subroutine mfi_cgetrs(a,ipiv,b,trans,info)
-    integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    complex(REAL32), intent(inout) :: b(:,:)
-    integer, intent(in) :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: trans
-    character :: local_trans
-    integer :: n, nrhs, lda, ldb
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call cgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgetrs',-local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_getrs:zgetrs]].
-!> See also: [[mfi_getrs]], [[f77_getrs]].
-pure subroutine mfi_zgetrs(a,ipiv,b,trans,info)
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    complex(REAL64), intent(inout) :: b(:,:)
-    integer, intent(in) :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: trans
-    character :: local_trans
-    integer :: n, nrhs, lda, ldb
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call zgetrs(local_trans,n,nrhs,a,lda,ipiv,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgetrs',-local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_hetrf:chetrf]].
+!> See also: [[mfi_hetrf]], [[chetrf]], [[zhetrf]].
+interface f77_hetrf
+!> Original interface for CHETRF
 !> See also: [[mfi_hetrf]], [[f77_hetrf]].
-!> Computes the factorization of a Hermitian matrix using the Bunch-Kaufman diagonal pivoting method
-!>
-!> The factorization has the form:
-!> - A = U*D*U**H (if uplo='U') or
-!> - A = L*D*L**H (if uplo='L')
-!>
-!> where U (or L) is a product of permutation and unit upper (lower) triangular matrices,
-!> and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
-!>
-!> Parameters:
-!> - `a` (inout): On entry, the Hermitian matrix A. On exit, the block diagonal matrix D
-!>                and the multipliers used to obtain the factor U or L.
-!> - `uplo` (in, optional): Specifies whether the upper ('U') or lower ('L') triangular part
-!>                of the Hermitian matrix A is stored. Default: 'U'
-!> - `ipiv` (out, optional): The pivot indices that define the permutation matrix P.
-!>                If ipiv is not provided, it will be allocated internally.
-!> - `info` (out, optional): Output status: 0 for success, < 0 for illegal argument,
-!>                > 0 if D(k,k) is exactly zero.
-pure subroutine mfi_chetrf(a, uplo, ipiv, info)
+pure subroutine chetrf(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    complex(REAL32), pointer :: work(:)
-    complex(REAL32) :: s_work(1)  ! Work array for workspace query
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    allocation_status = 0
-
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(n), stat=allocation_status)
-    end if
-
-    ! Retrieve work array size
-    lwork = -1
-    call chetrf(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call chetrf(local_uplo, n, a, lda, local_ipiv, work, lwork, local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('chetrf', -local_info)
-    end if
-
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        if (local_info <= -1000) then
-            call mfi_error('chetrf', -local_info)
-        else
-            call mfi_error('chetrf', local_info)
-        end if
-    end if
+    complex(REAL32), intent(inout) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: ipiv(*)
+    complex(REAL32), intent(inout) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
 end subroutine
-!> Modern interface for [[f77_hetrf:zhetrf]].
+!> Original interface for ZHETRF
 !> See also: [[mfi_hetrf]], [[f77_hetrf]].
-!> Computes the factorization of a Hermitian matrix using the Bunch-Kaufman diagonal pivoting method
-!>
-!> The factorization has the form:
-!> - A = U*D*U**H (if uplo='U') or
-!> - A = L*D*L**H (if uplo='L')
-!>
-!> where U (or L) is a product of permutation and unit upper (lower) triangular matrices,
-!> and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
-!>
-!> Parameters:
-!> - `a` (inout): On entry, the Hermitian matrix A. On exit, the block diagonal matrix D
-!>                and the multipliers used to obtain the factor U or L.
-!> - `uplo` (in, optional): Specifies whether the upper ('U') or lower ('L') triangular part
-!>                of the Hermitian matrix A is stored. Default: 'U'
-!> - `ipiv` (out, optional): The pivot indices that define the permutation matrix P.
-!>                If ipiv is not provided, it will be allocated internally.
-!> - `info` (out, optional): Output status: 0 for success, < 0 for illegal argument,
-!>                > 0 if D(k,k) is exactly zero.
-pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
+pure subroutine zhetrf(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    complex(REAL64), pointer :: work(:)
-    complex(REAL64) :: s_work(1)  ! Work array for workspace query
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    allocation_status = 0
-
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(n), stat=allocation_status)
-    end if
-
-    ! Retrieve work array size
-    lwork = -1
-    call zhetrf(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call zhetrf(local_uplo, n, a, lda, local_ipiv, work, lwork, local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zhetrf', -local_info)
-    end if
-
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        if (local_info <= -1000) then
-            call mfi_error('zhetrf', -local_info)
-        else
-            call mfi_error('zhetrf', local_info)
-        end if
-    end if
+    complex(REAL64), intent(inout) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: ipiv(*)
+    complex(REAL64), intent(inout) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
 end subroutine
-!> Modern interface for [[f77_hegv:chegv]].
+end interface
+!> Generic old style interface for HEGV.
+!> Supports c, z.
+!> See also: [[mfi_hegv]], [[chegv]], [[zhegv]].
+interface f77_hegv
+!> Original interface for CHEGV
 !> See also: [[mfi_hegv]], [[f77_hegv]].
-pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
+pure subroutine chegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    complex(REAL32), intent(inout) :: b(:,:)
-    real(REAL32), intent(out) :: w(:)
-    integer, intent(in), optional :: itype
-    integer :: local_itype
-    character, intent(in), optional :: jobz
-    character :: local_jobz
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    complex(REAL32),      pointer :: work(:)
-    real(REAL32), pointer :: rwork(:)
-    complex(REAL32) :: s_work(1)
-    integer :: n, lda, ldb, lwork, allocation_status, deallocation_status
-    if (present(itype)) then
-        local_itype = itype
-    else
-        local_itype = 1
-    end if
-    if (present(jobz)) then
-        local_jobz = jobz
-    else
-        local_jobz = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    allocation_status = 0
-    allocate(rwork(max(1,3*N-2)), stat=allocation_status)
-    lwork = -1
-    call chegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call chegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,work,lwork,rwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    deallocate(rwork, stat=deallocation_status)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('chegv', -local_info)
-    end if
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    real(REAL32), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: itype
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+    complex(REAL32), intent(inout) :: work(*)
+    real(REAL32), intent(in) :: rwork(*)
 end subroutine
-!> Modern interface for [[f77_hegv:zhegv]].
+!> Original interface for ZHEGV
 !> See also: [[mfi_hegv]], [[f77_hegv]].
-pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
+pure subroutine zhegv(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    complex(REAL64), intent(inout) :: b(:,:)
-    real(REAL64), intent(out) :: w(:)
-    integer, intent(in), optional :: itype
-    integer :: local_itype
-    character, intent(in), optional :: jobz
-    character :: local_jobz
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    complex(REAL64),      pointer :: work(:)
-    real(REAL64), pointer :: rwork(:)
-    complex(REAL64) :: s_work(1)
-    integer :: n, lda, ldb, lwork, allocation_status, deallocation_status
-    if (present(itype)) then
-        local_itype = itype
-    else
-        local_itype = 1
-    end if
-    if (present(jobz)) then
-        local_jobz = jobz
-    else
-        local_jobz = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    allocation_status = 0
-    allocate(rwork(max(1,3*N-2)), stat=allocation_status)
-    lwork = -1
-    call zhegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,s_work,lwork,rwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call zhegv(local_itype,local_jobz,local_uplo,n,a,lda,b,ldb,w,work,lwork,rwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    deallocate(rwork, stat=deallocation_status)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zhegv', -local_info)
-    end if
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    real(REAL64), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: itype
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+    complex(REAL64), intent(inout) :: work(*)
+    real(REAL64), intent(in) :: rwork(*)
 end subroutine
-!> Modern interface for [[f77_heevd:cheevd]].
+end interface
+!> Generic old style interface for HEEVD.
+!> Supports c, z.
+!> See also: [[mfi_heevd]], [[cheevd]], [[zheevd]].
+interface f77_heevd
+!> Original interface for CHEEVD
 !> See also: [[mfi_heevd]], [[f77_heevd]].
-pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
+pure subroutine cheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    real(REAL32), intent(out) :: w(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: jobz
-    character :: local_jobz
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    complex(REAL32),      pointer :: work(:)
-    real(REAL32), pointer :: rwork(:)
-    integer,       pointer :: iwork(:)
-    complex(REAL32)      :: s_work(1)
-    real(REAL32) :: s_rwork(1)
-    integer       :: s_iwork(1)
-    integer :: n, lda, lwork, lrwork, liwork, allocation_status, deallocation_status
-    if (present(jobz)) then
-        local_jobz = jobz
-    else
-        local_jobz = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    lwork  = -1
-    lrwork = -1
-    liwork = -1
-
-    call cheevd(local_jobz,local_uplo,n,a,lda,w, &
-                      s_work,lwork,s_rwork,lrwork,s_iwork,liwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork  = int(s_work(1))
-    lrwork = int(s_rwork(1))
-    liwork = int(s_iwork(1))
-
-    allocate(iwork(liwork), stat=allocation_status)
-
-    if (allocation_status == 0) then
-        allocate(rwork(lrwork), stat=allocation_status)
-        allocate(work(lwork),   stat=allocation_status)
-        call cheevd(local_jobz,local_uplo,n,a,lda,w, &
-                      work,lwork,rwork,lrwork,iwork,liwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(iwork, stat=deallocation_status)
-    deallocate(rwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cheevd', -local_info)
-    end if
+    complex(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    complex(REAL32), intent(inout) :: work(*)
+    real(REAL32), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
 end subroutine
-!> Modern interface for [[f77_heevd:zheevd]].
+!> Original interface for ZHEEVD
 !> See also: [[mfi_heevd]], [[f77_heevd]].
-pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
+pure subroutine zheevd(jobz, uplo, n, a, lda, w, work, lwork, rwork, lrwork, iwork, liwork, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    real(REAL64), intent(out) :: w(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character, intent(in), optional :: jobz
-    character :: local_jobz
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    complex(REAL64),      pointer :: work(:)
-    real(REAL64), pointer :: rwork(:)
-    integer,       pointer :: iwork(:)
-    complex(REAL64)      :: s_work(1)
-    real(REAL64) :: s_rwork(1)
-    integer       :: s_iwork(1)
-    integer :: n, lda, lwork, lrwork, liwork, allocation_status, deallocation_status
-    if (present(jobz)) then
-        local_jobz = jobz
-    else
-        local_jobz = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    lwork  = -1
-    lrwork = -1
-    liwork = -1
-
-    call zheevd(local_jobz,local_uplo,n,a,lda,w, &
-                      s_work,lwork,s_rwork,lrwork,s_iwork,liwork,local_info)
-    if (local_info /= 0) goto 404
-    lwork  = int(s_work(1))
-    lrwork = int(s_rwork(1))
-    liwork = int(s_iwork(1))
-
-    allocate(iwork(liwork), stat=allocation_status)
-
-    if (allocation_status == 0) then
-        allocate(rwork(lrwork), stat=allocation_status)
-        allocate(work(lwork),   stat=allocation_status)
-        call zheevd(local_jobz,local_uplo,n,a,lda,w, &
-                      work,lwork,rwork,lrwork,iwork,liwork,local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(iwork, stat=deallocation_status)
-    deallocate(rwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zheevd', -local_info)
-    end if
+    complex(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    complex(REAL64), intent(inout) :: work(*)
+    real(REAL64), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
 end subroutine
-!> Modern interface for [[f77_gesvd:sgesvd]].
+end interface
+!> Generic old style interface for GESVD.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gesvd]], [[sgesvd]], [[dgesvd]], [[cgesvd]], [[zgesvd]].
+interface f77_gesvd
+!> Original interface for SGESVD
 !> See also: [[mfi_gesvd]], [[f77_gesvd]].
-pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
+pure subroutine sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
-    real(REAL32), intent(out) :: s(:)
-    real(REAL32),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(REAL32), intent(out), optional, target :: ww(:)
-    character, intent(in), optional :: job
-    character :: local_job
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character :: jobu, jobvt
-    integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    real(REAL32),      target  :: s_work(1), l_a2(1,1)
-    real(REAL32),      pointer :: local_u(:,:), local_vt(:,:), work(:)
-    if (present(job)) then
-        local_job = job
-    else
-        local_job = 'N'
-    end if
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    if (present(u)) then
-        ldu = max(1,size(u,1))
-    else
-        ldu = 1
-    end if
-    if (present(vt)) then
-        ldvt = max(1,size(vt,1))
-    else
-        ldvt = 1
-    end if
-    if (present(u)) then
-        if (size(u,2) == m) then
-            jobu = 'A'
-        else
-            jobu = 'S'
-        end if
-        local_u => u
-    else
-        if (local_job == 'u' .or. local_job == 'U') then
-            jobu = 'O'
-        else
-            jobu = 'N'
-        end if
-        local_u => l_a2
-    end if
-    if (present(vt)) then
-        if (size(vt,1) == n) then
-            jobvt = 'A'
-        else
-            jobvt = 'S'
-        end if
-        local_vt => vt
-    else
-        if (local_job == 'v' .or. local_job == 'V') then
-            jobvt = 'O'
-        else
-            jobvt = 'N'
-        end if
-        local_vt => l_a2
-    end if
-    allocation_status = 0
-    lwork = -1
-    call sgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,local_info)
-    if (local_info /= 0) then
-        goto 404
-    end if
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call sgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-
-    if (present(ww)) then
-        ww = real(work(2:min(m,n)-1))
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sgesvd', -local_info)
-    end if
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: s(*)
+    real(REAL32), intent(out) :: u(ldu,*)
+    real(REAL32), intent(out) :: vt(ldvt,*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobu
+    character, intent(in) :: jobvt
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldu
+    integer, intent(in) :: ldvt
+    integer, intent(in) :: lwork
+    real(REAL32), intent(inout) :: work(*)
 end subroutine
-!> Modern interface for [[f77_gesvd:dgesvd]].
+!> Original interface for DGESVD
 !> See also: [[mfi_gesvd]], [[f77_gesvd]].
-pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
+pure subroutine dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
-    real(REAL64), intent(out) :: s(:)
-    real(REAL64),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(REAL64), intent(out), optional, target :: ww(:)
-    character, intent(in), optional :: job
-    character :: local_job
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character :: jobu, jobvt
-    integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    real(REAL64),      target  :: s_work(1), l_a2(1,1)
-    real(REAL64),      pointer :: local_u(:,:), local_vt(:,:), work(:)
-    if (present(job)) then
-        local_job = job
-    else
-        local_job = 'N'
-    end if
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    if (present(u)) then
-        ldu = max(1,size(u,1))
-    else
-        ldu = 1
-    end if
-    if (present(vt)) then
-        ldvt = max(1,size(vt,1))
-    else
-        ldvt = 1
-    end if
-    if (present(u)) then
-        if (size(u,2) == m) then
-            jobu = 'A'
-        else
-            jobu = 'S'
-        end if
-        local_u => u
-    else
-        if (local_job == 'u' .or. local_job == 'U') then
-            jobu = 'O'
-        else
-            jobu = 'N'
-        end if
-        local_u => l_a2
-    end if
-    if (present(vt)) then
-        if (size(vt,1) == n) then
-            jobvt = 'A'
-        else
-            jobvt = 'S'
-        end if
-        local_vt => vt
-    else
-        if (local_job == 'v' .or. local_job == 'V') then
-            jobvt = 'O'
-        else
-            jobvt = 'N'
-        end if
-        local_vt => l_a2
-    end if
-    allocation_status = 0
-    lwork = -1
-    call dgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,local_info)
-    if (local_info /= 0) then
-        goto 404
-    end if
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call dgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,local_info)
-    else
-        local_info = -1000
-    end if
-
-    if (present(ww)) then
-        ww = real(work(2:min(m,n)-1))
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dgesvd', -local_info)
-    end if
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: s(*)
+    real(REAL64), intent(out) :: u(ldu,*)
+    real(REAL64), intent(out) :: vt(ldvt,*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobu
+    character, intent(in) :: jobvt
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldu
+    integer, intent(in) :: ldvt
+    integer, intent(in) :: lwork
+    real(REAL64), intent(inout) :: work(*)
 end subroutine
-!> Modern interface for [[f77_gesvd:cgesvd]].
+!> Original interface for CGESVD
 !> See also: [[mfi_gesvd]], [[f77_gesvd]].
-pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
+pure subroutine cgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    real(REAL32), intent(out) :: s(:)
-    complex(REAL32),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(REAL32), intent(out), optional, target :: ww(:)
-    character, intent(in), optional :: job
-    character :: local_job
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character :: jobu, jobvt
-    integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    complex(REAL32),      target  :: s_work(1), l_a2(1,1)
-    complex(REAL32),      pointer :: local_u(:,:), local_vt(:,:), work(:)
-    real(REAL32), pointer :: rwork(:)
-    if (present(job)) then
-        local_job = job
-    else
-        local_job = 'N'
-    end if
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    if (present(u)) then
-        ldu = max(1,size(u,1))
-    else
-        ldu = 1
-    end if
-    if (present(vt)) then
-        ldvt = max(1,size(vt,1))
-    else
-        ldvt = 1
-    end if
-    if (present(u)) then
-        if (size(u,2) == m) then
-            jobu = 'A'
-        else
-            jobu = 'S'
-        end if
-        local_u => u
-    else
-        if (local_job == 'u' .or. local_job == 'U') then
-            jobu = 'O'
-        else
-            jobu = 'N'
-        end if
-        local_u => l_a2
-    end if
-    if (present(vt)) then
-        if (size(vt,1) == n) then
-            jobvt = 'A'
-        else
-            jobvt = 'S'
-        end if
-        local_vt => vt
-    else
-        if (local_job == 'v' .or. local_job == 'V') then
-            jobvt = 'O'
-        else
-            jobvt = 'N'
-        end if
-        local_vt => l_a2
-    end if
-    allocation_status = 0
-    lwork = -1
-    allocate(rwork(5*min(m,n)), stat=allocation_status)
-    call cgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,rwork,local_info)
-    if (local_info /= 0) then
-        goto 404
-    end if
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call cgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)
-    else
-        local_info = -1000
-    end if
-
-    if (present(ww)) then
-        ww = real(work(2:min(m,n)-1))
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    deallocate(rwork, stat=deallocation_status)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cgesvd', -local_info)
-    end if
+    complex(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: s(*)
+    complex(REAL32), intent(out) :: u(ldu,*)
+    complex(REAL32), intent(out) :: vt(ldvt,*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobu
+    character, intent(in) :: jobvt
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldu
+    integer, intent(in) :: ldvt
+    integer, intent(in) :: lwork
+    complex(REAL32), intent(inout) :: work(*)
+    real(REAL32), intent(in) :: rwork(*)
 end subroutine
-!> Modern interface for [[f77_gesvd:zgesvd]].
+!> Original interface for ZGESVD
 !> See also: [[mfi_gesvd]], [[f77_gesvd]].
-pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
+pure subroutine zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    real(REAL64), intent(out) :: s(:)
-    complex(REAL64),      intent(out), optional, target :: u(:,:), vt(:,:)
-    real(REAL64), intent(out), optional, target :: ww(:)
-    character, intent(in), optional :: job
-    character :: local_job
-    integer, intent(out), optional :: info
-    integer :: local_info
-    character :: jobu, jobvt
-    integer   :: m, n, lda, ldu, ldvt, lwork, allocation_status, deallocation_status
-    complex(REAL64),      target  :: s_work(1), l_a2(1,1)
-    complex(REAL64),      pointer :: local_u(:,:), local_vt(:,:), work(:)
-    real(REAL64), pointer :: rwork(:)
-    if (present(job)) then
-        local_job = job
-    else
-        local_job = 'N'
-    end if
-    lda = max(1,size(a,1))
-    m = size(a,1)
-    n = size(a,2)
-    if (present(u)) then
-        ldu = max(1,size(u,1))
-    else
-        ldu = 1
-    end if
-    if (present(vt)) then
-        ldvt = max(1,size(vt,1))
-    else
-        ldvt = 1
-    end if
-    if (present(u)) then
-        if (size(u,2) == m) then
-            jobu = 'A'
-        else
-            jobu = 'S'
-        end if
-        local_u => u
-    else
-        if (local_job == 'u' .or. local_job == 'U') then
-            jobu = 'O'
-        else
-            jobu = 'N'
-        end if
-        local_u => l_a2
-    end if
-    if (present(vt)) then
-        if (size(vt,1) == n) then
-            jobvt = 'A'
-        else
-            jobvt = 'S'
-        end if
-        local_vt => vt
-    else
-        if (local_job == 'v' .or. local_job == 'V') then
-            jobvt = 'O'
-        else
-            jobvt = 'N'
-        end if
-        local_vt => l_a2
-    end if
-    allocation_status = 0
-    lwork = -1
-    allocate(rwork(5*min(m,n)), stat=allocation_status)
-    call zgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,s_work,lwork,rwork,local_info)
-    if (local_info /= 0) then
-        goto 404
-    end if
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call zgesvd(jobu,jobvt,m,n,a,lda,s,local_u,ldu,local_vt,ldvt,work,lwork,rwork,local_info)
-    else
-        local_info = -1000
-    end if
-
-    if (present(ww)) then
-        ww = real(work(2:min(m,n)-1))
-    end if
-    deallocate(work, stat=deallocation_status)
-404 continue
-    deallocate(rwork, stat=deallocation_status)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zgesvd', -local_info)
-    end if
+    complex(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: s(*)
+    complex(REAL64), intent(out) :: u(ldu,*)
+    complex(REAL64), intent(out) :: vt(ldvt,*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobu
+    character, intent(in) :: jobvt
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldu
+    integer, intent(in) :: ldvt
+    integer, intent(in) :: lwork
+    complex(REAL64), intent(inout) :: work(*)
+    real(REAL64), intent(in) :: rwork(*)
 end subroutine
-!> Modern interface for [[f77_orgqr:sorgqr]].
-!> See also: [[mfi_orgqr]], [[f77_orgqr]].
-!> Generates the real orthogonal matrix Q of the QR factorization
-pure subroutine mfi_sorgqr(a, tau, k, info)
-    integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
-    real(REAL32), intent(in) :: tau(:)
-    integer, intent(in), optional :: k
-    integer :: local_k
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(REAL32), pointer :: work(:)
-    real(REAL32), target  :: s_work(1)
-    if (present(k)) then
-        local_k = k
-    else
-        local_k = min(size(a,1), size(a,2))
-    end if
-    lda = max(1, size(a,1))
-    m = size(a, 1)
-    n = size(a, 2)
-
-    ! Query workspace size
-    lwork = -1
-    call sorgqr(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call sorgqr(m, n, local_k, a, lda, tau, work, lwork, local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sorgqr', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_orgqr:dorgqr]].
-!> See also: [[mfi_orgqr]], [[f77_orgqr]].
-!> Generates the real orthogonal matrix Q of the QR factorization
-pure subroutine mfi_dorgqr(a, tau, k, info)
-    integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
-    real(REAL64), intent(in) :: tau(:)
-    integer, intent(in), optional :: k
-    integer :: local_k
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(REAL64), pointer :: work(:)
-    real(REAL64), target  :: s_work(1)
-    if (present(k)) then
-        local_k = k
-    else
-        local_k = min(size(a,1), size(a,2))
-    end if
-    lda = max(1, size(a,1))
-    m = size(a, 1)
-    n = size(a, 2)
-
-    ! Query workspace size
-    lwork = -1
-    call dorgqr(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call dorgqr(m, n, local_k, a, lda, tau, work, lwork, local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dorgqr', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_ormqr:sormqr]].
-!> See also: [[mfi_ormqr]], [[f77_ormqr]].
-!> Multiplies a matrix by the orthogonal matrix Q from geqrf
-pure subroutine mfi_sormqr(a, tau, c, side, trans, info)
-    integer, parameter :: wp = REAL32
-    character, intent(in), optional :: side
-    character :: local_side
-    character, intent(in), optional :: trans
-    character :: local_trans
-    integer, intent(out), optional :: info
-    integer :: local_info
-    real(REAL32), intent(inout) :: a(:,:)
-    real(REAL32), intent(in) :: tau(:)
-    real(REAL32), intent(inout) :: c(:,:)
-    integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
-    real(REAL32), pointer :: work(:)
-    real(REAL32), target  :: s_work(1)
-    if (present(side)) then
-        local_side = side
-    else
-        local_side = 'L'
-    end if
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    lda = max(1, size(a, 1))
-    ldc = max(1, size(c, 1))
-    m = size(c, 1)
-    n = size(c, 2)
-
-    if (local_side == 'L' .or. local_side == 'l') then
-        k = size(a, 2)
-    else
-        k = size(a, 2)
-    end if
-
-    ! Query workspace size
-    lwork = -1
-    call sormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call sormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('sormqr', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_ormqr:dormqr]].
-!> See also: [[mfi_ormqr]], [[f77_ormqr]].
-!> Multiplies a matrix by the orthogonal matrix Q from geqrf
-pure subroutine mfi_dormqr(a, tau, c, side, trans, info)
-    integer, parameter :: wp = REAL64
-    character, intent(in), optional :: side
-    character :: local_side
-    character, intent(in), optional :: trans
-    character :: local_trans
-    integer, intent(out), optional :: info
-    integer :: local_info
-    real(REAL64), intent(inout) :: a(:,:)
-    real(REAL64), intent(in) :: tau(:)
-    real(REAL64), intent(inout) :: c(:,:)
-    integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
-    real(REAL64), pointer :: work(:)
-    real(REAL64), target  :: s_work(1)
-    if (present(side)) then
-        local_side = side
-    else
-        local_side = 'L'
-    end if
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    lda = max(1, size(a, 1))
-    ldc = max(1, size(c, 1))
-    m = size(c, 1)
-    n = size(c, 2)
-
-    if (local_side == 'L' .or. local_side == 'l') then
-        k = size(a, 2)
-    else
-        k = size(a, 2)
-    end if
-
-    ! Query workspace size
-    lwork = -1
-    call dormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    allocate(work(lwork), stat=allocation_status)
-    if (allocation_status == 0) then
-        call dormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dormqr', -local_info)
-    end if
-end subroutine
-!> Modern interface for [[f77_potrf:spotrf]].
+end interface
+!> Generic old style interface for POTRF.
+!> Supports s, d, c, z.
+!> See also: [[mfi_potrf]], [[spotrf]], [[dpotrf]], [[cpotrf]], [[zpotrf]].
+interface f77_potrf
+!> Original interface for SPOTRF
 !> See also: [[mfi_potrf]], [[f77_potrf]].
-pure subroutine mfi_spotrf(a, info, uplo)
+pure subroutine spotrf(uplo, n, a, lda, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call spotrf(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('spotrf', local_info)
-    end if
+    real(REAL32), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potrf:dpotrf]].
+!> Original interface for DPOTRF
 !> See also: [[mfi_potrf]], [[f77_potrf]].
-pure subroutine mfi_dpotrf(a, info, uplo)
+pure subroutine dpotrf(uplo, n, a, lda, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call dpotrf(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('dpotrf', local_info)
-    end if
+    real(REAL64), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potrf:cpotrf]].
+!> Original interface for CPOTRF
 !> See also: [[mfi_potrf]], [[f77_potrf]].
-pure subroutine mfi_cpotrf(a, info, uplo)
+pure subroutine cpotrf(uplo, n, a, lda, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call cpotrf(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('cpotrf', local_info)
-    end if
+    complex(REAL32), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potrf:zpotrf]].
+!> Original interface for ZPOTRF
 !> See also: [[mfi_potrf]], [[f77_potrf]].
-pure subroutine mfi_zpotrf(a, info, uplo)
+pure subroutine zpotrf(uplo, n, a, lda, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call zpotrf(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('zpotrf', local_info)
-    end if
+    complex(REAL64), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potri:spotri]].
+end interface
+!> Generic old style interface for POTRI.
+!> Supports s, d, c, z.
+!> See also: [[mfi_potri]], [[spotri]], [[dpotri]], [[cpotri]], [[zpotri]].
+interface f77_potri
+!> Original interface for SPOTRI
 !> See also: [[mfi_potri]], [[f77_potri]].
-pure subroutine mfi_spotri(a, info, uplo)
+pure subroutine spotri(uplo, n, a, lda, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call spotri(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('spotri', local_info)
-    end if
+    real(REAL32), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potri:dpotri]].
+!> Original interface for DPOTRI
 !> See also: [[mfi_potri]], [[f77_potri]].
-pure subroutine mfi_dpotri(a, info, uplo)
+pure subroutine dpotri(uplo, n, a, lda, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call dpotri(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('dpotri', local_info)
-    end if
+    real(REAL64), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potri:cpotri]].
+!> Original interface for CPOTRI
 !> See also: [[mfi_potri]], [[f77_potri]].
-pure subroutine mfi_cpotri(a, info, uplo)
+pure subroutine cpotri(uplo, n, a, lda, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call cpotri(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('cpotri', local_info)
-    end if
+    complex(REAL32), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potri:zpotri]].
+!> Original interface for ZPOTRI
 !> See also: [[mfi_potri]], [[f77_potri]].
-pure subroutine mfi_zpotri(a, info, uplo)
+pure subroutine zpotri(uplo, n, a, lda, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    call zpotri(local_uplo,n,a,lda,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('zpotri', local_info)
-    end if
+    complex(REAL64), intent(in) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potrs:spotrs]].
+end interface
+!> Generic old style interface for POTRS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_potrs]], [[spotrs]], [[dpotrs]], [[cpotrs]], [[zpotrs]].
+interface f77_potrs
+!> Original interface for SPOTRS
 !> See also: [[mfi_potrs]], [[f77_potrs]].
-pure subroutine mfi_spotrs(a, b, uplo, info)
+pure subroutine spotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(REAL32), intent(in) :: a(:,:)
-    real(REAL32), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call spotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('spotrs',-local_info)
-    end if
+    real(REAL32), intent(in) :: a(lda,*)
+    real(REAL32), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potrs:dpotrs]].
+!> Original interface for DPOTRS
 !> See also: [[mfi_potrs]], [[f77_potrs]].
-pure subroutine mfi_dpotrs(a, b, uplo, info)
+pure subroutine dpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(REAL64), intent(in) :: a(:,:)
-    real(REAL64), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call dpotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dpotrs',-local_info)
-    end if
+    real(REAL64), intent(in) :: a(lda,*)
+    real(REAL64), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potrs:cpotrs]].
+!> Original interface for CPOTRS
 !> See also: [[mfi_potrs]], [[f77_potrs]].
-pure subroutine mfi_cpotrs(a, b, uplo, info)
+pure subroutine cpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(in) :: a(:,:)
-    complex(REAL32), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call cpotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cpotrs',-local_info)
-    end if
+    complex(REAL32), intent(in) :: a(lda,*)
+    complex(REAL32), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_potrs:zpotrs]].
+!> Original interface for ZPOTRS
 !> See also: [[mfi_potrs]], [[f77_potrs]].
-pure subroutine mfi_zpotrs(a, b, uplo, info)
+pure subroutine zpotrs(uplo, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(REAL64), intent(in) :: a(:,:)
-    complex(REAL64), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call zpotrs(local_uplo,n,nrhs,a,lda,b,ldb,local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zpotrs',-local_info)
-    end if
+    complex(REAL64), intent(in) :: a(lda,*)
+    complex(REAL64), intent(in) :: b(ldb,*)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_pocon:spocon]].
+end interface
+!> Generic old style interface for POCON.
+!> Supports s, d, c, z.
+!> See also: [[mfi_pocon]], [[spocon]], [[dpocon]], [[cpocon]], [[zpocon]].
+interface f77_pocon
+!> Original interface for SPOCON
 !> See also: [[mfi_pocon]], [[f77_pocon]].
-!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
-pure subroutine mfi_spocon(a, anorm, rcond, uplo, info)
+!> spocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a real(REAL32) Hermitian positive definite matrix using the
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by SPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine spocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    real(REAL32), intent(inout) :: a(lda,*)
     real(REAL32), intent(in) :: anorm
     real(REAL32), intent(out) :: rcond
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, allocation_status, deallocation_status
-    real(REAL32), pointer :: work(:)
-    integer, pointer :: xwork(:)
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    allocate(xwork(n), stat=allocation_status)
-    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
-
-    if (allocation_status == 0) then
-        call spocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
-    else
-        local_info = -1000
-    end if
-
-    deallocate(xwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('spocon',-local_info)
-    end if
+    real(REAL32), intent(inout) :: work(*)
+    integer, intent(inout) :: iwork(*)
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_pocon:dpocon]].
+!> Original interface for DPOCON
 !> See also: [[mfi_pocon]], [[f77_pocon]].
-!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
-pure subroutine mfi_dpocon(a, anorm, rcond, uplo, info)
+!> dpocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a real(REAL64) Hermitian positive definite matrix using the
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by DPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine dpocon(uplo, n, a, lda, anorm, rcond, work, iwork, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    real(REAL64), intent(inout) :: a(lda,*)
     real(REAL64), intent(in) :: anorm
     real(REAL64), intent(out) :: rcond
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, allocation_status, deallocation_status
-    real(REAL64), pointer :: work(:)
-    integer, pointer :: xwork(:)
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    allocate(xwork(n), stat=allocation_status)
-    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
-
-    if (allocation_status == 0) then
-        call dpocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
-    else
-        local_info = -1000
-    end if
-
-    deallocate(xwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dpocon',-local_info)
-    end if
+    real(REAL64), intent(inout) :: work(*)
+    integer, intent(inout) :: iwork(*)
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_pocon:cpocon]].
+!> Original interface for CPOCON
 !> See also: [[mfi_pocon]], [[f77_pocon]].
-!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
-pure subroutine mfi_cpocon(a, anorm, rcond, uplo, info)
+!> cpocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a complex(REAL32) Hermitian positive definite matrix using the
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by CPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine cpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: a(:,:)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    complex(REAL32), intent(inout) :: a(lda,*)
     real(REAL32), intent(in) :: anorm
     real(REAL32), intent(out) :: rcond
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, allocation_status, deallocation_status
-    complex(REAL32), pointer :: work(:)
-    real(REAL32), pointer :: xwork(:)
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    allocate(xwork(n), stat=allocation_status)
-    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
-
-    if (allocation_status == 0) then
-        call cpocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
-    else
-        local_info = -1000
-    end if
-
-    deallocate(xwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('cpocon',-local_info)
-    end if
+    complex(REAL32), intent(inout) :: work(*)
+    real(REAL32), intent(inout) :: rwork(*)
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_pocon:zpocon]].
+!> Original interface for ZPOCON
 !> See also: [[mfi_pocon]], [[f77_pocon]].
-!> Estimates the reciprocal of the condition number of a real symmetric / complex Hermitian positive definite matrix using the Cholesky factorization computed by ?POTRF
-pure subroutine mfi_zpocon(a, anorm, rcond, uplo, info)
+!> zpocon estimates the reciprocal of the condition number (in the
+!> 1-norm) of a complex(REAL64) Hermitian positive definite matrix using the
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by ZPOTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+pure subroutine zpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: a(:,:)
+    character, intent(in) :: uplo
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    complex(REAL64), intent(inout) :: a(lda,*)
     real(REAL64), intent(in) :: anorm
     real(REAL64), intent(out) :: rcond
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, allocation_status, deallocation_status
-    complex(REAL64), pointer :: work(:)
-    real(REAL64), pointer :: xwork(:)
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n   = size(a,2)
-    allocation_status = 0
-    allocate(xwork(n), stat=allocation_status)
-    if (allocation_status == 0) allocate(work(3*n), stat=allocation_status)
-
-    if (allocation_status == 0) then
-        call zpocon(local_uplo, n, a, lda, anorm, rcond, work, xwork, local_info)
-    else
-        local_info = -1000
-    end if
-
-    deallocate(xwork, stat=deallocation_status)
-    deallocate(work,  stat=deallocation_status)
-
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('zpocon',-local_info)
-    end if
+    complex(REAL64), intent(inout) :: work(*)
+    real(REAL64), intent(inout) :: rwork(*)
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_trtrs:strtrs]].
-!> See also: [[mfi_trtrs]], [[f77_trtrs]].
-!> Solves a triangular linear system with multiple right-hand sides:
-!>
-!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
-!>
-!> where A is a triangular matrix (stored in `a`), and B is overwritten by the solution X.
-!>
-!> Optional arguments:
-!> - `uplo`: 'U' (upper triangular, default) or 'L' (lower triangular)
-!> - `trans`: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
-!> - `diag`: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
-!> - `info`: if not present and `info /= 0`, calls [[mfi_error]].
-!>
-!> The shapes are inferred from `a` (N-by-N) and `b` (N-by-NRHS).
-pure subroutine mfi_strtrs(a, b, uplo, trans, diag, info)
+end interface
+!> Generic old style interface for HEEVX.
+!> Supports c, z.
+!> See also: [[mfi_heevx]], [[cheevx]], [[zheevx]].
+interface f77_heevx
+!> Original interface for CHEEVX
+!> See also: [[mfi_heevx]], [[f77_heevx]].
+pure subroutine cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(REAL32), intent(in) :: a(:,:)
-    real(REAL32), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    character, intent(in), optional :: trans
-    character :: local_trans
-    character, intent(in), optional :: diag
-    character :: local_diag
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    if (present(diag)) then
-        local_diag = diag
-    else
-        local_diag = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call strtrs(local_uplo, local_trans, local_diag, n, nrhs, a, lda, b, ldb, local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('strtrs', local_info)
-    end if
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: z(ldz, *)
+    real(REAL32), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(REAL32), intent(in) :: vl
+    real(REAL32), intent(in) :: vu
+    real(REAL32), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: ifail
+    complex(REAL32), intent(inout) :: work(*)
+    real(REAL32), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
 end subroutine
-!> Modern interface for [[f77_trtrs:dtrtrs]].
-!> See also: [[mfi_trtrs]], [[f77_trtrs]].
-!> Solves a triangular linear system with multiple right-hand sides:
-!>
-!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
-!>
-!> where A is a triangular matrix (stored in `a`), and B is overwritten by the solution X.
-!>
-!> Optional arguments:
-!> - `uplo`: 'U' (upper triangular, default) or 'L' (lower triangular)
-!> - `trans`: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
-!> - `diag`: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
-!> - `info`: if not present and `info /= 0`, calls [[mfi_error]].
-!>
-!> The shapes are inferred from `a` (N-by-N) and `b` (N-by-NRHS).
-pure subroutine mfi_dtrtrs(a, b, uplo, trans, diag, info)
+!> Original interface for ZHEEVX
+!> See also: [[mfi_heevx]], [[f77_heevx]].
+pure subroutine zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(REAL64), intent(in) :: a(:,:)
-    real(REAL64), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    character, intent(in), optional :: trans
-    character :: local_trans
-    character, intent(in), optional :: diag
-    character :: local_diag
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    if (present(diag)) then
-        local_diag = diag
-    else
-        local_diag = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call dtrtrs(local_uplo, local_trans, local_diag, n, nrhs, a, lda, b, ldb, local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('dtrtrs', local_info)
-    end if
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: z(ldz, *)
+    real(REAL64), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(REAL64), intent(in) :: vl
+    real(REAL64), intent(in) :: vu
+    real(REAL64), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: ifail
+    complex(REAL64), intent(inout) :: work(*)
+    real(REAL64), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
 end subroutine
-!> Modern interface for [[f77_trtrs:ctrtrs]].
-!> See also: [[mfi_trtrs]], [[f77_trtrs]].
-!> Solves a triangular linear system with multiple right-hand sides:
-!>
-!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
-!>
-!> where A is a triangular matrix (stored in `a`), and B is overwritten by the solution X.
-!>
-!> Optional arguments:
-!> - `uplo`: 'U' (upper triangular, default) or 'L' (lower triangular)
-!> - `trans`: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
-!> - `diag`: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
-!> - `info`: if not present and `info /= 0`, calls [[mfi_error]].
-!>
-!> The shapes are inferred from `a` (N-by-N) and `b` (N-by-NRHS).
-pure subroutine mfi_ctrtrs(a, b, uplo, trans, diag, info)
+end interface
+!> Generic old style interface for HEEVR.
+!> Supports c, z.
+!> See also: [[mfi_heevr]], [[cheevr]], [[zheevr]].
+interface f77_heevr
+!> Original interface for CHEEVR
+!> See also: [[mfi_heevr]], [[f77_heevr]].
+pure subroutine cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(in) :: a(:,:)
-    complex(REAL32), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    character, intent(in), optional :: trans
-    character :: local_trans
-    character, intent(in), optional :: diag
-    character :: local_diag
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    if (present(diag)) then
-        local_diag = diag
-    else
-        local_diag = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call ctrtrs(local_uplo, local_trans, local_diag, n, nrhs, a, lda, b, ldb, local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('ctrtrs', local_info)
-    end if
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: z(ldz, *)
+    real(REAL32), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(REAL32), intent(in) :: vl
+    real(REAL32), intent(in) :: vu
+    real(REAL32), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: isuppz(*)
+    complex(REAL32), intent(inout) :: work(*)
+    real(REAL32), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
 end subroutine
-!> Modern interface for [[f77_trtrs:ztrtrs]].
+!> Original interface for ZHEEVR
+!> See also: [[mfi_heevr]], [[f77_heevr]].
+pure subroutine zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
+                         isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: z(ldz, *)
+    real(REAL64), intent(out) :: w(*)
+    integer, intent(out) :: info
+    character, intent(in) :: jobz
+    character, intent(in) :: uplo
+    character, intent(in) :: range
+    real(REAL64), intent(in) :: vl
+    real(REAL64), intent(in) :: vu
+    real(REAL64), intent(in) :: abstol
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldz
+    integer, intent(in) :: il
+    integer, intent(in) :: iu
+    integer, intent(in) :: lwork
+    integer, intent(in) :: lrwork
+    integer, intent(in) :: liwork
+    integer, intent(in) :: isuppz(*)
+    complex(REAL64), intent(inout) :: work(*)
+    real(REAL64), intent(inout) :: rwork(*)
+    integer, intent(inout) :: iwork(*)
+end subroutine
+end interface
+!> Generic old style interface for GELS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gels]], [[sgels]], [[dgels]], [[cgels]], [[zgels]].
+interface f77_gels
+!> Original interface for SGELS
+!> See also: [[mfi_gels]], [[f77_gels]].
+!> SGELS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine sgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    real(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for DGELS
+!> See also: [[mfi_gels]], [[f77_gels]].
+!> DGELS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine dgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    real(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for CGELS
+!> See also: [[mfi_gels]], [[f77_gels]].
+!> CGELS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine cgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    complex(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for ZGELS
+!> See also: [[mfi_gels]], [[f77_gels]].
+!> ZGELS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine zgels(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    complex(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+!> Generic old style interface for GELST.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gelst]], [[sgelst]], [[dgelst]], [[cgelst]], [[zgelst]].
+interface f77_gelst
+!> Original interface for SGELST
+!> See also: [[mfi_gelst]], [[f77_gelst]].
+!> SGELST solves overdetermined or underdetermined systems for GE matrices
+!> using QR or LQ factorization with compact WY representation of Q.
+pure subroutine sgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    real(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for DGELST
+!> See also: [[mfi_gelst]], [[f77_gelst]].
+!> DGELST solves overdetermined or underdetermined systems for GE matrices
+!> using QR or LQ factorization with compact WY representation of Q.
+pure subroutine dgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    real(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for CGELST
+!> See also: [[mfi_gelst]], [[f77_gelst]].
+!> CGELST solves overdetermined or underdetermined systems for GE matrices
+!> using QR or LQ factorization with compact WY representation of Q.
+pure subroutine cgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    complex(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for ZGELST
+!> See also: [[mfi_gelst]], [[f77_gelst]].
+!> ZGELST solves overdetermined or underdetermined systems for GE matrices
+!> using QR or LQ factorization with compact WY representation of Q.
+pure subroutine zgelst(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    complex(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+!> Generic old style interface for GETSLS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_getsls]], [[sgetsls]], [[dgetsls]], [[cgetsls]], [[zgetsls]].
+interface f77_getsls
+!> Original interface for SGETSLS
+!> See also: [[mfi_getsls]], [[f77_getsls]].
+!> SGETSLS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine sgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    real(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for DGETSLS
+!> See also: [[mfi_getsls]], [[f77_getsls]].
+!> DGETSLS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine dgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    real(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for CGETSLS
+!> See also: [[mfi_getsls]], [[f77_getsls]].
+!> CGETSLS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine cgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    complex(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for ZGETSLS
+!> See also: [[mfi_getsls]], [[f77_getsls]].
+!> ZGETSLS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine zgetsls(trans, m, n, nrhs, a, lda, b, ldb, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    complex(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+!> Generic old style interface for GELSD.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gelsd]], [[sgelsd]], [[dgelsd]], [[cgelsd]], [[zgelsd]].
+interface f77_gelsd
+!> Original interface for SGELSD
+!> See also: [[mfi_gelsd]], [[f77_gelsd]].
+!> SGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
+pure subroutine sgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(in) :: rcond
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    real(REAL32), intent(out) :: s(*)
+    real(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: iwork(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for DGELSD
+!> See also: [[mfi_gelsd]], [[f77_gelsd]].
+!> DGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
+pure subroutine dgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(in) :: rcond
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    real(REAL64), intent(out) :: s(*)
+    real(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: iwork(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for CGELSD
+!> See also: [[mfi_gelsd]], [[f77_gelsd]].
+!> CGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
+pure subroutine cgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(in) :: rcond
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    complex(REAL32), intent(out) :: s(*)
+    complex(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: iwork(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for ZGELSD
+!> See also: [[mfi_gelsd]], [[f77_gelsd]].
+!> ZGELSD computes the minimum-norm solution to a linear least squares problem for GE matrices
+pure subroutine zgelsd(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, iwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(in) :: rcond
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    complex(REAL64), intent(out) :: s(*)
+    complex(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: iwork(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+!> Generic old style interface for GELSS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gelss]], [[sgelss]], [[dgelss]], [[cgelss]], [[zgelss]].
+interface f77_gelss
+!> Original interface for SGELSS
+!> See also: [[mfi_gelss]], [[f77_gelss]].
+!> SGELSS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine sgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(in) :: rcond
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    real(REAL32), intent(out) :: s(*)
+    real(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for DGELSS
+!> See also: [[mfi_gelss]], [[f77_gelss]].
+!> DGELSS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine dgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(in) :: rcond
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    real(REAL64), intent(out) :: s(*)
+    real(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for CGELSS
+!> See also: [[mfi_gelss]], [[f77_gelss]].
+!> CGELSS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine cgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(in) :: rcond
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    complex(REAL32), intent(out) :: s(*)
+    complex(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for ZGELSS
+!> See also: [[mfi_gelss]], [[f77_gelss]].
+!> ZGELSS solves overdetermined or underdetermined systems for GE matrices
+pure subroutine zgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(in) :: rcond
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    complex(REAL64), intent(out) :: s(*)
+    complex(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+!> Generic old style interface for GELSY.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gelsy]], [[sgelsy]], [[dgelsy]], [[cgelsy]], [[zgelsy]].
+interface f77_gelsy
+!> Original interface for SGELSY
+!> See also: [[mfi_gelsy]], [[f77_gelsy]].
+!> SGELSY solves overdetermined or underdetermined systems for GE matrices
+pure subroutine sgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(in) :: rcond
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    integer, intent(inout) :: jpvt(*)
+    real(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for DGELSY
+!> See also: [[mfi_gelsy]], [[f77_gelsy]].
+!> DGELSY solves overdetermined or underdetermined systems for GE matrices
+pure subroutine dgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(in) :: rcond
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    integer, intent(inout) :: jpvt(*)
+    real(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for CGELSY
+!> See also: [[mfi_gelsy]], [[f77_gelsy]].
+!> CGELSY solves overdetermined or underdetermined systems for GE matrices
+pure subroutine cgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(in) :: rcond
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    integer, intent(inout) :: jpvt(*)
+    complex(REAL32), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for ZGELSY
+!> See also: [[mfi_gelsy]], [[f77_gelsy]].
+!> ZGELSY solves overdetermined or underdetermined systems for GE matrices
+pure subroutine zgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(in) :: rcond
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    integer, intent(inout) :: jpvt(*)
+    complex(REAL64), intent(out) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(out) :: rank
+    integer, intent(in) :: n
+    integer, intent(in) :: m
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+!> Generic old style interface for GGLSE.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gglse]], [[sgglse]], [[dgglse]], [[cgglse]], [[zgglse]].
+interface f77_gglse
+!> Original interface for SGGLSE
+!> See also: [[mfi_gglse]], [[f77_gglse]].
+pure subroutine sgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    real(REAL32), intent(inout) :: c(*)
+    real(REAL32), intent(inout) :: d(*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(out) :: x(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for DGGLSE
+!> See also: [[mfi_gglse]], [[f77_gglse]].
+pure subroutine dgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    real(REAL64), intent(inout) :: c(*)
+    real(REAL64), intent(inout) :: d(*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(out) :: x(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for CGGLSE
+!> See also: [[mfi_gglse]], [[f77_gglse]].
+pure subroutine cgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    complex(REAL32), intent(inout) :: c(*)
+    complex(REAL32), intent(inout) :: d(*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(out) :: x(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for ZGGLSE
+!> See also: [[mfi_gglse]], [[f77_gglse]].
+pure subroutine zgglse(m, n, p, a, lda, b, ldb, c, d, x, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    complex(REAL64), intent(inout) :: c(*)
+    complex(REAL64), intent(inout) :: d(*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(out) :: x(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+!> Generic old style interface for GGLSM.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gglsm]], [[sgglsm]], [[dgglsm]], [[cgglsm]], [[zgglsm]].
+interface f77_gglsm
+!> Original interface for SGGLSM
+!> See also: [[mfi_gglsm]], [[f77_gglsm]].
+pure subroutine sgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    real(REAL32), intent(inout) :: d(*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(out) :: x(*)
+    real(REAL32), intent(out) :: y(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for DGGLSM
+!> See also: [[mfi_gglsm]], [[f77_gglsm]].
+pure subroutine dgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    real(REAL64), intent(inout) :: d(*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(out) :: x(*)
+    real(REAL64), intent(out) :: y(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for CGGLSM
+!> See also: [[mfi_gglsm]], [[f77_gglsm]].
+pure subroutine cgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    complex(REAL32), intent(inout) :: d(*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(out) :: x(*)
+    complex(REAL32), intent(out) :: y(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+!> Original interface for ZGGLSM
+!> See also: [[mfi_gglsm]], [[f77_gglsm]].
+pure subroutine zgglsm(n, m, p, a, lda, b, ldb, d, x, y, work, lwork, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    complex(REAL64), intent(inout) :: d(*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(out) :: x(*)
+    complex(REAL64), intent(out) :: y(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: p
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: lwork
+end subroutine
+end interface
+!> Generic old style interface for ORG2R.
+!> Supports s, d.
+!> See also: [[mfi_org2r]], [[sorg2r]], [[dorg2r]].
+interface f77_org2r
+!> Original interface for SORG2R
+!> See also: [[mfi_org2r]], [[f77_org2r]].
+!> This routine generates an \(M \times N \) real(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:sgeqrf]].
+pure subroutine sorg2r(m, n, k, a, lda, tau, work, info)
+    import :: REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORG2R
+!> See also: [[mfi_org2r]], [[f77_org2r]].
+!> This routine generates an \(M \times N \) real(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:dgeqrf]].
+pure subroutine dorg2r(m, n, k, a, lda, tau, work, info)
+    import :: REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORGR2.
+!> Supports s, d.
+!> See also: [[mfi_orgr2]], [[sorgr2]], [[dorgr2]].
+interface f77_orgr2
+!> Original interface for SORGR2
+!> See also: [[mfi_orgr2]], [[f77_orgr2]].
+!> This routine generates an \(M \times N \) real(REAL32)
+!> matrix \( Q \) with orthonormal rows,
+!> which is defined as the last \( M \) rows of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:sgerqf]].
+pure subroutine sorgr2(m, n, k, a, lda, tau, work, info)
+    import :: REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORGR2
+!> See also: [[mfi_orgr2]], [[f77_orgr2]].
+!> This routine generates an \(M \times N \) real(REAL64)
+!> matrix \( Q \) with orthonormal rows,
+!> which is defined as the last \( M \) rows of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:dgerqf]].
+pure subroutine dorgr2(m, n, k, a, lda, tau, work, info)
+    import :: REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORM2R.
+!> Supports s, d.
+!> See also: [[mfi_orm2r]], [[sorm2r]], [[dorm2r]].
+interface f77_orm2r
+!> Original interface for SORM2R
+!> See also: [[mfi_orm2r]], [[f77_orm2r]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:sgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine sorm2r(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: c(ldc,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORM2R
+!> See also: [[mfi_orm2r]], [[f77_orm2r]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:dgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine dorm2r(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: c(ldc,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORMR2.
+!> Supports s, d.
+!> See also: [[mfi_ormr2]], [[sormr2]], [[dormr2]].
+interface f77_ormr2
+!> Original interface for SORMR2
+!> See also: [[mfi_ormr2]], [[f77_ormr2]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:sgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine sormr2(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: c(ldc,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORMR2
+!> See also: [[mfi_ormr2]], [[f77_ormr2]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:dgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine dormr2(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: c(ldc,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORMQR.
+!> Supports s, d.
+!> See also: [[mfi_ormqr]], [[sormqr]], [[dormqr]].
+interface f77_ormqr
+!> Original interface for SORMQR
+!> See also: [[mfi_ormqr]], [[f77_ormqr]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:sgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine sormqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: c(ldc,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORMQR
+!> See also: [[mfi_ormqr]], [[f77_ormqr]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:dgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine dormqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: c(ldc,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORMRQ.
+!> Supports s, d.
+!> See also: [[mfi_ormrq]], [[sormrq]], [[dormrq]].
+interface f77_ormrq
+!> Original interface for SORMRQ
+!> See also: [[mfi_ormrq]], [[f77_ormrq]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:sgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine sormrq(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(inout) :: c(ldc,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORMRQ
+!> See also: [[mfi_ormrq]], [[f77_ormrq]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:dgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine dormrq(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(inout) :: c(ldc,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORGQR.
+!> Supports s, d.
+!> See also: [[mfi_orgqr]], [[sorgqr]], [[dorgqr]].
+interface f77_orgqr
+!> Original interface for SORGQR
+!> See also: [[mfi_orgqr]], [[f77_orgqr]].
+!> This routine generates an \(M \times N \) real(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:sgeqrf]].
+pure subroutine sorgqr(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORGQR
+!> See also: [[mfi_orgqr]], [[f77_orgqr]].
+!> This routine generates an \(M \times N \) real(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:dgeqrf]].
+pure subroutine dorgqr(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for ORGRQ.
+!> Supports s, d.
+!> See also: [[mfi_orgrq]], [[sorgrq]], [[dorgrq]].
+interface f77_orgrq
+!> Original interface for SORGRQ
+!> See also: [[mfi_orgrq]], [[f77_orgrq]].
+!> This routine generates an \(M \times N \) real(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger . . . H(k)^\dagger \)
+!> as returned by [[f77_gerqf:sgerqf]].
+pure subroutine sorgrq(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL32
+    real(REAL32), intent(inout) :: a(lda,*)
+    real(REAL32), intent(out) :: work(*)
+    real(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DORGRQ
+!> See also: [[mfi_orgrq]], [[f77_orgrq]].
+!> This routine generates an \(M \times N \) real(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger . . . H(k)^\dagger \)
+!> as returned by [[f77_gerqf:dgerqf]].
+pure subroutine dorgrq(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL64
+    real(REAL64), intent(inout) :: a(lda,*)
+    real(REAL64), intent(out) :: work(*)
+    real(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNG2R.
+!> Supports c, z.
+!> See also: [[mfi_ung2r]], [[cung2r]], [[zung2r]].
+interface f77_ung2r
+!> Original interface for CUNG2R
+!> See also: [[mfi_ung2r]], [[f77_ung2r]].
+!> This routine generates an \(M \times N \) complex(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:cgeqrf]].
+pure subroutine cung2r(m, n, k, a, lda, tau, work, info)
+    import :: REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNG2R
+!> See also: [[mfi_ung2r]], [[f77_ung2r]].
+!> This routine generates an \(M \times N \) complex(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:zgeqrf]].
+pure subroutine zung2r(m, n, k, a, lda, tau, work, info)
+    import :: REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNGR2.
+!> Supports c, z.
+!> See also: [[mfi_ungr2]], [[cungr2]], [[zungr2]].
+interface f77_ungr2
+!> Original interface for CUNGR2
+!> See also: [[mfi_ungr2]], [[f77_ungr2]].
+!> This routine generates an \(M \times N \) complex(REAL32)
+!> matrix \( Q \) with orthonormal rows,
+!> which is defined as the last \( M \) rows of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:cgerqf]].
+pure subroutine cungr2(m, n, k, a, lda, tau, work, info)
+    import :: REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNGR2
+!> See also: [[mfi_ungr2]], [[f77_ungr2]].
+!> This routine generates an \(M \times N \) complex(REAL64)
+!> matrix \( Q \) with orthonormal rows,
+!> which is defined as the last \( M \) rows of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:zgerqf]].
+pure subroutine zungr2(m, n, k, a, lda, tau, work, info)
+    import :: REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNM2R.
+!> Supports c, z.
+!> See also: [[mfi_unm2r]], [[cunm2r]], [[zunm2r]].
+interface f77_unm2r
+!> Original interface for CUNM2R
+!> See also: [[mfi_unm2r]], [[f77_unm2r]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:cgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine cunm2r(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: c(ldc,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNM2R
+!> See also: [[mfi_unm2r]], [[f77_unm2r]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:zgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine zunm2r(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: c(ldc,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNMR2.
+!> Supports c, z.
+!> See also: [[mfi_unmr2]], [[cunmr2]], [[zunmr2]].
+interface f77_unmr2
+!> Original interface for CUNMR2
+!> See also: [[mfi_unmr2]], [[f77_unmr2]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:cgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine cunmr2(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: c(ldc,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNMR2
+!> See also: [[mfi_unmr2]], [[f77_unmr2]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:zgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine zunmr2(side, trans, m, n, k, a, lda, tau, c, ldc, work, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: c(ldc,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNMQR.
+!> Supports c, z.
+!> See also: [[mfi_unmqr]], [[cunmqr]], [[zunmqr]].
+interface f77_unmqr
+!> Original interface for CUNMQR
+!> See also: [[mfi_unmqr]], [[f77_unmqr]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:cgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine cunmqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: c(ldc,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNMQR
+!> See also: [[mfi_unmqr]], [[f77_unmqr]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1) H(2) \cdots H(k) \)
+!> as returned by [[f77_geqrf:zgeqrf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine zunmqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: c(ldc,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNMRQ.
+!> Supports c, z.
+!> See also: [[mfi_unmrq]], [[cunmrq]], [[zunmrq]].
+interface f77_unmrq
+!> Original interface for CUNMRQ
+!> See also: [[mfi_unmrq]], [[f77_unmrq]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:cgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine cunmrq(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL32
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(inout) :: c(ldc,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNMRQ
+!> See also: [[mfi_unmrq]], [[f77_unmrq]].
+!> This routine overwrites the general complex \(M \times N\) matrix \( C \) with
+!>```fortran
+!>                 SIDE = 'L'     SIDE = 'R'
+!> TRANS = 'N':      Q * C          C * Q
+!> TRANS = 'C':      Q**H * C       C * Q**H
+!>```
+!> where Q is a complex unitary matrix defined as the product of k
+!> elementary reflectors
+!>
+!> \( Q = H(1)^\dagger H(2)^\dagger \cdots H(k)^\dagger \)
+!> as returned by [[f77_gerqf:zgerqf]].
+!> \( Q \) is of order \( M \) if `SIDE = 'L'`
+!> and of order \( N \) if `SIDE = 'R'`.
+pure subroutine zunmrq(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info)
+    import :: REAL64
+    character, intent(in) :: side
+    character, intent(in) :: trans
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(inout) :: c(ldc,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNGQR.
+!> Supports c, z.
+!> See also: [[mfi_ungqr]], [[cungqr]], [[zungqr]].
+interface f77_ungqr
+!> Original interface for CUNGQR
+!> See also: [[mfi_ungqr]], [[f77_ungqr]].
+!> This routine generates an \(M \times N \) complex(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:cgeqrf]].
+pure subroutine cungqr(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNGQR
+!> See also: [[mfi_ungqr]], [[f77_ungqr]].
+!> This routine generates an \(M \times N \) complex(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:zgeqrf]].
+pure subroutine zungqr(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for UNGRQ.
+!> Supports c, z.
+!> See also: [[mfi_ungrq]], [[cungrq]], [[zungrq]].
+interface f77_ungrq
+!> Original interface for CUNGRQ
+!> See also: [[mfi_ungrq]], [[f77_ungrq]].
+!> This routine generates an \(M \times N \) complex(REAL32)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger . . . H(k)^\dagger \)
+!> as returned by [[f77_gerqf:cgerqf]].
+pure subroutine cungrq(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL32
+    complex(REAL32), intent(inout) :: a(lda,*)
+    complex(REAL32), intent(out) :: work(*)
+    complex(REAL32), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZUNGRQ
+!> See also: [[mfi_ungrq]], [[f77_ungrq]].
+!> This routine generates an \(M \times N \) complex(REAL64)
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger . . . H(k)^\dagger \)
+!> as returned by [[f77_gerqf:zgerqf]].
+pure subroutine zungrq(m, n, k, a, lda, tau, work, lwork, info)
+    import :: REAL64
+    complex(REAL64), intent(inout) :: a(lda,*)
+    complex(REAL64), intent(out) :: work(*)
+    complex(REAL64), intent(in) :: tau(*)
+    integer, intent(in) :: m
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for LARTG.
+!> Supports s, d, c, z.
+!> See also: [[mfi_lartg]], [[slartg]], [[dlartg]], [[clartg]], [[zlartg]].
+interface f77_lartg
+!> Original interface for SLARTG
+!> See also: [[mfi_lartg]], [[f77_lartg]].
+pure subroutine slartg(f, g, c, s, r)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: c
+    real(REAL32), intent(inout) :: f
+    real(REAL32), intent(inout) :: g
+    real(REAL32), intent(inout) :: r
+    real(REAL32), intent(inout) :: s
+end subroutine
+!> Original interface for DLARTG
+!> See also: [[mfi_lartg]], [[f77_lartg]].
+pure subroutine dlartg(f, g, c, s, r)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: c
+    real(REAL64), intent(inout) :: f
+    real(REAL64), intent(inout) :: g
+    real(REAL64), intent(inout) :: r
+    real(REAL64), intent(inout) :: s
+end subroutine
+!> Original interface for CLARTG
+!> See also: [[mfi_lartg]], [[f77_lartg]].
+pure subroutine clartg(f, g, c, s, r)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(wp), intent(inout) :: c
+    complex(REAL32), intent(inout) :: f
+    complex(REAL32), intent(inout) :: g
+    complex(REAL32), intent(inout) :: r
+    complex(REAL32), intent(inout) :: s
+end subroutine
+!> Original interface for ZLARTG
+!> See also: [[mfi_lartg]], [[f77_lartg]].
+pure subroutine zlartg(f, g, c, s, r)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(wp), intent(inout) :: c
+    complex(REAL64), intent(inout) :: f
+    complex(REAL64), intent(inout) :: g
+    complex(REAL64), intent(inout) :: r
+    complex(REAL64), intent(inout) :: s
+end subroutine
+end interface
+!> Generic old style interface for TRTRS.
+!> Supports s, d, c, z.
+!> See also: [[mfi_trtrs]], [[strtrs]], [[dtrtrs]], [[ctrtrs]], [[ztrtrs]].
+interface f77_trtrs
+!> Original interface for STRTRS
 !> See also: [[mfi_trtrs]], [[f77_trtrs]].
-!> Solves a triangular linear system with multiple right-hand sides:
+!> STRTRS solves a triangular system of the form
 !>
 !>     A * X = B  or  A**T * X = B  or  A**H * X = B,
 !>
-!> where A is a triangular matrix (stored in `a`), and B is overwritten by the solution X.
+!> where A is a triangular matrix of order N, and B is an N-by-NRHS matrix.
+!> The transpose or conjugate-transpose is selected via `trans`.
 !>
-!> Optional arguments:
-!> - `uplo`: 'U' (upper triangular, default) or 'L' (lower triangular)
-!> - `trans`: 'N' (no transpose), 'T' (transpose), or 'C' (conjugate transpose, default 'N')
-!> - `diag`: 'N' (non-unit diagonal, default) or 'U' (unit diagonal)
-!> - `info`: if not present and `info /= 0`, calls [[mfi_error]].
-!>
-!> The shapes are inferred from `a` (N-by-N) and `b` (N-by-NRHS).
-pure subroutine mfi_ztrtrs(a, b, uplo, trans, diag, info)
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(in) :: a(:,:)
-    complex(REAL64), intent(inout) :: b(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    character, intent(in), optional :: trans
-    character :: local_trans
-    character, intent(in), optional :: diag
-    character :: local_diag
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, nrhs, lda, ldb
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    if (present(diag)) then
-        local_diag = diag
-    else
-        local_diag = 'N'
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    n = size(a,2)
-    nrhs = size(b,2)
-    call ztrtrs(local_uplo, local_trans, local_diag, n, nrhs, a, lda, b, ldb, local_info)
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        call mfi_error('ztrtrs', local_info)
-    end if
+!> A is assumed to be either upper or lower triangular as specified by `uplo`,
+!> and may be unit or non-unit diagonal as specified by `diag`.
+pure subroutine strtrs(uplo, trans, diag, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(in) :: a(lda,*)
+    real(REAL32), intent(inout) :: b(ldb,*)
+    character, intent(in) :: uplo
+    character, intent(in) :: trans
+    character, intent(in) :: diag
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
 end subroutine
-!> Modern interface for [[f77_sytrf:ssytrf]].
+!> Original interface for DTRTRS
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> DTRTRS solves a triangular system of the form
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix of order N, and B is an N-by-NRHS matrix.
+!> The transpose or conjugate-transpose is selected via `trans`.
+!>
+!> A is assumed to be either upper or lower triangular as specified by `uplo`,
+!> and may be unit or non-unit diagonal as specified by `diag`.
+pure subroutine dtrtrs(uplo, trans, diag, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(in) :: a(lda,*)
+    real(REAL64), intent(inout) :: b(ldb,*)
+    character, intent(in) :: uplo
+    character, intent(in) :: trans
+    character, intent(in) :: diag
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for CTRTRS
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> CTRTRS solves a triangular system of the form
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix of order N, and B is an N-by-NRHS matrix.
+!> The transpose or conjugate-transpose is selected via `trans`.
+!>
+!> A is assumed to be either upper or lower triangular as specified by `uplo`,
+!> and may be unit or non-unit diagonal as specified by `diag`.
+pure subroutine ctrtrs(uplo, trans, diag, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(in) :: a(lda,*)
+    complex(REAL32), intent(inout) :: b(ldb,*)
+    character, intent(in) :: uplo
+    character, intent(in) :: trans
+    character, intent(in) :: diag
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZTRTRS
+!> See also: [[mfi_trtrs]], [[f77_trtrs]].
+!> ZTRTRS solves a triangular system of the form
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix of order N, and B is an N-by-NRHS matrix.
+!> The transpose or conjugate-transpose is selected via `trans`.
+!>
+!> A is assumed to be either upper or lower triangular as specified by `uplo`,
+!> and may be unit or non-unit diagonal as specified by `diag`.
+pure subroutine ztrtrs(uplo, trans, diag, n, nrhs, a, lda, b, ldb, info)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(in) :: a(lda,*)
+    complex(REAL64), intent(inout) :: b(ldb,*)
+    character, intent(in) :: uplo
+    character, intent(in) :: trans
+    character, intent(in) :: diag
+    integer, intent(in) :: n
+    integer, intent(in) :: nrhs
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(out) :: info
+end subroutine
+end interface
+!> Generic old style interface for SYTRF.
+!> Supports s, d.
+!> See also: [[mfi_sytrf]], [[ssytrf]], [[dsytrf]].
+interface f77_sytrf
+!> Original interface for SSYTRF
 !> See also: [[mfi_sytrf]], [[f77_sytrf]].
-!> Computes the factorization of a symmetric matrix using the Bunch-Kaufman diagonal pivoting method
-!> 
-!> The factorization has the form:
-!> - A = U*D*U**T (if uplo='U') or 
-!> - A = L*D*L**T (if uplo='L')
-!> 
-!> where U (or L) is a product of permutation and unit upper (lower) triangular matrices,
+!> SSYTRF computes the factorization of a real symmetric matrix A
+!> using the Bunch-Kaufman diagonal pivoting method. The form of the
+!> factorization is A = U*D*U**T or A = L*D*L**T, where U (or L) is a
+!> product of permutation and unit upper (lower) triangular matrices,
 !> and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
-!>
-!> Parameters:
-!> - `a` (inout): On entry, the symmetric matrix A. On exit, the block diagonal matrix D 
-!>                and the multipliers used to obtain the factor U or L.
-!> - `uplo` (in, optional): Specifies whether the upper ('U') or lower ('L') triangular part 
-!>                of the symmetric matrix A is stored. Default: 'U'
-!> - `ipiv` (out, optional): The pivot indices that define the permutation matrix P. 
-!>                If ipiv is not provided, it will be allocated internally.
-!> - `info` (out, optional): Output status: 0 for success, < 0 for illegal argument, 
-!>                > 0 if D(k,k) is exactly zero.
-pure subroutine mfi_ssytrf(a, uplo, ipiv, info)
+pure subroutine ssytrf(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    real(REAL32), pointer :: work(:)
-    real(REAL32) :: s_work(1)  ! Work array for workspace query
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    allocation_status = 0
-
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(n), stat=allocation_status)
-    end if
-
-    ! Retrieve work array size
-    lwork = -1
-    call ssytrf(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call ssytrf(local_uplo, n, a, lda, local_ipiv, work, lwork, local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('ssytrf', -local_info)
-    end if
-    
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        if (local_info <= -1000) then
-            call mfi_error('ssytrf', -local_info)
-        else
-            call mfi_error('ssytrf', local_info)
-        end if
-    end if
+    real(REAL32), intent(inout) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(out) :: ipiv(*)
+    real(REAL32), intent(inout) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
 end subroutine
-!> Modern interface for [[f77_sytrf:dsytrf]].
+!> Original interface for DSYTRF
 !> See also: [[mfi_sytrf]], [[f77_sytrf]].
-!> Computes the factorization of a symmetric matrix using the Bunch-Kaufman diagonal pivoting method
-!> 
-!> The factorization has the form:
-!> - A = U*D*U**T (if uplo='U') or 
-!> - A = L*D*L**T (if uplo='L')
-!> 
-!> where U (or L) is a product of permutation and unit upper (lower) triangular matrices,
+!> DSYTRF computes the factorization of a real symmetric matrix A
+!> using the Bunch-Kaufman diagonal pivoting method. The form of the
+!> factorization is A = U*D*U**T or A = L*D*L**T, where U (or L) is a
+!> product of permutation and unit upper (lower) triangular matrices,
 !> and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
-!>
-!> Parameters:
-!> - `a` (inout): On entry, the symmetric matrix A. On exit, the block diagonal matrix D 
-!>                and the multipliers used to obtain the factor U or L.
-!> - `uplo` (in, optional): Specifies whether the upper ('U') or lower ('L') triangular part 
-!>                of the symmetric matrix A is stored. Default: 'U'
-!> - `ipiv` (out, optional): The pivot indices that define the permutation matrix P. 
-!>                If ipiv is not provided, it will be allocated internally.
-!> - `info` (out, optional): Output status: 0 for success, < 0 for illegal argument, 
-!>                > 0 if D(k,k) is exactly zero.
-pure subroutine mfi_dsytrf(a, uplo, ipiv, info)
+pure subroutine dsytrf(uplo, n, a, lda, ipiv, work, lwork, info)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: a(:,:)
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, intent(out), optional :: info
-    integer :: local_info
-    integer :: n, lda, lwork, allocation_status, deallocation_status
-    integer, pointer :: local_ipiv(:)
-    real(REAL64), pointer :: work(:)
-    real(REAL64) :: s_work(1)  ! Work array for workspace query
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    lda = max(1,size(a,1))
-    n = size(a,2)
-    allocation_status = 0
-
-    if (present(ipiv)) then
-        local_ipiv => ipiv
-    else
-        allocate(local_ipiv(n), stat=allocation_status)
-    end if
-
-    ! Retrieve work array size
-    lwork = -1
-    call dsytrf(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
-    if (local_info /= 0) goto 404
-
-    lwork = int(s_work(1))
-    if (allocation_status == 0) then
-        allocate(work(lwork), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
-        call dsytrf(local_uplo, n, a, lda, local_ipiv, work, lwork, local_info)
-    else
-        local_info = -1000
-    end if
-    deallocate(work, stat=deallocation_status)
-
-    ! Error handling
-404 continue
-    if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
-    end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('dsytrf', -local_info)
-    end if
-    
-    if (present(info)) then
-        info = local_info
-    else if (local_info /= 0) then
-        if (local_info <= -1000) then
-            call mfi_error('dsytrf', -local_info)
-        else
-            call mfi_error('dsytrf', local_info)
-        end if
-    end if
+    real(REAL64), intent(inout) :: a(lda,*)
+    character, intent(in) :: uplo
+    integer, intent(out) :: ipiv(*)
+    real(REAL64), intent(inout) :: work(*)
+    integer, intent(out) :: info
+    integer, intent(in) :: n
+    integer, intent(in) :: lda
+    integer, intent(in) :: lwork
 end subroutine
+end interface
 
-    pure subroutine mfi_error(name, info)
-        character(*), intent(in) :: name
-        integer, intent(in) :: info
-        call f77_xerbla(name, info)
-    end subroutine
+    interface f77_xerbla
+        pure subroutine xerbla(name,info)
+            character(*), intent(in) :: name
+            integer, intent(in) :: info
+        end subroutine
+    end interface f77_xerbla
 
 end module
+
