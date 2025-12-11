@@ -896,18 +896,36 @@ pure subroutine mfi_zgetrs(a,ipiv,b,trans,info)
 end subroutine
 !> Modern interface for [[f77_hetrf:chetrf]].
 !> See also: [[mfi_hetrf]], [[f77_hetrf]].
+!> Computes the factorization of a Hermitian matrix using the Bunch-Kaufman diagonal pivoting method
+!>
+!> The factorization has the form:
+!> - A = U*D*U**H (if uplo='U') or
+!> - A = L*D*L**H (if uplo='L')
+!>
+!> where U (or L) is a product of permutation and unit upper (lower) triangular matrices,
+!> and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+!>
+!> Parameters:
+!> - `a` (inout): On entry, the Hermitian matrix A. On exit, the block diagonal matrix D
+!>                and the multipliers used to obtain the factor U or L.
+!> - `uplo` (in, optional): Specifies whether the upper ('U') or lower ('L') triangular part
+!>                of the Hermitian matrix A is stored. Default: 'U'
+!> - `ipiv` (out, optional): The pivot indices that define the permutation matrix P.
+!>                If ipiv is not provided, it will be allocated internally.
+!> - `info` (out, optional): Output status: 0 for success, < 0 for illegal argument,
+!>                > 0 if D(k,k) is exactly zero.
 pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     integer, parameter :: wp = REAL32
     complex(REAL32), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, pointer :: local_ipiv(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
+    integer, intent(out), optional, target :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
-    integer   :: n, lda, lwork, allocation_status, deallocation_status
-    complex(REAL32), target :: s_work(1)
+    integer :: n, lda, lwork, allocation_status, deallocation_status
+    integer, pointer :: local_ipiv(:)
     complex(REAL32), pointer :: work(:)
+    complex(REAL32) :: s_work(1)  ! Work array for workspace query
     if (present(uplo)) then
         local_uplo = uplo
     else
@@ -916,42 +934,82 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     lda = max(1,size(a,1))
     n = size(a,2)
     allocation_status = 0
+
     if (present(ipiv)) then
         local_ipiv => ipiv
     else
         allocate(local_ipiv(n), stat=allocation_status)
     end if
+
+    ! Retrieve work array size
     lwork = -1
-    call chetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
+    call chetrf(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
+
     lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call chetrf(local_uplo, n, a, lda, local_ipiv, work, lwork, local_info)
     else
         local_info = -1000
     end if
     deallocate(work, stat=deallocation_status)
+
+    ! Error handling
 404 continue
     if (.not. present(ipiv)) then
+        deallocate(local_ipiv, stat=deallocation_status)
+    end if
+    if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('chetrf',-local_info)
+        call mfi_error('chetrf', -local_info)
+    end if
+
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        if (local_info <= -1000) then
+            call mfi_error('chetrf', -local_info)
+        else
+            call mfi_error('chetrf', local_info)
+        end if
     end if
 end subroutine
 !> Modern interface for [[f77_hetrf:zhetrf]].
 !> See also: [[mfi_hetrf]], [[f77_hetrf]].
+!> Computes the factorization of a Hermitian matrix using the Bunch-Kaufman diagonal pivoting method
+!>
+!> The factorization has the form:
+!> - A = U*D*U**H (if uplo='U') or
+!> - A = L*D*L**H (if uplo='L')
+!>
+!> where U (or L) is a product of permutation and unit upper (lower) triangular matrices,
+!> and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+!>
+!> Parameters:
+!> - `a` (inout): On entry, the Hermitian matrix A. On exit, the block diagonal matrix D
+!>                and the multipliers used to obtain the factor U or L.
+!> - `uplo` (in, optional): Specifies whether the upper ('U') or lower ('L') triangular part
+!>                of the Hermitian matrix A is stored. Default: 'U'
+!> - `ipiv` (out, optional): The pivot indices that define the permutation matrix P.
+!>                If ipiv is not provided, it will be allocated internally.
+!> - `info` (out, optional): Output status: 0 for success, < 0 for illegal argument,
+!>                > 0 if D(k,k) is exactly zero.
 pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     integer, parameter :: wp = REAL64
     complex(REAL64), intent(inout) :: a(:,:)
-    integer, intent(out), optional, target :: ipiv(:)
-    integer, pointer :: local_ipiv(:)
     character, intent(in), optional :: uplo
     character :: local_uplo
+    integer, intent(out), optional, target :: ipiv(:)
     integer, intent(out), optional :: info
     integer :: local_info
-    integer   :: n, lda, lwork, allocation_status, deallocation_status
-    complex(REAL64), target :: s_work(1)
+    integer :: n, lda, lwork, allocation_status, deallocation_status
+    integer, pointer :: local_ipiv(:)
     complex(REAL64), pointer :: work(:)
+    complex(REAL64) :: s_work(1)  ! Work array for workspace query
     if (present(uplo)) then
         local_uplo = uplo
     else
@@ -960,26 +1018,48 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     lda = max(1,size(a,1))
     n = size(a,2)
     allocation_status = 0
+
     if (present(ipiv)) then
         local_ipiv => ipiv
     else
         allocate(local_ipiv(n), stat=allocation_status)
     end if
+
+    ! Retrieve work array size
     lwork = -1
-    call zhetrf(local_uplo,n,a,lda,local_ipiv,s_work,lwork,local_info)
+    call zhetrf(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
+
     lwork = int(s_work(1))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call zhetrf(local_uplo, n, a, lda, local_ipiv, work, lwork, local_info)
     else
         local_info = -1000
     end if
     deallocate(work, stat=deallocation_status)
+
+    ! Error handling
 404 continue
     if (.not. present(ipiv)) then
+        deallocate(local_ipiv, stat=deallocation_status)
+    end if
+    if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('zhetrf',-local_info)
+        call mfi_error('zhetrf', -local_info)
+    end if
+
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        if (local_info <= -1000) then
+            call mfi_error('zhetrf', -local_info)
+        else
+            call mfi_error('zhetrf', local_info)
+        end if
     end if
 end subroutine
 !> Modern interface for [[f77_hegv:chegv]].
