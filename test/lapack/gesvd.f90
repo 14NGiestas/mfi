@@ -36,13 +36,14 @@ subroutine test_sgesvd
     use f77_lapack, only: sgesvd, f77_gesvd
     use mfi_lapack, only: mfi_gesvd, mfi_sgesvd
 
+    ! For real types, no rwork needed
     integer, parameter :: wp = REAL32
     integer, parameter :: M = 3, N = 3
     real(REAL32) :: A(M,N), A_in(M,N), A_rf(M,N)
+    real(REAL32) :: U_temp(M,M), VT_temp(N,N)  ! Temporary arrays to avoid intent conflicts
     real(REAL32) :: S(min(M,N)), S_rf(min(M,N)), S_mfi(min(M,N))
     integer :: info, info_rf, info_mfi
     real(REAL32), allocatable :: work(:)
-    real(REAL32), allocatable :: rwork(:)  ! Needed for complex types
     integer :: lwork
 
     ! Create test matrix
@@ -52,10 +53,11 @@ subroutine test_sgesvd
 
     ! Test f77 interface (just get S values, not U/V)
     A_in = A
+    U_temp = 0.0_wp
+    VT_temp = 0.0_wp
     allocate(work(1))
     lwork = -1  ! Workspace query
-        ! For real types, no rwork needed
-        call sgesvd('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, info)
+    call sgesvd('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, info)
 
     if (info == 0) then
         lwork = int(real(work(1), wp))  ! Get workspace size
@@ -63,7 +65,9 @@ subroutine test_sgesvd
         allocate(work(max(1, lwork)))
 
         A_in = A
-            call sgesvd('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, info)
+        U_temp = 0.0_wp  ! Initialize U_temp
+        VT_temp = 0.0_wp  ! Initialize VT_temp
+            call sgesvd('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, info)
         A_rf = A_in
         S_rf = S
         info_rf = info
@@ -77,24 +81,25 @@ subroutine test_sgesvd
     ! Test mfi interface
     A_in = A
     call mfi_sgesvd(A_in, S_mfi, info=info_mfi)
-    call assert(info_mfi == info_rf, "different info results for mfi_sgesvd")
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_sgesvd")
 
     A_in = A
     call mfi_gesvd(A_in, S_mfi, info=info_mfi)
-    call assert(info_mfi == info_rf, "different info results for mfi_gesvd")
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_gesvd")
 
 end subroutine
 subroutine test_dgesvd
     use f77_lapack, only: dgesvd, f77_gesvd
     use mfi_lapack, only: mfi_gesvd, mfi_dgesvd
 
+    ! For real types, no rwork needed
     integer, parameter :: wp = REAL64
     integer, parameter :: M = 3, N = 3
     real(REAL64) :: A(M,N), A_in(M,N), A_rf(M,N)
+    real(REAL64) :: U_temp(M,M), VT_temp(N,N)  ! Temporary arrays to avoid intent conflicts
     real(REAL64) :: S(min(M,N)), S_rf(min(M,N)), S_mfi(min(M,N))
     integer :: info, info_rf, info_mfi
     real(REAL64), allocatable :: work(:)
-    real(REAL64), allocatable :: rwork(:)  ! Needed for complex types
     integer :: lwork
 
     ! Create test matrix
@@ -104,10 +109,11 @@ subroutine test_dgesvd
 
     ! Test f77 interface (just get S values, not U/V)
     A_in = A
+    U_temp = 0.0_wp
+    VT_temp = 0.0_wp
     allocate(work(1))
     lwork = -1  ! Workspace query
-        ! For real types, no rwork needed
-        call dgesvd('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, info)
+    call dgesvd('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, info)
 
     if (info == 0) then
         lwork = int(real(work(1), wp))  ! Get workspace size
@@ -115,7 +121,9 @@ subroutine test_dgesvd
         allocate(work(max(1, lwork)))
 
         A_in = A
-            call dgesvd('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, info)
+        U_temp = 0.0_wp  ! Initialize U_temp
+        VT_temp = 0.0_wp  ! Initialize VT_temp
+            call dgesvd('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, info)
         A_rf = A_in
         S_rf = S
         info_rf = info
@@ -129,20 +137,22 @@ subroutine test_dgesvd
     ! Test mfi interface
     A_in = A
     call mfi_dgesvd(A_in, S_mfi, info=info_mfi)
-    call assert(info_mfi == info_rf, "different info results for mfi_dgesvd")
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_dgesvd")
 
     A_in = A
     call mfi_gesvd(A_in, S_mfi, info=info_mfi)
-    call assert(info_mfi == info_rf, "different info results for mfi_gesvd")
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_gesvd")
 
 end subroutine
 subroutine test_cgesvd
     use f77_lapack, only: cgesvd, f77_gesvd
     use mfi_lapack, only: mfi_gesvd, mfi_cgesvd
 
+    ! For complex types, we need rwork as well
     integer, parameter :: wp = REAL32
     integer, parameter :: M = 3, N = 3
     complex(REAL32) :: A(M,N), A_in(M,N), A_rf(M,N)
+    complex(REAL32) :: U_temp(M,M), VT_temp(N,N)  ! Temporary arrays to avoid intent conflicts
     real(REAL32) :: S(min(M,N)), S_rf(min(M,N)), S_mfi(min(M,N))
     integer :: info, info_rf, info_mfi
     complex(REAL32), allocatable :: work(:)
@@ -156,11 +166,12 @@ subroutine test_cgesvd
 
     ! Test f77 interface (just get S values, not U/V)
     A_in = A
+    U_temp = 0.0_wp
+    VT_temp = 0.0_wp
     allocate(work(1))
     lwork = -1  ! Workspace query
-        ! For complex types, we need rwork as well
-        allocate(rwork(5*min(M,N)))
-        call cgesvd('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, rwork, info)
+    allocate(rwork(5*min(M,N)))
+    call cgesvd('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, rwork, info)
 
     if (info == 0) then
         lwork = int(real(work(1), wp))  ! Get workspace size
@@ -170,7 +181,9 @@ subroutine test_cgesvd
             allocate(rwork(5*min(M,N)))  ! Then reallocate for actual call
 
         A_in = A
-            call cgesvd('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, rwork, info)
+        U_temp = 0.0_wp  ! Initialize U_temp
+        VT_temp = 0.0_wp  ! Initialize VT_temp
+            call cgesvd('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, rwork, info)
         A_rf = A_in
         S_rf = S
         info_rf = info
@@ -186,20 +199,22 @@ subroutine test_cgesvd
     ! Test mfi interface
     A_in = A
     call mfi_cgesvd(A_in, S_mfi, info=info_mfi)
-    call assert(info_mfi == info_rf, "different info results for mfi_cgesvd")
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_cgesvd")
 
     A_in = A
     call mfi_gesvd(A_in, S_mfi, info=info_mfi)
-    call assert(info_mfi == info_rf, "different info results for mfi_gesvd")
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_gesvd")
 
 end subroutine
 subroutine test_zgesvd
     use f77_lapack, only: zgesvd, f77_gesvd
     use mfi_lapack, only: mfi_gesvd, mfi_zgesvd
 
+    ! For complex types, we need rwork as well
     integer, parameter :: wp = REAL64
     integer, parameter :: M = 3, N = 3
     complex(REAL64) :: A(M,N), A_in(M,N), A_rf(M,N)
+    complex(REAL64) :: U_temp(M,M), VT_temp(N,N)  ! Temporary arrays to avoid intent conflicts
     real(REAL64) :: S(min(M,N)), S_rf(min(M,N)), S_mfi(min(M,N))
     integer :: info, info_rf, info_mfi
     complex(REAL64), allocatable :: work(:)
@@ -213,11 +228,12 @@ subroutine test_zgesvd
 
     ! Test f77 interface (just get S values, not U/V)
     A_in = A
+    U_temp = 0.0_wp
+    VT_temp = 0.0_wp
     allocate(work(1))
     lwork = -1  ! Workspace query
-        ! For complex types, we need rwork as well
-        allocate(rwork(5*min(M,N)))
-        call zgesvd('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, rwork, info)
+    allocate(rwork(5*min(M,N)))
+    call zgesvd('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, rwork, info)
 
     if (info == 0) then
         lwork = int(real(work(1), wp))  ! Get workspace size
@@ -227,7 +243,9 @@ subroutine test_zgesvd
             allocate(rwork(5*min(M,N)))  ! Then reallocate for actual call
 
         A_in = A
-            call zgesvd('N', 'N', M, N, A_in, M, S, A_in, M, A_in, N, work, lwork, rwork, info)
+        U_temp = 0.0_wp  ! Initialize U_temp
+        VT_temp = 0.0_wp  ! Initialize VT_temp
+            call zgesvd('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, rwork, info)
         A_rf = A_in
         S_rf = S
         info_rf = info
@@ -243,39 +261,28 @@ subroutine test_zgesvd
     ! Test mfi interface
     A_in = A
     call mfi_zgesvd(A_in, S_mfi, info=info_mfi)
-    call assert(info_mfi == info_rf, "different info results for mfi_zgesvd")
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_zgesvd")
 
     A_in = A
     call mfi_gesvd(A_in, S_mfi, info=info_mfi)
-    call assert(info_mfi == info_rf, "different info results for mfi_gesvd")
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_gesvd")
 
 end subroutine
 
-    subroutine assert(test, msg, info)
-        logical, intent(in) :: test
-        character(*), intent(in) :: msg
-        integer, intent(in), optional :: info
-        character(1024) :: buffer
+subroutine assert(test, msg, info)
+    logical, intent(in) :: test
+    character(*), intent(in) :: msg
+    integer, intent(in), optional :: info
+    character(1024) :: buffer
 
-        if (.not. test) then
-            if (present(info)) then
-                write(buffer, *) 'Error ', info, ': ', msg
-            else
-                write(buffer, *) 'Error: ', msg
-            end if
-            error stop trim(buffer)
-        end if
-    end subroutine
-
-    subroutine report_test_result(test_name, success)
-        character(*), intent(in) :: test_name
-        logical, intent(in) :: success
-
-        if (success) then
-            write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
+    if (.not. test) then
+        if (present(info)) then
+            write(buffer, *) 'Error ', info, ': ', msg
         else
-            write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
+            write(buffer, *) 'Error: ', msg
         end if
-    end subroutine
+        error stop trim(buffer)
+    end if
+end subroutine
 
 end program

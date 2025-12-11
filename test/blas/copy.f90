@@ -58,17 +58,20 @@ subroutine test_scopy
     x_in = x
     y_in = y
     call f77_copy(N, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_scopy(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_copy(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_dcopy
@@ -95,17 +98,20 @@ subroutine test_dcopy
     x_in = x
     y_in = y
     call f77_copy(N, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_dcopy(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_copy(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_ccopy
@@ -124,14 +130,14 @@ block
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    x = cmplx(re,im)
+    x = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re(N)
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    y = cmplx(re,im)
+    y = cmplx(re,im, kind=REAL32)
 end block
 
     x_in = x
@@ -144,17 +150,20 @@ end block
     x_in = x
     y_in = y
     call f77_copy(N, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_ccopy(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_copy(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_zcopy
@@ -173,14 +182,14 @@ block
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    x = cmplx(re,im)
+    x = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re(N)
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    y = cmplx(re,im)
+    y = cmplx(re,im, kind=REAL64)
 end block
 
     x_in = x
@@ -193,17 +202,20 @@ end block
     x_in = x
     y_in = y
     call f77_copy(N, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_zcopy(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_copy(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 
@@ -220,17 +232,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

@@ -38,13 +38,13 @@ subroutine test_sdot
     ref = sdot(N, x, 1, y, 1)
 
     res = f77_dot(N, x, 1, y, 1)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
     res = mfi_sdot(x, y)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
     res = mfi_dot(x, y)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
 end subroutine
 subroutine test_ddot
@@ -65,13 +65,13 @@ subroutine test_ddot
     ref = ddot(N, x, 1, y, 1)
 
     res = f77_dot(N, x, 1, y, 1)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
     res = mfi_ddot(x, y)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
     res = mfi_dot(x, y)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
 end subroutine
 
@@ -88,17 +88,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

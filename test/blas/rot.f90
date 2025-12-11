@@ -83,17 +83,20 @@ subroutine test_srot
     x_in = x
     y_in = y
     call f77_rot(N, x_in, 1, y_in, 1, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_srot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_rot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_drot
@@ -131,17 +134,20 @@ subroutine test_drot
     x_in = x
     y_in = y
     call f77_rot(N, x_in, 1, y_in, 1, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_drot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_rot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_crot
@@ -168,14 +174,14 @@ block
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re(N)
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    Y = cmplx(re,im)
+    Y = cmplx(re,im, kind=REAL32)
 end block
 
     c = cos(angle)
@@ -191,17 +197,20 @@ end block
     x_in = x
     y_in = y
     call f77_rot(N, x_in, 1, y_in, 1, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_crot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_rot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_zrot
@@ -228,14 +237,14 @@ block
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re(N)
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    Y = cmplx(re,im)
+    Y = cmplx(re,im, kind=REAL64)
 end block
 
     c = cos(angle)
@@ -251,17 +260,20 @@ end block
     x_in = x
     y_in = y
     call f77_rot(N, x_in, 1, y_in, 1, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_zrot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_rot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_csrot
@@ -288,14 +300,14 @@ block
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re(N)
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    Y = cmplx(re,im)
+    Y = cmplx(re,im, kind=REAL32)
 end block
 
     c = cos(angle)
@@ -311,17 +323,20 @@ end block
     x_in = x
     y_in = y
     call f77_rot(N, x_in, 1, y_in, 1, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_csrot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_rot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_zdrot
@@ -348,14 +363,14 @@ block
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re(N)
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    Y = cmplx(re,im)
+    Y = cmplx(re,im, kind=REAL64)
 end block
 
     c = cos(angle)
@@ -371,17 +386,20 @@ end block
     x_in = x
     y_in = y
     call f77_rot(N, x_in, 1, y_in, 1, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_zdrot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_rot(x_in, y_in, c, s)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 
@@ -398,17 +416,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

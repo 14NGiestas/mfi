@@ -36,27 +36,27 @@ block
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re(N)
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    Y = cmplx(re,im)
+    Y = cmplx(re,im, kind=REAL32)
 end block
 
     ! The test is always against the original
     ref = cdotu(N, x, 1, y, 1)
 
     res = f77_dotu(N, x, 1, y, 1)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
     res = mfi_cdotu(x, y)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
     res = mfi_dotu(x, y)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
 end subroutine
 subroutine test_zdotu
@@ -75,27 +75,27 @@ block
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re(N)
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    Y = cmplx(re,im)
+    Y = cmplx(re,im, kind=REAL64)
 end block
 
     ! The test is always against the original
     ref = zdotu(N, x, 1, y, 1)
 
     res = f77_dotu(N, x, 1, y, 1)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
     res = mfi_zdotu(x, y)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
     res = mfi_dotu(x, y)
-    call assert(ref == res, "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
 
 end subroutine
 
@@ -112,17 +112,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

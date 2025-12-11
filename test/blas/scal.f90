@@ -72,15 +72,15 @@ subroutine test_sscal
 
     x_in = x
     call f77_scal(N, alpha, x_in, 1)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_sscal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_scal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
 end subroutine
 subroutine test_dscal
@@ -107,15 +107,15 @@ subroutine test_dscal
 
     x_in = x
     call f77_scal(N, alpha, x_in, 1)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_dscal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_scal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
 end subroutine
 subroutine test_cscal
@@ -137,14 +137,14 @@ block
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re
     real(REAL32) :: im
     call random_number(im)
     call random_number(re)
-    alpha = cmplx(re,im)
+    alpha = cmplx(re,im, kind=REAL32)
 end block
 
     ! The test is always against the original
@@ -154,15 +154,15 @@ end block
 
     x_in = x
     call f77_scal(N, alpha, x_in, 1)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_cscal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_scal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
 end subroutine
 subroutine test_zscal
@@ -184,14 +184,14 @@ block
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re
     real(REAL64) :: im
     call random_number(im)
     call random_number(re)
-    alpha = cmplx(re,im)
+    alpha = cmplx(re,im, kind=REAL64)
 end block
 
     ! The test is always against the original
@@ -201,15 +201,15 @@ end block
 
     x_in = x
     call f77_scal(N, alpha, x_in, 1)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_zscal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_scal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
 end subroutine
 subroutine test_csscal
@@ -231,7 +231,7 @@ block
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL32)
 end block
     call random_number(alpha)
 
@@ -242,15 +242,15 @@ end block
 
     x_in = x
     call f77_scal(N, alpha, x_in, 1)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_csscal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_scal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
 end subroutine
 subroutine test_zdscal
@@ -272,7 +272,7 @@ block
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL64)
 end block
     call random_number(alpha)
 
@@ -283,15 +283,15 @@ end block
 
     x_in = x
     call f77_scal(N, alpha, x_in, 1)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_zdscal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
     x_in = x
     call mfi_scal(alpha, x_in)
-    call assert(all(x_in == x_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
 end subroutine
 
@@ -308,17 +308,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

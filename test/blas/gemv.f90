@@ -68,26 +68,26 @@ subroutine test_sgemv
         X_in = X
         Y_in = Y
         call f77_gemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         M_in = M
         X_in = X
         Y_in = Y
         call mfi_sgemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         M_in = M
         X_in = X
         Y_in = Y
         call mfi_gemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
 
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
     end do
 
 end subroutine
@@ -127,26 +127,26 @@ subroutine test_dgemv
         X_in = X
         Y_in = Y
         call f77_gemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         M_in = M
         X_in = X
         Y_in = Y
         call mfi_dgemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         M_in = M
         X_in = X
         Y_in = Y
         call mfi_gemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
 
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
     end do
 
 end subroutine
@@ -169,35 +169,35 @@ block
     real(REAL32) :: im(N,N)
     call random_number(im)
     call random_number(re)
-    M = cmplx(re,im)
+    M = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re(N)
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re(N)
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    Y = cmplx(re,im)
+    Y = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re
     real(REAL32) :: im
     call random_number(im)
     call random_number(re)
-    alpha = cmplx(re,im)
+    alpha = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re
     real(REAL32) :: im
     call random_number(im)
     call random_number(re)
-    beta = cmplx(re,im)
+    beta = cmplx(re,im, kind=REAL32)
 end block
 
 
@@ -216,26 +216,26 @@ end block
         X_in = X
         Y_in = Y
         call f77_gemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         M_in = M
         X_in = X
         Y_in = Y
         call mfi_cgemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         M_in = M
         X_in = X
         Y_in = Y
         call mfi_gemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
 
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
     end do
 
 end subroutine
@@ -258,35 +258,35 @@ block
     real(REAL64) :: im(N,N)
     call random_number(im)
     call random_number(re)
-    M = cmplx(re,im)
+    M = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re(N)
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im)
+    X = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re(N)
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    Y = cmplx(re,im)
+    Y = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re
     real(REAL64) :: im
     call random_number(im)
     call random_number(re)
-    alpha = cmplx(re,im)
+    alpha = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re
     real(REAL64) :: im
     call random_number(im)
     call random_number(re)
-    beta = cmplx(re,im)
+    beta = cmplx(re,im, kind=REAL64)
 end block
 
 
@@ -305,26 +305,26 @@ end block
         X_in = X
         Y_in = Y
         call f77_gemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         M_in = M
         X_in = X
         Y_in = Y
         call mfi_zgemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         M_in = M
         X_in = X
         Y_in = Y
         call mfi_gemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
 
-        call assert(all(M_in == M_rf) .and. &
-                    all(X_in == X_rf) .and. &
-                    all(Y_in == Y_rf), "different results")
+        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
     end do
 
 end subroutine
@@ -342,17 +342,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

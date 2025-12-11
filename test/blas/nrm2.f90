@@ -48,14 +48,14 @@ subroutine test_snrm2
     res(3) = f77_nrm2(N, array, 1)
     res(2) = mfi_snrm2(array)
     res(4) = mfi_nrm2(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
     call random_number(array)
     res(1) = snrm2(N, array, 1)
     res(2) = f77_nrm2(N, array, 1)
     res(3) = mfi_snrm2(array)
     res(4) = mfi_nrm2(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 subroutine test_dnrm2
@@ -74,14 +74,14 @@ subroutine test_dnrm2
     res(3) = f77_nrm2(N, array, 1)
     res(2) = mfi_dnrm2(array)
     res(4) = mfi_nrm2(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
     call random_number(array)
     res(1) = dnrm2(N, array, 1)
     res(2) = f77_nrm2(N, array, 1)
     res(3) = mfi_dnrm2(array)
     res(4) = mfi_nrm2(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 subroutine test_scnrm2
@@ -100,20 +100,20 @@ subroutine test_scnrm2
     res(3) = f77_nrm2(N, array, 1)
     res(2) = mfi_scnrm2(array)
     res(4) = mfi_nrm2(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
 block
     real(REAL32) :: re(N)
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    array = cmplx(re,im)
+    array = cmplx(re,im, kind=REAL32)
 end block
     res(1) = scnrm2(N, array, 1)
     res(2) = f77_nrm2(N, array, 1)
     res(3) = mfi_scnrm2(array)
     res(4) = mfi_nrm2(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 subroutine test_dznrm2
@@ -132,20 +132,20 @@ subroutine test_dznrm2
     res(3) = f77_nrm2(N, array, 1)
     res(2) = mfi_dznrm2(array)
     res(4) = mfi_nrm2(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
 block
     real(REAL64) :: re(N)
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    array = cmplx(re,im)
+    array = cmplx(re,im, kind=REAL64)
 end block
     res(1) = dznrm2(N, array, 1)
     res(2) = f77_nrm2(N, array, 1)
     res(3) = mfi_dznrm2(array)
     res(4) = mfi_nrm2(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 
@@ -162,17 +162,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

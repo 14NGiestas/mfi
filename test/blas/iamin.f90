@@ -38,7 +38,6 @@ subroutine test_isamin
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(REAL32) :: rnd(N)
     real(REAL32) :: array(N)
     integer :: res(4)
     integer :: i
@@ -49,14 +48,14 @@ subroutine test_isamin
     res(2) = mfi_isamin(array)
     res(3) = f77_iamin(N, array, 1)
     res(4) = mfi_iamin(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
     call random_number(array)
     res(1) = isamin(N, array, 1)
     res(2) = f77_iamin(N, array, 1)
     res(3) = mfi_isamin(array)
     res(4) = mfi_iamin(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 subroutine test_idamin
@@ -65,7 +64,6 @@ subroutine test_idamin
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(REAL64) :: rnd(N)
     real(REAL64) :: array(N)
     integer :: res(4)
     integer :: i
@@ -76,14 +74,14 @@ subroutine test_idamin
     res(2) = mfi_idamin(array)
     res(3) = f77_iamin(N, array, 1)
     res(4) = mfi_iamin(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
     call random_number(array)
     res(1) = idamin(N, array, 1)
     res(2) = f77_iamin(N, array, 1)
     res(3) = mfi_idamin(array)
     res(4) = mfi_iamin(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 subroutine test_icamin
@@ -92,7 +90,6 @@ subroutine test_icamin
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(REAL32) :: rnd(N)
     complex(REAL32) :: array(N)
     integer :: res(4)
     integer :: i
@@ -103,8 +100,9 @@ subroutine test_icamin
     res(2) = mfi_icamin(array)
     res(3) = f77_iamin(N, array, 1)
     res(4) = mfi_iamin(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
+    real(REAL32) :: rnd(N)
     call random_number(rnd)
     array%re = rnd
     call random_number(rnd)
@@ -113,7 +111,7 @@ subroutine test_icamin
     res(2) = f77_iamin(N, array, 1)
     res(3) = mfi_icamin(array)
     res(4) = mfi_iamin(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 subroutine test_izamin
@@ -122,7 +120,6 @@ subroutine test_izamin
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(REAL64) :: rnd(N)
     complex(REAL64) :: array(N)
     integer :: res(4)
     integer :: i
@@ -133,8 +130,9 @@ subroutine test_izamin
     res(2) = mfi_izamin(array)
     res(3) = f77_iamin(N, array, 1)
     res(4) = mfi_iamin(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
+    real(REAL64) :: rnd(N)
     call random_number(rnd)
     array%re = rnd
     call random_number(rnd)
@@ -143,7 +141,7 @@ subroutine test_izamin
     res(2) = f77_iamin(N, array, 1)
     res(3) = mfi_izamin(array)
     res(4) = mfi_iamin(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 
@@ -160,17 +158,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

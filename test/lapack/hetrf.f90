@@ -24,7 +24,7 @@ subroutine test_chetrf
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 4
     complex(REAL32) :: A(N,N), A_in(N,N), A_rf(N,N)
-    integer :: ipiv(N), ipiv_in(N), ipiv_rf(N)
+    integer :: ipiv_in(N), ipiv_rf(N)
     integer :: info, info_rf, info_mfi
     complex(REAL32), allocatable :: work(:)
     integer :: lwork
@@ -64,15 +64,19 @@ subroutine test_chetrf
         return  ! Skip if workspace query failed
     end if
 
-    ! Test mfi interface (short form)
+    ! Test mfi interface (short form) - includes uplo and ipiv parameters
     A_in = A
-    call mfi_chetrf(A_in, info=info_mfi)
-    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < 1e-10), "different results for mfi_chetrf")
+    ipiv_in = 0  ! Initialize pivot array
+    call mfi_chetrf(A_in, 'U', ipiv_in, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
+                "different results for mfi_chetrf")
 
-    ! Test mfi interface (full form)
+    ! Test mfi interface (full form) - includes uplo and ipiv parameters
     A_in = A
-    call mfi_hetrf(A_in, info=info_mfi)
-    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < 1e-10), "different results for mfi_hetrf")
+    ipiv_in = 0  ! Initialize pivot array
+    call mfi_hetrf(A_in, 'U', ipiv_in, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
+                "different results for mfi_hetrf")
 
 end subroutine
 subroutine test_zhetrf
@@ -82,7 +86,7 @@ subroutine test_zhetrf
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 4
     complex(REAL64) :: A(N,N), A_in(N,N), A_rf(N,N)
-    integer :: ipiv(N), ipiv_in(N), ipiv_rf(N)
+    integer :: ipiv_in(N), ipiv_rf(N)
     integer :: info, info_rf, info_mfi
     complex(REAL64), allocatable :: work(:)
     integer :: lwork
@@ -122,43 +126,36 @@ subroutine test_zhetrf
         return  ! Skip if workspace query failed
     end if
 
-    ! Test mfi interface (short form)
+    ! Test mfi interface (short form) - includes uplo and ipiv parameters
     A_in = A
-    call mfi_zhetrf(A_in, info=info_mfi)
-    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < 1e-10), "different results for mfi_zhetrf")
+    ipiv_in = 0  ! Initialize pivot array
+    call mfi_zhetrf(A_in, 'U', ipiv_in, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
+                "different results for mfi_zhetrf")
 
-    ! Test mfi interface (full form)
+    ! Test mfi interface (full form) - includes uplo and ipiv parameters
     A_in = A
-    call mfi_hetrf(A_in, info=info_mfi)
-    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < 1e-10), "different results for mfi_hetrf")
+    ipiv_in = 0  ! Initialize pivot array
+    call mfi_hetrf(A_in, 'U', ipiv_in, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
+                "different results for mfi_hetrf")
 
 end subroutine
 
-    subroutine assert(test, msg, info)
-        logical, intent(in) :: test
-        character(*), intent(in) :: msg
-        integer, intent(in), optional :: info
-        character(1024) :: buffer
+subroutine assert(test, msg, info)
+    logical, intent(in) :: test
+    character(*), intent(in) :: msg
+    integer, intent(in), optional :: info
+    character(1024) :: buffer
 
-        if (.not. test) then
-            if (present(info)) then
-                write(buffer, *) 'Error ', info, ': ', msg
-            else
-                write(buffer, *) 'Error: ', msg
-            end if
-            error stop trim(buffer)
-        end if
-    end subroutine
-
-    subroutine report_test_result(test_name, success)
-        character(*), intent(in) :: test_name
-        logical, intent(in) :: success
-
-        if (success) then
-            write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
+    if (.not. test) then
+        if (present(info)) then
+            write(buffer, *) 'Error ', info, ': ', msg
         else
-            write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
+            write(buffer, *) 'Error: ', msg
         end if
-    end subroutine
+        error stop trim(buffer)
+    end if
+end subroutine
 
 end program

@@ -39,7 +39,7 @@ subroutine test_sgetrf
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 3
     real(REAL32) :: A(N,N), A_in(N,N), A_rf(N,N)
-    integer :: ipiv(N), ipiv_in(N), ipiv_rf(N)
+    integer :: ipiv_in(N), ipiv_rf(N)
     integer :: info, info_rf, info_mfi
 
     ! Create a test matrix for LU factorization
@@ -76,7 +76,7 @@ subroutine test_dgetrf
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 3
     real(REAL64) :: A(N,N), A_in(N,N), A_rf(N,N)
-    integer :: ipiv(N), ipiv_in(N), ipiv_rf(N)
+    integer :: ipiv_in(N), ipiv_rf(N)
     integer :: info, info_rf, info_mfi
 
     ! Create a test matrix for LU factorization
@@ -113,7 +113,7 @@ subroutine test_cgetrf
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 3
     complex(REAL32) :: A(N,N), A_in(N,N), A_rf(N,N)
-    integer :: ipiv(N), ipiv_in(N), ipiv_rf(N)
+    integer :: ipiv_in(N), ipiv_rf(N)
     integer :: info, info_rf, info_mfi
 
     ! Create a test matrix for LU factorization
@@ -150,7 +150,7 @@ subroutine test_zgetrf
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 3
     complex(REAL64) :: A(N,N), A_in(N,N), A_rf(N,N)
-    integer :: ipiv(N), ipiv_in(N), ipiv_rf(N)
+    integer :: ipiv_in(N), ipiv_rf(N)
     integer :: info, info_rf, info_mfi
 
     ! Create a test matrix for LU factorization
@@ -181,31 +181,20 @@ subroutine test_zgetrf
 
 end subroutine
 
-    subroutine assert(test, msg, info)
-        logical, intent(in) :: test
-        character(*), intent(in) :: msg
-        integer, intent(in), optional :: info
-        character(1024) :: buffer
+subroutine assert(test, msg, info)
+    logical, intent(in) :: test
+    character(*), intent(in) :: msg
+    integer, intent(in), optional :: info
+    character(1024) :: buffer
 
-        if (.not. test) then
-            if (present(info)) then
-                write(buffer, *) 'Error ', info, ': ', msg
-            else
-                write(buffer, *) 'Error: ', msg
-            end if
-            error stop trim(buffer)
-        end if
-    end subroutine
-
-    subroutine report_test_result(test_name, success)
-        character(*), intent(in) :: test_name
-        logical, intent(in) :: success
-
-        if (success) then
-            write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
+    if (.not. test) then
+        if (present(info)) then
+            write(buffer, *) 'Error ', info, ': ', msg
         else
-            write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
+            write(buffer, *) 'Error: ', msg
         end if
-    end subroutine
+        error stop trim(buffer)
+    end if
+end subroutine
 
 end program

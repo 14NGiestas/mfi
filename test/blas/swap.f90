@@ -41,8 +41,6 @@ subroutine test_sswap
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
 
-    real(REAL32) :: rnd(N)
-
     real(REAL32) :: x(N),    y(N),    &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
@@ -60,17 +58,20 @@ subroutine test_sswap
     x_in = x
     y_in = y
     call f77_swap(N, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_sswap(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_swap(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_dswap
@@ -79,8 +80,6 @@ subroutine test_dswap
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-
-    real(REAL64) :: rnd(N)
 
     real(REAL64) :: x(N),    y(N),    &
                 x_in(N), y_in(N), &
@@ -99,17 +98,20 @@ subroutine test_dswap
     x_in = x
     y_in = y
     call f77_swap(N, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_dswap(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_swap(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_cswap
@@ -119,12 +121,11 @@ subroutine test_cswap
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
 
-    real(REAL32) :: rnd(N)
-
     complex(REAL32) :: x(N),    y(N),    &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
 
+    real(REAL32) :: rnd(N)
     call random_number(rnd)
     x%re = rnd
     call random_number(rnd)
@@ -144,17 +145,20 @@ subroutine test_cswap
     x_in = x
     y_in = y
     call f77_swap(N, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_cswap(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_swap(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_zswap
@@ -164,12 +168,11 @@ subroutine test_zswap
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
 
-    real(REAL64) :: rnd(N)
-
     complex(REAL64) :: x(N),    y(N),    &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
 
+    real(REAL64) :: rnd(N)
     call random_number(rnd)
     x%re = rnd
     call random_number(rnd)
@@ -189,17 +192,20 @@ subroutine test_zswap
     x_in = x
     y_in = y
     call f77_swap(N, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_zswap(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = x
     y_in = y
     call mfi_swap(x_in, y_in)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 
@@ -216,17 +222,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

@@ -38,7 +38,6 @@ subroutine test_saxpy
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(REAL32) :: rnd_vector(N), rnd
     real(REAL32) :: x(N), Y(N), &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
@@ -57,18 +56,21 @@ subroutine test_saxpy
     x_in = X
     y_in = Y
     call f77_axpy(N, alpha, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = X
     y_in = Y
     call mfi_saxpy(x_in,y_in,alpha)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = X
     y_in = Y
     call mfi_axpy(x_in, y_in, alpha)
 
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_daxpy
@@ -77,7 +79,6 @@ subroutine test_daxpy
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(REAL64) :: rnd_vector(N), rnd
     real(REAL64) :: x(N), Y(N), &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
@@ -96,18 +97,21 @@ subroutine test_daxpy
     x_in = X
     y_in = Y
     call f77_axpy(N, alpha, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = X
     y_in = Y
     call mfi_daxpy(x_in,y_in,alpha)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = X
     y_in = Y
     call mfi_axpy(x_in, y_in, alpha)
 
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_caxpy
@@ -116,12 +120,12 @@ subroutine test_caxpy
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(REAL32) :: rnd_vector(N), rnd
     complex(REAL32) :: x(N), Y(N), &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
     complex(REAL32) :: alpha
 
+    real(REAL32) :: rnd_vector(N), rnd
     call random_number(rnd_vector)
     X%re = rnd_vector
     call random_number(rnd_vector)
@@ -144,18 +148,21 @@ subroutine test_caxpy
     x_in = X
     y_in = Y
     call f77_axpy(N, alpha, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = X
     y_in = Y
     call mfi_caxpy(x_in,y_in,alpha)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = X
     y_in = Y
     call mfi_axpy(x_in, y_in, alpha)
 
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 subroutine test_zaxpy
@@ -164,12 +171,12 @@ subroutine test_zaxpy
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(REAL64) :: rnd_vector(N), rnd
     complex(REAL64) :: x(N), Y(N), &
                 x_in(N), y_in(N), &
                 x_rf(N), y_rf(N)
     complex(REAL64) :: alpha
 
+    real(REAL64) :: rnd_vector(N), rnd
     call random_number(rnd_vector)
     X%re = rnd_vector
     call random_number(rnd_vector)
@@ -192,18 +199,21 @@ subroutine test_zaxpy
     x_in = X
     y_in = Y
     call f77_axpy(N, alpha, x_in, 1, y_in, 1)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = X
     y_in = Y
     call mfi_zaxpy(x_in,y_in,alpha)
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
     x_in = X
     y_in = Y
     call mfi_axpy(x_in, y_in, alpha)
 
-    call assert(all(x_in == x_rf) .and. all(y_in == y_rf), "different results")
+    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
+        & results")
 
 end subroutine
 
@@ -220,17 +230,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

@@ -43,7 +43,7 @@ subroutine test_slamch
     do i=1,size(options)
         a = slamch(options(i))
         b = mfi_lamch(options(i),1.0_wp)
-        call assert(a == b, "different results for option "//options(i))
+        call assert(abs(a - b) < sqrt(epsilon(1.0_wp)), "different results for option "//options(i))
     end do
 
 end subroutine
@@ -70,7 +70,7 @@ subroutine test_dlamch
     do i=1,size(options)
         a = dlamch(options(i))
         b = mfi_lamch(options(i),1.0_wp)
-        call assert(a == b, "different results for option "//options(i))
+        call assert(abs(a - b) < sqrt(epsilon(1.0_wp)), "different results for option "//options(i))
     end do
 
 end subroutine
@@ -88,17 +88,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

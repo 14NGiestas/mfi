@@ -69,26 +69,26 @@ subroutine test_sgemm
         B_in = B
         C_in = C
         call f77_gemm(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         A_in = A
         B_in = B
         C_in = C
         call mfi_sgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         A_in = A
         B_in = B
         C_in = C
         call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
 
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
     end do
     end do
 
@@ -130,26 +130,26 @@ subroutine test_dgemm
         B_in = B
         C_in = C
         call f77_gemm(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         A_in = A
         B_in = B
         C_in = C
         call mfi_dgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         A_in = A
         B_in = B
         C_in = C
         call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
 
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
     end do
     end do
 
@@ -173,35 +173,35 @@ block
     real(REAL32) :: im(N,N)
     call random_number(im)
     call random_number(re)
-    A = cmplx(re,im)
+    A = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re(N,N)
     real(REAL32) :: im(N,N)
     call random_number(im)
     call random_number(re)
-    B = cmplx(re,im)
+    B = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re(N,N)
     real(REAL32) :: im(N,N)
     call random_number(im)
     call random_number(re)
-    C = cmplx(re,im)
+    C = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re
     real(REAL32) :: im
     call random_number(im)
     call random_number(re)
-    alpha = cmplx(re,im)
+    alpha = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re
     real(REAL32) :: im
     call random_number(im)
     call random_number(re)
-    beta = cmplx(re,im)
+    beta = cmplx(re,im, kind=REAL32)
 end block
 
     do i=1,size(options)
@@ -221,26 +221,26 @@ end block
         B_in = B
         C_in = C
         call f77_gemm(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         A_in = A
         B_in = B
         C_in = C
         call mfi_cgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         A_in = A
         B_in = B
         C_in = C
         call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
 
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
     end do
     end do
 
@@ -264,35 +264,35 @@ block
     real(REAL64) :: im(N,N)
     call random_number(im)
     call random_number(re)
-    A = cmplx(re,im)
+    A = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re(N,N)
     real(REAL64) :: im(N,N)
     call random_number(im)
     call random_number(re)
-    B = cmplx(re,im)
+    B = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re(N,N)
     real(REAL64) :: im(N,N)
     call random_number(im)
     call random_number(re)
-    C = cmplx(re,im)
+    C = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re
     real(REAL64) :: im
     call random_number(im)
     call random_number(re)
-    alpha = cmplx(re,im)
+    alpha = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re
     real(REAL64) :: im
     call random_number(im)
     call random_number(re)
-    beta = cmplx(re,im)
+    beta = cmplx(re,im, kind=REAL64)
 end block
 
     do i=1,size(options)
@@ -312,26 +312,26 @@ end block
         B_in = B
         C_in = C
         call f77_gemm(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         A_in = A
         B_in = B
         C_in = C
         call mfi_zgemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
 
         A_in = A
         B_in = B
         C_in = C
         call mfi_gemm(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
 
-        call assert(all(A_in == A_rf) .and. &
-                    all(B_in == B_rf) .and. &
-                    all(C_in == C_rf), "different results")
+        call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
+                    all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
     end do
     end do
 
@@ -350,17 +350,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

@@ -39,7 +39,7 @@ subroutine test_sgeqrf
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 6, M = 2
     real(REAL32) :: A(N,M), A_in(N,M), A_rf(N,M)
-    real(REAL32) :: tau(min(N,M)), tau_in(min(N,M)), tau_rf(min(N,M))
+    real(REAL32) :: tau_in(min(N,M)), tau_rf(min(N,M))
     integer :: info, info_rf, info_mfi
     real(REAL32), allocatable :: work(:)
     integer :: lwork
@@ -93,7 +93,7 @@ subroutine test_dgeqrf
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 6, M = 2
     real(REAL64) :: A(N,M), A_in(N,M), A_rf(N,M)
-    real(REAL64) :: tau(min(N,M)), tau_in(min(N,M)), tau_rf(min(N,M))
+    real(REAL64) :: tau_in(min(N,M)), tau_rf(min(N,M))
     integer :: info, info_rf, info_mfi
     real(REAL64), allocatable :: work(:)
     integer :: lwork
@@ -147,7 +147,7 @@ subroutine test_cgeqrf
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 6, M = 2
     complex(REAL32) :: A(N,M), A_in(N,M), A_rf(N,M)
-    complex(REAL32) :: tau(min(N,M)), tau_in(min(N,M)), tau_rf(min(N,M))
+    complex(REAL32) :: tau_in(min(N,M)), tau_rf(min(N,M))
     integer :: info, info_rf, info_mfi
     complex(REAL32), allocatable :: work(:)
     integer :: lwork
@@ -201,7 +201,7 @@ subroutine test_zgeqrf
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 6, M = 2
     complex(REAL64) :: A(N,M), A_in(N,M), A_rf(N,M)
-    complex(REAL64) :: tau(min(N,M)), tau_in(min(N,M)), tau_rf(min(N,M))
+    complex(REAL64) :: tau_in(min(N,M)), tau_rf(min(N,M))
     integer :: info, info_rf, info_mfi
     complex(REAL64), allocatable :: work(:)
     integer :: lwork
@@ -249,31 +249,20 @@ subroutine test_zgeqrf
 
 end subroutine
 
-    subroutine assert(test, msg, info)
-        logical, intent(in) :: test
-        character(*), intent(in) :: msg
-        integer, intent(in), optional :: info
-        character(1024) :: buffer
+subroutine assert(test, msg, info)
+    logical, intent(in) :: test
+    character(*), intent(in) :: msg
+    integer, intent(in), optional :: info
+    character(1024) :: buffer
 
-        if (.not. test) then
-            if (present(info)) then
-                write(buffer, *) 'Error ', info, ': ', msg
-            else
-                write(buffer, *) 'Error: ', msg
-            end if
-            error stop trim(buffer)
-        end if
-    end subroutine
-
-    subroutine report_test_result(test_name, success)
-        character(*), intent(in) :: test_name
-        logical, intent(in) :: success
-
-        if (success) then
-            write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
+    if (.not. test) then
+        if (present(info)) then
+            write(buffer, *) 'Error ', info, ': ', msg
         else
-            write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
+            write(buffer, *) 'Error: ', msg
         end if
-    end subroutine
+        error stop trim(buffer)
+    end if
+end subroutine
 
 end program

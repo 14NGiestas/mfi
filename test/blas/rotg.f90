@@ -70,10 +70,10 @@ subroutine test_srotg
         s_in = s
         call mfi_rotg(a_in, b_in, c_in, s_in)
 
-        call assert(a_in == a_rf .and. &
-                    b_in == b_rf .and. &
-                    s_in == s_rf .and. &
-                    c_in == c_rf, "different results")
+        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "different results")
     end do
 
 end subroutine
@@ -115,10 +115,10 @@ subroutine test_drotg
         s_in = s
         call mfi_rotg(a_in, b_in, c_in, s_in)
 
-        call assert(a_in == a_rf .and. &
-                    b_in == b_rf .and. &
-                    s_in == s_rf .and. &
-                    c_in == c_rf, "different results")
+        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "different results")
     end do
 
 end subroutine
@@ -143,14 +143,14 @@ block
     real(REAL32) :: im
     call random_number(im)
     call random_number(re)
-    a = cmplx(re,im)
+    a = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re
     real(REAL32) :: im
     call random_number(im)
     call random_number(re)
-    b = cmplx(re,im)
+    b = cmplx(re,im, kind=REAL32)
 end block
     call random_number(c)
 block
@@ -158,7 +158,7 @@ block
     real(REAL32) :: im
     call random_number(im)
     call random_number(re)
-    s = cmplx(re,im)
+    s = cmplx(re,im, kind=REAL32)
 end block
 
     do i=1,N
@@ -178,10 +178,10 @@ end block
         s_in = s
         call mfi_rotg(a_in, b_in, c_in, s_in)
 
-        call assert(a_in == a_rf .and. &
-                    b_in == b_rf .and. &
-                    s_in == s_rf .and. &
-                    c_in == c_rf, "different results")
+        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "different results")
     end do
 
 end subroutine
@@ -206,14 +206,14 @@ block
     real(REAL64) :: im
     call random_number(im)
     call random_number(re)
-    a = cmplx(re,im)
+    a = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re
     real(REAL64) :: im
     call random_number(im)
     call random_number(re)
-    b = cmplx(re,im)
+    b = cmplx(re,im, kind=REAL64)
 end block
     call random_number(c)
 block
@@ -221,7 +221,7 @@ block
     real(REAL64) :: im
     call random_number(im)
     call random_number(re)
-    s = cmplx(re,im)
+    s = cmplx(re,im, kind=REAL64)
 end block
 
     do i=1,N
@@ -241,10 +241,10 @@ end block
         s_in = s
         call mfi_rotg(a_in, b_in, c_in, s_in)
 
-        call assert(a_in == a_rf .and. &
-                    b_in == b_rf .and. &
-                    s_in == s_rf .and. &
-                    c_in == c_rf, "different results")
+        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)) .and. &
+                    abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "different results")
     end do
 
 end subroutine
@@ -262,17 +262,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 

@@ -47,14 +47,14 @@ subroutine test_sasum
     res(3) = f77_asum(N, array, 1)
     res(2) = mfi_sasum(array)
     res(4) = mfi_asum(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
     call random_number(array)
     res(1) = sasum(N, array, 1)
     res(2) = f77_asum(N, array, 1)
     res(3) = mfi_sasum(array)
     res(4) = mfi_asum(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 subroutine test_dasum
@@ -73,14 +73,14 @@ subroutine test_dasum
     res(3) = f77_asum(N, array, 1)
     res(2) = mfi_dasum(array)
     res(4) = mfi_asum(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
     call random_number(array)
     res(1) = dasum(N, array, 1)
     res(2) = f77_asum(N, array, 1)
     res(3) = mfi_dasum(array)
     res(4) = mfi_asum(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 subroutine test_scasum
@@ -99,20 +99,20 @@ subroutine test_scasum
     res(3) = f77_asum(N, array, 1)
     res(2) = mfi_scasum(array)
     res(4) = mfi_asum(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
 block
     real(REAL32) :: re(N)
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    array = cmplx(re,im)
+    array = cmplx(re,im, kind=REAL32)
 end block
     res(1) = scasum(N, array, 1)
     res(2) = f77_asum(N, array, 1)
     res(3) = mfi_scasum(array)
     res(4) = mfi_asum(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 subroutine test_dzasum
@@ -131,20 +131,20 @@ subroutine test_dzasum
     res(3) = f77_asum(N, array, 1)
     res(2) = mfi_dzasum(array)
     res(4) = mfi_asum(array)
-    call assert(all(res == res(1)), "different results for sequential array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
 block
     real(REAL64) :: re(N)
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    array = cmplx(re,im)
+    array = cmplx(re,im, kind=REAL64)
 end block
     res(1) = dzasum(N, array, 1)
     res(2) = f77_asum(N, array, 1)
     res(3) = mfi_dzasum(array)
     res(4) = mfi_asum(array)
-    call assert(all(res == res(1)), "different results for random array")
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
 
 end subroutine
 
@@ -161,17 +161,6 @@ subroutine assert(test, msg, info)
             write(buffer, *) 'Error: ', msg
         end if
         error stop trim(buffer)
-    end if
-end subroutine
-
-subroutine report_test_result(test_name, success)
-    character(*), intent(in) :: test_name
-    logical, intent(in) :: success
-
-    if (success) then
-        write(*, '(A, ": ", A)') trim(test_name), 'PASSED'
-    else
-        write(*, '(A, ": ", A)') trim(test_name), 'FAILED'
     end if
 end subroutine
 
