@@ -72,17 +72,17 @@ subroutine test_chetrf
     A_in = A_original  ! Reset to original matrix
     ipiv_in = 0  ! Initialize pivot array
     call mfi_chetrf(A_in, 'U', ipiv_in, info=info_mfi)
-    ! For hetrf, focus on info and pivot array matching since factorized storage can differ
-    call assert(info_mfi == info_rf .and. all(ipiv_in == ipiv_rf), &
-                "different results for mfi_chetrf (info or pivots don't match)")
+    ! Compare info, pivots and factorized matrices for hetrf implementations
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
+                "different results for mfi_chetrf")
 
     ! Test mfi interface (full form) - includes uplo and ipiv parameters
     A_in = A_original  ! Reset to original matrix
     ipiv_in = 0  ! Initialize pivot array
     call mfi_hetrf(A_in, 'U', ipiv_in, info=info_mfi)
-    ! For hetrf, focus on info and pivot array matching since factorized storage can differ
-    call assert(info_mfi == info_rf .and. all(ipiv_in == ipiv_rf), &
-                "different results for mfi_hetrf (info or pivots don't match)")
+    ! Compare info, pivots and factorized matrices for hetrf implementations
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
+                "different results for mfi_hetrf")
 
 end subroutine
 subroutine test_zhetrf
@@ -140,17 +140,17 @@ subroutine test_zhetrf
     A_in = A_original  ! Reset to original matrix
     ipiv_in = 0  ! Initialize pivot array
     call mfi_zhetrf(A_in, 'U', ipiv_in, info=info_mfi)
-    ! For hetrf, focus on info and pivot array matching since factorized storage can differ
-    call assert(info_mfi == info_rf .and. all(ipiv_in == ipiv_rf), &
-                "different results for mfi_zhetrf (info or pivots don't match)")
+    ! Compare info, pivots and factorized matrices for hetrf implementations
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
+                "different results for mfi_zhetrf")
 
     ! Test mfi interface (full form) - includes uplo and ipiv parameters
     A_in = A_original  ! Reset to original matrix
     ipiv_in = 0  ! Initialize pivot array
     call mfi_hetrf(A_in, 'U', ipiv_in, info=info_mfi)
-    ! For hetrf, focus on info and pivot array matching since factorized storage can differ
-    call assert(info_mfi == info_rf .and. all(ipiv_in == ipiv_rf), &
-                "different results for mfi_hetrf (info or pivots don't match)")
+    ! Compare info, pivots and factorized matrices for hetrf implementations
+    call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
+                "different results for mfi_hetrf")
 
 end subroutine
 
