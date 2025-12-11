@@ -30,6 +30,8 @@ subroutine test_cunmqr
     complex(REAL32), allocatable :: work(:)
     integer :: lwork
     character :: side = 'L', trans = 'N'
+    ! For RQ routines, we need temporary matrix for proper factorization
+    complex(REAL32) :: A_factorize(M,N)  ! Temporary matrix for RQ factorization
 
     ! Create a test matrix A (will be factorized)
     ! For RQ/QR routines, the factorization matrix A needs appropriate dimensions for multiplication
@@ -48,13 +50,22 @@ subroutine test_cunmqr
                  1.0_wp, 2.0_wp, &
                  1.0_wp, 1.0_wp], [M,N])
 
-    ! For RQ routines, factorization matrix dimensions need special handling
-    ! According to documentation: if we want to use ORMRQ to multiply matrix C (M×N)
-    ! A must have dimensions (LDA,M) if SIDE='L' or (LDA,N) if SIDE='R'
-    ! where LDA >= max(1,K) and K follows the rule:
-    ! If SIDE = 'L', M >= K >= 0; if SIDE = 'R', N >= K >= 0
+    ! For RQ/QR routines, we need consistent matrix setup for proper testing
     A_copy = A
-    ! Compute QR factorization first for QR routines
+    ! For RQ routines, we need to be very careful about dimensions
+    ! For multiplying C (M×N), the factorization matrix must come from a matrix compatible with the operation
+    ! For side='L': A should be from factorizing an M×N matrix
+    ! For side='R': A should be from factorizing an M×N matrix
+    ! Actually, let me use proper dimensions: if we want to multiply C(M,N) where C is M×N
+    ! For side='L': A is result of RQ factorizing a matrix of size (something) × N
+    ! For side='R': A is result of RQ factorizing a matrix of size M × (something)
+
+    ! To keep it simple, let's make A the right size for the RQ factorization
+    ! Since we're multiplying C(M,N) and A is initially M×M, let me adjust the approach
+    ! For RQ factorization of an M×N matrix, we need to work with proper dimensions
+
+    ! Create proper matrices for RQ case - we need to factorize an appropriate matrix
+    ! For QR, the original approach is fine
     call mfi_geqrf(A_copy, tau, info=info)
     if (info /= 0) return
 
@@ -62,10 +73,9 @@ subroutine test_cunmqr
     C_orig = C
     C_rf = C
 
-    ! Test f77 interface for cunmqr
+    ! Test f77 interface for cunmqr - workspace query and then actual call
     allocate(work(1))
     lwork = -1
-    ! For QR routines: A is MxM, k=min(M,N) as usual
     call cunmqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
     if (info == 0) then
         lwork = int(real(work(1), wp))
@@ -73,14 +83,8 @@ subroutine test_cunmqr
         deallocate(work)
         allocate(work(max(1, lwork)))
 
-        A_copy = A  ! Reset A_copy
-        call mfi_geqrf(A_copy, tau, info=info)
-        if (info /= 0) then
-            deallocate(work)
-            return
-        end if
-
-        C_rf = C_orig  ! Reset C_rf
+        ! Use the same factorization and original C matrix for the actual computation
+        C_rf = C_orig  ! Reset C_rf to original before applying transform
         call cunmqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
         info_rf = info
         deallocate(work)
@@ -91,20 +95,19 @@ subroutine test_cunmqr
 
     if (info /= 0) return
 
-    ! Test mfi interface (short form)
-    C = C_orig  ! Reset C
-    A_copy = A  ! Reset A_copy
-    ! QR factorization for QR routines
+    ! Test mfi interface (short form) - use the same factorization and original input
+    ! Reset matrices to original values
+    C = C_orig
+    A_copy = A  ! Get fresh copy to factorize again (which should give same result within numerical tolerance)
     call mfi_geqrf(A_copy, tau, info=info)
     if (info /= 0) return
     call mfi_cunmqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_cunmqr")
 
-    ! Test mfi interface (full form)
-    C = C_orig  ! Reset C
-    A_copy = A  ! Reset A_copy
-    ! QR factorization for QR routines
+    ! Test mfi interface (full form) - use the same factorization and original input
+    C = C_orig
+    A_copy = A  ! Get fresh copy to factorize again
     call mfi_geqrf(A_copy, tau, info=info)
     if (info /= 0) return
     call mfi_unmqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
@@ -124,6 +127,8 @@ subroutine test_zunmqr
     complex(REAL64), allocatable :: work(:)
     integer :: lwork
     character :: side = 'L', trans = 'N'
+    ! For RQ routines, we need temporary matrix for proper factorization
+    complex(REAL64) :: A_factorize(M,N)  ! Temporary matrix for RQ factorization
 
     ! Create a test matrix A (will be factorized)
     ! For RQ/QR routines, the factorization matrix A needs appropriate dimensions for multiplication
@@ -142,13 +147,22 @@ subroutine test_zunmqr
                  1.0_wp, 2.0_wp, &
                  1.0_wp, 1.0_wp], [M,N])
 
-    ! For RQ routines, factorization matrix dimensions need special handling
-    ! According to documentation: if we want to use ORMRQ to multiply matrix C (M×N)
-    ! A must have dimensions (LDA,M) if SIDE='L' or (LDA,N) if SIDE='R'
-    ! where LDA >= max(1,K) and K follows the rule:
-    ! If SIDE = 'L', M >= K >= 0; if SIDE = 'R', N >= K >= 0
+    ! For RQ/QR routines, we need consistent matrix setup for proper testing
     A_copy = A
-    ! Compute QR factorization first for QR routines
+    ! For RQ routines, we need to be very careful about dimensions
+    ! For multiplying C (M×N), the factorization matrix must come from a matrix compatible with the operation
+    ! For side='L': A should be from factorizing an M×N matrix
+    ! For side='R': A should be from factorizing an M×N matrix
+    ! Actually, let me use proper dimensions: if we want to multiply C(M,N) where C is M×N
+    ! For side='L': A is result of RQ factorizing a matrix of size (something) × N
+    ! For side='R': A is result of RQ factorizing a matrix of size M × (something)
+
+    ! To keep it simple, let's make A the right size for the RQ factorization
+    ! Since we're multiplying C(M,N) and A is initially M×M, let me adjust the approach
+    ! For RQ factorization of an M×N matrix, we need to work with proper dimensions
+
+    ! Create proper matrices for RQ case - we need to factorize an appropriate matrix
+    ! For QR, the original approach is fine
     call mfi_geqrf(A_copy, tau, info=info)
     if (info /= 0) return
 
@@ -156,10 +170,9 @@ subroutine test_zunmqr
     C_orig = C
     C_rf = C
 
-    ! Test f77 interface for zunmqr
+    ! Test f77 interface for zunmqr - workspace query and then actual call
     allocate(work(1))
     lwork = -1
-    ! For QR routines: A is MxM, k=min(M,N) as usual
     call zunmqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
     if (info == 0) then
         lwork = int(real(work(1), wp))
@@ -167,14 +180,8 @@ subroutine test_zunmqr
         deallocate(work)
         allocate(work(max(1, lwork)))
 
-        A_copy = A  ! Reset A_copy
-        call mfi_geqrf(A_copy, tau, info=info)
-        if (info /= 0) then
-            deallocate(work)
-            return
-        end if
-
-        C_rf = C_orig  ! Reset C_rf
+        ! Use the same factorization and original C matrix for the actual computation
+        C_rf = C_orig  ! Reset C_rf to original before applying transform
         call zunmqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
         info_rf = info
         deallocate(work)
@@ -185,20 +192,19 @@ subroutine test_zunmqr
 
     if (info /= 0) return
 
-    ! Test mfi interface (short form)
-    C = C_orig  ! Reset C
-    A_copy = A  ! Reset A_copy
-    ! QR factorization for QR routines
+    ! Test mfi interface (short form) - use the same factorization and original input
+    ! Reset matrices to original values
+    C = C_orig
+    A_copy = A  ! Get fresh copy to factorize again (which should give same result within numerical tolerance)
     call mfi_geqrf(A_copy, tau, info=info)
     if (info /= 0) return
     call mfi_zunmqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_zunmqr")
 
-    ! Test mfi interface (full form)
-    C = C_orig  ! Reset C
-    A_copy = A  ! Reset A_copy
-    ! QR factorization for QR routines
+    ! Test mfi interface (full form) - use the same factorization and original input
+    C = C_orig
+    A_copy = A  ! Get fresh copy to factorize again
     call mfi_geqrf(A_copy, tau, info=info)
     if (info /= 0) return
     call mfi_unmqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)

@@ -153,6 +153,70 @@ interface mfi_unmrq
     module procedure :: mfi_cunmrq
     module procedure :: mfi_zunmrq
 end interface
+!> Generic modern interface for ORG2R.
+!> Supports s, d.
+!> See also:
+!> [[f77_org2r:sorg2r]], [[f77_org2r:dorg2r]].
+interface mfi_org2r
+    module procedure :: mfi_sorg2r
+    module procedure :: mfi_dorg2r
+end interface
+!> Generic modern interface for UNG2R.
+!> Supports c, z.
+!> See also:
+!> [[f77_ung2r:cung2r]], [[f77_ung2r:zung2r]].
+interface mfi_ung2r
+    module procedure :: mfi_cung2r
+    module procedure :: mfi_zung2r
+end interface
+!> Generic modern interface for ORM2R.
+!> Supports s, d.
+!> See also:
+!> [[f77_orm2r:sorm2r]], [[f77_orm2r:dorm2r]].
+interface mfi_orm2r
+    module procedure :: mfi_sorm2r
+    module procedure :: mfi_dorm2r
+end interface
+!> Generic modern interface for UNM2R.
+!> Supports c, z.
+!> See also:
+!> [[f77_unm2r:cunm2r]], [[f77_unm2r:zunm2r]].
+interface mfi_unm2r
+    module procedure :: mfi_cunm2r
+    module procedure :: mfi_zunm2r
+end interface
+!> Generic modern interface for ORGR2.
+!> Supports s, d.
+!> See also:
+!> [[f77_orgr2:sorgr2]], [[f77_orgr2:dorgr2]].
+interface mfi_orgr2
+    module procedure :: mfi_sorgr2
+    module procedure :: mfi_dorgr2
+end interface
+!> Generic modern interface for UNGR2.
+!> Supports c, z.
+!> See also:
+!> [[f77_ungr2:cungr2]], [[f77_ungr2:zungr2]].
+interface mfi_ungr2
+    module procedure :: mfi_cungr2
+    module procedure :: mfi_zungr2
+end interface
+!> Generic modern interface for ORMR2.
+!> Supports s, d.
+!> See also:
+!> [[f77_ormr2:sormr2]], [[f77_ormr2:dormr2]].
+interface mfi_ormr2
+    module procedure :: mfi_sormr2
+    module procedure :: mfi_dormr2
+end interface
+!> Generic modern interface for UNMR2.
+!> Supports c, z.
+!> See also:
+!> [[f77_unmr2:cunmr2]], [[f77_unmr2:zunmr2]].
+interface mfi_unmr2
+    module procedure :: mfi_cunmr2
+    module procedure :: mfi_zunmr2
+end interface
 !> Generic modern interface for POTRF.
 !> Supports s, d, c, z.
 !> See also:
@@ -2572,6 +2636,662 @@ pure subroutine mfi_zunmrq(a, tau, c, side, trans, info)
         info = local_info
     else if (local_info <= -1000) then
         call mfi_error('zunmrq', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_org2r:sorg2r]].
+!> See also: [[mfi_org2r]], [[f77_org2r]].
+!> Generates the real orthogonal matrix Q of the QR factorization formed by geqr2
+pure subroutine mfi_sorg2r(a, tau, k, info)
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(in) :: tau(:)
+    integer, intent(in), optional :: k
+    integer :: local_k
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda
+    real(REAL32), allocatable :: work(:)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = size(tau,1)
+    end if
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+    local_k = min(local_k, min(m, n))
+
+    allocate(work(m)) ! Allocate workspace for generation
+    call sorg2r(m, n, local_k, a, lda, tau, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('sorg2r', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_org2r:dorg2r]].
+!> See also: [[mfi_org2r]], [[f77_org2r]].
+!> Generates the real orthogonal matrix Q of the QR factorization formed by geqr2
+pure subroutine mfi_dorg2r(a, tau, k, info)
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(in) :: tau(:)
+    integer, intent(in), optional :: k
+    integer :: local_k
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda
+    real(REAL64), allocatable :: work(:)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = size(tau,1)
+    end if
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+    local_k = min(local_k, min(m, n))
+
+    allocate(work(m)) ! Allocate workspace for generation
+    call dorg2r(m, n, local_k, a, lda, tau, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('dorg2r', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_ung2r:cung2r]].
+!> See also: [[mfi_ung2r]], [[f77_ung2r]].
+!> Generates the real orthogonal matrix Q of the QR factorization formed by geqr2
+pure subroutine mfi_cung2r(a, tau, k, info)
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(in) :: tau(:)
+    integer, intent(in), optional :: k
+    integer :: local_k
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda
+    complex(REAL32), allocatable :: work(:)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = size(tau,1)
+    end if
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+    local_k = min(local_k, min(m, n))
+
+    allocate(work(m)) ! Allocate workspace for generation
+    call cung2r(m, n, local_k, a, lda, tau, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('cung2r', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_ung2r:zung2r]].
+!> See also: [[mfi_ung2r]], [[f77_ung2r]].
+!> Generates the real orthogonal matrix Q of the QR factorization formed by geqr2
+pure subroutine mfi_zung2r(a, tau, k, info)
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(in) :: tau(:)
+    integer, intent(in), optional :: k
+    integer :: local_k
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda
+    complex(REAL64), allocatable :: work(:)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = size(tau,1)
+    end if
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+    local_k = min(local_k, min(m, n))
+
+    allocate(work(m)) ! Allocate workspace for generation
+    call zung2r(m, n, local_k, a, lda, tau, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('zung2r', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_orm2r:sorm2r]].
+!> See also: [[mfi_orm2r]], [[f77_orm2r]].
+!> Multiplies a real matrix by the orthogonal matrix Q formed by geqr2
+pure subroutine mfi_sorm2r(a, tau, c, side, trans, info)
+    integer, parameter :: wp = REAL32
+    character, intent(in), optional :: side
+    character :: local_side
+    character, intent(in), optional :: trans
+    character :: local_trans
+    integer, intent(out), optional :: info
+    integer :: local_info
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(in) :: tau(:)
+    real(REAL32), intent(inout) :: c(:,:)
+    integer :: m, n, k, lda, ldc
+    real(REAL32), allocatable :: work(:)
+    if (present(side)) then
+        local_side = side
+    else
+        local_side = 'L'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(tau, 1)
+    else
+        k = size(tau, 1)
+    end if
+
+    allocate(work(m*n)) ! Allocate sufficient workspace
+    call sorm2r(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('sorm2r', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_orm2r:dorm2r]].
+!> See also: [[mfi_orm2r]], [[f77_orm2r]].
+!> Multiplies a real matrix by the orthogonal matrix Q formed by geqr2
+pure subroutine mfi_dorm2r(a, tau, c, side, trans, info)
+    integer, parameter :: wp = REAL64
+    character, intent(in), optional :: side
+    character :: local_side
+    character, intent(in), optional :: trans
+    character :: local_trans
+    integer, intent(out), optional :: info
+    integer :: local_info
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(in) :: tau(:)
+    real(REAL64), intent(inout) :: c(:,:)
+    integer :: m, n, k, lda, ldc
+    real(REAL64), allocatable :: work(:)
+    if (present(side)) then
+        local_side = side
+    else
+        local_side = 'L'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(tau, 1)
+    else
+        k = size(tau, 1)
+    end if
+
+    allocate(work(m*n)) ! Allocate sufficient workspace
+    call dorm2r(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('dorm2r', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_unm2r:cunm2r]].
+!> See also: [[mfi_unm2r]], [[f77_unm2r]].
+!> Multiplies a real matrix by the orthogonal matrix Q formed by geqr2
+pure subroutine mfi_cunm2r(a, tau, c, side, trans, info)
+    integer, parameter :: wp = REAL32
+    character, intent(in), optional :: side
+    character :: local_side
+    character, intent(in), optional :: trans
+    character :: local_trans
+    integer, intent(out), optional :: info
+    integer :: local_info
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(in) :: tau(:)
+    complex(REAL32), intent(inout) :: c(:,:)
+    integer :: m, n, k, lda, ldc
+    complex(REAL32), allocatable :: work(:)
+    if (present(side)) then
+        local_side = side
+    else
+        local_side = 'L'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(tau, 1)
+    else
+        k = size(tau, 1)
+    end if
+
+    allocate(work(m*n)) ! Allocate sufficient workspace
+    call cunm2r(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('cunm2r', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_unm2r:zunm2r]].
+!> See also: [[mfi_unm2r]], [[f77_unm2r]].
+!> Multiplies a real matrix by the orthogonal matrix Q formed by geqr2
+pure subroutine mfi_zunm2r(a, tau, c, side, trans, info)
+    integer, parameter :: wp = REAL64
+    character, intent(in), optional :: side
+    character :: local_side
+    character, intent(in), optional :: trans
+    character :: local_trans
+    integer, intent(out), optional :: info
+    integer :: local_info
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(in) :: tau(:)
+    complex(REAL64), intent(inout) :: c(:,:)
+    integer :: m, n, k, lda, ldc
+    complex(REAL64), allocatable :: work(:)
+    if (present(side)) then
+        local_side = side
+    else
+        local_side = 'L'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(tau, 1)
+    else
+        k = size(tau, 1)
+    end if
+
+    allocate(work(m*n)) ! Allocate sufficient workspace
+    call zunm2r(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('zunm2r', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_orgr2:sorgr2]].
+!> See also: [[mfi_orgr2]], [[f77_orgr2]].
+!> Generates the real orthogonal matrix Q of the RQ factorization formed by gerq2
+pure subroutine mfi_sorgr2(a, tau, k, info)
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(in) :: tau(:)
+    integer, intent(in), optional :: k
+    integer :: local_k
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda
+    real(REAL32), allocatable :: work(:)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = size(tau,1)
+    end if
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+    local_k = min(local_k, min(m, n))
+
+    allocate(work(m)) ! Allocate workspace for generation
+    call sorgr2(m, n, local_k, a, lda, tau, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('sorgr2', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_orgr2:dorgr2]].
+!> See also: [[mfi_orgr2]], [[f77_orgr2]].
+!> Generates the real orthogonal matrix Q of the RQ factorization formed by gerq2
+pure subroutine mfi_dorgr2(a, tau, k, info)
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(in) :: tau(:)
+    integer, intent(in), optional :: k
+    integer :: local_k
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda
+    real(REAL64), allocatable :: work(:)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = size(tau,1)
+    end if
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+    local_k = min(local_k, min(m, n))
+
+    allocate(work(m)) ! Allocate workspace for generation
+    call dorgr2(m, n, local_k, a, lda, tau, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('dorgr2', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_ungr2:cungr2]].
+!> See also: [[mfi_ungr2]], [[f77_ungr2]].
+!> Generates the real orthogonal matrix Q of the RQ factorization formed by gerq2
+pure subroutine mfi_cungr2(a, tau, k, info)
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(in) :: tau(:)
+    integer, intent(in), optional :: k
+    integer :: local_k
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda
+    complex(REAL32), allocatable :: work(:)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = size(tau,1)
+    end if
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+    local_k = min(local_k, min(m, n))
+
+    allocate(work(m)) ! Allocate workspace for generation
+    call cungr2(m, n, local_k, a, lda, tau, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('cungr2', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_ungr2:zungr2]].
+!> See also: [[mfi_ungr2]], [[f77_ungr2]].
+!> Generates the real orthogonal matrix Q of the RQ factorization formed by gerq2
+pure subroutine mfi_zungr2(a, tau, k, info)
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(in) :: tau(:)
+    integer, intent(in), optional :: k
+    integer :: local_k
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda
+    complex(REAL64), allocatable :: work(:)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = size(tau,1)
+    end if
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+    local_k = min(local_k, min(m, n))
+
+    allocate(work(m)) ! Allocate workspace for generation
+    call zungr2(m, n, local_k, a, lda, tau, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('zungr2', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_ormr2:sormr2]].
+!> See also: [[mfi_ormr2]], [[f77_ormr2]].
+!> Multiplies a real matrix by the orthogonal matrix Q formed by gerq2
+pure subroutine mfi_sormr2(a, tau, c, side, trans, info)
+    integer, parameter :: wp = REAL32
+    character, intent(in), optional :: side
+    character :: local_side
+    character, intent(in), optional :: trans
+    character :: local_trans
+    integer, intent(out), optional :: info
+    integer :: local_info
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(in) :: tau(:)
+    real(REAL32), intent(inout) :: c(:,:)
+    integer :: m, n, k, lda, ldc
+    real(REAL32), allocatable :: work(:)
+    if (present(side)) then
+        local_side = side
+    else
+        local_side = 'L'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(tau, 1)
+    else
+        k = size(tau, 1)
+    end if
+
+    allocate(work(m*n)) ! Allocate sufficient workspace
+    call sormr2(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('sormr2', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_ormr2:dormr2]].
+!> See also: [[mfi_ormr2]], [[f77_ormr2]].
+!> Multiplies a real matrix by the orthogonal matrix Q formed by gerq2
+pure subroutine mfi_dormr2(a, tau, c, side, trans, info)
+    integer, parameter :: wp = REAL64
+    character, intent(in), optional :: side
+    character :: local_side
+    character, intent(in), optional :: trans
+    character :: local_trans
+    integer, intent(out), optional :: info
+    integer :: local_info
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(in) :: tau(:)
+    real(REAL64), intent(inout) :: c(:,:)
+    integer :: m, n, k, lda, ldc
+    real(REAL64), allocatable :: work(:)
+    if (present(side)) then
+        local_side = side
+    else
+        local_side = 'L'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(tau, 1)
+    else
+        k = size(tau, 1)
+    end if
+
+    allocate(work(m*n)) ! Allocate sufficient workspace
+    call dormr2(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('dormr2', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_unmr2:cunmr2]].
+!> See also: [[mfi_unmr2]], [[f77_unmr2]].
+!> Multiplies a real matrix by the orthogonal matrix Q formed by gerq2
+pure subroutine mfi_cunmr2(a, tau, c, side, trans, info)
+    integer, parameter :: wp = REAL32
+    character, intent(in), optional :: side
+    character :: local_side
+    character, intent(in), optional :: trans
+    character :: local_trans
+    integer, intent(out), optional :: info
+    integer :: local_info
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(in) :: tau(:)
+    complex(REAL32), intent(inout) :: c(:,:)
+    integer :: m, n, k, lda, ldc
+    complex(REAL32), allocatable :: work(:)
+    if (present(side)) then
+        local_side = side
+    else
+        local_side = 'L'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(tau, 1)
+    else
+        k = size(tau, 1)
+    end if
+
+    allocate(work(m*n)) ! Allocate sufficient workspace
+    call cunmr2(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('cunmr2', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_unmr2:zunmr2]].
+!> See also: [[mfi_unmr2]], [[f77_unmr2]].
+!> Multiplies a real matrix by the orthogonal matrix Q formed by gerq2
+pure subroutine mfi_zunmr2(a, tau, c, side, trans, info)
+    integer, parameter :: wp = REAL64
+    character, intent(in), optional :: side
+    character :: local_side
+    character, intent(in), optional :: trans
+    character :: local_trans
+    integer, intent(out), optional :: info
+    integer :: local_info
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(in) :: tau(:)
+    complex(REAL64), intent(inout) :: c(:,:)
+    integer :: m, n, k, lda, ldc
+    complex(REAL64), allocatable :: work(:)
+    if (present(side)) then
+        local_side = side
+    else
+        local_side = 'L'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(tau, 1)
+    else
+        k = size(tau, 1)
+    end if
+
+    allocate(work(m*n)) ! Allocate sufficient workspace
+    call zunmr2(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('zunmr2', -local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_potrf:spotrf]].
