@@ -256,14 +256,14 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 | :+1:  | ungrq | Generates the complex unitary matrix Q of the RQ factorization formed by gerqf.  |
 | :+1:  | unmqr | Multiplies a complex matrix by the unitary matrix Q of the QR factorization formed by geqrf. |
 | f77  | unmrq | Multiplies a complex matrix by the unitary matrix Q of the RQ factorization formed by gerqf. |
-|  f77  | org2r | |
-|  f77  | orm2r | |
-|  f77  | ung2r | |
-|  f77  | unm2r | |
-|  f77  | orgr2 | |
-|  f77  | ormr2 | |
-|  f77  | ungr2 | |
-|  f77  | unmr2 | |
+| :+1:  | org2r | Generates the real orthogonal matrix Q of the QR factorization formed by geqr2. |
+| :+1:  | orm2r | Multiplies a real matrix by the orthogonal matrix Q formed by geqr2. |
+| :+1:  | ung2r | Generates the complex unitary matrix Q of the QR factorization formed by geqr2. |
+| :+1:  | unm2r | Multiplies a complex matrix by the unitary matrix Q formed by geqr2. |
+| :+1:  | orgr2 | Generates the real orthogonal matrix Q of the RQ factorization formed by gerq2. |
+| :+1:  | ormr2 | Multiplies a real matrix by the orthogonal matrix Q formed by gerq2. |
+| :+1:  | ungr2 | Generates the complex unitary matrix Q of the RQ factorization formed by gerq2. |
+| :+1:  | unmr2 | Multiplies a complex matrix by the unitary matrix Q formed by gerq2. |
 
 #### Singular Value and Eigenvalue Problem Routines
 | done?| name  | description             |

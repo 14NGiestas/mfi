@@ -1,0 +1,57 @@
+#:def unm2r(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: M = 3, N = 2, K = min(M,N)
+    ${type(wp)}$ :: A(M,N), A_copy(M,N), C(M,N), C_orig(M,N), C_rf(M,N), tau(K)
+    ${type(wp)}$, allocatable :: work(:)
+    integer :: info, info_rf, info_mfi
+    character :: side = 'L', trans = 'N'
+
+    ! Create a test matrix A (pre-factorized form for QR)
+    A = 0.0_wp
+    A(1,1) = cmplx(2.0_wp, 0.5_wp); A(1,2) = cmplx(1.0_wp, -0.3_wp)
+    A(2,1) = cmplx(1.0_wp, -0.2_wp); A(2,2) = cmplx(2.0_wp, 0.1_wp)
+    A(3,1) = cmplx(1.0_wp, 0.4_wp); A(3,2) = cmplx(1.0_wp, -0.1_wp)
+    
+    ! Initialize tau
+    tau = cmplx(0.0_wp, 0.0_wp)
+    tau(1) = cmplx(1.0_wp, 0.5_wp)
+    if (size(tau) > 1) tau(2) = cmplx(0.5_wp, -0.2_wp)
+
+    ! Create test matrix C for multiplication
+    C = reshape([cmplx(2.0_wp, 0.1_wp), cmplx(1.0_wp, -0.1_wp), cmplx(1.0_wp, 0.2_wp), &
+                 cmplx(1.0_wp, -0.1_wp), cmplx(2.0_wp, 0.3_wp), cmplx(1.0_wp, -0.2_wp)], [M,N], order=[2,1])
+    
+    ! Store original for comparison
+    C_orig = C
+    C_rf = C
+
+    ! Test f77 interface - need to allocate workspace
+    allocate(work(M*N)) ! Workspace for multiplication routines
+    call ${f77}$(side, trans, M, N, K, A, M, tau, C_rf, M, work, info_rf)
+    deallocate(work)
+
+    ! Test mfi interface (short form)
+    C = C_orig  ! Reset C
+    A_copy = A  ! Use copy since f77 might modify A
+    allocate(work(M*N))
+    call mfi_${f77}$(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
+    deallocate(work)
+    call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
+                "different results for mfi_${f77}$")
+
+    ! Test mfi interface (full form)
+    C = C_orig  ! Reset C
+    A_copy = A  ! Use copy since f77 might modify A
+    allocate(work(M*N))
+    call ${mfi}$(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
+    deallocate(work)
+    call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
+                "different results for ${mfi}$")
+
+end subroutine
+#:enddef

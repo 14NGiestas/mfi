@@ -15,6 +15,10 @@
 #:include "src/mfi/lapack/sytrf.fypp"
 #:include "src/mfi/lapack/orgqr.fypp"
 #:include "src/mfi/lapack/ormqr.fypp"
+#:include "src/mfi/lapack/org2r.fypp"
+#:include "src/mfi/lapack/orm2r.fypp"
+#:include "src/mfi/lapack/orgr2.fypp"
+#:include "src/mfi/lapack/ormr2.fypp"
 #:set COLLECT = [                            &
     ('?geqrf',  DEFAULT_TYPES, geqrf_gerqf), &
     ('?gerqf',  DEFAULT_TYPES, geqrf_gerqf), &
@@ -33,6 +37,14 @@
     ('?ormrq',  REAL_TYPES,    ormqr),       &
     ('?unmqr',  COMPLEX_TYPES, ormqr),       &
     ('?unmrq',  COMPLEX_TYPES, ormqr),       &
+    ('?org2r',  REAL_TYPES,    org2r),       &
+    ('?ung2r',  COMPLEX_TYPES, org2r),       &
+    ('?orm2r',  REAL_TYPES,    orm2r),       &
+    ('?unm2r',  COMPLEX_TYPES, orm2r),       &
+    ('?orgr2',  REAL_TYPES,    orgr2),       &
+    ('?ungr2',  COMPLEX_TYPES, orgr2),       &
+    ('?ormr2',  REAL_TYPES,    ormr2),       &
+    ('?unmr2',  COMPLEX_TYPES, ormr2),       &
     ('?potrf',  DEFAULT_TYPES, potrf_potri), &
     ('?potri',  DEFAULT_TYPES, potrf_potri), &
     ('?potrs',  DEFAULT_TYPES, potrs),       &

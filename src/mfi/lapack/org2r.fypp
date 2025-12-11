@@ -1,0 +1,59 @@
+#:def org2r(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
+!> Generates the real orthogonal matrix Q of the QR factorization formed by geqr2
+pure subroutine ${MFI_NAME}$(a, tau, k, info)
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,      inout, a(:,:))
+@:args(${type(wp)}$,      in,    tau(:))
+@:optional(integer, in,    k)
+@:optional(integer, out,   info)
+    integer :: m, n, lda
+    ${type(wp)}$, allocatable :: work(:)
+@:defaults(k=size(tau,1))
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+    local_k = min(local_k, min(m, n))
+
+    allocate(work(m)) ! Allocate workspace for generation
+    call ${F77_NAME}$(m, n, local_k, a, lda, tau, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('${F77_NAME}$', -local_info)
+    end if
+end subroutine
+#:enddef
+
+#:def ung2r(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
+!> Generates the complex unitary matrix Q of the QR factorization formed by geqr2
+pure subroutine ${MFI_NAME}$(a, tau, k, info)
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,      inout, a(:,:))
+@:args(${type(wp)}$,      in,    tau(:))
+@:optional(integer, in,    k)
+@:optional(integer, out,   info)
+    integer :: m, n, lda
+    ${type(wp)}$, allocatable :: work(:)
+@:defaults(k=size(tau,1))
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+    local_k = min(local_k, min(m, n))
+
+    allocate(work(m)) ! Allocate workspace for generation
+    call ${F77_NAME}$(m, n, local_k, a, lda, tau, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('${F77_NAME}$', -local_info)
+    end if
+end subroutine
+#:enddef
