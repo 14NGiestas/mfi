@@ -26,7 +26,13 @@
     ('?heevd',  COMPLEX_TYPES, heevd),       &
     ('?gesvd',  DEFAULT_TYPES, gesvd),       &
     ('?orgqr',  REAL_TYPES,    orgqr),       &
+    ('?orgrq',  REAL_TYPES,    orgqr),       &
+    ('?ungqr',  COMPLEX_TYPES, orgqr),       &
+    ('?ungrq',  COMPLEX_TYPES, orgqr),       &
     ('?ormqr',  REAL_TYPES,    ormqr),       &
+    ('?ormrq',  REAL_TYPES,    ormqr),       &
+    ('?unmqr',  COMPLEX_TYPES, ormqr),       &
+    ('?unmrq',  COMPLEX_TYPES, ormqr),       &
     ('?potrf',  DEFAULT_TYPES, potrf_potri), &
     ('?potri',  DEFAULT_TYPES, potrf_potri), &
     ('?potrs',  DEFAULT_TYPES, potrs),       &

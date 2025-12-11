@@ -2,7 +2,7 @@
 #:set wp = pfxs[0]
 subroutine test_${f77}$
     use f77_lapack, only: ${f77}$, ${f90}$
-    use mfi_lapack, only: ${mfi}$, mfi_${f77}$, mfi_geqrf
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$, mfi_geqrf, mfi_gerqf
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 3
@@ -17,14 +17,22 @@ subroutine test_${f77}$
                  1.0_wp, 3.0_wp, 1.0_wp, &
                  1.0_wp, 1.0_wp, 3.0_wp], [N,N])
 
-    ! Compute QR factorization first
+    ! Determine which factorization to use based on routine name
+    #:if 'rq' in f77
+    ! Compute RQ factorization first for RQ routines
+    A_in = A
+    call mfi_gerqf(A_in, tau_in, info=info)
+    if (info /= 0) return
+    A_rf = A_in  ! Store factorized matrix
+    #:else
+    ! Compute QR factorization first for QR routines
     A_in = A
     call mfi_geqrf(A_in, tau_in, info=info)
     if (info /= 0) return
-
     A_rf = A_in  ! Store factorized matrix
+    #:endif
 
-    ! Test f77 interface for orgqr
+    ! Test f77 interface for ${f77}$
     allocate(work(1))
     lwork = -1
     call ${f77}$(N, N, N, A_in, N, tau_in, work, lwork, info)
@@ -48,16 +56,30 @@ subroutine test_${f77}$
 
     ! Test mfi interface (short form)
     A_in = A
+    #:if 'rq' in f77
+    ! RQ factorization for RQ routines
+    call mfi_gerqf(A_in, tau_in, info=info)
+    if (info /= 0) return
+    #:else
+    ! QR factorization for QR routines
     call mfi_geqrf(A_in, tau_in, info=info)
     if (info /= 0) return
+    #:endif
     call mfi_${f77}$(A_in, tau_in, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_${f77}$")
 
     ! Test mfi interface (full form)
     A_in = A
+    #:if 'rq' in f77
+    ! RQ factorization for RQ routines
+    call mfi_gerqf(A_in, tau_in, info=info)
+    if (info /= 0) return
+    #:else
+    ! QR factorization for QR routines
     call mfi_geqrf(A_in, tau_in, info=info)
     if (info /= 0) return
+    #:endif
     call ${mfi}$(A_in, tau_in, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for ${mfi}$")
