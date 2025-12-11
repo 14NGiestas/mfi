@@ -1,26 +1,26 @@
 
-program test_orgqr
+program test_orgrq
     use iso_fortran_env
     implicit none
 block
 real :: t1, t2
 call cpu_time(t1)
- call test_sorgqr 
+ call test_sorgrq 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_orgqr against sorgqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_orgrq against sorgrq", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
- call test_dorgqr 
+ call test_dorgrq 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_orgqr against dorgqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_orgrq against dorgrq", t2-t1
 end block
 contains
 
-subroutine test_sorgqr
-    use f77_lapack, only: sorgqr, f77_orgqr
-    use mfi_lapack, only: mfi_orgqr, mfi_sorgqr, mfi_geqrf, mfi_gerqf
+subroutine test_sorgrq
+    use f77_lapack, only: sorgrq, f77_orgrq
+    use mfi_lapack, only: mfi_orgrq, mfi_sorgrq, mfi_geqrf, mfi_gerqf
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 3
@@ -36,16 +36,16 @@ subroutine test_sorgqr
                  1.0_wp, 1.0_wp, 3.0_wp], [N,N])
 
     ! Determine which factorization to use based on routine name
-    ! Compute QR factorization first for QR routines
+    ! Compute RQ factorization first for RQ routines
     A_in = A
-    call mfi_geqrf(A_in, tau_in, info=info)
+    call mfi_gerqf(A_in, tau_in, info=info)
     if (info /= 0) return
     A_rf = A_in  ! Store factorized matrix
 
-    ! Test f77 interface for sorgqr
+    ! Test f77 interface for sorgrq
     allocate(work(1))
     lwork = -1
-    call sorgqr(N, N, N, A_in, N, tau_in, work, lwork, info)
+    call sorgrq(N, N, N, A_in, N, tau_in, work, lwork, info)
     if (info == 0) then
         lwork = int(real(work(1), wp))
         if (lwork <= 0) lwork = N*N
@@ -53,7 +53,7 @@ subroutine test_sorgqr
         allocate(work(max(1, lwork)))
 
         A_in = A_rf
-        call sorgqr(N, N, N, A_in, N, tau_in, work, lwork, info)
+        call sorgrq(N, N, N, A_in, N, tau_in, work, lwork, info)
         A_rf = A_in
         info_rf = info
         deallocate(work)
@@ -66,26 +66,26 @@ subroutine test_sorgqr
 
     ! Test mfi interface (short form)
     A_in = A
-    ! QR factorization for QR routines
-    call mfi_geqrf(A_in, tau_in, info=info)
+    ! RQ factorization for RQ routines
+    call mfi_gerqf(A_in, tau_in, info=info)
     if (info /= 0) return
-    call mfi_sorgqr(A_in, tau_in, info=info_mfi)
+    call mfi_sorgrq(A_in, tau_in, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_sorgqr")
+                "different results for mfi_sorgrq")
 
     ! Test mfi interface (full form)
     A_in = A
-    ! QR factorization for QR routines
-    call mfi_geqrf(A_in, tau_in, info=info)
+    ! RQ factorization for RQ routines
+    call mfi_gerqf(A_in, tau_in, info=info)
     if (info /= 0) return
-    call mfi_orgqr(A_in, tau_in, info=info_mfi)
+    call mfi_orgrq(A_in, tau_in, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_orgqr")
+                "different results for mfi_orgrq")
 
 end subroutine
-subroutine test_dorgqr
-    use f77_lapack, only: dorgqr, f77_orgqr
-    use mfi_lapack, only: mfi_orgqr, mfi_dorgqr, mfi_geqrf, mfi_gerqf
+subroutine test_dorgrq
+    use f77_lapack, only: dorgrq, f77_orgrq
+    use mfi_lapack, only: mfi_orgrq, mfi_dorgrq, mfi_geqrf, mfi_gerqf
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 3
@@ -101,16 +101,16 @@ subroutine test_dorgqr
                  1.0_wp, 1.0_wp, 3.0_wp], [N,N])
 
     ! Determine which factorization to use based on routine name
-    ! Compute QR factorization first for QR routines
+    ! Compute RQ factorization first for RQ routines
     A_in = A
-    call mfi_geqrf(A_in, tau_in, info=info)
+    call mfi_gerqf(A_in, tau_in, info=info)
     if (info /= 0) return
     A_rf = A_in  ! Store factorized matrix
 
-    ! Test f77 interface for dorgqr
+    ! Test f77 interface for dorgrq
     allocate(work(1))
     lwork = -1
-    call dorgqr(N, N, N, A_in, N, tau_in, work, lwork, info)
+    call dorgrq(N, N, N, A_in, N, tau_in, work, lwork, info)
     if (info == 0) then
         lwork = int(real(work(1), wp))
         if (lwork <= 0) lwork = N*N
@@ -118,7 +118,7 @@ subroutine test_dorgqr
         allocate(work(max(1, lwork)))
 
         A_in = A_rf
-        call dorgqr(N, N, N, A_in, N, tau_in, work, lwork, info)
+        call dorgrq(N, N, N, A_in, N, tau_in, work, lwork, info)
         A_rf = A_in
         info_rf = info
         deallocate(work)
@@ -131,21 +131,21 @@ subroutine test_dorgqr
 
     ! Test mfi interface (short form)
     A_in = A
-    ! QR factorization for QR routines
-    call mfi_geqrf(A_in, tau_in, info=info)
+    ! RQ factorization for RQ routines
+    call mfi_gerqf(A_in, tau_in, info=info)
     if (info /= 0) return
-    call mfi_dorgqr(A_in, tau_in, info=info_mfi)
+    call mfi_dorgrq(A_in, tau_in, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_dorgqr")
+                "different results for mfi_dorgrq")
 
     ! Test mfi interface (full form)
     A_in = A
-    ! QR factorization for QR routines
-    call mfi_geqrf(A_in, tau_in, info=info)
+    ! RQ factorization for RQ routines
+    call mfi_gerqf(A_in, tau_in, info=info)
     if (info /= 0) return
-    call mfi_orgqr(A_in, tau_in, info=info_mfi)
+    call mfi_orgrq(A_in, tau_in, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_orgqr")
+                "different results for mfi_orgrq")
 
 end subroutine
 

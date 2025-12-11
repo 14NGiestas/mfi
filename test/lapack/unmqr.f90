@@ -1,33 +1,33 @@
 
-program test_ormqr
+program test_unmqr
     use iso_fortran_env
     implicit none
 block
 real :: t1, t2
 call cpu_time(t1)
- call test_sormqr 
+ call test_cunmqr 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_ormqr against sormqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_unmqr against cunmqr", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
- call test_dormqr 
+ call test_zunmqr 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_ormqr against dormqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_unmqr against zunmqr", t2-t1
 end block
 contains
 
-subroutine test_sormqr
-    use f77_lapack, only: sormqr, f77_ormqr
-    use mfi_lapack, only: mfi_ormqr, mfi_sormqr, mfi_geqrf, mfi_gerqf
+subroutine test_cunmqr
+    use f77_lapack, only: cunmqr, f77_unmqr
+    use mfi_lapack, only: mfi_unmqr, mfi_cunmqr, mfi_geqrf, mfi_gerqf
 
     integer, parameter :: wp = REAL32
     integer, parameter :: M = 3, N = 2
-    real(REAL32) :: A(M,M), A_copy(M,M), C(M,N), C_orig(M,N), C_rf(M,N)
-    real(REAL32) :: tau(M)
+    complex(REAL32) :: A(M,M), A_copy(M,M), C(M,N), C_orig(M,N), C_rf(M,N)
+    complex(REAL32) :: tau(M)
     integer :: info, info_rf, info_mfi
-    real(REAL32), allocatable :: work(:)
+    complex(REAL32), allocatable :: work(:)
     integer :: lwork
     character :: side = 'L', trans = 'N'
 
@@ -62,11 +62,11 @@ subroutine test_sormqr
     C_orig = C
     C_rf = C
 
-    ! Test f77 interface for sormqr
+    ! Test f77 interface for cunmqr
     allocate(work(1))
     lwork = -1
     ! For QR routines: A is MxM, k=min(M,N) as usual
-    call sormqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
+    call cunmqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
     if (info == 0) then
         lwork = int(real(work(1), wp))
         if (lwork <= 0) lwork = M*N
@@ -81,7 +81,7 @@ subroutine test_sormqr
         end if
 
         C_rf = C_orig  ! Reset C_rf
-        call sormqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
+        call cunmqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
         info_rf = info
         deallocate(work)
     else
@@ -97,9 +97,9 @@ subroutine test_sormqr
     ! QR factorization for QR routines
     call mfi_geqrf(A_copy, tau, info=info)
     if (info /= 0) return
-    call mfi_sormqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
+    call mfi_cunmqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_sormqr")
+                "different results for mfi_cunmqr")
 
     ! Test mfi interface (full form)
     C = C_orig  ! Reset C
@@ -107,21 +107,21 @@ subroutine test_sormqr
     ! QR factorization for QR routines
     call mfi_geqrf(A_copy, tau, info=info)
     if (info /= 0) return
-    call mfi_ormqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
+    call mfi_unmqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_ormqr")
+                "different results for mfi_unmqr")
 
 end subroutine
-subroutine test_dormqr
-    use f77_lapack, only: dormqr, f77_ormqr
-    use mfi_lapack, only: mfi_ormqr, mfi_dormqr, mfi_geqrf, mfi_gerqf
+subroutine test_zunmqr
+    use f77_lapack, only: zunmqr, f77_unmqr
+    use mfi_lapack, only: mfi_unmqr, mfi_zunmqr, mfi_geqrf, mfi_gerqf
 
     integer, parameter :: wp = REAL64
     integer, parameter :: M = 3, N = 2
-    real(REAL64) :: A(M,M), A_copy(M,M), C(M,N), C_orig(M,N), C_rf(M,N)
-    real(REAL64) :: tau(M)
+    complex(REAL64) :: A(M,M), A_copy(M,M), C(M,N), C_orig(M,N), C_rf(M,N)
+    complex(REAL64) :: tau(M)
     integer :: info, info_rf, info_mfi
-    real(REAL64), allocatable :: work(:)
+    complex(REAL64), allocatable :: work(:)
     integer :: lwork
     character :: side = 'L', trans = 'N'
 
@@ -156,11 +156,11 @@ subroutine test_dormqr
     C_orig = C
     C_rf = C
 
-    ! Test f77 interface for dormqr
+    ! Test f77 interface for zunmqr
     allocate(work(1))
     lwork = -1
     ! For QR routines: A is MxM, k=min(M,N) as usual
-    call dormqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
+    call zunmqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
     if (info == 0) then
         lwork = int(real(work(1), wp))
         if (lwork <= 0) lwork = M*N
@@ -175,7 +175,7 @@ subroutine test_dormqr
         end if
 
         C_rf = C_orig  ! Reset C_rf
-        call dormqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
+        call zunmqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
         info_rf = info
         deallocate(work)
     else
@@ -191,9 +191,9 @@ subroutine test_dormqr
     ! QR factorization for QR routines
     call mfi_geqrf(A_copy, tau, info=info)
     if (info /= 0) return
-    call mfi_dormqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
+    call mfi_zunmqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_dormqr")
+                "different results for mfi_zunmqr")
 
     ! Test mfi interface (full form)
     C = C_orig  ! Reset C
@@ -201,9 +201,9 @@ subroutine test_dormqr
     ! QR factorization for QR routines
     call mfi_geqrf(A_copy, tau, info=info)
     if (info /= 0) return
-    call mfi_ormqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
+    call mfi_unmqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_ormqr")
+                "different results for mfi_unmqr")
 
 end subroutine
 

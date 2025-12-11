@@ -1,26 +1,26 @@
 
-program test_ormqr
+program test_ormrq
     use iso_fortran_env
     implicit none
 block
 real :: t1, t2
 call cpu_time(t1)
- call test_sormqr 
+ call test_sormrq 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_ormqr against sormqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_ormrq against sormrq", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
- call test_dormqr 
+ call test_dormrq 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_ormqr against dormqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_ormrq against dormrq", t2-t1
 end block
 contains
 
-subroutine test_sormqr
-    use f77_lapack, only: sormqr, f77_ormqr
-    use mfi_lapack, only: mfi_ormqr, mfi_sormqr, mfi_geqrf, mfi_gerqf
+subroutine test_sormrq
+    use f77_lapack, only: sormrq, f77_ormrq
+    use mfi_lapack, only: mfi_ormrq, mfi_sormrq, mfi_geqrf, mfi_gerqf
 
     integer, parameter :: wp = REAL32
     integer, parameter :: M = 3, N = 2
@@ -54,19 +54,24 @@ subroutine test_sormqr
     ! where LDA >= max(1,K) and K follows the rule:
     ! If SIDE = 'L', M >= K >= 0; if SIDE = 'R', N >= K >= 0
     A_copy = A
-    ! Compute QR factorization first for QR routines
-    call mfi_geqrf(A_copy, tau, info=info)
+    ! Compute RQ factorization first for RQ routines
+    call mfi_gerqf(A_copy, tau, info=info)
     if (info /= 0) return
 
     ! Store original matrices for comparison
     C_orig = C
     C_rf = C
 
-    ! Test f77 interface for sormqr
+    ! Test f77 interface for sormrq
     allocate(work(1))
     lwork = -1
-    ! For QR routines: A is MxM, k=min(M,N) as usual
-    call sormqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
+    ! For RQ routines:
+    ! k=min(M,N) is number of reflectors, but A matrix dimensions depend on side
+    ! LDA = M if A is M×M (square matrix after factorization)
+    ! For square A after RQ factorization: A is M×M, LDA=M, k=min(M,N)
+    ! When side='L': A should conceptually be K×M, when side='R': A should be K×N
+    ! But the factorized matrix A after GERQF is still M×M
+    call sormrq(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
     if (info == 0) then
         lwork = int(real(work(1), wp))
         if (lwork <= 0) lwork = M*N
@@ -74,14 +79,14 @@ subroutine test_sormqr
         allocate(work(max(1, lwork)))
 
         A_copy = A  ! Reset A_copy
-        call mfi_geqrf(A_copy, tau, info=info)
+        call mfi_gerqf(A_copy, tau, info=info)
         if (info /= 0) then
             deallocate(work)
             return
         end if
 
         C_rf = C_orig  ! Reset C_rf
-        call sormqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
+        call sormrq(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
         info_rf = info
         deallocate(work)
     else
@@ -94,27 +99,27 @@ subroutine test_sormqr
     ! Test mfi interface (short form)
     C = C_orig  ! Reset C
     A_copy = A  ! Reset A_copy
-    ! QR factorization for QR routines
-    call mfi_geqrf(A_copy, tau, info=info)
+    ! RQ factorization for RQ routines
+    call mfi_gerqf(A_copy, tau, info=info)
     if (info /= 0) return
-    call mfi_sormqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
+    call mfi_sormrq(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_sormqr")
+                "different results for mfi_sormrq")
 
     ! Test mfi interface (full form)
     C = C_orig  ! Reset C
     A_copy = A  ! Reset A_copy
-    ! QR factorization for QR routines
-    call mfi_geqrf(A_copy, tau, info=info)
+    ! RQ factorization for RQ routines
+    call mfi_gerqf(A_copy, tau, info=info)
     if (info /= 0) return
-    call mfi_ormqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
+    call mfi_ormrq(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_ormqr")
+                "different results for mfi_ormrq")
 
 end subroutine
-subroutine test_dormqr
-    use f77_lapack, only: dormqr, f77_ormqr
-    use mfi_lapack, only: mfi_ormqr, mfi_dormqr, mfi_geqrf, mfi_gerqf
+subroutine test_dormrq
+    use f77_lapack, only: dormrq, f77_ormrq
+    use mfi_lapack, only: mfi_ormrq, mfi_dormrq, mfi_geqrf, mfi_gerqf
 
     integer, parameter :: wp = REAL64
     integer, parameter :: M = 3, N = 2
@@ -148,19 +153,24 @@ subroutine test_dormqr
     ! where LDA >= max(1,K) and K follows the rule:
     ! If SIDE = 'L', M >= K >= 0; if SIDE = 'R', N >= K >= 0
     A_copy = A
-    ! Compute QR factorization first for QR routines
-    call mfi_geqrf(A_copy, tau, info=info)
+    ! Compute RQ factorization first for RQ routines
+    call mfi_gerqf(A_copy, tau, info=info)
     if (info /= 0) return
 
     ! Store original matrices for comparison
     C_orig = C
     C_rf = C
 
-    ! Test f77 interface for dormqr
+    ! Test f77 interface for dormrq
     allocate(work(1))
     lwork = -1
-    ! For QR routines: A is MxM, k=min(M,N) as usual
-    call dormqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
+    ! For RQ routines:
+    ! k=min(M,N) is number of reflectors, but A matrix dimensions depend on side
+    ! LDA = M if A is M×M (square matrix after factorization)
+    ! For square A after RQ factorization: A is M×M, LDA=M, k=min(M,N)
+    ! When side='L': A should conceptually be K×M, when side='R': A should be K×N
+    ! But the factorized matrix A after GERQF is still M×M
+    call dormrq(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
     if (info == 0) then
         lwork = int(real(work(1), wp))
         if (lwork <= 0) lwork = M*N
@@ -168,14 +178,14 @@ subroutine test_dormqr
         allocate(work(max(1, lwork)))
 
         A_copy = A  ! Reset A_copy
-        call mfi_geqrf(A_copy, tau, info=info)
+        call mfi_gerqf(A_copy, tau, info=info)
         if (info /= 0) then
             deallocate(work)
             return
         end if
 
         C_rf = C_orig  ! Reset C_rf
-        call dormqr(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
+        call dormrq(side, trans, M, N, min(M,N), A_copy, M, tau, C_rf, M, work, lwork, info)
         info_rf = info
         deallocate(work)
     else
@@ -188,22 +198,22 @@ subroutine test_dormqr
     ! Test mfi interface (short form)
     C = C_orig  ! Reset C
     A_copy = A  ! Reset A_copy
-    ! QR factorization for QR routines
-    call mfi_geqrf(A_copy, tau, info=info)
+    ! RQ factorization for RQ routines
+    call mfi_gerqf(A_copy, tau, info=info)
     if (info /= 0) return
-    call mfi_dormqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
+    call mfi_dormrq(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_dormqr")
+                "different results for mfi_dormrq")
 
     ! Test mfi interface (full form)
     C = C_orig  ! Reset C
     A_copy = A  ! Reset A_copy
-    ! QR factorization for QR routines
-    call mfi_geqrf(A_copy, tau, info=info)
+    ! RQ factorization for RQ routines
+    call mfi_gerqf(A_copy, tau, info=info)
     if (info /= 0) return
-    call mfi_ormqr(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
+    call mfi_ormrq(A_copy, tau, C, side=side, trans=trans, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_ormqr")
+                "different results for mfi_ormrq")
 
 end subroutine
 
