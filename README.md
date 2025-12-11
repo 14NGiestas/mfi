@@ -246,9 +246,9 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 | :+1:  | potrf | Computes the Cholesky factorization of a symmetric (Hermitian) positive-definite matrix.     |
 | :+1:  | potri | Computes the inverse of a Cholesky-factored symmetric (Hermitian) positive-definite matrix.  |
 | :+1:  | potrs | Solves a system of linear equations with a Cholesky-factored symmetric (Hermitian) positive-definite coefficient matrix, with multiple right-hand sides.  |
-|  f77  | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf. |
+| :+1:  | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf. |
 |  f77  | orgrq | Generates the real orthogonal matrix Q of the RQ factorization formed by gerqf. |
-|  f77  | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf. |
+| :+1:  | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf. |
 |  f77  | ormrq | Multiplies a real matrix by the orthogonal matrix Q of the RQ factorization formed by gerqf. |
 | :+1:  | sytrf | Computes the Bunch-Kaufman factorization of a symmetric matrix.                        |
 | :+1:  | trtrs | Solves a system of linear equations with a triangular coefficient matrix, with multiple right-hand sides. |
