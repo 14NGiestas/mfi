@@ -89,6 +89,22 @@ interface mfi_gesvd
     module procedure :: mfi_cgesvd
     module procedure :: mfi_zgesvd
 end interface
+!> Generic modern interface for ORGQR.
+!> Supports s, d.
+!> See also:
+!> [[f77_orgqr:sorgqr]], [[f77_orgqr:dorgqr]].
+interface mfi_orgqr
+    module procedure :: mfi_sorgqr
+    module procedure :: mfi_dorgqr
+end interface
+!> Generic modern interface for ORMQR.
+!> Supports s, d.
+!> See also:
+!> [[f77_ormqr:sormqr]], [[f77_ormqr:dormqr]].
+interface mfi_ormqr
+    module procedure :: mfi_sormqr
+    module procedure :: mfi_dormqr
+end interface
 !> Generic modern interface for POTRF.
 !> Supports s, d, c, z.
 !> See also:
@@ -1668,6 +1684,216 @@ pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
         info = local_info
     else if (local_info <= -1000) then
         call mfi_error('zgesvd', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_orgqr:sorgqr]].
+!> See also: [[mfi_orgqr]], [[f77_orgqr]].
+!> Generates the real orthogonal matrix Q of the QR factorization
+pure subroutine mfi_sorgqr(a, tau, k, info)
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(in) :: tau(:)
+    integer, intent(in), optional :: k
+    integer :: local_k
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    real(REAL32), pointer :: work(:)
+    real(REAL32), target  :: s_work(1)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = min(size(a,1), size(a,2))
+    end if
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+
+    ! Query workspace size
+    lwork = -1
+    call sorgqr(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
+    if (local_info /= 0) goto 404
+
+    lwork = int(s_work(1))
+    allocate(work(lwork), stat=allocation_status)
+    if (allocation_status == 0) then
+        call sorgqr(m, n, local_k, a, lda, tau, work, lwork, local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=deallocation_status)
+
+    ! Error handling
+404 continue
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('sorgqr', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_orgqr:dorgqr]].
+!> See also: [[mfi_orgqr]], [[f77_orgqr]].
+!> Generates the real orthogonal matrix Q of the QR factorization
+pure subroutine mfi_dorgqr(a, tau, k, info)
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(in) :: tau(:)
+    integer, intent(in), optional :: k
+    integer :: local_k
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: m, n, lda, lwork, allocation_status, deallocation_status
+    real(REAL64), pointer :: work(:)
+    real(REAL64), target  :: s_work(1)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = min(size(a,1), size(a,2))
+    end if
+    lda = max(1, size(a,1))
+    m = size(a, 1)
+    n = size(a, 2)
+
+    ! Query workspace size
+    lwork = -1
+    call dorgqr(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
+    if (local_info /= 0) goto 404
+
+    lwork = int(s_work(1))
+    allocate(work(lwork), stat=allocation_status)
+    if (allocation_status == 0) then
+        call dorgqr(m, n, local_k, a, lda, tau, work, lwork, local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=deallocation_status)
+
+    ! Error handling
+404 continue
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('dorgqr', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_ormqr:sormqr]].
+!> See also: [[mfi_ormqr]], [[f77_ormqr]].
+!> Multiplies a matrix by the orthogonal matrix Q from geqrf
+pure subroutine mfi_sormqr(a, tau, c, side, trans, info)
+    integer, parameter :: wp = REAL32
+    character, intent(in), optional :: side
+    character :: local_side
+    character, intent(in), optional :: trans
+    character :: local_trans
+    integer, intent(out), optional :: info
+    integer :: local_info
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(in) :: tau(:)
+    real(REAL32), intent(inout) :: c(:,:)
+    integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
+    real(REAL32), pointer :: work(:)
+    real(REAL32), target  :: s_work(1)
+    if (present(side)) then
+        local_side = side
+    else
+        local_side = 'L'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(a, 2)
+    else
+        k = size(a, 2)
+    end if
+
+    ! Query workspace size
+    lwork = -1
+    call sormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
+    if (local_info /= 0) goto 404
+
+    lwork = int(s_work(1))
+    allocate(work(lwork), stat=allocation_status)
+    if (allocation_status == 0) then
+        call sormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=deallocation_status)
+
+    ! Error handling
+404 continue
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('sormqr', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_ormqr:dormqr]].
+!> See also: [[mfi_ormqr]], [[f77_ormqr]].
+!> Multiplies a matrix by the orthogonal matrix Q from geqrf
+pure subroutine mfi_dormqr(a, tau, c, side, trans, info)
+    integer, parameter :: wp = REAL64
+    character, intent(in), optional :: side
+    character :: local_side
+    character, intent(in), optional :: trans
+    character :: local_trans
+    integer, intent(out), optional :: info
+    integer :: local_info
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(in) :: tau(:)
+    real(REAL64), intent(inout) :: c(:,:)
+    integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
+    real(REAL64), pointer :: work(:)
+    real(REAL64), target  :: s_work(1)
+    if (present(side)) then
+        local_side = side
+    else
+        local_side = 'L'
+    end if
+    if (present(trans)) then
+        local_trans = trans
+    else
+        local_trans = 'N'
+    end if
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(a, 2)
+    else
+        k = size(a, 2)
+    end if
+
+    ! Query workspace size
+    lwork = -1
+    call dormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
+    if (local_info /= 0) goto 404
+
+    lwork = int(s_work(1))
+    allocate(work(lwork), stat=allocation_status)
+    if (allocation_status == 0) then
+        call dormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
+    else
+        local_info = -1000
+    end if
+    deallocate(work, stat=deallocation_status)
+
+    ! Error handling
+404 continue
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('dormqr', -local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_potrf:spotrf]].

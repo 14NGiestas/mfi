@@ -462,7 +462,7 @@ See also: <a>mfi_org2r</a>, <a href="../interface/f77_org2r.html#proc-sorg2r">so
                  <td>Interface</td>
                  <td><p>Generic old style interface for ORGQR.
 Supports s, d.
-See also: <a>mfi_orgqr</a>, <a href="../interface/f77_orgqr.html#proc-sorgqr">sorgqr</a>, <a href="../interface/f77_orgqr.html#proc-dorgqr">dorgqr</a>.</p></td>
+See also: <a href="../interface/mfi_orgqr.html">mfi_orgqr</a>, <a href="../interface/f77_orgqr.html#proc-sorgqr">sorgqr</a>, <a href="../interface/f77_orgqr.html#proc-dorgqr">dorgqr</a>.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../interface/f77_orgr2.html'>f77_orgr2</a></td>
@@ -494,7 +494,7 @@ See also: <a>mfi_orm2r</a>, <a href="../interface/f77_orm2r.html#proc-sorm2r">so
                  <td>Interface</td>
                  <td><p>Generic old style interface for ORMQR.
 Supports s, d.
-See also: <a>mfi_ormqr</a>, <a href="../interface/f77_ormqr.html#proc-sormqr">sormqr</a>, <a href="../interface/f77_ormqr.html#proc-dormqr">dormqr</a>.</p></td>
+See also: <a href="../interface/mfi_ormqr.html">mfi_ormqr</a>, <a href="../interface/f77_ormqr.html#proc-sormqr">sormqr</a>, <a href="../interface/f77_ormqr.html#proc-dormqr">dormqr</a>.</p></td>
                </tr>
 			   <tr>
                  <td><a href='../interface/f77_ormr2.html'>f77_ormr2</a></td>
@@ -1341,6 +1341,22 @@ See also: <a href="../interface/mfi_lamch.html">mfi_lamch</a>, <a>f77_lamch</a>.
 See also: <a href="../interface/mfi_nrm2.html">mfi_nrm2</a>, <a href="../interface/f77_nrm2.html">f77_nrm2</a>.</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../proc/mfi_dorgqr.html'>mfi_dorgqr</a></td>
+                 <td><a href='../module/mfi_lapack.html'>mfi_lapack</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Modern interface for <a href="../interface/f77_orgqr.html#proc-dorgqr">dorgqr</a>.
+See also: <a href="../interface/mfi_orgqr.html">mfi_orgqr</a>, <a href="../interface/f77_orgqr.html">f77_orgqr</a>.
+Generates the real orthogonal matrix Q of the QR factorization</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/mfi_dormqr.html'>mfi_dormqr</a></td>
+                 <td><a href='../module/mfi_lapack.html'>mfi_lapack</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Modern interface for <a href="../interface/f77_ormqr.html#proc-dormqr">dormqr</a>.
+See also: <a href="../interface/mfi_ormqr.html">mfi_ormqr</a>, <a href="../interface/f77_ormqr.html">f77_ormqr</a>.
+Multiplies a matrix by the orthogonal matrix Q from geqrf</p></td>
+               </tr>
+			   <tr>
                  <td><a href='../interface/mfi_dot.html'>mfi_dot</a></td>
                  <td><a href='../module/mfi_blas.html'>mfi_blas</a></td>
                  <td>Interface</td>
@@ -1907,6 +1923,24 @@ See also:
 <a href="../interface/f77_nrm2.html#proc-snrm2">snrm2</a>, <a href="../interface/f77_nrm2.html#proc-dnrm2">dnrm2</a>, <a href="../interface/f77_nrm2.html#proc-scnrm2">scnrm2</a>, <a href="../interface/f77_nrm2.html#proc-dznrm2">dznrm2</a>.</p></td>
                </tr>
 			   <tr>
+                 <td><a href='../interface/mfi_orgqr.html'>mfi_orgqr</a></td>
+                 <td><a href='../module/mfi_lapack.html'>mfi_lapack</a></td>
+                 <td>Interface</td>
+                 <td><p>Generic modern interface for ORGQR.
+Supports s, d.
+See also:
+<a href="../interface/f77_orgqr.html#proc-sorgqr">sorgqr</a>, <a href="../interface/f77_orgqr.html#proc-dorgqr">dorgqr</a>.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/mfi_ormqr.html'>mfi_ormqr</a></td>
+                 <td><a href='../module/mfi_lapack.html'>mfi_lapack</a></td>
+                 <td>Interface</td>
+                 <td><p>Generic modern interface for ORMQR.
+Supports s, d.
+See also:
+<a href="../interface/f77_ormqr.html#proc-sormqr">sormqr</a>, <a href="../interface/f77_ormqr.html#proc-dormqr">dormqr</a>.</p></td>
+               </tr>
+			   <tr>
                  <td><a href='../interface/mfi_pocon.html'>mfi_pocon</a></td>
                  <td><a href='../module/mfi_lapack.html'>mfi_lapack</a></td>
                  <td>Interface</td>
@@ -2103,6 +2137,22 @@ See also: <a href="../interface/mfi_lamch.html">mfi_lamch</a>, <a>f77_lamch</a>.
                  <td>Function</td>
                  <td><p>Modern interface for <a href="../interface/f77_nrm2.html#proc-snrm2">snrm2</a>.
 See also: <a href="../interface/mfi_nrm2.html">mfi_nrm2</a>, <a href="../interface/f77_nrm2.html">f77_nrm2</a>.</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/mfi_sorgqr.html'>mfi_sorgqr</a></td>
+                 <td><a href='../module/mfi_lapack.html'>mfi_lapack</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Modern interface for <a href="../interface/f77_orgqr.html#proc-sorgqr">sorgqr</a>.
+See also: <a href="../interface/mfi_orgqr.html">mfi_orgqr</a>, <a href="../interface/f77_orgqr.html">f77_orgqr</a>.
+Generates the real orthogonal matrix Q of the QR factorization</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../proc/mfi_sormqr.html'>mfi_sormqr</a></td>
+                 <td><a href='../module/mfi_lapack.html'>mfi_lapack</a></td>
+                 <td>Subroutine</td>
+                 <td><p>Modern interface for <a href="../interface/f77_ormqr.html#proc-sormqr">sormqr</a>.
+See also: <a href="../interface/mfi_ormqr.html">mfi_ormqr</a>, <a href="../interface/f77_ormqr.html">f77_ormqr</a>.
+Multiplies a matrix by the orthogonal matrix Q from geqrf</p></td>
                </tr>
 			   <tr>
                  <td><a href='../interface/mfi_spmv.html'>mfi_spmv</a></td>
