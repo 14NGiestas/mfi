@@ -249,13 +249,13 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 | :+1:  | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf. |
 | :+1:  | orgrq | Generates the real orthogonal matrix Q of the RQ factorization formed by gerqf. |
 | :+1:  | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf. |
-| :+1:  | ormrq | Multiplies a real matrix by the orthogonal matrix Q of the RQ factorization formed by gerqf. |
+| f77  | ormrq | Multiplies a real matrix by the orthogonal matrix Q of the RQ factorization formed by gerqf. |
 | :+1:  | sytrf | Computes the Bunch-Kaufman factorization of a symmetric matrix.                        |
 | :+1:  | trtrs | Solves a system of linear equations with a triangular coefficient matrix, with multiple right-hand sides. |
 | :+1:  | ungqr | Generates the complex unitary matrix Q of the QR factorization formed by geqrf.  |
 | :+1:  | ungrq | Generates the complex unitary matrix Q of the RQ factorization formed by gerqf.  |
 | :+1:  | unmqr | Multiplies a complex matrix by the unitary matrix Q of the QR factorization formed by geqrf. |
-| :+1:  | unmrq | Multiplies a complex matrix by the unitary matrix Q of the RQ factorization formed by gerqf. |
+| f77  | unmrq | Multiplies a complex matrix by the unitary matrix Q of the RQ factorization formed by gerqf. |
 |  f77  | org2r | |
 |  f77  | orm2r | |
 |  f77  | ung2r | |
