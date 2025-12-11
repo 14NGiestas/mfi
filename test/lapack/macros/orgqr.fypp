@@ -1,7 +1,7 @@
 #:def orgqr(f77,f90,mfi,pfxs)
 #:set wp = pfxs[0]
 subroutine test_${f77}$
-    use f77_lapack, only: ${f77}$, geqrf => ${f90('geqrf')}$
+    use f77_lapack, only: ${f77}$, ${f90}$
     use mfi_lapack, only: ${mfi}$, mfi_${f77}$, mfi_geqrf
 
     integer, parameter :: wp = ${kind(wp)}$
