@@ -1,0 +1,72 @@
+#:def orgqr(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
+!> Generates the real orthogonal matrix Q from a QR factorization computed by geqrf:
+!>
+!>     Q is defined as the first n columns of a product of k elementary reflectors
+!>     of order m: Q = H(1) H(2) ... H(k)
+!>
+!> where the QR factorization is stored in `a` and `tau` (as returned by [[mfi_geqrf]]).
+!> The matrix `a` is overwritten with the orthogonal matrix Q.
+!>
+!> Optional arguments:
+!> - `k`: number of elementary reflectors (default=min(m,n) where m,n are inferred from `a`)
+!> - `info`: if not present and `info /= 0`, calls [[mfi_error]].
+!>
+!> The shapes are inferred from `a` (M-by-N) and `tau` (at least K elements).
+pure subroutine ${MFI_NAME}$(a, tau, k, info)
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, inout, a(:,:))
+@:args(${type(wp)}$, in,    tau(:))
+@:optional(integer, in, k)
+@:optional(integer, out, info)
+    integer :: m, n, lda, local_k
+@:defaults(k=:)
+    m = size(a, 1)
+    n = size(a, 2)
+    lda = max(1, m)
+    
+    ! Check if k is provided, otherwise default to min(m, n)
+    if (present(k)) then
+        local_k = k
+    else
+        local_k = min(m, n)
+    end if
+    
+    ! Validate that tau has at least k elements
+    if (size(tau) < local_k) then
+        local_info = -5  ! Invalid tau dimension
+        if (present(info)) then
+            info = local_info
+        else
+            call mfi_error('${F77_NAME}$', local_info)
+        end if
+        return
+    end if
+    
+    call ${F77_NAME}$(m, n, local_k, a, lda, tau, -1, local_info)  ! Query optimal workspace
+    if (local_info /= 0) then
+        if (present(info)) then
+            info = local_info
+        else
+            call mfi_error('${F77_NAME}$', local_info)
+        end if
+        return
+    end if
+    
+    block
+        ${type(wp)}$, allocatable :: work(:)
+        integer :: lwork
+        lwork = int(real(a(1,1), wp))  ! Get workspace size from query
+        if (lwork <= 0) lwork = max(1, n)
+        allocate(work(lwork))
+        
+        call ${F77_NAME}$(m, n, local_k, a, lda, tau, work, lwork, local_info)
+    end block
+    
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('${F77_NAME}$', local_info)
+    end if
+end subroutine
+#:enddef
