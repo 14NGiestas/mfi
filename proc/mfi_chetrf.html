@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for procedures.">42 statements</a>
+                 title=" 0.5% of total for procedures.">57 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -98,7 +98,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90~2.html'>lapack.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/lapack.f90.html'>lapack.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_lapack.html'>mfi_lapack</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_chetrf</li>
           </ol>
@@ -152,7 +152,22 @@
     
 
     <p>Modern interface for <a href="../interface/f77_hetrf.html#proc-chetrf">chetrf</a>.
-See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../interface/f77_hetrf.html">f77_hetrf</a>.</p>
+See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../interface/f77_hetrf.html">f77_hetrf</a>.
+Computes the factorization of a Hermitian matrix using the Bunch-Kaufman diagonal pivoting method</p>
+<p>The factorization has the form:
+- A = U<em>D</em>U<strong>H (if uplo='U') or
+- A = L<em>D</em>L</strong>H (if uplo='L')</p>
+<p>where U (or L) is a product of permutation and unit upper (lower) triangular matrices,
+and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.</p>
+<p>Parameters:
+- <code>a</code> (inout): On entry, the Hermitian matrix A. On exit, the block diagonal matrix D
+               and the multipliers used to obtain the factor U or L.
+- <code>uplo</code> (in, optional): Specifies whether the upper ('U') or lower ('L') triangular part
+               of the Hermitian matrix A is stored. Default: 'U'
+- <code>ipiv</code> (out, optional): The pivot indices that define the permutation matrix P.
+               If ipiv is not provided, it will be allocated internally.
+- <code>info</code> (out, optional): Output status: 0 for success, &lt; 0 for illegal argument,
+               &gt; 0 if D(k,k) is exactly zero.</p>
 
 
     <h3>Arguments</h3>
@@ -168,7 +183,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~221"></span>
+              <span class="anchor" id="variable-a~185"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -183,7 +198,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~105"></span>
+              <span class="anchor" id="variable-uplo~145"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -198,7 +213,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ipiv~29"></span>
+              <span class="anchor" id="variable-ipiv~13"></span>
               integer,
             </td>
 <td>intent(out),</td>
@@ -213,7 +228,7 @@ See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~142"></span>
+              <span class="anchor" id="variable-info~21"></span>
               integer,
             </td>
 <td>intent(out),</td>
