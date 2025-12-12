@@ -44,3 +44,4 @@
 *.f90
 build/
 ignored/
+.qwen/
