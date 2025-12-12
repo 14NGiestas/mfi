@@ -193,7 +193,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~191"></span>
+              <span class="anchor" id="variable-uplo~193"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -208,7 +208,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~405"></span>
+              <span class="anchor" id="variable-n~407"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -223,7 +223,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~291"></span>
+              <span class="anchor" id="variable-a~293"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -238,7 +238,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~267"></span>
+              <span class="anchor" id="variable-lda~269"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -283,7 +283,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~83"></span>
+              <span class="anchor" id="variable-work~85"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -298,7 +298,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iwork~5"></span>
+              <span class="anchor" id="variable-iwork~7"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -313,7 +313,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~128"></span>
+              <span class="anchor" id="variable-info~130"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -342,336 +342,6 @@ See also: <a href="../interface/mfi_pocon.html">mfi_pocon</a>, <a href="../inter
 dpocon estimates the reciprocal of the condition number (in the
 1-norm) of a real(REAL64) Hermitian positive definite matrix using the
 Cholesky factorization <script type="math/tex"> A = U^\dagger U </script> or ( A = LL^\dagger |) computed by DPOTRF.
-An estimate is obtained for norm(inv(A)), and the reciprocal of the
-condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~192"></span>
-              character(len=1),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~406"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~292"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(lda,*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lda~268"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lda</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-anorm~6"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>anorm</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rcond~6"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rcond</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-work~84"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>work</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iwork~6"></span>
-              integer,
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>iwork</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~129"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-cpocon"></span> <h3>public pure subroutine cpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)  
-</h3></div>
-    <div class="card-body">
-        <p>Original interface for CPOCON
-See also: <a href="../interface/mfi_pocon.html">mfi_pocon</a>, <a href="../interface/f77_pocon.html">f77_pocon</a>.
-cpocon estimates the reciprocal of the condition number (in the
-1-norm) of a complex(REAL32) Hermitian positive definite matrix using the
-Cholesky factorization <script type="math/tex"> A = U^\dagger U </script> or ( A = LL^\dagger |) computed by CPOTRF.
-An estimate is obtained for norm(inv(A)), and the reciprocal of the
-condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~193"></span>
-              character(len=1),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~407"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~293"></span>
-              complex(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(lda,*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lda~269"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lda</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-anorm~7"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>anorm</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rcond~7"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rcond</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-work~85"></span>
-              complex(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>work</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-rwork~13"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>rwork</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~130"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-zpocon"></span> <h3>public pure subroutine zpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)  
-</h3></div>
-    <div class="card-body">
-        <p>Original interface for ZPOCON
-See also: <a href="../interface/mfi_pocon.html">mfi_pocon</a>, <a href="../interface/f77_pocon.html">f77_pocon</a>.
-zpocon estimates the reciprocal of the condition number (in the
-1-norm) of a complex(REAL64) Hermitian positive definite matrix using the
-Cholesky factorization <script type="math/tex"> A = U^\dagger U </script> or ( A = LL^\dagger |) computed by ZPOTRF.
 An estimate is obtained for norm(inv(A)), and the reciprocal of the
 condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
 
@@ -719,7 +389,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         <tr>
             <td>
               <span class="anchor" id="variable-a~294"></span>
-              complex(kind=REAL64),
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -734,6 +404,336 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         <tr>
             <td>
               <span class="anchor" id="variable-lda~270"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lda</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-anorm~6"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>anorm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcond~6"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rcond</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-work~86"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>work</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iwork~8"></span>
+              integer,
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>iwork</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~131"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cpocon"></span> <h3>public pure subroutine cpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)  
+</h3></div>
+    <div class="card-body">
+        <p>Original interface for CPOCON
+See also: <a href="../interface/mfi_pocon.html">mfi_pocon</a>, <a href="../interface/f77_pocon.html">f77_pocon</a>.
+cpocon estimates the reciprocal of the condition number (in the
+1-norm) of a complex(REAL32) Hermitian positive definite matrix using the
+Cholesky factorization <script type="math/tex"> A = U^\dagger U </script> or ( A = LL^\dagger |) computed by CPOTRF.
+An estimate is obtained for norm(inv(A)), and the reciprocal of the
+condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~195"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~409"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~295"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(lda,*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lda~271"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lda</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-anorm~7"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>anorm</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcond~7"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rcond</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-work~87"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>work</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rwork~15"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rwork</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~132"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-zpocon"></span> <h3>public pure subroutine zpocon(uplo, n, a, lda, anorm, rcond, work, rwork, info)  
+</h3></div>
+    <div class="card-body">
+        <p>Original interface for ZPOCON
+See also: <a href="../interface/mfi_pocon.html">mfi_pocon</a>, <a href="../interface/f77_pocon.html">f77_pocon</a>.
+zpocon estimates the reciprocal of the condition number (in the
+1-norm) of a complex(REAL64) Hermitian positive definite matrix using the
+Cholesky factorization <script type="math/tex"> A = U^\dagger U </script> or ( A = LL^\dagger |) computed by ZPOTRF.
+An estimate is obtained for norm(inv(A)), and the reciprocal of the
+condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~196"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~410"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~296"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(lda,*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lda~272"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -778,7 +778,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~86"></span>
+              <span class="anchor" id="variable-work~88"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -793,7 +793,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rwork~14"></span>
+              <span class="anchor" id="variable-rwork~16"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -808,7 +808,7 @@ condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~131"></span>
+              <span class="anchor" id="variable-info~133"></span>
               integer,
             </td>
 <td>intent(out)</td>
