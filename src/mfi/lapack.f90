@@ -79,6 +79,14 @@ interface mfi_heevd
     module procedure :: mfi_cheevd
     module procedure :: mfi_zheevd
 end interface
+!> Generic modern interface for HEEVR.
+!> Supports c, z.
+!> See also:
+!> [[f77_heevr:cheevr]], [[f77_heevr:zheevr]].
+interface mfi_heevr
+    module procedure :: mfi_cheevr
+    module procedure :: mfi_zheevr
+end interface
 !> Generic modern interface for GESVD.
 !> Supports s, d, c, z.
 !> See also:
@@ -1434,6 +1442,290 @@ pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
         info = local_info
     else if (local_info <= -1000) then
         call mfi_error('zheevd', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_heevr:cheevr]].
+!> See also: [[mfi_heevr]], [[f77_heevr]].
+!> Computes selected eigenvalues and, optionally, eigenvectors of a Hermitian matrix using RRR
+pure subroutine mfi_cheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z, isuppz, info)
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(out) :: w(:)
+    complex(REAL32),      intent(out), optional, target :: z(:,:)
+    integer,           intent(out), optional, target :: isuppz(:)
+    integer,           intent(out), optional :: m
+    character, intent(in), optional :: jobz
+    character :: local_jobz
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    character, intent(in), optional :: range
+    character :: local_range
+    real(REAL32), intent(in), optional :: vl
+    real(REAL32) :: local_vl
+    real(REAL32), intent(in), optional :: vu
+    real(REAL32) :: local_vu
+    real(REAL32), intent(in), optional :: abstol
+    real(REAL32) :: local_abstol
+    integer, intent(in), optional :: il
+    integer :: local_il
+    integer, intent(in), optional :: iu
+    integer :: local_iu
+    integer, intent(out), optional :: info
+    integer :: local_info
+    complex(REAL32),      pointer :: work(:), local_z(:,:)
+    real(REAL32),      pointer :: rwork(:)
+    integer,           pointer :: iwork(:), local_isuppz(:)
+    complex(REAL32)      :: s_work(1)
+    real(REAL32) :: s_rwork(1)
+    integer       :: s_iwork(1)
+    integer :: n, lda, ldz, lwork, lrwork, liwork, allocation_status, deallocation_status
+    integer :: local_m
+    complex(REAL32), target :: l_z(1,1)
+    integer, target :: l_isuppz(2*size(a,1))  ! Default size for isuppz when not present
+    if (present(jobz)) then
+        local_jobz = jobz
+    else
+        local_jobz = 'N'
+    end if
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    if (present(range)) then
+        local_range = range
+    else
+        local_range = 'A'
+    end if
+    if (present(vl)) then
+        local_vl = vl
+    else
+        local_vl = 0.0_wp
+    end if
+    if (present(vu)) then
+        local_vu = vu
+    else
+        local_vu = 0.0_wp
+    end if
+    if (present(il)) then
+        local_il = il
+    else
+        local_il = 1
+    end if
+    if (present(iu)) then
+        local_iu = iu
+    else
+        local_iu = size(a,1)
+    end if
+    if (present(abstol)) then
+        local_abstol = abstol
+    else
+        local_abstol = 0.0_wp
+    end if
+    lda = max(1,size(a,1))
+    n   = size(a,2)
+    ldz = max(1,size(a,1))  ! Size for eigenvector matrix
+    if (present(z)) ldz = max(1,size(z,1))
+    allocation_status = 0
+    lwork  = -1
+    lrwork = -1
+    liwork = -1
+    
+    ! Set up pointers
+    if (present(z)) then
+        local_z => z
+    else
+        local_z => l_z
+    end if
+    
+    if (present(isuppz)) then
+        local_isuppz => isuppz
+    else
+        local_isuppz => l_isuppz
+    end if
+
+    ! Query workspace size
+    call cheevr(local_jobz, local_range, local_uplo, n, a, lda, &
+                      local_vl, local_vu, local_il, local_iu, local_abstol, &
+                      local_m, w, local_z, ldz, local_isuppz, s_work, lwork, s_rwork, lrwork, &
+                      s_iwork, liwork, local_info)
+    if (local_info /= 0) goto 404
+    
+    lwork  = int(s_work(1))
+    lrwork = int(s_rwork(1))
+    liwork = int(s_iwork(1))
+
+    allocate(iwork(liwork), stat=allocation_status)
+    if (allocation_status == 0) then
+        allocate(rwork(lrwork), stat=allocation_status)
+        if (allocation_status == 0) then
+            allocate(work(lwork), stat=allocation_status)
+            if (allocation_status == 0) then
+                ! Call the actual routine
+                call cheevr(local_jobz, local_range, local_uplo, n, a, lda, &
+                              local_vl, local_vu, local_il, local_iu, local_abstol, &
+                              local_m, w, local_z, ldz, local_isuppz, work, lwork, rwork, lrwork, &
+                              iwork, liwork, local_info)
+                
+                ! Copy results if needed
+                if (present(m)) m = local_m
+            else
+                local_info = -1000
+            end if
+        else
+            local_info = -1000
+        end if
+        deallocate(work, stat=deallocation_status)
+    end if
+    deallocate(rwork, stat=deallocation_status)
+    deallocate(iwork, stat=deallocation_status)
+404 continue
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('cheevr', -local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_heevr:zheevr]].
+!> See also: [[mfi_heevr]], [[f77_heevr]].
+!> Computes selected eigenvalues and, optionally, eigenvectors of a Hermitian matrix using RRR
+pure subroutine mfi_zheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z, isuppz, info)
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(out) :: w(:)
+    complex(REAL64),      intent(out), optional, target :: z(:,:)
+    integer,           intent(out), optional, target :: isuppz(:)
+    integer,           intent(out), optional :: m
+    character, intent(in), optional :: jobz
+    character :: local_jobz
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    character, intent(in), optional :: range
+    character :: local_range
+    real(REAL64), intent(in), optional :: vl
+    real(REAL64) :: local_vl
+    real(REAL64), intent(in), optional :: vu
+    real(REAL64) :: local_vu
+    real(REAL64), intent(in), optional :: abstol
+    real(REAL64) :: local_abstol
+    integer, intent(in), optional :: il
+    integer :: local_il
+    integer, intent(in), optional :: iu
+    integer :: local_iu
+    integer, intent(out), optional :: info
+    integer :: local_info
+    complex(REAL64),      pointer :: work(:), local_z(:,:)
+    real(REAL64),      pointer :: rwork(:)
+    integer,           pointer :: iwork(:), local_isuppz(:)
+    complex(REAL64)      :: s_work(1)
+    real(REAL64) :: s_rwork(1)
+    integer       :: s_iwork(1)
+    integer :: n, lda, ldz, lwork, lrwork, liwork, allocation_status, deallocation_status
+    integer :: local_m
+    complex(REAL64), target :: l_z(1,1)
+    integer, target :: l_isuppz(2*size(a,1))  ! Default size for isuppz when not present
+    if (present(jobz)) then
+        local_jobz = jobz
+    else
+        local_jobz = 'N'
+    end if
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    if (present(range)) then
+        local_range = range
+    else
+        local_range = 'A'
+    end if
+    if (present(vl)) then
+        local_vl = vl
+    else
+        local_vl = 0.0_wp
+    end if
+    if (present(vu)) then
+        local_vu = vu
+    else
+        local_vu = 0.0_wp
+    end if
+    if (present(il)) then
+        local_il = il
+    else
+        local_il = 1
+    end if
+    if (present(iu)) then
+        local_iu = iu
+    else
+        local_iu = size(a,1)
+    end if
+    if (present(abstol)) then
+        local_abstol = abstol
+    else
+        local_abstol = 0.0_wp
+    end if
+    lda = max(1,size(a,1))
+    n   = size(a,2)
+    ldz = max(1,size(a,1))  ! Size for eigenvector matrix
+    if (present(z)) ldz = max(1,size(z,1))
+    allocation_status = 0
+    lwork  = -1
+    lrwork = -1
+    liwork = -1
+    
+    ! Set up pointers
+    if (present(z)) then
+        local_z => z
+    else
+        local_z => l_z
+    end if
+    
+    if (present(isuppz)) then
+        local_isuppz => isuppz
+    else
+        local_isuppz => l_isuppz
+    end if
+
+    ! Query workspace size
+    call zheevr(local_jobz, local_range, local_uplo, n, a, lda, &
+                      local_vl, local_vu, local_il, local_iu, local_abstol, &
+                      local_m, w, local_z, ldz, local_isuppz, s_work, lwork, s_rwork, lrwork, &
+                      s_iwork, liwork, local_info)
+    if (local_info /= 0) goto 404
+    
+    lwork  = int(s_work(1))
+    lrwork = int(s_rwork(1))
+    liwork = int(s_iwork(1))
+
+    allocate(iwork(liwork), stat=allocation_status)
+    if (allocation_status == 0) then
+        allocate(rwork(lrwork), stat=allocation_status)
+        if (allocation_status == 0) then
+            allocate(work(lwork), stat=allocation_status)
+            if (allocation_status == 0) then
+                ! Call the actual routine
+                call zheevr(local_jobz, local_range, local_uplo, n, a, lda, &
+                              local_vl, local_vu, local_il, local_iu, local_abstol, &
+                              local_m, w, local_z, ldz, local_isuppz, work, lwork, rwork, lrwork, &
+                              iwork, liwork, local_info)
+                
+                ! Copy results if needed
+                if (present(m)) m = local_m
+            else
+                local_info = -1000
+            end if
+        else
+            local_info = -1000
+        end if
+        deallocate(work, stat=deallocation_status)
+    end if
+    deallocate(rwork, stat=deallocation_status)
+    deallocate(iwork, stat=deallocation_status)
+404 continue
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('zheevr', -local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_gesvd:sgesvd]].
