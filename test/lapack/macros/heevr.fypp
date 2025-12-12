@@ -1,0 +1,56 @@
+#:def heevr(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: N = 3
+    ${type(wp)}$ :: A(N,N), A_copy(N,N), Z(N,N), Z_rf(N,N)
+    ${real(wp)}$ :: W(N), W_rf(N)
+    ${type(wp)}$, allocatable :: work(:)
+    ${real(wp)}$, allocatable :: rwork(:)
+    integer, allocatable :: iwork(:), isuppz(:)
+    integer :: info, info_rf, info_mfi, M, M_rf
+    character :: jobz = 'V', uplo = 'U', range = 'A'
+    ${real(wp)}$ :: vl = 0.0_wp, vu = 0.0_wp
+    integer :: il = 1, iu = N
+    ${real(wp)}$ :: abstol = 0.0_wp
+
+    ! Create a Hermitian test matrix
+    A = 0.0_wp
+    A(1,1) = cmplx(3.0_wp, 0.0_wp); A(1,2) = cmplx(1.0_wp, 0.5_wp); A(1,3) = cmplx(1.0_wp, -0.3_wp)
+    A(2,1) = cmplx(1.0_wp, -0.5_wp); A(2,2) = cmplx(2.0_wp, 0.0_wp); A(2,3) = cmplx(0.5_wp, 0.2_wp)
+    A(3,1) = cmplx(1.0_wp, 0.3_wp); A(3,2) = cmplx(0.5_wp, -0.2_wp); A(3,3) = cmplx(4.0_wp, 0.0_wp)
+    
+    A_copy = A
+
+    ! Test f77 interface
+    allocate(work(26*N), rwork(24*N), iwork(10*N), isuppz(N*2))
+    call ${f77}$(jobz, range, uplo, N, A_copy, N, vl, vu, il, iu, abstol, &
+                 M_rf, W_rf, Z_rf, N, isuppz, work, size(work), rwork, size(rwork), iwork, size(iwork), info_rf)
+
+    if (info_rf /= 0) then
+        deallocate(work, rwork, iwork, isuppz)
+        return
+    end if
+
+    ! Test mfi interface (short form)
+    A_copy = A  ! Reset to original
+    call mfi_${f77}$(A_copy, W, jobz=jobz, uplo=uplo, range=range, &
+                     m=M, z=Z, isuppz=isuppz, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(W - W_rf) < sqrt(epsilon(1.0_wp))), &
+                "different eigenvalues for mfi_${f77}$")
+
+    ! Test mfi interface (full form)
+    A_copy = A  ! Reset to original
+    call ${mfi}$(A_copy, W, jobz=jobz, uplo=uplo, range=range, &
+                 m=M, z=Z, isuppz=isuppz, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(W - W_rf) < sqrt(epsilon(1.0_wp))), &
+                "different eigenvalues for ${mfi}$")
+
+    ! Clean up
+    deallocate(work, rwork, iwork, isuppz)
+
+end subroutine
+#:enddef

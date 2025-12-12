@@ -8,6 +8,7 @@
 #:include "src/mfi/lapack/gesvd.fypp"
 #:include "src/mfi/lapack/hegv.fypp"
 #:include "src/mfi/lapack/heevd.fypp"
+#:include "src/mfi/lapack/heevr.fypp"
 #:include "src/mfi/lapack/potrf_potri.fypp"
 #:include "src/mfi/lapack/potrs.fypp"
 #:include "src/mfi/lapack/pocon.fypp"
@@ -28,6 +29,7 @@
     ('?hetrf',  COMPLEX_TYPES, hetrf),       &
     ('?hegv',   COMPLEX_TYPES, hegv),        &
     ('?heevd',  COMPLEX_TYPES, heevd),       &
+    ('?heevr',  COMPLEX_TYPES, heevr),       &
     ('?gesvd',  DEFAULT_TYPES, gesvd),       &
     ('?orgqr',  REAL_TYPES,    orgqr),       &
     ('?orgrq',  REAL_TYPES,    orgqr),       &
