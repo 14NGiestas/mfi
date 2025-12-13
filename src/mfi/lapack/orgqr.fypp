@@ -10,7 +10,7 @@ pure subroutine ${MFI_NAME}$(a, tau, k, info)
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
     ${type(wp)}$, pointer :: work(:)
     ${type(wp)}$, target  :: s_work(1)
-@:defaults(k=min(size(a,1), size(a,2)))
+@:defaults(k=size(tau))
     lda = max(1, size(a,1))
     m = size(a, 1)
     n = size(a, 2)

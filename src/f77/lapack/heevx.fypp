@@ -1,7 +1,7 @@
 #:def heevx(NAME,pfxs)
 #:set wp=pfxs[0]
 pure subroutine ${NAME}$(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
-                         work,lwork,rwork,lrwork,iwork,liwork,ifail,info)
+                         work,lwork,rwork,lrwork,iwork,ifail,info)
     import :: ${kind(wp)}$
 @:parameter(integer, wp=${kind(wp)}$)
 @:args(${type(wp)}$,      inout, a(lda,*), z(ldz, *))
@@ -9,9 +9,9 @@ pure subroutine ${NAME}$(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
 @:args(integer,       out,   info)
 @:args(character,     in,    jobz, uplo, range)
 @:args(${real(wp)}$, in,    vl, vu, abstol)
-@:args(integer,       in,    n, m, lda, ldz, il, iu, lwork, lrwork, liwork, ifail)
+@:args(integer,       in,    n, m, lda, ldz, il, iu, lwork, lrwork)
 @:args(${type(wp)}$,      inout, work(*))
 @:args(${real(wp)}$, inout, rwork(*))
-@:args(integer,       inout, iwork(*))
+@:args(integer,       inout, iwork(*), ifail(*))
 end subroutine
 #:enddef
