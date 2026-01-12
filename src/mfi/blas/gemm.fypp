@@ -2,9 +2,6 @@
 #:set wp = pfxs[0]
 #:set TYPE = type(wp)
 pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
-    #:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
-    use iso_c_binding
-    #:endif
 @:parameter(integer, wp=${kind(wp)}$)
 @:args(${TYPE}$, in,    a(:,:), b(:,:))
 @:args(${TYPE}$, inout, c(:,:))
@@ -28,17 +25,28 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
         block
             @:allocate(a,b,c)
             @:set_matrix(a,b)
-            call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,device_a,lda,device_b,ldb,local_beta,device_c,ldc)
+            call ${F77_NAME}$( &
+              local_transa,    &
+              local_transb,    &
+              m,               &
+              n,               &
+              k,               &
+              local_alpha,     &
+              device_a,        &
+              lda,             &
+              device_b,        &
+              ldb,             &
+              local_beta,      &
+              device_c,        &
+              ldc              &
+            )
             @:get_matrix(c)
             @:deallocate(a,b,c)
         end block
-    else
-        ! CPU execution with traditional BLAS call
-        call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+        return
     end if
-    #:else
+    #:endif
     ! Default behavior when extensions are not enabled
     call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
-    #:endif
 end subroutine
 #:enddef

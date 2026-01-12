@@ -3,10 +3,10 @@
 #:set REAL    = 'real(wp)'
 #:set COMPLEX = 'complex(wp)'
 #:set PREFIX = { &
-    's': { 'type': 'real(wp)',    'wp': 'REAL32'}, &
-    'd': { 'type': 'real(wp)',    'wp': 'REAL64'}, &
-    'c': { 'type': 'complex(wp)', 'wp': 'REAL32'}, &
-    'z': { 'type': 'complex(wp)', 'wp': 'REAL64'}, &
+    's': { 'type': 'real(wp)',    'wp': 'REAL32', 'c_kind': 'c_float'  }, &
+    'd': { 'type': 'real(wp)',    'wp': 'REAL64', 'c_kind': 'c_double' }, &
+    'c': { 'type': 'complex(wp)', 'wp': 'REAL32', 'c_kind': 'c_float'  }, &
+    'z': { 'type': 'complex(wp)', 'wp': 'REAL64', 'c_kind': 'c_double' }, &
 }
 
 #:set ERROR = lambda pfx: { 'type': f'error: {pfx}', 'wp' : f'error: {pfx}' }
@@ -17,9 +17,13 @@
 #:set get    = lambda pfx,what: PREFIX.get(pfx).get(what)
 #:set prefix = lambda pfx, name: name.replace('?',pfx)
 #:set kind   = lambda pfx: get(pfx,'wp')
+#:set c_kind = lambda pfx: get(pfx,'c_kind')
 #:set type   = lambda pfx: get(pfx,'type').replace('wp',kind(pfx))
-#:set real   = lambda pfx: REAL.replace('wp',kind(pfx))
-#:set complex= lambda pfx: COMPLEX.replace('wp',kind(pfx))
+#:set c_type = lambda pfx: get(pfx,'type').replace('wp',c_kind(pfx))
+#:set real      = lambda pfx: REAL.replace('wp',kind(pfx))
+#:set complex   = lambda pfx: COMPLEX.replace('wp',kind(pfx))
+
+#:set functions = lambda gen_name, pfxs: map(lambda pfx: prefix(pfx,gen_name), pfxs)
 
 #:set SINGLE_TYPES  = ['s','c']
 #:set DOUBLE_TYPES  = ['d','z']
@@ -113,8 +117,8 @@ end block
     end if
 #:enddef
 
-#:def interface(functions, procedure='procedure', name='')
-interface ${name}$
+#:def interface(functions, procedure='procedure', name='', prefix='')
+interface ${prefix}$${name}$
     #:for function_name in functions
     ${procedure}$ :: ${function_name}$
     #:endfor
@@ -125,7 +129,7 @@ end interface
 #! code must implement a routine interface
 #:def f77_original(generic_name, prefixes, code)
 #:set mfi = 'mfi_' + prefix('',generic_name)
-#:set f90 = 'f77_' + prefix('',generic_name)
+#:set f90 =          prefix('',generic_name)
 #:set f77 = [prefix(pfx,generic_name) for pfx in prefixes]
 !> Generic old style interface for ${prefix('',generic_name).upper()}$.
 !> Supports ${', '.join(prefixes)}$.
@@ -141,11 +145,11 @@ $:code(name,pfxs)
 end interface
 #:enddef
 
+
 #! Define a common interface with the original f77 interfaces
 #! So you can call the original function without the prefix
 #:def f77_improved(generic_name, prefixes)
-#:set functions = map(lambda pfx: prefix(pfx,generic_name), prefixes)
-$:interface(functions, name=f"f77_{prefix('',generic_name)}")
+$:interface(functions(generic_name, prefixes), name=f"f77_{prefix('',generic_name)}")
 #:enddef
 
 #! In case of missing functions / extensions you can pass a code
@@ -177,7 +181,7 @@ $:interface(functions, &
 #:def mfi_implement(generic_name, prefixes, code)
 #:for pfx in prefixes
 #:set mfi_name  = 'mfi_' + prefix(pfx,generic_name)
-#:set f77_name  =          prefix(pfx,generic_name)
+#:set f77_name  = 'f77_' + prefix('',generic_name)
 #:set pfxs      = list(map(split,pfx))
 #:set fun       = prefix('',generic_name)
 !> Modern interface for [[f77_${fun}$:${f77_name}$]].

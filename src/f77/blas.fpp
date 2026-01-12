@@ -88,6 +88,7 @@
 !> Improved and original F77 interfaces for BLAS
 module f77_blas
 use iso_fortran_env
+use iso_c_binding
 implicit none
 
 #:for name, supported_types, code in COLLECT

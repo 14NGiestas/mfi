@@ -1,110 +1,106 @@
 #:mute
-#! Create boilerplate to allocate memory in GPU device
+#! Allocate memory using modern cudaMalloc
 #:def allocate(*varlist)
     #:for var in varlist
         type(c_ptr) :: device_${var}$
+        integer(c_int) :: stat_${var}$
     #:endfor
     #:for var in varlist
-        call cublas_alloc(size(${var}$),wp,device_${var}$)
+        ! total_bytes = number_of_elements * storage_size
+        call cuda_malloc(device_${var}$, &
+            int(size(${var}$), c_size_t) * int(storage_size(${var}$)/8, c_size_t), stat_${var}$)
     #:endfor
 #:enddef
 
-#! Create boilerplate to copy a matrix to GPU device
+#! Copy matrix to GPU: storage_size(var)/8 converts bits to bytes
 #:def set_matrix(*varlist)
     #:for var in varlist
-        call cublas_set_matrix(size(${var}$,1),size(${var}$,2),wp,    &
-                            ${var}$,       max(1,size(${var}$,1)), &
-                            device_${var}$,max(1,size(${var}$,1)))
+        call cublas_set_matrix(int(size(${var}$,1), c_int), int(size(${var}$,2), c_int), &
+                            int(storage_size(${var}$)/8, c_int), &
+                            ${var}$, int(max(1,size(${var}$,1)), c_int), &
+                            device_${var}$, int(max(1,size(${var}$,1)), c_int))
     #:endfor
 #:enddef
 
-#! Create boilerplate to get a matrix from GPU device
 #:def get_matrix(*varlist)
     #:for var in varlist
-        call cublas_get_matrix(size(${var}$,1),size(${var}$,2),wp,    &
-                            device_${var}$,max(1,size(${var}$,1)), &
-                            ${var}$,       max(1,size(${var}$,1)))
+        call cublas_get_matrix(int(size(${var}$,1), c_int), int(size(${var}$,2), c_int), &
+                            int(storage_size(${var}$)/8, c_int), &
+                            device_${var}$, int(max(1,size(${var}$,1)), c_int), &
+                            ${var}$, int(max(1,size(${var}$,1)), c_int))
     #:endfor
 #:enddef
 
-#! Create boilerplate to copy a vector content to GPU device
 #:def set_vector(*varlist)
     #:for var in varlist
-        call cublas_set_vector(size(${var}$),wp,${var}$,1,device_${var}$,1)
+        call cublas_set_vector(int(size(${var}$), c_int), int(storage_size(${var}$)/8, c_int), &
+                            ${var}$, 1_c_int, device_${var}$, 1_c_int)
     #:endfor
 #:enddef
 
-#! Create boilerplate to get a vector from GPU device
 #:def get_vector(*varlist)
     #:for var in varlist
-        call cublas_get_vector(size(${var}$),wp,device_${var}$,1,${var}$,1)
+        call cublas_get_vector(int(size(${var}$), c_int), int(storage_size(${var}$)/8, c_int), &
+                            device_${var}$, 1_c_int, ${var}$, 1_c_int)
     #:endfor
 #:enddef
 
-#! Create boilerplate to free memory in GPU device
 #:def deallocate(*varlist)
     #:for var in varlist
-        call cublas_free(device_${var}$)
+        call cuda_free(device_${var}$, stat_${var}$)
     #:endfor
 #:enddef
 
 #:def cublas_interfaces()
-
 #:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
 interface
-    pure subroutine cublas_alloc(n, elemSize, devicePtr) &
-        bind(c,name="cublasAlloc")
-        use, intrinsic :: iso_c_binding
-        integer(c_int), intent(in), value :: n, elemSize
-        type(c_ptr), target, intent(out) :: devicePtr ! void **devicePtr
+    ! CUDA Runtime Memory Management (Replaces cublasAlloc/Free)
+
+    ! Define as a SUBROUTINE to allow INTENT(OUT) in a PURE context
+    pure subroutine cuda_malloc(ptr, bytes, stat) bind(c, name="cudaMalloc")
+        import :: c_ptr, c_size_t, c_int
+        type(c_ptr), intent(out) :: ptr
+        integer(c_size_t), value :: bytes
+        ! This captures the C function return value
+        integer(c_int), intent(out) :: stat 
+    end subroutine
+    
+    pure subroutine cuda_free(ptr, stat) bind(c, name="cudaFree")
+        import :: c_ptr, c_int
+        type(c_ptr), value, intent(in) :: ptr
+        integer(c_int), intent(out)    :: stat
     end subroutine
 
-    pure subroutine cublas_free(devicePtr) &
-        bind(c,name="cublasFree")
-        use, intrinsic :: iso_c_binding
-        type(c_ptr), value, intent(in) :: devicePtr ! void *devicePtr
+    ! Utility functions use type(*) for generic data support
+    pure subroutine cublas_set_matrix(rows, cols, elemSize, A, lda, B, ldb) bind(c, name="cublasSetMatrix")
+        import :: c_int, c_ptr
+        integer(c_int), value :: rows, cols, elemSize, lda, ldb
+        type(*), intent(in) :: A(*)
+        type(c_ptr), value :: B
     end subroutine
 
-    pure subroutine cublas_set_vector(n, elemSize, x, incx, y, incy) &
-        bind(c,name="cublasSetVector")
-        use, intrinsic :: iso_c_binding
-        integer(c_int), intent(in), value :: n
-        integer(c_int), intent(in), value :: elemSize
-        integer(c_int), intent(in), value :: incx, incy
-        type(*),        intent(in) :: x(*)
-        type(c_ptr),    value :: y
+    pure subroutine cublas_get_matrix(rows, cols, elemSize, A, lda, B, ldb) bind(c, name="cublasGetMatrix")
+        import :: c_int, c_ptr
+        integer(c_int), value :: rows, cols, elemSize, lda, ldb
+        type(c_ptr), value :: A
+        type(*), intent(inout) :: B(*)
     end subroutine
 
-    pure subroutine cublas_get_vector(n, elemSize, x, incx, y, incy) &
-        bind(c,name="cublasGetVector")
-        use, intrinsic :: iso_c_binding
-        integer(c_int), intent(in), value :: n
-        integer(c_int), intent(in), value :: elemSize
-        integer(c_int), intent(in), value :: incx, incy
-        type(c_ptr),    intent(in) :: x
-        type(*),        intent(inout) :: y(*)
+    pure subroutine cublas_set_vector(n, elemSize, x, incx, y, incy) bind(c, name="cublasSetVector")
+        import :: c_int, c_ptr
+        integer(c_int), value :: n, elemSize, incx, incy
+        type(*), intent(in) :: x
+        type(c_ptr), value :: y
     end subroutine
 
-    pure subroutine cublas_set_matrix(rows, cols, elemSize, a, lda, b, ldb) &
-        bind(c,name="cublasSetMatrix")
-        use, intrinsic :: iso_c_binding
-        integer(c_int), intent(in), value :: rows, cols
-        integer(c_int), intent(in), value :: elemSize
-        integer(c_int), intent(in), value :: lda, ldb
-        type(*),        intent(in)    :: a(lda,*)
-        type(c_ptr),    value :: b
-    end subroutine
-
-    pure subroutine cublas_get_matrix(rows, cols, elemSize, a, lda, b, ldb) &
-        bind(c,name="cublasGetMatrix")
-        use, intrinsic :: iso_c_binding
-        integer(c_int), intent(in), value :: rows, cols
-        integer(c_int), intent(in), value :: elemSize
-        integer(c_int), intent(in), value :: lda, ldb
-        type(c_ptr),    intent(in), value :: a
-        type(*),        intent(inout)     :: b(ldb,*)
+    pure subroutine cublas_get_vector(n, elemSize, x, incx, y, incy) bind(c, name="cublasGetVector")
+        import :: c_int, c_ptr
+        integer(c_int), value :: n, elemSize, incx, incy
+        type(c_ptr), value :: x
+        type(*), intent(inout) :: y
     end subroutine
 end interface
 #:endif
 #:enddef
 #:endmute
+

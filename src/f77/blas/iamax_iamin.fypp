@@ -2,7 +2,6 @@
 #:set wp = pfxs[0]
 pure function ${NAME}$(n, x, incx)
     import :: ${kind(wp)}$
-@:parameter(integer, wp=${kind(wp)}$)
     integer :: ${NAME}$
 @:args(${type(wp)}$, in, x(*))
 @:args(integer,  in, n, incx)

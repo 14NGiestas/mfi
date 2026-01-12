@@ -5,8 +5,23 @@ pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c
 @:parameter(integer, wp=${kind(wp)}$)
 @:args(${type(wp)}$,  in,    a(lda,*), b(ldb,*))
 @:args(${type(wp)}$,  inout, c(ldc,*))
-@:args(character, in,    transa, transb)
+@:args(character,     in,    transa, transb)
 @:args(${type(wp)}$,  in,    alpha, beta)
-@:args(integer,   in,    m, n, k, lda, ldb, ldc)
+@:args(integer,       in,    m, n, k, lda, ldb, ldc)
 end subroutine
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+! ${NAME}$ GPU (cublas) version
+#:set NAME = f"cublas{NAME.title()}"
+pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) &
+    bind(C,name="${NAME}$")
+    import
+@:parameter(integer, wp=${c_kind(wp)}$)
+@:args({type(c_ptr), value}, in, a, b)
+    type(c_ptr), value :: c ! void *
+@:args({character(c_char),value}, in,  transa, transb)
+@:args({${type(wp)}$,value}, in,  alpha, beta)
+@:args({integer(c_int),value}, in, m, n, k, lda, ldb, ldc)
+end subroutine
+#:endif
 #:enddef
+

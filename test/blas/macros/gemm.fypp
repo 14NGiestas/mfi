@@ -3,6 +3,7 @@
 subroutine test_${f77}$
     use f77_blas, only: ${f77}$, ${f90}$
     use mfi_blas, only: ${mfi}$, mfi_${f77}$
+    use mfi_blas
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 20
@@ -12,7 +13,10 @@ subroutine test_${f77}$
                 A_rf(N,N), B_rf(N,N), C_rf(N,N)
     ${type(wp)}$ :: alpha, beta
     character :: transa, transb
-    integer :: i, j
+    integer :: i, j, k
+
+    call mfi_execution_init
+    print*, mfi_get_execution_mode()
 
     $:random_number(type(wp),'A','(N,N)')
     $:random_number(type(wp),'B','(N,N)')
@@ -22,6 +26,7 @@ subroutine test_${f77}$
 
     do i=1,size(options)
     do j=1,size(options)
+    do k=1,1000
         transa = options(i)
         transb = options(j)
 
@@ -57,6 +62,7 @@ subroutine test_${f77}$
         call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. &
                     all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))) .and. &
                     all(abs(C_in - C_rf) < sqrt(epsilon(1.0_wp))), "different results")
+    end do
     end do
     end do
 

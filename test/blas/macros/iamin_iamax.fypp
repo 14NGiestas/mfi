@@ -18,15 +18,8 @@ subroutine test_${f77}$
     res(4) = ${mfi}$(array)
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
 
-#:if type(wp) == complex(wp)
-    ${real(wp)}$ :: rnd(N)
-    call random_number(rnd)
-    array%re = rnd
-    call random_number(rnd)
-    array%im = rnd
-#:else
-    call random_number(array)
-#:endif
+    $:random_number(type(wp), 'array', '(N)')
+
     res(1) = ${f77}$(N, array, 1)
     res(2) = ${f90}$(N, array, 1)
     res(3) = mfi_${f77}$(array)

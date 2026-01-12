@@ -1,7 +1,6 @@
 #:def iamin_stub(NAME,pfxs)
 #:set wp = pfxs[0]
 pure function ${NAME}$(n, x, incx)
-@:parameter(integer, wp=${kind(wp)}$)
     integer :: ${NAME}$
 @:args(${type(wp)}$, in, x(*))
 @:args(integer,  in, n, incx)

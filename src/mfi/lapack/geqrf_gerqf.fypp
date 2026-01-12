@@ -1,7 +1,6 @@
 #:def geqrf_gerqf(MFI_NAME,F77_NAME,pfxs)
 #:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, tau, info)
-@:parameter(integer, wp=${kind(wp)}$)
 @:args(${type(wp)}$,      inout, a(:,:))
     ${type(wp)}$, intent(out), optional, target :: tau(:)
 @:optional(integer, out, info)
