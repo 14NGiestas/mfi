@@ -1,5 +1,7 @@
 #:mute
 #:include "common.fpp"
+#:include "cublas.fpp"
+#:include "extensions.fpp"
 #:include "src/mfi/blas/lamch.fypp"
 #:include "src/mfi/blas/asum_nrm2.fypp"
 #:include "src/mfi/blas/axpy.fypp"
@@ -83,6 +85,7 @@
 !> Modern fortran interfaces for BLAS
 module mfi_blas
 use iso_fortran_env
+use iso_c_binding  ! Always include this for C interoperability when CUBLAS is used
 use f77_blas
 use f77_blas, only: mfi_rotg  => f77_rotg
 use f77_blas, only: mfi_rotmg => f77_rotmg
@@ -93,24 +96,22 @@ $:mfi_interface(name, supported_types)
 #:endfor
 
 ! Extensions
-! BLAS level 1 - Utils / Extensions
+
+! Execution mode control functions - only when extensions are enabled
 #:if defined('MFI_EXTENSIONS')
-$:mfi_interface('i?amax', DEFAULT_TYPES)
-$:mfi_interface('i?amin', DEFAULT_TYPES)
+$:mfi_extensions_interfaces()
+$:cublas_interfaces()
 #:endif
 
 contains
-
 
 #:for name, supported_types, code in COLLECT
 $:mfi_implement(name, supported_types, code)
 #:endfor
 
 ! Extensions
-! BLAS level 1 - Utils / Extensions
 #:if defined('MFI_EXTENSIONS')
-$:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
-$:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
+$:mfi_extensions_implement()
 #:endif
 
 end module
