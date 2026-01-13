@@ -175,7 +175,7 @@ See also:
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_tpsv.html#proc-stpsv">stpsv</a>.
+  <p>Modern interface for <a href="../interface/f77_tpsv.html">f77_tpsv</a>.
 See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interface/f77_tpsv.html">f77_tpsv</a>.</p>
 
   <h4>Arguments</h4>
@@ -206,7 +206,7 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~217"></span>
+              <span class="anchor" id="variable-x~219"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -221,7 +221,7 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~145"></span>
+              <span class="anchor" id="variable-uplo~177"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -236,7 +236,7 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~97"></span>
+              <span class="anchor" id="variable-trans~121"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -251,239 +251,7 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~49"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>diag</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incx~211"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incx</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dtpsv"></span> <h3>public pure subroutine <a href='../proc/mfi_dtpsv.html'>mfi_dtpsv</a>(ap, x, uplo, trans, diag, incx)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_tpsv.html#proc-dtpsv">dtpsv</a>.
-See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interface/f77_tpsv.html">f77_tpsv</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ap~38"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ap</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-x~218"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>x</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~146"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-trans~98"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>trans</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-diag~50"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>diag</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incx~212"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incx</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_ctpsv"></span> <h3>public pure subroutine <a href='../proc/mfi_ctpsv.html'>mfi_ctpsv</a>(ap, x, uplo, trans, diag, incx)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_tpsv.html#proc-ctpsv">ctpsv</a>.
-See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interface/f77_tpsv.html">f77_tpsv</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ap~39"></span>
-              complex(kind=REAL32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ap</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-x~219"></span>
-              complex(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>x</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~147"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-trans~99"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>trans</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-diag~51"></span>
+              <span class="anchor" id="variable-diag~53"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -519,11 +287,11 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_ztpsv"></span> <h3>public pure subroutine <a href='../proc/mfi_ztpsv.html'>mfi_ztpsv</a>(ap, x, uplo, trans, diag, incx)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dtpsv"></span> <h3>public pure subroutine <a href='../proc/mfi_dtpsv.html'>mfi_dtpsv</a>(ap, x, uplo, trans, diag, incx)  
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_tpsv.html#proc-ztpsv">ztpsv</a>.
+  <p>Modern interface for <a href="../interface/f77_tpsv.html">f77_tpsv</a>.
 See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interface/f77_tpsv.html">f77_tpsv</a>.</p>
 
   <h4>Arguments</h4>
@@ -539,8 +307,8 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-ap~40"></span>
-              complex(kind=REAL64),
+              <span class="anchor" id="variable-ap~38"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -555,7 +323,7 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
         <tr>
             <td>
               <span class="anchor" id="variable-x~220"></span>
-              complex(kind=REAL64),
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -569,7 +337,7 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~148"></span>
+              <span class="anchor" id="variable-uplo~178"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -584,7 +352,7 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-trans~100"></span>
+              <span class="anchor" id="variable-trans~122"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -599,7 +367,7 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~52"></span>
+              <span class="anchor" id="variable-diag~54"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -634,6 +402,238 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
     </div>
   </div>
 
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_ctpsv"></span> <h3>public pure subroutine <a href='../proc/mfi_ctpsv.html'>mfi_ctpsv</a>(ap, x, uplo, trans, diag, incx)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_tpsv.html">f77_tpsv</a>.
+See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interface/f77_tpsv.html">f77_tpsv</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ap~39"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ap</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~221"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~179"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans~123"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trans</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~55"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~215"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_ztpsv"></span> <h3>public pure subroutine <a href='../proc/mfi_ztpsv.html'>mfi_ztpsv</a>(ap, x, uplo, trans, diag, incx)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_tpsv.html">f77_tpsv</a>.
+See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interface/f77_tpsv.html">f77_tpsv</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ap~40"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ap</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~222"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~180"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-trans~124"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>trans</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~56"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~216"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
 </div>
   </div>
       <hr>
@@ -644,7 +644,7 @@ See also: <a href="../interface/mfi_tpsv.html">mfi_tpsv</a>, <a href="../interfa
           <div class="col">
             <p>
               MFI - Modern Fortran Interfaces
- was developed by I. G. Pauli<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by I. G. Pauli<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">

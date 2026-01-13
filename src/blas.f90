@@ -1,6 +1,7 @@
 !> Modern fortran interfaces for BLAS
 module mfi_blas
 use iso_fortran_env
+use iso_c_binding  ! Always include this for C interoperability when CUBLAS is used
 use f77_blas
 use f77_blas, only: mfi_rotg  => f77_rotg
 use f77_blas, only: mfi_rotmg => f77_rotmg
@@ -416,6 +417,8 @@ interface mfi_lamch
 end interface
 
 ! Extensions
+
+! Execution mode control functions - only when extensions are enabled
 ! BLAS level 1 - Utils / Extensions
 !> Generic modern interface for IAMAX.
 !> Supports s, d, c, z.
@@ -438,10 +441,69 @@ interface mfi_iamin
     module procedure :: mfi_izamin
 end interface
 
+! Global variables for execution mode control - always defined
+integer, save :: MFI_USE_CUBLAS = 0
+integer, save :: MFI_USE_CUBLAS_PREV_STATE = 0
+interface
+    pure subroutine cublas_alloc(n, elemSize, devicePtr, stat) &
+        bind(c,name="cublasAlloc")
+        use, intrinsic :: iso_c_binding
+        integer(c_int), intent(in), value :: n, elemSize
+        type(c_ptr), target, intent(out) :: devicePtr ! void **devicePtr
+        integer(c_int), intent(out) :: stat
+    end subroutine
+
+    pure subroutine cublas_free(devicePtr, stat) &
+        bind(c,name="cublasFree")
+        use, intrinsic :: iso_c_binding
+        type(c_ptr), value, intent(in) :: devicePtr ! void *devicePtr
+        integer(c_int), intent(out) :: stat
+    end subroutine
+
+    pure subroutine cublas_set_vector(n, elemSize, x, incx, y, incy) &
+        bind(c,name="cublasSetVector")
+        use, intrinsic :: iso_c_binding
+        integer(c_int), intent(in), value :: n
+        integer(c_int), intent(in), value :: elemSize
+        integer(c_int), intent(in), value :: incx, incy
+        type(*),        intent(in) :: x(*)
+        type(c_ptr),    value :: y
+    end subroutine
+
+    pure subroutine cublas_get_vector(n, elemSize, x, incx, y, incy) &
+        bind(c,name="cublasGetVector")
+        use, intrinsic :: iso_c_binding
+        integer(c_int), intent(in), value :: n
+        integer(c_int), intent(in), value :: elemSize
+        integer(c_int), intent(in), value :: incx, incy
+        type(c_ptr),    intent(in), value :: x
+        type(*),        intent(inout) :: y(*)
+    end subroutine
+
+    pure subroutine cublas_set_matrix(rows, cols, elemSize, a, lda, b, ldb) &
+        bind(c,name="cublasSetMatrix")
+        use, intrinsic :: iso_c_binding
+        integer(c_int), intent(in), value :: rows, cols
+        integer(c_int), intent(in), value :: elemSize
+        integer(c_int), intent(in), value :: lda, ldb
+        type(*),        intent(in)    :: a(lda,*)
+        type(c_ptr),    value :: b
+    end subroutine
+
+    pure subroutine cublas_get_matrix(rows, cols, elemSize, a, lda, b, ldb) &
+        bind(c,name="cublasGetMatrix")
+        use, intrinsic :: iso_c_binding
+        integer(c_int), intent(in), value :: rows, cols
+        integer(c_int), intent(in), value :: elemSize
+        integer(c_int), intent(in), value :: lda, ldb
+        type(c_ptr),    intent(in), value :: a
+        type(*),        intent(inout)     :: b(ldb,*)
+    end subroutine
+end interface
+
 contains
 
-
-!> Modern interface for [[f77_copy:scopy]].
+!> Modern interface for [[f77_copy:f77_copy]].
 !> See also: [[mfi_copy]], [[f77_copy]].
 pure subroutine mfi_scopy(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -463,9 +525,9 @@ pure subroutine mfi_scopy(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call scopy(n,x,local_incx,y,local_incy)
+    call f77_copy(n,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_copy:dcopy]].
+!> Modern interface for [[f77_copy:f77_copy]].
 !> See also: [[mfi_copy]], [[f77_copy]].
 pure subroutine mfi_dcopy(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -487,9 +549,9 @@ pure subroutine mfi_dcopy(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call dcopy(n,x,local_incx,y,local_incy)
+    call f77_copy(n,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_copy:ccopy]].
+!> Modern interface for [[f77_copy:f77_copy]].
 !> See also: [[mfi_copy]], [[f77_copy]].
 pure subroutine mfi_ccopy(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -511,9 +573,9 @@ pure subroutine mfi_ccopy(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call ccopy(n,x,local_incx,y,local_incy)
+    call f77_copy(n,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_copy:zcopy]].
+!> Modern interface for [[f77_copy:f77_copy]].
 !> See also: [[mfi_copy]], [[f77_copy]].
 pure subroutine mfi_zcopy(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -535,9 +597,9 @@ pure subroutine mfi_zcopy(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call zcopy(n,x,local_incx,y,local_incy)
+    call f77_copy(n,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_swap:sswap]].
+!> Modern interface for [[f77_swap:f77_swap]].
 !> See also: [[mfi_swap]], [[f77_swap]].
 pure subroutine mfi_sswap(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -559,9 +621,9 @@ pure subroutine mfi_sswap(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call sswap(n,x,local_incx,y,local_incy)
+    call f77_swap(n,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_swap:dswap]].
+!> Modern interface for [[f77_swap:f77_swap]].
 !> See also: [[mfi_swap]], [[f77_swap]].
 pure subroutine mfi_dswap(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -583,9 +645,9 @@ pure subroutine mfi_dswap(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call dswap(n,x,local_incx,y,local_incy)
+    call f77_swap(n,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_swap:cswap]].
+!> Modern interface for [[f77_swap:f77_swap]].
 !> See also: [[mfi_swap]], [[f77_swap]].
 pure subroutine mfi_cswap(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -607,9 +669,9 @@ pure subroutine mfi_cswap(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call cswap(n,x,local_incx,y,local_incy)
+    call f77_swap(n,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_swap:zswap]].
+!> Modern interface for [[f77_swap:f77_swap]].
 !> See also: [[mfi_swap]], [[f77_swap]].
 pure subroutine mfi_zswap(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -631,9 +693,9 @@ pure subroutine mfi_zswap(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call zswap(n,x,local_incx,y,local_incy)
+    call f77_swap(n,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_axpy:saxpy]].
+!> Modern interface for [[f77_axpy:f77_axpy]].
 !> See also: [[mfi_axpy]], [[f77_axpy]].
 pure subroutine mfi_saxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL32
@@ -662,9 +724,9 @@ pure subroutine mfi_saxpy(x, y, a, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call saxpy(n,local_a,x,local_incx,y,local_incy)
+    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_axpy:daxpy]].
+!> Modern interface for [[f77_axpy:f77_axpy]].
 !> See also: [[mfi_axpy]], [[f77_axpy]].
 pure subroutine mfi_daxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL64
@@ -693,9 +755,9 @@ pure subroutine mfi_daxpy(x, y, a, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call daxpy(n,local_a,x,local_incx,y,local_incy)
+    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_axpy:caxpy]].
+!> Modern interface for [[f77_axpy:f77_axpy]].
 !> See also: [[mfi_axpy]], [[f77_axpy]].
 pure subroutine mfi_caxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL32
@@ -724,9 +786,9 @@ pure subroutine mfi_caxpy(x, y, a, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call caxpy(n,local_a,x,local_incx,y,local_incy)
+    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_axpy:zaxpy]].
+!> Modern interface for [[f77_axpy:f77_axpy]].
 !> See also: [[mfi_axpy]], [[f77_axpy]].
 pure subroutine mfi_zaxpy(x, y, a, incx, incy)
     integer, parameter :: wp = REAL64
@@ -755,9 +817,9 @@ pure subroutine mfi_zaxpy(x, y, a, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call zaxpy(n,local_a,x,local_incx,y,local_incy)
+    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_dot:sdot]].
+!> Modern interface for [[f77_dot:f77_dot]].
 !> See also: [[mfi_dot]], [[f77_dot]].
 pure function mfi_sdot(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -780,9 +842,9 @@ pure function mfi_sdot(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    mfi_sdot = sdot(n,x,local_incx,y,local_incy)
+    mfi_sdot = f77_dot(n,x,local_incx,y,local_incy)
 end function
-!> Modern interface for [[f77_dot:ddot]].
+!> Modern interface for [[f77_dot:f77_dot]].
 !> See also: [[mfi_dot]], [[f77_dot]].
 pure function mfi_ddot(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -805,9 +867,9 @@ pure function mfi_ddot(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    mfi_ddot = ddot(n,x,local_incx,y,local_incy)
+    mfi_ddot = f77_dot(n,x,local_incx,y,local_incy)
 end function
-!> Modern interface for [[f77_dotc:cdotc]].
+!> Modern interface for [[f77_dotc:f77_dotc]].
 !> See also: [[mfi_dotc]], [[f77_dotc]].
 pure function mfi_cdotc(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -830,9 +892,9 @@ pure function mfi_cdotc(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    mfi_cdotc = cdotc(n,x,local_incx,y,local_incy)
+    mfi_cdotc = f77_dotc(n,x,local_incx,y,local_incy)
 end function
-!> Modern interface for [[f77_dotc:zdotc]].
+!> Modern interface for [[f77_dotc:f77_dotc]].
 !> See also: [[mfi_dotc]], [[f77_dotc]].
 pure function mfi_zdotc(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -855,9 +917,9 @@ pure function mfi_zdotc(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    mfi_zdotc = zdotc(n,x,local_incx,y,local_incy)
+    mfi_zdotc = f77_dotc(n,x,local_incx,y,local_incy)
 end function
-!> Modern interface for [[f77_dotu:cdotu]].
+!> Modern interface for [[f77_dotu:f77_dotu]].
 !> See also: [[mfi_dotu]], [[f77_dotu]].
 pure function mfi_cdotu(x, y, incx, incy)
     integer, parameter :: wp = REAL32
@@ -880,9 +942,9 @@ pure function mfi_cdotu(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    mfi_cdotu = cdotu(n,x,local_incx,y,local_incy)
+    mfi_cdotu = f77_dotu(n,x,local_incx,y,local_incy)
 end function
-!> Modern interface for [[f77_dotu:zdotu]].
+!> Modern interface for [[f77_dotu:f77_dotu]].
 !> See also: [[mfi_dotu]], [[f77_dotu]].
 pure function mfi_zdotu(x, y, incx, incy)
     integer, parameter :: wp = REAL64
@@ -905,9 +967,9 @@ pure function mfi_zdotu(x, y, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    mfi_zdotu = zdotu(n,x,local_incx,y,local_incy)
+    mfi_zdotu = f77_dotu(n,x,local_incx,y,local_incy)
 end function
-!> Modern interface for [[f77_asum:sasum]].
+!> Modern interface for [[f77_asum:f77_asum]].
 !> See also: [[mfi_asum]], [[f77_asum]].
 pure function mfi_sasum(x, incx)
     real(REAL32) :: mfi_sasum
@@ -921,9 +983,9 @@ pure function mfi_sasum(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_sasum = sasum(n, x, local_incx)
+    mfi_sasum = f77_asum(n, x, local_incx)
 end function
-!> Modern interface for [[f77_asum:dasum]].
+!> Modern interface for [[f77_asum:f77_asum]].
 !> See also: [[mfi_asum]], [[f77_asum]].
 pure function mfi_dasum(x, incx)
     real(REAL64) :: mfi_dasum
@@ -937,9 +999,9 @@ pure function mfi_dasum(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_dasum = dasum(n, x, local_incx)
+    mfi_dasum = f77_asum(n, x, local_incx)
 end function
-!> Modern interface for [[f77_asum:scasum]].
+!> Modern interface for [[f77_asum:f77_asum]].
 !> See also: [[mfi_asum]], [[f77_asum]].
 pure function mfi_scasum(x, incx)
     real(REAL32) :: mfi_scasum
@@ -953,9 +1015,9 @@ pure function mfi_scasum(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_scasum = scasum(n, x, local_incx)
+    mfi_scasum = f77_asum(n, x, local_incx)
 end function
-!> Modern interface for [[f77_asum:dzasum]].
+!> Modern interface for [[f77_asum:f77_asum]].
 !> See also: [[mfi_asum]], [[f77_asum]].
 pure function mfi_dzasum(x, incx)
     real(REAL64) :: mfi_dzasum
@@ -969,9 +1031,9 @@ pure function mfi_dzasum(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_dzasum = dzasum(n, x, local_incx)
+    mfi_dzasum = f77_asum(n, x, local_incx)
 end function
-!> Modern interface for [[f77_nrm2:snrm2]].
+!> Modern interface for [[f77_nrm2:f77_nrm2]].
 !> See also: [[mfi_nrm2]], [[f77_nrm2]].
 pure function mfi_snrm2(x, incx)
     real(REAL32) :: mfi_snrm2
@@ -985,9 +1047,9 @@ pure function mfi_snrm2(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_snrm2 = snrm2(n, x, local_incx)
+    mfi_snrm2 = f77_nrm2(n, x, local_incx)
 end function
-!> Modern interface for [[f77_nrm2:dnrm2]].
+!> Modern interface for [[f77_nrm2:f77_nrm2]].
 !> See also: [[mfi_nrm2]], [[f77_nrm2]].
 pure function mfi_dnrm2(x, incx)
     real(REAL64) :: mfi_dnrm2
@@ -1001,9 +1063,9 @@ pure function mfi_dnrm2(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_dnrm2 = dnrm2(n, x, local_incx)
+    mfi_dnrm2 = f77_nrm2(n, x, local_incx)
 end function
-!> Modern interface for [[f77_nrm2:scnrm2]].
+!> Modern interface for [[f77_nrm2:f77_nrm2]].
 !> See also: [[mfi_nrm2]], [[f77_nrm2]].
 pure function mfi_scnrm2(x, incx)
     real(REAL32) :: mfi_scnrm2
@@ -1017,9 +1079,9 @@ pure function mfi_scnrm2(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_scnrm2 = scnrm2(n, x, local_incx)
+    mfi_scnrm2 = f77_nrm2(n, x, local_incx)
 end function
-!> Modern interface for [[f77_nrm2:dznrm2]].
+!> Modern interface for [[f77_nrm2:f77_nrm2]].
 !> See also: [[mfi_nrm2]], [[f77_nrm2]].
 pure function mfi_dznrm2(x, incx)
     real(REAL64) :: mfi_dznrm2
@@ -1033,9 +1095,9 @@ pure function mfi_dznrm2(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_dznrm2 = dznrm2(n, x, local_incx)
+    mfi_dznrm2 = f77_nrm2(n, x, local_incx)
 end function
-!> Modern interface for [[f77_rot:srot]].
+!> Modern interface for [[f77_rot:f77_rot]].
 !> See also: [[mfi_rot]], [[f77_rot]].
 !> Given two vectors x and y,
 !> each vector element of these vectors is replaced as follows:
@@ -1065,9 +1127,9 @@ pure subroutine mfi_srot(x, y, c, s, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call srot(n,x,local_incx,y,local_incy,c,s)
+    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rot:drot]].
+!> Modern interface for [[f77_rot:f77_rot]].
 !> See also: [[mfi_rot]], [[f77_rot]].
 !> Given two vectors x and y,
 !> each vector element of these vectors is replaced as follows:
@@ -1097,9 +1159,9 @@ pure subroutine mfi_drot(x, y, c, s, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call drot(n,x,local_incx,y,local_incy,c,s)
+    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rot:crot]].
+!> Modern interface for [[f77_rot:f77_rot]].
 !> See also: [[mfi_rot]], [[f77_rot]].
 !> Given two vectors x and y,
 !> each vector element of these vectors is replaced as follows:
@@ -1129,9 +1191,9 @@ pure subroutine mfi_crot(x, y, c, s, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call crot(n,x,local_incx,y,local_incy,c,s)
+    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rot:zrot]].
+!> Modern interface for [[f77_rot:f77_rot]].
 !> See also: [[mfi_rot]], [[f77_rot]].
 !> Given two vectors x and y,
 !> each vector element of these vectors is replaced as follows:
@@ -1161,9 +1223,9 @@ pure subroutine mfi_zrot(x, y, c, s, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call zrot(n,x,local_incx,y,local_incy,c,s)
+    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rot:csrot]].
+!> Modern interface for [[f77_rot:f77_rot]].
 !> See also: [[mfi_rot]], [[f77_rot]].
 !> Given two vectors x and y,
 !> each vector element of these vectors is replaced as follows:
@@ -1193,9 +1255,9 @@ pure subroutine mfi_csrot(x, y, c, s, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call csrot(n,x,local_incx,y,local_incy,c,s)
+    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rot:zdrot]].
+!> Modern interface for [[f77_rot:f77_rot]].
 !> See also: [[mfi_rot]], [[f77_rot]].
 !> Given two vectors x and y,
 !> each vector element of these vectors is replaced as follows:
@@ -1225,9 +1287,9 @@ pure subroutine mfi_zdrot(x, y, c, s, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call zdrot(n,x,local_incx,y,local_incy,c,s)
+    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rotm:srotm]].
+!> Modern interface for [[f77_rotm:f77_rotm]].
 !> See also: [[mfi_rotm]], [[f77_rotm]].
 pure subroutine mfi_srotm(x, y, param, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1250,9 +1312,9 @@ pure subroutine mfi_srotm(x, y, param, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call srotm(n,x,local_incx,y,local_incy,param)
+    call f77_rotm(n,x,local_incx,y,local_incy,param)
 end subroutine
-!> Modern interface for [[f77_rotm:drotm]].
+!> Modern interface for [[f77_rotm:f77_rotm]].
 !> See also: [[mfi_rotm]], [[f77_rotm]].
 pure subroutine mfi_drotm(x, y, param, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1275,9 +1337,9 @@ pure subroutine mfi_drotm(x, y, param, incx, incy)
         local_incy = 1
     end if
     N = size(X)
-    call drotm(n,x,local_incx,y,local_incy,param)
+    call f77_rotm(n,x,local_incx,y,local_incy,param)
 end subroutine
-!> Modern interface for [[f77_scal:sscal]].
+!> Modern interface for [[f77_scal:f77_scal]].
 !> See also: [[mfi_scal]], [[f77_scal]].
 !> MFI_SSCAL scales a vector by a constant.
 pure subroutine mfi_sscal(a, x, incx)
@@ -1292,9 +1354,9 @@ pure subroutine mfi_sscal(a, x, incx)
         local_incx = 1
     end if
     n = size(x)
-    call sscal(n,a,x,local_incx)
+    call f77_scal(n,a,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_scal:dscal]].
+!> Modern interface for [[f77_scal:f77_scal]].
 !> See also: [[mfi_scal]], [[f77_scal]].
 !> MFI_DSCAL scales a vector by a constant.
 pure subroutine mfi_dscal(a, x, incx)
@@ -1309,9 +1371,9 @@ pure subroutine mfi_dscal(a, x, incx)
         local_incx = 1
     end if
     n = size(x)
-    call dscal(n,a,x,local_incx)
+    call f77_scal(n,a,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_scal:cscal]].
+!> Modern interface for [[f77_scal:f77_scal]].
 !> See also: [[mfi_scal]], [[f77_scal]].
 !> MFI_CSCAL scales a vector by a constant.
 pure subroutine mfi_cscal(a, x, incx)
@@ -1326,9 +1388,9 @@ pure subroutine mfi_cscal(a, x, incx)
         local_incx = 1
     end if
     n = size(x)
-    call cscal(n,a,x,local_incx)
+    call f77_scal(n,a,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_scal:zscal]].
+!> Modern interface for [[f77_scal:f77_scal]].
 !> See also: [[mfi_scal]], [[f77_scal]].
 !> MFI_ZSCAL scales a vector by a constant.
 pure subroutine mfi_zscal(a, x, incx)
@@ -1343,9 +1405,9 @@ pure subroutine mfi_zscal(a, x, incx)
         local_incx = 1
     end if
     n = size(x)
-    call zscal(n,a,x,local_incx)
+    call f77_scal(n,a,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_scal:csscal]].
+!> Modern interface for [[f77_scal:f77_scal]].
 !> See also: [[mfi_scal]], [[f77_scal]].
 !> MFI_CSSCAL scales a vector by a constant.
 pure subroutine mfi_csscal(a, x, incx)
@@ -1360,9 +1422,9 @@ pure subroutine mfi_csscal(a, x, incx)
         local_incx = 1
     end if
     n = size(x)
-    call csscal(n,a,x,local_incx)
+    call f77_scal(n,a,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_scal:zdscal]].
+!> Modern interface for [[f77_scal:f77_scal]].
 !> See also: [[mfi_scal]], [[f77_scal]].
 !> MFI_ZDSCAL scales a vector by a constant.
 pure subroutine mfi_zdscal(a, x, incx)
@@ -1377,9 +1439,9 @@ pure subroutine mfi_zdscal(a, x, incx)
         local_incx = 1
     end if
     n = size(x)
-    call zdscal(n,a,x,local_incx)
+    call f77_scal(n,a,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_gbmv:sgbmv]].
+!> Modern interface for [[f77_gbmv:f77_gbmv]].
 !> See also: [[mfi_gbmv]], [[f77_gbmv]].
 pure subroutine mfi_sgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1439,9 +1501,9 @@ pure subroutine mfi_sgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
         local_incy = 1
     end if
     ku = lda-local_kl-1
-    call sgbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_gbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_gbmv:dgbmv]].
+!> Modern interface for [[f77_gbmv:f77_gbmv]].
 !> See also: [[mfi_gbmv]], [[f77_gbmv]].
 pure subroutine mfi_dgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1501,9 +1563,9 @@ pure subroutine mfi_dgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
         local_incy = 1
     end if
     ku = lda-local_kl-1
-    call dgbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_gbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_gbmv:cgbmv]].
+!> Modern interface for [[f77_gbmv:f77_gbmv]].
 !> See also: [[mfi_gbmv]], [[f77_gbmv]].
 pure subroutine mfi_cgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1563,9 +1625,9 @@ pure subroutine mfi_cgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
         local_incy = 1
     end if
     ku = lda-local_kl-1
-    call cgbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_gbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_gbmv:zgbmv]].
+!> Modern interface for [[f77_gbmv:f77_gbmv]].
 !> See also: [[mfi_gbmv]], [[f77_gbmv]].
 pure subroutine mfi_zgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1625,9 +1687,9 @@ pure subroutine mfi_zgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
         local_incy = 1
     end if
     ku = lda-local_kl-1
-    call zgbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_gbmv(local_trans,local_m,n,local_kl,ku,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_gemv:sgemv]].
+!> Modern interface for [[f77_gemv:f77_gemv]].
 !> See also: [[mfi_gemv]], [[f77_gemv]].
 pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1673,9 +1735,9 @@ pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call sgemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_gemv:dgemv]].
+!> Modern interface for [[f77_gemv:f77_gemv]].
 !> See also: [[mfi_gemv]], [[f77_gemv]].
 pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1721,9 +1783,9 @@ pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call dgemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_gemv:cgemv]].
+!> Modern interface for [[f77_gemv:f77_gemv]].
 !> See also: [[mfi_gemv]], [[f77_gemv]].
 pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1769,9 +1831,9 @@ pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call cgemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_gemv:zgemv]].
+!> Modern interface for [[f77_gemv:f77_gemv]].
 !> See also: [[mfi_gemv]], [[f77_gemv]].
 pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1817,9 +1879,9 @@ pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call zgemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_ger:sger]].
+!> Modern interface for [[f77_ger:f77_ger]].
 !> See also: [[mfi_ger]], [[f77_ger]].
 pure subroutine mfi_sger(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1851,9 +1913,9 @@ pure subroutine mfi_sger(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call sger(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call f77_ger(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
-!> Modern interface for [[f77_ger:dger]].
+!> Modern interface for [[f77_ger:f77_ger]].
 !> See also: [[mfi_ger]], [[f77_ger]].
 pure subroutine mfi_dger(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1885,9 +1947,9 @@ pure subroutine mfi_dger(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call dger(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call f77_ger(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
-!> Modern interface for [[f77_gerc:cgerc]].
+!> Modern interface for [[f77_gerc:f77_gerc]].
 !> See also: [[mfi_gerc]], [[f77_gerc]].
 pure subroutine mfi_cgerc(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1919,9 +1981,9 @@ pure subroutine mfi_cgerc(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call cgerc(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call f77_gerc(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
-!> Modern interface for [[f77_gerc:zgerc]].
+!> Modern interface for [[f77_gerc:f77_gerc]].
 !> See also: [[mfi_gerc]], [[f77_gerc]].
 pure subroutine mfi_zgerc(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -1953,9 +2015,9 @@ pure subroutine mfi_zgerc(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call zgerc(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call f77_gerc(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
-!> Modern interface for [[f77_geru:cgeru]].
+!> Modern interface for [[f77_geru:f77_geru]].
 !> See also: [[mfi_geru]], [[f77_geru]].
 pure subroutine mfi_cgeru(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -1987,9 +2049,9 @@ pure subroutine mfi_cgeru(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call cgeru(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call f77_geru(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
-!> Modern interface for [[f77_geru:zgeru]].
+!> Modern interface for [[f77_geru:f77_geru]].
 !> See also: [[mfi_geru]], [[f77_geru]].
 pure subroutine mfi_zgeru(a, x, y, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2021,9 +2083,9 @@ pure subroutine mfi_zgeru(a, x, y, alpha, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-    call zgeru(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call f77_geru(m,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
-!> Modern interface for [[f77_hbmv:chbmv]].
+!> Modern interface for [[f77_hbmv:f77_hbmv]].
 !> See also: [[mfi_hbmv]], [[f77_hbmv]].
 pure subroutine mfi_chbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2069,9 +2131,9 @@ pure subroutine mfi_chbmv(a, x, y, uplo, alpha, beta, incx, incy)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call chbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_hbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_hbmv:zhbmv]].
+!> Modern interface for [[f77_hbmv:f77_hbmv]].
 !> See also: [[mfi_hbmv]], [[f77_hbmv]].
 pure subroutine mfi_zhbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2117,9 +2179,9 @@ pure subroutine mfi_zhbmv(a, x, y, uplo, alpha, beta, incx, incy)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call zhbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_hbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_hemv:chemv]].
+!> Modern interface for [[f77_hemv:f77_hemv]].
 !> See also: [[mfi_hemv]], [[f77_hemv]].
 pure subroutine mfi_chemv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2164,9 +2226,9 @@ pure subroutine mfi_chemv(a, x, y, uplo, alpha, beta, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call chemv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_hemv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_hemv:zhemv]].
+!> Modern interface for [[f77_hemv:f77_hemv]].
 !> See also: [[mfi_hemv]], [[f77_hemv]].
 pure subroutine mfi_zhemv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2211,9 +2273,9 @@ pure subroutine mfi_zhemv(a, x, y, uplo, alpha, beta, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call zhemv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_hemv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_her:cher]].
+!> Modern interface for [[f77_her:f77_her]].
 !> See also: [[mfi_her]], [[f77_her]].
 pure subroutine mfi_cher(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
@@ -2243,9 +2305,9 @@ pure subroutine mfi_cher(a, x, uplo, alpha, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call cher(local_uplo,n,local_alpha,x,local_incx,a,lda)
+    call f77_her(local_uplo,n,local_alpha,x,local_incx,a,lda)
 end subroutine
-!> Modern interface for [[f77_her:zher]].
+!> Modern interface for [[f77_her:f77_her]].
 !> See also: [[mfi_her]], [[f77_her]].
 pure subroutine mfi_zher(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
@@ -2275,9 +2337,9 @@ pure subroutine mfi_zher(a, x, uplo, alpha, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call zher(local_uplo,n,local_alpha,x,local_incx,a,lda)
+    call f77_her(local_uplo,n,local_alpha,x,local_incx,a,lda)
 end subroutine
-!> Modern interface for [[f77_her2:cher2]].
+!> Modern interface for [[f77_her2:f77_her2]].
 !> See also: [[mfi_her2]], [[f77_her2]].
 pure subroutine mfi_cher2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2315,9 +2377,9 @@ pure subroutine mfi_cher2(a, x, y, uplo, alpha, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call cher2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call f77_her2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
-!> Modern interface for [[f77_her2:zher2]].
+!> Modern interface for [[f77_her2:f77_her2]].
 !> See also: [[mfi_her2]], [[f77_her2]].
 pure subroutine mfi_zher2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2355,9 +2417,9 @@ pure subroutine mfi_zher2(a, x, y, uplo, alpha, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call zher2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call f77_her2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
-!> Modern interface for [[f77_hpmv:chpmv]].
+!> Modern interface for [[f77_hpmv:f77_hpmv]].
 !> See also: [[mfi_hpmv]], [[f77_hpmv]].
 pure subroutine mfi_chpmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2401,9 +2463,9 @@ pure subroutine mfi_chpmv(ap, x, y, uplo, alpha, beta, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call chpmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
+    call f77_hpmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_hpmv:zhpmv]].
+!> Modern interface for [[f77_hpmv:f77_hpmv]].
 !> See also: [[mfi_hpmv]], [[f77_hpmv]].
 pure subroutine mfi_zhpmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2447,9 +2509,9 @@ pure subroutine mfi_zhpmv(ap, x, y, uplo, alpha, beta, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call zhpmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
+    call f77_hpmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_hpr:chpr]].
+!> Modern interface for [[f77_hpr:f77_hpr]].
 !> See also: [[mfi_hpr]], [[f77_hpr]].
 pure subroutine mfi_chpr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
@@ -2478,9 +2540,9 @@ pure subroutine mfi_chpr(ap, x, uplo, alpha, incx)
         local_incx = 1
     end if
     n = size(x)
-    call chpr(local_uplo,n,local_alpha,x,local_incx,ap)
+    call f77_hpr(local_uplo,n,local_alpha,x,local_incx,ap)
 end subroutine
-!> Modern interface for [[f77_hpr:zhpr]].
+!> Modern interface for [[f77_hpr:f77_hpr]].
 !> See also: [[mfi_hpr]], [[f77_hpr]].
 pure subroutine mfi_zhpr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
@@ -2509,9 +2571,9 @@ pure subroutine mfi_zhpr(ap, x, uplo, alpha, incx)
         local_incx = 1
     end if
     n = size(x)
-    call zhpr(local_uplo,n,local_alpha,x,local_incx,ap)
+    call f77_hpr(local_uplo,n,local_alpha,x,local_incx,ap)
 end subroutine
-!> Modern interface for [[f77_hpr2:chpr2]].
+!> Modern interface for [[f77_hpr2:f77_hpr2]].
 !> See also: [[mfi_hpr2]], [[f77_hpr2]].
 pure subroutine mfi_chpr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2548,9 +2610,9 @@ pure subroutine mfi_chpr2(ap, x, y, uplo, alpha, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call chpr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
+    call f77_hpr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
 end subroutine
-!> Modern interface for [[f77_hpr2:zhpr2]].
+!> Modern interface for [[f77_hpr2:f77_hpr2]].
 !> See also: [[mfi_hpr2]], [[f77_hpr2]].
 pure subroutine mfi_zhpr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2587,9 +2649,9 @@ pure subroutine mfi_zhpr2(ap, x, y, uplo, alpha, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call zhpr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
+    call f77_hpr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
 end subroutine
-!> Modern interface for [[f77_sbmv:ssbmv]].
+!> Modern interface for [[f77_sbmv:f77_sbmv]].
 !> See also: [[mfi_sbmv]], [[f77_sbmv]].
 pure subroutine mfi_ssbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2635,9 +2697,9 @@ pure subroutine mfi_ssbmv(a, x, y, uplo, alpha, beta, incx, incy)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ssbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_sbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_sbmv:dsbmv]].
+!> Modern interface for [[f77_sbmv:f77_sbmv]].
 !> See also: [[mfi_sbmv]], [[f77_sbmv]].
 pure subroutine mfi_dsbmv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2683,9 +2745,9 @@ pure subroutine mfi_dsbmv(a, x, y, uplo, alpha, beta, incx, incy)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call dsbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_sbmv(local_uplo,n,k,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_spmv:sspmv]].
+!> Modern interface for [[f77_spmv:f77_spmv]].
 !> See also: [[mfi_spmv]], [[f77_spmv]].
 pure subroutine mfi_sspmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2729,9 +2791,9 @@ pure subroutine mfi_sspmv(ap, x, y, uplo, alpha, beta, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call sspmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
+    call f77_spmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_spmv:dspmv]].
+!> Modern interface for [[f77_spmv:f77_spmv]].
 !> See also: [[mfi_spmv]], [[f77_spmv]].
 pure subroutine mfi_dspmv(ap, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2775,9 +2837,9 @@ pure subroutine mfi_dspmv(ap, x, y, uplo, alpha, beta, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call dspmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
+    call f77_spmv(local_uplo,n,local_alpha,ap,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_spr:sspr]].
+!> Modern interface for [[f77_spr:f77_spr]].
 !> See also: [[mfi_spr]], [[f77_spr]].
 pure subroutine mfi_sspr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
@@ -2806,9 +2868,9 @@ pure subroutine mfi_sspr(ap, x, uplo, alpha, incx)
         local_incx = 1
     end if
     n = size(x)
-    call sspr(local_uplo,n,local_alpha,x,local_incx,ap)
+    call f77_spr(local_uplo,n,local_alpha,x,local_incx,ap)
 end subroutine
-!> Modern interface for [[f77_spr:dspr]].
+!> Modern interface for [[f77_spr:f77_spr]].
 !> See also: [[mfi_spr]], [[f77_spr]].
 pure subroutine mfi_dspr(ap, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
@@ -2837,9 +2899,9 @@ pure subroutine mfi_dspr(ap, x, uplo, alpha, incx)
         local_incx = 1
     end if
     n = size(x)
-    call dspr(local_uplo,n,local_alpha,x,local_incx,ap)
+    call f77_spr(local_uplo,n,local_alpha,x,local_incx,ap)
 end subroutine
-!> Modern interface for [[f77_spr2:sspr2]].
+!> Modern interface for [[f77_spr2:f77_spr2]].
 !> See also: [[mfi_spr2]], [[f77_spr2]].
 pure subroutine mfi_sspr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2876,9 +2938,9 @@ pure subroutine mfi_sspr2(ap, x, y, uplo, alpha, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call sspr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
+    call f77_spr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
 end subroutine
-!> Modern interface for [[f77_spr2:dspr2]].
+!> Modern interface for [[f77_spr2:f77_spr2]].
 !> See also: [[mfi_spr2]], [[f77_spr2]].
 pure subroutine mfi_dspr2(ap, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -2915,9 +2977,9 @@ pure subroutine mfi_dspr2(ap, x, y, uplo, alpha, incx, incy)
         local_incy = 1
     end if
     n = size(x)
-    call dspr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
+    call f77_spr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,ap)
 end subroutine
-!> Modern interface for [[f77_symv:ssymv]].
+!> Modern interface for [[f77_symv:f77_symv]].
 !> See also: [[mfi_symv]], [[f77_symv]].
 pure subroutine mfi_ssymv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
@@ -2962,9 +3024,9 @@ pure subroutine mfi_ssymv(a, x, y, uplo, alpha, beta, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ssymv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_symv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_symv:dsymv]].
+!> Modern interface for [[f77_symv:f77_symv]].
 !> See also: [[mfi_symv]], [[f77_symv]].
 pure subroutine mfi_dsymv(a, x, y, uplo, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
@@ -3009,9 +3071,9 @@ pure subroutine mfi_dsymv(a, x, y, uplo, alpha, beta, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call dsymv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
+    call f77_symv(local_uplo,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
-!> Modern interface for [[f77_syr:ssyr]].
+!> Modern interface for [[f77_syr:f77_syr]].
 !> See also: [[mfi_syr]], [[f77_syr]].
 pure subroutine mfi_ssyr(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL32
@@ -3041,9 +3103,9 @@ pure subroutine mfi_ssyr(a, x, uplo, alpha, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ssyr(local_uplo,n,local_alpha,x,local_incx,a,lda)
+    call f77_syr(local_uplo,n,local_alpha,x,local_incx,a,lda)
 end subroutine
-!> Modern interface for [[f77_syr:dsyr]].
+!> Modern interface for [[f77_syr:f77_syr]].
 !> See also: [[mfi_syr]], [[f77_syr]].
 pure subroutine mfi_dsyr(a, x, uplo, alpha, incx)
     integer, parameter :: wp = REAL64
@@ -3073,9 +3135,9 @@ pure subroutine mfi_dsyr(a, x, uplo, alpha, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call dsyr(local_uplo,n,local_alpha,x,local_incx,a,lda)
+    call f77_syr(local_uplo,n,local_alpha,x,local_incx,a,lda)
 end subroutine
-!> Modern interface for [[f77_syr2:ssyr2]].
+!> Modern interface for [[f77_syr2:f77_syr2]].
 !> See also: [[mfi_syr2]], [[f77_syr2]].
 pure subroutine mfi_ssyr2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL32
@@ -3113,9 +3175,9 @@ pure subroutine mfi_ssyr2(a, x, y, uplo, alpha, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ssyr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call f77_syr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
-!> Modern interface for [[f77_syr2:dsyr2]].
+!> Modern interface for [[f77_syr2:f77_syr2]].
 !> See also: [[mfi_syr2]], [[f77_syr2]].
 pure subroutine mfi_dsyr2(a, x, y, uplo, alpha, incx, incy)
     integer, parameter :: wp = REAL64
@@ -3153,9 +3215,9 @@ pure subroutine mfi_dsyr2(a, x, y, uplo, alpha, incx, incy)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call dsyr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
+    call f77_syr2(local_uplo,n,local_alpha,x,local_incx,y,local_incy,a,lda)
 end subroutine
-!> Modern interface for [[f77_tbmv:stbmv]].
+!> Modern interface for [[f77_tbmv:f77_tbmv]].
 !> See also: [[mfi_tbmv]], [[f77_tbmv]].
 pure subroutine mfi_stbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3193,9 +3255,9 @@ pure subroutine mfi_stbmv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call stbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call f77_tbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tbmv:dtbmv]].
+!> Modern interface for [[f77_tbmv:f77_tbmv]].
 !> See also: [[mfi_tbmv]], [[f77_tbmv]].
 pure subroutine mfi_dtbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3233,9 +3295,9 @@ pure subroutine mfi_dtbmv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call dtbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call f77_tbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tbmv:ctbmv]].
+!> Modern interface for [[f77_tbmv:f77_tbmv]].
 !> See also: [[mfi_tbmv]], [[f77_tbmv]].
 pure subroutine mfi_ctbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3273,9 +3335,9 @@ pure subroutine mfi_ctbmv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ctbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call f77_tbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tbmv:ztbmv]].
+!> Modern interface for [[f77_tbmv:f77_tbmv]].
 !> See also: [[mfi_tbmv]], [[f77_tbmv]].
 pure subroutine mfi_ztbmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3313,9 +3375,9 @@ pure subroutine mfi_ztbmv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ztbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call f77_tbmv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tbsv:stbsv]].
+!> Modern interface for [[f77_tbsv:f77_tbsv]].
 !> See also: [[mfi_tbsv]], [[f77_tbsv]].
 pure subroutine mfi_stbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3353,9 +3415,9 @@ pure subroutine mfi_stbsv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call stbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call f77_tbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tbsv:dtbsv]].
+!> Modern interface for [[f77_tbsv:f77_tbsv]].
 !> See also: [[mfi_tbsv]], [[f77_tbsv]].
 pure subroutine mfi_dtbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3393,9 +3455,9 @@ pure subroutine mfi_dtbsv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call dtbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call f77_tbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tbsv:ctbsv]].
+!> Modern interface for [[f77_tbsv:f77_tbsv]].
 !> See also: [[mfi_tbsv]], [[f77_tbsv]].
 pure subroutine mfi_ctbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3433,9 +3495,9 @@ pure subroutine mfi_ctbsv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ctbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call f77_tbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tbsv:ztbsv]].
+!> Modern interface for [[f77_tbsv:f77_tbsv]].
 !> See also: [[mfi_tbsv]], [[f77_tbsv]].
 pure subroutine mfi_ztbsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3473,9 +3535,9 @@ pure subroutine mfi_ztbsv(a, x, uplo, trans, diag, incx)
     k = size(a,1)-1
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ztbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
+    call f77_tbsv(local_uplo,local_trans,local_diag,n,k,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tpmv:stpmv]].
+!> Modern interface for [[f77_tpmv:f77_tpmv]].
 !> See also: [[mfi_tpmv]], [[f77_tpmv]].
 pure subroutine mfi_stpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3511,9 +3573,9 @@ pure subroutine mfi_stpmv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call stpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call f77_tpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tpmv:dtpmv]].
+!> Modern interface for [[f77_tpmv:f77_tpmv]].
 !> See also: [[mfi_tpmv]], [[f77_tpmv]].
 pure subroutine mfi_dtpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3549,9 +3611,9 @@ pure subroutine mfi_dtpmv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call dtpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call f77_tpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tpmv:ctpmv]].
+!> Modern interface for [[f77_tpmv:f77_tpmv]].
 !> See also: [[mfi_tpmv]], [[f77_tpmv]].
 pure subroutine mfi_ctpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3587,9 +3649,9 @@ pure subroutine mfi_ctpmv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call ctpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call f77_tpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tpmv:ztpmv]].
+!> Modern interface for [[f77_tpmv:f77_tpmv]].
 !> See also: [[mfi_tpmv]], [[f77_tpmv]].
 pure subroutine mfi_ztpmv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3625,9 +3687,9 @@ pure subroutine mfi_ztpmv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call ztpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call f77_tpmv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tpsv:stpsv]].
+!> Modern interface for [[f77_tpsv:f77_tpsv]].
 !> See also: [[mfi_tpsv]], [[f77_tpsv]].
 pure subroutine mfi_stpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3663,9 +3725,9 @@ pure subroutine mfi_stpsv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call stpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call f77_tpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tpsv:dtpsv]].
+!> Modern interface for [[f77_tpsv:f77_tpsv]].
 !> See also: [[mfi_tpsv]], [[f77_tpsv]].
 pure subroutine mfi_dtpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3701,9 +3763,9 @@ pure subroutine mfi_dtpsv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call dtpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call f77_tpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tpsv:ctpsv]].
+!> Modern interface for [[f77_tpsv:f77_tpsv]].
 !> See also: [[mfi_tpsv]], [[f77_tpsv]].
 pure subroutine mfi_ctpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3739,9 +3801,9 @@ pure subroutine mfi_ctpsv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call ctpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call f77_tpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_tpsv:ztpsv]].
+!> Modern interface for [[f77_tpsv:f77_tpsv]].
 !> See also: [[mfi_tpsv]], [[f77_tpsv]].
 pure subroutine mfi_ztpsv(ap, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3777,9 +3839,9 @@ pure subroutine mfi_ztpsv(ap, x, uplo, trans, diag, incx)
         local_incx = 1
     end if
     n = size(x)
-    call ztpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+    call f77_tpsv(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_trmv:strmv]].
+!> Modern interface for [[f77_trmv:f77_trmv]].
 !> See also: [[mfi_trmv]], [[f77_trmv]].
 pure subroutine mfi_strmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3816,9 +3878,9 @@ pure subroutine mfi_strmv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call strmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call f77_trmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_trmv:dtrmv]].
+!> Modern interface for [[f77_trmv:f77_trmv]].
 !> See also: [[mfi_trmv]], [[f77_trmv]].
 pure subroutine mfi_dtrmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3855,9 +3917,9 @@ pure subroutine mfi_dtrmv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call dtrmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call f77_trmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_trmv:ctrmv]].
+!> Modern interface for [[f77_trmv:f77_trmv]].
 !> See also: [[mfi_trmv]], [[f77_trmv]].
 pure subroutine mfi_ctrmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3894,9 +3956,9 @@ pure subroutine mfi_ctrmv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ctrmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call f77_trmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_trmv:ztrmv]].
+!> Modern interface for [[f77_trmv:f77_trmv]].
 !> See also: [[mfi_trmv]], [[f77_trmv]].
 pure subroutine mfi_ztrmv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -3933,9 +3995,9 @@ pure subroutine mfi_ztrmv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ztrmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call f77_trmv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_trsv:strsv]].
+!> Modern interface for [[f77_trsv:f77_trsv]].
 !> See also: [[mfi_trsv]], [[f77_trsv]].
 pure subroutine mfi_strsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -3972,9 +4034,9 @@ pure subroutine mfi_strsv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call strsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call f77_trsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_trsv:dtrsv]].
+!> Modern interface for [[f77_trsv:f77_trsv]].
 !> See also: [[mfi_trsv]], [[f77_trsv]].
 pure subroutine mfi_dtrsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -4011,9 +4073,9 @@ pure subroutine mfi_dtrsv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call dtrsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call f77_trsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_trsv:ctrsv]].
+!> Modern interface for [[f77_trsv:f77_trsv]].
 !> See also: [[mfi_trsv]], [[f77_trsv]].
 pure subroutine mfi_ctrsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL32
@@ -4050,9 +4112,9 @@ pure subroutine mfi_ctrsv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ctrsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call f77_trsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_trsv:ztrsv]].
+!> Modern interface for [[f77_trsv:f77_trsv]].
 !> See also: [[mfi_trsv]], [[f77_trsv]].
 pure subroutine mfi_ztrsv(a, x, uplo, trans, diag, incx)
     integer, parameter :: wp = REAL64
@@ -4089,9 +4151,9 @@ pure subroutine mfi_ztrsv(a, x, uplo, trans, diag, incx)
     end if
     lda = max(1,size(a,1))
     n = size(a,2)
-    call ztrsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
+    call f77_trsv(local_uplo,local_trans,local_diag,n,a,lda,x,local_incx)
 end subroutine
-!> Modern interface for [[f77_gemm:sgemm]].
+!> Modern interface for [[f77_gemm:f77_gemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -4137,9 +4199,11 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-    call sgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+
+    ! Default behavior when extensions are not enabled
+    call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_gemm:dgemm]].
+!> Modern interface for [[f77_gemm:f77_gemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -4185,9 +4249,11 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-    call dgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+
+    ! Default behavior when extensions are not enabled
+    call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_gemm:cgemm]].
+!> Modern interface for [[f77_gemm:f77_gemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -4233,9 +4299,11 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-    call cgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+
+    ! Default behavior when extensions are not enabled
+    call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_gemm:zgemm]].
+!> Modern interface for [[f77_gemm:f77_gemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
 pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -4281,9 +4349,11 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-    call zgemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+
+    ! Default behavior when extensions are not enabled
+    call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_hemm:chemm]].
+!> Modern interface for [[f77_hemm:f77_hemm]].
 !> See also: [[mfi_hemm]], [[f77_hemm]].
 pure subroutine mfi_chemm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -4324,9 +4394,9 @@ pure subroutine mfi_chemm(a, b, c, side, uplo, alpha, beta)
     ldc = max(1,size(c,1))
     m = size(c,1)
     n = size(c,2)
-    call chemm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call f77_hemm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_hemm:zhemm]].
+!> Modern interface for [[f77_hemm:f77_hemm]].
 !> See also: [[mfi_hemm]], [[f77_hemm]].
 pure subroutine mfi_zhemm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -4367,9 +4437,9 @@ pure subroutine mfi_zhemm(a, b, c, side, uplo, alpha, beta)
     ldc = max(1,size(c,1))
     m = size(c,1)
     n = size(c,2)
-    call zhemm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call f77_hemm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_herk:cherk]].
+!> Modern interface for [[f77_herk:f77_herk]].
 !> See also: [[mfi_herk]], [[f77_herk]].
 pure subroutine mfi_cherk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -4412,9 +4482,9 @@ pure subroutine mfi_cherk(a, c, uplo, trans, alpha, beta)
     end if
     lda = max(1,size(a,1))
     ldc = max(1,size(c,1))
-    call cherk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    call f77_herk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_herk:zherk]].
+!> Modern interface for [[f77_herk:f77_herk]].
 !> See also: [[mfi_herk]], [[f77_herk]].
 pure subroutine mfi_zherk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -4457,9 +4527,9 @@ pure subroutine mfi_zherk(a, c, uplo, trans, alpha, beta)
     end if
     lda = max(1,size(a,1))
     ldc = max(1,size(c,1))
-    call zherk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    call f77_herk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_her2k:cher2k]].
+!> Modern interface for [[f77_her2k:f77_her2k]].
 !> See also: [[mfi_her2k]], [[f77_her2k]].
 pure subroutine mfi_cher2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -4504,9 +4574,9 @@ pure subroutine mfi_cher2k(a, b, c, uplo, trans, alpha, beta)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
-    call cher2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call f77_her2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_her2k:zher2k]].
+!> Modern interface for [[f77_her2k:f77_her2k]].
 !> See also: [[mfi_her2k]], [[f77_her2k]].
 pure subroutine mfi_zher2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -4551,9 +4621,9 @@ pure subroutine mfi_zher2k(a, b, c, uplo, trans, alpha, beta)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
-    call zher2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call f77_her2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_symm:ssymm]].
+!> Modern interface for [[f77_symm:f77_symm]].
 !> See also: [[mfi_symm]], [[f77_symm]].
 pure subroutine mfi_ssymm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -4594,9 +4664,9 @@ pure subroutine mfi_ssymm(a, b, c, side, uplo, alpha, beta)
     ldc = max(1,size(c,1))
     m = size(c,1)
     n = size(c,2)
-    call ssymm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call f77_symm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_symm:dsymm]].
+!> Modern interface for [[f77_symm:f77_symm]].
 !> See also: [[mfi_symm]], [[f77_symm]].
 pure subroutine mfi_dsymm(a, b, c, side, uplo, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -4637,9 +4707,9 @@ pure subroutine mfi_dsymm(a, b, c, side, uplo, alpha, beta)
     ldc = max(1,size(c,1))
     m = size(c,1)
     n = size(c,2)
-    call dsymm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call f77_symm(local_side,local_uplo,m,n,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_syrk:ssyrk]].
+!> Modern interface for [[f77_syrk:f77_syrk]].
 !> See also: [[mfi_syrk]], [[f77_syrk]].
 pure subroutine mfi_ssyrk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -4682,9 +4752,9 @@ pure subroutine mfi_ssyrk(a, c, uplo, trans, alpha, beta)
     end if
     lda = max(1,size(a,1))
     ldc = max(1,size(c,1))
-    call ssyrk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    call f77_syrk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_syrk:dsyrk]].
+!> Modern interface for [[f77_syrk:f77_syrk]].
 !> See also: [[mfi_syrk]], [[f77_syrk]].
 pure subroutine mfi_dsyrk(a, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -4727,9 +4797,9 @@ pure subroutine mfi_dsyrk(a, c, uplo, trans, alpha, beta)
     end if
     lda = max(1,size(a,1))
     ldc = max(1,size(c,1))
-    call dsyrk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    call f77_syrk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_syr2k:ssyr2k]].
+!> Modern interface for [[f77_syr2k:f77_syr2k]].
 !> See also: [[mfi_syr2k]], [[f77_syr2k]].
 pure subroutine mfi_ssyr2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL32
@@ -4774,9 +4844,9 @@ pure subroutine mfi_ssyr2k(a, b, c, uplo, trans, alpha, beta)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
-    call ssyr2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call f77_syr2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_syr2k:dsyr2k]].
+!> Modern interface for [[f77_syr2k:f77_syr2k]].
 !> See also: [[mfi_syr2k]], [[f77_syr2k]].
 pure subroutine mfi_dsyr2k(a, b, c, uplo, trans, alpha, beta)
     integer, parameter :: wp = REAL64
@@ -4821,9 +4891,9 @@ pure subroutine mfi_dsyr2k(a, b, c, uplo, trans, alpha, beta)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
     ldc = max(1,size(c,1))
-    call dsyr2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    call f77_syr2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
-!> Modern interface for [[f77_trmm:strmm]].
+!> Modern interface for [[f77_trmm:f77_trmm]].
 !> See also: [[mfi_trmm]], [[f77_trmm]].
 pure subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
@@ -4869,9 +4939,9 @@ pure subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call strmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
-!> Modern interface for [[f77_trmm:dtrmm]].
+!> Modern interface for [[f77_trmm:f77_trmm]].
 !> See also: [[mfi_trmm]], [[f77_trmm]].
 pure subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
@@ -4917,9 +4987,9 @@ pure subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call dtrmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
-!> Modern interface for [[f77_trmm:ctrmm]].
+!> Modern interface for [[f77_trmm:f77_trmm]].
 !> See also: [[mfi_trmm]], [[f77_trmm]].
 pure subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
@@ -4965,9 +5035,9 @@ pure subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call ctrmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
-!> Modern interface for [[f77_trmm:ztrmm]].
+!> Modern interface for [[f77_trmm:f77_trmm]].
 !> See also: [[mfi_trmm]], [[f77_trmm]].
 pure subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
@@ -5013,9 +5083,9 @@ pure subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call ztrmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
-!> Modern interface for [[f77_trsm:strsm]].
+!> Modern interface for [[f77_trsm:f77_trsm]].
 !> See also: [[mfi_trsm]], [[f77_trsm]].
 pure subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
@@ -5061,9 +5131,9 @@ pure subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call strsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call f77_trsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
-!> Modern interface for [[f77_trsm:dtrsm]].
+!> Modern interface for [[f77_trsm:f77_trsm]].
 !> See also: [[mfi_trsm]], [[f77_trsm]].
 pure subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
@@ -5109,9 +5179,9 @@ pure subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call dtrsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call f77_trsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
-!> Modern interface for [[f77_trsm:ctrsm]].
+!> Modern interface for [[f77_trsm:f77_trsm]].
 !> See also: [[mfi_trsm]], [[f77_trsm]].
 pure subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
@@ -5157,9 +5227,9 @@ pure subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call ctrsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call f77_trsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
-!> Modern interface for [[f77_trsm:ztrsm]].
+!> Modern interface for [[f77_trsm:f77_trsm]].
 !> See also: [[mfi_trsm]], [[f77_trsm]].
 pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
@@ -5205,9 +5275,9 @@ pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-    call ztrsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
+    call f77_trsm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
-!> Modern interface for [[f77_lamch:slamch]].
+!> Modern interface for [[f77_lamch:f77_lamch]].
 !> See also: [[mfi_lamch]], [[f77_lamch]].
 pure function mfi_slamch(cmach, kind) result(res)
     integer, parameter :: wp = REAL32
@@ -5217,7 +5287,7 @@ pure function mfi_slamch(cmach, kind) result(res)
     real(REAL32) :: res
     res = slamch(cmach)
 end function
-!> Modern interface for [[f77_lamch:dlamch]].
+!> Modern interface for [[f77_lamch:f77_lamch]].
 !> See also: [[mfi_lamch]], [[f77_lamch]].
 pure function mfi_dlamch(cmach, kind) result(res)
     integer, parameter :: wp = REAL64
@@ -5230,7 +5300,7 @@ end function
 
 ! Extensions
 ! BLAS level 1 - Utils / Extensions
-!> Modern interface for [[f77_iamax:isamax]].
+!> Modern interface for [[f77_iamax:f77_iamax]].
 !> See also: [[mfi_iamax]], [[f77_iamax]].
 pure function mfi_isamax(x, incx)
     integer, parameter :: wp = REAL32
@@ -5245,9 +5315,9 @@ pure function mfi_isamax(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_isamax = isamax(n,x,local_incx)
+    mfi_isamax = f77_iamax(n,x,local_incx)
 end function
-!> Modern interface for [[f77_iamax:idamax]].
+!> Modern interface for [[f77_iamax:f77_iamax]].
 !> See also: [[mfi_iamax]], [[f77_iamax]].
 pure function mfi_idamax(x, incx)
     integer, parameter :: wp = REAL64
@@ -5262,9 +5332,9 @@ pure function mfi_idamax(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_idamax = idamax(n,x,local_incx)
+    mfi_idamax = f77_iamax(n,x,local_incx)
 end function
-!> Modern interface for [[f77_iamax:icamax]].
+!> Modern interface for [[f77_iamax:f77_iamax]].
 !> See also: [[mfi_iamax]], [[f77_iamax]].
 pure function mfi_icamax(x, incx)
     integer, parameter :: wp = REAL32
@@ -5279,9 +5349,9 @@ pure function mfi_icamax(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_icamax = icamax(n,x,local_incx)
+    mfi_icamax = f77_iamax(n,x,local_incx)
 end function
-!> Modern interface for [[f77_iamax:izamax]].
+!> Modern interface for [[f77_iamax:f77_iamax]].
 !> See also: [[mfi_iamax]], [[f77_iamax]].
 pure function mfi_izamax(x, incx)
     integer, parameter :: wp = REAL64
@@ -5296,9 +5366,9 @@ pure function mfi_izamax(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_izamax = izamax(n,x,local_incx)
+    mfi_izamax = f77_iamax(n,x,local_incx)
 end function
-!> Modern interface for [[f77_iamin:isamin]].
+!> Modern interface for [[f77_iamin:f77_iamin]].
 !> See also: [[mfi_iamin]], [[f77_iamin]].
 pure function mfi_isamin(x, incx)
     integer, parameter :: wp = REAL32
@@ -5313,9 +5383,9 @@ pure function mfi_isamin(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_isamin = isamin(n,x,local_incx)
+    mfi_isamin = f77_iamin(n,x,local_incx)
 end function
-!> Modern interface for [[f77_iamin:idamin]].
+!> Modern interface for [[f77_iamin:f77_iamin]].
 !> See also: [[mfi_iamin]], [[f77_iamin]].
 pure function mfi_idamin(x, incx)
     integer, parameter :: wp = REAL64
@@ -5330,9 +5400,9 @@ pure function mfi_idamin(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_idamin = idamin(n,x,local_incx)
+    mfi_idamin = f77_iamin(n,x,local_incx)
 end function
-!> Modern interface for [[f77_iamin:icamin]].
+!> Modern interface for [[f77_iamin:f77_iamin]].
 !> See also: [[mfi_iamin]], [[f77_iamin]].
 pure function mfi_icamin(x, incx)
     integer, parameter :: wp = REAL32
@@ -5347,9 +5417,9 @@ pure function mfi_icamin(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_icamin = icamin(n,x,local_incx)
+    mfi_icamin = f77_iamin(n,x,local_incx)
 end function
-!> Modern interface for [[f77_iamin:izamin]].
+!> Modern interface for [[f77_iamin:f77_iamin]].
 !> See also: [[mfi_iamin]], [[f77_iamin]].
 pure function mfi_izamin(x, incx)
     integer, parameter :: wp = REAL64
@@ -5364,7 +5434,48 @@ pure function mfi_izamin(x, incx)
         local_incx = 1
     end if
     n = size(x)
-    mfi_izamin = izamin(n,x,local_incx)
+    mfi_izamin = f77_iamin(n,x,local_incx)
+end function
+
+!> Initialize execution mode from environment variables
+subroutine mfi_execution_init()
+    integer :: info
+    character(len=10) :: env_mfi_use_cublas
+    integer :: env_len_cublas
+
+    ! Save previous states
+    MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
+
+    ! Initialize to defaults
+    MFI_USE_CUBLAS = 0
+
+    ! Only check environment if extensions are enabled
+    ! Issue warning when used without proper compilation
+    print *, 'WARNING: mfi_execution_init() called but compiled without CUBLAS support'
+end subroutine
+
+!> Sets execution mode to use GPU with CUBLAS (only effective when compiled with support)
+subroutine mfi_force_gpu()
+    MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
+    print *, 'WARNING: mfi_force_gpu() called but compiled without CUBLAS support'
+    ! Don't actually enable GPU mode
+end subroutine
+
+!> Sets execution mode to use traditional CPU
+subroutine mfi_force_cpu()
+    MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
+    MFI_USE_CUBLAS = 0
+end subroutine
+
+!> Restores the previous execution mode state
+subroutine mfi_execution_restore()
+    MFI_USE_CUBLAS = MFI_USE_CUBLAS_PREV_STATE
+end subroutine
+
+!> Returns current execution mode as string
+function mfi_get_execution_mode() result(mode_str)
+    character(len=20) :: mode_str
+    mode_str = "CPU-ONLY"
 end function
 
 end module

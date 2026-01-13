@@ -177,7 +177,7 @@ See also:
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_rot.html#proc-srot">srot</a>.
+  <p>Modern interface for <a href="../interface/f77_rot.html">f77_rot</a>.
  See also: <a href="../interface/mfi_rot.html">mfi_rot</a>, <a href="../interface/f77_rot.html">f77_rot</a>.
  Given two vectors x and y,
  each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_srot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
@@ -195,244 +195,8 @@ See also:
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~149"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>x</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-y~83"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>y</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-c~51"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>c</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-s~27"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>s</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incx~143"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incx</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incy~81"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incy</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_drot"></span> <h3>public pure subroutine <a href='../proc/mfi_drot.html'>mfi_drot</a>(x, y, c, s, incx, incy)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_rot.html#proc-drot">drot</a>.
- See also: <a href="../interface/mfi_rot.html">mfi_rot</a>, <a href="../interface/f77_rot.html">f77_rot</a>.
- Given two vectors x and y,
- each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_drot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-x~150"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>x</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-y~84"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>y</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-c~52"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>c</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-s~28"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>s</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incx~144"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incx</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-incy~82"></span>
-              integer,
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>incy</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_crot"></span> <h3>public pure subroutine <a href='../proc/mfi_crot.html'>mfi_crot</a>(x, y, c, s, incx, incy)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_rot.html#proc-crot">crot</a>.
- See also: <a href="../interface/mfi_rot.html">mfi_rot</a>, <a href="../interface/f77_rot.html">f77_rot</a>.
- Given two vectors x and y,
- each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_crot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
               <span class="anchor" id="variable-x~151"></span>
-              complex(kind=REAL32),
+              real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -447,7 +211,7 @@ See also:
         <tr>
             <td>
               <span class="anchor" id="variable-y~85"></span>
-              complex(kind=REAL32),
+              real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -461,7 +225,7 @@ See also:
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~53"></span>
+              <span class="anchor" id="variable-c~67"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -476,8 +240,8 @@ See also:
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~29"></span>
-              complex(kind=REAL32),
+              <span class="anchor" id="variable-s~31"></span>
+              real(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -527,14 +291,14 @@ See also:
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_zrot"></span> <h3>public pure subroutine <a href='../proc/mfi_zrot.html'>mfi_zrot</a>(x, y, c, s, incx, incy)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_drot"></span> <h3>public pure subroutine <a href='../proc/mfi_drot.html'>mfi_drot</a>(x, y, c, s, incx, incy)  
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_rot.html#proc-zrot">zrot</a>.
+  <p>Modern interface for <a href="../interface/f77_rot.html">f77_rot</a>.
  See also: <a href="../interface/mfi_rot.html">mfi_rot</a>, <a href="../interface/f77_rot.html">f77_rot</a>.
  Given two vectors x and y,
- each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_zrot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+ each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_drot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -550,7 +314,7 @@ See also:
         <tr>
             <td>
               <span class="anchor" id="variable-x~152"></span>
-              complex(kind=REAL64),
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -565,7 +329,7 @@ See also:
         <tr>
             <td>
               <span class="anchor" id="variable-y~86"></span>
-              complex(kind=REAL64),
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -579,7 +343,7 @@ See also:
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~54"></span>
+              <span class="anchor" id="variable-c~68"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -594,8 +358,8 @@ See also:
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~30"></span>
-              complex(kind=REAL64),
+              <span class="anchor" id="variable-s~32"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -645,14 +409,14 @@ See also:
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_csrot"></span> <h3>public pure subroutine <a href='../proc/mfi_csrot.html'>mfi_csrot</a>(x, y, c, s, incx, incy)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_crot"></span> <h3>public pure subroutine <a href='../proc/mfi_crot.html'>mfi_crot</a>(x, y, c, s, incx, incy)  
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_rot.html#proc-csrot">csrot</a>.
+  <p>Modern interface for <a href="../interface/f77_rot.html">f77_rot</a>.
  See also: <a href="../interface/mfi_rot.html">mfi_rot</a>, <a href="../interface/f77_rot.html">f77_rot</a>.
  Given two vectors x and y,
- each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_csrot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+ each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_crot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -697,7 +461,7 @@ See also:
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~55"></span>
+              <span class="anchor" id="variable-c~69"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -712,8 +476,8 @@ See also:
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~31"></span>
-              real(kind=REAL32),
+              <span class="anchor" id="variable-s~33"></span>
+              complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -763,14 +527,14 @@ See also:
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_zdrot"></span> <h3>public pure subroutine <a href='../proc/mfi_zdrot.html'>mfi_zdrot</a>(x, y, c, s, incx, incy)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_zrot"></span> <h3>public pure subroutine <a href='../proc/mfi_zrot.html'>mfi_zrot</a>(x, y, c, s, incx, incy)  
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_rot.html#proc-zdrot">zdrot</a>.
+  <p>Modern interface for <a href="../interface/f77_rot.html">f77_rot</a>.
  See also: <a href="../interface/mfi_rot.html">mfi_rot</a>, <a href="../interface/f77_rot.html">f77_rot</a>.
  Given two vectors x and y,
- each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_zdrot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+ each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_zrot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -815,7 +579,7 @@ See also:
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~56"></span>
+              <span class="anchor" id="variable-c~70"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -830,8 +594,8 @@ See also:
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-s~32"></span>
-              real(kind=REAL64),
+              <span class="anchor" id="variable-s~34"></span>
+              complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
               <td></td>            <td>
@@ -880,6 +644,242 @@ See also:
     </div>
   </div>
 
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_csrot"></span> <h3>public pure subroutine <a href='../proc/mfi_csrot.html'>mfi_csrot</a>(x, y, c, s, incx, incy)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_rot.html">f77_rot</a>.
+ See also: <a href="../interface/mfi_rot.html">mfi_rot</a>, <a href="../interface/f77_rot.html">f77_rot</a>.
+ Given two vectors x and y,
+ each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_csrot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~155"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~89"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>y</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~71"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s~35"></span>
+              real(kind=REAL32),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~149"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incy~87"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incy</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_zdrot"></span> <h3>public pure subroutine <a href='../proc/mfi_zdrot.html'>mfi_zdrot</a>(x, y, c, s, incx, incy)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_rot.html">f77_rot</a>.
+ See also: <a href="../interface/mfi_rot.html">mfi_rot</a>, <a href="../interface/f77_rot.html">f77_rot</a>.
+ Given two vectors x and y,
+ each vector element of these vectors is replaced as follows:</p><a href="../proc/mfi_zdrot.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-x~156"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>x</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-y~90"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>y</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~72"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>c</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-s~36"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>s</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incx~150"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incx</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-incy~88"></span>
+              integer,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>incy</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
 </div>
   </div>
       <hr>
@@ -890,7 +890,7 @@ See also:
           <div class="col">
             <p>
               MFI - Modern Fortran Interfaces
- was developed by I. G. Pauli<br>              &copy; 2025 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+ was developed by I. G. Pauli<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
 </p>
           </div>
           <div class="col">
