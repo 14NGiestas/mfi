@@ -16,7 +16,7 @@ pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c
     bind(C,name="${NAME}$")
     import
 @:parameter(integer, wp=${c_kind(wp)}$)
-@:args({type(c_ptr), value}, in, a, b)
+@:args({type(c_ptr)}, in, a, b)
     type(c_ptr), value :: c ! void *
 @:args({character(c_char),value}, in,  transa, transb)
 @:args({${type(wp)}$,value}, in,  alpha, beta)
