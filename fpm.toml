@@ -8,4 +8,4 @@ maintainer = "iangiestas@usp.br"
 build-script="Makefile"
 
 [build]
-link = ["blas","lapack"]
+link = ["blas","lapack","cublas","cudart"]
