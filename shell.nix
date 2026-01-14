@@ -7,14 +7,15 @@ let
   # Libraries needed for both build and runtime
   cudaLibs = [
     cudaPkgs.libcublas
+    cudaPkgs.libcusolver
     cudaPkgs.cuda_cudart
+    cudaPkgs.cuda_nvcc
   ];
 in
 pkgs.mkShell {
   nativeBuildInputs = [
     pkgs.pkg-config 
     pkgs.fortran-fpm
-    cudaPkgs.cuda_nvcc
   ];
 
   buildInputs = [

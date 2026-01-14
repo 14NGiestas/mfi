@@ -1,5 +1,6 @@
 #:def gemm(NAME,pfxs)
 #:set wp = pfxs[0]
+! ${NAME}$ CPU version
 pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
     import :: ${kind(wp)}$
 @:parameter(integer, wp=${kind(wp)}$)
@@ -19,7 +20,7 @@ pure subroutine ${NAME}$(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c
 @:args({type(c_ptr)}, in, a, b)
     type(c_ptr), value :: c ! void *
 @:args({character(c_char),value}, in,  transa, transb)
-@:args({${type(wp)}$,value}, in,  alpha, beta)
+@:args({${c_type(wp)}$,value}, in,  alpha, beta)
 @:args({integer(c_int),value}, in, m, n, k, lda, ldb, ldc)
 end subroutine
 #:endif

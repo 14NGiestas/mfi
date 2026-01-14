@@ -1,12 +1,11 @@
 #:def gemm(MFI_NAME,F77_NAME,pfxs)
 #:set wp = pfxs[0]
-#:set TYPE = type(wp)
 pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
 @:parameter(integer, wp=${kind(wp)}$)
-@:args(${TYPE}$, in,    a(:,:), b(:,:))
-@:args(${TYPE}$, inout, c(:,:))
+@:args(${type(wp)}$, in,    a(:,:), b(:,:))
+@:args(${type(wp)}$, inout, c(:,:))
 @:optional(character, in, transa, transb)
-@:optional(${TYPE}$,  in, alpha, beta)
+@:optional(${type(wp)}$,  in, alpha, beta)
     integer :: m, n, k, lda, ldb, ldc
 @:defaults(transa='N', transb='N', alpha=1.0_wp, beta=0.0_wp)
     lda = max(1,size(a,1))
@@ -19,34 +18,19 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-
-    #:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
     if (MFI_USE_CUBLAS == 1) then
         block
-            @:allocate(a,b,c)
-            @:set_matrix(a,b)
-            call ${F77_NAME}$( &
-              local_transa,    &
-              local_transb,    &
-              m,               &
-              n,               &
-              k,               &
-              local_alpha,     &
-              device_a,        &
-              lda,             &
-              device_b,        &
-              ldb,             &
-              local_beta,      &
-              device_c,        &
-              ldc              &
-            )
-            @:get_matrix(c)
-            @:deallocate(a,b,c)
+        @:allocate(a,b,c)
+        @:set_matrix(a,b)
+        call ${F77_NAME}$(local_transa,local_transb,m,n,k, &
+                 local_alpha,device_a,lda,device_b,ldb,local_beta,device_c,ldc)
+        @:get_matrix(c)
+        @:deallocate(a,b,c)
         end block
         return
     end if
-    #:endif
-    ! Default behavior when extensions are not enabled
+#:endif
     call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 #:enddef
