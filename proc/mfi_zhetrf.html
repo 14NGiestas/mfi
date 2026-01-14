@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for procedures.">57 statements</a>
+                 title=" 0.4% of total for procedures.">42 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -151,23 +151,8 @@
 </h2>
     
 
-    <p>Modern interface for <a href="../interface/f77_hetrf.html">f77_hetrf</a>.
-See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../interface/f77_hetrf.html">f77_hetrf</a>.
-Computes the factorization of a Hermitian matrix using the Bunch-Kaufman diagonal pivoting method</p>
-<p>The factorization has the form:
-- A = U<em>D</em>U<strong>H (if uplo='U') or
-- A = L<em>D</em>L</strong>H (if uplo='L')</p>
-<p>where U (or L) is a product of permutation and unit upper (lower) triangular matrices,
-and D is block diagonal with 1-by-1 and 2-by-2 diagonal blocks.</p>
-<p>Parameters:
-- <code>a</code> (inout): On entry, the Hermitian matrix A. On exit, the block diagonal matrix D
-               and the multipliers used to obtain the factor U or L.
-- <code>uplo</code> (in, optional): Specifies whether the upper ('U') or lower ('L') triangular part
-               of the Hermitian matrix A is stored. Default: 'U'
-- <code>ipiv</code> (out, optional): The pivot indices that define the permutation matrix P.
-               If ipiv is not provided, it will be allocated internally.
-- <code>info</code> (out, optional): Output status: 0 for success, &lt; 0 for illegal argument,
-               &gt; 0 if D(k,k) is exactly zero.</p>
+    <p>Modern interface for <a href="../interface/f77_hetrf.html#proc-zhetrf">zhetrf</a>.
+See also: <a href="../interface/mfi_hetrf.html">mfi_hetrf</a>, <a href="../interface/f77_hetrf.html">f77_hetrf</a>.</p>
 
 
     <h3>Arguments</h3>

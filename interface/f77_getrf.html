@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.3% of total for procedures.</p>Including implementation: 42 statements,  0.3% of total for procedures.">42 statements</a>
+                 title="<p> 0.4% of total for procedures.</p>Including implementation: 42 statements,  0.4% of total for procedures.">42 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -173,7 +173,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../inter
 </h3></div>
     <div class="card-body">
         <p>Original interface for SGETRF
-See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
+See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../interface/f77_getrf.html">f77_getrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -188,7 +188,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~61"></span>
+              <span class="anchor" id="variable-m~25"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -203,7 +203,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~97"></span>
+              <span class="anchor" id="variable-n~55"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -218,7 +218,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~97"></span>
+              <span class="anchor" id="variable-a~55"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -233,7 +233,237 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~97"></span>
+              <span class="anchor" id="variable-lda~55"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lda</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ipiv~15"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ipiv</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~56"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-dgetrf"></span> <h3>public pure subroutine dgetrf(m, n, a, lda, ipiv, info)  
+</h3></div>
+    <div class="card-body">
+        <p>Original interface for DGETRF
+See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../interface/f77_getrf.html">f77_getrf</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~26"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~56"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~56"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(lda,*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lda~56"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lda</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ipiv~16"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ipiv</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~57"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cgetrf"></span> <h3>public pure subroutine cgetrf(m, n, a, lda, ipiv, info)  
+</h3></div>
+    <div class="card-body">
+        <p>Original interface for CGETRF
+See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../interface/f77_getrf.html">f77_getrf</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m~27"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~57"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~57"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(lda,*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lda~57"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -263,7 +493,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~98"></span>
+              <span class="anchor" id="variable-info~58"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -284,11 +514,11 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dgetrf"></span> <h3>public pure subroutine dgetrf(m, n, a, lda, ipiv, info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-zgetrf"></span> <h3>public pure subroutine zgetrf(m, n, a, lda, ipiv, info)  
 </h3></div>
     <div class="card-body">
-        <p>Original interface for DGETRF
-See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
+        <p>Original interface for ZGETRF
+See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a href="../interface/f77_getrf.html">f77_getrf</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -303,7 +533,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~62"></span>
+              <span class="anchor" id="variable-m~28"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -318,7 +548,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~98"></span>
+              <span class="anchor" id="variable-n~58"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -333,8 +563,8 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~98"></span>
-              real(kind=REAL64),
+              <span class="anchor" id="variable-a~58"></span>
+              complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -348,7 +578,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~98"></span>
+              <span class="anchor" id="variable-lda~58"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -378,237 +608,7 @@ See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~99"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-cgetrf"></span> <h3>public pure subroutine cgetrf(m, n, a, lda, ipiv, info)  
-</h3></div>
-    <div class="card-body">
-        <p>Original interface for CGETRF
-See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-m~63"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>m</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~99"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~99"></span>
-              complex(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(lda,*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lda~99"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lda</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ipiv~19"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ipiv</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~100"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-zgetrf"></span> <h3>public pure subroutine zgetrf(m, n, a, lda, ipiv, info)  
-</h3></div>
-    <div class="card-body">
-        <p>Original interface for ZGETRF
-See also: <a href="../interface/mfi_getrf.html">mfi_getrf</a>, <a>getrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-m~64"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>m</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~100"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~100"></span>
-              complex(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(lda,*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lda~100"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lda</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ipiv~20"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ipiv</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~101"></span>
+              <span class="anchor" id="variable-info~59"></span>
               integer,
             </td>
 <td>intent(out)</td>
