@@ -119,9 +119,9 @@ integer(c_int), parameter :: CUBLAS_FILL_MODE_LOWER = 1
 integer(c_int), parameter :: CUBLAS_DIAG_NON_UNIT = 0
 integer(c_int), parameter :: CUBLAS_DIAG_UNIT = 1
 
-!> cuBLAS side constants (NOT 0/1 like BLAS!)
-integer(c_int), parameter :: CUBLAS_SIDE_LEFT = 141
-integer(c_int), parameter :: CUBLAS_SIDE_RIGHT = 142
+!> cuBLAS side constants
+integer(c_int), parameter :: CUBLAS_SIDE_LEFT = 0
+integer(c_int), parameter :: CUBLAS_SIDE_RIGHT = 1
 
 !> CUDA memory copy direction constants
 integer(c_int), parameter :: cudaMemcpyHostToDevice = 1
