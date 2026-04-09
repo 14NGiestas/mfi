@@ -5,7 +5,7 @@ program trsm_diag
     implicit none
 
     integer, parameter :: wp = REAL32
-    real(wp) :: A(3,3), B(3,1), B_ref(3,1), B_gpu(3,1)
+    real(wp), target :: A(3,3), B(3,1), B_ref(3,1), B_gpu(3,1)
     real(wp) :: alpha
     type(c_ptr) :: d_a, d_b
     integer(c_int) :: stat
