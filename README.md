@@ -25,6 +25,21 @@ call mfi_gemm(A,B,C)
 end program
 ```
 
+### GPU Acceleration with cuBLAS
+
+Try the GPU tests directly in your browser:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/14NGiestas/mfi/blob/qwen3-cublas/gpu_test.ipynb)
+
+Or run locally with:
+
+```sh
+make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_USE_CUBLAS"
+MFI_USE_CUBLAS=1 fpm test
+```
+
+See the [GPU test notebook](gpu_test.ipynb) for the full setup and verification steps.
+
 ## Getting Started
 
 ### FPM
