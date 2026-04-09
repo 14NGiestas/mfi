@@ -9,6 +9,7 @@ build-script="Makefile"
 
 [build]
 link = ["blas","lapack","cublas","cudart"]
+link-flag = ["-L/usr/local/cuda/lib64", "-Wl,-rpath,/usr/local/cuda/lib64"]
 
 [[test]]
 name = "test_cublas_gemv"
