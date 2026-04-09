@@ -19,3 +19,7 @@ cublas = ["cublas"]
 [[test]]
 name = "test_cublas_gemv"
 main = "test_gemv_check.f90"
+
+[[test]]
+name = "trsm_diag"
+main = "trsm_diag.f90"
