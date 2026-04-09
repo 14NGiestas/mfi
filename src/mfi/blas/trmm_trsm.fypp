@@ -20,26 +20,26 @@ subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
         ${type(wp)}$, target :: alpha_target
         @:allocate(a,b)
         if (local_side == 'L' .or. local_side == 'l') then
-            cu_side = 141  ! CUBLAS_SIDE_LEFT
+            cu_side = CUBLAS_SIDE_LEFT
         else
-            cu_side = 142  ! CUBLAS_SIDE_RIGHT
+            cu_side = CUBLAS_SIDE_RIGHT
         end if
         if (local_uplo == 'U' .or. local_uplo == 'u') then
-            cu_uplo = 0  ! CUBLAS_FILL_MODE_UPPER
+            cu_uplo = CUBLAS_FILL_MODE_UPPER
         else
-            cu_uplo = 1  ! CUBLAS_FILL_MODE_LOWER
+            cu_uplo = CUBLAS_FILL_MODE_LOWER
         end if
         if (local_transa == 'N' .or. local_transa == 'n') then
-            cu_transa = 0  ! CUBLAS_OP_N
+            cu_transa = CUBLAS_OP_N
         else if (local_transa == 'T' .or. local_transa == 't') then
-            cu_transa = 1  ! CUBLAS_OP_T
+            cu_transa = CUBLAS_OP_T
         else
-            cu_transa = 2  ! CUBLAS_OP_C
+            cu_transa = CUBLAS_OP_C
         end if
         if (local_diag == 'U' .or. local_diag == 'u') then
-            cu_diag = 1  ! CUBLAS_DIAG_UNIT
+            cu_diag = CUBLAS_DIAG_UNIT
         else
-            cu_diag = 0  ! CUBLAS_DIAG_NON_UNIT
+            cu_diag = CUBLAS_DIAG_NON_UNIT
         end if
         alpha_target = local_alpha
         @:set_matrix(a,b)

@@ -105,5 +105,29 @@ interface
         integer(c_int) :: stat
     end function
 end interface
+
+!> cuBLAS operation constants
+integer(c_int), parameter :: CUBLAS_OP_N = 0
+integer(c_int), parameter :: CUBLAS_OP_T = 1
+integer(c_int), parameter :: CUBLAS_OP_C = 2
+
+!> cuBLAS fill mode constants
+integer(c_int), parameter :: CUBLAS_FILL_MODE_UPPER = 0
+integer(c_int), parameter :: CUBLAS_FILL_MODE_LOWER = 1
+
+!> cuBLAS diagonal constants
+integer(c_int), parameter :: CUBLAS_DIAG_NON_UNIT = 0
+integer(c_int), parameter :: CUBLAS_DIAG_UNIT = 1
+
+!> cuBLAS side constants (NOT 0/1 like BLAS!)
+integer(c_int), parameter :: CUBLAS_SIDE_LEFT = 141
+integer(c_int), parameter :: CUBLAS_SIDE_RIGHT = 142
+
+!> CUDA memory copy direction constants
+integer(c_int), parameter :: cudaMemcpyHostToDevice = 1
+integer(c_int), parameter :: cudaMemcpyDeviceToHost = 2
+
+!> cuBLAS pointer mode
+integer(c_int), parameter :: CUBLAS_POINTER_MODE_HOST = 0
 #:enddef
 #:endmute
