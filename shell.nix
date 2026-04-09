@@ -1,8 +1,8 @@
-{ pkgs ? import <nixpkgs> { config.allowUnfree = true; } }:
+{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/refs/tags/24.11.tar.gz") { config.allowUnfree = true; } }:
 
 let
-  # Specific CUDA package set for consistency
-  cudaPkgs = pkgs.cudaPackages;
+  # Use CUDA 11.8 which is compatible with driver 470.x (CUDA 11.4)
+  cudaPkgs = pkgs.cudaPackages_11_8;
   
   # Libraries needed for both build and runtime
   cudaLibs = [
@@ -11,6 +11,14 @@ let
     cudaPkgs.cuda_cudart
     cudaPkgs.cuda_nvcc
   ];
+
+  # All libraries to be included in build and runtime paths
+  allLibs = [
+    pkgs.hdf5
+    pkgs.hdf5-fortran
+    pkgs.blas
+    pkgs.lapack
+  ] ++ cudaLibs;
 in
 pkgs.mkShell {
   nativeBuildInputs = [
@@ -18,22 +26,15 @@ pkgs.mkShell {
     pkgs.fortran-fpm
   ];
 
-  buildInputs = [
-    pkgs.hdf5
-    pkgs.hdf5-fortran
-    pkgs.blas
-    pkgs.lapack
-  ] ++ cudaLibs;
+  buildInputs = allLibs;
 
   shellHook = ''
     # Set aliases manually since programs.zsh doesn't work here
     alias fpm="fortran-fpm"
     
-    # Build-time: Help gfortran find -lcublas
-    export LIBRARY_PATH="${pkgs.lib.makeLibraryPath cudaLibs}:$LIBRARY_PATH"
-    
-    # Run-time: Help the executable find libcublas.so
-    export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath cudaLibs}:$LD_LIBRARY_PATH"
+    # Build-time and Run-time: Help gfortran and the dynamic linker find all libraries
+    export LIBRARY_PATH="${pkgs.lib.makeLibraryPath allLibs}:$LIBRARY_PATH"
+    export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath allLibs}:$LD_LIBRARY_PATH"
     
     # Optional: Automatically enter zsh if not already in it
     if [[ $- == *i* && $SHELL != *"zsh"* ]]; then

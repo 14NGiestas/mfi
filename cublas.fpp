@@ -1,114 +1,109 @@
 #:mute
 
-#! Create boilerplate to allocate memory in GPU device
-#:def allocate(*varlist)
-    integer(c_int) :: cublas_allocation_status
+#! Create boilerplate to declare variables for GPU allocation (must be at top of block)
+#:def declare(*varlist)
+    integer(c_int) :: cuda_allocation_status
     #:for var in varlist
         type(c_ptr) :: device_${var}$
     #:endfor
+#:enddef
+
+#! Create boilerplate to allocate memory in GPU device using CUDA Runtime API
+#:def allocate(*varlist)
     #:for var in varlist
-        cublas_allocation_status = 0
-        call cublas_alloc(size(${var}$),wp,device_${var}$, cublas_allocation_status)
-        if (cublas_allocation_status /= 0) error stop 'something went wrong allocating ${var}$'
+        cuda_allocation_status = cuda_malloc(device_${var}$, &
+                              int(size(${var}$) * storage_size(${var}$)/8, c_size_t))
+        if (cuda_allocation_status /= 0) error stop 'cudaMalloc failed allocating ${var}$'
     #:endfor
 #:enddef
 
-#! Create boilerplate to copy a matrix to GPU device
+#! Create boilerplate to copy a matrix to GPU device using cudaMemcpy
 #:def set_matrix(*varlist)
     #:for var in varlist
-        call cublas_set_matrix(size(${var}$,1),size(${var}$,2),wp, &
-                            ${var}$,       max(1,size(${var}$,1)), &
-                            device_${var}$,max(1,size(${var}$,1)))
+        call cudaMemcpy(device_${var}$, c_loc(${var}$), &
+                        int(size(${var}$) * storage_size(${var}$)/8, c_size_t), &
+                        cudaMemcpyHostToDevice)
     #:endfor
 #:enddef
 
-#! Create boilerplate to get a matrix from GPU device
+#! Create boilerplate to get a matrix from GPU device using cudaMemcpy
 #:def get_matrix(*varlist)
     #:for var in varlist
-        call cublas_get_matrix(size(${var}$,1),size(${var}$,2),wp, &
-                            device_${var}$,max(1,size(${var}$,1)), &
-                            ${var}$,       max(1,size(${var}$,1)))
+        call cudaMemcpy(c_loc(${var}$), device_${var}$, &
+                        int(size(${var}$) * storage_size(${var}$)/8, c_size_t), &
+                        cudaMemcpyDeviceToHost)
     #:endfor
 #:enddef
 
-#! Create boilerplate to copy a vector content to GPU device
+#! Create boilerplate to copy a vector to GPU device using cudaMemcpy
 #:def set_vector(*varlist)
     #:for var in varlist
-        call cublas_set_vector(size(${var}$),wp,${var}$,1,device_${var}$,1)
+        call cudaMemcpy(device_${var}$, c_loc(${var}$), &
+                        int(size(${var}$) * storage_size(${var}$)/8, c_size_t), &
+                        cudaMemcpyHostToDevice)
     #:endfor
 #:enddef
 
-#! Create boilerplate to get a vector from GPU device
+#! Create boilerplate to get a vector from GPU device using cudaMemcpy
 #:def get_vector(*varlist)
     #:for var in varlist
-        call cublas_get_vector(size(${var}$),wp,device_${var}$,1,${var}$,1)
+        call cudaMemcpy(c_loc(${var}$), device_${var}$, &
+                        int(size(${var}$) * storage_size(${var}$)/8, c_size_t), &
+                        cudaMemcpyDeviceToHost)
     #:endfor
 #:enddef
 
-#! Create boilerplate to free memory in GPU device
+#! Create boilerplate to free memory in GPU device using cudaFree
 #:def deallocate(*varlist)
     #:for var in varlist
-        call cublas_free(device_${var}$, cublas_allocation_status)
-        if (cublas_allocation_status /= 0) error stop 'something went wrong deallocating ${var}$'
+        cuda_allocation_status = cuda_free(device_${var}$)
+        if (cuda_allocation_status /= 0) error stop 'cudaFree failed deallocating ${var}$'
     #:endfor
 #:enddef
 
 #:def cublas_interfaces()
 interface
-    pure subroutine cublas_alloc(n, elemSize, devicePtr, stat) &
-        bind(c,name="cublasAlloc")
+    ! CUDA Runtime API - Memory management
+    function cuda_malloc(devPtr, size) bind(c,name="cudaMalloc") result(stat)
         use, intrinsic :: iso_c_binding
-        integer(c_int), intent(in), value :: n, elemSize
-        type(c_ptr), target, intent(out) :: devicePtr ! void **devicePtr
-        integer(c_int), intent(out) :: stat
+        type(c_ptr), intent(out) :: devPtr
+        integer(c_size_t), value, intent(in) :: size
+        integer(c_int) :: stat
+    end function
+
+    function cuda_free(devPtr) bind(c,name="cudaFree") result(stat)
+        use, intrinsic :: iso_c_binding
+        type(c_ptr), value, intent(in) :: devPtr
+        integer(c_int) :: stat
+    end function
+
+    subroutine cudaMemcpy(dst, src, count, kind) bind(c,name="cudaMemcpy")
+        use, intrinsic :: iso_c_binding
+        type(c_ptr), value, intent(in) :: dst
+        type(c_ptr), value, intent(in) :: src
+        integer(c_size_t), value, intent(in) :: count
+        integer(c_int), value, intent(in) :: kind
     end subroutine
 
-    pure subroutine cublas_free(devicePtr, stat) &
-        bind(c,name="cublasFree")
+    ! cuBLAS v2 API - Handle management
+    function cublasCreate(handle) bind(c,name="cublasCreate_v2") result(stat)
         use, intrinsic :: iso_c_binding
-        type(c_ptr), value, intent(in) :: devicePtr ! void *devicePtr
-        integer(c_int), intent(out) :: stat
-    end subroutine
+        type(c_ptr), intent(out) :: handle
+        integer(c_int) :: stat
+    end function
 
-    pure subroutine cublas_set_vector(n, elemSize, x, incx, y, incy) &
-        bind(c,name="cublasSetVector")
+    function cublasDestroy(handle) bind(c,name="cublasDestroy_v2") result(stat)
         use, intrinsic :: iso_c_binding
-        integer(c_int), intent(in), value :: n
-        integer(c_int), intent(in), value :: elemSize
-        integer(c_int), intent(in), value :: incx, incy
-        type(*),        intent(in) :: x(*)
-        type(c_ptr),    value :: y
-    end subroutine
+        type(c_ptr), value, intent(in) :: handle
+        integer(c_int) :: stat
+    end function
 
-    pure subroutine cublas_get_vector(n, elemSize, x, incx, y, incy) &
-        bind(c,name="cublasGetVector")
+    function cublasSetPointerMode(handle, mode) bind(c,name="cublasSetPointerMode_v2") result(stat)
         use, intrinsic :: iso_c_binding
-        integer(c_int), intent(in), value :: n
-        integer(c_int), intent(in), value :: elemSize
-        integer(c_int), intent(in), value :: incx, incy
-        type(c_ptr),    intent(in), value :: x
-        type(*),        intent(inout) :: y(*)
-    end subroutine
-
-    pure subroutine cublas_set_matrix(rows, cols, elemSize, a, lda, b, ldb) &
-        bind(c,name="cublasSetMatrix")
-        use, intrinsic :: iso_c_binding
-        integer(c_int), intent(in), value :: rows, cols
-        integer(c_int), intent(in), value :: elemSize
-        integer(c_int), intent(in), value :: lda, ldb
-        type(*),        intent(in)    :: a(lda,*)
-        type(c_ptr),    value :: b
-    end subroutine
-
-    pure subroutine cublas_get_matrix(rows, cols, elemSize, a, lda, b, ldb) &
-        bind(c,name="cublasGetMatrix")
-        use, intrinsic :: iso_c_binding
-        integer(c_int), intent(in), value :: rows, cols
-        integer(c_int), intent(in), value :: elemSize
-        integer(c_int), intent(in), value :: lda, ldb
-        type(c_ptr),    intent(in), value :: a
-        type(*),        intent(inout)     :: b(ldb,*)
-    end subroutine
+        type(c_ptr), value, intent(in) :: handle
+        integer(c_int), value, intent(in) :: mode
+        integer(c_int) :: stat
+    end function
 end interface
 #:enddef
 #:endmute

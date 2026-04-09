@@ -95,6 +95,23 @@ implicit none
 $:f77_original(name, supported_types, code)
 #:endfor
 
+!: cuBLAS v2 interfaces (separate from f77_original to avoid mixing subroutines/functions)
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+interface
+#:for pfx in DEFAULT_TYPES
+#:set pfxs = split(pfx)
+#:set NAME = prefix(pfx, '?gemm')
+$:cublas_gemm(NAME, pfxs)
+#:set NAME = prefix(pfx, '?gemv')
+$:cublas_gemv(NAME, pfxs)
+#:set NAME = prefix(pfx, '?trmm')
+$:cublas_trmm_trsm(NAME, pfxs)
+#:set NAME = prefix(pfx, '?trsm')
+$:cublas_trmm_trsm(NAME, pfxs)
+#:endfor
+end interface
+#:endif
+
 #:include "src/f77/blas/specific_interfaces.fypp"
 
 ! Extensions

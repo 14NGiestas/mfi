@@ -101,6 +101,26 @@ $:mfi_interface(name, supported_types)
 #:if defined('MFI_EXTENSIONS')
 $:mfi_extensions_interfaces()
 $:cublas_interfaces()
+!> Global cuBLAS v2 handle
+type(c_ptr), save :: mfi_cublas_handle = c_null_ptr
+!> CUDA memory copy direction constants
+integer(c_int), parameter :: cudaMemcpyHostToDevice = 1
+integer(c_int), parameter :: cudaMemcpyDeviceToHost = 2
+!> cuBLAS operation constants
+integer(c_int), parameter :: CUBLAS_OP_N = 0
+integer(c_int), parameter :: CUBLAS_OP_T = 1
+integer(c_int), parameter :: CUBLAS_OP_C = 2
+!> cuBLAS side constants
+integer(c_int), parameter :: CUBLAS_SIDE_LEFT = 0
+integer(c_int), parameter :: CUBLAS_SIDE_RIGHT = 1
+!> cuBLAS fill mode constants
+integer(c_int), parameter :: CUBLAS_FILL_MODE_UPPER = 0
+integer(c_int), parameter :: CUBLAS_FILL_MODE_LOWER = 1
+!> cuBLAS diagonal constants
+integer(c_int), parameter :: CUBLAS_DIAG_NON_UNIT = 0
+integer(c_int), parameter :: CUBLAS_DIAG_UNIT = 1
+!> cuBLAS pointer mode
+integer(c_int), parameter :: CUBLAS_POINTER_MODE_HOST = 0
 #:endif
 
 contains

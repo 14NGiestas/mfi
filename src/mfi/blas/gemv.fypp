@@ -1,9 +1,9 @@
 #:def gemv(MFI_NAME,F77_NAME,pfxs)
 #:set wp = pfxs[0]
-pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
+subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
 @:parameter(integer, wp=${kind(wp)}$)
-@:args(${type(wp)}$, in,    a(:,:), x(:))
-@:args(${type(wp)}$, inout, y(:))
+    ${type(wp)}$, intent(in), target :: a(:,:), x(:)
+    ${type(wp)}$, intent(inout), target :: y(:)
 @:optional(character, in, trans)
 @:optional(${type(wp)}$,  in, alpha, beta)
 @:optional(integer,   in, incx,  incy)
@@ -12,6 +12,36 @@ pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+    if (MFI_USE_CUBLAS == 1) then
+        block
+        @:declare(a,x,y)
+        integer(c_int) :: op, cublas_stat
+        ${type(wp)}$, target :: alpha_target, beta_target
+        @:allocate(a,x,y)
+        if (local_trans == 'N' .or. local_trans == 'n') then
+            op = 0  ! CUBLAS_OP_N
+        else if (local_trans == 'T' .or. local_trans == 't') then
+            op = 1  ! CUBLAS_OP_T
+        else
+            op = 2  ! CUBLAS_OP_C
+        end if
+        alpha_target = local_alpha
+        beta_target = local_beta
+        @:set_matrix(a)
+        @:set_vector(x,y)
+        cublas_stat = cublas${wp.title()}$gemv(mfi_cublas_handle, op, &
+                 int(m,c_int), int(n,c_int), &
+                 c_loc(alpha_target), device_a, int(lda,c_int), &
+                 device_x, int(local_incx,c_int), &
+                 c_loc(beta_target), device_y, int(local_incy,c_int))
+        if (cublas_stat /= 0) error stop 'cuBLAS GEMV failed'
+        @:get_vector(y)
+        @:deallocate(a,x,y)
+        end block
+        return
+    end if
+#:endif
     call ${F77_NAME}$(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 #:enddef

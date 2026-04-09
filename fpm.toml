@@ -9,3 +9,7 @@ build-script="Makefile"
 
 [build]
 link = ["blas","lapack","cublas","cudart"]
+
+[[test]]
+name = "test_cublas_gemv"
+main = "test_gemv_check.f90"

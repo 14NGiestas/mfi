@@ -1,9 +1,9 @@
 #:def trmm_trsm(MFI_NAME,F77_NAME,pfxs)
 #:set wp = pfxs[0]
-pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
+subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
 @:parameter(integer, wp=${kind(wp)}$)
-@:args(${type(wp)}$, in,    a(:,:))
-@:args(${type(wp)}$, inout, b(:,:))
+    ${type(wp)}$, intent(in), target :: a(:,:)
+    ${type(wp)}$, intent(inout), target :: b(:,:)
 @:optional(character, in, side, uplo, transa, diag)
 @:optional(${type(wp)}$,  in, alpha)
     integer :: m, n, lda, ldb
@@ -12,6 +12,47 @@ pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
+#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+    if (MFI_USE_CUBLAS == 1) then
+        block
+        @:declare(a,b)
+        integer(c_int) :: cu_side, cu_uplo, cu_transa, cu_diag, cublas_stat
+        ${type(wp)}$, target :: alpha_target
+        @:allocate(a,b)
+        if (local_side == 'L' .or. local_side == 'l') then
+            cu_side = 0  ! CUBLAS_SIDE_LEFT
+        else
+            cu_side = 1  ! CUBLAS_SIDE_RIGHT
+        end if
+        if (local_uplo == 'U' .or. local_uplo == 'u') then
+            cu_uplo = 0  ! CUBLAS_FILL_MODE_UPPER
+        else
+            cu_uplo = 1  ! CUBLAS_FILL_MODE_LOWER
+        end if
+        if (local_transa == 'N' .or. local_transa == 'n') then
+            cu_transa = 0  ! CUBLAS_OP_N
+        else if (local_transa == 'T' .or. local_transa == 't') then
+            cu_transa = 1  ! CUBLAS_OP_T
+        else
+            cu_transa = 2  ! CUBLAS_OP_C
+        end if
+        if (local_diag == 'U' .or. local_diag == 'u') then
+            cu_diag = 1  ! CUBLAS_DIAG_UNIT
+        else
+            cu_diag = 0  ! CUBLAS_DIAG_NON_UNIT
+        end if
+        alpha_target = local_alpha
+        @:set_matrix(a,b)
+        cublas_stat = cublas${wp.title()}$${F77_NAME.replace('f77_','').title()}$(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
+                 int(m,c_int), int(n,c_int), c_loc(alpha_target), &
+                 device_a, int(lda,c_int), device_b, int(ldb,c_int))
+        if (cublas_stat /= 0) error stop 'cuBLAS ${F77_NAME}$ failed'
+        @:get_matrix(b)
+        @:deallocate(a,b)
+        end block
+        return
+    end if
+#:endif
     call ${F77_NAME}$(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 #:enddef

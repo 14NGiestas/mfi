@@ -34,10 +34,25 @@ subroutine mfi_execution_init()
     if (env_len_cublas > 0) then
         read(env_mfi_use_cublas(1:env_len_cublas),*,iostat=info) MFI_USE_CUBLAS
     end if
+    ! Initialize cuBLAS handle if GPU mode is enabled
+    if (MFI_USE_CUBLAS == 1) then
+        call mfi_cublas_handle_ensure()
+    end if
     #:else
     ! Issue warning when used without proper compilation
     print *, 'WARNING: mfi_execution_init() called but compiled without CUBLAS support'
     #:endif
+end subroutine
+
+!> Ensure cuBLAS handle is created (called internally)
+subroutine mfi_cublas_handle_ensure()
+    integer(c_int) :: stat
+    if (.not. c_associated(mfi_cublas_handle)) then
+        stat = cublasCreate(mfi_cublas_handle)
+        if (stat /= 0) error stop 'cublasCreate_v2 failed - check CUDA driver version'
+        stat = cublasSetPointerMode(mfi_cublas_handle, CUBLAS_POINTER_MODE_HOST)
+        if (stat /= 0) error stop 'cublasSetPointerMode_v2 failed'
+    end if
 end subroutine
 
 !> Sets execution mode to use GPU with CUBLAS (only effective when compiled with support)
@@ -45,10 +60,20 @@ subroutine mfi_force_gpu()
     MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
     #:if defined('MFI_USE_CUBLAS')
     MFI_USE_CUBLAS = 1
+    call mfi_cublas_handle_ensure()
     #:else
     print *, 'WARNING: mfi_force_gpu() called but compiled without CUBLAS support'
     ! Don't actually enable GPU mode
     #:endif
+end subroutine
+
+!> Finalize cuBLAS resources
+subroutine mfi_cublas_finalize()
+    integer(c_int) :: stat
+    if (c_associated(mfi_cublas_handle)) then
+        stat = cublasDestroy(mfi_cublas_handle)
+        mfi_cublas_handle = c_null_ptr
+    end if
 end subroutine
 
 !> Sets execution mode to use traditional CPU
