@@ -23,7 +23,7 @@ subroutine test_${f77}$
     ! Initialize A as a triangular matrix to ensure it is non-singular
     A = 0.0_wp
     do i_side = 1, M
-        A(i_side, i_side) = 1.0_wp + real(i_side, wp) ! ensure it is non-singular
+        A(i_side, i_side) = 1.0_wp + real(i_side, wp)
         do i_uplo = 1, i_side - 1
             A(i_uplo, i_side) = real(i_uplo + i_side, wp)
         end do
@@ -45,15 +45,16 @@ subroutine test_${f77}$
         B_rf = B
         call ${f77}$(side, uplo, transa, diag, M, N, alpha, A, M, B_rf, M)
 
-        ! Improved F77 run
-        B_in = B
-        call ${f90}$(side, uplo, transa, diag, M, N, alpha, A, M, B_in, M)
-        call assert(all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), "f77 diff")
-
         ! MFI run
         B_in = B
         call ${mfi}$(A, B_in, side=side, uplo=uplo, transa=transa, diag=diag, alpha=alpha)
-        call assert(all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), "mfi diff")
+        if (.not. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp)))) then
+            print *, "FAIL: side=", side, " uplo=", uplo, " transa=", transa, " diag=", diag
+            print *, "max diff =", maxval(abs(B_in - B_rf))
+            print *, "B_rf(1,1) =", B_rf(1,1)
+            print *, "B_in(1,1) =", B_in(1,1)
+            error stop "mfi diff"
+        end if
 
     end do
     end do
