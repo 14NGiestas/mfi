@@ -20,9 +20,9 @@ subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
         ${type(wp)}$, target :: alpha_target
         @:allocate(a,b)
         if (local_side == 'L' .or. local_side == 'l') then
-            cu_side = 0  ! CUBLAS_SIDE_LEFT
+            cu_side = 141  ! CUBLAS_SIDE_LEFT
         else
-            cu_side = 1  ! CUBLAS_SIDE_RIGHT
+            cu_side = 142  ! CUBLAS_SIDE_RIGHT
         end if
         if (local_uplo == 'U' .or. local_uplo == 'u') then
             cu_uplo = 0  ! CUBLAS_FILL_MODE_UPPER
