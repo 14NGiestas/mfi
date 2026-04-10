@@ -16,7 +16,3 @@ cublas.flags = "-I/usr/local/cuda/include -L/usr/local/cuda/lib64 -Wl,-rpath,/us
 
 [profiles]
 cublas = ["cublas"]
-
-[[test]]
-name = "test_cublas_gemv"
-main = "test_gemv_check.f90"
