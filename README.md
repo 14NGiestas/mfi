@@ -29,7 +29,7 @@ end program
 
 Try the GPU tests directly in your browser:
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/14NGiestas/mfi/blob/qwen3-cublas/gpu_test.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/14NGiestas/mfi/blob/impl/cublas/gpu_test.ipynb)
 
 Or run locally with:
 
