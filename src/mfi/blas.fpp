@@ -92,8 +92,13 @@ module mfi_blas_${_modname(name)}$
     use f77_blas
 #:if name in ('?gemm', '?gemv', '?trmm', '?trsm') and defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
     use iso_c_binding
+    use mfi_blas_cublas
+    use mfi_blas_extensions
 #:endif
     implicit none
+#:if name == '?lamch'
+#:include "src/f77/blas/specific_interfaces.fypp"
+#:endif
 
 $:mfi_interface(name, supported_types)
 
