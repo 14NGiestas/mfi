@@ -168,8 +168,15 @@ call mfi_cublas_end
 ```toml
 # fpm.toml
 [ dependencies ]
-mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas" }
+mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas", features = ["cublas"] }
+
+# IMPORTANT: When enabling cuBLAS features in dependencies, 
+# the consuming project must also ensure CUDA libraries are linked.
+[build]
+link = ["cublas", "cudart"]
 ```
+
+*Nota: O fpm ≥0.13.0 propaga automaticamente flags de features habilitadas, mas é boa prática garantir que o linker do seu projeto encontre `-lcublas` e `-lcudart` caso esteja em um ambiente customizado.*
 
 ### Troubleshooting cuBLAS and Execution Modes
 
