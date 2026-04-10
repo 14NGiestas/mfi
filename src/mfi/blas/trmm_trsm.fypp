@@ -43,9 +43,9 @@ pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
         end if
         alpha_target = local_alpha
         @:set_matrix(a,b)
-        cublas_stat = cublas${wp.title()}$${F77_NAME.replace('f77_','')}$(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
+        call cublas${wp.title()}$${F77_NAME.replace('f77_','')}$(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
-                 device_a, int(lda,c_int), device_b, int(ldb,c_int))
+                 device_a, int(lda,c_int), device_b, int(ldb,c_int), cublas_stat)
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, '${F77_NAME}$')
         @:get_matrix(b)
         @:deallocate(a,b)

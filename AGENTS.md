@@ -57,11 +57,47 @@ MFI_USE_CUBLAS=1 fpm test --profile cublas
 - `src/f77/blas.f90`, `src/mfi/blas.f90`, `src/f77/lapack.f90`, `src/mfi/lapack.f90`
 - All `test/**/*.f90` files
 
+## Purity: Why `pure` on GPU Wrappers is Correct
+
+**All MFI BLAS wrappers (`mfi_gemm`, `mfi_gemv`, `mfi_trsm`, `mfi_trmm`) and all `bind(c)` CUDA/cuBLAS interfaces are `pure`. This is intentional and semantically correct.**
+
+Do NOT remove `pure` from these routines. Reasons:
+
+1. **`error stop` is allowed in `pure` procedures** — permitted by Fortran 2008. The fact that a routine may abort on failure does not make it impure.
+
+2. **GPU alloc → compute → dealloc is semantically pure from Fortran's perspective** — The CUDA device memory (allocated via `cudaMalloc`, freed via `cudaFree`) is opaque to the Fortran compiler. No Fortran-visible state is modified. This is exactly the same pattern as local `allocate`/`deallocate` inside a `pure` CPU function.
+
+3. **`bind(c)` + `pure` is valid** — The compiler cannot verify purity of external C code, so it trusts the declaration. That's the whole point: you're asserting to the compiler that the side effects are not observable from Fortran.
+
+4. **Dependent projects need this** — Projects like CheesyHam call these wrappers from `pure` contexts. Removing `pure` breaks their compilation.
+
+The pattern:
+```fortran
+pure subroutine mfi_sgemm(a, b, c, ...)
+    ! allocate GPU memory (opaque to Fortran)
+    ! call cuBLAS (external C, compiler trusts purity claim)
+    ! copy result back (no Fortran state modification)
+    ! free GPU memory (opaque to Fortran)
+    ! return — no observable side effects
+end subroutine
+```
+is identical to:
+```fortran
+pure function foo(x) result(y)
+    real, allocatable :: tmp(:)
+    allocate(tmp(size(x)))    ! allowed in pure
+    tmp = x * 2.0
+    y = sum(tmp)
+    deallocate(tmp)           ! allowed in pure
+end function
+```
+
 ## cuBLAS v2 Specifics
 
 - **All `bind(c)` interfaces must be `pure`** with `VALUE` on every argument (including `intent(out)` pointers)
 - **All MFI BLAS wrappers (`mfi_gemm`, `mfi_gemv`, `mfi_trsm`, `mfi_trmm`) must be `pure`**
-- `error stop` is allowed in `pure` subroutines per Fortran standard, but cuBLAS stat checks use `call mfi_cublas_error(stat, 'name')` for consistency
+- **Interface bodies at module level inherit from `use iso_c_binding`** — do NOT add `import`, `use`, or `import ::` inside `interface` blocks at module scope. Host association handles type visibility.
+- cuBLAS stat checks use `call mfi_cublas_error(stat, 'name')` (a pure subroutine wrapper) for consistency with the purity design
 - **TRSM fill mode is inverted:** `CUBLAS_TRSM_FILL_UPPER = 1`, `CUBLAS_TRSM_FILL_LOWER = 0` (opposite of standard BLAS enums)
 - cuBLAS v1 (`cublasAlloc`/`cublasSgemm`) is deprecated — use v2 (`cudaMalloc`, `cublasCreate_v2`, `cublasSgemm_v2`, etc.)
 

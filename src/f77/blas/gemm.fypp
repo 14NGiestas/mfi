@@ -17,11 +17,11 @@ end subroutine
 #:set wp = pfxs[0]
 #:set CUBLAS_NAME = f"cublas{NAME.title()}"
 !> ${NAME}$ GPU (cublas v2) version
-pure function ${CUBLAS_NAME}$(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) result(stat) &
+pure subroutine ${CUBLAS_NAME}$(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc, stat) &
     bind(C,name="${CUBLAS_NAME}$_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
 @:parameter(integer, wp=${c_kind(wp)}$)
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
 @:args({integer(c_int),value}, in,  transa, transb)
 @:args({integer(c_int),value}, in, m, n, k, lda, ldb, ldc)
     type(c_ptr), value, intent(in) :: alpha
@@ -29,7 +29,7 @@ pure function ${CUBLAS_NAME}$(handle, transa, transb, m, n, k, alpha, a, lda, b,
     type(c_ptr), value, intent(in) :: b
     type(c_ptr), value, intent(in) :: beta
     type(c_ptr), value, intent(in) :: c
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 #:endif
 #:enddef

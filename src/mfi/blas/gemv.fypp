@@ -30,11 +30,11 @@ pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
         beta_target = local_beta
         @:set_matrix(a)
         @:set_vector(x,y)
-        cublas_stat = cublas${wp.title()}$gemv(mfi_cublas_handle, op, &
+        call cublas${wp.title()}$gemv(mfi_cublas_handle, op, &
                  int(m,c_int), int(n,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_x, int(local_incx,c_int), &
-                 c_loc(beta_target), device_y, int(local_incy,c_int))
+                 c_loc(beta_target), device_y, int(local_incy,c_int), cublas_stat)
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, '${wp.title()}$gemv')
         @:get_vector(y)
         @:deallocate(a,x,y)

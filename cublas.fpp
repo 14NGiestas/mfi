@@ -11,8 +11,9 @@
 #! Create boilerplate to allocate memory in GPU device using CUDA Runtime API
 #:def allocate(*varlist)
     #:for var in varlist
-        cuda_allocation_status = cuda_malloc(device_${var}$, &
-                              int(size(${var}$) * storage_size(${var}$)/8, c_size_t))
+        call cuda_malloc(device_${var}$, &
+                              int(size(${var}$) * storage_size(${var}$)/8, c_size_t), &
+                              cuda_allocation_status)
         if (cuda_allocation_status /= 0) error stop 'cudaMalloc failed allocating ${var}$'
     #:endfor
 #:enddef
@@ -56,46 +57,52 @@
 #! Create boilerplate to free memory in GPU device using cudaFree
 #:def deallocate(*varlist)
     #:for var in varlist
-        cuda_allocation_status = cuda_free(device_${var}$)
+        call cuda_free(device_${var}$, cuda_allocation_status)
         if (cuda_allocation_status /= 0) error stop 'cudaFree failed deallocating ${var}$'
     #:endfor
 #:enddef
 
 #:def cublas_interfaces()
 interface
-    pure function cuda_malloc(devPtr, size) bind(c,name="cudaMalloc") result(stat)
-        type(c_ptr), value, intent(out) :: devPtr
+    pure subroutine cuda_malloc(devPtr, size, stat) bind(c,name="cudaMalloc")
+        import :: c_int, c_ptr, c_size_t
+        type(c_ptr), intent(out) :: devPtr
         integer(c_size_t), value, intent(in) :: size
-        integer(c_int) :: stat
-    end function
+        integer(c_int), intent(out) :: stat
+    end subroutine
 
-    pure function cuda_free(devPtr) bind(c,name="cudaFree") result(stat)
-        type(c_ptr), value, intent(in) :: devPtr
-        integer(c_int) :: stat
-    end function
+    pure subroutine cuda_free(devPtr, stat) bind(c,name="cudaFree")
+        import :: c_int, c_ptr
+        type(c_ptr), intent(in) :: devPtr
+        integer(c_int), intent(out) :: stat
+    end subroutine
 
     pure subroutine cudaMemcpy(dst, src, count, kind) bind(c,name="cudaMemcpy")
-        type(c_ptr), value, intent(in) :: dst
-        type(c_ptr), value, intent(in) :: src
+        import :: c_int, c_ptr, c_size_t
+        type(c_ptr), intent(in) :: dst
+        type(c_ptr), intent(in) :: src
         integer(c_size_t), value, intent(in) :: count
         integer(c_int), value, intent(in) :: kind
     end subroutine
 
-    pure function cublasCreate(handle) bind(c,name="cublasCreate_v2") result(stat)
-        type(c_ptr), value, intent(out) :: handle
-        integer(c_int) :: stat
-    end function
+    pure subroutine cublasCreate(handle, stat) bind(c,name="cublasCreate_v2")
+        import :: c_int, c_ptr
+        type(c_ptr), intent(out) :: handle
+        integer(c_int), intent(out) :: stat
+    end subroutine
 
-    pure function cublasDestroy(handle) bind(c,name="cublasDestroy_v2") result(stat)
-        type(c_ptr), value, intent(in) :: handle
-        integer(c_int) :: stat
-    end function
+    pure subroutine cublasDestroy(handle, stat) bind(c,name="cublasDestroy_v2")
+        import :: c_int, c_ptr
+        type(c_ptr), intent(in) :: handle
+        integer(c_int), intent(out) :: stat
+    end subroutine
 
-    pure function cublasSetPointerMode(handle, mode) bind(c,name="cublasSetPointerMode_v2") result(stat)
-        type(c_ptr), value, intent(in) :: handle
+    pure subroutine cublasSetPointerMode(handle, mode, stat) bind(c,name="cublasSetPointerMode_v2")
+        import :: c_int, c_ptr
+        type(c_ptr), intent(in) :: handle
         integer(c_int), value, intent(in) :: mode
-        integer(c_int) :: stat
-    end function
+        integer(c_int), intent(out) :: stat
+    end subroutine
 end interface
 
 !> cuBLAS operation constants

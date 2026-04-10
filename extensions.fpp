@@ -45,15 +45,17 @@ subroutine mfi_execution_init()
 end subroutine
 
 !> Ensure cuBLAS handle is created (called internally)
+#:if defined('MFI_USE_CUBLAS')
 subroutine mfi_cublas_handle_ensure()
     integer(c_int) :: stat
     if (.not. c_associated(mfi_cublas_handle)) then
-        stat = cublasCreate(mfi_cublas_handle)
+        call cublasCreate(mfi_cublas_handle, stat)
         if (stat /= 0) error stop 'cublasCreate_v2 failed - check CUDA driver version'
-        stat = cublasSetPointerMode(mfi_cublas_handle, CUBLAS_POINTER_MODE_HOST)
+        call cublasSetPointerMode(mfi_cublas_handle, CUBLAS_POINTER_MODE_HOST, stat)
         if (stat /= 0) error stop 'cublasSetPointerMode_v2 failed'
     end if
 end subroutine
+#:endif
 
 !> Sets execution mode to use GPU with CUBLAS (only effective when compiled with support)
 subroutine mfi_force_gpu()
@@ -68,21 +70,25 @@ subroutine mfi_force_gpu()
 end subroutine
 
 !> Finalize cuBLAS resources
+#:if defined('MFI_USE_CUBLAS')
 subroutine mfi_cublas_finalize()
     integer(c_int) :: stat
     if (c_associated(mfi_cublas_handle)) then
-        stat = cublasDestroy(mfi_cublas_handle)
+        call cublasDestroy(mfi_cublas_handle, stat)
         mfi_cublas_handle = c_null_ptr
     end if
 end subroutine
+#:endif
 
 !> Report cuBLAS error (called from pure wrappers)
+#:if defined('MFI_USE_CUBLAS')
 subroutine mfi_cublas_error(stat, name)
     integer(c_int), intent(in) :: stat
     character(*), intent(in) :: name
     print *, 'cuBLAS error:', trim(name), 'stat=', stat
     error stop 'cuBLAS operation failed'
 end subroutine
+#:endif
 
 !> Sets execution mode to use traditional CPU
 subroutine mfi_force_cpu()

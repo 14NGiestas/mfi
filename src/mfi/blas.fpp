@@ -100,9 +100,11 @@ $:mfi_interface(name, supported_types)
 ! Execution mode control functions - only when extensions are enabled
 #:if defined('MFI_EXTENSIONS')
 $:mfi_extensions_interfaces()
+#:if defined('MFI_USE_CUBLAS')
 $:cublas_interfaces()
 !> Global cuBLAS v2 handle
 type(c_ptr), save :: mfi_cublas_handle = c_null_ptr
+#:endif
 #:endif
 
 contains
