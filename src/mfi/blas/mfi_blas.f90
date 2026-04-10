@@ -1,0 +1,56 @@
+module mfi_blas
+    use iso_fortran_env
+    use iso_c_binding
+    use f77_blas
+    use f77_blas, only: mfi_rotg  => f77_rotg
+    use f77_blas, only: mfi_rotmg => f77_rotmg
+    use mfi_blas_copy
+    use mfi_blas_swap
+    use mfi_blas_axpy
+    use mfi_blas_dot
+    use mfi_blas_dotc
+    use mfi_blas_dotu
+    use mfi_blas_asum
+    use mfi_blas_nrm2
+    use mfi_blas_rot
+    use mfi_blas_rotm
+    use mfi_blas_scal
+    use mfi_blas_gbmv
+    use mfi_blas_gemv
+    use mfi_blas_ger
+    use mfi_blas_gerc
+    use mfi_blas_geru
+    use mfi_blas_hbmv
+    use mfi_blas_hemv
+    use mfi_blas_her
+    use mfi_blas_her2
+    use mfi_blas_hpmv
+    use mfi_blas_hpr
+    use mfi_blas_hpr2
+    use mfi_blas_sbmv
+    use mfi_blas_spmv
+    use mfi_blas_spr
+    use mfi_blas_spr2
+    use mfi_blas_symv
+    use mfi_blas_syr
+    use mfi_blas_syr2
+    use mfi_blas_tbmv
+    use mfi_blas_tbsv
+    use mfi_blas_tpmv
+    use mfi_blas_tpsv
+    use mfi_blas_trmv
+    use mfi_blas_trsv
+    use mfi_blas_gemm
+    use mfi_blas_hemm
+    use mfi_blas_herk
+    use mfi_blas_her2k
+    use mfi_blas_symm
+    use mfi_blas_syrk
+    use mfi_blas_syr2k
+    use mfi_blas_trmm
+    use mfi_blas_trsm
+    use mfi_blas_lamch
+    use mfi_blas_cublas
+    use mfi_blas_extensions
+    implicit none
+end module

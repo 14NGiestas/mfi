@@ -208,7 +208,7 @@ call cpu_time(t1)
 call cpu_time(t2)
 print '(A," (",G0,"s)")', "time mfi_gemm, transa=T (GPU): ", t2-t1
 end block
-        call mfi_cublas_end
+        call mfi_cublas_finalize
         call assert(all(is_almost_equal(C,D)))
 block
 real :: t1, t2
