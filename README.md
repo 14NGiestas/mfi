@@ -2,417 +2,348 @@
 
 ## Modern Fortran interfaces to BLAS and LAPACK
 
-This project aims to be a collection of modern fortran interfaces to commonly used procedure, for now BLAS and LAPACK.
-The main goal is to reduce the pain of using such libraries, providing a generic interface to the intrinsic supported types and 
-identifying the optional or reconstructible arguments of a given procedure. The code uses [fypp](https://github.com/aradi/fypp),
-to generate the interfaces automatically to all supported types and kinds.
+MFI provides generic, type-agnostic wrappers around BLAS and LAPACK routines.
+Instead of writing type-specific calls with dozens of arguments, you write one
+call that works for `real32`, `real64`, `complex(real32)`, and `complex(real64)`.
 
-### Example $C = AB$
+### Example: $C = A \cdot B$
 
 ```fortran
 program main
-use mfi_blas, only: mfi_gemm
-use f77_blas, only: f77_gemm
-use iso_fortran_env
-implicit none
-! ... variables and other boilerplate code here ...
-! Original interface: type and precision dependent
-call cgemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)
-! Improved F77 interface: still a lot of arguments
-call f77_gemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)
-! Modern fortran interface: less arguments and more readable 
-call mfi_gemm(A,B,C)
+    use mfi_blas, only: mfi_gemm
+    implicit none
+    real :: A(4,4), B(4,4), C(4,4)
+    ! ... fill A and B ...
+    call mfi_gemm(A, B, C)   ! That's it. No leading dims, no m/n/k, no alpha/beta.
 end program
 ```
 
-### GPU Acceleration with cuBLAS
+---
 
-Try the GPU tests directly in your browser:
+## Quick Start
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/14NGiestas/mfi/blob/impl/cublas/gpu_test.ipynb)
+### Requirements
 
-Or run locally with:
+| Tool | Minimum version |
+|------|-----------------|
+| fpm | ≥ 0.13.0 |
+| fypp | any |
+| Fortran compiler | gfortran 12+ (recommended) |
 
 ```sh
-make
-fpm build --profile cublas
-fpm test --profile cublas
+pip install fypp
 ```
 
-See the [GPU test notebook](gpu_test.ipynb) for the full setup and verification steps.
+Install BLAS and LAPACK from your package manager:
 
-## Getting Started
+| Distro | Package |
+|--------|---------|
+| Arch | `openblas-lapack-static` (AUR) |
+| Ubuntu/Debian | `libblas-dev liblapack-dev` |
+| Fedora | `openblas-devel lapack-devel` |
 
-### FPM
-
-This project supports the [Fortran Package Manager](https://github.com/fortran-lang/fpm).
-Follow the directions on that page to install FPM if you haven't already.
-
-### Using as a dependency in FPM
-
-Add a entry in the "dependencies" section of your project's fpm.toml
-
-```toml
-# fpm.toml
-[ dependencies ]
-mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm" }
-```
-
-### Manual building
-
-First get the code, by cloning the repo:
+### Build & Test
 
 ```sh
 git clone https://github.com/14NGiestas/mfi.git
-cd mfi/
+cd mfi
+make              # generates .f90 from .fpp/.fypp templates
+fpm test          # runs the test suite
 ```
 
-### Dependencies
+---
 
-Install the [fypp](https://github.com/aradi/fypp) using the command:
+## Using MFI as a Dependency
 
-```sh
-sudo pip install fypp
+Add to your project's `fpm.toml`:
+
+```toml
+# CPU-only (stable)
+[dependencies]
+mfi = { git = "https://github.com/14NGiestas/mfi.git", branch = "mfi-fpm" }
 ```
 
-Install lapack and blas (use the static versions).
-This can be tricky, if you run into any problem, please open an issue.
+That's all — fpm handles the rest. No `make` needed in your own project.
 
-#### Arch Linux
-- [aur/openblas-lapack-static](https://aur.archlinux.org/packages/openblas-lapack-static)
+---
 
-#### Ubuntu
-- [lapack-dev](https://packages.ubuntu.com/search?suite=default&section=all&arch=any&keywords=lapack-dev&searchon=names)
+## GPU Acceleration with cuBLAS
 
-Usually you can do the following:
+MFI can transparently dispatch BLAS calls to cuBLAS when compiled with the
+`cublas` feature. The same `mfi_gemm`, `mfi_gemv`, etc. calls run on the GPU
+without code changes.
 
-```sh
-make
-fpm build --profile release
-fpm test --profile release
-```
+Try it in your browser:
 
-By default, the `lapack-dev` package (which provides the reference blas) do not provide the `i?amin` implementation (among other extensions)
-in such cases you can use blas extensions with:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/14NGiestas/mfi/blob/impl/cublas/gpu_test.ipynb)
 
-```sh
-make
-fpm test
-```
+### Local build with cuBLAS
 
-Or if you have support to such extensions in your blas provider you can:
-
-```sh
-make
-fpm test --profile release
-```
-
-which will generate the code linking extensions to the external library
-
-### CUBLAS support (through C bindings)
-This is a highly experimental cublas support, so if you run into any trouble 
-please report your test results / timings and machine specs along your issues.
-To enable cublas support type:
-
-#### Manual compiling
 ```sh
 make
 fpm build --profile cublas
 fpm test --profile cublas
 ```
 
-If your cublas is installed in a non-standard place you may need to set the appropriate environment variables or modify `fpm.toml` locally.
+### As a dependency with cuBLAS
 
-#### Runtime GPU / CPU switch
-You can tell MFI to switch between GPU and CPU using a environment variable without need to recompile your code again
-
-```f90
-! This will read the environment MFI_USE_CUBLAS variable
-! if MFI_USE_CUBLAS=1, MFI will use cublas routines,
-! else, unset or set to zero, will use the CPU bound routines.
-call mfi_cublas_init
-! (...)
-call mfi_gemm(A,B,C,transa='T') ! Will run on gpu or cpu depending only of the environment flag
-```
-#### Force GPU / CPU
-
-You can also force some sections of your code to run in GPU or CPU
-
-```f90
-! By default mfi runs on CPU
-call mfi_gemm(A,B,C,transa='T')
-
-! This will again read the environment variable
-call mfi_cublas_init
-
-! Force this section to run on GPU
-call mfi_force_gpu
-! (...)
-call mfi_gemm(A,B,C,transa='T')
-! (...)
-call mfi_cublas_end
-
-! This will run on gpu or cpu depending only of the environment flag
-call mfi_gemm(A,B,C,transa='T')
-
-! Force this section to run on CPU
-call mfi_force_cpu
-! (...)
-call mfi_gemm(A,B,C,transa='T')
-! (...)
-call mfi_cublas_end
-```
-
-#### Using as a dependency in FPM with cublas support
 ```toml
-# fpm.toml
-[ dependencies ]
-mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas", features = ["cublas"] }
+[dependencies]
+mfi = { git = "https://github.com/14NGiestas/mfi.git", branch = "mfi-cublas", features = ["cublas"] }
 
-# IMPORTANT: When enabling cuBLAS features in dependencies, 
-# the consuming project must also ensure CUDA libraries are linked.
 [build]
 link = ["cublas", "cudart"]
 ```
 
-*Nota: O fpm ≥0.13.0 propaga automaticamente flags de features habilitadas, mas é boa prática garantir que o linker do seu projeto encontre `-lcublas` e `-lcudart` caso esteja em um ambiente customizado.*
+### Runtime CPU / GPU switching
 
-### Troubleshooting cuBLAS and Execution Modes
+At runtime, MFI checks the `MFI_USE_CUBLAS` environment variable. Set it to `1`
+to enable GPU dispatching:
 
-If you encounter `cuBLAS error: 1 (CUBLAS_STATUS_NOT_INITIALIZED)` or similar execution errors, keep in mind:
-
-- **State Leaks:** When you call `call mfi_force_gpu`, it sets a global internal flag to enable cuBLAS wrapper dispatching. If you call `call mfi_cublas_finalize` without restoring the state to CPU with `call mfi_force_cpu`, subsequent BLAS calls will attempt to dispatch to the GPU but the cuBLAS handle has been destroyed, resulting in an initialization error. Always pair `mfi_force_gpu` with `mfi_force_cpu` (or `mfi_execution_restore`).
-- **Missing CUDA Libraries:** If you request the `cublas` feature via `fpm build --profile cublas` (or manually) but do not have the CUDA runtime available, compilation of the C bindings (`cublas_wrap.c`) will explicitly fail on `cuda_runtime.h` not found. FPM gracefully handles CPU-only builds when the profile is omitted, stripping CUDA dependencies completely.
-- **CI Execution:** The CI pipeline only runs automatically on the `main` branch to conserve resources. For feature branches, CI must be triggered manually via the "Run workflow" button on the GitHub Actions page. This prevents exhausting free tier limits during development.
-
-## Continuous Integration
-
-This project uses GitHub Actions for automated testing and deployment. The CI pipeline is configured to run **automatically only on the `main` branch** to conserve GitHub Actions minutes.
-
-### Manual CI Trigger
-
-To run CI on feature branches:
-1. Go to the **Actions** tab on GitHub
-2. Select the **fpm-deployment** workflow
-3. Click **Run workflow** and select your branch
-4. The pipeline will test all configurations (CPU-only, GPU-modern, cuBLAS compile-only)
-
-### Automatic CI
-
-CI runs automatically on:
-- Push to `main`
-- Pull requests targeting `main`
-- Manual dispatch via `workflow_dispatch`
-
-## Support
-
-Please note that this project is experimental, errors and mistakes are to be expected.
-
-There four levels of interfaces that can be used:
-
-1. original f77: explicit declared original interface.
 ```fortran
-call cgemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)
-```
-2. improved f77: original argument convention without need of a prefix.
-```fortran
-call f77_gemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)
-```
-3. modern interface with prefix:
-```fortran
-call mfi_sgemm(A,B,C)
-```
-4. modern interface:
-```fortran
-call mfi_gemm(A,B,C)
+call mfi_execution_init()   ! reads MFI_USE_CUBLAS env var
+
+call mfi_gemm(A, B, C)      ! runs on GPU if MFI_USE_CUBLAS=1, CPU otherwise
 ```
 
-If you are searching for a specific interface check the [API reference](https://14ngiestas.github.io/mfi/)
+You can also force the execution mode programmatically:
 
+```fortran
+call mfi_force_gpu()        ! force GPU from here
+call mfi_gemm(A, B, C)
+call mfi_force_cpu()        ! restore CPU
+```
 
+> **State leaks:** Always pair `mfi_force_gpu` with `mfi_force_cpu` (or
+> `mfi_execution_restore`). Calling `mfi_cublas_finalize` destroys the cuBLAS
+> handle — if the global mode is still set to GPU, subsequent calls will fail
+> with `CUBLAS_STATUS_NOT_INITIALIZED`.
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `CUBLAS_STATUS_NOT_INITIALIZED` | You called `mfi_cublas_finalize` or the handle was never created. Call `mfi_execution_init` again with `MFI_USE_CUBLAS=1`. |
+| `cuda_runtime.h not found` | CUDA Toolkit is not installed or not in your include path. See [gpu_test.ipynb](gpu_test.ipynb) for a working Colab setup. |
+| `i?amin` symbols missing | Your BLAS provider lacks extensions. Use the default profile (without `MFI_LINK_EXTERNAL`) or switch to OpenBLAS. |
+| Tests fail on CPU build | Known pre-existing failures: `cunmrq`, `sorg2r`, `sorgr2`, `cungr2`, `cung2r`, `sormrq`, `heevx` (segfault). |
+
+---
+
+## Interface Levels
+
+MFI exposes four interface levels for BLAS, from bare-metal to fully modern:
+
+| Level | Example | Arguments |
+|-------|---------|-----------|
+| Raw F77 | `call cgemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)` | 13 |
+| Improved F77 | `call f77_gemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)` | 13 (no `c`/`d`/`s`/`z` prefix) |
+| MFI typed | `call mfi_sgemm(A, B, C)` | 3 (type-specific) |
+| MFI generic | `call mfi_gemm(A, B, C)` | 3 (type-agnostic) |
+
+For full API documentation, see the [generated reference](https://14ngiestas.github.io/mfi/).
+
+---
+
+## Supported Routines
 
 ### BLAS
-#### Level 1
-Most of BLAS level 1 routines can be replaced by intrinsincs and other features in modern fortran.
-<details>
 
-|done| name   | description                                             | modern alternative |
-|----| ------ | ------------------------------------------------------- | ------------------ |
-|:+1:| asum   | Sum of vector magnitudes                                | [sum](https://gcc.gnu.org/onlinedocs/gfortran/SUM.html) |
-|:+1:| axpy   | Scalar-vector product                                   | `a*x + b` |
-|:+1:| copy   | Copy vector                                             |  `x = b`  |
-|:+1:| dot    | Dot product                                             | [dot_product](https://gcc.gnu.org/onlinedocs/gfortran/DOT_005fPRODUCT.html)   |
-|:+1:| dotc   | Dot product conjugated                                  | |
-|:+1:| dotu   | Dot product unconjugated                                | |
-|og77| sdsdot | Compute the inner product of two vectors with extended precision accumulation.            | |
-|og77| dsdot  | Compute the inner product of two vectors with extended precision accumulation and result. | |
-|:+1:| nrm2   | Vector 2-norm (Euclidean norm)                          | [norm2](https://gcc.gnu.org/onlinedocs/gfortran/NORM2.html) |
-|:+1:| rot    | Plane rotation of points                                | |
-|:+1:| rotg   | Generate Givens rotation of points                      | |
-|:+1:| rotm   | Modified Givens plane rotation of points                | |
-|:+1:| rotmg  | Generate modified Givens plane rotation of points       | |
-|:+1:| scal   | Vector-scalar product                                   | `a*x + b` |
-|:+1:| swap   | Vector-vector swap                                      | |
+#### Level 1
+
+<details>
+<summary>Click to expand</summary>
+
+| Status | Name   | Description |
+|--------|--------|-------------|
+| :+1: | asum   | Sum of vector magnitudes |
+| :+1: | axpy   | Scalar-vector product |
+| :+1: | copy   | Copy vector |
+| :+1: | dot    | Dot product |
+| :+1: | dotc   | Dot product conjugated |
+| :+1: | dotu   | Dot product unconjugated |
+| f77 | sdsdot | Extended precision inner product |
+| f77 | dsdot  | Extended precision inner product with double result |
+| :+1: | nrm2   | Vector 2-norm (Euclidean norm) |
+| :+1: | rot    | Plane rotation |
+| :+1: | rotg   | Generate Givens rotation |
+| :+1: | rotm   | Modified Givens rotation |
+| :+1: | rotmg  | Generate modified Givens rotation |
+| :+1: | scal   | Vector-scalar product |
+| :+1: | swap   | Vector-vector swap |
+
 </details>
 
-#### Level 1 - Utils / Extensions
-<details>
+#### Level 1 — Extensions
 
-| done? | name  | description                                              |  modern alternatives | obs |
-| ----- | ----- | -------------------------------------------------------- | ------------------- | --- |
-| :+1:  | iamax | Index of the maximum absolute value element of a vector  | [maxval](https://gcc.gnu.org/onlinedocs/gfortran/MAXVAL.html), [maxloc](https://gcc.gnu.org/onlinedocs/gfortran/MAXLOC.html) | |
-| :+1:  | iamin | Index of the minimum absolute value element of a vector  | [minval](https://gcc.gnu.org/onlinedocs/gfortran/MINVAL.html), [minloc](https://gcc.gnu.org/onlinedocs/gfortran/MINLOC.html) | |
-| :+1:  | lamch | Determines precision machine parameters.                 | [huge](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/huge.html), [tiny](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/tiny.html), [epsilon](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/epsilon.html) | Obs: had to add a parameter so fortran can distinguish between the single and double precision with the same interface. For values of cmach see: [lamch](https://www.netlib.org/lapack//explore-html/d4/d86/group__lamch.html)|
+<details>
+<summary>Click to expand</summary>
+
+| Status | Name  | Description |
+|--------|-------|-------------|
+| :+1: | iamax | Index of maximum absolute value element |
+| :+1: | iamin | Index of minimum absolute value element |
+| :+1: | lamch | Machine precision parameters |
+
 </details>
 
 #### Level 2
 
 <details>
+<summary>Click to expand</summary>
 
-| done? | name | description                                                              |
-| ----- | ---- | ------------------------------------------------------------------------ |
-| :+1:  | gbmv | Matrix-vector product using a general band matrix                        |
-| :+1:  | gemv | Matrix-vector product using a general matrix                             |
-| :+1:  | ger  | Rank-1 update of a general matrix                                        |
-| :+1:  | gerc | Rank-1 update of a conjugated general matrix                             |
-| :+1:  | geru | Rank-1 update of a general matrix, unconjugated                          |
-| :+1:  | hbmv | Matrix-vector product using a Hermitian band matrix                      |
-| :+1:  | hemv | Matrix-vector product using a Hermitian matrix                           |
-| :+1:  | her  | Rank-1 update of a Hermitian matrix                                      |
-| :+1:  | her2 | Rank-2 update of a Hermitian matrix                                      |
-| :+1:  | hpmv | Matrix-vector product using a Hermitian packed matrix                    |
-| :+1:  | hpr  | Rank-1 update of a Hermitian packed matrix                               |
-| :+1:  | hpr2 | Rank-2 update of a Hermitian packed matrix                               |
-| :+1:  | sbmv | Matrix-vector product using symmetric band matrix                        |
-| :+1:  | spmv | Matrix-vector product using a symmetric packed matrix                    |
-| :+1:  | spr  | Rank-1 update of a symmetric packed matrix                               |
-| :+1:  | spr2 | Rank-2 update of a symmetric packed matrix                               |
-| :+1:  | symv | Matrix-vector product using a symmetric matrix                           |
-| :+1:  | syr  | Rank-1 update of a symmetric matrix                                      |
-| :+1:  | syr2 | Rank-2 update of a symmetric matrix                                      |
-| :+1:  | tbmv | Matrix-vector product using a triangular band matrix                     |
-| :+1:  | tbsv | Solution of a linear system of equations with a triangular band matrix   |
-| :+1:  | tpmv | Matrix-vector product using a triangular packed matrix                   |
-| :+1:  | tpsv | Solution of a linear system of equations with a triangular packed matrix |
-| :+1:  | trmv | Matrix-vector product using a triangular matrix                          |
-| :+1:  | trsv | Solution of a linear system of equations with a triangular matrix        |
+| Status | Name | Description |
+|--------|------|-------------|
+| :+1: | gbmv | Matrix-vector product (general band) |
+| :+1: | gemv | Matrix-vector product (general) |
+| :+1: | ger  | Rank-1 update (general) |
+| :+1: | gerc | Rank-1 update (general, conjugated) |
+| :+1: | geru | Rank-1 update (general, unconjugated) |
+| :+1: | hbmv | Matrix-vector product (Hermitian band) |
+| :+1: | hemv | Matrix-vector product (Hermitian) |
+| :+1: | her  | Rank-1 update (Hermitian) |
+| :+1: | her2 | Rank-2 update (Hermitian) |
+| :+1: | hpmv | Matrix-vector product (Hermitian packed) |
+| :+1: | hpr  | Rank-1 update (Hermitian packed) |
+| :+1: | hpr2 | Rank-2 update (Hermitian packed) |
+| :+1: | sbmv | Matrix-vector product (symmetric band) |
+| :+1: | spmv | Matrix-vector product (symmetric packed) |
+| :+1: | spr  | Rank-1 update (symmetric packed) |
+| :+1: | spr2 | Rank-2 update (symmetric packed) |
+| :+1: | symv | Matrix-vector product (symmetric) |
+| :+1: | syr  | Rank-1 update (symmetric) |
+| :+1: | syr2 | Rank-2 update (symmetric) |
+| :+1: | tbmv | Matrix-vector product (triangular band) |
+| :+1: | tbsv | Solve (triangular band) |
+| :+1: | tpmv | Matrix-vector product (triangular packed) |
+| :+1: | tpsv | Solve (triangular packed) |
+| :+1: | trmv | Matrix-vector product (triangular) |
+| :+1: | trsv | Solve (triangular) |
+
 </details>
 
 #### Level 3
 
 <details>
+<summary>Click to expand</summary>
 
-| done? | gpu?  | name  | description                                                                                            |
-| ----- | ----- | ----- | ------------------------------------------------------------------------------------------------------ |
-| :+1:  |   ✅  | gemm  | Computes a matrix-matrix product with general matrices.                                                |
-| :+1:  |   ✅  | hemm  | Computes a matrix-matrix product where one input matrix is Hermitian and one is general.               |
-| :+1:  |       | herk  | Performs a Hermitian rank-k update.                                                                    |
-| :+1:  |       | her2k | Performs a Hermitian rank-2k update.                                                                   |
-| :+1:  |   ✅  | symm  | Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.        |
-| :+1:  |       | syrk  | Performs a symmetric rank-k update.                                                                    |
-| :+1:  |       | syr2k | Performs a symmetric rank-2k update.                                                                   |
-| :+1:  |   ✅  | trmm  | Computes a matrix-matrix product where one input matrix is triangular and one input matrix is general. |
-| :+1:  |   ✅  | trsm  | Solves a triangular matrix equation (forward or backward solve).                                       |
+| Status | GPU | Name  | Description |
+|--------|-----|-------|-------------|
+| :+1: | :white_check_mark: | gemm  | General matrix-matrix product |
+| :+1: | :white_check_mark: | hemm  | Hermitian × general matrix product |
+| :+1: | | herk  | Hermitian rank-k update |
+| :+1: | | her2k | Hermitian rank-2k update |
+| :+1: | :white_check_mark: | symm  | Symmetric × general matrix product |
+| :+1: | | syrk  | Symmetric rank-k update |
+| :+1: | | syr2k | Symmetric rank-2k update |
+| :+1: | :white_check_mark: | trmm  | Triangular × general matrix product |
+| :+1: | :white_check_mark: | trsm  | Solve with triangular matrix |
 
 </details>
 
-### LAPACK :warning:
+### LAPACK
 
-- Lapack is really huge, so I'm going to focus on getting the improved f77 interfaces ready first.
-  Anything I end up using I'm going to implement.
+LAPACK coverage is growing — routines are implemented as needed.
 
-#### Linear solve, $AX = B$
+#### Factorization and Solve
+
 <details>
-<!-- ##### LU: General matrix, driver -->
+<summary>Click to expand</summary>
 
-<!-- ##### LU: computational routines (factor, cond, etc.) -->
- 
-<!-- ##### Cholesky: Hermitian/symmetric positive definite matrix, driver -->
- 
-<!-- ##### Cholesky: computational routines (factor, cond, etc.) -->
-| done?| name  | description               |
-| ---- | ----- | ------------------------- |
-| :+1: | pocon | condition number estimate |
+| Status | Name  | Description |
+|--------|-------|-------------|
+| :+1: | geqrf | QR factorization |
+| :+1: | gerqf | RQ factorization |
+| :+1: | getrf | LU factorization |
+| :+1: | getri | Matrix inverse (from LU) |
+| :+1: | getrs | Solve with LU-factored matrix |
+| :+1: | hetrf | Bunch-Kaufman factorization (Hermitian) |
+| :+1: | pocon | Condition number estimate (Cholesky) |
+| :+1: | potrf | Cholesky factorization |
+| :+1: | potri | Matrix inverse (from Cholesky) |
+| :+1: | potrs | Solve with Cholesky-factored matrix |
+| :+1: | sytrf | Bunch-Kaufman factorization (symmetric) |
+| :+1: | trtrs | Solve with triangular matrix |
 
-<!-- ##### LDL: Hermitian/symmetric indefinite matrix, driver -->
- 
-<!-- ##### LDL: computational routines (factor, cond, etc.) -->
- 
-<!-- ##### Triangular computational routines (solve, cond, etc.) -->
- 
-<!-- ##### Auxiliary routines -->
 </details>
 
-##### Orthogonal/unitary factors (QR, CS, etc.)
+#### Orthogonal / Unitary Factors
+
 <details>
+<summary>Click to expand</summary>
 
-| done? | name  | description  |
-| ----- | ----- | ------------ |
-| :+1:  | geqrf | Computes the QR factorization of a general m-by-n matrix. |
-| :+1:  | gerqf | Computes the RQ factorization of a general m-by-n matrix. |
-| :+1:  | getrf | Computes the LU factorization of a general m-by-n matrix. |
-| :+1:  | getri | Computes the inverse of an LU-factored general matrix.    |
-| :+1:  | getrs | Solves a system of linear equations with an LU-factored square coefficient matrix, with multiple right-hand sides. |
-| :+1:  | hetrf | Computes the Bunch-Kaufman factorization of a complex Hermitian matrix. |
-| :+1:  | potrf | Computes the Cholesky factorization of a symmetric (Hermitian) positive-definite matrix.     |
-| :+1:  | potri | Computes the inverse of a Cholesky-factored symmetric (Hermitian) positive-definite matrix.  |
-| :+1:  | potrs | Solves a system of linear equations with a Cholesky-factored symmetric (Hermitian) positive-definite coefficient matrix, with multiple right-hand sides.  |
-| :+1:  | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf. |
-| :+1:  | orgrq | Generates the real orthogonal matrix Q of the RQ factorization formed by gerqf. |
-| :+1:  | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf. |
-| f77  | ormrq | Multiplies a real matrix by the orthogonal matrix Q of the RQ factorization formed by gerqf. |
-| :+1:  | sytrf | Computes the Bunch-Kaufman factorization of a symmetric matrix.                        |
-| :+1:  | trtrs | Solves a system of linear equations with a triangular coefficient matrix, with multiple right-hand sides. |
-| :+1:  | ungqr | Generates the complex unitary matrix Q of the QR factorization formed by geqrf.  |
-| :+1:  | ungrq | Generates the complex unitary matrix Q of the RQ factorization formed by gerqf.  |
-| :+1:  | unmqr | Multiplies a complex matrix by the unitary matrix Q of the QR factorization formed by geqrf. |
-| f77  | unmrq | Multiplies a complex matrix by the unitary matrix Q of the RQ factorization formed by gerqf. |
-| :+1:  | org2r | Generates the real orthogonal matrix Q of the QR factorization formed by geqr2. |
-| :+1:  | orm2r | Multiplies a real matrix by the orthogonal matrix Q formed by geqr2. |
-| :+1:  | ung2r | Generates the complex unitary matrix Q of the QR factorization formed by geqr2. |
-| :+1:  | unm2r | Multiplies a complex matrix by the unitary matrix Q formed by geqr2. |
-| :+1:  | orgr2 | Generates the real orthogonal matrix Q of the RQ factorization formed by gerq2. |
-| :+1:  | ormr2 | Multiplies a real matrix by the orthogonal matrix Q formed by gerq2. |
-| :+1:  | ungr2 | Generates the complex unitary matrix Q of the RQ factorization formed by gerq2. |
-| :+1:  | unmr2 | Multiplies a complex matrix by the unitary matrix Q formed by gerq2. |
+| Status | Name  | Description |
+|--------|-------|-------------|
+| :+1: | orgqr | Generate Q from QR (real) |
+| :+1: | orgrq | Generate Q from RQ (real) |
+| :+1: | ormqr | Multiply by Q from QR (real) |
+| f77 | ormrq | Multiply by Q from RQ (real) |
+| :+1: | org2r | Generate Q from QR2 (real) |
+| :+1: | orm2r | Multiply by Q from QR2 (real) |
+| :+1: | orgr2 | Generate Q from RQ2 (real) |
+| :+1: | ormr2 | Multiply by Q from RQ2 (real) |
+| :+1: | ungqr | Generate Q from QR (complex) |
+| :+1: | ungrq | Generate Q from RQ (complex) |
+| :+1: | unmqr | Multiply by Q from QR (complex) |
+| f77 | unmrq | Multiply by Q from RQ (complex) |
+| :+1: | ung2r | Generate Q from QR2 (complex) |
+| :+1: | unm2r | Multiply by Q from QR2 (complex) |
+| :+1: | ungr2 | Generate Q from RQ2 (complex) |
+| :+1: | unmr2 | Multiply by Q from RQ2 (complex) |
 
-#### Singular Value and Eigenvalue Problem Routines
-| done?| name  | description             |
-| ---- | ----- | ----------------------- |
-| :+1: | gesvd | Computes the singular value decomposition of a general rectangular matrix.  |
-| :+1: | heevd | Computes all eigenvalues and, optionally, all eigenvectors of a complex Hermitian matrix using divide and conquer algorithm. |
-| :+1: | hegvd | Computes all eigenvalues and, optionally, all eigenvectors of a complex generalized Hermitian definite eigenproblem using divide and conquer algorithm. |
-| :+1:  | heevr | Computes the eigenvalues and, optionally, the left and/or right eigenvectors for HE matrices. |
-| f77  | heevx | Computes the eigenvalues and, optionally, the left and/or right eigenvectors for HE matrices. |
-|      | gebrd | Reduces a general matrix to bidiagonal form.     |
-|      | hetrd | Reduces a complex Hermitian matrix to tridiagonal form. |
-|      | orgbr | Generates the real orthogonal matrix Q or PT determined by gebrd. |
-|      | orgtr | Generates the real orthogonal matrix Q determined by sytrd. |
-|      | ormtr | Multiplies a real matrix by the orthogonal matrix Q determined by sytrd. |
-|      | syevd | Computes all eigenvalues and, optionally, all eigenvectors of a real symmetric matrix using divide and conquer algorithm. |
-|      | sygvd | Computes all eigenvalues and, optionally, all eigenvectors of a real generalized symmetric definite eigenproblem using divide and conquer algorithm. |
-|      | sytrd | Reduces a real symmetric matrix to tridiagonal form. |
-|      | ungbr | Generates the complex unitary matrix Q or PT determined by gebrd. |
-|      | ungtr | Generates the complex unitary matrix Q determined by hetrd. |
-|      | unmtr | Multiplies a complex matrix by the unitary matrix Q determined by hetrd. |
+</details>
 
-##### Least squares
-|done| name  | description                                    |
-|----| ----- | ---------------------------------------------- |
-|f77 | gels  | least squares using QR/LQ                      |
-|f77 | gelst | least squares using QR/LQ with T matrix        |
-|f77 | gelss | least squares using SVD, QR iteration          |
-|f77 | gelsd | least squares using SVD, divide and conquer    |
-|f77 | gelsy | least squares using complete orthogonal factor |
-|f77 | getsls| least squares using tall-skinny QR/LQ          |
-|f77 | gglse | equality-constrained least squares             |
-|f77 | ggglm | Gauss-Markov linear model                      |
+#### Eigenvalues and SVD
 
-#### Other Auxiliary Routines
+<details>
+<summary>Click to expand</summary>
 
-There are some other auxiliary lapack routines around, that may apear here:
+| Status | Name  | Description |
+|--------|-------|-------------|
+| :+1: | gesvd | Singular value decomposition |
+| :+1: | heevd | Hermitian eigenvalues (divide & conquer) |
+| :+1: | hegvd | Generalized Hermitian eigenproblem (divide & conquer) |
+| :+1: | heevr | Hermitian eigenvalues (relatively robust) |
+| f77 | heevx | Hermitian eigenvalues (expert) |
 
-| name      | Data Types | Description |
-| --------- | ---------- | ------------|
-| mfi_lartg | s, d, c, z | Generates a plane rotation with real cosine and real/complex sine. |
+</details>
 
+#### Least Squares
+
+<details>
+<summary>Click to expand</summary>
+
+| Status | Name   | Description |
+|--------|--------|-------------|
+| f77 | gels   | Least squares (QR/LQ) |
+| f77 | gelst  | Least squares (QR/LQ, T matrix) |
+| f77 | gelss  | Least squares (SVD, QR iteration) |
+| f77 | gelsd  | Least squares (SVD, divide & conquer) |
+| f77 | gelsy  | Least squares (complete orthogonal) |
+| f77 | getsls | Least squares (tall-skinny QR/LQ) |
+| f77 | gglse  | Equality-constrained least squares |
+| f77 | ggglm  | Gauss-Markov linear model |
+
+</details>
+
+#### Auxiliary
+
+| Name      | Types | Description |
+|-----------|-------|-------------|
+| mfi_lartg | s, d, c, z | Generate plane rotation |
+
+---
+
+## Continuous Integration
+
+CI runs automatically only on `main` to conserve GitHub Actions minutes.
+For feature branches, trigger it manually from the **Actions** tab.
+
+| Event | Behavior |
+|-------|----------|
+| Push to `main` | Full test matrix + deploy to `mfi-fpm` |
+| Push to `impl/cublas` | Full test matrix + deploy to `mfi-cublas` |
+| PR to `main` | Full test matrix |
+| Manual dispatch | Full test matrix |

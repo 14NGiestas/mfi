@@ -5,7 +5,7 @@
 - **NEVER edit `.f90` files directly** — they are generated artifacts from `.fpp`/`.fypp` sources.
 - Always modify `.fpp`/`.fypp` macros, then run:
   ```sh
-  make clean && make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_USE_CUBLAS"
+  make clean && make
   ```
 - `.f90` files are gitignored (line 44 of `.gitignore`) but committed to deployment branches by CI.
 
@@ -13,32 +13,31 @@
 
 ```sh
 # CPU-only (default)
-make FYPPFLAGS=-DMFI_EXTENSIONS
-fpm test
-
-# With BLAS extensions
-make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_LINK_EXTERNAL"
+make
 fpm test
 
 # GPU/cuBLAS
-make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_USE_CUBLAS"
-MFI_USE_CUBLAS=1 fpm test --profile cublas
+make
+fpm build --profile cublas
+fpm test --profile cublas
 ```
 
 ## Branch Model
 
 | Branch | Purpose | Deployment Target |
 |--------|---------|-------------------|
-| `main` | CPU-only, rolling release | `mfi-fpm` (via CI) |
-| `impl/cublas` | GPU/experimental development | `mfi-cublas` (via CI) |
+| `main` | Primary development (CPU + cuBLAS via features) | `mfi-fpm` (via CI) |
+| `impl/cublas` | GPU/experimental staging | `mfi-cublas` (via CI) |
 | `mfi-fpm` | CPU-only deploy artifact (`.f90` + `.toml` only) | — |
 | `mfi-cublas` | GPU deploy artifact (`.f90` + `.toml` only) | — |
 
 **CI triggers:**
-- Push to `main` → `test-and-deploy-cpu` job → deploys to `mfi-fpm`
-- Push to `impl/cublas` → `test-and-deploy-cublas` job → deploys to `mfi-cublas`
+- Push to `main` → full test matrix → deploy to `mfi-fpm`
+- Push to `impl/cublas` → full test matrix → deploy to `mfi-cublas`
+- PR to `main` → full test matrix (no deploy)
+- Other branches → manual dispatch only
 
-**To deploy cuBLAS changes:** merge working branch into `impl/cublas`, commit regenerated `.f90` files, then push.
+**To deploy:** commit changes, push to the corresponding branch. CI handles the rest.
 
 ## Code Generation Architecture
 
@@ -56,6 +55,15 @@ MFI_USE_CUBLAS=1 fpm test --profile cublas
 ### Generated (do not edit)
 - `src/f77/blas.f90`, `src/mfi/blas.f90`, `src/f77/lapack.f90`, `src/mfi/lapack.f90`
 - All `test/**/*.f90` files
+
+## Naming Conventions
+
+| Name | Kind | Purpose |
+|------|------|---------|
+| `MFI_CUBLAS` | Preprocessor macro | Enables cuBLAS code at compile time (set by fpm `cublas` feature) |
+| `MFI_USE_CUBLAS` | Fortran variable + env var | Runtime GPU dispatch flag (set by `mfi_execution_init` from env) |
+| `MFI_EXTENSIONS` | Preprocessor macro | Enables BLAS extension routines (iamin, iamax, lamch) |
+| `MFI_LINK_EXTERNAL` | Preprocessor macro | Links external BLAS extensions |
 
 ## Purity: Why `pure` on GPU Wrappers is Correct
 
@@ -103,32 +111,40 @@ end function
 
 ## Dependency Usage
 
-Projects consuming MFI as a dependency:
 ```toml
-# CPU-only
+# CPU-only (stable)
 mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm" }
 
-# GPU/cuBLAS
-mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas" }
+# GPU/cuBLAS (stable)
+mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas", features = ["cublas"] }
+```
+
+The consuming project must also link CUDA libraries when using the `cublas` feature:
+```toml
+[build]
+link = ["cublas", "cudart"]
 ```
 
 ## Testing Notes
 
-- LAPACK tests have pre-existing failures unrelated to cuBLAS work (cunmrq, sorg2r, sorgr2, cungr2, cung2r, sormrq, heevx segfault)
+- LAPACK tests have pre-existing failures unrelated to cuBLAS work (`cunmrq`, `sorg2r`, `sorgr2`, `cungr2`, `cung2r`, `sormrq`, `heevx` segfault)
 - GPU testing available via `gpu_test.ipynb` (Colab: Tesla T4, CUDA 12.8)
-- fpm ≥0.13.0 required for `[profiles]` and `[features]` support (v0.10.0 in CI)
+- fpm ≥0.13.0 required for `[profiles]` and `[features]` support
 
-## fpm.toml Quirks
+## fpm.toml Configuration
 
-- `link-flag` in root `[build]` table is rejected by fpm 0.13.0+ — use `[profiles]` and `[features]` instead
-- Current config:
-  ```toml
-  [build]
-  link = ["blas","lapack","cublas","cudart"]
-  
-  [features]
-  cublas.flags = "-I/usr/local/cuda/include -L/usr/local/cuda/lib64 -Wl,-rpath,/usr/local/cuda/lib64"
-  
-  [profiles]
-  cublas = ["cublas"]
-  ```
+```toml
+[preprocess.cpp]
+macros = ["MFI_EXTENSIONS", "MFI_LINK_EXTERNAL"]
+
+[features]
+cublas.build.link = ["blas", "lapack", "cublas", "cudart"]
+cublas.preprocess.cpp.macros = ["MFI_CUBLAS"]
+
+[profiles]
+cublas = ["cublas"]
+```
+
+- CPU builds use default macros (`MFI_EXTENSIONS`, `MFI_LINK_EXTERNAL`) — no CUDA dependencies.
+- `fpm build --profile cublas` activates the `cublas` feature, which adds `MFI_CUBLAS` to the preprocessor and links CUDA libraries.
+- Do NOT use `[build] link = [...]` at the root level with `cublas`/`cudart` — those must be gated behind a feature.
