@@ -116,7 +116,7 @@ jobs:
         FORTRAN_EOF
 
         if [ "${{ matrix.profile }}" = "cublas" ]; then
-          cat > fpm.toml << 'TOML_EOF'
+          cat > fpm.toml << 'TOML_CUBLAS_EOF'
           name = "consumer"
           version = "0.1.0"
 
@@ -128,17 +128,17 @@ jobs:
 
           [build]
           link = ["cublas", "cudart"]
-          TOML_EOF
+          TOML_CUBLAS_EOF
 
           nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build --profile cublas"
         else
-          cat > fpm.toml << 'TOML_EOF'
+          cat > fpm.toml << 'TOML_CPU_EOF'
           name = "consumer"
           version = "0.1.0"
 
           [dependencies]
           mfi = { path = ".." }
-          TOML_EOF
+          TOML_CPU_EOF
 
           nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build"
         fi
