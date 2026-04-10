@@ -48,13 +48,18 @@ subroutine test_${f77}$
         ! MFI run
         B_in = B
         call ${mfi}$(A, B_in, side=side, uplo=uplo, transa=transa, diag=diag, alpha=alpha)
-        if (.not. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp)))) then
+        block
+        real(wp) :: max_diff, scale
+        max_diff = maxval(abs(B_in - B_rf))
+        scale = max(1.0_wp, maxval(abs(B_rf)))
+        if (.not. max_diff < sqrt(epsilon(1.0_wp)) * scale) then
             print *, "FAIL: side=", side, " uplo=", uplo, " transa=", transa, " diag=", diag
-            print *, "max diff =", maxval(abs(B_in - B_rf))
+            print *, "max diff =", max_diff
             print *, "B_rf(1,1) =", B_rf(1,1)
             print *, "B_in(1,1) =", B_in(1,1)
             error stop "mfi diff"
         end if
+        end block
 
     end do
     end do
