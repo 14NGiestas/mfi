@@ -445,20 +445,21 @@ end interface
 integer, save :: MFI_USE_CUBLAS = 0
 integer, save :: MFI_USE_CUBLAS_PREV_STATE = 0
 interface
-    pure function cuda_malloc(devPtr, size) bind(c,name="cudaMalloc") result(stat)
+    ! CUDA Runtime API - Memory management
+    function cuda_malloc(devPtr, size) bind(c,name="cudaMalloc") result(stat)
         use, intrinsic :: iso_c_binding
         type(c_ptr), intent(out) :: devPtr
         integer(c_size_t), value, intent(in) :: size
         integer(c_int) :: stat
     end function
 
-    pure function cuda_free(devPtr) bind(c,name="cudaFree") result(stat)
+    function cuda_free(devPtr) bind(c,name="cudaFree") result(stat)
         use, intrinsic :: iso_c_binding
         type(c_ptr), value, intent(in) :: devPtr
         integer(c_int) :: stat
     end function
 
-    pure subroutine cudaMemcpy(dst, src, count, kind) bind(c,name="cudaMemcpy")
+    subroutine cudaMemcpy(dst, src, count, kind) bind(c,name="cudaMemcpy")
         use, intrinsic :: iso_c_binding
         type(c_ptr), value, intent(in) :: dst
         type(c_ptr), value, intent(in) :: src
@@ -466,19 +467,20 @@ interface
         integer(c_int), value, intent(in) :: kind
     end subroutine
 
-    pure function cublasCreate(handle) bind(c,name="cublasCreate_v2") result(stat)
+    ! cuBLAS v2 API - Handle management
+    function cublasCreate(handle) bind(c,name="cublasCreate_v2") result(stat)
         use, intrinsic :: iso_c_binding
         type(c_ptr), intent(out) :: handle
         integer(c_int) :: stat
     end function
 
-    pure function cublasDestroy(handle) bind(c,name="cublasDestroy_v2") result(stat)
+    function cublasDestroy(handle) bind(c,name="cublasDestroy_v2") result(stat)
         use, intrinsic :: iso_c_binding
         type(c_ptr), value, intent(in) :: handle
         integer(c_int) :: stat
     end function
 
-    pure function cublasSetPointerMode(handle, mode) bind(c,name="cublasSetPointerMode_v2") result(stat)
+    function cublasSetPointerMode(handle, mode) bind(c,name="cublasSetPointerMode_v2") result(stat)
         use, intrinsic :: iso_c_binding
         type(c_ptr), value, intent(in) :: handle
         integer(c_int), value, intent(in) :: mode
