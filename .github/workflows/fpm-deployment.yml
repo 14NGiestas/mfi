@@ -88,7 +88,7 @@ jobs:
         fpm new consumer
         cd consumer
 
-        cat > app/main.f90 << 'EOF'
+        cat > app/main.f90 << 'FORTRAN_EOF'
         program main
           use mfi_blas, only: mfi_gemm
           use iso_fortran_env
@@ -100,10 +100,10 @@ jobs:
           call mfi_gemm(A, B, C)
           print *, "Consumer build successful, mfi_gemm ran."
         end program main
-        EOF
+        FORTRAN_EOF
 
         if [ "${{ matrix.profile }}" = "cublas" ]; then
-          cat > fpm.toml << 'EOF'
+          cat > fpm.toml << 'TOML_EOF'
           name = "consumer"
           version = "0.1.0"
 
@@ -112,15 +112,15 @@ jobs:
 
           [build]
           link = ["cublas", "cudart"]
-          EOF
+          TOML_EOF
         else
-          cat > fpm.toml << 'EOF'
+          cat > fpm.toml << 'TOML_EOF'
           name = "consumer"
           version = "0.1.0"
 
           [dependencies]
           mfi = { path = ".." }
-          EOF
+          TOML_EOF
         fi
 
         nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build"
