@@ -85,8 +85,8 @@ end subroutine
 pure subroutine mfi_cublas_error(stat, name)
     integer(c_int), value, intent(in) :: stat
     character(*), intent(in) :: name
-    character(len=80) :: msg
-    write(msg, '(A,I0)') trim(name) // ' failed (stat=', stat // ')'
+    character(len=120) :: msg
+    write(msg, '(A, I0, A)') 'cuBLAS error: ', stat, ' (' // trim(name) // ')'
     error stop msg
 end subroutine
 #:endif
