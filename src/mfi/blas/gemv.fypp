@@ -12,7 +12,7 @@ pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
         @:declare(a,x,y)
@@ -41,7 +41,7 @@ pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
         end block
         return
     end if
-#:endif
+#endif
     call ${F77_NAME}$(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 #:enddef

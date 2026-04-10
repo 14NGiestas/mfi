@@ -12,7 +12,7 @@ pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
         @:declare(a,b)
@@ -52,7 +52,7 @@ pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
         end block
         return
     end if
-#:endif
+#endif
     call ${F77_NAME}$(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 #:enddef

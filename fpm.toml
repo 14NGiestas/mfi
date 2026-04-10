@@ -6,13 +6,17 @@ maintainer = "iangiestas@usp.br"
 
 [library]
 build-script="Makefile"
-include-dir = ["/usr/local/cuda/include"]
 
 [build]
-link = ["blas","lapack","cublas","cudart"]
+link = ["blas","lapack"]
+
+[preprocess.cpp]
+macros = ["MFI_EXTENSIONS", "MFI_LINK_EXTERNAL"]
 
 [features]
-cublas.flags = "-I/usr/local/cuda/include -L/usr/local/cuda/lib64 -Wl,-rpath,/usr/local/cuda/lib64"
+with-cublas.build.link = ["blas", "lapack", "cublas", "cudart"]
+with-cublas.preprocess.cpp.macros = ["MFI_CUBLAS"]
 
 [profiles]
-cublas = ["cublas"]
+cublas = ["with-cublas"]
+

@@ -19,7 +19,7 @@ jobs:
 
     - name: Generate docs
       run: |
-        make FYPPFLAGS=-DMFI_EXTENSIONS
+        make
         ford ford.md
 
     - name: Deploy docs

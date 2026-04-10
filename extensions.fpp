@@ -28,7 +28,7 @@ subroutine mfi_execution_init()
     MFI_USE_CUBLAS = 0
 
     ! Only check environment if extensions are enabled
-    #:if defined('MFI_USE_CUBLAS')
+#if defined(MFI_CUBLAS)
     ! Check CUBLAS setting
     call get_environment_variable("MFI_USE_CUBLAS",env_mfi_use_cublas,env_len_cublas)
     if (env_len_cublas > 0) then
@@ -38,14 +38,14 @@ subroutine mfi_execution_init()
     if (MFI_USE_CUBLAS == 1) then
         call mfi_cublas_handle_ensure()
     end if
-    #:else
+#else
     ! Issue warning when used without proper compilation
     print *, 'WARNING: mfi_execution_init() called but compiled without CUBLAS support'
-    #:endif
+#endif
 end subroutine
 
 !> Ensure cuBLAS handle is created (called internally)
-#:if defined('MFI_USE_CUBLAS')
+#if defined(MFI_CUBLAS)
 subroutine mfi_cublas_handle_ensure()
     integer(c_int) :: stat
     if (.not. c_associated(mfi_cublas_handle)) then
@@ -55,22 +55,22 @@ subroutine mfi_cublas_handle_ensure()
         if (stat /= 0) error stop 'cublasSetPointerMode_v2 failed'
     end if
 end subroutine
-#:endif
+#endif
 
 !> Sets execution mode to use GPU with CUBLAS (only effective when compiled with support)
 subroutine mfi_force_gpu()
     MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
-    #:if defined('MFI_USE_CUBLAS')
+#if defined(MFI_CUBLAS)
     MFI_USE_CUBLAS = 1
     call mfi_cublas_handle_ensure()
-    #:else
+#else
     print *, 'WARNING: mfi_force_gpu() called but compiled without CUBLAS support'
     ! Don't actually enable GPU mode
-    #:endif
+#endif
 end subroutine
 
 !> Finalize cuBLAS resources
-#:if defined('MFI_USE_CUBLAS')
+#if defined(MFI_CUBLAS)
 subroutine mfi_cublas_finalize()
     integer(c_int) :: stat
     if (c_associated(mfi_cublas_handle)) then
@@ -78,10 +78,10 @@ subroutine mfi_cublas_finalize()
         mfi_cublas_handle = c_null_ptr
     end if
 end subroutine
-#:endif
+#endif
 
 !> Report cuBLAS error (called from pure wrappers)
-#:if defined('MFI_USE_CUBLAS')
+#if defined(MFI_CUBLAS)
 pure subroutine mfi_cublas_error(stat, name)
     integer(c_int), value, intent(in) :: stat
     character(*), intent(in) :: name
@@ -89,7 +89,7 @@ pure subroutine mfi_cublas_error(stat, name)
     write(msg, '(A, I0, A)') 'cuBLAS error: ', stat, ' (' // trim(name) // ')'
     error stop msg
 end subroutine
-#:endif
+#endif
 
 !> Sets execution mode to use traditional CPU
 subroutine mfi_force_cpu()
@@ -105,15 +105,15 @@ end subroutine
 !> Returns current execution mode as string
 function mfi_get_execution_mode() result(mode_str)
     character(len=20) :: mode_str
-    #:if defined('MFI_USE_CUBLAS')
+#if defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         mode_str = "GPU-CUBLAS"
     else
         mode_str = "CPU-DEFAULT"
     end if
-    #:else
+#else
     mode_str = "CPU-ONLY"
-    #:endif
+#endif
 end function
 #:enddef
 #:endmute

@@ -18,7 +18,7 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
         @:declare(a,b,c)
@@ -52,7 +52,7 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
         end block
         return
     end if
-#:endif
+#endif
     call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 #:enddef

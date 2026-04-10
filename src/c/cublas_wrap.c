@@ -1,3 +1,4 @@
+#ifdef MFI_CUBLAS_SUPPORT
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 
@@ -24,3 +25,4 @@ void mfi_cublas_set_pointer_mode(void *handle, int mode, int *stat) {
     *stat = (int)cublasSetPointerMode_v2((cublasHandle_t)handle,
                                           (cublasPointerMode_t)mode);
 }
+#endif

@@ -90,11 +90,13 @@
 module mfi_blas_${_modname(name)}$
     use iso_fortran_env
     use f77_blas
-#:if name in ('?gemm', '?gemv', '?trmm', '?trsm') and defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+#if defined(MFI_CUBLAS)
     use iso_c_binding
     use mfi_blas_cublas
+#endif
+#if defined(MFI_EXTENSIONS)
     use mfi_blas_extensions
-#:endif
+#endif
     implicit none
 
     $:mfi_interface(name, supported_types)
@@ -107,25 +109,25 @@ end module
 #:endfor
 
 !> cuBLAS interfaces and constants
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
 module mfi_blas_cublas
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     use iso_c_binding
     implicit none
 
 $:cublas_interfaces()
     type(c_ptr), save :: mfi_cublas_handle = c_null_ptr
+#endif
 end module
-#:endif
 
 !> Extensions module
-#:if defined('MFI_EXTENSIONS')
 module mfi_blas_extensions
+#if defined(MFI_EXTENSIONS)
     use iso_fortran_env
     use f77_blas
-#:if defined('MFI_USE_CUBLAS')
+#if defined(MFI_CUBLAS)
     use iso_c_binding
     use mfi_blas_cublas
-#:endif
+#endif
     implicit none
 
 $:mfi_extensions_interfaces()
@@ -133,8 +135,8 @@ $:mfi_extensions_interfaces()
 contains
 
 $:mfi_extensions_implement()
+#endif
 end module
-#:endif
 
 #! Umbrella module — re-exports all submodules
 module mfi_blas
@@ -146,11 +148,11 @@ module mfi_blas
 #:for name, supported_types, code in _COLLECT
     use mfi_blas_${_modname(name)}$
 #:endfor
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS) 
     use mfi_blas_cublas
     use mfi_blas_extensions
-#:elif defined('MFI_EXTENSIONS')
+#elif defined(MFI_EXTENSIONS)
     use mfi_blas_extensions
-#:endif
+#endif
     implicit none
 end module

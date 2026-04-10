@@ -37,10 +37,10 @@ jobs:
 
     - name: Generate and test (CPU)
       run: |
-        make FYPPFLAGS=-DMFI_EXTENSIONS
+        make
         mkdir -p ${{ env.PROJECT_NAME }}-fpm
         cp -R src test fpm.toml LICENSE ${{ env.PROJECT_NAME }}-fpm
-        find ${{ env.PROJECT_NAME }}-fpm/src  -type f ! -name "*.f90" -delete
+        find ${{ env.PROJECT_NAME }}-fpm/src  -type f ! -name "*.f90" ! -name "*.c" -delete
         find ${{ env.PROJECT_NAME }}-fpm/test -type f ! -name "*.f90" -delete
         fpm build --profile release
 
@@ -89,10 +89,10 @@ jobs:
       env:
         LD_LIBRARY_PATH: /usr/local/cuda/lib64:/usr/local/cuda/lib64/stubs
       run: |
-        make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_USE_CUBLAS"
+        make
         mkdir -p ${{ env.PROJECT_NAME }}-cublas
         cp -R src test fpm.toml LICENSE ${{ env.PROJECT_NAME }}-cublas
-        find ${{ env.PROJECT_NAME }}-cublas/src  -type f ! -name "*.f90" -delete
+        find ${{ env.PROJECT_NAME }}-cublas/src  -type f ! -name "*.f90" ! -name "*.c" -delete
         find ${{ env.PROJECT_NAME }}-cublas/test -type f ! -name "*.f90" -delete
 
     - name: Deploy to mfi-cublas

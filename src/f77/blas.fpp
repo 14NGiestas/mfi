@@ -100,43 +100,39 @@ end module
 #:endfor
 
 ! Extensions
-#:if defined('MFI_EXTENSIONS')
-  #:if defined('MFI_LINK_EXTERNAL')
 module f77_blas_iamax
+#if defined(MFI_EXTENSIONS)
     use iso_fortran_env
     use iso_c_binding
     implicit none
+#if defined(MFI_LINK_EXTERNAL)
 $:f77_original('i?amax', DEFAULT_TYPES, iamax_iamin)
-end module
-module f77_blas_iamin
-    use iso_fortran_env
-    use iso_c_binding
-    implicit none
-$:f77_original('i?amin', DEFAULT_TYPES, iamax_iamin)
-end module
-  #:else
-module f77_blas_iamax
-    use iso_fortran_env
-    use iso_c_binding
-    implicit none
+#else
 $:f77_improved('i?amax', DEFAULT_TYPES)
 contains
 $:f77_implement('i?amax', DEFAULT_TYPES, iamin_stub)
+#endif
+#endif
 end module
+
 module f77_blas_iamin
+#if defined(MFI_EXTENSIONS)
     use iso_fortran_env
     use iso_c_binding
     implicit none
+#if defined(MFI_LINK_EXTERNAL)
+$:f77_original('i?amin', DEFAULT_TYPES, iamax_iamin)
+#else
 $:f77_improved('i?amin', DEFAULT_TYPES)
 contains
 $:f77_implement('i?amin', DEFAULT_TYPES, iamin_stub)
+#endif
+#endif
 end module
-  #:endif
-#:endif
 
 !> cuBLAS v2 interfaces
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
 module f77_blas_cublas
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
 use iso_c_binding
 implicit none
 interface
@@ -152,8 +148,8 @@ $:cublas_trmm_trsm(NAME, pfxs)
 $:cublas_trmm_trsm(NAME, pfxs)
 #:endfor
 end interface
+#endif
 end module
-#:endif
 
 #! Umbrella module — re-exports all submodules
 module f77_blas
@@ -162,13 +158,13 @@ module f77_blas
 #:for name, supported_types, code in _COLLECT
     use f77_blas_${_modname(name)}$
 #:endfor
-#:if defined('MFI_EXTENSIONS')
+#if defined(MFI_EXTENSIONS)
     use f77_blas_iamax
     use f77_blas_iamin
-#:endif
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+#endif
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     use f77_blas_cublas
-#:endif
+#endif
     implicit none
 
 #:include "src/f77/blas/specific_interfaces.fypp"

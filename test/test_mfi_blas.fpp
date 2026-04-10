@@ -16,10 +16,10 @@ program test_mfi_blas
     call test_copy
     call test_rotmg
     call test_swap
+#if defined(MFI_EXTENSIONS)
     call test_iamax
-#:if defined('MFI_EXTENSIONS')
     call test_iamin
-#:endif
+#endif
     ! BLAS 2
     call test_gemv
     ! BLAS 3
@@ -76,6 +76,7 @@ contains
         @:timeit("time mfi_swap: ", { call mfi_swap(X,Y)       })
     end subroutine
 
+#if defined(MFI_EXTENSIONS)
     subroutine test_iamax
         call test_defaults
         @:timeit("time f77_iamax: ", { i = f77_iamax(N,X,1) })
@@ -84,7 +85,6 @@ contains
         call assert(i == j .and. j == k)
     end subroutine
 
-#:if defined('MFI_EXTENSIONS')
     subroutine test_iamin
         call test_defaults
         @:timeit("time f77_iamin: ", { i = f77_iamin(N,X,1) })
@@ -92,17 +92,17 @@ contains
         @:timeit("time minloc:    ", { k = minloc(X,1)      })
         call assert(i == j .and. j == k)
     end subroutine
-#:endif
+#endif
 
     subroutine test_gemm
         call test_defaults
-#:if defined('MFI_EXTENSIONS') and defined('MFI_USE_CUBLAS')
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
         @:timeit("time mfi_gemm, transa=T (CPU): ", { call mfi_gemm(A,B,D,transa='T') })
         call mfi_force_gpu
         @:timeit("time mfi_gemm, transa=T (GPU): ", { call mfi_gemm(A,B,C,transa='T') })
         call mfi_cublas_finalize
         call assert(all(is_almost_equal(C,D)))
-#:endif
+#endif
         @:timeit("time f77_gemm: ", { call f77_gemm('N', 'N', N, N, N, alpha, A, N, B, N, beta, C, N) })
         @:timeit("time mfi_gemm: ", { call mfi_gemm(A,B,C) })
         @:timeit("time matmul:   ", { D = matmul(A,B)      })
