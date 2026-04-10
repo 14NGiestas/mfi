@@ -87,16 +87,6 @@ jobs:
       run: |
         fpm new consumer
         cd consumer
-        cat > fpm.toml << 'EOF'
-        name = "consumer"
-        version = "0.1.0"
-
-        [dependencies]
-        mfi = { path = "..", features = ["cublas"] }
-
-        [build]
-        link = ["cublas", "cudart"]
-        EOF
 
         cat > app/main.f90 << 'EOF'
         program main
@@ -112,10 +102,31 @@ jobs:
         end program main
         EOF
 
-        nix-shell shells/${{ matrix.environment }}.nix --run "fpm build"
+        if [ "${{ matrix.profile }}" = "cublas" ]; then
+          cat > fpm.toml << 'EOF'
+          name = "consumer"
+          version = "0.1.0"
+
+          [dependencies]
+          mfi = { path = "..", features = ["cublas"] }
+
+          [build]
+          link = ["cublas", "cudart"]
+          EOF
+        else
+          cat > fpm.toml << 'EOF'
+          name = "consumer"
+          version = "0.1.0"
+
+          [dependencies]
+          mfi = { path = ".." }
+          EOF
+        fi
+
+        nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build"
 
   deploy-artifacts:
-    needs: exhaustive-test
+    needs: [exhaustive-test, consumer-test]
     if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/impl/cublas') && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
