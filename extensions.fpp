@@ -49,9 +49,9 @@ end subroutine
 subroutine mfi_cublas_handle_ensure()
     integer(c_int) :: stat
     if (.not. c_associated(mfi_cublas_handle)) then
-        call cublasCreate(mfi_cublas_handle, stat)
+        stat = cublasCreate(mfi_cublas_handle)
         if (stat /= 0) error stop 'cublasCreate_v2 failed - check CUDA driver version'
-        call cublasSetPointerMode(mfi_cublas_handle, CUBLAS_POINTER_MODE_HOST, stat)
+        stat = cublasSetPointerMode(mfi_cublas_handle, CUBLAS_POINTER_MODE_HOST)
         if (stat /= 0) error stop 'cublasSetPointerMode_v2 failed'
     end if
 end subroutine
@@ -74,7 +74,7 @@ end subroutine
 subroutine mfi_cublas_finalize()
     integer(c_int) :: stat
     if (c_associated(mfi_cublas_handle)) then
-        call cublasDestroy(mfi_cublas_handle, stat)
+        stat = cublasDestroy(mfi_cublas_handle)
         mfi_cublas_handle = c_null_ptr
     end if
 end subroutine
