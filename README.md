@@ -34,8 +34,9 @@ Try the GPU tests directly in your browser:
 Or run locally with:
 
 ```sh
-make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_USE_CUBLAS"
-MFI_USE_CUBLAS=1 fpm test
+make
+fpm build --profile cublas
+fpm test --profile cublas
 ```
 
 See the [GPU test notebook](gpu_test.ipynb) for the full setup and verification steps.
@@ -87,22 +88,23 @@ Usually you can do the following:
 
 ```sh
 make
-fpm test
+fpm build --profile release
+fpm test --profile release
 ```
 
 By default, the `lapack-dev` package (which provides the reference blas) do not provide the `i?amin` implementation (among other extensions)
 in such cases you can use blas extensions with:
 
 ```sh
-make FYPPFLAGS=-DMFI_EXTENSIONS
+make
 fpm test
 ```
 
 Or if you have support to such extensions in your blas provider you can:
 
 ```sh
-make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_LINK_EXTERNAL"
-fpm test
+make
+fpm test --profile release
 ```
 
 which will generate the code linking extensions to the external library
@@ -114,15 +116,12 @@ To enable cublas support type:
 
 #### Manual compiling
 ```sh
-make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_USE_CUBLAS"
-fpm test --link-flag="-lcublas"
+make
+fpm build --profile cublas
+fpm test --profile cublas
 ```
 
-If your cublas is installed in a non-standard place you may need to:
-```sh
-fpm test --link-flag="-L/opt/cuda/lib64 -lcublas"
-```
-Where `-L/opt/cuda/lib64` should be changed to your cuda library path.
+If your cublas is installed in a non-standard place you may need to set the appropriate environment variables or modify `fpm.toml` locally.
 
 #### Runtime GPU / CPU switch
 You can tell MFI to switch between GPU and CPU using a environment variable without need to recompile your code again
@@ -184,6 +183,26 @@ If you encounter `cuBLAS error: 1 (CUBLAS_STATUS_NOT_INITIALIZED)` or similar ex
 
 - **State Leaks:** When you call `call mfi_force_gpu`, it sets a global internal flag to enable cuBLAS wrapper dispatching. If you call `call mfi_cublas_finalize` without restoring the state to CPU with `call mfi_force_cpu`, subsequent BLAS calls will attempt to dispatch to the GPU but the cuBLAS handle has been destroyed, resulting in an initialization error. Always pair `mfi_force_gpu` with `mfi_force_cpu` (or `mfi_execution_restore`).
 - **Missing CUDA Libraries:** If you request the `cublas` feature via `fpm build --profile cublas` (or manually) but do not have the CUDA runtime available, compilation of the C bindings (`cublas_wrap.c`) will explicitly fail on `cuda_runtime.h` not found. FPM gracefully handles CPU-only builds when the profile is omitted, stripping CUDA dependencies completely.
+- **CI Execution:** The CI pipeline only runs automatically on the `main` branch to conserve resources. For feature branches, CI must be triggered manually via the "Run workflow" button on the GitHub Actions page. This prevents exhausting free tier limits during development.
+
+## Continuous Integration
+
+This project uses GitHub Actions for automated testing and deployment. The CI pipeline is configured to run **automatically only on the `main` branch** to conserve GitHub Actions minutes.
+
+### Manual CI Trigger
+
+To run CI on feature branches:
+1. Go to the **Actions** tab on GitHub
+2. Select the **fpm-deployment** workflow
+3. Click **Run workflow** and select your branch
+4. The pipeline will test all configurations (CPU-only, GPU-modern, cuBLAS compile-only)
+
+### Automatic CI
+
+CI runs automatically on:
+- Push to `main`
+- Pull requests targeting `main`
+- Manual dispatch via `workflow_dispatch`
 
 ## Support
 
