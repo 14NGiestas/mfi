@@ -23,3 +23,7 @@ main = "test_gemv_check.f90"
 [[test]]
 name = "trsm_diag"
 main = "trsm_diag.f90"
+
+[[test]]
+name = "trsm_diag2"
+main = "trsm_diag2.f90"
