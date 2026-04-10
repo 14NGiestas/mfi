@@ -101,11 +101,13 @@ jobs:
         mkdir -p consumer/app
         cp ci/consumer/app/main.f90 consumer/app/main.f90
 
+        cd consumer
+
         if [ "${{ matrix.profile }}" = "cublas" ]; then
-          cp ci/consumer/fpm-cublas.toml consumer/fpm.toml
+          cp ../ci/consumer/fpm-cublas.toml fpm.toml
           nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build --profile cublas"
         else
-          cp ci/consumer/fpm-cpu.toml consumer/fpm.toml
+          cp ../ci/consumer/fpm-cpu.toml fpm.toml
           nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build"
         fi
 
