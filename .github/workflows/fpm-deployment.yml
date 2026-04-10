@@ -54,6 +54,66 @@ jobs:
       run: |
         nix-shell shells/${{ matrix.environment }}.nix --run "fpm test --profile ${{ matrix.profile }}"
 
+  consumer-test:
+    needs: exhaustive-test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: consumer-cpu
+            environment: cpu-only
+            profile: release
+          - name: consumer-cublas
+            environment: gpu-modern
+            profile: cublas
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install Nix
+      uses: DeterminateSystems/nix-installer-action@main
+
+    - name: Install fypp and fpm
+      run: |
+        pip install --upgrade fypp
+        curl -sSfL https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0-linux-x86_64-gcc-12 -o /usr/local/bin/fpm
+        chmod +x /usr/local/bin/fpm
+
+    - name: Generate sources
+      run: make
+
+    - name: Test consumer project
+      run: |
+        fpm new consumer
+        cd consumer
+        cat > fpm.toml << 'EOF'
+        name = "consumer"
+        version = "0.1.0"
+
+        [dependencies]
+        mfi = { path = "..", features = ["cublas"] }
+
+        [build]
+        link = ["cublas", "cudart"]
+        EOF
+
+        cat > app/main.f90 << 'EOF'
+        program main
+          use mfi_blas, only: mfi_gemm
+          use iso_fortran_env
+          implicit none
+          real(real64) :: A(4,4), B(4,4), C(4,4)
+          call random_number(A)
+          call random_number(B)
+          C = 0.0_real64
+          call mfi_gemm(A, B, C)
+          print *, "Consumer build successful, mfi_gemm ran."
+        end program main
+        EOF
+
+        nix-shell shells/${{ matrix.environment }}.nix --run "fpm build"
+
   deploy-artifacts:
     needs: exhaustive-test
     if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/impl/cublas') && github.event_name != 'pull_request'
