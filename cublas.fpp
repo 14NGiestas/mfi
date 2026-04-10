@@ -64,20 +64,17 @@
 #:def cublas_interfaces()
 interface
     pure function cuda_malloc(devPtr, size) bind(c,name="cudaMalloc") result(stat)
-        import
         type(c_ptr), value, intent(out) :: devPtr
         integer(c_size_t), value, intent(in) :: size
         integer(c_int) :: stat
     end function
 
     pure function cuda_free(devPtr) bind(c,name="cudaFree") result(stat)
-        import
         type(c_ptr), value, intent(in) :: devPtr
         integer(c_int) :: stat
     end function
 
     pure subroutine cudaMemcpy(dst, src, count, kind) bind(c,name="cudaMemcpy")
-        import
         type(c_ptr), value, intent(in) :: dst
         type(c_ptr), value, intent(in) :: src
         integer(c_size_t), value, intent(in) :: count
@@ -85,19 +82,16 @@ interface
     end subroutine
 
     pure function cublasCreate(handle) bind(c,name="cublasCreate_v2") result(stat)
-        import
         type(c_ptr), value, intent(out) :: handle
         integer(c_int) :: stat
     end function
 
     pure function cublasDestroy(handle) bind(c,name="cublasDestroy_v2") result(stat)
-        import
         type(c_ptr), value, intent(in) :: handle
         integer(c_int) :: stat
     end function
 
     pure function cublasSetPointerMode(handle, mode) bind(c,name="cublasSetPointerMode_v2") result(stat)
-        import
         type(c_ptr), value, intent(in) :: handle
         integer(c_int), value, intent(in) :: mode
         integer(c_int) :: stat
