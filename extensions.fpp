@@ -86,7 +86,34 @@ pure subroutine mfi_cublas_error(stat, name)
     integer(c_int), value, intent(in) :: stat
     character(*), intent(in) :: name
     character(len=120) :: msg
-    write(msg, '(A, I0, A)') 'cuBLAS error: ', stat, ' (' // trim(name) // ')'
+    character(len=40) :: stat_str
+
+    select case(stat)
+        case (0)
+            stat_str = 'CUBLAS_STATUS_SUCCESS'
+        case (1)
+            stat_str = 'CUBLAS_STATUS_NOT_INITIALIZED'
+        case (3)
+            stat_str = 'CUBLAS_STATUS_ALLOC_FAILED'
+        case (7)
+            stat_str = 'CUBLAS_STATUS_INVALID_VALUE'
+        case (8)
+            stat_str = 'CUBLAS_STATUS_ARCH_MISMATCH'
+        case (11)
+            stat_str = 'CUBLAS_STATUS_MAPPING_ERROR'
+        case (13)
+            stat_str = 'CUBLAS_STATUS_EXECUTION_FAILED'
+        case (14)
+            stat_str = 'CUBLAS_STATUS_INTERNAL_ERROR'
+        case (15)
+            stat_str = 'CUBLAS_STATUS_NOT_SUPPORTED'
+        case (16)
+            stat_str = 'CUBLAS_STATUS_LICENSE_ERROR'
+        case default
+            stat_str = 'UNKNOWN_CUBLAS_ERROR'
+    end select
+
+    write(msg, '(A, I0, A, A, A)') 'cuBLAS error: ', stat, ' [', trim(stat_str), '] (' // trim(name) // ')'
     error stop msg
 end subroutine
 #endif
