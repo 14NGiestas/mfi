@@ -19,7 +19,7 @@ end subroutine
 !> ${NAME}$ GPU (cublas v2) version
 pure function ${CUBLAS_NAME}$(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) result(stat) &
     bind(C,name="${CUBLAS_NAME}$_v2")
-    import :: c_int, c_ptr
+    import
 @:parameter(integer, wp=${c_kind(wp)}$)
     type(c_ptr), intent(in) :: handle
 @:args({integer(c_int),value}, in,  transa, transb)
