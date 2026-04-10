@@ -2,43 +2,47 @@
 #:set wp = pfxs[0]
 subroutine test_${f77}$
     use f77_lapack, only: ${f77}$, ${f90}$
-    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$, mfi_geqr2
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: M = 3, N = 2
-    ${type(wp)}$ :: A(M,N), A_copy(M,N), tau(min(M,N))
+    ${type(wp)}$ :: A(M,N), A_rf(M,N), A_mfi(M,N), tau(min(M,N))
     ${type(wp)}$, allocatable :: work(:)
     integer :: info, info_rf, info_mfi
 
-    ! Create a test matrix A in upper trapezoidal form for QR (with Householder vectors below)
-    ! For GEQR2, input should be in the form produced by the factorization
+    ! Create a test matrix
     A = 0.0_wp
     A(1,1) = 2.0_wp; A(1,2) = 1.0_wp
     A(2,1) = 1.0_wp; A(2,2) = 2.0_wp
     A(3,1) = 1.0_wp; A(3,2) = 1.0_wp
-    
-    A_copy = A
 
-    ! Test f77 interface - need to allocate workspace
-    allocate(work(M)) ! Workspace size for generation routines
-    call ${f77}$(M, N, min(M,N), A_copy, M, tau, work, info_rf)
-    deallocate(work)
+    ! Factorize to get tau and Householder vectors
+    A_rf = A
+    call mfi_geqr2(A_rf, tau, info=info)
+    if (info /= 0) return
 
-    ! Test mfi interface (short form)
-    A_copy = A  ! Reset to original
+    ! Test f77 interface - generate Q from factorized data
     allocate(work(M))
-    call mfi_${f77}$(A_copy, tau, k=min(M,N), info=info_mfi)
+    call ${f77}$(M, N, min(M,N), A_rf, M, tau, work, info_rf)
     deallocate(work)
-    call assert(info_mfi == info_rf .and. all(abs(A - A_copy) < sqrt(epsilon(1.0_wp))), &
-                "different results for mfi_${f77}$")
 
-    ! Test mfi interface (full form)
-    A_copy = A  ! Reset to original
-    allocate(work(M))
-    call ${mfi}$(A_copy, tau, k=min(M,N), info=info_mfi)
-    deallocate(work)
-    call assert(info_mfi == info_rf .and. all(abs(A - A_copy) < sqrt(epsilon(1.0_wp))), &
-                "different results for ${mfi}$")
+    ! Test mfi interface (short form) - factorize again, then generate
+    A_mfi = A
+    call mfi_geqr2(A_mfi, tau, info=info)
+    if (info /= 0) return
+    call mfi_${f77}$(A_mfi, tau, k=min(M,N), info=info_mfi)
+    call assert(info_mfi == info_rf .and. &
+        all(abs(A_mfi - A_rf) < sqrt(epsilon(1.0_wp))), &
+        "different results for mfi_${f77}$")
+
+    ! Test mfi interface (full form) - factorize again, then generate
+    A_mfi = A
+    call mfi_geqr2(A_mfi, tau, info=info)
+    if (info /= 0) return
+    call ${mfi}$(A_mfi, tau, k=min(M,N), info=info_mfi)
+    call assert(info_mfi == info_rf .and. &
+        all(abs(A_mfi - A_rf) < sqrt(epsilon(1.0_wp))), &
+        "different results for ${mfi}$")
 
 end subroutine
 #:enddef
