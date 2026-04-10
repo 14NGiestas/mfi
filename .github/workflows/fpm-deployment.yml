@@ -1,6 +1,6 @@
 name: fpm-deployment
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 env:
   PROJECT_NAME: "mfi"
@@ -52,7 +52,7 @@ jobs:
         FOLDER: ${{ env.PROJECT_NAME }}-fpm
 
   test-and-deploy-cublas:
-    if: github.ref == 'refs/heads/impl/cublas'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout

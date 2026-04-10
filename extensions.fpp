@@ -82,8 +82,8 @@ end subroutine
 
 !> Report cuBLAS error (called from pure wrappers)
 #:if defined('MFI_USE_CUBLAS')
-subroutine mfi_cublas_error(stat, name)
-    integer(c_int), intent(in) :: stat
+pure subroutine mfi_cublas_error(stat, name)
+    integer(c_int), value, intent(in) :: stat
     character(*), intent(in) :: name
     print *, 'cuBLAS error:', trim(name), 'stat=', stat
     error stop 'cuBLAS operation failed'
