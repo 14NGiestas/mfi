@@ -183,7 +183,7 @@ link = ["cublas", "cudart"]
 If you encounter `cuBLAS error: 1 (CUBLAS_STATUS_NOT_INITIALIZED)` or similar execution errors, keep in mind:
 
 - **State Leaks:** When you call `call mfi_force_gpu`, it sets a global internal flag to enable cuBLAS wrapper dispatching. If you call `call mfi_cublas_finalize` without restoring the state to CPU with `call mfi_force_cpu`, subsequent BLAS calls will attempt to dispatch to the GPU but the cuBLAS handle has been destroyed, resulting in an initialization error. Always pair `mfi_force_gpu` with `mfi_force_cpu` (or `mfi_execution_restore`).
-- **Missing CUDA Libraries:** If you request the `with-cublas` feature via `fpm build --profile cublas` (or manually) but do not have the CUDA runtime available, compilation of the C bindings (`cublas_wrap.c`) will explicitly fail on `cuda_runtime.h` not found. FPM gracefully handles CPU-only builds when the profile is omitted, stripping CUDA dependencies completely.
+- **Missing CUDA Libraries:** If you request the `cublas` feature via `fpm build --profile cublas` (or manually) but do not have the CUDA runtime available, compilation of the C bindings (`cublas_wrap.c`) will explicitly fail on `cuda_runtime.h` not found. FPM gracefully handles CPU-only builds when the profile is omitted, stripping CUDA dependencies completely.
 
 ## Support
 
