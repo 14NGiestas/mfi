@@ -1,0 +1,477 @@
+evaluation warning: CUDA versions older than 12.0 will be removed in Nixpkgs 25.05; see the 24.11 release notes for more information
+these 8 derivations will be built:
+  /nix/store/50fqw11cdy61is9k7z7q6wfg3lgdm2a6-libcublas-linux-x86_64-11.11.3.6-archive.tar.xz.drv
+  /nix/store/a95d004sh3zkchraidxx835p6blmbniw-libcublas-11.11.3.6.drv
+  /nix/store/pryn0hi748493brg6brcxy03dmg7rhxm-libcusolver-linux-x86_64-11.4.1.48-archive.tar.xz.drv
+  /nix/store/5qfwjmr5bbfkbivnhhsr3s1n9axq2g5r-libcusolver-11.4.1.48.drv
+  /nix/store/q1hrsnxfv7bpfpnk9y4vp30lgsr6g33c-cuda_cudart-linux-x86_64-11.8.89-archive.tar.xz.drv
+  /nix/store/6ivjz8wm0l428fnyxhmdzrsly8z571bk-cuda_cudart-11.8.89.drv
+  /nix/store/knafbj14xcpffw23p436z2wwily6srhi-cuda_nvcc-linux-x86_64-11.8.89-archive.tar.xz.drv
+  /nix/store/c75f5nw0bimcsyd0pyan7gx22d8bp0rj-cuda_nvcc-11.8.89.drv
+these 53 paths will be fetched (238.31 MiB download, 1025.06 MiB unpacked):
+  /nix/store/2bc1r52ph15b10i8d77cjqpkg30fhqzn-auto-patchelf-0-unstable-2024-08-14
+  /nix/store/5kxpr8xwkd3cdla6ldhw0qdn0lamg3z4-auto-patchelf-hook
+  /nix/store/va7kw1i822h95im4jacci19v0cqajfyf-binutils-2.43.1
+  /nix/store/9bacph866qhmr2zfib1h49jixq5hhd01-binutils-wrapper-2.43.1
+  /nix/store/qvpf8z2l2r024mq52skx9z8nicxd8wbd-binutils-wrapper-2.43.1
+  /nix/store/p2a6x92n2gwljav85zz3hzid1nk7iq0l-blas-3
+  /nix/store/hw5ph1qzzhlb10d0p311xxhx1p5467cg-blas-3-dev
+  /nix/store/k48bha2fjqzarg52picsdfwlqx75aqbb-coreutils-9.5
+  /nix/store/g1i5arx1bf47afqzndha6cq06p5mk8zs-curl-8.11.0
+  /nix/store/cwlma6a91y8ahwdfhawv713xlcaj8knq-curl-8.11.0-bin
+  /nix/store/60ajyv1yyacwm3qd3gzsvqsc70fl0qbi-curl-8.11.0-dev
+  /nix/store/xrpvl6c1pyq7zazqnb41kgshmkr85da1-diffutils-3.10
+  /nix/store/lfhmpajzgfmgl8xrdvp2r9hdi2rf17wy-findutils-4.10.0
+  /nix/store/6bsas7hvzyqmzbisl585m0zh21bgz5h5-fortran-fpm-0.10.1
+  /nix/store/06sq2kcx0vkm1rnv82hgjbdk5dry1c9c-gcc-11.5.0
+  /nix/store/gydv9xcyyw3i6ccga5spl11xcn3swfgv-gcc-11.5.0-lib
+  /nix/store/xzfmarrq8x8s4ivpya24rrndqsq2ndiz-gcc-13.3.0
+  /nix/store/lhmz7zdkl1mcnr9fpclkjh6z57ddbx1a-gcc-wrapper-11.5.0
+  /nix/store/3ix5h74n7ar9950vwzp4dxmil70pmx0k-gcc-wrapper-13.3.0
+  /nix/store/7171wfrd4rbnaxgmpvcv6aw9kq8kh1vj-gfortran-13.3.0
+  /nix/store/ay9awjgi5rbk62zrv2c2a0gl05v4fy6i-gfortran-13.3.0-lib
+  /nix/store/hl93m494hj1clnf485d4km0z4d1w7xd2-gfortran-wrapper-13.3.0
+  /nix/store/d6wqw30y25ib5dkbbdp16frb1la6125w-gmp-with-cxx-6.3.0
+  /nix/store/l4wqc044x1c7anj11m5zcmd6wf2mjpn3-gmp-with-cxx-6.3.0
+  /nix/store/9mr2sac8q92jnp9psmb8rkxc3fcda09v-hdf5-cpp-1.14.5
+  /nix/store/29lddjxaca3c9289bvk61s6cz13d30h7-hdf5-cpp-1.14.5-bin
+  /nix/store/rr40770rwy1q686ij5ah3hx3avkwi98b-hdf5-cpp-1.14.5-dev
+  /nix/store/b8wnj5lhc00x954ddfslr71lwb8kr5x0-hdf5-cpp-fortran-1.14.5
+  /nix/store/9s1mqhclsqi7z673gn811vpsdi579zvg-hdf5-cpp-fortran-1.14.5-bin
+  /nix/store/hplj265xapvwxxvd61wqx09ff6ki5yni-hdf5-cpp-fortran-1.14.5-dev
+  /nix/store/9g6cg9dlad8kv1g323n7qxirbhv3n453-isl-0.20
+  /nix/store/w7klmx6fwb59c4bxqigh5im8dhl6d2vm-krb5-1.21.3
+  /nix/store/bk53d5m6yf7rjmy1d55rqyg5jjjnc274-krb5-1.21.3-dev
+  /nix/store/3nzw2pkrlcpk6xxvhyqrys5w44hdibyq-krb5-1.21.3-lib
+  /nix/store/9jmd2rzff70ljd0gfsjjzf86in36j757-lapack-3
+  /nix/store/jchi0gc0r2924y1kghdxrx3rvdfx5w83-lapack-3-dev
+  /nix/store/j5cqwhjanvgwh4fs77jydc856cz7zy5g-libmpc-1.3.1
+  /nix/store/92qwm670j8pc69zlh00a8anwzp9vbnly-libssh2-1.11.1
+  /nix/store/r30bmsd7kdr41jkf66czbxg20g8dknxm-libssh2-1.11.1-dev
+  /nix/store/1iblfi4q1mbjk02z826rj3x502c6j0wk-mpfr-4.2.1
+  /nix/store/ildbpzrgwnpb4gbcflyf59c1hlbrcr5a-openblas-0.3.28
+  /nix/store/5dlhinba4wbr5ijy0vcmyzh4i678z94w-openssl-3.3.2
+  /nix/store/v8kbb06m2yhxhh7pz9df3my7zpmb9d7a-openssl-3.3.2
+  /nix/store/hps9lzd2if5gfd3rcn428ywrn3v6rnvz-openssl-3.3.2-bin
+  /nix/store/n75w5ph97jrsnc3nh9bxamdynjb1pyzb-openssl-3.3.2-dev
+  /nix/store/xjlvb8x7z3f5rxxswa3c6ghay74a58jm-patchelf-0.15.0
+  /nix/store/px2nj16i5gc3d4mnw5l1nclfdxhry61p-python3-3.12.7
+  /nix/store/nyck244x9bk4qi80ycq3wmvigip2kkdv-python3-3.12.7-env
+  /nix/store/05495rkck4lq44qlvk35jb0ws71zf8k3-python3.12-pyelftools-0.31
+  /nix/store/4bgmfib2haryyjpkgn52gy6v2zcvhcr7-setup-cuda-hook
+  /nix/store/599dzc8imvhcy4q2d4gl9m9nhlrkhhnj-stdenv-linux
+  /nix/store/gw0swsnbfk9l8d1il70psm8b3r5m33jv-stdenv-linux
+  /nix/store/z50gnrdklgq4sfq59z2sw80mbnr9nrk3-stdenv-linux
+copying path '/nix/store/9mr2sac8q92jnp9psmb8rkxc3fcda09v-hdf5-cpp-1.14.5' from 'https://cache.nixos.org'...
+copying path '/nix/store/ay9awjgi5rbk62zrv2c2a0gl05v4fy6i-gfortran-13.3.0-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/xjlvb8x7z3f5rxxswa3c6ghay74a58jm-patchelf-0.15.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/xzfmarrq8x8s4ivpya24rrndqsq2ndiz-gcc-13.3.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/d6wqw30y25ib5dkbbdp16frb1la6125w-gmp-with-cxx-6.3.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/va7kw1i822h95im4jacci19v0cqajfyf-binutils-2.43.1' from 'https://cache.nixos.org'...
+copying path '/nix/store/gydv9xcyyw3i6ccga5spl11xcn3swfgv-gcc-11.5.0-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/l4wqc044x1c7anj11m5zcmd6wf2mjpn3-gmp-with-cxx-6.3.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/5dlhinba4wbr5ijy0vcmyzh4i678z94w-openssl-3.3.2' from 'https://cache.nixos.org'...
+copying path '/nix/store/v8kbb06m2yhxhh7pz9df3my7zpmb9d7a-openssl-3.3.2' from 'https://cache.nixos.org'...
+copying path '/nix/store/9g6cg9dlad8kv1g323n7qxirbhv3n453-isl-0.20' from 'https://cache.nixos.org'...
+copying path '/nix/store/1iblfi4q1mbjk02z826rj3x502c6j0wk-mpfr-4.2.1' from 'https://cache.nixos.org'...
+copying path '/nix/store/k48bha2fjqzarg52picsdfwlqx75aqbb-coreutils-9.5' from 'https://cache.nixos.org'...
+copying path '/nix/store/j5cqwhjanvgwh4fs77jydc856cz7zy5g-libmpc-1.3.1' from 'https://cache.nixos.org'...
+copying path '/nix/store/lfhmpajzgfmgl8xrdvp2r9hdi2rf17wy-findutils-4.10.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/xrpvl6c1pyq7zazqnb41kgshmkr85da1-diffutils-3.10' from 'https://cache.nixos.org'...
+copying path '/nix/store/29lddjxaca3c9289bvk61s6cz13d30h7-hdf5-cpp-1.14.5-bin' from 'https://cache.nixos.org'...
+copying path '/nix/store/px2nj16i5gc3d4mnw5l1nclfdxhry61p-python3-3.12.7' from 'https://cache.nixos.org'...
+copying path '/nix/store/06sq2kcx0vkm1rnv82hgjbdk5dry1c9c-gcc-11.5.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/rr40770rwy1q686ij5ah3hx3avkwi98b-hdf5-cpp-1.14.5-dev' from 'https://cache.nixos.org'...
+copying path '/nix/store/3nzw2pkrlcpk6xxvhyqrys5w44hdibyq-krb5-1.21.3-lib' from 'https://cache.nixos.org'...
+copying path '/nix/store/92qwm670j8pc69zlh00a8anwzp9vbnly-libssh2-1.11.1' from 'https://cache.nixos.org'...
+copying path '/nix/store/hps9lzd2if5gfd3rcn428ywrn3v6rnvz-openssl-3.3.2-bin' from 'https://cache.nixos.org'...
+copying path '/nix/store/z50gnrdklgq4sfq59z2sw80mbnr9nrk3-stdenv-linux' from 'https://cache.nixos.org'...
+copying path '/nix/store/6bsas7hvzyqmzbisl585m0zh21bgz5h5-fortran-fpm-0.10.1' from 'https://cache.nixos.org'...
+copying path '/nix/store/7171wfrd4rbnaxgmpvcv6aw9kq8kh1vj-gfortran-13.3.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/b8wnj5lhc00x954ddfslr71lwb8kr5x0-hdf5-cpp-fortran-1.14.5' from 'https://cache.nixos.org'...
+copying path '/nix/store/ildbpzrgwnpb4gbcflyf59c1hlbrcr5a-openblas-0.3.28' from 'https://cache.nixos.org'...
+copying path '/nix/store/n75w5ph97jrsnc3nh9bxamdynjb1pyzb-openssl-3.3.2-dev' from 'https://cache.nixos.org'...
+copying path '/nix/store/w7klmx6fwb59c4bxqigh5im8dhl6d2vm-krb5-1.21.3' from 'https://cache.nixos.org'...
+copying path '/nix/store/g1i5arx1bf47afqzndha6cq06p5mk8zs-curl-8.11.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/bk53d5m6yf7rjmy1d55rqyg5jjjnc274-krb5-1.21.3-dev' from 'https://cache.nixos.org'...
+copying path '/nix/store/r30bmsd7kdr41jkf66czbxg20g8dknxm-libssh2-1.11.1-dev' from 'https://cache.nixos.org'...
+copying path '/nix/store/cwlma6a91y8ahwdfhawv713xlcaj8knq-curl-8.11.0-bin' from 'https://cache.nixos.org'...
+copying path '/nix/store/60ajyv1yyacwm3qd3gzsvqsc70fl0qbi-curl-8.11.0-dev' from 'https://cache.nixos.org'...
+building '/nix/store/q1hrsnxfv7bpfpnk9y4vp30lgsr6g33c-cuda_cudart-linux-x86_64-11.8.89-archive.tar.xz.drv'...
+building '/nix/store/knafbj14xcpffw23p436z2wwily6srhi-cuda_nvcc-linux-x86_64-11.8.89-archive.tar.xz.drv'...
+building '/nix/store/50fqw11cdy61is9k7z7q6wfg3lgdm2a6-libcublas-linux-x86_64-11.11.3.6-archive.tar.xz.drv'...
+building '/nix/store/pryn0hi748493brg6brcxy03dmg7rhxm-libcusolver-linux-x86_64-11.4.1.48-archive.tar.xz.drv'...
+copying path '/nix/store/qvpf8z2l2r024mq52skx9z8nicxd8wbd-binutils-wrapper-2.43.1' from 'https://cache.nixos.org'...
+copying path '/nix/store/9bacph866qhmr2zfib1h49jixq5hhd01-binutils-wrapper-2.43.1' from 'https://cache.nixos.org'...
+
+trying https://developer.download.nvidia.com/compute/cuda/redist/cuda_cudart/linux-x86_64/cuda_cudart-linux-x86_64-11.8.89-archive.tar.xz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+copying path '/nix/store/p2a6x92n2gwljav85zz3hzid1nk7iq0l-blas-3' from 'https://cache.nixos.org'...
+copying path '/nix/store/9jmd2rzff70ljd0gfsjjzf86in36j757-lapack-3' from 'https://cache.nixos.org'...
+
+trying https://developer.download.nvidia.com/compute/cuda/redist/cuda_nvcc/linux-x86_64/cuda_nvcc-linux-x86_64-11.8.89-archive.tar.xz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+trying https://developer.download.nvidia.com/compute/cuda/redist/libcusolver/linux-x86_64/libcusolver-linux-x86_64-11.4.1.48-archive.tar.xz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+trying https://developer.download.nvidia.com/compute/cuda/redist/libcublas/linux-x86_64/libcublas-linux-x86_64-11.11.3.6-archive.tar.xz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+copying path '/nix/store/hw5ph1qzzhlb10d0p311xxhx1p5467cg-blas-3-dev' from 'https://cache.nixos.org'...
+copying path '/nix/store/jchi0gc0r2924y1kghdxrx3rvdfx5w83-lapack-3-dev' from 'https://cache.nixos.org'...
+copying path '/nix/store/05495rkck4lq44qlvk35jb0ws71zf8k3-python3.12-pyelftools-0.31' from 'https://cache.nixos.org'...
+copying path '/nix/store/nyck244x9bk4qi80ycq3wmvigip2kkdv-python3-3.12.7-env' from 'https://cache.nixos.org'...
+copying path '/nix/store/2bc1r52ph15b10i8d77cjqpkg30fhqzn-auto-patchelf-0-unstable-2024-08-14' from 'https://cache.nixos.org'...
+copying path '/nix/store/5kxpr8xwkd3cdla6ldhw0qdn0lamg3z4-auto-patchelf-hook' from 'https://cache.nixos.org'...
+100  892k  100  892k    0     0   142k      0  0:00:06  0:00:06 --:--:--  212k
+copying path '/nix/store/lhmz7zdkl1mcnr9fpclkjh6z57ddbx1a-gcc-wrapper-11.5.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/3ix5h74n7ar9950vwzp4dxmil70pmx0k-gcc-wrapper-13.3.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/gw0swsnbfk9l8d1il70psm8b3r5m33jv-stdenv-linux' from 'https://cache.nixos.org'...
+copying path '/nix/store/4bgmfib2haryyjpkgn52gy6v2zcvhcr7-setup-cuda-hook' from 'https://cache.nixos.org'...
+copying path '/nix/store/599dzc8imvhcy4q2d4gl9m9nhlrkhhnj-stdenv-linux' from 'https://cache.nixos.org'...
+building '/nix/store/6ivjz8wm0l428fnyxhmdzrsly8z571bk-cuda_cudart-11.8.89.drv'...
+structuredAttrs is enabled
+Sourcing auto-add-driver-runpath-hook
+Using autoAddDriverRunpath
+Sourcing fix-elf-files.sh
+Sourcing mark-for-cudatoolkit-root-hook
+Running phase: unpackPhase
+unpacking source archive /nix/store/v5j87v0hv588x5khb9xakbz4kk7axwwh-cuda_cudart-linux-x86_64-11.8.89-archive.tar.xz
+source root is cuda_cudart-linux-x86_64-11.8.89-archive
+setting SOURCE_DATE_EPOCH to timestamp 1663785924 of file cuda_cudart-linux-x86_64-11.8.89-archive/pkg-config/cudart-11.8.pc
+Running phase: patchPhase
+Running phase: updateAutotoolsGnuConfigScriptsPhase
+Running phase: configurePhase
+no configure script, doing nothing
+Running phase: installPhase
+Moving /nix/store/2969f2f4ah8l2adzc00kp45vf8h3pcpk-cuda_cudart-11.8.89/lib to /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib
+Moving /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/libcudadevrt.a to /nix/store/yjh65w995bfh1dwaw9c7h16bwrv3ap7f-cuda_cudart-11.8.89-static/lib/libcudadevrt.a
+Moving /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/libcudart_static.a to /nix/store/yjh65w995bfh1dwaw9c7h16bwrv3ap7f-cuda_cudart-11.8.89-static/lib/libcudart_static.a
+Moving /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/libculibos.a to /nix/store/yjh65w995bfh1dwaw9c7h16bwrv3ap7f-cuda_cudart-11.8.89-static/lib/libculibos.a
+Moving /nix/store/2969f2f4ah8l2adzc00kp45vf8h3pcpk-cuda_cudart-11.8.89/share/pkgconfig to /nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev/share/pkgconfig
+Removing empty /nix/store/2969f2f4ah8l2adzc00kp45vf8h3pcpk-cuda_cudart-11.8.89/share/ and (possibly) its parents
+Running phase: fixupPhase
+Moving /nix/store/2969f2f4ah8l2adzc00kp45vf8h3pcpk-cuda_cudart-11.8.89/include to /nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev/include
+Patching '/nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev/share/pkgconfig/cuda-11.8.pc' includedir to output /nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev
+Patching '/nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev/share/pkgconfig/cuda.pc' includedir to output /nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev
+Patching '/nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev/share/pkgconfig/cudart-11.8.pc' includedir to output /nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev
+Patching '/nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev/share/pkgconfig/cudart.pc' includedir to output /nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev
+shrinking RPATHs of ELF executables and libraries in /nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev
+checking for references to /build/ in /nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev...
+patching script interpreter paths in /nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev
+shrinking RPATHs of ELF executables and libraries in /nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs
+checking for references to /build/ in /nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs...
+patching script interpreter paths in /nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs
+shrinking RPATHs of ELF executables and libraries in /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib
+shrinking /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/libcudart.so.11.8.89
+shrinking /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/stubs/libcuda.so
+shrinking /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/libOpenCL.so.1.0.0
+checking for references to /build/ in /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib...
+patching script interpreter paths in /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib
+stripping (with command strip and flags -S -p) in  /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib
+shrinking RPATHs of ELF executables and libraries in /nix/store/2969f2f4ah8l2adzc00kp45vf8h3pcpk-cuda_cudart-11.8.89
+checking for references to /build/ in /nix/store/2969f2f4ah8l2adzc00kp45vf8h3pcpk-cuda_cudart-11.8.89...
+patching script interpreter paths in /nix/store/2969f2f4ah8l2adzc00kp45vf8h3pcpk-cuda_cudart-11.8.89
+shrinking RPATHs of ELF executables and libraries in /nix/store/yjh65w995bfh1dwaw9c7h16bwrv3ap7f-cuda_cudart-11.8.89-static
+checking for references to /build/ in /nix/store/yjh65w995bfh1dwaw9c7h16bwrv3ap7f-cuda_cudart-11.8.89-static...
+patching script interpreter paths in /nix/store/yjh65w995bfh1dwaw9c7h16bwrv3ap7f-cuda_cudart-11.8.89-static
+stripping (with command strip and flags -S -p) in  /nix/store/yjh65w995bfh1dwaw9c7h16bwrv3ap7f-cuda_cudart-11.8.89-static/lib
+Moving /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/stubs to /nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs/lib/stubs
+copying path '/nix/store/hl93m494hj1clnf485d4km0z4d1w7xd2-gfortran-wrapper-13.3.0' from 'https://cache.nixos.org'...
+automatically fixing dependencies for ELF files
+{'append_rpaths': [PosixPath('$ORIGIN')],
+ 'extra_args': [],
+ 'ignore_missing': ['libcuda.so', 'libcuda.so.*'],
+ 'keep_libc': False,
+ 'libs': [PosixPath('/nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib')],
+ 'paths': [PosixPath('/nix/store/ky1hs5kwhavsy9yjd7n4986krjczcss2-cuda_cudart-11.8.89-dev'),
+           PosixPath('/nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs'),
+           PosixPath('/nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib'),
+           PosixPath('/nix/store/2969f2f4ah8l2adzc00kp45vf8h3pcpk-cuda_cudart-11.8.89'),
+           PosixPath('/nix/store/yjh65w995bfh1dwaw9c7h16bwrv3ap7f-cuda_cudart-11.8.89-static')],
+ 'recursive': True,
+ 'runtime_dependencies': []}
+copying path '/nix/store/9s1mqhclsqi7z673gn811vpsdi579zvg-hdf5-cpp-fortran-1.14.5-bin' from 'https://cache.nixos.org'...
+searching for dependencies of /nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs/lib/stubs/libcuda.so
+setting RPATH to: $ORIGIN
+searching for dependencies of /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/libcudart.so.11.8.89
+setting RPATH to: $ORIGIN
+searching for dependencies of /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/libOpenCL.so.1.0.0
+setting RPATH to: $ORIGIN
+auto-patchelf: 0 dependencies could not be satisfied
+copying path '/nix/store/hplj265xapvwxxvd61wqx09ff6ki5yni-hdf5-cpp-fortran-1.14.5-dev' from 'https://cache.nixos.org'...
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs/lib/stubs/libcuda.so
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/libcudart.so.11.8.89
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/cnchisvlcp9kmq3hys164mm5q321bm59-cuda_cudart-11.8.89-lib/lib/libOpenCL.so.1.0.0
+rewriting symlink /nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs/lib/libcuda.so.1 to be relative to /nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs
+rewriting symlink /nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs/lib/libcuda.so to be relative to /nix/store/f2c4ywlk6662044l5hsvnl22zjldnb9i-cuda_cudart-11.8.89-stubs
+Running phase: installCheckPhase
+no Makefile or custom installCheckPhase, doing nothing
+Executing postInstallCheck
+Running phase: postPatchelf
+100 41.2M  100 41.2M    0     0   267k      0  0:02:38  0:02:38 --:--:--  402k
+building '/nix/store/c75f5nw0bimcsyd0pyan7gx22d8bp0rj-cuda_nvcc-11.8.89.drv'...
+structuredAttrs is enabled
+Sourcing auto-add-driver-runpath-hook
+Using autoAddDriverRunpath
+Sourcing fix-elf-files.sh
+Sourcing mark-for-cudatoolkit-root-hook
+Running phase: unpackPhase
+unpacking source archive /nix/store/v3k6v884w16ja4cw88v1i5y0blyg38zv-cuda_nvcc-linux-x86_64-11.8.89-archive.tar.xz
+source root is cuda_nvcc-linux-x86_64-11.8.89-archive
+setting SOURCE_DATE_EPOCH to timestamp 1663785538 of file cuda_nvcc-linux-x86_64-11.8.89-archive/LICENSE
+Running phase: patchPhase
+Running phase: updateAutotoolsGnuConfigScriptsPhase
+Running phase: configurePhase
+no configure script, doing nothing
+Running phase: installPhase
+Moving /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/lib/libnvptxcompiler_static.a to /nix/store/n7v8x6hhxvv6h0hlwpf016bfvpw9h049-cuda_nvcc-11.8.89-static/lib/libnvptxcompiler_static.a
+Removing empty /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/lib/ and (possibly) its parents
+Running phase: fixupPhase
+shrinking RPATHs of ELF executables and libraries in /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89
+shrinking /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/bin2c
+shrinking /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/__nvcc_device_query
+shrinking /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/cudafe++
+shrinking /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/nvlink
+shrinking /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/nvcc
+shrinking /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/fatbinary
+shrinking /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/ptxas
+shrinking /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/nvvm/bin/cicc
+shrinking /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/nvvm/lib64/libnvvm.so.4.0.0
+checking for references to /build/ in /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89...
+patching script interpreter paths in /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89
+stripping (with command strip and flags -S -p) in  /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin
+shrinking RPATHs of ELF executables and libraries in /nix/store/n7v8x6hhxvv6h0hlwpf016bfvpw9h049-cuda_nvcc-11.8.89-static
+checking for references to /build/ in /nix/store/n7v8x6hhxvv6h0hlwpf016bfvpw9h049-cuda_nvcc-11.8.89-static...
+patching script interpreter paths in /nix/store/n7v8x6hhxvv6h0hlwpf016bfvpw9h049-cuda_nvcc-11.8.89-static
+stripping (with command strip and flags -S -p) in  /nix/store/n7v8x6hhxvv6h0hlwpf016bfvpw9h049-cuda_nvcc-11.8.89-static/lib
+automatically fixing dependencies for ELF files
+{'append_rpaths': [PosixPath('$ORIGIN')],
+ 'extra_args': [],
+ 'ignore_missing': ['libcuda.so', 'libcuda.so.*'],
+ 'keep_libc': False,
+ 'libs': [PosixPath('/nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib'),
+          PosixPath('/nix/store/4bgmfib2haryyjpkgn52gy6v2zcvhcr7-setup-cuda-hook/lib')],
+ 'paths': [PosixPath('/nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89'),
+           PosixPath('/nix/store/n7v8x6hhxvv6h0hlwpf016bfvpw9h049-cuda_nvcc-11.8.89-static')],
+ 'recursive': True,
+ 'runtime_dependencies': []}
+setting interpreter of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/bin2c
+searching for dependencies of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/bin2c
+setting RPATH to: $ORIGIN
+setting interpreter of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/__nvcc_device_query
+searching for dependencies of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/__nvcc_device_query
+    libstdc++.so.6 -> found: /nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib
+    libgcc_s.so.1 -> found: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib
+setting RPATH to: /nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib:/nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib:$ORIGIN
+setting interpreter of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/cudafe++
+searching for dependencies of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/cudafe++
+    libgcc_s.so.1 -> found: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib
+setting RPATH to: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib:$ORIGIN
+setting interpreter of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/nvlink
+searching for dependencies of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/nvlink
+    libgcc_s.so.1 -> found: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib
+setting RPATH to: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib:$ORIGIN
+setting interpreter of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/nvcc
+searching for dependencies of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/nvcc
+    libgcc_s.so.1 -> found: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib
+setting RPATH to: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib:$ORIGIN
+setting interpreter of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/fatbinary
+searching for dependencies of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/fatbinary
+setting RPATH to: $ORIGIN
+setting interpreter of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/ptxas
+searching for dependencies of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/ptxas
+setting RPATH to: $ORIGIN
+setting interpreter of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/nvvm/bin/cicc
+searching for dependencies of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/nvvm/bin/cicc
+    libstdc++.so.6 -> found: /nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib
+setting RPATH to: /nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib:$ORIGIN
+searching for dependencies of /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/nvvm/lib64/libnvvm.so.4.0.0
+setting RPATH to: $ORIGIN
+auto-patchelf: 0 dependencies could not be satisfied
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/bin2c
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/__nvcc_device_query
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/cudafe++
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/nvlink
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/nvcc
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/fatbinary
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/bin/ptxas
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/nvvm/bin/cicc
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/hmg0kcqh2qzc8vvvfcj071l1j98jwa7s-cuda_nvcc-11.8.89/nvvm/lib64/libnvvm.so.4.0.0
+Running phase: installCheckPhase
+no Makefile or custom installCheckPhase, doing nothing
+Executing postInstallCheck
+Running phase: postPatchelf
+100 81.1M  100 81.1M    0     0   312k      0  0:04:26  0:04:26 --:--:--  977k
+100  477M  100  477M    0     0   752k      0  0:10:50  0:10:50 --:--:--  972k
+building '/nix/store/a95d004sh3zkchraidxx835p6blmbniw-libcublas-11.11.3.6.drv'...
+structuredAttrs is enabled
+Sourcing auto-add-driver-runpath-hook
+Using autoAddDriverRunpath
+Sourcing fix-elf-files.sh
+Sourcing mark-for-cudatoolkit-root-hook
+Running phase: unpackPhase
+unpacking source archive /nix/store/jp2ngd1qz9gy55216zs8h9n6vjgm3fkp-libcublas-linux-x86_64-11.11.3.6-archive.tar.xz
+source root is libcublas-linux-x86_64-11.11.3.6-archive
+setting SOURCE_DATE_EPOCH to timestamp 1662497148 of file libcublas-linux-x86_64-11.11.3.6-archive/pkg-config/cublas-11.8.pc
+unpackPhase completed in 30 seconds
+Running phase: patchPhase
+Running phase: updateAutotoolsGnuConfigScriptsPhase
+Running phase: configurePhase
+no configure script, doing nothing
+Running phase: installPhase
+Moving /nix/store/3wnp6k3a0idgz39qbksj44ap2ngy5srr-libcublas-11.11.3.6/lib to /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib
+Moving /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libcublasLt_static.a to /nix/store/8hv84rwx8parglb02dw6skr946kf2ci1-libcublas-11.11.3.6-static/lib/libcublasLt_static.a
+Moving /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libcublas_static.a to /nix/store/8hv84rwx8parglb02dw6skr946kf2ci1-libcublas-11.11.3.6-static/lib/libcublas_static.a
+Moving /nix/store/3wnp6k3a0idgz39qbksj44ap2ngy5srr-libcublas-11.11.3.6/share/pkgconfig to /nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev/share/pkgconfig
+Removing empty /nix/store/3wnp6k3a0idgz39qbksj44ap2ngy5srr-libcublas-11.11.3.6/share/ and (possibly) its parents
+Running phase: fixupPhase
+Moving /nix/store/3wnp6k3a0idgz39qbksj44ap2ngy5srr-libcublas-11.11.3.6/include to /nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev/include
+Patching '/nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev/share/pkgconfig/cublas-11.8.pc' includedir to output /nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev
+Patching '/nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev/share/pkgconfig/cublas.pc' includedir to output /nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev
+shrinking RPATHs of ELF executables and libraries in /nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev
+checking for references to /build/ in /nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev...
+patching script interpreter paths in /nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev
+shrinking RPATHs of ELF executables and libraries in /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib
+shrinking /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libcublasLt.so.11.11.3.6
+shrinking /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libnvblas.so.11.11.3.6
+shrinking /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/stubs/libcublasLt.so
+shrinking /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/stubs/libcublas.so
+shrinking /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libcublas.so.11.11.3.6
+checking for references to /build/ in /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib...
+patching script interpreter paths in /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib
+stripping (with command strip and flags -S -p) in  /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib
+shrinking RPATHs of ELF executables and libraries in /nix/store/3wnp6k3a0idgz39qbksj44ap2ngy5srr-libcublas-11.11.3.6
+checking for references to /build/ in /nix/store/3wnp6k3a0idgz39qbksj44ap2ngy5srr-libcublas-11.11.3.6...
+patching script interpreter paths in /nix/store/3wnp6k3a0idgz39qbksj44ap2ngy5srr-libcublas-11.11.3.6
+shrinking RPATHs of ELF executables and libraries in /nix/store/8hv84rwx8parglb02dw6skr946kf2ci1-libcublas-11.11.3.6-static
+checking for references to /build/ in /nix/store/8hv84rwx8parglb02dw6skr946kf2ci1-libcublas-11.11.3.6-static...
+patching script interpreter paths in /nix/store/8hv84rwx8parglb02dw6skr946kf2ci1-libcublas-11.11.3.6-static
+stripping (with command strip and flags -S -p) in  /nix/store/8hv84rwx8parglb02dw6skr946kf2ci1-libcublas-11.11.3.6-static/lib
+automatically fixing dependencies for ELF files
+{'append_rpaths': [PosixPath('$ORIGIN')],
+ 'extra_args': [],
+ 'ignore_missing': ['libcuda.so', 'libcuda.so.*'],
+ 'keep_libc': False,
+ 'libs': [PosixPath('/nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib')],
+ 'paths': [PosixPath('/nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev'),
+           PosixPath('/nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib'),
+           PosixPath('/nix/store/3wnp6k3a0idgz39qbksj44ap2ngy5srr-libcublas-11.11.3.6'),
+           PosixPath('/nix/store/8hv84rwx8parglb02dw6skr946kf2ci1-libcublas-11.11.3.6-static')],
+ 'recursive': True,
+ 'runtime_dependencies': []}
+searching for dependencies of /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libcublasLt.so.11.11.3.6
+    libgcc_s.so.1 -> found: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib
+setting RPATH to: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib:$ORIGIN
+searching for dependencies of /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libnvblas.so.11.11.3.6
+    libcublas.so.11 -> found: /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib
+    libstdc++.so.6 -> found: /nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib
+    libgcc_s.so.1 -> found: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib
+setting RPATH to: /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib:/nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib:/nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib:$ORIGIN
+searching for dependencies of /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libcublas.so.11.11.3.6
+    libcublasLt.so.11 -> found: /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib
+    libgcc_s.so.1 -> found: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib
+setting RPATH to: /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib:/nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib:$ORIGIN
+searching for dependencies of /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/stubs/libcublasLt.so
+setting RPATH to: $ORIGIN
+searching for dependencies of /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/stubs/libcublas.so
+setting RPATH to: $ORIGIN
+auto-patchelf: 0 dependencies could not be satisfied
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libcublasLt.so.11.11.3.6
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libnvblas.so.11.11.3.6
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/stubs/libcublasLt.so
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/stubs/libcublas.so
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib/libcublas.so.11.11.3.6
+Running phase: installCheckPhase
+no Makefile or custom installCheckPhase, doing nothing
+Executing postInstallCheck
+Running phase: postPatchelf
+building '/nix/store/5qfwjmr5bbfkbivnhhsr3s1n9axq2g5r-libcusolver-11.4.1.48.drv'...
+structuredAttrs is enabled
+Sourcing auto-add-driver-runpath-hook
+Using autoAddDriverRunpath
+Sourcing fix-elf-files.sh
+Sourcing mark-for-cudatoolkit-root-hook
+Running phase: unpackPhase
+unpacking source archive /nix/store/h3chdqzkpczkjir61h583576wzrq21qk-libcusolver-linux-x86_64-11.4.1.48-archive.tar.xz
+source root is libcusolver-linux-x86_64-11.4.1.48-archive
+setting SOURCE_DATE_EPOCH to timestamp 1661485257 of file libcusolver-linux-x86_64-11.4.1.48-archive/pkg-config/cusolver-11.8.pc
+Running phase: patchPhase
+Running phase: updateAutotoolsGnuConfigScriptsPhase
+Running phase: configurePhase
+no configure script, doing nothing
+Running phase: installPhase
+Moving /nix/store/0w4fz8x9kn0ykkvmh694znzhn4vyvnkk-libcusolver-11.4.1.48/lib to /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib
+Moving /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/libcusolver_lapack_static.a to /nix/store/q44i52620711yg42l9nm0sakmkrlz6zp-libcusolver-11.4.1.48-static/lib/libcusolver_lapack_static.a
+Moving /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/libcusolver_static.a to /nix/store/q44i52620711yg42l9nm0sakmkrlz6zp-libcusolver-11.4.1.48-static/lib/libcusolver_static.a
+Moving /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/liblapack_static.a to /nix/store/q44i52620711yg42l9nm0sakmkrlz6zp-libcusolver-11.4.1.48-static/lib/liblapack_static.a
+Moving /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/libmetis_static.a to /nix/store/q44i52620711yg42l9nm0sakmkrlz6zp-libcusolver-11.4.1.48-static/lib/libmetis_static.a
+Moving /nix/store/0w4fz8x9kn0ykkvmh694znzhn4vyvnkk-libcusolver-11.4.1.48/share/pkgconfig to /nix/store/kr073mprw15340kcllf299a57xyb1jbv-libcusolver-11.4.1.48-dev/share/pkgconfig
+Removing empty /nix/store/0w4fz8x9kn0ykkvmh694znzhn4vyvnkk-libcusolver-11.4.1.48/share/ and (possibly) its parents
+Running phase: fixupPhase
+Moving /nix/store/0w4fz8x9kn0ykkvmh694znzhn4vyvnkk-libcusolver-11.4.1.48/include to /nix/store/kr073mprw15340kcllf299a57xyb1jbv-libcusolver-11.4.1.48-dev/include
+Patching '/nix/store/kr073mprw15340kcllf299a57xyb1jbv-libcusolver-11.4.1.48-dev/share/pkgconfig/cusolver-11.8.pc' includedir to output /nix/store/kr073mprw15340kcllf299a57xyb1jbv-libcusolver-11.4.1.48-dev
+Patching '/nix/store/kr073mprw15340kcllf299a57xyb1jbv-libcusolver-11.4.1.48-dev/share/pkgconfig/cusolver.pc' includedir to output /nix/store/kr073mprw15340kcllf299a57xyb1jbv-libcusolver-11.4.1.48-dev
+shrinking RPATHs of ELF executables and libraries in /nix/store/kr073mprw15340kcllf299a57xyb1jbv-libcusolver-11.4.1.48-dev
+checking for references to /build/ in /nix/store/kr073mprw15340kcllf299a57xyb1jbv-libcusolver-11.4.1.48-dev...
+patching script interpreter paths in /nix/store/kr073mprw15340kcllf299a57xyb1jbv-libcusolver-11.4.1.48-dev
+shrinking RPATHs of ELF executables and libraries in /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib
+shrinking /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/libcusolverMg.so.11.4.1.48
+shrinking /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/libcusolver.so.11.4.1.48
+shrinking /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/stubs/libcusolver.so
+shrinking /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/stubs/libcusolverMg.so
+checking for references to /build/ in /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib...
+patching script interpreter paths in /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib
+stripping (with command strip and flags -S -p) in  /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib
+shrinking RPATHs of ELF executables and libraries in /nix/store/0w4fz8x9kn0ykkvmh694znzhn4vyvnkk-libcusolver-11.4.1.48
+checking for references to /build/ in /nix/store/0w4fz8x9kn0ykkvmh694znzhn4vyvnkk-libcusolver-11.4.1.48...
+patching script interpreter paths in /nix/store/0w4fz8x9kn0ykkvmh694znzhn4vyvnkk-libcusolver-11.4.1.48
+shrinking RPATHs of ELF executables and libraries in /nix/store/q44i52620711yg42l9nm0sakmkrlz6zp-libcusolver-11.4.1.48-static
+checking for references to /build/ in /nix/store/q44i52620711yg42l9nm0sakmkrlz6zp-libcusolver-11.4.1.48-static...
+patching script interpreter paths in /nix/store/q44i52620711yg42l9nm0sakmkrlz6zp-libcusolver-11.4.1.48-static
+stripping (with command strip and flags -S -p) in  /nix/store/q44i52620711yg42l9nm0sakmkrlz6zp-libcusolver-11.4.1.48-static/lib
+automatically fixing dependencies for ELF files
+{'append_rpaths': [PosixPath('$ORIGIN')],
+ 'extra_args': [],
+ 'ignore_missing': ['libcuda.so', 'libcuda.so.*'],
+ 'keep_libc': False,
+ 'libs': [PosixPath('/nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib'),
+          PosixPath('/nix/store/7gw522cchxq84zsa6ck0a6xksgjq1ndz-libcublas-11.11.3.6-dev/lib'),
+          PosixPath('/nix/store/3wnp6k3a0idgz39qbksj44ap2ngy5srr-libcublas-11.11.3.6/lib'),
+          PosixPath('/nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib'),
+          PosixPath('/nix/store/8hv84rwx8parglb02dw6skr946kf2ci1-libcublas-11.11.3.6-static/lib')],
+ 'paths': [PosixPath('/nix/store/kr073mprw15340kcllf299a57xyb1jbv-libcusolver-11.4.1.48-dev'),
+           PosixPath('/nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib'),
+           PosixPath('/nix/store/0w4fz8x9kn0ykkvmh694znzhn4vyvnkk-libcusolver-11.4.1.48'),
+           PosixPath('/nix/store/q44i52620711yg42l9nm0sakmkrlz6zp-libcusolver-11.4.1.48-static')],
+ 'recursive': True,
+ 'runtime_dependencies': []}
+searching for dependencies of /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/libcusolverMg.so.11.4.1.48
+    libcublas.so.11 -> found: /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib
+    libcublasLt.so.11 -> found: /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib
+    libstdc++.so.6 -> found: /nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib
+    libgcc_s.so.1 -> found: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib
+setting RPATH to: /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib:/nix/store/97f3gw9vpyxvwjv2i673isvg92q65mwn-gcc-13.3.0-lib/lib:/nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib:$ORIGIN
+searching for dependencies of /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/libcusolver.so.11.4.1.48
+    libcublas.so.11 -> found: /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib
+    libcublasLt.so.11 -> found: /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib
+    libgcc_s.so.1 -> found: /nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib
+setting RPATH to: /nix/store/rrd8h296xp49i7v1lgcc5kgvzksmr30d-libcublas-11.11.3.6-lib/lib:/nix/store/nhdjqagplar2fdrqnrxlab8vg9i36b3d-gcc-13.3.0-libgcc/lib:$ORIGIN
+searching for dependencies of /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/stubs/libcusolver.so
+setting RPATH to: $ORIGIN
+searching for dependencies of /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/stubs/libcusolverMg.so
+setting RPATH to: $ORIGIN
+auto-patchelf: 0 dependencies could not be satisfied
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/libcusolverMg.so.11.4.1.48
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/libcusolver.so.11.4.1.48
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/stubs/libcusolver.so
+autoFixElfFiles: using addDriverRunpath to fix /nix/store/23km2c5xn435vpxpwqzjxraflnsbk4w0-libcusolver-11.4.1.48-lib/lib/stubs/libcusolverMg.so
+Running phase: installCheckPhase
+no Makefile or custom installCheckPhase, doing nothing
+Executing postInstallCheck
+Running phase: postPatchelf
+ready
