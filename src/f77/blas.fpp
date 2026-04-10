@@ -170,4 +170,6 @@ module f77_blas
     use f77_blas_cublas
 #:endif
     implicit none
+
+#:include "src/f77/blas/specific_interfaces.fypp"
 end module
