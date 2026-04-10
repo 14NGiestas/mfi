@@ -6,8 +6,38 @@ env:
   PROJECT_NAME: "mfi"
 
 jobs:
-  test-and-deploy-cpu:
-    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
+  exhaustive-test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [cpu-only, gpu-ready]
+        fpm-profile: [release, cublas]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install Nix
+      uses: DeterminateSystems/nix-installer-action@main
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.x"
+
+    - name: Install fypp
+      run: pip install --upgrade fypp
+
+    - name: Generate sources
+      run: make
+
+    - name: Run exhaustive tests
+      run: |
+        nix-shell shells/${{ matrix.environment }}.nix --run "fortran-fpm test --profile ${{ matrix.fpm-profile }}"
+
+  deploy-artifacts:
+    needs: exhaustive-test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -21,75 +51,25 @@ jobs:
     - name: Install fypp
       run: pip install --upgrade fypp
 
-    - name: Setup Fortran (GCC 13)
-      uses: fortran-lang/setup-fortran@v1
-      with:
-        compiler: gcc
-        version: "13"
+    - name: Generate sources
+      run: make
 
-    - name: Install BLAS/LAPACK
-      run: sudo apt install -y libblas-dev liblapack-dev
-
-    - name: Install fpm
-      uses: fortran-lang/setup-fpm@v5
-      with:
-        fpm-version: 'v0.10.0'
-
-    - name: Generate and test (CPU)
+    - name: Prepare mfi-fpm
       run: |
-        make
         mkdir -p ${{ env.PROJECT_NAME }}-fpm
         cp -R src test fpm.toml LICENSE ${{ env.PROJECT_NAME }}-fpm
         find ${{ env.PROJECT_NAME }}-fpm/src  -type f ! -name "*.f90" ! -name "*.c" -delete
         find ${{ env.PROJECT_NAME }}-fpm/test -type f ! -name "*.f90" -delete
-        fpm build --profile release
 
-    - name: Deploy to ${{ env.PROJECT_NAME }}-fpm
+    - name: Deploy to mfi-fpm
       uses: JamesIves/github-pages-deploy-action@v4
-      if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
       with:
-        BRANCH: ${{ env.PROJECT_NAME }}-fpm
-        FOLDER: ${{ env.PROJECT_NAME }}-fpm
+        branch: mfi-fpm
+        folder: ${{ env.PROJECT_NAME }}-fpm
+        clean: true
 
-  test-and-deploy-cublas:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.x"
-
-    - name: Install fypp
-      run: pip install --upgrade fypp
-
-    - name: Setup Fortran (GCC 13)
-      uses: fortran-lang/setup-fortran@v1
-      with:
-        compiler: gcc
-        version: "13"
-
-    - name: Install BLAS/LAPACK/CUDA
+    - name: Prepare mfi-cublas
       run: |
-        sudo apt install -y libblas-dev liblapack-dev
-        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb
-        sudo dpkg -i cuda-keyring_1.1-1_all.deb
-        sudo apt update
-        sudo apt install -y cuda-toolkit-12-8
-
-    - name: Install fpm
-      uses: fortran-lang/setup-fpm@v5
-      with:
-        fpm-version: 'v0.10.0'
-
-    - name: Generate (cuBLAS)
-      env:
-        LD_LIBRARY_PATH: /usr/local/cuda/lib64:/usr/local/cuda/lib64/stubs
-      run: |
-        make
         mkdir -p ${{ env.PROJECT_NAME }}-cublas
         cp -R src test fpm.toml LICENSE ${{ env.PROJECT_NAME }}-cublas
         find ${{ env.PROJECT_NAME }}-cublas/src  -type f ! -name "*.f90" ! -name "*.c" -delete
@@ -98,5 +78,6 @@ jobs:
     - name: Deploy to mfi-cublas
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        BRANCH: mfi-cublas
-        FOLDER: ${{ env.PROJECT_NAME }}-cublas
+        branch: mfi-cublas
+        folder: ${{ env.PROJECT_NAME }}-cublas
+        clean: true
