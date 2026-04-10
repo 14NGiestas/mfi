@@ -1,5 +1,5 @@
-#include </usr/local/cuda/include/cuda_runtime.h>
-#include </usr/local/cuda/include/cublas_v2.h>
+#include <cuda_runtime.h>
+#include <cublas_v2.h>
 
 /* Wrapper: convert C function return value to output parameter.
    Allows Fortran to call as "pure subroutine" with correct ABI. */

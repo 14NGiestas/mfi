@@ -21,7 +21,7 @@ pure function ${CUBLAS_NAME}$(handle, transa, transb, m, n, k, alpha, a, lda, b,
     bind(C,name="${CUBLAS_NAME}$_v2")
     import
 @:parameter(integer, wp=${c_kind(wp)}$)
-    type(c_ptr), intent(in) :: handle
+    type(c_ptr), value, intent(in) :: handle
 @:args({integer(c_int),value}, in,  transa, transb)
 @:args({integer(c_int),value}, in, m, n, k, lda, ldb, ldc)
     type(c_ptr), value, intent(in) :: alpha
