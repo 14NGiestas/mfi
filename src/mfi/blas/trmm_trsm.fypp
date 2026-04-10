@@ -1,6 +1,6 @@
 #:def trmm_trsm(MFI_NAME,F77_NAME,pfxs)
 #:set wp = pfxs[0]
-subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
+pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
 @:parameter(integer, wp=${kind(wp)}$)
     ${type(wp)}$, intent(in), target :: a(:,:)
     ${type(wp)}$, intent(inout), target :: b(:,:)
@@ -46,7 +46,7 @@ subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
         cublas_stat = cublas${wp.title()}$${F77_NAME.replace('f77_','')}$(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS ${F77_NAME}$ failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, '${F77_NAME}$')
         @:get_matrix(b)
         @:deallocate(a,b)
         end block

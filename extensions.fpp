@@ -76,6 +76,14 @@ subroutine mfi_cublas_finalize()
     end if
 end subroutine
 
+!> Report cuBLAS error (called from pure wrappers)
+subroutine mfi_cublas_error(stat, name)
+    integer(c_int), intent(in) :: stat
+    character(*), intent(in) :: name
+    print *, 'cuBLAS error:', trim(name), 'stat=', stat
+    error stop 'cuBLAS operation failed'
+end subroutine
+
 !> Sets execution mode to use traditional CPU
 subroutine mfi_force_cpu()
     MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS

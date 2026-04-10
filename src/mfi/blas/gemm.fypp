@@ -1,6 +1,6 @@
 #:def gemm(MFI_NAME,F77_NAME,pfxs)
 #:set wp = pfxs[0]
-subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
+pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
 @:parameter(integer, wp=${kind(wp)}$)
     ${type(wp)}$, intent(in), target :: a(:,:), b(:,:)
     ${type(wp)}$, intent(inout), target :: c(:,:)
@@ -46,7 +46,7 @@ subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
                  int(m,c_int), int(n,c_int), int(k,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_b, int(ldb,c_int), c_loc(beta_target), device_c, int(ldc,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS GEMM failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, '${wp.title()}$gemm')
         @:get_matrix(c)
         @:deallocate(a,b,c)
         end block
