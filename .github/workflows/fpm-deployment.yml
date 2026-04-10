@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [cpu-only, gpu-ready]
+        environment: [cpu-only, gpu-legacy]
         fpm-profile: [release, cublas]
     steps:
     - name: Checkout
@@ -28,16 +28,27 @@ jobs:
     - name: Install fypp
       run: pip install --upgrade fypp
 
+    - name: Setup Fortran (GCC 13)
+      uses: fortran-lang/setup-fortran@v1
+      with:
+        compiler: gcc
+        version: "13"
+
+    - name: Install fpm
+      uses: fortran-lang/setup-fpm@v5
+      with:
+        fpm-version: 'v0.13.0'
+
     - name: Generate sources
       run: make
 
     - name: Run exhaustive tests
       run: |
-        nix-shell shells/${{ matrix.environment }}.nix --run "fortran-fpm test --profile ${{ matrix.fpm-profile }}"
+        nix-shell shells/${{ matrix.environment }}.nix --run "fpm test --profile ${{ matrix.fpm-profile }}"
 
   deploy-artifacts:
     needs: exhaustive-test
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/impl/cublas') && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -55,6 +66,7 @@ jobs:
       run: make
 
     - name: Prepare mfi-fpm
+      if: github.ref == 'refs/heads/main'
       run: |
         mkdir -p ${{ env.PROJECT_NAME }}-fpm
         cp -R src test fpm.toml LICENSE ${{ env.PROJECT_NAME }}-fpm
@@ -63,6 +75,7 @@ jobs:
 
     - name: Deploy to mfi-fpm
       uses: JamesIves/github-pages-deploy-action@v4
+      if: github.ref == 'refs/heads/main'
       with:
         branch: mfi-fpm
         folder: ${{ env.PROJECT_NAME }}-fpm
