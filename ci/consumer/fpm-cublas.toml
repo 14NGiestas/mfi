@@ -1,0 +1,11 @@
+name = "consumer"
+version = "0.1.0"
+
+[dependencies]
+mfi = { path = ".." }
+
+[profiles]
+cublas = ["cublas"]
+
+[build]
+link = ["cublas", "cudart"]
