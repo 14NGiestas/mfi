@@ -119,6 +119,7 @@ end module
 #:if defined('MFI_EXTENSIONS')
 module mfi_blas_extensions
     use iso_fortran_env
+    use f77_blas
 #:if defined('MFI_USE_CUBLAS')
     use iso_c_binding
     use mfi_blas_cublas

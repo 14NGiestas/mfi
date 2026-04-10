@@ -3,23 +3,28 @@ FYPPFLAGS=-DMFI_EXTENSIONS -DMFI_USE_CUBLAS
 fpp_files=$(shell find test src -name "*.fpp" ! -name "blas.fpp")
 f90_files=$(patsubst %.fpp,%.f90,$(fpp_files))
 mod_files=$(patsubst %.fpp,%.mod,$(fpp_files))
-all: $(f90_files) src/mfi/blas_*.f90 src/f77/blas_*.f90 src/mfi/blas.f90 src/f77/blas.f90
+all: $(f90_files) split
 
-.PHONY: split_mfi split_f77
-split_mfi: src/mfi/blas.fpp
-	$(FPP) -m os $(FYPPFLAGS) -I. $< | awk \
-		'/^module mfi_blas_/{name=$$2; gsub(/ /,"",name)} \
-		 name{print > "src/mfi/"name".f90"} \
-		 /^end module/{if(name)close("src/mfi/"name".f90")}'
-
-split_f77: src/f77/blas.fpp
-	$(FPP) -m os $(FYPPFLAGS) -I. $< | awk \
-		'/^module f77_blas_/{name=$$2; gsub(/ /,"",name)} \
-		 name{print > "src/f77/"name".f90"} \
-		 /^end module/{if(name)close("src/f77/"name".f90")}'
+# Umbrella → split into per-module .f90 files with simple names
+split: src/mfi/blas.fpp src/f77/blas.fpp
+	$(FPP) -m os $(FYPPFLAGS) -I. src/mfi/blas.fpp > .blas_mfi.tmp
+	csplit -s -f .mfi_ -z .blas_mfi.tmp '/^module /' '{*}'
+	@for f in .mfi_*; do \
+		mod=$$(head -1 $$f | sed 's/module \([^ ]*\).*/\1/'); \
+		case "$$mod" in mfi_blas) name=mfi_blas ;; mfi_blas_*) name=$${mod#mfi_blas_} ;; *) name=$$mod ;; esac; \
+		mv "$$f" "src/mfi/blas/$$name.f90"; \
+	done
+	$(FPP) -m os $(FYPPFLAGS) -I. src/f77/blas.fpp > .blas_f77.tmp
+	csplit -s -f .f77_ -z .blas_f77.tmp '/^module /' '{*}'
+	@for f in .f77_*; do \
+		mod=$$(head -1 $$f | sed 's/module \([^ ]*\).*/\1/'); \
+		case "$$mod" in f77_blas) name=f77_blas ;; f77_blas_*) name=$${mod#f77_blas_} ;; *) name=$$mod ;; esac; \
+		mv "$$f" "src/f77/blas/$$name.f90"; \
+	done
+	@rm -f .blas_mfi.tmp .blas_f77.tmp
 
 %.f90: %.fpp
 	$(FPP) $(FYPPFLAGS) -I. $< $@
 
 clean:
-	-rm -f $(f90_files) $(mod_files) src/mfi/blas_*.f90 src/f77/blas_*.f90 src/mfi/blas.f90 src/f77/blas.f90
+	-rm -f $(f90_files) $(mod_files) src/mfi/blas/*.f90 src/f77/blas/*.f90 src/mfi/blas.f90 src/f77/blas.f90 .mfi_* .f77_* .blas_*.tmp

@@ -86,40 +86,47 @@
 ]
 #:set _modname = lambda name: name.replace('?','')
 #:endmute
-!> Improved and original F77 interfaces for BLAS
-module f77_blas
-use iso_fortran_env
-use iso_c_binding
-implicit none
 
 #! Per-module submodules
 #:for name, supported_types, code in _COLLECT
 module f77_blas_${_modname(name)}$
+    use iso_fortran_env
+    use iso_c_binding
+    implicit none
 
 $:f77_original(name, supported_types, code)
 end module
 
 #:endfor
 
-#:include "src/f77/blas/specific_interfaces.fypp"
-
 ! Extensions
-! BLAS Level 1 - Utils / Extensions
 #:if defined('MFI_EXTENSIONS')
   #:if defined('MFI_LINK_EXTERNAL')
 module f77_blas_iamax
+    use iso_fortran_env
+    use iso_c_binding
+    implicit none
 $:f77_original('i?amax', DEFAULT_TYPES, iamax_iamin)
 end module
 module f77_blas_iamin
+    use iso_fortran_env
+    use iso_c_binding
+    implicit none
 $:f77_original('i?amin', DEFAULT_TYPES, iamax_iamin)
 end module
   #:else
 module f77_blas_iamax
+    use iso_fortran_env
+    use iso_c_binding
+    implicit none
 $:f77_improved('i?amax', DEFAULT_TYPES)
 contains
 $:f77_implement('i?amax', DEFAULT_TYPES, iamin_stub)
 end module
 module f77_blas_iamin
+    use iso_fortran_env
+    use iso_c_binding
+    implicit none
 $:f77_improved('i?amin', DEFAULT_TYPES)
 contains
 $:f77_implement('i?amin', DEFAULT_TYPES, iamin_stub)
