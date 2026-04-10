@@ -26,7 +26,10 @@ jobs:
         python-version: "3.x"
 
     - name: Install fypp and fpm
-      run: pip install --upgrade fypp fpm-fortran
+      run: |
+        pip install --upgrade fypp
+        curl -sSfL https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0-linux-x86_64-gcc-12 -o /usr/local/bin/fpm
+        chmod +x /usr/local/bin/fpm
 
     - name: Generate sources
       run: make
