@@ -16,7 +16,7 @@ end subroutine
 #:set wp = pfxs[0]
 #:set CUBLAS_NAME = f"cublas{NAME.title()}"
 !> ${NAME}$ GPU (cublas v2) version
-function ${CUBLAS_NAME}$(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
+pure function ${CUBLAS_NAME}$(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
     bind(C,name="${CUBLAS_NAME}$_v2")
     import
 @:parameter(integer, wp=${c_kind(wp)}$)
