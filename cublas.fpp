@@ -132,12 +132,5 @@ integer(c_int), parameter :: cudaMemcpyDeviceToHost = 2
 
 !> cuBLAS pointer mode
 integer(c_int), parameter :: CUBLAS_POINTER_MODE_HOST = 0
-
-interface
-    pure subroutine mfi_cublas_error(stat, name)
-        integer(c_int), value, intent(in) :: stat
-        character(*), intent(in) :: name
-    end subroutine
-end interface
 #:enddef
 #:endmute
