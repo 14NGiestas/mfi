@@ -2177,11 +2177,11 @@ end interface
 !: cuBLAS v2 interfaces (separate from f77_original to avoid mixing subroutines/functions)
 interface
 !> sgemm GPU (cublas v2) version
-pure function cublasSgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) result(stat) &
+pure subroutine cublasSgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc, stat) &
     bind(C,name="cublasSgemm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_float
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: transa
     integer(c_int),value, intent(in) :: transb
     integer(c_int),value, intent(in) :: m
@@ -2195,14 +2195,14 @@ pure function cublasSgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb
     type(c_ptr), value, intent(in) :: b
     type(c_ptr), value, intent(in) :: beta
     type(c_ptr), value, intent(in) :: c
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> sgemv GPU (cublas v2) version
-pure function cublasSgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, incy) result(stat) &
+pure subroutine cublasSgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, incy, stat) &
     bind(C,name="cublasSgemv_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_float
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: trans
     integer(c_int),value, intent(in) :: m
     integer(c_int),value, intent(in) :: n
@@ -2214,14 +2214,14 @@ pure function cublasSgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, 
     type(c_ptr), value, intent(in) :: x
     type(c_ptr), value, intent(in) :: beta
     type(c_ptr), value, intent(in) :: y
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> strmm GPU (cublas v2) version
-pure function cublasStrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
+pure subroutine cublasStrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb, stat) &
     bind(C,name="cublasStrmm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_float
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: side
     integer(c_int),value, intent(in) :: uplo
     integer(c_int),value, intent(in) :: transa
@@ -2233,14 +2233,14 @@ pure function cublasStrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda,
     type(c_ptr), value, intent(in) :: alpha
     type(c_ptr), value, intent(in) :: a
     type(c_ptr), value, intent(in) :: b
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> strsm GPU (cublas v2) version
-pure function cublasStrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
+pure subroutine cublasStrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb, stat) &
     bind(C,name="cublasStrsm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_float
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: side
     integer(c_int),value, intent(in) :: uplo
     integer(c_int),value, intent(in) :: transa
@@ -2252,14 +2252,14 @@ pure function cublasStrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda,
     type(c_ptr), value, intent(in) :: alpha
     type(c_ptr), value, intent(in) :: a
     type(c_ptr), value, intent(in) :: b
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> dgemm GPU (cublas v2) version
-pure function cublasDgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) result(stat) &
+pure subroutine cublasDgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc, stat) &
     bind(C,name="cublasDgemm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_double
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: transa
     integer(c_int),value, intent(in) :: transb
     integer(c_int),value, intent(in) :: m
@@ -2273,14 +2273,14 @@ pure function cublasDgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb
     type(c_ptr), value, intent(in) :: b
     type(c_ptr), value, intent(in) :: beta
     type(c_ptr), value, intent(in) :: c
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> dgemv GPU (cublas v2) version
-pure function cublasDgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, incy) result(stat) &
+pure subroutine cublasDgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, incy, stat) &
     bind(C,name="cublasDgemv_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_double
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: trans
     integer(c_int),value, intent(in) :: m
     integer(c_int),value, intent(in) :: n
@@ -2292,14 +2292,14 @@ pure function cublasDgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, 
     type(c_ptr), value, intent(in) :: x
     type(c_ptr), value, intent(in) :: beta
     type(c_ptr), value, intent(in) :: y
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> dtrmm GPU (cublas v2) version
-pure function cublasDtrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
+pure subroutine cublasDtrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb, stat) &
     bind(C,name="cublasDtrmm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_double
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: side
     integer(c_int),value, intent(in) :: uplo
     integer(c_int),value, intent(in) :: transa
@@ -2311,14 +2311,14 @@ pure function cublasDtrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda,
     type(c_ptr), value, intent(in) :: alpha
     type(c_ptr), value, intent(in) :: a
     type(c_ptr), value, intent(in) :: b
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> dtrsm GPU (cublas v2) version
-pure function cublasDtrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
+pure subroutine cublasDtrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb, stat) &
     bind(C,name="cublasDtrsm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_double
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: side
     integer(c_int),value, intent(in) :: uplo
     integer(c_int),value, intent(in) :: transa
@@ -2330,14 +2330,14 @@ pure function cublasDtrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda,
     type(c_ptr), value, intent(in) :: alpha
     type(c_ptr), value, intent(in) :: a
     type(c_ptr), value, intent(in) :: b
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> cgemm GPU (cublas v2) version
-pure function cublasCgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) result(stat) &
+pure subroutine cublasCgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc, stat) &
     bind(C,name="cublasCgemm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_float
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: transa
     integer(c_int),value, intent(in) :: transb
     integer(c_int),value, intent(in) :: m
@@ -2351,14 +2351,14 @@ pure function cublasCgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb
     type(c_ptr), value, intent(in) :: b
     type(c_ptr), value, intent(in) :: beta
     type(c_ptr), value, intent(in) :: c
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> cgemv GPU (cublas v2) version
-pure function cublasCgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, incy) result(stat) &
+pure subroutine cublasCgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, incy, stat) &
     bind(C,name="cublasCgemv_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_float
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: trans
     integer(c_int),value, intent(in) :: m
     integer(c_int),value, intent(in) :: n
@@ -2370,14 +2370,14 @@ pure function cublasCgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, 
     type(c_ptr), value, intent(in) :: x
     type(c_ptr), value, intent(in) :: beta
     type(c_ptr), value, intent(in) :: y
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> ctrmm GPU (cublas v2) version
-pure function cublasCtrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
+pure subroutine cublasCtrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb, stat) &
     bind(C,name="cublasCtrmm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_float
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: side
     integer(c_int),value, intent(in) :: uplo
     integer(c_int),value, intent(in) :: transa
@@ -2389,14 +2389,14 @@ pure function cublasCtrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda,
     type(c_ptr), value, intent(in) :: alpha
     type(c_ptr), value, intent(in) :: a
     type(c_ptr), value, intent(in) :: b
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> ctrsm GPU (cublas v2) version
-pure function cublasCtrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
+pure subroutine cublasCtrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb, stat) &
     bind(C,name="cublasCtrsm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_float
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: side
     integer(c_int),value, intent(in) :: uplo
     integer(c_int),value, intent(in) :: transa
@@ -2408,14 +2408,14 @@ pure function cublasCtrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda,
     type(c_ptr), value, intent(in) :: alpha
     type(c_ptr), value, intent(in) :: a
     type(c_ptr), value, intent(in) :: b
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> zgemm GPU (cublas v2) version
-pure function cublasZgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc) result(stat) &
+pure subroutine cublasZgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, c, ldc, stat) &
     bind(C,name="cublasZgemm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_double
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: transa
     integer(c_int),value, intent(in) :: transb
     integer(c_int),value, intent(in) :: m
@@ -2429,14 +2429,14 @@ pure function cublasZgemm(handle, transa, transb, m, n, k, alpha, a, lda, b, ldb
     type(c_ptr), value, intent(in) :: b
     type(c_ptr), value, intent(in) :: beta
     type(c_ptr), value, intent(in) :: c
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> zgemv GPU (cublas v2) version
-pure function cublasZgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, incy) result(stat) &
+pure subroutine cublasZgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, incy, stat) &
     bind(C,name="cublasZgemv_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_double
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: trans
     integer(c_int),value, intent(in) :: m
     integer(c_int),value, intent(in) :: n
@@ -2448,14 +2448,14 @@ pure function cublasZgemv(handle, trans, m, n, alpha, a, lda, x, incx, beta, y, 
     type(c_ptr), value, intent(in) :: x
     type(c_ptr), value, intent(in) :: beta
     type(c_ptr), value, intent(in) :: y
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> ztrmm GPU (cublas v2) version
-pure function cublasZtrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
+pure subroutine cublasZtrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb, stat) &
     bind(C,name="cublasZtrmm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_double
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: side
     integer(c_int),value, intent(in) :: uplo
     integer(c_int),value, intent(in) :: transa
@@ -2467,14 +2467,14 @@ pure function cublasZtrmm(handle, side, uplo, transa, diag, m, n, alpha, a, lda,
     type(c_ptr), value, intent(in) :: alpha
     type(c_ptr), value, intent(in) :: a
     type(c_ptr), value, intent(in) :: b
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 !> ztrsm GPU (cublas v2) version
-pure function cublasZtrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
+pure subroutine cublasZtrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb, stat) &
     bind(C,name="cublasZtrsm_v2")
-    import
+    import :: c_int, c_ptr, c_float, c_double
     integer, parameter :: wp = c_double
-    type(c_ptr), value, intent(in) :: handle
+    type(c_ptr), intent(in) :: handle
     integer(c_int),value, intent(in) :: side
     integer(c_int),value, intent(in) :: uplo
     integer(c_int),value, intent(in) :: transa
@@ -2486,8 +2486,8 @@ pure function cublasZtrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda,
     type(c_ptr), value, intent(in) :: alpha
     type(c_ptr), value, intent(in) :: a
     type(c_ptr), value, intent(in) :: b
-    integer(c_int) :: stat
-end function
+    integer(c_int), intent(out) :: stat
+end subroutine
 end interface
 
 !> ?lamch supports s, d. See [[mfi_lamch]] for the modern version.
