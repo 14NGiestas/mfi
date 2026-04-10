@@ -52,7 +52,7 @@ jobs:
         FOLDER: ${{ env.PROJECT_NAME }}-fpm
 
   test-and-deploy-cublas:
-    if: github.ref != 'refs/heads/main'
+    if: github.ref == 'refs/heads/impl/cublas'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -97,7 +97,6 @@ jobs:
 
     - name: Deploy to mfi-cublas
       uses: JamesIves/github-pages-deploy-action@v4
-      if: github.ref != 'refs/heads/main' && github.event_name != 'pull_request'
       with:
         BRANCH: mfi-cublas
         FOLDER: ${{ env.PROJECT_NAME }}-cublas
