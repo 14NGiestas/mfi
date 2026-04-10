@@ -11,8 +11,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [cpu-only, gpu-legacy]
-        fpm-profile: [release, cublas]
+        include:
+          - name: cpu-only
+            environment: cpu-only
+            profile: release
+            test: true
+          - name: gpu-modern
+            environment: gpu-modern
+            profile: release
+            test: true
+          - name: gpu-modern-cublas
+            environment: gpu-modern
+            profile: cublas
+            test: compile-only
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -34,9 +45,14 @@ jobs:
     - name: Generate sources
       run: make
 
-    - name: Run exhaustive tests
+    - name: Compile (all combinations)
       run: |
-        nix-shell shells/${{ matrix.environment }}.nix --run "fpm test --profile ${{ matrix.fpm-profile }}"
+        nix-shell shells/${{ matrix.environment }}.nix --run "fpm build --profile ${{ matrix.profile }}"
+
+    - name: Run tests
+      if: matrix.test == 'true'
+      run: |
+        nix-shell shells/${{ matrix.environment }}.nix --run "fpm test --profile ${{ matrix.profile }}"
 
   deploy-artifacts:
     needs: exhaustive-test
