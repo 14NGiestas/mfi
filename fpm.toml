@@ -6,6 +6,7 @@ maintainer = "iangiestas@usp.br"
 
 [library]
 build-script="Makefile"
+include-dir = ["/usr/local/cuda/include"]
 
 [build]
 link = ["blas","lapack","cublas","cudart"]
