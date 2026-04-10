@@ -31,12 +31,6 @@ jobs:
         curl -sSfL https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0-linux-x86_64-gcc-12 -o /usr/local/bin/fpm
         chmod +x /usr/local/bin/fpm
 
-    - name: Setup Fortran (GCC 13)
-      uses: fortran-lang/setup-fortran@v1
-      with:
-        compiler: gcc
-        version: "13"
-
     - name: Generate sources
       run: make
 
