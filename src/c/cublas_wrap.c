@@ -1,4 +1,4 @@
-#ifdef MFI_CUBLAS_SUPPORT
+#ifdef MFI_CUBLAS
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 

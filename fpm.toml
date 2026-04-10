@@ -7,16 +7,16 @@ maintainer = "iangiestas@usp.br"
 [library]
 build-script="Makefile"
 
-[build]
-link = ["blas","lapack"]
-
 [preprocess.cpp]
 macros = ["MFI_EXTENSIONS", "MFI_LINK_EXTERNAL"]
 
 [features]
+base.build.link = ["blas", "lapack"]
 with-cublas.build.link = ["blas", "lapack", "cublas", "cudart"]
 with-cublas.preprocess.cpp.macros = ["MFI_CUBLAS"]
 
 [profiles]
+default = ["base"]
 cublas = ["with-cublas"]
+
 

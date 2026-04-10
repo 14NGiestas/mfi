@@ -100,6 +100,7 @@ contains
         @:timeit("time mfi_gemm, transa=T (CPU): ", { call mfi_gemm(A,B,D,transa='T') })
         call mfi_force_gpu
         @:timeit("time mfi_gemm, transa=T (GPU): ", { call mfi_gemm(A,B,C,transa='T') })
+        call mfi_force_cpu
         call mfi_cublas_finalize
         call assert(all(is_almost_equal(C,D)))
 #endif
