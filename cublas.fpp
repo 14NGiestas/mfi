@@ -111,9 +111,13 @@ integer(c_int), parameter :: CUBLAS_OP_N = 0
 integer(c_int), parameter :: CUBLAS_OP_T = 1
 integer(c_int), parameter :: CUBLAS_OP_C = 2
 
-!> cuBLAS fill mode constants
+!> cuBLAS fill mode constants (standard: UPPER=0, LOWER=1)
 integer(c_int), parameter :: CUBLAS_FILL_MODE_UPPER = 0
 integer(c_int), parameter :: CUBLAS_FILL_MODE_LOWER = 1
+
+!> cuBLAS fill mode for TRSM/TRMM — empirically inverted vs standard
+integer(c_int), parameter :: CUBLAS_TRSM_FILL_UPPER = 1
+integer(c_int), parameter :: CUBLAS_TRSM_FILL_LOWER = 0
 
 !> cuBLAS diagonal constants
 integer(c_int), parameter :: CUBLAS_DIAG_NON_UNIT = 0

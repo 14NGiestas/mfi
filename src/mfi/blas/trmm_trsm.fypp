@@ -25,9 +25,9 @@ subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
             cu_side = CUBLAS_SIDE_RIGHT
         end if
         if (local_uplo == 'U' .or. local_uplo == 'u') then
-            cu_uplo = CUBLAS_FILL_MODE_UPPER
+            cu_uplo = CUBLAS_TRSM_FILL_UPPER
         else
-            cu_uplo = CUBLAS_FILL_MODE_LOWER
+            cu_uplo = CUBLAS_TRSM_FILL_LOWER
         end if
         if (local_transa == 'N' .or. local_transa == 'n') then
             cu_transa = CUBLAS_OP_N
