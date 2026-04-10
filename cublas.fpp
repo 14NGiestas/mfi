@@ -65,7 +65,7 @@
 interface
     pure function cuda_malloc(devPtr, size) bind(c,name="cudaMalloc") result(stat)
         use, intrinsic :: iso_c_binding
-        type(c_ptr), intent(out) :: devPtr
+        type(c_ptr), value, intent(out) :: devPtr
         integer(c_size_t), value, intent(in) :: size
         integer(c_int) :: stat
     end function
@@ -86,7 +86,7 @@ interface
 
     pure function cublasCreate(handle) bind(c,name="cublasCreate_v2") result(stat)
         use, intrinsic :: iso_c_binding
-        type(c_ptr), intent(out) :: handle
+        type(c_ptr), value, intent(out) :: handle
         integer(c_int) :: stat
     end function
 
