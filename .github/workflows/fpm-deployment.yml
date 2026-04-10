@@ -19,7 +19,7 @@ jobs:
         include:
           - name: cpu-only
             environment: cpu-only
-            profile: release
+            profile: ""
             test: true
           - name: gpu-modern
             environment: gpu-modern
@@ -52,12 +52,20 @@ jobs:
 
     - name: Compile (all combinations)
       run: |
-        nix-shell shells/${{ matrix.environment }}.nix --run "fpm build --profile ${{ matrix.profile }}"
+        if [ -n "${{ matrix.profile }}" ]; then
+          nix-shell shells/${{ matrix.environment }}.nix --run "fpm build --profile ${{ matrix.profile }}"
+        else
+          nix-shell shells/${{ matrix.environment }}.nix --run "fpm build"
+        fi
 
     - name: Run tests
       if: matrix.test == 'true'
       run: |
-        nix-shell shells/${{ matrix.environment }}.nix --run "fpm test --profile ${{ matrix.profile }}"
+        if [ -n "${{ matrix.profile }}" ]; then
+          nix-shell shells/${{ matrix.environment }}.nix --run "fpm test --profile ${{ matrix.profile }}"
+        else
+          nix-shell shells/${{ matrix.environment }}.nix --run "fpm test"
+        fi
 
   consumer-test:
     needs: exhaustive-test
@@ -68,7 +76,7 @@ jobs:
         include:
           - name: consumer-cpu
             environment: cpu-only
-            profile: release
+            profile: ""
           - name: consumer-cublas
             environment: gpu-modern
             profile: cublas
@@ -115,9 +123,14 @@ jobs:
           [dependencies]
           mfi = { path = "..", features = ["cublas"] }
 
+          [profiles]
+          cublas = ["cublas"]
+
           [build]
           link = ["cublas", "cudart"]
           TOML_EOF
+
+          nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build --profile cublas"
         else
           cat > fpm.toml << 'TOML_EOF'
           name = "consumer"
@@ -126,9 +139,9 @@ jobs:
           [dependencies]
           mfi = { path = ".." }
           TOML_EOF
-        fi
 
-        nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build"
+          nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build"
+        fi
 
   deploy-artifacts:
     needs: [exhaustive-test, consumer-test]
