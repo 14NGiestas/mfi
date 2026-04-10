@@ -25,19 +25,8 @@ jobs:
       with:
         python-version: "3.x"
 
-    - name: Install fypp
-      run: pip install --upgrade fypp
-
-    - name: Setup Fortran (GCC 13)
-      uses: fortran-lang/setup-fortran@v1
-      with:
-        compiler: gcc
-        version: "13"
-
-    - name: Install fpm
-      uses: fortran-lang/setup-fpm@v5
-      with:
-        fpm-version: 'v0.13.0'
+    - name: Install fypp and fpm
+      run: pip install --upgrade fypp fpm-fortran
 
     - name: Generate sources
       run: make
