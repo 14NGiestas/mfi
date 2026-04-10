@@ -96,11 +96,8 @@ module mfi_blas_${_modname(name)}$
     use mfi_blas_extensions
 #:endif
     implicit none
-#:if name == '?lamch'
-#:include "src/f77/blas/specific_interfaces.fypp"
-#:endif
 
-$:mfi_interface(name, supported_types)
+    $:mfi_interface(name, supported_types)
 
 contains
 

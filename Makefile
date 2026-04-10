@@ -1,5 +1,10 @@
 FPP=fypp
+# Check if CUDA is enabled
+ifeq ($(MFI_USE_CUBLAS),1)
 FYPPFLAGS=-DMFI_EXTENSIONS -DMFI_USE_CUBLAS
+else
+FYPPFLAGS=-DMFI_EXTENSIONS
+endif
 fpp_files=$(shell find test src -name "*.fpp" ! -name "blas.fpp")
 f90_files=$(patsubst %.fpp,%.f90,$(fpp_files))
 mod_files=$(patsubst %.fpp,%.mod,$(fpp_files))
