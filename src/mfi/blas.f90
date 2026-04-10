@@ -445,21 +445,20 @@ end interface
 integer, save :: MFI_USE_CUBLAS = 0
 integer, save :: MFI_USE_CUBLAS_PREV_STATE = 0
 interface
-    ! CUDA Runtime API - Memory management
-    function cuda_malloc(devPtr, size) bind(c,name="cudaMalloc") result(stat)
+    pure function cuda_malloc(devPtr, size) bind(c,name="cudaMalloc") result(stat)
         use, intrinsic :: iso_c_binding
-        type(c_ptr), intent(out) :: devPtr
+        type(c_ptr), value, intent(out) :: devPtr
         integer(c_size_t), value, intent(in) :: size
         integer(c_int) :: stat
     end function
 
-    function cuda_free(devPtr) bind(c,name="cudaFree") result(stat)
+    pure function cuda_free(devPtr) bind(c,name="cudaFree") result(stat)
         use, intrinsic :: iso_c_binding
         type(c_ptr), value, intent(in) :: devPtr
         integer(c_int) :: stat
     end function
 
-    subroutine cudaMemcpy(dst, src, count, kind) bind(c,name="cudaMemcpy")
+    pure subroutine cudaMemcpy(dst, src, count, kind) bind(c,name="cudaMemcpy")
         use, intrinsic :: iso_c_binding
         type(c_ptr), value, intent(in) :: dst
         type(c_ptr), value, intent(in) :: src
@@ -467,20 +466,19 @@ interface
         integer(c_int), value, intent(in) :: kind
     end subroutine
 
-    ! cuBLAS v2 API - Handle management
-    function cublasCreate(handle) bind(c,name="cublasCreate_v2") result(stat)
+    pure function cublasCreate(handle) bind(c,name="cublasCreate_v2") result(stat)
         use, intrinsic :: iso_c_binding
-        type(c_ptr), intent(out) :: handle
+        type(c_ptr), value, intent(out) :: handle
         integer(c_int) :: stat
     end function
 
-    function cublasDestroy(handle) bind(c,name="cublasDestroy_v2") result(stat)
+    pure function cublasDestroy(handle) bind(c,name="cublasDestroy_v2") result(stat)
         use, intrinsic :: iso_c_binding
         type(c_ptr), value, intent(in) :: handle
         integer(c_int) :: stat
     end function
 
-    function cublasSetPointerMode(handle, mode) bind(c,name="cublasSetPointerMode_v2") result(stat)
+    pure function cublasSetPointerMode(handle, mode) bind(c,name="cublasSetPointerMode_v2") result(stat)
         use, intrinsic :: iso_c_binding
         type(c_ptr), value, intent(in) :: handle
         integer(c_int), value, intent(in) :: mode
@@ -515,6 +513,13 @@ integer(c_int), parameter :: cudaMemcpyDeviceToHost = 2
 
 !> cuBLAS pointer mode
 integer(c_int), parameter :: CUBLAS_POINTER_MODE_HOST = 0
+
+interface
+    pure subroutine mfi_cublas_error(stat, name)
+        integer(c_int), value, intent(in) :: stat
+        character(*), intent(in) :: name
+    end subroutine
+end interface
 !> Global cuBLAS v2 handle
 type(c_ptr), save :: mfi_cublas_handle = c_null_ptr
 
@@ -1708,7 +1713,7 @@ pure subroutine mfi_zgbmv(a, x, y, kl, m, alpha, beta, trans, incx, incy)
 end subroutine
 !> Modern interface for [[f77_gemv:f77_gemv]].
 !> See also: [[mfi_gemv]], [[f77_gemv]].
-subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
+pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
     real(REAL32), intent(in), target :: a(:,:), x(:)
     real(REAL32), intent(inout), target :: y(:)
@@ -1791,7 +1796,7 @@ subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_x, int(local_incx,c_int), &
                  c_loc(beta_target), device_y, int(local_incy,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS GEMV failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Sgemv')
         call cudaMemcpy(c_loc(y), device_y, &
                         int(size(y) * storage_size(y)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -1808,7 +1813,7 @@ subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
 end subroutine
 !> Modern interface for [[f77_gemv:f77_gemv]].
 !> See also: [[mfi_gemv]], [[f77_gemv]].
-subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
+pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
     real(REAL64), intent(in), target :: a(:,:), x(:)
     real(REAL64), intent(inout), target :: y(:)
@@ -1891,7 +1896,7 @@ subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_x, int(local_incx,c_int), &
                  c_loc(beta_target), device_y, int(local_incy,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS GEMV failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Dgemv')
         call cudaMemcpy(c_loc(y), device_y, &
                         int(size(y) * storage_size(y)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -1908,7 +1913,7 @@ subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
 end subroutine
 !> Modern interface for [[f77_gemv:f77_gemv]].
 !> See also: [[mfi_gemv]], [[f77_gemv]].
-subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
+pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL32
     complex(REAL32), intent(in), target :: a(:,:), x(:)
     complex(REAL32), intent(inout), target :: y(:)
@@ -1991,7 +1996,7 @@ subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_x, int(local_incx,c_int), &
                  c_loc(beta_target), device_y, int(local_incy,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS GEMV failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Cgemv')
         call cudaMemcpy(c_loc(y), device_y, &
                         int(size(y) * storage_size(y)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -2008,7 +2013,7 @@ subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
 end subroutine
 !> Modern interface for [[f77_gemv:f77_gemv]].
 !> See also: [[mfi_gemv]], [[f77_gemv]].
-subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
+pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
     integer, parameter :: wp = REAL64
     complex(REAL64), intent(in), target :: a(:,:), x(:)
     complex(REAL64), intent(inout), target :: y(:)
@@ -2091,7 +2096,7 @@ subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_x, int(local_incx,c_int), &
                  c_loc(beta_target), device_y, int(local_incy,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS GEMV failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Zgemv')
         call cudaMemcpy(c_loc(y), device_y, &
                         int(size(y) * storage_size(y)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -4380,7 +4385,7 @@ pure subroutine mfi_ztrsv(a, x, uplo, trans, diag, incx)
 end subroutine
 !> Modern interface for [[f77_gemm:f77_gemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
+pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL32
     real(REAL32), intent(in), target :: a(:,:), b(:,:)
     real(REAL32), intent(inout), target :: c(:,:)
@@ -4469,7 +4474,7 @@ subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
                  int(m,c_int), int(n,c_int), int(k,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_b, int(ldb,c_int), c_loc(beta_target), device_c, int(ldc,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS GEMM failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Sgemm')
         call cudaMemcpy(c_loc(c), device_c, &
                         int(size(c) * storage_size(c)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -4486,7 +4491,7 @@ subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
 end subroutine
 !> Modern interface for [[f77_gemm:f77_gemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
+pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL64
     real(REAL64), intent(in), target :: a(:,:), b(:,:)
     real(REAL64), intent(inout), target :: c(:,:)
@@ -4575,7 +4580,7 @@ subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
                  int(m,c_int), int(n,c_int), int(k,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_b, int(ldb,c_int), c_loc(beta_target), device_c, int(ldc,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS GEMM failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Dgemm')
         call cudaMemcpy(c_loc(c), device_c, &
                         int(size(c) * storage_size(c)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -4592,7 +4597,7 @@ subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
 end subroutine
 !> Modern interface for [[f77_gemm:f77_gemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
+pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL32
     complex(REAL32), intent(in), target :: a(:,:), b(:,:)
     complex(REAL32), intent(inout), target :: c(:,:)
@@ -4681,7 +4686,7 @@ subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
                  int(m,c_int), int(n,c_int), int(k,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_b, int(ldb,c_int), c_loc(beta_target), device_c, int(ldc,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS GEMM failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Cgemm')
         call cudaMemcpy(c_loc(c), device_c, &
                         int(size(c) * storage_size(c)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -4698,7 +4703,7 @@ subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
 end subroutine
 !> Modern interface for [[f77_gemm:f77_gemm]].
 !> See also: [[mfi_gemm]], [[f77_gemm]].
-subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
+pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     integer, parameter :: wp = REAL64
     complex(REAL64), intent(in), target :: a(:,:), b(:,:)
     complex(REAL64), intent(inout), target :: c(:,:)
@@ -4787,7 +4792,7 @@ subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
                  int(m,c_int), int(n,c_int), int(k,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_b, int(ldb,c_int), c_loc(beta_target), device_c, int(ldc,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS GEMM failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Zgemm')
         call cudaMemcpy(c_loc(c), device_c, &
                         int(size(c) * storage_size(c)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -5344,7 +5349,7 @@ pure subroutine mfi_dsyr2k(a, b, c, uplo, trans, alpha, beta)
 end subroutine
 !> Modern interface for [[f77_trmm:f77_trmm]].
 !> See also: [[mfi_trmm]], [[f77_trmm]].
-subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
+pure subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
     real(REAL32), intent(in), target :: a(:,:)
     real(REAL32), intent(inout), target :: b(:,:)
@@ -5433,7 +5438,7 @@ subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
         cublas_stat = cublasStrmm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS f77_trmm failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trmm')
         call cudaMemcpy(c_loc(b), device_b, &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -5448,7 +5453,7 @@ subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 !> Modern interface for [[f77_trmm:f77_trmm]].
 !> See also: [[mfi_trmm]], [[f77_trmm]].
-subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
+pure subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
     real(REAL64), intent(in), target :: a(:,:)
     real(REAL64), intent(inout), target :: b(:,:)
@@ -5537,7 +5542,7 @@ subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
         cublas_stat = cublasDtrmm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS f77_trmm failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trmm')
         call cudaMemcpy(c_loc(b), device_b, &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -5552,7 +5557,7 @@ subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 !> Modern interface for [[f77_trmm:f77_trmm]].
 !> See also: [[mfi_trmm]], [[f77_trmm]].
-subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
+pure subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
     complex(REAL32), intent(in), target :: a(:,:)
     complex(REAL32), intent(inout), target :: b(:,:)
@@ -5641,7 +5646,7 @@ subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
         cublas_stat = cublasCtrmm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS f77_trmm failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trmm')
         call cudaMemcpy(c_loc(b), device_b, &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -5656,7 +5661,7 @@ subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 !> Modern interface for [[f77_trmm:f77_trmm]].
 !> See also: [[mfi_trmm]], [[f77_trmm]].
-subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
+pure subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
     complex(REAL64), intent(in), target :: a(:,:)
     complex(REAL64), intent(inout), target :: b(:,:)
@@ -5745,7 +5750,7 @@ subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
         cublas_stat = cublasZtrmm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS f77_trmm failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trmm')
         call cudaMemcpy(c_loc(b), device_b, &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -5760,7 +5765,7 @@ subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 !> Modern interface for [[f77_trsm:f77_trsm]].
 !> See also: [[mfi_trsm]], [[f77_trsm]].
-subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
+pure subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
     real(REAL32), intent(in), target :: a(:,:)
     real(REAL32), intent(inout), target :: b(:,:)
@@ -5849,7 +5854,7 @@ subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
         cublas_stat = cublasStrsm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS f77_trsm failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trsm')
         call cudaMemcpy(c_loc(b), device_b, &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -5864,7 +5869,7 @@ subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 !> Modern interface for [[f77_trsm:f77_trsm]].
 !> See also: [[mfi_trsm]], [[f77_trsm]].
-subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
+pure subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
     real(REAL64), intent(in), target :: a(:,:)
     real(REAL64), intent(inout), target :: b(:,:)
@@ -5953,7 +5958,7 @@ subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
         cublas_stat = cublasDtrsm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS f77_trsm failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trsm')
         call cudaMemcpy(c_loc(b), device_b, &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -5968,7 +5973,7 @@ subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 !> Modern interface for [[f77_trsm:f77_trsm]].
 !> See also: [[mfi_trsm]], [[f77_trsm]].
-subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
+pure subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL32
     complex(REAL32), intent(in), target :: a(:,:)
     complex(REAL32), intent(inout), target :: b(:,:)
@@ -6057,7 +6062,7 @@ subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
         cublas_stat = cublasCtrsm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS f77_trsm failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trsm')
         call cudaMemcpy(c_loc(b), device_b, &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -6072,7 +6077,7 @@ subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
 end subroutine
 !> Modern interface for [[f77_trsm:f77_trsm]].
 !> See also: [[mfi_trsm]], [[f77_trsm]].
-subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
+pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
     integer, parameter :: wp = REAL64
     complex(REAL64), intent(in), target :: a(:,:)
     complex(REAL64), intent(inout), target :: b(:,:)
@@ -6161,7 +6166,7 @@ subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
         cublas_stat = cublasZtrsm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
-        if (cublas_stat /= 0) error stop 'cuBLAS f77_trsm failed'
+        if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trsm')
         call cudaMemcpy(c_loc(b), device_b, &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyDeviceToHost)
@@ -6383,6 +6388,14 @@ subroutine mfi_cublas_finalize()
         stat = cublasDestroy(mfi_cublas_handle)
         mfi_cublas_handle = c_null_ptr
     end if
+end subroutine
+
+!> Report cuBLAS error (called from pure wrappers)
+subroutine mfi_cublas_error(stat, name)
+    integer(c_int), intent(in) :: stat
+    character(*), intent(in) :: name
+    print *, 'cuBLAS error:', trim(name), 'stat=', stat
+    error stop 'cuBLAS operation failed'
 end subroutine
 
 !> Sets execution mode to use traditional CPU
