@@ -1,0 +1,21 @@
+#:def trtrs(NAME,pfxs)
+#:set wp=pfxs[0]
+!> ${NAME.upper()}$ solves a triangular system of the form
+!>
+!>     A * X = B  or  A**T * X = B  or  A**H * X = B,
+!>
+!> where A is a triangular matrix of order N, and B is an N-by-NRHS matrix.
+!> The transpose or conjugate-transpose is selected via `trans`.
+!>
+!> A is assumed to be either upper or lower triangular as specified by `uplo`,
+!> and may be unit or non-unit diagonal as specified by `diag`.
+pure subroutine ${NAME}$(uplo, trans, diag, n, nrhs, a, lda, b, ldb, info)
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    a(lda,*))
+@:args(${type(wp)}$, inout, b(ldb,*))
+@:args(character, in,  uplo, trans, diag)
+@:args(integer,   in,  n, nrhs, lda, ldb)
+@:args(integer,   out, info)
+end subroutine
+#:enddef

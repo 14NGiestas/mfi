@@ -1,0 +1,47 @@
+#:mute
+
+!subroutine ?pocon (
+!   character                      uplo,
+!   integer                           n,
+!   type(wp), dimension( lda, * )     a,
+!   integer                         lda,
+!   real(wp)                      anorm,
+!   real(wp)                      rcond,
+!   type(wp),    dimension( * )    work,
+! if real(wp)S then,
+!   integer,      dimension( * )   iwork,
+! if complex(wp)S then,
+!   real(wp),     dimension( * )   rwork,
+!   integer                        info
+!)
+#:def pocon(NAME,pfxs)
+#:set wp=pfxs[0]
+#:set wp = pfxs[0]
+!> ${NAME}$ estimates the reciprocal of the condition number (in the
+!> 1-norm) of a ${type(wp)}$ Hermitian positive definite matrix using the
+!> Cholesky factorization \( A = U^\dagger U \) or \( A = LL^\dagger |) computed by ${wp.upper()}$POTRF.
+!> An estimate is obtained for norm(inv(A)), and the reciprocal of the
+!> condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).
+#:if type(wp) == real(wp)
+pure subroutine ${NAME}$(uplo, n, a, lda, anorm, rcond, work, iwork, info)
+#:elif type(wp) == complex(wp)
+pure subroutine ${NAME}$(uplo, n, a, lda, anorm, rcond, work, rwork, info)
+#:endif
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(character,     in,    uplo)
+@:args(integer,       in,    n, lda)
+@:args(${type(wp)}$,      inout, a(lda,*))
+@:args(${real(wp)}$, in,    anorm)
+@:args(${real(wp)}$, out,   rcond)
+@:args(${type(wp)}$,      inout, work(*))
+#:if type(wp) == real(wp)
+@:args(integer,       inout, iwork(*))
+#:elif type(wp) == complex(wp)
+@:args(${real(wp)}$, inout, rwork(*))
+#:endif
+@:args(integer,       out,   info)
+end subroutine
+#:enddef
+
+#:endmute

@@ -1,0 +1,11 @@
+#:def ger_gerc_geru(NAME,pfxs)
+#:set wp = pfxs[0]
+pure subroutine ${NAME}$(m, n, alpha, x, incx, y, incy, a, lda)
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  in,    x(*), y(*))
+@:args(${type(wp)}$,  inout, a(lda,*))
+@:args(${type(wp)}$,  in,    alpha)
+@:args(integer,   in,    m, n, lda, incx, incy)
+end subroutine
+#:enddef

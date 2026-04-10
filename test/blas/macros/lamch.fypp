@@ -1,0 +1,32 @@
+
+#:def lamch(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_blas, only: ${f77}$
+    use mfi_blas, only: ${mfi}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+
+    integer, parameter :: N = 20
+    character, parameter :: options(*) = ['E','e', &
+                                          'S','s', &
+                                          'B','b', &
+                                          'P','p', &
+                                          'N','n', &
+                                          'R','r', &
+                                          'M','m', &
+                                          'U','u', &
+                                          'L','l', &
+                                          'O','o']
+    ${type(wp)}$ :: a, b
+    integer :: i
+
+    do i=1,size(options)
+        a = ${f77}$(options(i))
+        b = ${mfi}$(options(i),1.0_wp)
+        call assert(abs(a - b) < sqrt(epsilon(1.0_wp)), "different results for option "//options(i))
+    end do
+
+end subroutine
+#:enddef
+

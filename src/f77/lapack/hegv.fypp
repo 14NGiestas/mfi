@@ -1,0 +1,15 @@
+#:def hegv(NAME,pfxs)
+#:set wp=pfxs[0]
+pure subroutine ${NAME}$(itype, jobz, uplo, n, a, lda, b, ldb, w, work, lwork, rwork, info)
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,  inout, a(lda,*))
+@:args(${type(wp)}$,  inout, b(ldb,*))
+@:args(${real(wp)}$, out, w(*))
+@:args(integer,   out,   info)
+@:args(character, in,    jobz, uplo)
+@:args(integer,   in,    n, itype, lda, ldb, lwork)
+@:args(${type(wp)}$,  inout, work(*))
+@:args(${real(wp)}$, in, rwork(*))
+end subroutine
+#:enddef

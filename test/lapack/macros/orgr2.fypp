@@ -1,0 +1,42 @@
+#:def orgr2(f77,f90,mfi,pfxs)
+#:set wp = pfxs[0]
+subroutine test_${f77}$
+    use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: M = 2, N = 3  ! For RQ, typically L <= N, so M <= N
+    ${type(wp)}$ :: A(M,N), A_copy(M,N), tau(min(M,N))
+    ${type(wp)}$, allocatable :: work(:)
+    integer :: info, info_rf, info_mfi
+
+    ! Create a test matrix A in lower trapezoidal form for RQ (with Householder vectors above)
+    A = 0.0_wp
+    A(1,1) = 2.0_wp; A(1,2) = 1.0_wp; A(1,3) = 1.0_wp
+    A(2,1) = 1.0_wp; A(2,2) = 2.0_wp; A(2,3) = 1.0_wp
+    
+    A_copy = A
+
+    ! Test f77 interface - need to allocate workspace
+    allocate(work(M)) ! Workspace size for generation routines
+    call ${f77}$(M, N, min(M,N), A_copy, M, tau, work, info_rf)
+    deallocate(work)
+
+    ! Test mfi interface (short form)
+    A_copy = A  ! Reset to original
+    allocate(work(M))
+    call mfi_${f77}$(A_copy, tau, k=min(M,N), info=info_mfi)
+    deallocate(work)
+    call assert(info_mfi == info_rf .and. all(abs(A - A_copy) < sqrt(epsilon(1.0_wp))), &
+                "different results for mfi_${f77}$")
+
+    ! Test mfi interface (full form)
+    A_copy = A  ! Reset to original
+    allocate(work(M))
+    call ${mfi}$(A_copy, tau, k=min(M,N), info=info_mfi)
+    deallocate(work)
+    call assert(info_mfi == info_rf .and. all(abs(A - A_copy) < sqrt(epsilon(1.0_wp))), &
+                "different results for ${mfi}$")
+
+end subroutine
+#:enddef

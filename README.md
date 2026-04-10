@@ -25,6 +25,21 @@ call mfi_gemm(A,B,C)
 end program
 ```
 
+### GPU Acceleration with cuBLAS
+
+Try the GPU tests directly in your browser:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/14NGiestas/mfi/blob/qwen3-cublas/gpu_test.ipynb)
+
+Or run locally with:
+
+```sh
+make FYPPFLAGS="-DMFI_EXTENSIONS -DMFI_USE_CUBLAS"
+MFI_USE_CUBLAS=1 fpm test
+```
+
+See the [GPU test notebook](gpu_test.ipynb) for the full setup and verification steps.
+
 ## Getting Started
 
 ### FPM
@@ -158,28 +173,69 @@ mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas" }
 
 
 ## Support
+
+Please note that this project is experimental, errors and mistakes are to be expected.
+
+There four levels of interfaces that can be used:
+
+1. original f77: explicit declared original interface.
+```fortran
+call cgemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)
+```
+2. improved f77: original argument convention without need of a prefix.
+```fortran
+call f77_gemm('N','N', N, N, N, alpha, A, N, B, N, beta, C, N)
+```
+3. modern interface with prefix:
+```fortran
+call mfi_sgemm(A,B,C)
+```
+4. modern interface:
+```fortran
+call mfi_gemm(A,B,C)
+```
+
+If you are searching for a specific interface check the [API reference](https://14ngiestas.github.io/mfi/)
+
+
+
 ### BLAS
 #### Level 1
 Most of BLAS level 1 routines can be replaced by intrinsincs and other features in modern fortran.
+<details>
 
-| done? | name   | description                                             | modern alternative |
-| ----- | ------ | ------------------------------------------------------- | ------------------ |
-|       | asum   | Sum of vector magnitudes                                | [sum](https://gcc.gnu.org/onlinedocs/gfortran/SUM.html) |
-| :+1:  | axpy   | Scalar-vector product                                   | `a*x + b` |
-| :+1:  | copy   | Copy vector                                             |  `x = b`  |
-|       | dot    | Dot product                                             | [dot_product](https://gcc.gnu.org/onlinedocs/gfortran/DOT_005fPRODUCT.html)   |
-|       | sdsdot | Dot product with double precision                       | |
-| :+1:  | dotc   | Dot product conjugated                                  | |
-| :+1:  | dotu   | Dot product unconjugated                                | |
-|       | nrm2   | Vector 2-norm (Euclidean norm)                          | [norm2](https://gcc.gnu.org/onlinedocs/gfortran/NORM2.html) |
-|       | rot    | Plane rotation of points                                | |
-|       | rotg   | Generate Givens rotation of points                      | |
-| :+1:  | rotm   | Modified Givens plane rotation of points                | |
-| :+1:  | rotmg  | Generate modified Givens plane rotation of points       | |
-|       | scal   | Vector-scalar product                                   | `a*x + b` |
-| :+1:  | swap   | Vector-vector swap                                      | |
+|done| name   | description                                             | modern alternative |
+|----| ------ | ------------------------------------------------------- | ------------------ |
+|:+1:| asum   | Sum of vector magnitudes                                | [sum](https://gcc.gnu.org/onlinedocs/gfortran/SUM.html) |
+|:+1:| axpy   | Scalar-vector product                                   | `a*x + b` |
+|:+1:| copy   | Copy vector                                             |  `x = b`  |
+|:+1:| dot    | Dot product                                             | [dot_product](https://gcc.gnu.org/onlinedocs/gfortran/DOT_005fPRODUCT.html)   |
+|:+1:| dotc   | Dot product conjugated                                  | |
+|:+1:| dotu   | Dot product unconjugated                                | |
+|og77| sdsdot | Compute the inner product of two vectors with extended precision accumulation.            | |
+|og77| dsdot  | Compute the inner product of two vectors with extended precision accumulation and result. | |
+|:+1:| nrm2   | Vector 2-norm (Euclidean norm)                          | [norm2](https://gcc.gnu.org/onlinedocs/gfortran/NORM2.html) |
+|:+1:| rot    | Plane rotation of points                                | |
+|:+1:| rotg   | Generate Givens rotation of points                      | |
+|:+1:| rotm   | Modified Givens plane rotation of points                | |
+|:+1:| rotmg  | Generate modified Givens plane rotation of points       | |
+|:+1:| scal   | Vector-scalar product                                   | `a*x + b` |
+|:+1:| swap   | Vector-vector swap                                      | |
+</details>
+
+#### Level 1 - Utils / Extensions
+<details>
+
+| done? | name  | description                                              |  modern alternatives | obs |
+| ----- | ----- | -------------------------------------------------------- | ------------------- | --- |
+| :+1:  | iamax | Index of the maximum absolute value element of a vector  | [maxval](https://gcc.gnu.org/onlinedocs/gfortran/MAXVAL.html), [maxloc](https://gcc.gnu.org/onlinedocs/gfortran/MAXLOC.html) | |
+| :+1:  | iamin | Index of the minimum absolute value element of a vector  | [minval](https://gcc.gnu.org/onlinedocs/gfortran/MINVAL.html), [minloc](https://gcc.gnu.org/onlinedocs/gfortran/MINLOC.html) | |
+| :+1:  | lamch | Determines precision machine parameters.                 | [huge](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/huge.html), [tiny](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/tiny.html), [epsilon](https://gcc.gnu.org/onlinedocs/gfortran/intrinsic-procedures/epsilon.html) | Obs: had to add a parameter so fortran can distinguish between the single and double precision with the same interface. For values of cmach see: [lamch](https://www.netlib.org/lapack//explore-html/d4/d86/group__lamch.html)|
+</details>
 
 #### Level 2
+
+<details>
 
 | done? | name | description                                                              |
 | ----- | ---- | ------------------------------------------------------------------------ |
@@ -208,8 +264,11 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 | :+1:  | tpsv | Solution of a linear system of equations with a triangular packed matrix |
 | :+1:  | trmv | Matrix-vector product using a triangular matrix                          |
 | :+1:  | trsv | Solution of a linear system of equations with a triangular matrix        |
+</details>
 
 #### Level 3
+
+<details>
 
 | done? | gpu?  | name  | description                                                                                            |
 | ----- | ----- | ----- | ------------------------------------------------------------------------------------------------------ |
@@ -220,49 +279,80 @@ Most of BLAS level 1 routines can be replaced by intrinsincs and other features 
 | :+1:  |   ✅  | symm  | Computes a matrix-matrix product where one input matrix is symmetric and one matrix is general.        |
 | :+1:  |       | syrk  | Performs a symmetric rank-k update.                                                                    |
 | :+1:  |       | syr2k | Performs a symmetric rank-2k update.                                                                   |
-| :+1:  |       | trmm  | Computes a matrix-matrix product where one input matrix is triangular and one input matrix is general. |
-| :+1:  |       | trsm  | Solves a triangular matrix equation (forward or backward solve).                                       |
+| :+1:  |   ✅  | trmm  | Computes a matrix-matrix product where one input matrix is triangular and one input matrix is general. |
+| :+1:  |   ✅  | trsm  | Solves a triangular matrix equation (forward or backward solve).                                       |
 
-#### Utils / Extensions
-#### Level 1
-Here are some extensions that may be useful.
-Again, BLAS level 1 routines can be replaced by intrinsincs and other features in modern fortran.
+</details>
 
-| done? | name  | description                                              |  modern alternative |
-| ----- | ----- | -------------------------------------------------------- | ------------------- |
-| :+1:  | iamax | Index of the maximum absolute value element of a vector  | [maxval](https://gcc.gnu.org/onlinedocs/gfortran/MAXVAL.html), [maxloc](https://gcc.gnu.org/onlinedocs/gfortran/MAXLOC.html) |
-| :+1:  | iamin | Index of the minimum absolute value element of a vector  | [minval](https://gcc.gnu.org/onlinedocs/gfortran/MINVAL.html), [minloc](https://gcc.gnu.org/onlinedocs/gfortran/MINLOC.html) |
+### LAPACK :warning:
 
-### LAPACK
-#### Linear Equation Routines
+- Lapack is really huge, so I'm going to focus on getting the improved f77 interfaces ready first.
+  Anything I end up using I'm going to implement.
 
-| done? | name  | description                                                                                                                                      |
-| ----- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-|       | geqrf | Computes the QR factorization of a general m-by-n matrix.                                                                                        |
-|       | gerqf | Computes the RQ factorization of a general m-by-n matrix.                                                                                        |
-|       | getrf | Computes the LU factorization of a general m-by-n matrix.                                                                                        |
-|       | getri | Computes the inverse of an LU-factored general matrix.                                                                                           |
-|       | getrs | Solves a system of linear equations with an LU-factored square coefficient matrix, with multiple right-hand sides.                               |
-|       | hetrf | Computes the Bunch-Kaufman factorization of a complex Hermitian matrix.                                                                          |
-|       | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf.                                                                  |
-|       | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf.                                                     |
-|       | ormrq | Multiplies a real matrix by the orthogonal matrix Q of the RQ factorization formed by gerqf.                                                     |
-| :+1:  | potrf | Computes the Cholesky factorization of a symmetric (Hermitian) positive-definite matrix.                                                         |
-| :+1:  | potri | Computes the inverse of a Cholesky-factored symmetric (Hermitian) positive-definite matrix.                                                      |
-|       | potrs | Solves a system of linear equations with a Cholesky-factored symmetric (Hermitian) positive-definite coefficient matrix, with multiple right-hand sides.  |
-|      | sytrf | Computes the Bunch-Kaufman factorization of a symmetric matrix.                        |
-|      | trtrs | Solves a system of linear equations with a triangular coefficient matrix, with multiple right-hand sides. |
-|      | ungqr | Generates the complex unitary matrix Q of the QR factorization formed by geqrf.  |
-|      | unmqr | Multiplies a complex matrix by the unitary matrix Q of the QR factorization formed by geqrf. |
-|      | unmrq | Multiplies a complex matrix by the unitary matrix Q of the RQ factorization formed by gerqf. |
+#### Linear solve, $AX = B$
+<details>
+<!-- ##### LU: General matrix, driver -->
+
+<!-- ##### LU: computational routines (factor, cond, etc.) -->
+ 
+<!-- ##### Cholesky: Hermitian/symmetric positive definite matrix, driver -->
+ 
+<!-- ##### Cholesky: computational routines (factor, cond, etc.) -->
+| done?| name  | description               |
+| ---- | ----- | ------------------------- |
+| :+1: | pocon | condition number estimate |
+
+<!-- ##### LDL: Hermitian/symmetric indefinite matrix, driver -->
+ 
+<!-- ##### LDL: computational routines (factor, cond, etc.) -->
+ 
+<!-- ##### Triangular computational routines (solve, cond, etc.) -->
+ 
+<!-- ##### Auxiliary routines -->
+</details>
+
+##### Orthogonal/unitary factors (QR, CS, etc.)
+<details>
+
+| done? | name  | description  |
+| ----- | ----- | ------------ |
+| :+1:  | geqrf | Computes the QR factorization of a general m-by-n matrix. |
+| :+1:  | gerqf | Computes the RQ factorization of a general m-by-n matrix. |
+| :+1:  | getrf | Computes the LU factorization of a general m-by-n matrix. |
+| :+1:  | getri | Computes the inverse of an LU-factored general matrix.    |
+| :+1:  | getrs | Solves a system of linear equations with an LU-factored square coefficient matrix, with multiple right-hand sides. |
+| :+1:  | hetrf | Computes the Bunch-Kaufman factorization of a complex Hermitian matrix. |
+| :+1:  | potrf | Computes the Cholesky factorization of a symmetric (Hermitian) positive-definite matrix.     |
+| :+1:  | potri | Computes the inverse of a Cholesky-factored symmetric (Hermitian) positive-definite matrix.  |
+| :+1:  | potrs | Solves a system of linear equations with a Cholesky-factored symmetric (Hermitian) positive-definite coefficient matrix, with multiple right-hand sides.  |
+| :+1:  | orgqr | Generates the real orthogonal matrix Q of the QR factorization formed by geqrf. |
+| :+1:  | orgrq | Generates the real orthogonal matrix Q of the RQ factorization formed by gerqf. |
+| :+1:  | ormqr | Multiplies a real matrix by the orthogonal matrix Q of the QR factorization formed by geqrf. |
+| f77  | ormrq | Multiplies a real matrix by the orthogonal matrix Q of the RQ factorization formed by gerqf. |
+| :+1:  | sytrf | Computes the Bunch-Kaufman factorization of a symmetric matrix.                        |
+| :+1:  | trtrs | Solves a system of linear equations with a triangular coefficient matrix, with multiple right-hand sides. |
+| :+1:  | ungqr | Generates the complex unitary matrix Q of the QR factorization formed by geqrf.  |
+| :+1:  | ungrq | Generates the complex unitary matrix Q of the RQ factorization formed by gerqf.  |
+| :+1:  | unmqr | Multiplies a complex matrix by the unitary matrix Q of the QR factorization formed by geqrf. |
+| f77  | unmrq | Multiplies a complex matrix by the unitary matrix Q of the RQ factorization formed by gerqf. |
+| :+1:  | org2r | Generates the real orthogonal matrix Q of the QR factorization formed by geqr2. |
+| :+1:  | orm2r | Multiplies a real matrix by the orthogonal matrix Q formed by geqr2. |
+| :+1:  | ung2r | Generates the complex unitary matrix Q of the QR factorization formed by geqr2. |
+| :+1:  | unm2r | Multiplies a complex matrix by the unitary matrix Q formed by geqr2. |
+| :+1:  | orgr2 | Generates the real orthogonal matrix Q of the RQ factorization formed by gerq2. |
+| :+1:  | ormr2 | Multiplies a real matrix by the orthogonal matrix Q formed by gerq2. |
+| :+1:  | ungr2 | Generates the complex unitary matrix Q of the RQ factorization formed by gerq2. |
+| :+1:  | unmr2 | Multiplies a complex matrix by the unitary matrix Q formed by gerq2. |
 
 #### Singular Value and Eigenvalue Problem Routines
 | done?| name  | description             |
 | ---- | ----- | ----------------------- |
-|      | gebrd | Reduces a general matrix to bidiagonal form.     |
 | :+1: | gesvd | Computes the singular value decomposition of a general rectangular matrix.  |
 | :+1: | heevd | Computes all eigenvalues and, optionally, all eigenvectors of a complex Hermitian matrix using divide and conquer algorithm. |
 | :+1: | hegvd | Computes all eigenvalues and, optionally, all eigenvectors of a complex generalized Hermitian definite eigenproblem using divide and conquer algorithm. |
+| :+1:  | heevr | Computes the eigenvalues and, optionally, the left and/or right eigenvectors for HE matrices. |
+| f77  | heevx | Computes the eigenvalues and, optionally, the left and/or right eigenvectors for HE matrices. |
+|      | gebrd | Reduces a general matrix to bidiagonal form.     |
 |      | hetrd | Reduces a complex Hermitian matrix to tridiagonal form. |
 |      | orgbr | Generates the real orthogonal matrix Q or PT determined by gebrd. |
 |      | orgtr | Generates the real orthogonal matrix Q determined by sytrd. |
@@ -273,3 +363,24 @@ Again, BLAS level 1 routines can be replaced by intrinsincs and other features i
 |      | ungbr | Generates the complex unitary matrix Q or PT determined by gebrd. |
 |      | ungtr | Generates the complex unitary matrix Q determined by hetrd. |
 |      | unmtr | Multiplies a complex matrix by the unitary matrix Q determined by hetrd. |
+
+##### Least squares
+|done| name  | description                                    |
+|----| ----- | ---------------------------------------------- |
+|f77 | gels  | least squares using QR/LQ                      |
+|f77 | gelst | least squares using QR/LQ with T matrix        |
+|f77 | gelss | least squares using SVD, QR iteration          |
+|f77 | gelsd | least squares using SVD, divide and conquer    |
+|f77 | gelsy | least squares using complete orthogonal factor |
+|f77 | getsls| least squares using tall-skinny QR/LQ          |
+|f77 | gglse | equality-constrained least squares             |
+|f77 | ggglm | Gauss-Markov linear model                      |
+
+#### Other Auxiliary Routines
+
+There are some other auxiliary lapack routines around, that may apear here:
+
+| name      | Data Types | Description |
+| --------- | ---------- | ------------|
+| mfi_lartg | s, d, c, z | Generates a plane rotation with real cosine and real/complex sine. |
+

@@ -1,0 +1,10 @@
+#:def lartg(NAME,pfxs)
+#:set wp=pfxs[0]
+#:set wp = pfxs[0]
+pure subroutine ${NAME}$(f, g, c, s, r)
+    import :: ${kind(wp)}$
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(real(wp), inout, c)
+@:args(${type(wp)}$, inout, f, g, r, s)
+end subroutine
+#:enddef

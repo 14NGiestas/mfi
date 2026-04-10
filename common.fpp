@@ -1,36 +1,110 @@
 #:mute
-#:set REAL_TYPE='real(wp)'
-#:set COMPLEX_TYPE='complex(wp)'
-#:set REAL_TYPES=['s','d']
-#:set COMPLEX_TYPES=['c','z']
-#:set DEFAULT_TYPES=REAL_TYPES+COMPLEX_TYPES
 
-#:set PREFIX_TO_TYPE={   &
-    's':   REAL_TYPE,    &
-    'd':   REAL_TYPE,    &
-    'c':   COMPLEX_TYPE, &
-    'z':   COMPLEX_TYPE, &
+#:set REAL    = 'real(wp)'
+#:set COMPLEX = 'complex(wp)'
+#:set PREFIX = { &
+    's': { 'type': 'real(wp)',    'wp': 'REAL32', 'c_kind': 'c_float'  }, &
+    'd': { 'type': 'real(wp)',    'wp': 'REAL64', 'c_kind': 'c_double' }, &
+    'c': { 'type': 'complex(wp)', 'wp': 'REAL32', 'c_kind': 'c_float'  }, &
+    'z': { 'type': 'complex(wp)', 'wp': 'REAL64', 'c_kind': 'c_double' }, &
 }
 
-#:set PREFIX_TO_KIND={&
-    's':   'REAL32',  &
-    'd':   'REAL64',  &
-    'c':   'REAL32',  &
-    'z':   'REAL64',  &
-}
+#:set ERROR = lambda pfx: { 'type': f'error: {pfx}', 'wp' : f'error: {pfx}' }
 
-#:set PREFIX_TO_C_KIND={ &
-    's':   'c_float',  &
-    'd':   'c_double', &
-    'c':   'c_float',  &
-    'z':   'c_double', &
-}
+#:set mix    = lambda l, r: list(lp + rp for lp, rp in zip(l,r))
+#:set split  = lambda pfx: list(pfx) if len(pfx) > 1 else pfx
+#:set get_types = lambda pfxs: (pfxs[0], pfxs[0] if len(pfxs) == 1 else pfxs[1])
+#:set get    = lambda pfx,what: PREFIX.get(pfx).get(what)
+#:set prefix = lambda pfx, name: name.replace('?',pfx)
+#:set kind   = lambda pfx: get(pfx,'wp')
+#:set c_kind = lambda pfx: get(pfx,'c_kind')
+#:set type   = lambda pfx: get(pfx,'type').replace('wp',kind(pfx))
+#:set c_type = lambda pfx: get(pfx,'type').replace('wp',c_kind(pfx))
+#:set real      = lambda pfx: REAL.replace('wp',kind(pfx))
+#:set complex   = lambda pfx: COMPLEX.replace('wp',kind(pfx))
+
+#:set functions = lambda gen_name, pfxs: map(lambda pfx: prefix(pfx,gen_name), pfxs)
+
+#:set SINGLE_TYPES  = ['s','c']
+#:set DOUBLE_TYPES  = ['d','z']
+#:set REAL_TYPES    = ['s','d']
+#:set COMPLEX_TYPES = ['c','z']
+#:set DEFAULT_TYPES = REAL_TYPES + COMPLEX_TYPES
+
+#:set MIX_REAL_COMPLEX  = mix(REAL_TYPES,COMPLEX_TYPES)
+#:set MIX_COMPLEX_REAL  = mix(COMPLEX_TYPES,REAL_TYPES)
+#:set MIX_SINGLE_DOUBLE = mix(SINGLE_TYPES,DOUBLE_TYPES)
+#:set MIX_DOUBLE_SINGLE = mix(DOUBLE_TYPES,SINGLE_TYPES)
+
+#:def timeit(message, code)
+block
+real :: t1, t2
+call cpu_time(t1)
+$:code
+call cpu_time(t2)
+print '(A," (",G0,"s)")', ${message}$, t2-t1
+end block
+#:enddef
+
+#:def random_number(type, name, shape='')
+#:if type.startswith('complex')
+    $:random_complex(type, name,shape)
+#:else
+    call random_number(${name}$)
+#:endif
+#:enddef
+
+#:def random_complex(type, name, shape='')
+#:set REAL = type.replace('complex','real')
+block
+    ${REAL}$ :: re${shape}$
+    ${REAL}$ :: im${shape}$
+    call random_number(im)
+    call random_number(re)
+    ${name}$ = cmplx(re,im, kind=${type.replace('complex(', '').replace(')', '')}$)
+end block
+#:enddef
+
+#! Handles parameters (usage: working precision)
+#:def parameter(dtype, **kwargs)
+#:for variable, value in kwargs.items()
+    ${dtype}$, parameter :: ${variable}$ = ${value}$
+#:endfor
+#:enddef
+
+#! Handles importing and setting precision constants in interfaces
+#:def imports(pfxs)
+#:set wps = set(list(map(kind, pfxs)))
+#:if len(wps) > 1
+    import :: ${', '.join(wps)}$
+#:else
+    import :: ${''.join(wps)}$
+#:endif
+#:enddef
+
+#! Handles the input/output arguments
+#:def args(dtype, intent, *args)
+#:for variable in args
+    ${dtype}$, intent(${intent}$) :: ${variable}$
+#:endfor
+#:enddef
 
 #! Defines a optional variable, creating local corresponding variable by default
 #:def optional(dtype, intent, *args)
 #:for variable in args
     ${dtype}$, intent(${intent}$), optional :: ${variable}$
     ${dtype}$ :: local_${variable}$
+#:endfor
+#:enddef
+
+#! Handles default values of a optional variable
+#:def defaults(**kwargs)
+#:for variable, default in kwargs.items()
+    if (present(${variable}$)) then
+        local_${variable}$ = ${variable}$
+    else
+        local_${variable}$ = ${default}$
+    end if
 #:endfor
 #:enddef
 
@@ -43,91 +117,99 @@
     end if
 #:enddef
 
-#! Handles default values of the optional
-#:def defaults(**kwargs)
-#:for variable, default in kwargs.items()
-    if (present(${variable}$)) then
-        local_${variable}$ = ${variable}$
-    else
-        local_${variable}$ = ${default}$
-    end if
-#:endfor
-#:enddef
-
-#! Handles the input/output arguments
-#:def args(dtype, intent, *args)
-#:for variable in args
-    ${dtype}$, intent(${intent}$) :: ${variable}$
-#:endfor
-#:enddef
-
-#! Handles parameters (usage: working precision)
-#:def parameter(dtype, **kwargs)
-#:for variable, value in kwargs.items()
-    ${dtype}$, parameter :: ${variable}$ = ${value}$
-#:endfor
-#:enddef
-
-#! Handles the implementation of the modern interface to each supported type and kind
-#:def mfi_implement(name, supports, code)
-#:for PREFIX in supports
-#:set MFI_NAME = f"mfi_{name.replace('?',PREFIX)}"
-#:set F77_NAME = f"f77_{name.replace('?','')}"
-#:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
-#:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
-$:code(MFI_NAME,F77_NAME,TYPE,KIND)
-#:endfor
-#:enddef
-
-#! Define mfi interfaces to implemented routines
-#:def mfi_interface(name, types)
-interface mfi_${name.replace('?','')}$
-    #:for T in types
-    module procedure mfi_${name.replace('?',T)}$
+#:def interface(functions, procedure='procedure', name='', prefix='')
+interface ${prefix}$${name}$
+    #:for function_name in functions
+    ${procedure}$ :: ${function_name}$
     #:endfor
 end interface
 #:enddef
 
-#! Define f77 interfaces to implemented routines
-#:def f77_interface_internal(name, types)
-interface f77_${name.replace('?','')}$
-    #:for T in types
-    module procedure ${name.replace('?',T)}$
-    #:endfor
-end interface
-#:enddef
-
-#! Define a f77 interfaces to the external blas/lapack library
-#:def f77_interface(name, supports, code)
-interface f77_${name.replace('?','')}$
-#:for PREFIX in supports
-#:set NAME = name.replace('?',PREFIX)
-#:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
-#:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
-#:set C_KIND = PREFIX_TO_C_KIND.get(PREFIX,None)
-$:code(NAME,TYPE,KIND,C_KIND)
+#! Interfaces for the original f77 routines
+#! code must implement a routine interface
+#:def f77_original(generic_name, prefixes, code)
+#:set mfi = 'mfi_' + prefix('',generic_name)
+#:set f90 =          prefix('',generic_name)
+#:set f77 = [prefix(pfx,generic_name) for pfx in prefixes]
+!> Generic old style interface for ${prefix('',generic_name).upper()}$.
+!> Supports ${', '.join(prefixes)}$.
+!> See also: [[${mfi}$]], ${'[[' + ']], [['.join(f77) + ']]'}$.
+interface f77_${prefix('',generic_name)}$
+#:for pfx in prefixes
+#:set name = prefix(pfx,generic_name)
+#:set pfxs = list(map(split,pfx))
+!> Original interface for ${name.upper()}$
+!> See also: [[${mfi}$]], [[${f90}$]].
+$:code(name,pfxs)
 #:endfor
 end interface
 #:enddef
 
-#! Implements a f77 function / extension
-#:def f77_implement(name, supports, code)
-#:for PREFIX in supports
-#:set NAME = name.replace('?',PREFIX)
-#:set TYPE = PREFIX_TO_TYPE.get(PREFIX,None)
-#:set KIND = PREFIX_TO_KIND.get(PREFIX,None)
-#:set C_KIND = PREFIX_TO_C_KIND.get(PREFIX,None)
-$:code(NAME,TYPE,KIND,C_KIND)
+
+#! Define a common interface with the original f77 interfaces
+#! So you can call the original function without the prefix
+#:def f77_improved(generic_name, prefixes)
+$:interface(functions(generic_name, prefixes), name=f"f77_{prefix('',generic_name)}")
+#:enddef
+
+#! In case of missing functions / extensions you can pass a code
+#! in which case must provide the routine implementation
+#! Must be called inside a contains block
+#:def f77_implement(generic_name, prefixes, code)
+#:for pfx in prefixes
+#:set name = prefix(pfx,generic_name)
+#:set pfxs = list(map(split,pfx))
+$:code(name,pfxs)
 #:endfor
 #:enddef
 
-#:def timeit(message, code)
-block
-real :: t1, t2
-call cpu_time(t1)
-$:code
-call cpu_time(t2)
-print '(A,G0)', ${message}$, t2-t1
-end block
+#:def mfi_interface(generic_name, prefixes)
+#:set f77 = ['f77_' + prefix('',generic_name) + ':' + prefix(pfx,generic_name) for pfx in prefixes]
+!> Generic modern interface for ${prefix('',generic_name).upper()}$.
+!> Supports ${', '.join(prefixes)}$.
+!> See also:
+!> ${'[[' + ']], [['.join(f77) + ']]'}$.
+#:set functions = map(lambda pfx: 'mfi_' + prefix(pfx,generic_name), prefixes)
+$:interface(functions, &
+            procedure='module procedure', &
+            name=f"mfi_{prefix('',generic_name)}")
 #:enddef
+
+#! Implements the modern interface in code
+#! for each supported prefix combination
+#! Must be called inside a contains block
+#:def mfi_implement(generic_name, prefixes, code)
+#:for pfx in prefixes
+#:set mfi_name  = 'mfi_' + prefix(pfx,generic_name)
+#:set f77_name  = 'f77_' + prefix('',generic_name)
+#:set pfxs      = list(map(split,pfx))
+#:set fun       = prefix('',generic_name)
+!> Modern interface for [[f77_${fun}$:${f77_name}$]].
+!> See also: [[mfi_${fun}$]], [[f77_${fun}$]].
+$:code(mfi_name,f77_name,pfxs)
+#:endfor
+#:enddef
+
+
+#! Implements the test for all interfaces
+#! and each supported prefix combination
+#! Must be called inside a contains block
+#:def test_implement(generic_name, prefixes, code)
+#:for pfx in prefixes
+#:set f77  =          prefix(pfx,generic_name)
+#:set f90 = 'f77_' + prefix('',generic_name)
+#:set mfi = 'mfi_' + prefix('',generic_name)
+#:set pfxs    = list(map(split,pfx))
+$:code(f77,f90,mfi,pfxs)
+#:endfor
+#:enddef
+
+#:def test_run(generic_name, prefixes)
+#:for pfx in prefixes
+#:set f77 =          prefix(pfx,generic_name)
+#:set mfi = 'mfi_' + prefix('',generic_name)
+@:timeit("testing ${mfi}$ against ${f77}$", { call test_${f77}$ })
+#:endfor
+#:enddef
+
 #:endmute

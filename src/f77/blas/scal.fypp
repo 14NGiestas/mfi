@@ -1,0 +1,10 @@
+#:def scal(NAME,pfxs)
+#:set A, B = get_types(pfxs)
+!> ${NAME.upper()}$ scales a vector by a constant.
+pure subroutine ${NAME}$(n, a, x, incx)
+$:imports(pfxs)
+@:args(${type(A)}$, inout, x(*))
+@:args(${type(B)}$, in,    a)
+@:args(integer,  in,    n, incx)
+end subroutine
+#:enddef

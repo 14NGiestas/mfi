@@ -1,0 +1,9 @@
+#:def asum_nrm2(NAME,pfxs)
+#:set A, B = get_types(pfxs)
+pure function ${NAME}$(n, x, incx)
+$:imports(pfxs)
+    ${real(A)}$ :: ${NAME}$
+@:args(${type(B)}$, in, x(*))
+@:args(integer,     in, n, incx)
+end function
+#:enddef

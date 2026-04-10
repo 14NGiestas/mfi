@@ -1,0 +1,14 @@
+#:include "common.fpp"
+#:include "test/lapack/macros/gesvd.fypp"
+
+program test_gesvd
+    use iso_fortran_env
+    implicit none
+    $:test_run('?gesvd', DEFAULT_TYPES)
+contains
+
+$:test_implement('?gesvd', DEFAULT_TYPES, gesvd)
+
+#:include "test/assert.inc"
+
+end program

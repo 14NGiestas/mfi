@@ -1,0 +1,14 @@
+#:def tpmv_tpsv(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
+pure subroutine ${MFI_NAME}$(ap, x, uplo, trans, diag, incx)
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$, in,    ap(:))
+@:args(${type(wp)}$, inout, x(:))
+@:optional(character, in, uplo, trans, diag)
+@:optional(integer,   in, incx)
+    integer :: n
+@:defaults(uplo='U', trans='N', diag='N', incx=1)
+    n = size(x)
+    call ${F77_NAME}$(local_uplo,local_trans,local_diag,n,ap,x,local_incx)
+end subroutine
+#:enddef

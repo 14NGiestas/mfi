@@ -1,0 +1,73 @@
+#:def orm2r(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
+!> Multiplies a real matrix by the orthogonal matrix Q formed by geqr2
+pure subroutine ${MFI_NAME}$(a, tau, c, side, trans, info)
+@:parameter(integer, wp=${kind(wp)}$)
+@:optional(character, in, side, trans)
+@:optional(integer, out, info)
+@:args(${type(wp)}$, inout, a(:,:))
+@:args(${type(wp)}$, in,    tau(:))
+@:args(${type(wp)}$, inout, c(:,:))
+    integer :: m, n, k, lda, ldc
+    ${type(wp)}$, allocatable :: work(:)
+@:defaults(side='L', trans='N')
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(tau, 1)
+    else
+        k = size(tau, 1)
+    end if
+
+    allocate(work(m*n)) ! Allocate sufficient workspace
+    call ${F77_NAME}$(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('${F77_NAME}$', -local_info)
+    end if
+end subroutine
+#:enddef
+
+#:def unm2r(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
+!> Multiplies a complex matrix by the unitary matrix Q formed by geqr2
+pure subroutine ${MFI_NAME}$(a, tau, c, side, trans, info)
+@:parameter(integer, wp=${kind(wp)}$)
+@:optional(character, in, side, trans)
+@:optional(integer, out, info)
+@:args(${type(wp)}$, inout, a(:,:))
+@:args(${type(wp)}$, in,    tau(:))
+@:args(${type(wp)}$, inout, c(:,:))
+    integer :: m, n, k, lda, ldc
+    ${type(wp)}$, allocatable :: work(:)
+@:defaults(side='L', trans='N')
+    lda = max(1, size(a, 1))
+    ldc = max(1, size(c, 1))
+    m = size(c, 1)
+    n = size(c, 2)
+
+    if (local_side == 'L' .or. local_side == 'l') then
+        k = size(tau, 1)
+    else
+        k = size(tau, 1)
+    end if
+
+    allocate(work(m*n)) ! Allocate sufficient workspace
+    call ${F77_NAME}$(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, local_info)
+    deallocate(work)
+
+    ! Error handling
+    if (present(info)) then
+        info = local_info
+    else if (local_info /= 0) then
+        call mfi_error('${F77_NAME}$', -local_info)
+    end if
+end subroutine
+#:enddef

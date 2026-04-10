@@ -1,0 +1,38 @@
+#:mute
+subroutine {s,d}org{qr,rq}(
+subroutine {c,z}ung{qr,rq}(
+        integer m,
+        integer n,
+        integer k,
+        type(wp) a(lda,*),
+        integer lda,
+        type(wp) tau(*),
+        type(wp) work(*),
+        integer lwork,
+        integer info
+)
+
+#:def orgqr_orgrq_ungqr_ungrq(NAME,pfxs)
+#:set wp=pfxs[0]
+!> This routine generates an \(M \times N \) ${type(wp)}$
+!> matrix \( Q \) with orthonormal columns,
+!> which is defined as the first \( N \) columns of a product of \( K \) elementary
+#:if NAME.endswith('qr')
+!> reflectors of order \( M \).
+!> \( Q  =  H(1) H(2) . . . H(k) \)
+!> as returned by [[f77_geqrf:${wp}$geqrf]].
+#:elif NAME.endswith('rq')
+!> reflectors of order \( N \).
+!> \( Q  =  H(1)^\dagger H(2)^\dagger . . . H(k)^\dagger \)
+!> as returned by [[f77_gerqf:${wp}$gerqf]].
+#:endif
+pure subroutine ${NAME}$(m, n, k, a, lda, tau, work, lwork, info)
+$:imports(pfxs)
+@:args(${type(wp)}$, inout, a(lda,*))
+@:args(${type(wp)}$, out,   work(*))
+@:args(${type(wp)}$, in,    tau(*))
+@:args(integer,      in,    m, n, k, lda, lwork)
+@:args(integer,      out,   info)
+end subroutine
+#:enddef
+#:endmute
