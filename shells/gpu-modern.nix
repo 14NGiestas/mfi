@@ -8,6 +8,7 @@ let
     cudaPkgs.cuda_cudart
     cudaPkgs.cuda_cudart.dev
     cudaPkgs.cuda_nvcc
+    cudaPkgs.cuda_cccl
   ];
   allLibs = [
     pkgs.hdf5
@@ -25,6 +26,7 @@ pkgs.mkShell {
   buildInputs = allLibs;
 
   shellHook = ''
+    export CPATH="${pkgs.lib.makeSearchPath "include" cudaLibs}:$CPATH"
     export LIBRARY_PATH="${pkgs.lib.makeLibraryPath allLibs}:$LIBRARY_PATH"
     export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath allLibs}:$LD_LIBRARY_PATH"
   '';
