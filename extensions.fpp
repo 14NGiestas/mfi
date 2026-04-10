@@ -89,25 +89,25 @@ pure subroutine mfi_cublas_error(stat, name)
     character(len=40) :: stat_str
 
     select case(stat)
-        case (0)
+        case (CUBLAS_STATUS_SUCCESS)
             stat_str = 'CUBLAS_STATUS_SUCCESS'
-        case (1)
+        case (CUBLAS_STATUS_NOT_INITIALIZED)
             stat_str = 'CUBLAS_STATUS_NOT_INITIALIZED'
-        case (3)
+        case (CUBLAS_STATUS_ALLOC_FAILED)
             stat_str = 'CUBLAS_STATUS_ALLOC_FAILED'
-        case (7)
+        case (CUBLAS_STATUS_INVALID_VALUE)
             stat_str = 'CUBLAS_STATUS_INVALID_VALUE'
-        case (8)
+        case (CUBLAS_STATUS_ARCH_MISMATCH)
             stat_str = 'CUBLAS_STATUS_ARCH_MISMATCH'
-        case (11)
+        case (CUBLAS_STATUS_MAPPING_ERROR)
             stat_str = 'CUBLAS_STATUS_MAPPING_ERROR'
-        case (13)
+        case (CUBLAS_STATUS_EXECUTION_FAILED)
             stat_str = 'CUBLAS_STATUS_EXECUTION_FAILED'
-        case (14)
+        case (CUBLAS_STATUS_INTERNAL_ERROR)
             stat_str = 'CUBLAS_STATUS_INTERNAL_ERROR'
-        case (15)
+        case (CUBLAS_STATUS_NOT_SUPPORTED)
             stat_str = 'CUBLAS_STATUS_NOT_SUPPORTED'
-        case (16)
+        case (CUBLAS_STATUS_LICENSE_ERROR)
             stat_str = 'CUBLAS_STATUS_LICENSE_ERROR'
         case default
             stat_str = 'UNKNOWN_CUBLAS_ERROR'

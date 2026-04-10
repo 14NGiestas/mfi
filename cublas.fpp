@@ -132,5 +132,17 @@ integer(c_int), parameter :: cudaMemcpyDeviceToHost = 2
 
 !> cuBLAS pointer mode
 integer(c_int), parameter :: CUBLAS_POINTER_MODE_HOST = 0
+
+!> cuBLAS status constants
+integer(c_int), parameter :: CUBLAS_STATUS_SUCCESS = 0
+integer(c_int), parameter :: CUBLAS_STATUS_NOT_INITIALIZED = 1
+integer(c_int), parameter :: CUBLAS_STATUS_ALLOC_FAILED = 3
+integer(c_int), parameter :: CUBLAS_STATUS_INVALID_VALUE = 7
+integer(c_int), parameter :: CUBLAS_STATUS_ARCH_MISMATCH = 8
+integer(c_int), parameter :: CUBLAS_STATUS_MAPPING_ERROR = 11
+integer(c_int), parameter :: CUBLAS_STATUS_EXECUTION_FAILED = 13
+integer(c_int), parameter :: CUBLAS_STATUS_INTERNAL_ERROR = 14
+integer(c_int), parameter :: CUBLAS_STATUS_NOT_SUPPORTED = 15
+integer(c_int), parameter :: CUBLAS_STATUS_LICENSE_ERROR = 16
 #:enddef
 #:endmute
