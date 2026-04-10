@@ -3,6 +3,7 @@
 program test_iamax
 use iso_fortran_env
 implicit none
+#if defined(MFI_EXTENSIONS)
 block
 real :: t1, t2
 call cpu_time(t1)
@@ -169,5 +170,8 @@ subroutine assert(test, msg, info)
     end if
 end subroutine
 
+#else
+    write(*,*) 'i?amax tests skipped: extensions not enabled'
+#endif
 end program
 

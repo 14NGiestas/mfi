@@ -1,6 +1,13 @@
 module mfi_blas_sbmv
     use iso_fortran_env
     use f77_blas
+#if defined(MFI_CUBLAS)
+    use iso_c_binding
+    use mfi_blas_cublas
+#endif
+#if defined(MFI_EXTENSIONS)
+    use mfi_blas_extensions
+#endif
     implicit none
 
 !> Generic modern interface for SBMV.

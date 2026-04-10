@@ -1,9 +1,13 @@
 module mfi_blas_trmm
     use iso_fortran_env
     use f77_blas
+#if defined(MFI_CUBLAS)
     use iso_c_binding
     use mfi_blas_cublas
+#endif
+#if defined(MFI_EXTENSIONS)
     use mfi_blas_extensions
+#endif
     implicit none
 
 !> Generic modern interface for TRMM.
@@ -65,6 +69,7 @@ pure subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -123,6 +128,7 @@ pure subroutine mfi_strmm(a, b, side, uplo, transa, diag, alpha)
         end block
         return
     end if
+#endif
     call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 !> Modern interface for [[f77_trmm:f77_trmm]].
@@ -171,6 +177,7 @@ pure subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -229,6 +236,7 @@ pure subroutine mfi_dtrmm(a, b, side, uplo, transa, diag, alpha)
         end block
         return
     end if
+#endif
     call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 !> Modern interface for [[f77_trmm:f77_trmm]].
@@ -277,6 +285,7 @@ pure subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -335,6 +344,7 @@ pure subroutine mfi_ctrmm(a, b, side, uplo, transa, diag, alpha)
         end block
         return
     end if
+#endif
     call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 !> Modern interface for [[f77_trmm:f77_trmm]].
@@ -383,6 +393,7 @@ pure subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
     n = size(b,2)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -441,6 +452,7 @@ pure subroutine mfi_ztrmm(a, b, side, uplo, transa, diag, alpha)
         end block
         return
     end if
+#endif
     call f77_trmm(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 end module

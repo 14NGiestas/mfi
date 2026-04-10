@@ -1,9 +1,13 @@
 module mfi_blas_gemv
     use iso_fortran_env
     use f77_blas
+#if defined(MFI_CUBLAS)
     use iso_c_binding
     use mfi_blas_cublas
+#endif
+#if defined(MFI_EXTENSIONS)
     use mfi_blas_extensions
+#endif
     implicit none
 
 !> Generic modern interface for GEMV.
@@ -64,6 +68,7 @@ pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -120,6 +125,7 @@ pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
         end block
         return
     end if
+#endif
     call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 !> Modern interface for [[f77_gemv:f77_gemv]].
@@ -167,6 +173,7 @@ pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -223,6 +230,7 @@ pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
         end block
         return
     end if
+#endif
     call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 !> Modern interface for [[f77_gemv:f77_gemv]].
@@ -270,6 +278,7 @@ pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -326,6 +335,7 @@ pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
         end block
         return
     end if
+#endif
     call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 !> Modern interface for [[f77_gemv:f77_gemv]].
@@ -373,6 +383,7 @@ pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
     m = size(a,1)
     n = size(a,2)
     lda = max(1,m)
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -429,6 +440,7 @@ pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
         end block
         return
     end if
+#endif
     call f77_gemv(local_trans,m,n,local_alpha,a,lda,x,local_incx,local_beta,y,local_incy)
 end subroutine
 end module

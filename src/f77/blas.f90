@@ -48,9 +48,13 @@ module f77_blas
     use f77_blas_syr2k
     use f77_blas_trmm
     use f77_blas_trsm
+#if defined(MFI_EXTENSIONS)
     use f77_blas_iamax
     use f77_blas_iamin
+#endif
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     use f77_blas_cublas
+#endif
     implicit none
 
 !> ?lamch supports s, d. See [[mfi_lamch]] for the modern version.

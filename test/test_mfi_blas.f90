@@ -15,8 +15,10 @@ program test_mfi_blas
     call test_copy
     call test_rotmg
     call test_swap
+#if defined(MFI_EXTENSIONS)
     call test_iamax
     call test_iamin
+#endif
     ! BLAS 2
     call test_gemv
     ! BLAS 3
@@ -139,6 +141,7 @@ print '(A," (",G0,"s)")', "time mfi_swap: ", t2-t1
 end block
     end subroutine
 
+#if defined(MFI_EXTENSIONS)
     subroutine test_iamax
         call test_defaults
 block
@@ -190,9 +193,11 @@ print '(A," (",G0,"s)")', "time minloc:    ", t2-t1
 end block
         call assert(i == j .and. j == k)
     end subroutine
+#endif
 
     subroutine test_gemm
         call test_defaults
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
 block
 real :: t1, t2
 call cpu_time(t1)
@@ -208,8 +213,10 @@ call cpu_time(t1)
 call cpu_time(t2)
 print '(A," (",G0,"s)")', "time mfi_gemm, transa=T (GPU): ", t2-t1
 end block
+        call mfi_force_cpu
         call mfi_cublas_finalize
         call assert(all(is_almost_equal(C,D)))
+#endif
 block
 real :: t1, t2
 call cpu_time(t1)

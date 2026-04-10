@@ -1,9 +1,13 @@
 module mfi_blas_gemm
     use iso_fortran_env
     use f77_blas
+#if defined(MFI_CUBLAS)
     use iso_c_binding
     use mfi_blas_cublas
+#endif
+#if defined(MFI_EXTENSIONS)
     use mfi_blas_extensions
+#endif
     implicit none
 
 !> Generic modern interface for GEMM.
@@ -64,6 +68,7 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -126,6 +131,7 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
         end block
         return
     end if
+#endif
     call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_gemm:f77_gemm]].
@@ -173,6 +179,7 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -235,6 +242,7 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
         end block
         return
     end if
+#endif
     call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_gemm:f77_gemm]].
@@ -282,6 +290,7 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -344,6 +353,7 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
         end block
         return
     end if
+#endif
     call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 !> Modern interface for [[f77_gemm:f77_gemm]].
@@ -391,6 +401,7 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
     else
         k = size(a,1)
     end if
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (MFI_USE_CUBLAS == 1) then
         block
     integer(c_int) :: cuda_allocation_status
@@ -453,6 +464,7 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
         end block
         return
     end if
+#endif
     call f77_gemm(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 end module

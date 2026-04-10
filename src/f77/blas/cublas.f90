@@ -1,4 +1,5 @@
 module f77_blas_cublas
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
 use iso_c_binding
 implicit none
 interface
@@ -315,5 +316,6 @@ pure function cublasZtrsm(handle, side, uplo, transa, diag, m, n, alpha, a, lda,
     integer(c_int) :: stat
 end function
 end interface
+#endif
 end module
 

@@ -50,7 +50,11 @@ module mfi_blas
     use mfi_blas_trmm
     use mfi_blas_trsm
     use mfi_blas_lamch
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS) 
     use mfi_blas_cublas
     use mfi_blas_extensions
+#elif defined(MFI_EXTENSIONS)
+    use mfi_blas_extensions
+#endif
     implicit none
 end module
