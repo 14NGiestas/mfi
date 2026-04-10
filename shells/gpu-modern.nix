@@ -1,7 +1,7 @@
 { pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/refs/tags/24.11.tar.gz") { config.allowUnfree = true; } }:
 
 let
-  cudaPkgs = pkgs.cudaPackages_12_8;
+  cudaPkgs = pkgs.cudaPackages_12_3;
   cudaLibs = [
     cudaPkgs.libcublas
     cudaPkgs.libcublas.dev
