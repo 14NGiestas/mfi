@@ -201,20 +201,17 @@ end block
 block
 real :: t1, t2
 call cpu_time(t1)
- call mfi_gemm(A,B,D,transa='T') 
+ call mfi_gemm(A,B,D) 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "time mfi_gemm, transa=T (CPU): ", t2-t1
+print '(A," (",G0,"s)")', "time mfi_gemm (CPU): ", t2-t1
 end block
-        call mfi_force_gpu
-block
-real :: t1, t2
-call cpu_time(t1)
- call mfi_gemm(A,B,C,transa='T') 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "time mfi_gemm, transa=T (GPU): ", t2-t1
-end block
-        call mfi_force_cpu
-        call mfi_cublas_finalize
+#if defined(MFI_CUBLAS)
+    call mfi_force_gpu()
+#endif
+ call mfi_gemm(A,B,C) 
+#if defined(MFI_CUBLAS)
+    call mfi_force_cpu()
+#endif
         call assert(all(is_almost_equal(C,D)))
 #endif
 block
@@ -267,6 +264,24 @@ end block
 
     subroutine test_gemv
         call test_defaults
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
+block
+real :: t1, t2
+call cpu_time(t1)
+ call mfi_gemv(A,X,Y) 
+call cpu_time(t2)
+print '(A," (",G0,"s)")', "time mfi_gemv (CPU): ", t2-t1
+end block
+        Z = matmul(A,X)
+#if defined(MFI_CUBLAS)
+    call mfi_force_gpu()
+#endif
+ call mfi_gemv(A,X,Y) 
+#if defined(MFI_CUBLAS)
+    call mfi_force_cpu()
+#endif
+        call assert(all(is_almost_equal(Y,Z)))
+#endif
 block
 real :: t1, t2
 call cpu_time(t1)

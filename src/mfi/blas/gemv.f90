@@ -69,7 +69,7 @@ pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
     n = size(a,2)
     lda = max(1,m)
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
+    if (mfi_cublas_is_active()) then
         block
     integer(c_int) :: cuda_allocation_status
         type(c_ptr) :: device_a
@@ -77,6 +77,8 @@ pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
         type(c_ptr) :: device_y
         integer(c_int) :: op, cublas_stat
         real(REAL32), target :: alpha_target, beta_target
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         call cuda_malloc(device_a, &
                               int(size(a) * storage_size(a)/8, c_size_t), &
                               cuda_allocation_status)
@@ -107,7 +109,7 @@ pure subroutine mfi_sgemv(a, x, y, trans, alpha, beta, incx, incy)
         call cudaMemcpy(device_y, c_loc(y), &
                         int(size(y) * storage_size(y)/8, c_size_t), &
                         cudaMemcpyHostToDevice)
-        cublas_stat = cublasSgemv(mfi_cublas_handle, op, &
+        cublas_stat = cublasSgemv(handle, op, &
                  int(m,c_int), int(n,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_x, int(local_incx,c_int), &
@@ -174,7 +176,7 @@ pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
     n = size(a,2)
     lda = max(1,m)
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
+    if (mfi_cublas_is_active()) then
         block
     integer(c_int) :: cuda_allocation_status
         type(c_ptr) :: device_a
@@ -182,6 +184,8 @@ pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
         type(c_ptr) :: device_y
         integer(c_int) :: op, cublas_stat
         real(REAL64), target :: alpha_target, beta_target
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         call cuda_malloc(device_a, &
                               int(size(a) * storage_size(a)/8, c_size_t), &
                               cuda_allocation_status)
@@ -212,7 +216,7 @@ pure subroutine mfi_dgemv(a, x, y, trans, alpha, beta, incx, incy)
         call cudaMemcpy(device_y, c_loc(y), &
                         int(size(y) * storage_size(y)/8, c_size_t), &
                         cudaMemcpyHostToDevice)
-        cublas_stat = cublasDgemv(mfi_cublas_handle, op, &
+        cublas_stat = cublasDgemv(handle, op, &
                  int(m,c_int), int(n,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_x, int(local_incx,c_int), &
@@ -279,7 +283,7 @@ pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
     n = size(a,2)
     lda = max(1,m)
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
+    if (mfi_cublas_is_active()) then
         block
     integer(c_int) :: cuda_allocation_status
         type(c_ptr) :: device_a
@@ -287,6 +291,8 @@ pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
         type(c_ptr) :: device_y
         integer(c_int) :: op, cublas_stat
         complex(REAL32), target :: alpha_target, beta_target
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         call cuda_malloc(device_a, &
                               int(size(a) * storage_size(a)/8, c_size_t), &
                               cuda_allocation_status)
@@ -317,7 +323,7 @@ pure subroutine mfi_cgemv(a, x, y, trans, alpha, beta, incx, incy)
         call cudaMemcpy(device_y, c_loc(y), &
                         int(size(y) * storage_size(y)/8, c_size_t), &
                         cudaMemcpyHostToDevice)
-        cublas_stat = cublasCgemv(mfi_cublas_handle, op, &
+        cublas_stat = cublasCgemv(handle, op, &
                  int(m,c_int), int(n,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_x, int(local_incx,c_int), &
@@ -384,7 +390,7 @@ pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
     n = size(a,2)
     lda = max(1,m)
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
+    if (mfi_cublas_is_active()) then
         block
     integer(c_int) :: cuda_allocation_status
         type(c_ptr) :: device_a
@@ -392,6 +398,8 @@ pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
         type(c_ptr) :: device_y
         integer(c_int) :: op, cublas_stat
         complex(REAL64), target :: alpha_target, beta_target
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         call cuda_malloc(device_a, &
                               int(size(a) * storage_size(a)/8, c_size_t), &
                               cuda_allocation_status)
@@ -422,7 +430,7 @@ pure subroutine mfi_zgemv(a, x, y, trans, alpha, beta, incx, incy)
         call cudaMemcpy(device_y, c_loc(y), &
                         int(size(y) * storage_size(y)/8, c_size_t), &
                         cudaMemcpyHostToDevice)
-        cublas_stat = cublasZgemv(mfi_cublas_handle, op, &
+        cublas_stat = cublasZgemv(handle, op, &
                  int(m,c_int), int(n,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_x, int(local_incx,c_int), &

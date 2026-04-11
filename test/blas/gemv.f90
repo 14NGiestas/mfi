@@ -38,56 +38,71 @@ subroutine test_sgemv
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(REAL32) :: M(N,N),    X(N),    Y(N),   &
-                M_in(N,N), X_in(N), Y_in(N),&
-                M_rf(N,N), X_rf(N), Y_rf(N)
+    real(REAL32) :: M(N,N), x(N), y(N), &
+                M_in(N,N), x_in(N), y_in(N), &
+                M_rf(N,N), x_rf(N), y_rf(N)
     real(REAL32) :: alpha, beta
     character, parameter :: options(*) = ['N','n','T','t','C','c']
     character :: trans
     integer :: i
 
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
     call random_number(M)
-    call random_number(X)
-    call random_number(Y)
+    call random_number(x)
+    call random_number(y)
     call random_number(alpha)
     call random_number(beta)
-
 
     do i=1,size(options)
         trans = options(i)
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call sgemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        M_rf = M_in
-        X_rf = X_in
-        Y_rf = Y_in
+        M_in = M; x_in = x; y_in = y
+        call sgemv(trans, N, N, alpha, M_in, N, x_in, 1, beta, y_in, 1)
+        M_rf = M_in; x_rf = x_in; y_rf = y_in
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call f77_gemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+        M_in = M; x_in = x; y_in = y
+        call f77_gemv(trans, N, N, alpha, M_in, N, x_in, 1, beta, y_in, 1)
+call assert(maxval(abs(M_in - M_rf)) < sqrt(epsilon(1.0_REAL32)), "${f90}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "${f90}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "${f90}$:y: mismatch")
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call mfi_sgemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+        M_in = M; x_in = x; y_in = y
+        call mfi_sgemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+call assert(maxval(abs(M_in - M_rf)) < sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:y: mismatch")
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call mfi_gemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
+        M_in = M; x_in = x; y_in = y
+        call mfi_gemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+call assert(maxval(abs(M_in - M_rf)) < sqrt(epsilon(1.0_REAL32)), "${mfi}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "${mfi}$:y: mismatch")
 
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+#if defined(MFI_CUBLAS)
+        call mfi_force_gpu()
+        M_in = M; x_in = x; y_in = y
+        call mfi_gemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+        call mfi_force_cpu()
+call assert(maxval(abs(M_in - M_rf)) < sqrt(epsilon(1.0_REAL32)), "GPU:${mfi}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "GPU:${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "GPU:${mfi}$:y: mismatch")
+#endif
     end do
 
 end subroutine
@@ -97,56 +112,71 @@ subroutine test_dgemv
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(REAL64) :: M(N,N),    X(N),    Y(N),   &
-                M_in(N,N), X_in(N), Y_in(N),&
-                M_rf(N,N), X_rf(N), Y_rf(N)
+    real(REAL64) :: M(N,N), x(N), y(N), &
+                M_in(N,N), x_in(N), y_in(N), &
+                M_rf(N,N), x_rf(N), y_rf(N)
     real(REAL64) :: alpha, beta
     character, parameter :: options(*) = ['N','n','T','t','C','c']
     character :: trans
     integer :: i
 
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
     call random_number(M)
-    call random_number(X)
-    call random_number(Y)
+    call random_number(x)
+    call random_number(y)
     call random_number(alpha)
     call random_number(beta)
-
 
     do i=1,size(options)
         trans = options(i)
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call dgemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        M_rf = M_in
-        X_rf = X_in
-        Y_rf = Y_in
+        M_in = M; x_in = x; y_in = y
+        call dgemv(trans, N, N, alpha, M_in, N, x_in, 1, beta, y_in, 1)
+        M_rf = M_in; x_rf = x_in; y_rf = y_in
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call f77_gemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+        M_in = M; x_in = x; y_in = y
+        call f77_gemv(trans, N, N, alpha, M_in, N, x_in, 1, beta, y_in, 1)
+call assert(maxval(abs(M_in - M_rf)) < sqrt(epsilon(1.0_REAL64)), "${f90}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "${f90}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "${f90}$:y: mismatch")
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call mfi_dgemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+        M_in = M; x_in = x; y_in = y
+        call mfi_dgemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+call assert(maxval(abs(M_in - M_rf)) < sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:y: mismatch")
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call mfi_gemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
+        M_in = M; x_in = x; y_in = y
+        call mfi_gemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+call assert(maxval(abs(M_in - M_rf)) < sqrt(epsilon(1.0_REAL64)), "${mfi}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "${mfi}$:y: mismatch")
 
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+#if defined(MFI_CUBLAS)
+        call mfi_force_gpu()
+        M_in = M; x_in = x; y_in = y
+        call mfi_gemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+        call mfi_force_cpu()
+call assert(maxval(abs(M_in - M_rf)) < sqrt(epsilon(1.0_REAL64)), "GPU:${mfi}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "GPU:${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "GPU:${mfi}$:y: mismatch")
+#endif
     end do
 
 end subroutine
@@ -156,14 +186,31 @@ subroutine test_cgemv
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    complex(REAL32) :: M(N,N),    X(N),    Y(N),   &
-                M_in(N,N), X_in(N), Y_in(N),&
-                M_rf(N,N), X_rf(N), Y_rf(N)
+    complex(REAL32) :: M(N,N), x(N), y(N), &
+                M_in(N,N), x_in(N), y_in(N), &
+                M_rf(N,N), x_rf(N), y_rf(N)
     complex(REAL32) :: alpha, beta
     character, parameter :: options(*) = ['N','n','T','t','C','c']
     character :: trans
     integer :: i
 
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
 block
     real(REAL32) :: re(N,N)
     real(REAL32) :: im(N,N)
@@ -176,14 +223,14 @@ block
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im, kind=REAL32)
+    x = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re(N)
     real(REAL32) :: im(N)
     call random_number(im)
     call random_number(re)
-    Y = cmplx(re,im, kind=REAL32)
+    y = cmplx(re,im, kind=REAL32)
 end block
 block
     real(REAL32) :: re
@@ -200,42 +247,40 @@ block
     beta = cmplx(re,im, kind=REAL32)
 end block
 
-
     do i=1,size(options)
         trans = options(i)
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call cgemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        M_rf = M_in
-        X_rf = X_in
-        Y_rf = Y_in
+        M_in = M; x_in = x; y_in = y
+        call cgemv(trans, N, N, alpha, M_in, N, x_in, 1, beta, y_in, 1)
+        M_rf = M_in; x_rf = x_in; y_rf = y_in
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call f77_gemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+        M_in = M; x_in = x; y_in = y
+        call f77_gemv(trans, N, N, alpha, M_in, N, x_in, 1, beta, y_in, 1)
+call assert(maxval(abs(M_in - M_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${f90}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${f90}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${f90}$:y: mismatch")
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call mfi_cgemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+        M_in = M; x_in = x; y_in = y
+        call mfi_cgemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+call assert(maxval(abs(M_in - M_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:y: mismatch")
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call mfi_gemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
+        M_in = M; x_in = x; y_in = y
+        call mfi_gemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+call assert(maxval(abs(M_in - M_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:y: mismatch")
 
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+#if defined(MFI_CUBLAS)
+        call mfi_force_gpu()
+        M_in = M; x_in = x; y_in = y
+        call mfi_gemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+        call mfi_force_cpu()
+call assert(maxval(abs(M_in - M_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "GPU:${mfi}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "GPU:${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "GPU:${mfi}$:y: mismatch")
+#endif
     end do
 
 end subroutine
@@ -245,14 +290,31 @@ subroutine test_zgemv
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    complex(REAL64) :: M(N,N),    X(N),    Y(N),   &
-                M_in(N,N), X_in(N), Y_in(N),&
-                M_rf(N,N), X_rf(N), Y_rf(N)
+    complex(REAL64) :: M(N,N), x(N), y(N), &
+                M_in(N,N), x_in(N), y_in(N), &
+                M_rf(N,N), x_rf(N), y_rf(N)
     complex(REAL64) :: alpha, beta
     character, parameter :: options(*) = ['N','n','T','t','C','c']
     character :: trans
     integer :: i
 
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
 block
     real(REAL64) :: re(N,N)
     real(REAL64) :: im(N,N)
@@ -265,14 +327,14 @@ block
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    X = cmplx(re,im, kind=REAL64)
+    x = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re(N)
     real(REAL64) :: im(N)
     call random_number(im)
     call random_number(re)
-    Y = cmplx(re,im, kind=REAL64)
+    y = cmplx(re,im, kind=REAL64)
 end block
 block
     real(REAL64) :: re
@@ -289,42 +351,40 @@ block
     beta = cmplx(re,im, kind=REAL64)
 end block
 
-
     do i=1,size(options)
         trans = options(i)
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call zgemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        M_rf = M_in
-        X_rf = X_in
-        Y_rf = Y_in
+        M_in = M; x_in = x; y_in = y
+        call zgemv(trans, N, N, alpha, M_in, N, x_in, 1, beta, y_in, 1)
+        M_rf = M_in; x_rf = x_in; y_rf = y_in
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call f77_gemv(trans, N, N, alpha, M_in, N, X_in, 1, beta, Y_in, 1)
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+        M_in = M; x_in = x; y_in = y
+        call f77_gemv(trans, N, N, alpha, M_in, N, x_in, 1, beta, y_in, 1)
+call assert(maxval(abs(M_in - M_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${f90}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${f90}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${f90}$:y: mismatch")
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call mfi_zgemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+        M_in = M; x_in = x; y_in = y
+        call mfi_zgemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+call assert(maxval(abs(M_in - M_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:y: mismatch")
 
-        M_in = M
-        X_in = X
-        Y_in = Y
-        call mfi_gemv(M_in,X_in,Y_in,alpha=alpha, beta=beta, trans=trans)
+        M_in = M; x_in = x; y_in = y
+        call mfi_gemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+call assert(maxval(abs(M_in - M_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$:y: mismatch")
 
-        call assert(all(abs(M_in - M_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(X_in - X_rf) < sqrt(epsilon(1.0_wp))) .and. &
-                    all(abs(Y_in - Y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+#if defined(MFI_CUBLAS)
+        call mfi_force_gpu()
+        M_in = M; x_in = x; y_in = y
+        call mfi_gemv(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
+        call mfi_force_cpu()
+call assert(maxval(abs(M_in - M_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "GPU:${mfi}$:M: mismatch")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "GPU:${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "GPU:${mfi}$:y: mismatch")
+#endif
     end do
 
 end subroutine

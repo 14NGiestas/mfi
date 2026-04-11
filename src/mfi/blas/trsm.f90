@@ -70,13 +70,15 @@ pure subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
+    if (mfi_cublas_is_active()) then
         block
     integer(c_int) :: cuda_allocation_status
         type(c_ptr) :: device_a
         type(c_ptr) :: device_b
         integer(c_int) :: cu_side, cu_uplo, cu_transa, cu_diag, cublas_stat
         real(REAL32), target :: alpha_target
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         call cuda_malloc(device_a, &
                               int(size(a) * storage_size(a)/8, c_size_t), &
                               cuda_allocation_status)
@@ -114,7 +116,7 @@ pure subroutine mfi_strsm(a, b, side, uplo, transa, diag, alpha)
         call cudaMemcpy(device_b, c_loc(b), &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyHostToDevice)
-        cublas_stat = cublasStrsm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
+        cublas_stat = cublasStrsm(handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trsm')
@@ -178,13 +180,15 @@ pure subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
+    if (mfi_cublas_is_active()) then
         block
     integer(c_int) :: cuda_allocation_status
         type(c_ptr) :: device_a
         type(c_ptr) :: device_b
         integer(c_int) :: cu_side, cu_uplo, cu_transa, cu_diag, cublas_stat
         real(REAL64), target :: alpha_target
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         call cuda_malloc(device_a, &
                               int(size(a) * storage_size(a)/8, c_size_t), &
                               cuda_allocation_status)
@@ -222,7 +226,7 @@ pure subroutine mfi_dtrsm(a, b, side, uplo, transa, diag, alpha)
         call cudaMemcpy(device_b, c_loc(b), &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyHostToDevice)
-        cublas_stat = cublasDtrsm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
+        cublas_stat = cublasDtrsm(handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trsm')
@@ -286,13 +290,15 @@ pure subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
+    if (mfi_cublas_is_active()) then
         block
     integer(c_int) :: cuda_allocation_status
         type(c_ptr) :: device_a
         type(c_ptr) :: device_b
         integer(c_int) :: cu_side, cu_uplo, cu_transa, cu_diag, cublas_stat
         complex(REAL32), target :: alpha_target
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         call cuda_malloc(device_a, &
                               int(size(a) * storage_size(a)/8, c_size_t), &
                               cuda_allocation_status)
@@ -330,7 +336,7 @@ pure subroutine mfi_ctrsm(a, b, side, uplo, transa, diag, alpha)
         call cudaMemcpy(device_b, c_loc(b), &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyHostToDevice)
-        cublas_stat = cublasCtrsm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
+        cublas_stat = cublasCtrsm(handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trsm')
@@ -394,13 +400,15 @@ pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
+    if (mfi_cublas_is_active()) then
         block
     integer(c_int) :: cuda_allocation_status
         type(c_ptr) :: device_a
         type(c_ptr) :: device_b
         integer(c_int) :: cu_side, cu_uplo, cu_transa, cu_diag, cublas_stat
         complex(REAL64), target :: alpha_target
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         call cuda_malloc(device_a, &
                               int(size(a) * storage_size(a)/8, c_size_t), &
                               cuda_allocation_status)
@@ -438,7 +446,7 @@ pure subroutine mfi_ztrsm(a, b, side, uplo, transa, diag, alpha)
         call cudaMemcpy(device_b, c_loc(b), &
                         int(size(b) * storage_size(b)/8, c_size_t), &
                         cudaMemcpyHostToDevice)
-        cublas_stat = cublasZtrsm(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
+        cublas_stat = cublasZtrsm(handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'f77_trsm')

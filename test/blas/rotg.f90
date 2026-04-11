@@ -38,42 +38,44 @@ subroutine test_srotg
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 200
-    real(REAL32) :: a, b, s
-    real(REAL32) :: c
-
-    real(REAL32) :: a_in, b_in, s_in
-    real(REAL32) :: c_in
-
-    real(REAL32) :: a_rf, b_rf, s_rf
-    real(REAL32) :: c_rf
+    real(REAL32) :: a, b, s, a_in, b_in, s_in, a_rf, b_rf, s_rf
+    real(REAL32) :: c, c_in, c_rf
     integer :: i
 
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
     call random_number(a)
     call random_number(b)
     call random_number(c)
     call random_number(s)
 
     do i=1,N
-        a_in = a
-        b_in = b
-        c_in = c
-        s_in = s
+        a_in = a; b_in = b; c_in = c; s_in = s
         call srotg(a_in, b_in, c_in, s_in)
-        a_rf = a_in
-        b_rf = b_in
-        c_rf = c_in
-        s_rf = s_in
+        a_rf = a_in; b_rf = b_in; c_rf = c_in; s_rf = s_in
 
-        a_in = a
-        b_in = b
-        c_in = c
-        s_in = s
+        a_in = a; b_in = b; c_in = c; s_in = s
         call mfi_rotg(a_in, b_in, c_in, s_in)
 
-        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "different results")
+        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)), "rotg:a mismatch")
+        call assert(abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)), "rotg:b mismatch")
+        call assert(abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "rotg:c mismatch")
+        call assert(abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)), "rotg:s mismatch")
     end do
 
 end subroutine
@@ -83,42 +85,44 @@ subroutine test_drotg
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 200
-    real(REAL64) :: a, b, s
-    real(REAL64) :: c
-
-    real(REAL64) :: a_in, b_in, s_in
-    real(REAL64) :: c_in
-
-    real(REAL64) :: a_rf, b_rf, s_rf
-    real(REAL64) :: c_rf
+    real(REAL64) :: a, b, s, a_in, b_in, s_in, a_rf, b_rf, s_rf
+    real(REAL64) :: c, c_in, c_rf
     integer :: i
 
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
     call random_number(a)
     call random_number(b)
     call random_number(c)
     call random_number(s)
 
     do i=1,N
-        a_in = a
-        b_in = b
-        c_in = c
-        s_in = s
+        a_in = a; b_in = b; c_in = c; s_in = s
         call drotg(a_in, b_in, c_in, s_in)
-        a_rf = a_in
-        b_rf = b_in
-        c_rf = c_in
-        s_rf = s_in
+        a_rf = a_in; b_rf = b_in; c_rf = c_in; s_rf = s_in
 
-        a_in = a
-        b_in = b
-        c_in = c
-        s_in = s
+        a_in = a; b_in = b; c_in = c; s_in = s
         call mfi_rotg(a_in, b_in, c_in, s_in)
 
-        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "different results")
+        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)), "rotg:a mismatch")
+        call assert(abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)), "rotg:b mismatch")
+        call assert(abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "rotg:c mismatch")
+        call assert(abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)), "rotg:s mismatch")
     end do
 
 end subroutine
@@ -128,16 +132,27 @@ subroutine test_crotg
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 200
-    complex(REAL32) :: a, b, s
-    real(REAL32) :: c
-
-    complex(REAL32) :: a_in, b_in, s_in
-    real(REAL32) :: c_in
-
-    complex(REAL32) :: a_rf, b_rf, s_rf
-    real(REAL32) :: c_rf
+    complex(REAL32) :: a, b, s, a_in, b_in, s_in, a_rf, b_rf, s_rf
+    real(REAL32) :: c, c_in, c_rf
     integer :: i
 
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
 block
     real(REAL32) :: re
     real(REAL32) :: im
@@ -162,26 +177,17 @@ block
 end block
 
     do i=1,N
-        a_in = a
-        b_in = b
-        c_in = c
-        s_in = s
+        a_in = a; b_in = b; c_in = c; s_in = s
         call crotg(a_in, b_in, c_in, s_in)
-        a_rf = a_in
-        b_rf = b_in
-        c_rf = c_in
-        s_rf = s_in
+        a_rf = a_in; b_rf = b_in; c_rf = c_in; s_rf = s_in
 
-        a_in = a
-        b_in = b
-        c_in = c
-        s_in = s
+        a_in = a; b_in = b; c_in = c; s_in = s
         call mfi_rotg(a_in, b_in, c_in, s_in)
 
-        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "different results")
+        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)), "rotg:a mismatch")
+        call assert(abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)), "rotg:b mismatch")
+        call assert(abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "rotg:c mismatch")
+        call assert(abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)), "rotg:s mismatch")
     end do
 
 end subroutine
@@ -191,16 +197,27 @@ subroutine test_zrotg
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 200
-    complex(REAL64) :: a, b, s
-    real(REAL64) :: c
-
-    complex(REAL64) :: a_in, b_in, s_in
-    real(REAL64) :: c_in
-
-    complex(REAL64) :: a_rf, b_rf, s_rf
-    real(REAL64) :: c_rf
+    complex(REAL64) :: a, b, s, a_in, b_in, s_in, a_rf, b_rf, s_rf
+    real(REAL64) :: c, c_in, c_rf
     integer :: i
 
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
 block
     real(REAL64) :: re
     real(REAL64) :: im
@@ -225,26 +242,17 @@ block
 end block
 
     do i=1,N
-        a_in = a
-        b_in = b
-        c_in = c
-        s_in = s
+        a_in = a; b_in = b; c_in = c; s_in = s
         call zrotg(a_in, b_in, c_in, s_in)
-        a_rf = a_in
-        b_rf = b_in
-        c_rf = c_in
-        s_rf = s_in
+        a_rf = a_in; b_rf = b_in; c_rf = c_in; s_rf = s_in
 
-        a_in = a
-        b_in = b
-        c_in = c
-        s_in = s
+        a_in = a; b_in = b; c_in = c; s_in = s
         call mfi_rotg(a_in, b_in, c_in, s_in)
 
-        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "different results")
+        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)), "rotg:a mismatch")
+        call assert(abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)), "rotg:b mismatch")
+        call assert(abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "rotg:c mismatch")
+        call assert(abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)), "rotg:s mismatch")
     end do
 
 end subroutine

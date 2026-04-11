@@ -41,23 +41,41 @@ subroutine test_isamax
     integer, parameter :: N = 20
     real(REAL32) :: array(N)
     integer :: res(4)
-    integer :: i
+    integer :: ii
 
-    ! Test sequential array
-    array = [(1.0_wp*i,i=1,N)]
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+
+    do ii = 1, N
+        array(ii) = real(ii, wp)
+    end do
     res(1) = isamax(N, array, 1)
     res(2) = mfi_isamax(array)
     res(3) = f77_iamax(N, array, 1)
     res(4) = mfi_iamax(array)
-    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
+    call assert(all(res == res(1)), "sequential array mismatch")
 
     call random_number(array)
-
     res(1) = isamax(N, array, 1)
     res(2) = f77_iamax(N, array, 1)
     res(3) = mfi_isamax(array)
     res(4) = mfi_iamax(array)
-    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
+    call assert(all(res == res(1)), "random array mismatch")
 
 end subroutine
 subroutine test_idamax
@@ -68,23 +86,41 @@ subroutine test_idamax
     integer, parameter :: N = 20
     real(REAL64) :: array(N)
     integer :: res(4)
-    integer :: i
+    integer :: ii
 
-    ! Test sequential array
-    array = [(1.0_wp*i,i=1,N)]
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+
+    do ii = 1, N
+        array(ii) = real(ii, wp)
+    end do
     res(1) = idamax(N, array, 1)
     res(2) = mfi_idamax(array)
     res(3) = f77_iamax(N, array, 1)
     res(4) = mfi_iamax(array)
-    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
+    call assert(all(res == res(1)), "sequential array mismatch")
 
     call random_number(array)
-
     res(1) = idamax(N, array, 1)
     res(2) = f77_iamax(N, array, 1)
     res(3) = mfi_idamax(array)
     res(4) = mfi_iamax(array)
-    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
+    call assert(all(res == res(1)), "random array mismatch")
 
 end subroutine
 subroutine test_icamax
@@ -95,15 +131,34 @@ subroutine test_icamax
     integer, parameter :: N = 20
     complex(REAL32) :: array(N)
     integer :: res(4)
-    integer :: i
+    integer :: ii
 
-    ! Test sequential array
-    array = [(1.0_wp*i,i=1,N)]
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+
+    do ii = 1, N
+        array(ii) = real(ii, wp)
+    end do
     res(1) = icamax(N, array, 1)
     res(2) = mfi_icamax(array)
     res(3) = f77_iamax(N, array, 1)
     res(4) = mfi_iamax(array)
-    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
+    call assert(all(res == res(1)), "sequential array mismatch")
 
 block
     real(REAL32) :: re(N)
@@ -112,12 +167,11 @@ block
     call random_number(re)
     array = cmplx(re,im, kind=REAL32)
 end block
-
     res(1) = icamax(N, array, 1)
     res(2) = f77_iamax(N, array, 1)
     res(3) = mfi_icamax(array)
     res(4) = mfi_iamax(array)
-    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
+    call assert(all(res == res(1)), "random array mismatch")
 
 end subroutine
 subroutine test_izamax
@@ -128,15 +182,34 @@ subroutine test_izamax
     integer, parameter :: N = 20
     complex(REAL64) :: array(N)
     integer :: res(4)
-    integer :: i
+    integer :: ii
 
-    ! Test sequential array
-    array = [(1.0_wp*i,i=1,N)]
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+
+    do ii = 1, N
+        array(ii) = real(ii, wp)
+    end do
     res(1) = izamax(N, array, 1)
     res(2) = mfi_izamax(array)
     res(3) = f77_iamax(N, array, 1)
     res(4) = mfi_iamax(array)
-    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
+    call assert(all(res == res(1)), "sequential array mismatch")
 
 block
     real(REAL64) :: re(N)
@@ -145,12 +218,11 @@ block
     call random_number(re)
     array = cmplx(re,im, kind=REAL64)
 end block
-
     res(1) = izamax(N, array, 1)
     res(2) = f77_iamax(N, array, 1)
     res(3) = mfi_izamax(array)
     res(4) = mfi_iamax(array)
-    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
+    call assert(all(res == res(1)), "random array mismatch")
 
 end subroutine
 

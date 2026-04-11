@@ -1,7 +1,5 @@
 
 
-
-
 program test_lamch
 use iso_fortran_env
 implicit none
@@ -25,25 +23,14 @@ subroutine test_slamch
     use mfi_blas, only: mfi_lamch
 
     integer, parameter :: wp = REAL32
-
-    integer, parameter :: N = 20
-    character, parameter :: options(*) = ['E','e', &
-                                          'S','s', &
-                                          'B','b', &
-                                          'P','p', &
-                                          'N','n', &
-                                          'R','r', &
-                                          'M','m', &
-                                          'U','u', &
-                                          'L','l', &
-                                          'O','o']
+    character, parameter :: options(*) = ['E','e','S','s','B','b','P','p','N','n','R','r','M','m','U','u','L','l','O','o']
     real(REAL32) :: a, b
     integer :: i
 
     do i=1,size(options)
         a = slamch(options(i))
-        b = mfi_lamch(options(i),1.0_wp)
-        call assert(abs(a - b) < sqrt(epsilon(1.0_wp)), "different results for option "//options(i))
+        b = mfi_lamch(options(i), 1.0_wp)
+        call assert(abs(a - b) < sqrt(epsilon(1.0_wp)), "option " // options(i) // " mismatch")
     end do
 
 end subroutine
@@ -52,25 +39,14 @@ subroutine test_dlamch
     use mfi_blas, only: mfi_lamch
 
     integer, parameter :: wp = REAL64
-
-    integer, parameter :: N = 20
-    character, parameter :: options(*) = ['E','e', &
-                                          'S','s', &
-                                          'B','b', &
-                                          'P','p', &
-                                          'N','n', &
-                                          'R','r', &
-                                          'M','m', &
-                                          'U','u', &
-                                          'L','l', &
-                                          'O','o']
+    character, parameter :: options(*) = ['E','e','S','s','B','b','P','p','N','n','R','r','M','m','U','u','L','l','O','o']
     real(REAL64) :: a, b
     integer :: i
 
     do i=1,size(options)
         a = dlamch(options(i))
-        b = mfi_lamch(options(i),1.0_wp)
-        call assert(abs(a - b) < sqrt(epsilon(1.0_wp)), "different results for option "//options(i))
+        b = mfi_lamch(options(i), 1.0_wp)
+        call assert(abs(a - b) < sqrt(epsilon(1.0_wp)), "option " // options(i) // " mismatch")
     end do
 
 end subroutine

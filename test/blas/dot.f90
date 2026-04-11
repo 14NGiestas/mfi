@@ -1,7 +1,5 @@
 
 
-
-
 program test_dot
 use iso_fortran_env
 implicit none
@@ -26,25 +24,39 @@ subroutine test_sdot
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-
     real(REAL32) :: res, ref
-
     real(REAL32) :: x(N), y(N)
 
-    call random_number(X)
-    call random_number(Y)
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+    call random_number(x)
+    call random_number(y)
 
-    ! The test is always against the original
     ref = sdot(N, x, 1, y, 1)
 
     res = f77_dot(N, x, 1, y, 1)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "f77_dot mismatch")
 
     res = mfi_sdot(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_sdot mismatch")
 
     res = mfi_dot(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dot mismatch")
 
 end subroutine
 subroutine test_ddot
@@ -53,25 +65,39 @@ subroutine test_ddot
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-
     real(REAL64) :: res, ref
-
     real(REAL64) :: x(N), y(N)
 
-    call random_number(X)
-    call random_number(Y)
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+    call random_number(x)
+    call random_number(y)
 
-    ! The test is always against the original
     ref = ddot(N, x, 1, y, 1)
 
     res = f77_dot(N, x, 1, y, 1)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "f77_dot mismatch")
 
     res = mfi_ddot(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_ddot mismatch")
 
     res = mfi_dot(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dot mismatch")
 
 end subroutine
 

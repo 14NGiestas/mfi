@@ -38,39 +38,48 @@ subroutine test_saxpy
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    real(REAL32) :: x(N), Y(N), &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    real(REAL32) :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
     real(REAL32) :: alpha
 
-    call random_number(X)
-    call random_number(Y)
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+    call random_number(x)
+    call random_number(y)
     call random_number(alpha)
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call saxpy(N, alpha, x_in, 1, y_in, 1)
-    x_rf = x_in
-    y_rf = y_in
+    x_rf = x_in; y_rf = y_in
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call f77_axpy(N, alpha, x_in, 1, y_in, 1)
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "${f90}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "${f90}$:y: mismatch")
 
-    x_in = X
-    y_in = Y
-    call mfi_saxpy(x_in,y_in,alpha)
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+    x_in = x; y_in = y
+    call mfi_saxpy(x_in, y_in, alpha)
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:y: mismatch")
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call mfi_axpy(x_in, y_in, alpha)
-
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "${mfi}$:y: mismatch")
 
 end subroutine
 subroutine test_daxpy
@@ -79,39 +88,48 @@ subroutine test_daxpy
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    real(REAL64) :: x(N), Y(N), &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    real(REAL64) :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
     real(REAL64) :: alpha
 
-    call random_number(X)
-    call random_number(Y)
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+    call random_number(x)
+    call random_number(y)
     call random_number(alpha)
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call daxpy(N, alpha, x_in, 1, y_in, 1)
-    x_rf = x_in
-    y_rf = y_in
+    x_rf = x_in; y_rf = y_in
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call f77_axpy(N, alpha, x_in, 1, y_in, 1)
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "${f90}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "${f90}$:y: mismatch")
 
-    x_in = X
-    y_in = Y
-    call mfi_daxpy(x_in,y_in,alpha)
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+    x_in = x; y_in = y
+    call mfi_daxpy(x_in, y_in, alpha)
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:y: mismatch")
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call mfi_axpy(x_in, y_in, alpha)
-
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "${mfi}$:y: mismatch")
 
 end subroutine
 subroutine test_caxpy
@@ -120,49 +138,66 @@ subroutine test_caxpy
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    complex(REAL32) :: x(N), Y(N), &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    complex(REAL32) :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
     complex(REAL32) :: alpha
 
-    real(REAL32) :: rnd_vector(N), rnd
-    call random_number(rnd_vector)
-    X%re = rnd_vector
-    call random_number(rnd_vector)
-    X%im = rnd_vector
-    call random_number(rnd_vector)
-    Y%re = rnd_vector
-    call random_number(rnd_vector)
-    Y%im = rnd_vector
-    call random_number(rnd)
-    alpha%re = rnd
-    call random_number(rnd)
-    alpha%im= rnd
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    x = cmplx(re,im, kind=REAL32)
+end block
+block
+    real(REAL32) :: re(N)
+    real(REAL32) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    y = cmplx(re,im, kind=REAL32)
+end block
+block
+    real(REAL32) :: re
+    real(REAL32) :: im
+    call random_number(im)
+    call random_number(re)
+    alpha = cmplx(re,im, kind=REAL32)
+end block
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call caxpy(N, alpha, x_in, 1, y_in, 1)
-    x_rf = x_in
-    y_rf = y_in
+    x_rf = x_in; y_rf = y_in
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call f77_axpy(N, alpha, x_in, 1, y_in, 1)
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${f90}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${f90}$:y: mismatch")
 
-    x_in = X
-    y_in = Y
-    call mfi_caxpy(x_in,y_in,alpha)
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+    x_in = x; y_in = y
+    call mfi_caxpy(x_in, y_in, alpha)
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:y: mismatch")
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call mfi_axpy(x_in, y_in, alpha)
-
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:y: mismatch")
 
 end subroutine
 subroutine test_zaxpy
@@ -171,49 +206,66 @@ subroutine test_zaxpy
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    complex(REAL64) :: x(N), Y(N), &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    complex(REAL64) :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
     complex(REAL64) :: alpha
 
-    real(REAL64) :: rnd_vector(N), rnd
-    call random_number(rnd_vector)
-    X%re = rnd_vector
-    call random_number(rnd_vector)
-    X%im = rnd_vector
-    call random_number(rnd_vector)
-    Y%re = rnd_vector
-    call random_number(rnd_vector)
-    Y%im = rnd_vector
-    call random_number(rnd)
-    alpha%re = rnd
-    call random_number(rnd)
-    alpha%im= rnd
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    x = cmplx(re,im, kind=REAL64)
+end block
+block
+    real(REAL64) :: re(N)
+    real(REAL64) :: im(N)
+    call random_number(im)
+    call random_number(re)
+    y = cmplx(re,im, kind=REAL64)
+end block
+block
+    real(REAL64) :: re
+    real(REAL64) :: im
+    call random_number(im)
+    call random_number(re)
+    alpha = cmplx(re,im, kind=REAL64)
+end block
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call zaxpy(N, alpha, x_in, 1, y_in, 1)
-    x_rf = x_in
-    y_rf = y_in
+    x_rf = x_in; y_rf = y_in
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call f77_axpy(N, alpha, x_in, 1, y_in, 1)
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${f90}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${f90}$:y: mismatch")
 
-    x_in = X
-    y_in = Y
-    call mfi_zaxpy(x_in,y_in,alpha)
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+    x_in = x; y_in = y
+    call mfi_zaxpy(x_in, y_in, alpha)
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:y: mismatch")
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call mfi_axpy(x_in, y_in, alpha)
-
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different&
-        & results")
+call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$:x: mismatch")
+call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$:y: mismatch")
 
 end subroutine
 
