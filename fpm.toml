@@ -13,6 +13,7 @@ macros = ["MFI_EXTENSIONS", "MFI_LINK_EXTERNAL"]
 [features]
 cublas.build.link = ["blas", "lapack", "cublas", "cudart"]
 cublas.preprocess.cpp.macros = ["MFI_CUBLAS"]
+cublas.dependencies.openmp = "*"
 
 [profiles]
 cublas = ["cublas"]
