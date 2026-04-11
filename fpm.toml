@@ -10,9 +10,6 @@ build-script="Makefile"
 [preprocess.cpp]
 macros = ["MFI_EXTENSIONS", "MFI_LINK_EXTERNAL"]
 
-[build]
-link = ["blas", "lapack"]
-
 [features]
 cublas.build.link = ["blas", "lapack", "cublas", "cudart"]
 cublas.preprocess.cpp.macros = ["MFI_CUBLAS"]
