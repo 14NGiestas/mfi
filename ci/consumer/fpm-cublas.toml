@@ -9,3 +9,6 @@ cublas.build.link = ["cublas", "cudart"]
 
 [profiles]
 cublas = ["cublas"]
+
+[build]
+link = ["blas", "lapack"]
