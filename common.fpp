@@ -232,4 +232,48 @@ $:code(f77,f90,mfi,pfxs)
     $:code
 #:enddef
 
+#! Initialize random seed from MFI_TEST_SEED env var (or default=42).
+#! Usage: $:test_seed()
+#:def test_seed()
+block
+    integer, parameter :: seed_size = 8
+    integer :: seed_arr(seed_size)
+    integer :: env_seed
+    integer :: seed_stat
+    integer :: ii
+    character(64) :: env_val
+    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
+    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
+        read(env_val, '(I10)', iostat=seed_stat) env_seed
+    end if
+    if (seed_stat /= 0) env_seed = 42
+    do ii = 0, seed_size - 1
+        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
+    end do
+    call random_seed(put=seed_arr)
+end block
+#:enddef
+
+#! Assert two 2D arrays are close within type-appropriate tolerance.
+#! Usage: $:assert_close('A', 'A_rf', 'label', wp)
+#:def assert_close(actual, expected, label, wp)
+#:set knd = kind(wp)
+#:if wp in ['s','d']
+call assert(maxval(abs(${actual}$ - ${expected}$)) < sqrt(epsilon(1.0_${knd}$)), "${label}$: mismatch")
+#:else
+call assert(maxval(abs(${actual}$ - ${expected}$)) < 2.0 * sqrt(epsilon(1.0_${knd}$)), "${label}$: mismatch")
+#:endif
+#:enddef
+
+#! Assert two 1D arrays are close within type-appropriate tolerance.
+#! Usage: $:assert_close_1d('x', 'x_rf', 'label', wp)
+#:def assert_close_1d(actual, expected, label, wp)
+#:set knd = kind(wp)
+#:if wp in ['s','d']
+call assert(maxval(abs(${actual}$ - ${expected}$)) < sqrt(epsilon(1.0_${knd}$)), "${label}$: mismatch")
+#:else
+call assert(maxval(abs(${actual}$ - ${expected}$)) < 2.0 * sqrt(epsilon(1.0_${knd}$)), "${label}$: mismatch")
+#:endif
+#:enddef
+
 #:endmute

@@ -16,10 +16,12 @@ integer, save :: MFI_USE_CUBLAS = 0
 logical, save :: mfi_cublas_env_checked = .false.
 logical, save :: mfi_cublas_global_initialized = .false.
 integer, save :: mfi_cublas_handle_count = 0
+integer(atomic_int_kind), save :: mfi_cublas_thread_counter = 0
 private :: MFI_USE_CUBLAS
 private :: mfi_cublas_env_checked
 private :: mfi_cublas_global_initialized
 private :: mfi_cublas_handle_count
+private :: mfi_cublas_thread_counter
 #:enddef
 
 #:def mfi_extensions_implement()
@@ -60,7 +62,7 @@ end subroutine
 #endif
 
 !> Returns .true. if GPU execution is active (triggers lazy init on first call)
-pure logical function mfi_cublas_is_active() result(active)
+logical function mfi_cublas_is_active() result(active)
     active = .false.
 #if defined(MFI_CUBLAS)
     if (.not. mfi_cublas_global_initialized) then
@@ -70,27 +72,25 @@ pure logical function mfi_cublas_is_active() result(active)
 #endif
 end function
 
-!> Get the cuBLAS handle for the current thread (thread-safe via OpenMP thread ID)
-pure function mfi_cublas_handle_get() result(handle)
-#if defined(MFI_CUBLAS)
-    use omp_lib, only: omp_get_thread_num
+!> Get the cuBLAS handle for the current thread (thread-safe via atomic counter)
+function mfi_cublas_handle_get() result(handle)
     type(c_ptr) :: handle
     integer :: tid
+#if defined(MFI_CUBLAS)
     if (.not. mfi_cublas_global_initialized) then
         call mfi_cublas_lazy_init()
     end if
 
-    tid = omp_get_thread_num()
+    call atomic_add(mfi_cublas_thread_counter, 1)
+    tid = int(mfi_cublas_thread_counter)
 
-    if (tid + 1 > mfi_cublas_handle_count .or. tid < 0) then
+    if (tid > mfi_cublas_handle_count .or. tid < 1) then
         error stop 'mfi: more threads than OMP_NUM_THREADS. '// &
                    'Set OMP_NUM_THREADS before running with MFI_USE_CUBLAS=1.'
     end if
 
-    handle = mfi_cublas_handles(tid + 1)
+    handle = mfi_cublas_handles(tid)
 #else
-    type(c_ptr) :: handle
-    integer :: tid
     handle = c_null_ptr
 #endif
 end function
@@ -148,6 +148,7 @@ subroutine mfi_cublas_finalize()
             mfi_cublas_handles(i) = c_null_ptr
         end if
     end do
+    call atomic_define(mfi_cublas_thread_counter, 0)
     mfi_cublas_handle_count = 0
     MFI_USE_CUBLAS = 0
     mfi_cublas_global_initialized = .false.

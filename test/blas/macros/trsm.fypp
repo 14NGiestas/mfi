@@ -3,7 +3,6 @@
 subroutine test_${f77}$
     use f77_blas, only: ${f77}$, ${f90}$
     use mfi_blas, only: ${mfi}$
-    use mfi_blas
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: M = 10, N = 10
@@ -17,7 +16,8 @@ subroutine test_${f77}$
     character, parameter :: transas(*) = ['N', 'T', 'C']
     character, parameter :: diags(*) = ['N', 'U']
 
-    ! Initialize A as a triangular matrix to ensure it is non-singular
+    $:test_seed()
+
     A = 0.0_wp
     do i_side = 1, M
         A(i_side, i_side) = 1.0_wp + real(i_side, wp)
@@ -25,7 +25,7 @@ subroutine test_${f77}$
             A(i_uplo, i_side) = real(i_uplo + i_side, wp)
         end do
     end do
-    
+
     $:random_number(type(wp),'B','(M,N)')
     $:random_number(type(wp),'alpha')
 
@@ -33,30 +33,25 @@ subroutine test_${f77}$
     do i_uplo = 1, size(uplos)
     do i_transa = 1, size(transas)
     do i_diag = 1, size(diags)
-        side = sides(i_side)
-        uplo = uplos(i_uplo)
+        side   = sides(i_side)
+        uplo   = uplos(i_uplo)
         transa = transas(i_transa)
-        diag = diags(i_diag)
+        diag   = diags(i_diag)
 
-        ! Reference run
         B_rf = B
         call ${f77}$(side, uplo, transa, diag, M, N, alpha, A, M, B_rf, M)
 
-        ! MFI run
         B_in = B
         call ${mfi}$(A, B_in, side=side, uplo=uplo, transa=transa, diag=diag, alpha=alpha)
-        block
-        real(wp) :: max_diff, scale
-        max_diff = maxval(abs(B_in - B_rf))
-        scale = max(1.0_wp, maxval(abs(B_rf)))
-        if (.not. max_diff < sqrt(epsilon(1.0_wp)) * scale) then
-            print *, "FAIL: side=", side, " uplo=", uplo, " transa=", transa, " diag=", diag
-            print *, "max diff =", max_diff
-            print *, "B_rf(1,1) =", B_rf(1,1)
-            print *, "B_in(1,1) =", B_in(1,1)
-            error stop "mfi diff"
-        end if
-        end block
+        $:assert_close('B_in', 'B_rf', '${mfi}$:${side}${uplo}${transa}${diag}', wp)
+
+#if defined(MFI_CUBLAS)
+        call mfi_force_gpu()
+        B_in = B
+        call ${mfi}$(A, B_in, side=side, uplo=uplo, transa=transa, diag=diag, alpha=alpha)
+        call mfi_force_cpu()
+        $:assert_close('B_in', 'B_rf', 'GPU:${mfi}$:${side}${uplo}${transa}${diag}', wp)
+#endif
 
     end do
     end do

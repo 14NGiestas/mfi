@@ -7,6 +7,9 @@ maintainer = "iangiestas@usp.br"
 [library]
 build-script="Makefile"
 
+[build]
+link = ["blas", "lapack"]
+
 [preprocess.cpp]
 macros = ["MFI_EXTENSIONS", "MFI_LINK_EXTERNAL"]
 

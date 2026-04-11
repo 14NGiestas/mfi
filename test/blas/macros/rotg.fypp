@@ -6,42 +6,28 @@ subroutine test_${f77}$
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 200
-    ${type(wp)}$ :: a, b, s
-    ${real(wp)}$ :: c
-
-    ${type(wp)}$ :: a_in, b_in, s_in
-    ${real(wp)}$ :: c_in
-
-    ${type(wp)}$ :: a_rf, b_rf, s_rf
-    ${real(wp)}$ :: c_rf
+    ${type(wp)}$ :: a, b, s, a_in, b_in, s_in, a_rf, b_rf, s_rf
+    ${real(wp)}$ :: c, c_in, c_rf
     integer :: i
 
+    $:test_seed()
     $:random_number(type(wp),'a')
     $:random_number(type(wp),'b')
     $:random_number(real(wp),'c')
     $:random_number(type(wp),'s')
 
     do i=1,N
-        a_in = a
-        b_in = b
-        c_in = c
-        s_in = s
+        a_in = a; b_in = b; c_in = c; s_in = s
         call ${f77}$(a_in, b_in, c_in, s_in)
-        a_rf = a_in
-        b_rf = b_in
-        c_rf = c_in
-        s_rf = s_in
+        a_rf = a_in; b_rf = b_in; c_rf = c_in; s_rf = s_in
 
-        a_in = a
-        b_in = b
-        c_in = c
-        s_in = s
+        a_in = a; b_in = b; c_in = c; s_in = s
         call ${mfi}$(a_in, b_in, c_in, s_in)
 
-        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)) .and. &
-                    abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "different results")
+        call assert(abs(a_in - a_rf) < sqrt(epsilon(1.0_wp)), "rotg:a mismatch")
+        call assert(abs(b_in - b_rf) < sqrt(epsilon(1.0_wp)), "rotg:b mismatch")
+        call assert(abs(c_in - c_rf) < sqrt(epsilon(1.0_wp)), "rotg:c mismatch")
+        call assert(abs(s_in - s_rf) < sqrt(epsilon(1.0_wp)), "rotg:s mismatch")
     end do
 
 end subroutine

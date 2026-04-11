@@ -8,23 +8,25 @@ subroutine test_${f77}$
     integer, parameter :: N = 20
     ${type(wp)}$ :: array(N)
     integer :: res(4)
-    integer :: i
+    integer :: ii
 
-    ! Test sequential array
-    array = [(1.0_wp*i,i=1,N)]
+    $:test_seed()
+
+    do ii = 1, N
+        array(ii) = real(ii, wp)
+    end do
     res(1) = ${f77}$(N, array, 1)
     res(2) = mfi_${f77}$(array)
     res(3) = ${f90}$(N, array, 1)
     res(4) = ${mfi}$(array)
-    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for sequential array")
+    call assert(all(res == res(1)), "sequential array mismatch")
 
     $:random_number(type(wp), 'array', '(N)')
-
     res(1) = ${f77}$(N, array, 1)
     res(2) = ${f90}$(N, array, 1)
     res(3) = mfi_${f77}$(array)
     res(4) = ${mfi}$(array)
-    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "different results for random array")
+    call assert(all(res == res(1)), "random array mismatch")
 
 end subroutine
 #:enddef

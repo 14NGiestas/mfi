@@ -1,4 +1,3 @@
-
 #:def dot_product(f77,f90,mfi,pfxs)
 #:set wp = pfxs[0]
 subroutine test_${f77}$
@@ -7,26 +6,23 @@ subroutine test_${f77}$
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 20
-
     ${type(wp)}$ :: res, ref
-
     ${type(wp)}$ :: x(N), y(N)
 
-    $:random_number(type(wp),'X','(N)')
-    $:random_number(type(wp),'Y','(N)')
+    $:test_seed()
+    $:random_number(type(wp),'x','(N)')
+    $:random_number(type(wp),'y','(N)')
 
-    ! The test is always against the original
     ref = ${f77}$(N, x, 1, y, 1)
 
     res = ${f90}$(N, x, 1, y, 1)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "${f90}$ mismatch")
 
     res = mfi_${f77}$(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_${f77}$ mismatch")
 
     res = ${mfi}$(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "different results")
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "${mfi}$ mismatch")
 
 end subroutine
 #:enddef
-

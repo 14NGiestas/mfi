@@ -6,52 +6,32 @@ subroutine test_${f77}$
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 20
-    ${type(wp)}$ :: x(N), Y(N), &
-                x_in(N), y_in(N), &
-                x_rf(N), y_rf(N)
+    ${type(wp)}$ :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
     ${type(wp)}$ :: alpha
 
-#:if type(wp) == complex(wp)
-    ${real(wp)}$ :: rnd_vector(N), rnd
-    call random_number(rnd_vector)
-    X%re = rnd_vector
-    call random_number(rnd_vector)
-    X%im = rnd_vector
-    call random_number(rnd_vector)
-    Y%re = rnd_vector
-    call random_number(rnd_vector)
-    Y%im = rnd_vector
-    call random_number(rnd)
-    alpha%re = rnd
-    call random_number(rnd)
-    alpha%im= rnd
-#:else
-    call random_number(X)
-    call random_number(Y)
-    call random_number(alpha)
-#:endif
+    $:test_seed()
+    $:random_number(type(wp),'x','(N)')
+    $:random_number(type(wp),'y','(N)')
+    $:random_number(type(wp),'alpha')
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call ${f77}$(N, alpha, x_in, 1, y_in, 1)
-    x_rf = x_in
-    y_rf = y_in
+    x_rf = x_in; y_rf = y_in
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call ${f90}$(N, alpha, x_in, 1, y_in, 1)
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+    $:assert_close_1d('x_in', 'x_rf', '${f90}$:x', wp)
+    $:assert_close_1d('y_in', 'y_rf', '${f90}$:y', wp)
 
-    x_in = X
-    y_in = Y
-    call mfi_${f77}$(x_in,y_in,alpha)
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+    x_in = x; y_in = y
+    call mfi_${f77}$(x_in, y_in, alpha)
+    $:assert_close_1d('x_in', 'x_rf', 'mfi_${f77}$:x', wp)
+    $:assert_close_1d('y_in', 'y_rf', 'mfi_${f77}$:y', wp)
 
-    x_in = X
-    y_in = Y
+    x_in = x; y_in = y
     call ${mfi}$(x_in, y_in, alpha)
-
-    call assert(all(abs(x_in - x_rf) < sqrt(epsilon(1.0_wp))) .and. all(abs(y_in - y_rf) < sqrt(epsilon(1.0_wp))), "different results")
+    $:assert_close_1d('x_in', 'x_rf', '${mfi}$:x', wp)
+    $:assert_close_1d('y_in', 'y_rf', '${mfi}$:y', wp)
 
 end subroutine
 #:enddef
