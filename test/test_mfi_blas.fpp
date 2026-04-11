@@ -97,11 +97,8 @@ contains
     subroutine test_gemm
         call test_defaults
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-        @:timeit("time mfi_gemm, transa=T (CPU): ", { call mfi_gemm(A,B,D,transa='T') })
-        call mfi_force_gpu
-        @:timeit("time mfi_gemm, transa=T (GPU): ", { call mfi_gemm(A,B,C,transa='T') })
-        call mfi_force_cpu
-        call mfi_cublas_finalize
+        @:timeit("time mfi_gemm (CPU): ", { call mfi_gemm(A,B,D) })
+        @:mfi_gpu({ call mfi_gemm(A,B,C) })
         call assert(all(is_almost_equal(C,D)))
 #endif
         @:timeit("time f77_gemm: ", { call f77_gemm('N', 'N', N, N, N, alpha, A, N, B, N, beta, C, N) })
@@ -118,6 +115,12 @@ contains
 
     subroutine test_gemv
         call test_defaults
+#if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
+        @:timeit("time mfi_gemv (CPU): ", { call mfi_gemv(A,X,Y) })
+        Z = matmul(A,X)
+        @:mfi_gpu({ call mfi_gemv(A,X,Y) })
+        call assert(all(is_almost_equal(Y,Z)))
+#endif
         @:timeit("time f77_gemv: ", { call f77_gemv('N', N, N, alpha, A, N, X, 1, beta, Y, 1) })
         @:timeit("time mfi_gemv: ", { call mfi_gemv(A,X,Y) })
         @:timeit("time matmul:   ", { Z = matmul(A,X)      })

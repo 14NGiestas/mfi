@@ -61,7 +61,7 @@ fpm test --profile cublas
 | Name | Kind | Purpose |
 |------|------|---------|
 | `MFI_CUBLAS` | Preprocessor macro | Enables cuBLAS code at compile time (set by fpm `cublas` feature) |
-| `MFI_USE_CUBLAS` | Fortran variable + env var | Runtime GPU dispatch flag (set by `mfi_execution_init` from env) |
+| `MFI_USE_CUBLAS` | Internal variable + env var | Runtime GPU dispatch flag (read from env var on lazy init) |
 | `MFI_EXTENSIONS` | Preprocessor macro | Enables BLAS extension routines (iamin, iamax, lamch) |
 | `MFI_LINK_EXTERNAL` | Preprocessor macro | Links external BLAS extensions |
 
@@ -108,6 +108,14 @@ end function
 - cuBLAS stat checks use `call mfi_cublas_error(stat, 'name')` (a pure subroutine wrapper) for consistency with the purity design
 - **TRSM fill mode is inverted:** `CUBLAS_TRSM_FILL_UPPER = 1`, `CUBLAS_TRSM_FILL_LOWER = 0` (opposite of standard BLAS enums)
 - cuBLAS v1 (`cublasAlloc`/`cublasSgemm`) is deprecated — use v2 (`cudaMalloc`, `cublasCreate_v2`, `cublasSgemm_v2`, etc.)
+
+## Runtime CPU/GPU Switching
+
+- **Zero-config default:** `call mfi_gemm(A, B, C)` — always works, no setup
+- **Env var activation:** `MFI_USE_CUBLAS=1 ./app` — lazy init reads env var automatically
+- **Manual switch:** `call mfi_force_gpu` / `call mfi_force_cpu` — **always available** (stub no-op when compiled without `cublas`, functional with `cublas` feature)
+- **OpenMP safe:** Per-thread cuBLAS handles, pre-allocated from `OMP_NUM_THREADS`
+- **No state leaks:** Each `mfi_force_*` resets lazy-init state, so calls are safe to repeat
 
 ## Dependency Usage
 

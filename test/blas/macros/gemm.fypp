@@ -15,9 +15,6 @@ subroutine test_${f77}$
     character :: transa, transb
     integer :: i, j, k
 
-    call mfi_execution_init
-    print*, mfi_get_execution_mode()
-
     $:random_number(type(wp),'A','(N,N)')
     $:random_number(type(wp),'B','(N,N)')
     $:random_number(type(wp),'C','(N,N)')

@@ -212,4 +212,24 @@ $:code(f77,f90,mfi,pfxs)
 #:endfor
 #:enddef
 
+#! Run code on GPU mode (only when compiled with MFI_CUBLAS).
+#! If MFI_CUBLAS is not defined, expands to just the code (no-op).
+#! Usage: @:mfi_gpu({ call mfi_gemm(A, B, C) })
+#! Requires: use mfi_blas (for mfi_force_gpu/cpu when cublas is available)
+#:def mfi_gpu(code)
+#if defined(MFI_CUBLAS)
+    call mfi_force_gpu()
+#endif
+    $:code
+#if defined(MFI_CUBLAS)
+    call mfi_force_cpu()
+#endif
+#:enddef
+
+#! Run code on CPU mode — explicit marker for readability.
+#! Always expands to just the code (CPU is the default).
+#:def mfi_cpu(code)
+    $:code
+#:enddef
+
 #:endmute

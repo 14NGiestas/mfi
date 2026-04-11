@@ -13,8 +13,10 @@ pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
     n = size(a,2)
     lda = max(1,m)
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
+    if (mfi_cublas_is_active()) then
         block
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         @:declare(a,x,y)
         integer(c_int) :: op, cublas_stat
         ${type(wp)}$, target :: alpha_target, beta_target
@@ -30,7 +32,7 @@ pure subroutine ${MFI_NAME}$(a, x, y, trans, alpha, beta, incx, incy)
         beta_target = local_beta
         @:set_matrix(a)
         @:set_vector(x,y)
-        cublas_stat = cublas${wp.title()}$gemv(mfi_cublas_handle, op, &
+        cublas_stat = cublas${wp.title()}$gemv(handle, op, &
                  int(m,c_int), int(n,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
                  device_x, int(local_incx,c_int), &

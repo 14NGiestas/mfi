@@ -97,27 +97,52 @@ link = ["cublas", "cudart"]
 
 ### Runtime CPU / GPU switching
 
-At runtime, MFI checks the `MFI_USE_CUBLAS` environment variable. Set it to `1`
-to enable GPU dispatching:
+MFI uses lazy initialization — no setup code is needed. When compiled with the
+`cublas` feature, GPU dispatching is controlled entirely by the
+`MFI_USE_CUBLAS` environment variable:
 
-```fortran
-call mfi_execution_init()   ! reads MFI_USE_CUBLAS env var
+```sh
+# CPU (default)
+./build/app/app
 
-call mfi_gemm(A, B, C)      ! runs on GPU if MFI_USE_CUBLAS=1, CPU otherwise
+# GPU
+MFI_USE_CUBLAS=1 ./build/app/app
 ```
 
-You can also force the execution mode programmatically:
+The same `call mfi_gemm(A, B, C)` runs on CPU or GPU without any code changes.
 
-```fortran
-call mfi_force_gpu()        ! force GPU from here
-call mfi_gemm(A, B, C)
-call mfi_force_cpu()        ! restore CPU
+For OpenMP-parallel programs, also set `OMP_NUM_THREADS` to pre-allocate
+per-thread cuBLAS handles:
+
+```sh
+MFI_USE_CUBLAS=1 OMP_NUM_THREADS=8 ./build/app/app
 ```
 
-> **State leaks:** Always pair `mfi_force_gpu` with `mfi_force_cpu` (or
-> `mfi_execution_restore`). Calling `mfi_cublas_finalize` destroys the cuBLAS
-> handle — if the global mode is still set to GPU, subsequent calls will fail
-> with `CUBLAS_STATUS_NOT_INITIALIZED`.
+#### Manual CPU/GPU switching (advanced)
+
+If you need fine-grained control within a single program (e.g., run most
+computations on GPU but force a specific call to CPU), use
+`mfi_force_gpu` / `mfi_force_cpu`:
+
+```fortran
+call mfi_gemm(A, B, C)       ! CPU (default)
+
+call mfi_force_gpu
+call mfi_gemm(D, E, F)       ! GPU
+call mfi_force_cpu
+
+call mfi_gemm(G, H, I)       ! CPU again
+```
+
+> **Note:** When compiled **without** the `cublas` feature, `mfi_force_gpu` and
+> `mfi_force_cpu` are no-op stubs — your code compiles and runs normally on CPU
+> without any `#ifdef` changes. Simply recompile with `--profile cublas` to
+> activate GPU acceleration.
+
+#### Clean shutdown (optional)
+
+Call `mfi_cublas_finalize()` at program end to release GPU resources.
+The OS cleans up on exit anyway.
 
 ---
 
@@ -125,7 +150,7 @@ call mfi_force_cpu()        ! restore CPU
 
 | Problem | Solution |
 |---------|----------|
-| `CUBLAS_STATUS_NOT_INITIALIZED` | You called `mfi_cublas_finalize` or the handle was never created. Call `mfi_execution_init` again with `MFI_USE_CUBLAS=1`. |
+| `CUBLAS_STATUS_NOT_INITIALIZED` | cuBLAS handle not created. Set `MFI_USE_CUBLAS=1` or call `mfi_force_gpu` before the first BLAS call. |
 | `cuda_runtime.h not found` | CUDA Toolkit is not installed or not in your include path. See [gpu_test.ipynb](gpu_test.ipynb) for a working Colab setup. |
 | `i?amin` symbols missing | Your BLAS provider lacks extensions. Use the default profile (without `MFI_LINK_EXTERNAL`) or switch to OpenBLAS. |
 | Tests fail on CPU build | Known pre-existing failures: `cunmrq`, `sorg2r`, `sorgr2`, `cungr2`, `cung2r`, `sormrq`, `heevx` (segfault). |

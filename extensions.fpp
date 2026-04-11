@@ -5,9 +5,23 @@
 $:mfi_interface('i?amax', DEFAULT_TYPES)
 $:mfi_interface('i?amin', DEFAULT_TYPES)
 
-! Global variables for execution mode control - always defined
+!> Public API — always available (stubs when no cuBLAS)
+public :: mfi_iamax, mfi_isamax, mfi_idamax, mfi_icamax, mfi_izamax
+public :: mfi_iamin, mfi_isamin, mfi_idamin, mfi_icamin, mfi_izamin
+public :: mfi_force_gpu, mfi_force_cpu
+public :: mfi_cublas_finalize, mfi_cublas_is_active
+
+!> Internal state — not exposed to users
 integer, save :: MFI_USE_CUBLAS = 0
-integer, save :: MFI_USE_CUBLAS_PREV_STATE = 0
+logical, save :: mfi_cublas_env_checked = .false.
+logical, save :: mfi_cublas_global_initialized = .false.
+integer, save :: mfi_cublas_handle_count = 0
+integer(atomic_int_kind), save :: mfi_cublas_thread_counter = 0
+private :: MFI_USE_CUBLAS
+private :: mfi_cublas_env_checked
+private :: mfi_cublas_global_initialized
+private :: mfi_cublas_handle_count
+private :: mfi_cublas_thread_counter
 #:enddef
 
 #:def mfi_extensions_implement()
@@ -15,68 +29,133 @@ integer, save :: MFI_USE_CUBLAS_PREV_STATE = 0
 $:mfi_implement('i?amax', DEFAULT_TYPES, iamin_iamax)
 $:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
 
-!> Initialize execution mode from environment variables
-subroutine mfi_execution_init()
+!> Check environment and initialize cuBLAS on first GPU call (lazy init)
+#if defined(MFI_CUBLAS)
+subroutine mfi_cublas_lazy_init()
     integer :: info
-    character(len=10) :: env_mfi_use_cublas
-    integer :: env_len_cublas
+    character(len=16) :: env_val
+    integer :: env_len
 
-    ! Save previous states
-    MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
+    if (mfi_cublas_global_initialized) return
 
-    ! Initialize to defaults
-    MFI_USE_CUBLAS = 0
-
-    ! Only check environment if extensions are enabled
-#if defined(MFI_CUBLAS)
-    ! Check CUBLAS setting
-    call get_environment_variable("MFI_USE_CUBLAS",env_mfi_use_cublas,env_len_cublas)
-    if (env_len_cublas > 0) then
-        read(env_mfi_use_cublas(1:env_len_cublas),*,iostat=info) MFI_USE_CUBLAS
+    if (.not. mfi_cublas_env_checked) then
+        mfi_cublas_env_checked = .true.
+        call get_environment_variable("MFI_USE_CUBLAS", env_val, env_len)
+        if (env_len > 0) then
+            read(env_val(1:env_len), *, iostat=info) MFI_USE_CUBLAS
+        end if
     end if
-    ! Initialize cuBLAS handle if GPU mode is enabled
-    if (MFI_USE_CUBLAS == 1) then
-        call mfi_cublas_handle_ensure()
+
+    if (MFI_USE_CUBLAS == 1 .and. mfi_cublas_handle_count == 0) then
+        call get_environment_variable("OMP_NUM_THREADS", env_val, env_len)
+        if (env_len > 0) then
+            read(env_val(1:env_len), *, iostat=info) mfi_cublas_handle_count
+            if (info /= 0 .or. mfi_cublas_handle_count < 1) mfi_cublas_handle_count = 1
+        else
+            mfi_cublas_handle_count = 1
+        end if
+        call mfi_cublas_preallocate_handles()
     end if
-#else
-    ! Issue warning when used without proper compilation
-    print *, 'WARNING: mfi_execution_init() called but compiled without CUBLAS support'
-#endif
+
+    mfi_cublas_global_initialized = .true.
 end subroutine
+#endif
 
-!> Ensure cuBLAS handle is created (called internally)
+!> Returns .true. if GPU execution is active (triggers lazy init on first call)
+logical function mfi_cublas_is_active() result(active)
+    active = .false.
 #if defined(MFI_CUBLAS)
-subroutine mfi_cublas_handle_ensure()
+    if (.not. mfi_cublas_global_initialized) then
+        call mfi_cublas_lazy_init()
+    end if
+    active = (MFI_USE_CUBLAS == 1)
+#endif
+end function
+
+!> Get the cuBLAS handle for the current thread (thread-safe via atomic counter)
+function mfi_cublas_handle_get() result(handle)
+    type(c_ptr) :: handle
+    integer :: tid
+#if defined(MFI_CUBLAS)
+    if (.not. mfi_cublas_global_initialized) then
+        call mfi_cublas_lazy_init()
+    end if
+
+    call atomic_add(mfi_cublas_thread_counter, 1)
+    tid = int(mfi_cublas_thread_counter)
+
+    if (tid > mfi_cublas_handle_count .or. tid < 1) then
+        error stop 'mfi: more threads than OMP_NUM_THREADS. '// &
+                   'Set OMP_NUM_THREADS before running with MFI_USE_CUBLAS=1.'
+    end if
+
+    handle = mfi_cublas_handles(tid)
+#else
+    handle = c_null_ptr
+#endif
+end function
+
+!> Pre-allocate all cuBLAS handles (called during lazy init, serial)
+#if defined(MFI_CUBLAS)
+subroutine mfi_cublas_preallocate_handles()
     integer(c_int) :: stat
-    if (.not. c_associated(mfi_cublas_handle)) then
-        call cublasCreate(mfi_cublas_handle, stat)
-        if (stat /= 0) error stop 'cublasCreate_v2 failed - check CUDA driver version'
-        call cublasSetPointerMode(mfi_cublas_handle, CUBLAS_POINTER_MODE_HOST, stat)
-        if (stat /= 0) error stop 'cublasSetPointerMode_v2 failed'
-    end if
+    integer :: i
+    if (mfi_cublas_handle_count <= 0) return
+    do i = 1, mfi_cublas_handle_count
+        if (.not. c_associated(mfi_cublas_handles(i))) then
+            call cublasCreate(mfi_cublas_handles(i), stat)
+            if (stat /= 0) error stop 'cublasCreate_v2 failed - check CUDA driver version'
+            call cublasSetPointerMode(mfi_cublas_handles(i), CUBLAS_POINTER_MODE_HOST, stat)
+            if (stat /= 0) error stop 'cublasSetPointerMode_v2 failed'
+        end if
+    end do
 end subroutine
 #endif
 
-!> Sets execution mode to use GPU with CUBLAS (only effective when compiled with support)
-subroutine mfi_force_gpu()
-    MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
+!> Switch to GPU mode (no-op when compiled without cuBLAS)
 #if defined(MFI_CUBLAS)
+subroutine mfi_force_gpu()
     MFI_USE_CUBLAS = 1
-    call mfi_cublas_handle_ensure()
-#else
-    print *, 'WARNING: mfi_force_gpu() called but compiled without CUBLAS support'
-    ! Don't actually enable GPU mode
-#endif
+    mfi_cublas_global_initialized = .false.
+    mfi_cublas_env_checked = .true.
 end subroutine
+#else
+subroutine mfi_force_gpu()
+end subroutine
+#endif
 
-!> Finalize cuBLAS resources
+!> Switch to CPU mode (no-op when compiled without cuBLAS)
+#if defined(MFI_CUBLAS)
+subroutine mfi_force_cpu()
+    MFI_USE_CUBLAS = 0
+    mfi_cublas_global_initialized = .false.
+    mfi_cublas_env_checked = .true.
+end subroutine
+#else
+subroutine mfi_force_cpu()
+    ! No-op: already on CPU
+end subroutine
+#endif
+
+!> Finalize all cuBLAS handles (no-op when compiled without cuBLAS)
 #if defined(MFI_CUBLAS)
 subroutine mfi_cublas_finalize()
     integer(c_int) :: stat
-    if (c_associated(mfi_cublas_handle)) then
-        call cublasDestroy(mfi_cublas_handle, stat)
-        mfi_cublas_handle = c_null_ptr
-    end if
+    integer :: i
+    do i = 1, mfi_cublas_handle_count
+        if (c_associated(mfi_cublas_handles(i))) then
+            call cublasDestroy(mfi_cublas_handles(i), stat)
+            mfi_cublas_handles(i) = c_null_ptr
+        end if
+    end do
+    call atomic_define(mfi_cublas_thread_counter, 0)
+    mfi_cublas_handle_count = 0
+    MFI_USE_CUBLAS = 0
+    mfi_cublas_global_initialized = .false.
+end subroutine
+#else
+subroutine mfi_cublas_finalize()
+    ! No-op: no cuBLAS resources to release
 end subroutine
 #endif
 
@@ -117,31 +196,5 @@ pure subroutine mfi_cublas_error(stat, name)
     error stop msg
 end subroutine
 #endif
-
-!> Sets execution mode to use traditional CPU
-subroutine mfi_force_cpu()
-    MFI_USE_CUBLAS_PREV_STATE = MFI_USE_CUBLAS
-    MFI_USE_CUBLAS = 0
-end subroutine
-
-!> Restores the previous execution mode state
-subroutine mfi_execution_restore()
-    MFI_USE_CUBLAS = MFI_USE_CUBLAS_PREV_STATE
-end subroutine
-
-!> Returns current execution mode as string
-function mfi_get_execution_mode() result(mode_str)
-    character(len=20) :: mode_str
-#if defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
-        mode_str = "GPU-CUBLAS"
-    else
-        mode_str = "CPU-DEFAULT"
-    end if
-#else
-    mode_str = "CPU-ONLY"
-#endif
-end function
 #:enddef
 #:endmute
-

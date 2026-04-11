@@ -13,8 +13,10 @@ pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
     lda = max(1,size(a,1))
     ldb = max(1,size(b,1))
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
-    if (MFI_USE_CUBLAS == 1) then
+    if (mfi_cublas_is_active()) then
         block
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         @:declare(a,b)
         integer(c_int) :: cu_side, cu_uplo, cu_transa, cu_diag, cublas_stat
         ${type(wp)}$, target :: alpha_target
@@ -43,7 +45,7 @@ pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
         end if
         alpha_target = local_alpha
         @:set_matrix(a,b)
-        cublas_stat = cublas${wp.title()}$${F77_NAME.replace('f77_','')}$(mfi_cublas_handle, cu_side, cu_uplo, cu_transa, cu_diag, &
+        cublas_stat = cublas${wp.title()}$${F77_NAME.replace('f77_','')}$(handle, cu_side, cu_uplo, cu_transa, cu_diag, &
                  int(m,c_int), int(n,c_int), c_loc(alpha_target), &
                  device_a, int(lda,c_int), device_b, int(ldb,c_int))
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, '${F77_NAME}$')

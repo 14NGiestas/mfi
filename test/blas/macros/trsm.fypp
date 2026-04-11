@@ -17,9 +17,6 @@ subroutine test_${f77}$
     character, parameter :: transas(*) = ['N', 'T', 'C']
     character, parameter :: diags(*) = ['N', 'U']
 
-    call mfi_execution_init
-    print*, "Testing ${mfi}$ with ${f77}$, mode: ", mfi_get_execution_mode()
-
     ! Initialize A as a triangular matrix to ensure it is non-singular
     A = 0.0_wp
     do i_side = 1, M
