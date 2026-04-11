@@ -1,13 +1,13 @@
- program dotc
+ program dotu_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_dotc (CPU) against cdotc"
- print '(A)', "testing mfi_dotc (CPU) against zdotc"
+ print '(A)', "testing mfi_dotu (GPU) against cdotu"
+ print '(A)', "testing mfi_dotu (GPU) against zdotu"
  contains
-subroutine test_cdotc
-    use f77_blas, only: cdotc, f77_dotc
-    use mfi_blas, only: mfi_dotc, mfi_cdotc
+subroutine test_cdotu_gpu
+    use f77_blas, only: cdotu, f77_dotu
+    use mfi_blas, only: mfi_dotu, mfi_cdotu
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
@@ -46,21 +46,21 @@ block
     y = cmplx(re,im, kind=REAL32)
 end block
 
-    ref = cdotc(N, x, 1, y, 1)
+    ref = cdotu(N, x, 1, y, 1)
 
-    res = f77_dotc(N, x, 1, y, 1)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "f77_dotc mismatch")
+    res = f77_dotu(N, x, 1, y, 1)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "f77_dotu mismatch")
 
-    res = mfi_cdotc(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_cdotc mismatch")
+    res = mfi_cdotu(x, y)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_cdotu mismatch")
 
-    res = mfi_dotc(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dotc mismatch")
+    res = mfi_dotu(x, y)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dotu mismatch")
 
 end subroutine
-subroutine test_zdotc
-    use f77_blas, only: zdotc, f77_dotc
-    use mfi_blas, only: mfi_dotc, mfi_zdotc
+subroutine test_zdotu_gpu
+    use f77_blas, only: zdotu, f77_dotu
+    use mfi_blas, only: mfi_dotu, mfi_zdotu
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
@@ -99,16 +99,16 @@ block
     y = cmplx(re,im, kind=REAL64)
 end block
 
-    ref = zdotc(N, x, 1, y, 1)
+    ref = zdotu(N, x, 1, y, 1)
 
-    res = f77_dotc(N, x, 1, y, 1)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "f77_dotc mismatch")
+    res = f77_dotu(N, x, 1, y, 1)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "f77_dotu mismatch")
 
-    res = mfi_zdotc(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_zdotc mismatch")
+    res = mfi_zdotu(x, y)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_zdotu mismatch")
 
-    res = mfi_dotc(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dotc mismatch")
+    res = mfi_dotu(x, y)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dotu mismatch")
 
 end subroutine
 

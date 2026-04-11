@@ -1,37 +1,12 @@
-
-
-program test_copy
-use iso_fortran_env
-implicit none
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_scopy 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_copy (CPU) against scopy", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_dcopy 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_copy (CPU) against dcopy", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_ccopy 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_copy (CPU) against ccopy", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_zcopy 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_copy (CPU) against zcopy", t2-t1
-end block
-contains
+ program copy
+ use iso_fortran_env
+ use mfi_blas
+ implicit none
+ print '(A)', "testing mfi_copy (CPU) against scopy"
+ print '(A)', "testing mfi_copy (CPU) against dcopy"
+ print '(A)', "testing mfi_copy (CPU) against ccopy"
+ print '(A)', "testing mfi_copy (CPU) against zcopy"
+ contains
 subroutine test_scopy
     use f77_blas, only: scopy, f77_copy
     use mfi_blas, only: mfi_copy, mfi_scopy
@@ -265,5 +240,5 @@ subroutine assert(test, msg, info)
     end if
 end subroutine
 
-end program
+ end program
 

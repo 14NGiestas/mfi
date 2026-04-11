@@ -1,18 +1,18 @@
- program dotc
+ program dot_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_dotc (CPU) against cdotc"
- print '(A)', "testing mfi_dotc (CPU) against zdotc"
+ print '(A)', "testing mfi_dot (GPU) against sdot"
+ print '(A)', "testing mfi_dot (GPU) against ddot"
  contains
-subroutine test_cdotc
-    use f77_blas, only: cdotc, f77_dotc
-    use mfi_blas, only: mfi_dotc, mfi_cdotc
+subroutine test_sdot_gpu
+    use f77_blas, only: sdot, f77_dot
+    use mfi_blas, only: mfi_dot, mfi_sdot
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
-    complex(REAL32) :: res, ref
-    complex(REAL32) :: x(N), y(N)
+    real(REAL32) :: res, ref
+    real(REAL32) :: x(N), y(N)
 
 block
     integer, parameter :: seed_size = 8
@@ -31,41 +31,29 @@ block
     end do
     call random_seed(put=seed_arr)
 end block
-block
-    real(REAL32) :: re(N)
-    real(REAL32) :: im(N)
-    call random_number(im)
-    call random_number(re)
-    x = cmplx(re,im, kind=REAL32)
-end block
-block
-    real(REAL32) :: re(N)
-    real(REAL32) :: im(N)
-    call random_number(im)
-    call random_number(re)
-    y = cmplx(re,im, kind=REAL32)
-end block
+    call random_number(x)
+    call random_number(y)
 
-    ref = cdotc(N, x, 1, y, 1)
+    ref = sdot(N, x, 1, y, 1)
 
-    res = f77_dotc(N, x, 1, y, 1)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "f77_dotc mismatch")
+    res = f77_dot(N, x, 1, y, 1)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "f77_dot mismatch")
 
-    res = mfi_cdotc(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_cdotc mismatch")
+    res = mfi_sdot(x, y)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_sdot mismatch")
 
-    res = mfi_dotc(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dotc mismatch")
+    res = mfi_dot(x, y)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dot mismatch")
 
 end subroutine
-subroutine test_zdotc
-    use f77_blas, only: zdotc, f77_dotc
-    use mfi_blas, only: mfi_dotc, mfi_zdotc
+subroutine test_ddot_gpu
+    use f77_blas, only: ddot, f77_dot
+    use mfi_blas, only: mfi_dot, mfi_ddot
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
-    complex(REAL64) :: res, ref
-    complex(REAL64) :: x(N), y(N)
+    real(REAL64) :: res, ref
+    real(REAL64) :: x(N), y(N)
 
 block
     integer, parameter :: seed_size = 8
@@ -84,31 +72,19 @@ block
     end do
     call random_seed(put=seed_arr)
 end block
-block
-    real(REAL64) :: re(N)
-    real(REAL64) :: im(N)
-    call random_number(im)
-    call random_number(re)
-    x = cmplx(re,im, kind=REAL64)
-end block
-block
-    real(REAL64) :: re(N)
-    real(REAL64) :: im(N)
-    call random_number(im)
-    call random_number(re)
-    y = cmplx(re,im, kind=REAL64)
-end block
+    call random_number(x)
+    call random_number(y)
 
-    ref = zdotc(N, x, 1, y, 1)
+    ref = ddot(N, x, 1, y, 1)
 
-    res = f77_dotc(N, x, 1, y, 1)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "f77_dotc mismatch")
+    res = f77_dot(N, x, 1, y, 1)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "f77_dot mismatch")
 
-    res = mfi_zdotc(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_zdotc mismatch")
+    res = mfi_ddot(x, y)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_ddot mismatch")
 
-    res = mfi_dotc(x, y)
-    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dotc mismatch")
+    res = mfi_dot(x, y)
+    call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dot mismatch")
 
 end subroutine
 

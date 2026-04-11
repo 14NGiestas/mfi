@@ -1,23 +1,10 @@
-
-
-program test_dotu
-use iso_fortran_env
-implicit none
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_cdotu 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_dotu (CPU) against cdotu", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_zdotu 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_dotu (CPU) against zdotu", t2-t1
-end block
-contains
+ program dotu
+ use iso_fortran_env
+ use mfi_blas
+ implicit none
+ print '(A)', "testing mfi_dotu (CPU) against cdotu"
+ print '(A)', "testing mfi_dotu (CPU) against zdotu"
+ contains
 subroutine test_cdotu
     use f77_blas, only: cdotu, f77_dotu
     use mfi_blas, only: mfi_dotu, mfi_cdotu
@@ -141,5 +128,5 @@ subroutine assert(test, msg, info)
     end if
 end subroutine
 
-end program
+ end program
 

@@ -1,11 +1,11 @@
- program dotc
+ program dotc_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_dotc (CPU) against cdotc"
- print '(A)', "testing mfi_dotc (CPU) against zdotc"
+ print '(A)', "testing mfi_dotc (GPU) against cdotc"
+ print '(A)', "testing mfi_dotc (GPU) against zdotc"
  contains
-subroutine test_cdotc
+subroutine test_cdotc_gpu
     use f77_blas, only: cdotc, f77_dotc
     use mfi_blas, only: mfi_dotc, mfi_cdotc
 
@@ -58,7 +58,7 @@ end block
     call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "mfi_dotc mismatch")
 
 end subroutine
-subroutine test_zdotc
+subroutine test_zdotc_gpu
     use f77_blas, only: zdotc, f77_dotc
     use mfi_blas, only: mfi_dotc, mfi_zdotc
 

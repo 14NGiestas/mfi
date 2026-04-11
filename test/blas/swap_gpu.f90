@@ -1,25 +1,19 @@
- program rot
+ program swap_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_rot (CPU) against srot"
- print '(A)', "testing mfi_rot (CPU) against drot"
- print '(A)', "testing mfi_rot (CPU) against crot"
- print '(A)', "testing mfi_rot (CPU) against zrot"
- print '(A)', "testing mfi_rot (CPU) against csrot"
- print '(A)', "testing mfi_rot (CPU) against zdrot"
+ print '(A)', "testing mfi_swap (GPU) against sswap"
+ print '(A)', "testing mfi_swap (GPU) against dswap"
+ print '(A)', "testing mfi_swap (GPU) against cswap"
+ print '(A)', "testing mfi_swap (GPU) against zswap"
  contains
-subroutine test_srot
-    use f77_blas, only: srot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_srot
+subroutine test_sswap_gpu
+    use f77_blas, only: sswap, f77_swap
+    use mfi_blas, only: mfi_swap, mfi_sswap
 
     integer, parameter :: wp = REAL32
-    real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
     integer, parameter :: N = 20
     real(REAL32) :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
-    real(wp) :: angle
-    real(REAL32) :: c
-    real(REAL32) :: s
 
 block
     integer, parameter :: seed_size = 8
@@ -38,45 +32,36 @@ block
     end do
     call random_seed(put=seed_arr)
 end block
-    call random_number(angle)
-    angle = angle * 2.0_wp * pi
     call random_number(x)
     call random_number(y)
 
-    c = cos(angle)
-    s = sin(angle)
-
     x_in = x; y_in = y
-    call srot(N, x_in, 1, y_in, 1, c, s)
+    call sswap(N, x_in, 1, y_in, 1)
     x_rf = x_in; y_rf = y_in
 
     x_in = x; y_in = y
-    call f77_rot(N, x_in, 1, y_in, 1, c, s)
+    call f77_swap(N, x_in, 1, y_in, 1)
 call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "${f90}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "${f90}$:y: mismatch")
 
     x_in = x; y_in = y
-    call mfi_srot(x_in, y_in, c, s)
+    call mfi_sswap(x_in, y_in)
 call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:y: mismatch")
 
     x_in = x; y_in = y
-    call mfi_rot(x_in, y_in, c, s)
+    call mfi_swap(x_in, y_in)
 call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "${mfi}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "${mfi}$:y: mismatch")
 
 end subroutine
-subroutine test_drot
-    use f77_blas, only: drot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_drot
+subroutine test_dswap_gpu
+    use f77_blas, only: dswap, f77_swap
+    use mfi_blas, only: mfi_swap, mfi_dswap
 
     integer, parameter :: wp = REAL64
-    real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
     integer, parameter :: N = 20
     real(REAL64) :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
-    real(wp) :: angle
-    real(REAL64) :: c
-    real(REAL64) :: s
 
 block
     integer, parameter :: seed_size = 8
@@ -95,45 +80,36 @@ block
     end do
     call random_seed(put=seed_arr)
 end block
-    call random_number(angle)
-    angle = angle * 2.0_wp * pi
     call random_number(x)
     call random_number(y)
 
-    c = cos(angle)
-    s = sin(angle)
-
     x_in = x; y_in = y
-    call drot(N, x_in, 1, y_in, 1, c, s)
+    call dswap(N, x_in, 1, y_in, 1)
     x_rf = x_in; y_rf = y_in
 
     x_in = x; y_in = y
-    call f77_rot(N, x_in, 1, y_in, 1, c, s)
+    call f77_swap(N, x_in, 1, y_in, 1)
 call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "${f90}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "${f90}$:y: mismatch")
 
     x_in = x; y_in = y
-    call mfi_drot(x_in, y_in, c, s)
+    call mfi_dswap(x_in, y_in)
 call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:y: mismatch")
 
     x_in = x; y_in = y
-    call mfi_rot(x_in, y_in, c, s)
+    call mfi_swap(x_in, y_in)
 call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "${mfi}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "${mfi}$:y: mismatch")
 
 end subroutine
-subroutine test_crot
-    use f77_blas, only: crot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_crot
+subroutine test_cswap_gpu
+    use f77_blas, only: cswap, f77_swap
+    use mfi_blas, only: mfi_swap, mfi_cswap
 
     integer, parameter :: wp = REAL32
-    real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
     integer, parameter :: N = 20
     complex(REAL32) :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
-    real(wp) :: angle
-    real(REAL32) :: c
-    complex(REAL32) :: s
 
 block
     integer, parameter :: seed_size = 8
@@ -152,8 +128,6 @@ block
     end do
     call random_seed(put=seed_arr)
 end block
-    call random_number(angle)
-    angle = angle * 2.0_wp * pi
 block
     real(REAL32) :: re(N)
     real(REAL32) :: im(N)
@@ -169,40 +143,33 @@ block
     y = cmplx(re,im, kind=REAL32)
 end block
 
-    c = cos(angle)
-    s = sin(angle)
-
     x_in = x; y_in = y
-    call crot(N, x_in, 1, y_in, 1, c, s)
+    call cswap(N, x_in, 1, y_in, 1)
     x_rf = x_in; y_rf = y_in
 
     x_in = x; y_in = y
-    call f77_rot(N, x_in, 1, y_in, 1, c, s)
+    call f77_swap(N, x_in, 1, y_in, 1)
 call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${f90}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${f90}$:y: mismatch")
 
     x_in = x; y_in = y
-    call mfi_crot(x_in, y_in, c, s)
+    call mfi_cswap(x_in, y_in)
 call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:y: mismatch")
 
     x_in = x; y_in = y
-    call mfi_rot(x_in, y_in, c, s)
+    call mfi_swap(x_in, y_in)
 call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:y: mismatch")
 
 end subroutine
-subroutine test_zrot
-    use f77_blas, only: zrot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_zrot
+subroutine test_zswap_gpu
+    use f77_blas, only: zswap, f77_swap
+    use mfi_blas, only: mfi_swap, mfi_zswap
 
     integer, parameter :: wp = REAL64
-    real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
     integer, parameter :: N = 20
     complex(REAL64) :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
-    real(wp) :: angle
-    real(REAL64) :: c
-    complex(REAL64) :: s
 
 block
     integer, parameter :: seed_size = 8
@@ -221,8 +188,6 @@ block
     end do
     call random_seed(put=seed_arr)
 end block
-    call random_number(angle)
-    angle = angle * 2.0_wp * pi
 block
     real(REAL64) :: re(N)
     real(REAL64) :: im(N)
@@ -238,163 +203,22 @@ block
     y = cmplx(re,im, kind=REAL64)
 end block
 
-    c = cos(angle)
-    s = sin(angle)
-
     x_in = x; y_in = y
-    call zrot(N, x_in, 1, y_in, 1, c, s)
+    call zswap(N, x_in, 1, y_in, 1)
     x_rf = x_in; y_rf = y_in
 
     x_in = x; y_in = y
-    call f77_rot(N, x_in, 1, y_in, 1, c, s)
+    call f77_swap(N, x_in, 1, y_in, 1)
 call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${f90}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${f90}$:y: mismatch")
 
     x_in = x; y_in = y
-    call mfi_zrot(x_in, y_in, c, s)
+    call mfi_zswap(x_in, y_in)
 call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:y: mismatch")
 
     x_in = x; y_in = y
-    call mfi_rot(x_in, y_in, c, s)
-call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$:x: mismatch")
-call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$:y: mismatch")
-
-end subroutine
-subroutine test_csrot
-    use f77_blas, only: csrot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_csrot
-
-    integer, parameter :: wp = REAL32
-    real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
-    integer, parameter :: N = 20
-    complex(REAL32) :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
-    real(wp) :: angle
-    real(REAL32) :: c
-    real(REAL32) :: s
-
-block
-    integer, parameter :: seed_size = 8
-    integer :: seed_arr(seed_size)
-    integer :: env_seed
-    integer :: seed_stat
-    integer :: ii
-    character(64) :: env_val
-    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
-    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
-        read(env_val, '(I10)', iostat=seed_stat) env_seed
-    end if
-    if (seed_stat /= 0) env_seed = 42
-    do ii = 0, seed_size - 1
-        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
-    end do
-    call random_seed(put=seed_arr)
-end block
-    call random_number(angle)
-    angle = angle * 2.0_wp * pi
-block
-    real(REAL32) :: re(N)
-    real(REAL32) :: im(N)
-    call random_number(im)
-    call random_number(re)
-    x = cmplx(re,im, kind=REAL32)
-end block
-block
-    real(REAL32) :: re(N)
-    real(REAL32) :: im(N)
-    call random_number(im)
-    call random_number(re)
-    y = cmplx(re,im, kind=REAL32)
-end block
-
-    c = cos(angle)
-    s = sin(angle)
-
-    x_in = x; y_in = y
-    call csrot(N, x_in, 1, y_in, 1, c, s)
-    x_rf = x_in; y_rf = y_in
-
-    x_in = x; y_in = y
-    call f77_rot(N, x_in, 1, y_in, 1, c, s)
-call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${f90}$:x: mismatch")
-call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${f90}$:y: mismatch")
-
-    x_in = x; y_in = y
-    call mfi_csrot(x_in, y_in, c, s)
-call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:x: mismatch")
-call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$:y: mismatch")
-
-    x_in = x; y_in = y
-    call mfi_rot(x_in, y_in, c, s)
-call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:x: mismatch")
-call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:y: mismatch")
-
-end subroutine
-subroutine test_zdrot
-    use f77_blas, only: zdrot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_zdrot
-
-    integer, parameter :: wp = REAL64
-    real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
-    integer, parameter :: N = 20
-    complex(REAL64) :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
-    real(wp) :: angle
-    real(REAL64) :: c
-    real(REAL64) :: s
-
-block
-    integer, parameter :: seed_size = 8
-    integer :: seed_arr(seed_size)
-    integer :: env_seed
-    integer :: seed_stat
-    integer :: ii
-    character(64) :: env_val
-    call get_environment_variable('MFI_TEST_SEED', value=env_val, status=seed_stat)
-    if (seed_stat == 0 .and. len_trim(env_val) > 0) then
-        read(env_val, '(I10)', iostat=seed_stat) env_seed
-    end if
-    if (seed_stat /= 0) env_seed = 42
-    do ii = 0, seed_size - 1
-        seed_arr(ii + 1) = mod(env_seed * (ii + 1), 2147483647)
-    end do
-    call random_seed(put=seed_arr)
-end block
-    call random_number(angle)
-    angle = angle * 2.0_wp * pi
-block
-    real(REAL64) :: re(N)
-    real(REAL64) :: im(N)
-    call random_number(im)
-    call random_number(re)
-    x = cmplx(re,im, kind=REAL64)
-end block
-block
-    real(REAL64) :: re(N)
-    real(REAL64) :: im(N)
-    call random_number(im)
-    call random_number(re)
-    y = cmplx(re,im, kind=REAL64)
-end block
-
-    c = cos(angle)
-    s = sin(angle)
-
-    x_in = x; y_in = y
-    call zdrot(N, x_in, 1, y_in, 1, c, s)
-    x_rf = x_in; y_rf = y_in
-
-    x_in = x; y_in = y
-    call f77_rot(N, x_in, 1, y_in, 1, c, s)
-call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${f90}$:x: mismatch")
-call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${f90}$:y: mismatch")
-
-    x_in = x; y_in = y
-    call mfi_zdrot(x_in, y_in, c, s)
-call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:x: mismatch")
-call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$:y: mismatch")
-
-    x_in = x; y_in = y
-    call mfi_rot(x_in, y_in, c, s)
+    call mfi_swap(x_in, y_in)
 call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$:x: mismatch")
 call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$:y: mismatch")
 

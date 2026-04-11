@@ -1,15 +1,15 @@
- program asum
+ program nrm2_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_asum (CPU) against sasum"
- print '(A)', "testing mfi_asum (CPU) against dasum"
- print '(A)', "testing mfi_asum (CPU) against scasum"
- print '(A)', "testing mfi_asum (CPU) against dzasum"
+ print '(A)', "testing mfi_nrm2 (GPU) against snrm2"
+ print '(A)', "testing mfi_nrm2 (GPU) against dnrm2"
+ print '(A)', "testing mfi_nrm2 (GPU) against scnrm2"
+ print '(A)', "testing mfi_nrm2 (GPU) against dznrm2"
  contains
-subroutine test_sasum
-    use f77_blas, only: sasum, f77_asum
-    use mfi_blas, only: mfi_asum, mfi_sasum
+subroutine test_snrm2_gpu
+    use f77_blas, only: snrm2, f77_nrm2
+    use mfi_blas, only: mfi_nrm2, mfi_snrm2
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
@@ -17,6 +17,7 @@ subroutine test_sasum
     real(REAL32) :: res(4)
     integer :: ii
 
+    call mfi_force_gpu()
 
 block
     integer, parameter :: seed_size = 8
@@ -39,23 +40,23 @@ end block
     do ii = 1, N
         array(ii) = real(ii, wp)
     end do
-    res(1) = sasum(N, array, 1)
-    res(3) = f77_asum(N, array, 1)
-    res(2) = mfi_sasum(array)
-    res(4) = mfi_asum(array)
+    res(1) = snrm2(N, array, 1)
+    res(3) = f77_nrm2(N, array, 1)
+    res(2) = mfi_snrm2(array)
+    res(4) = mfi_nrm2(array)
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "sequential array mismatch")
 
     call random_number(array)
-    res(1) = sasum(N, array, 1)
-    res(2) = f77_asum(N, array, 1)
-    res(3) = mfi_sasum(array)
-    res(4) = mfi_asum(array)
+    res(1) = snrm2(N, array, 1)
+    res(2) = f77_nrm2(N, array, 1)
+    res(3) = mfi_snrm2(array)
+    res(4) = mfi_nrm2(array)
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "random array mismatch")
 
 end subroutine
-subroutine test_dasum
-    use f77_blas, only: dasum, f77_asum
-    use mfi_blas, only: mfi_asum, mfi_dasum
+subroutine test_dnrm2_gpu
+    use f77_blas, only: dnrm2, f77_nrm2
+    use mfi_blas, only: mfi_nrm2, mfi_dnrm2
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
@@ -63,6 +64,7 @@ subroutine test_dasum
     real(REAL64) :: res(4)
     integer :: ii
 
+    call mfi_force_gpu()
 
 block
     integer, parameter :: seed_size = 8
@@ -85,23 +87,23 @@ end block
     do ii = 1, N
         array(ii) = real(ii, wp)
     end do
-    res(1) = dasum(N, array, 1)
-    res(3) = f77_asum(N, array, 1)
-    res(2) = mfi_dasum(array)
-    res(4) = mfi_asum(array)
+    res(1) = dnrm2(N, array, 1)
+    res(3) = f77_nrm2(N, array, 1)
+    res(2) = mfi_dnrm2(array)
+    res(4) = mfi_nrm2(array)
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "sequential array mismatch")
 
     call random_number(array)
-    res(1) = dasum(N, array, 1)
-    res(2) = f77_asum(N, array, 1)
-    res(3) = mfi_dasum(array)
-    res(4) = mfi_asum(array)
+    res(1) = dnrm2(N, array, 1)
+    res(2) = f77_nrm2(N, array, 1)
+    res(3) = mfi_dnrm2(array)
+    res(4) = mfi_nrm2(array)
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "random array mismatch")
 
 end subroutine
-subroutine test_scasum
-    use f77_blas, only: scasum, f77_asum
-    use mfi_blas, only: mfi_asum, mfi_scasum
+subroutine test_scnrm2_gpu
+    use f77_blas, only: scnrm2, f77_nrm2
+    use mfi_blas, only: mfi_nrm2, mfi_scnrm2
 
     integer, parameter :: wp = REAL32
     integer, parameter :: N = 20
@@ -109,6 +111,7 @@ subroutine test_scasum
     real(REAL32) :: res(4)
     integer :: ii
 
+    call mfi_force_gpu()
 
 block
     integer, parameter :: seed_size = 8
@@ -131,10 +134,10 @@ end block
     do ii = 1, N
         array(ii) = real(ii, wp)
     end do
-    res(1) = scasum(N, array, 1)
-    res(3) = f77_asum(N, array, 1)
-    res(2) = mfi_scasum(array)
-    res(4) = mfi_asum(array)
+    res(1) = scnrm2(N, array, 1)
+    res(3) = f77_nrm2(N, array, 1)
+    res(2) = mfi_scnrm2(array)
+    res(4) = mfi_nrm2(array)
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "sequential array mismatch")
 
 block
@@ -144,16 +147,16 @@ block
     call random_number(re)
     array = cmplx(re,im, kind=REAL32)
 end block
-    res(1) = scasum(N, array, 1)
-    res(2) = f77_asum(N, array, 1)
-    res(3) = mfi_scasum(array)
-    res(4) = mfi_asum(array)
+    res(1) = scnrm2(N, array, 1)
+    res(2) = f77_nrm2(N, array, 1)
+    res(3) = mfi_scnrm2(array)
+    res(4) = mfi_nrm2(array)
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "random array mismatch")
 
 end subroutine
-subroutine test_dzasum
-    use f77_blas, only: dzasum, f77_asum
-    use mfi_blas, only: mfi_asum, mfi_dzasum
+subroutine test_dznrm2_gpu
+    use f77_blas, only: dznrm2, f77_nrm2
+    use mfi_blas, only: mfi_nrm2, mfi_dznrm2
 
     integer, parameter :: wp = REAL64
     integer, parameter :: N = 20
@@ -161,6 +164,7 @@ subroutine test_dzasum
     real(REAL64) :: res(4)
     integer :: ii
 
+    call mfi_force_gpu()
 
 block
     integer, parameter :: seed_size = 8
@@ -183,10 +187,10 @@ end block
     do ii = 1, N
         array(ii) = real(ii, wp)
     end do
-    res(1) = dzasum(N, array, 1)
-    res(3) = f77_asum(N, array, 1)
-    res(2) = mfi_dzasum(array)
-    res(4) = mfi_asum(array)
+    res(1) = dznrm2(N, array, 1)
+    res(3) = f77_nrm2(N, array, 1)
+    res(2) = mfi_dznrm2(array)
+    res(4) = mfi_nrm2(array)
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "sequential array mismatch")
 
 block
@@ -196,10 +200,10 @@ block
     call random_number(re)
     array = cmplx(re,im, kind=REAL64)
 end block
-    res(1) = dzasum(N, array, 1)
-    res(2) = f77_asum(N, array, 1)
-    res(3) = mfi_dzasum(array)
-    res(4) = mfi_asum(array)
+    res(1) = dznrm2(N, array, 1)
+    res(2) = f77_nrm2(N, array, 1)
+    res(3) = mfi_dznrm2(array)
+    res(4) = mfi_nrm2(array)
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "random array mismatch")
 
 end subroutine

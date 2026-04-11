@@ -1,37 +1,12 @@
-
-
-program test_swap
-use iso_fortran_env
-implicit none
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_sswap 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_swap (CPU) against sswap", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_dswap 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_swap (CPU) against dswap", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_cswap 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_swap (CPU) against cswap", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_zswap 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_swap (CPU) against zswap", t2-t1
-end block
-contains
+ program swap
+ use iso_fortran_env
+ use mfi_blas
+ implicit none
+ print '(A)', "testing mfi_swap (CPU) against sswap"
+ print '(A)', "testing mfi_swap (CPU) against dswap"
+ print '(A)', "testing mfi_swap (CPU) against cswap"
+ print '(A)', "testing mfi_swap (CPU) against zswap"
+ contains
 subroutine test_sswap
     use f77_blas, only: sswap, f77_swap
     use mfi_blas, only: mfi_swap, mfi_sswap
@@ -265,5 +240,5 @@ subroutine assert(test, msg, info)
     end if
 end subroutine
 
-end program
+ end program
 

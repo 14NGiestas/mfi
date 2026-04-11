@@ -1,13 +1,13 @@
- program trsm
+ program trsm_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_trsm (CPU) against strsm"
- print '(A)', "testing mfi_trsm (CPU) against dtrsm"
- print '(A)', "testing mfi_trsm (CPU) against ctrsm"
- print '(A)', "testing mfi_trsm (CPU) against ztrsm"
+ print '(A)', "testing mfi_trsm (GPU) against strsm"
+ print '(A)', "testing mfi_trsm (GPU) against dtrsm"
+ print '(A)', "testing mfi_trsm (GPU) against ctrsm"
+ print '(A)', "testing mfi_trsm (GPU) against ztrsm"
  contains
-subroutine test_strsm
+subroutine test_strsm_gpu
     use f77_blas, only: strsm, f77_trsm
     use mfi_blas, only: mfi_trsm
 
@@ -81,7 +81,7 @@ call assert(maxval(abs(B_in - B_rf)) < sqrt(epsilon(1.0_REAL32)), "GPU:${mfi}$:$
     end do
     end do
 end subroutine
-subroutine test_dtrsm
+subroutine test_dtrsm_gpu
     use f77_blas, only: dtrsm, f77_trsm
     use mfi_blas, only: mfi_trsm
 
@@ -155,7 +155,7 @@ call assert(maxval(abs(B_in - B_rf)) < sqrt(epsilon(1.0_REAL64)), "GPU:${mfi}$:$
     end do
     end do
 end subroutine
-subroutine test_ctrsm
+subroutine test_ctrsm_gpu
     use f77_blas, only: ctrsm, f77_trsm
     use mfi_blas, only: mfi_trsm
 
@@ -241,7 +241,7 @@ call assert(maxval(abs(B_in - B_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "GPU:${m
     end do
     end do
 end subroutine
-subroutine test_ztrsm
+subroutine test_ztrsm_gpu
     use f77_blas, only: ztrsm, f77_trsm
     use mfi_blas, only: mfi_trsm
 

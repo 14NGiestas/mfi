@@ -1,37 +1,12 @@
-
-
-program test_nrm2
-use iso_fortran_env
-implicit none
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_snrm2 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_nrm2 (CPU) against snrm2", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_dnrm2 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_nrm2 (CPU) against dnrm2", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_scnrm2 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_nrm2 (CPU) against scnrm2", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_dznrm2 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_nrm2 (CPU) against dznrm2", t2-t1
-end block
-contains
+ program nrm2
+ use iso_fortran_env
+ use mfi_blas
+ implicit none
+ print '(A)', "testing mfi_nrm2 (CPU) against snrm2"
+ print '(A)', "testing mfi_nrm2 (CPU) against dnrm2"
+ print '(A)', "testing mfi_nrm2 (CPU) against scnrm2"
+ print '(A)', "testing mfi_nrm2 (CPU) against dznrm2"
+ contains
 subroutine test_snrm2
     use f77_blas, only: snrm2, f77_nrm2
     use mfi_blas, only: mfi_nrm2, mfi_snrm2
@@ -41,6 +16,7 @@ subroutine test_snrm2
     real(REAL32) :: array(N)
     real(REAL32) :: res(4)
     integer :: ii
+
 
 block
     integer, parameter :: seed_size = 8
@@ -87,6 +63,7 @@ subroutine test_dnrm2
     real(REAL64) :: res(4)
     integer :: ii
 
+
 block
     integer, parameter :: seed_size = 8
     integer :: seed_arr(seed_size)
@@ -131,6 +108,7 @@ subroutine test_scnrm2
     complex(REAL32) :: array(N)
     real(REAL32) :: res(4)
     integer :: ii
+
 
 block
     integer, parameter :: seed_size = 8
@@ -182,6 +160,7 @@ subroutine test_dznrm2
     complex(REAL64) :: array(N)
     real(REAL64) :: res(4)
     integer :: ii
+
 
 block
     integer, parameter :: seed_size = 8
@@ -241,5 +220,5 @@ subroutine assert(test, msg, info)
     end if
 end subroutine
 
-end program
+ end program
 

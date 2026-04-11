@@ -1,37 +1,12 @@
-
-
-program test_axpy
-use iso_fortran_env
-implicit none
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_saxpy 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_axpy (CPU) against saxpy", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_daxpy 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_axpy (CPU) against daxpy", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_caxpy 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_axpy (CPU) against caxpy", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_zaxpy 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_axpy (CPU) against zaxpy", t2-t1
-end block
-contains
+ program axpy
+ use iso_fortran_env
+ use mfi_blas
+ implicit none
+ print '(A)', "testing mfi_axpy (CPU) against saxpy"
+ print '(A)', "testing mfi_axpy (CPU) against daxpy"
+ print '(A)', "testing mfi_axpy (CPU) against caxpy"
+ print '(A)', "testing mfi_axpy (CPU) against zaxpy"
+ contains
 subroutine test_saxpy
     use f77_blas, only: saxpy, f77_axpy
     use mfi_blas, only: mfi_axpy, mfi_saxpy
@@ -285,5 +260,5 @@ subroutine assert(test, msg, info)
     end if
 end subroutine
 
-end program
+ end program
 

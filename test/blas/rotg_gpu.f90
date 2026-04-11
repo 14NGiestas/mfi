@@ -1,13 +1,13 @@
- program rotg
+ program rotg_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_rotg (CPU) against srotg"
- print '(A)', "testing mfi_rotg (CPU) against drotg"
- print '(A)', "testing mfi_rotg (CPU) against crotg"
- print '(A)', "testing mfi_rotg (CPU) against zrotg"
+ print '(A)', "testing mfi_rotg (GPU) against srotg"
+ print '(A)', "testing mfi_rotg (GPU) against drotg"
+ print '(A)', "testing mfi_rotg (GPU) against crotg"
+ print '(A)', "testing mfi_rotg (GPU) against zrotg"
  contains
-subroutine test_srotg
+subroutine test_srotg_gpu
     use f77_blas, only: srotg
     use mfi_blas, only: mfi_rotg
 
@@ -54,7 +54,7 @@ end block
     end do
 
 end subroutine
-subroutine test_drotg
+subroutine test_drotg_gpu
     use f77_blas, only: drotg
     use mfi_blas, only: mfi_rotg
 
@@ -101,7 +101,7 @@ end block
     end do
 
 end subroutine
-subroutine test_crotg
+subroutine test_crotg_gpu
     use f77_blas, only: crotg
     use mfi_blas, only: mfi_rotg
 
@@ -166,7 +166,7 @@ end block
     end do
 
 end subroutine
-subroutine test_zrotg
+subroutine test_zrotg_gpu
     use f77_blas, only: zrotg
     use mfi_blas, only: mfi_rotg
 

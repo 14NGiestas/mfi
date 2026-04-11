@@ -1,13 +1,13 @@
- program gemm
+ program gemm_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_gemm (CPU) against sgemm"
- print '(A)', "testing mfi_gemm (CPU) against dgemm"
- print '(A)', "testing mfi_gemm (CPU) against cgemm"
- print '(A)', "testing mfi_gemm (CPU) against zgemm"
+ print '(A)', "testing mfi_gemm (GPU) against sgemm"
+ print '(A)', "testing mfi_gemm (GPU) against dgemm"
+ print '(A)', "testing mfi_gemm (GPU) against cgemm"
+ print '(A)', "testing mfi_gemm (GPU) against zgemm"
  contains
-subroutine test_sgemm
+subroutine test_sgemm_gpu
     use f77_blas, only: sgemm, f77_gemm
     use mfi_blas, only: mfi_gemm, mfi_sgemm
 
@@ -87,7 +87,7 @@ call assert(maxval(abs(C_in - C_rf)) < sqrt(epsilon(1.0_REAL32)), "GPU:${mfi}$:C
     end do
 
 end subroutine
-subroutine test_dgemm
+subroutine test_dgemm_gpu
     use f77_blas, only: dgemm, f77_gemm
     use mfi_blas, only: mfi_gemm, mfi_dgemm
 
@@ -167,7 +167,7 @@ call assert(maxval(abs(C_in - C_rf)) < sqrt(epsilon(1.0_REAL64)), "GPU:${mfi}$:C
     end do
 
 end subroutine
-subroutine test_cgemm
+subroutine test_cgemm_gpu
     use f77_blas, only: cgemm, f77_gemm
     use mfi_blas, only: mfi_gemm, mfi_cgemm
 
@@ -277,7 +277,7 @@ call assert(maxval(abs(C_in - C_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "GPU:${m
     end do
 
 end subroutine
-subroutine test_zgemm
+subroutine test_zgemm_gpu
     use f77_blas, only: zgemm, f77_gemm
     use mfi_blas, only: mfi_gemm, mfi_zgemm
 

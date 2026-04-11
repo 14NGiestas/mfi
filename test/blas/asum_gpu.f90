@@ -1,13 +1,13 @@
- program asum
+ program asum_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_asum (CPU) against sasum"
- print '(A)', "testing mfi_asum (CPU) against dasum"
- print '(A)', "testing mfi_asum (CPU) against scasum"
- print '(A)', "testing mfi_asum (CPU) against dzasum"
+ print '(A)', "testing mfi_asum (GPU) against sasum"
+ print '(A)', "testing mfi_asum (GPU) against dasum"
+ print '(A)', "testing mfi_asum (GPU) against scasum"
+ print '(A)', "testing mfi_asum (GPU) against dzasum"
  contains
-subroutine test_sasum
+subroutine test_sasum_gpu
     use f77_blas, only: sasum, f77_asum
     use mfi_blas, only: mfi_asum, mfi_sasum
 
@@ -17,6 +17,7 @@ subroutine test_sasum
     real(REAL32) :: res(4)
     integer :: ii
 
+    call mfi_force_gpu()
 
 block
     integer, parameter :: seed_size = 8
@@ -53,7 +54,7 @@ end block
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "random array mismatch")
 
 end subroutine
-subroutine test_dasum
+subroutine test_dasum_gpu
     use f77_blas, only: dasum, f77_asum
     use mfi_blas, only: mfi_asum, mfi_dasum
 
@@ -63,6 +64,7 @@ subroutine test_dasum
     real(REAL64) :: res(4)
     integer :: ii
 
+    call mfi_force_gpu()
 
 block
     integer, parameter :: seed_size = 8
@@ -99,7 +101,7 @@ end block
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "random array mismatch")
 
 end subroutine
-subroutine test_scasum
+subroutine test_scasum_gpu
     use f77_blas, only: scasum, f77_asum
     use mfi_blas, only: mfi_asum, mfi_scasum
 
@@ -109,6 +111,7 @@ subroutine test_scasum
     real(REAL32) :: res(4)
     integer :: ii
 
+    call mfi_force_gpu()
 
 block
     integer, parameter :: seed_size = 8
@@ -151,7 +154,7 @@ end block
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "random array mismatch")
 
 end subroutine
-subroutine test_dzasum
+subroutine test_dzasum_gpu
     use f77_blas, only: dzasum, f77_asum
     use mfi_blas, only: mfi_asum, mfi_dzasum
 
@@ -161,6 +164,7 @@ subroutine test_dzasum
     real(REAL64) :: res(4)
     integer :: ii
 
+    call mfi_force_gpu()
 
 block
     integer, parameter :: seed_size = 8

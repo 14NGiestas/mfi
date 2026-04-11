@@ -1,23 +1,10 @@
-
-
-program test_dot
-use iso_fortran_env
-implicit none
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_sdot 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_dot (CPU) against sdot", t2-t1
-end block
-block
-real :: t1, t2
-call cpu_time(t1)
- call test_ddot 
-call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_dot (CPU) against ddot", t2-t1
-end block
-contains
+ program dot
+ use iso_fortran_env
+ use mfi_blas
+ implicit none
+ print '(A)', "testing mfi_dot (CPU) against sdot"
+ print '(A)', "testing mfi_dot (CPU) against ddot"
+ contains
 subroutine test_sdot
     use f77_blas, only: sdot, f77_dot
     use mfi_blas, only: mfi_dot, mfi_sdot
@@ -117,5 +104,5 @@ subroutine assert(test, msg, info)
     end if
 end subroutine
 
-end program
+ end program
 

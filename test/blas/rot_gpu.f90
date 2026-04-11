@@ -1,15 +1,15 @@
- program rot
+ program rot_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_rot (CPU) against srot"
- print '(A)', "testing mfi_rot (CPU) against drot"
- print '(A)', "testing mfi_rot (CPU) against crot"
- print '(A)', "testing mfi_rot (CPU) against zrot"
- print '(A)', "testing mfi_rot (CPU) against csrot"
- print '(A)', "testing mfi_rot (CPU) against zdrot"
+ print '(A)', "testing mfi_rot (GPU) against srot"
+ print '(A)', "testing mfi_rot (GPU) against drot"
+ print '(A)', "testing mfi_rot (GPU) against crot"
+ print '(A)', "testing mfi_rot (GPU) against zrot"
+ print '(A)', "testing mfi_rot (GPU) against csrot"
+ print '(A)', "testing mfi_rot (GPU) against zdrot"
  contains
-subroutine test_srot
+subroutine test_srot_gpu
     use f77_blas, only: srot, f77_rot
     use mfi_blas, only: mfi_rot, mfi_srot
 
@@ -66,7 +66,7 @@ call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "${mfi}$:x: mi
 call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL32)), "${mfi}$:y: mismatch")
 
 end subroutine
-subroutine test_drot
+subroutine test_drot_gpu
     use f77_blas, only: drot, f77_rot
     use mfi_blas, only: mfi_rot, mfi_drot
 
@@ -123,7 +123,7 @@ call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "${mfi}$:x: mi
 call assert(maxval(abs(y_in - y_rf)) < sqrt(epsilon(1.0_REAL64)), "${mfi}$:y: mismatch")
 
 end subroutine
-subroutine test_crot
+subroutine test_crot_gpu
     use f77_blas, only: crot, f77_rot
     use mfi_blas, only: mfi_rot, mfi_crot
 
@@ -192,7 +192,7 @@ call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$
 call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:y: mismatch")
 
 end subroutine
-subroutine test_zrot
+subroutine test_zrot_gpu
     use f77_blas, only: zrot, f77_rot
     use mfi_blas, only: mfi_rot, mfi_zrot
 
@@ -261,7 +261,7 @@ call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$
 call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$:y: mismatch")
 
 end subroutine
-subroutine test_csrot
+subroutine test_csrot_gpu
     use f77_blas, only: csrot, f77_rot
     use mfi_blas, only: mfi_rot, mfi_csrot
 
@@ -330,7 +330,7 @@ call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$
 call assert(maxval(abs(y_in - y_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$:y: mismatch")
 
 end subroutine
-subroutine test_zdrot
+subroutine test_zdrot_gpu
     use f77_blas, only: zdrot, f77_rot
     use mfi_blas, only: mfi_rot, mfi_zdrot
 

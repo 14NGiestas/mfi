@@ -1,11 +1,11 @@
- program lamch
+ program lamch_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_lamch (CPU) against slamch"
- print '(A)', "testing mfi_lamch (CPU) against dlamch"
+ print '(A)', "testing mfi_lamch (GPU) against slamch"
+ print '(A)', "testing mfi_lamch (GPU) against dlamch"
  contains
-subroutine test_slamch
+subroutine test_slamch_gpu
     use f77_blas, only: slamch
     use mfi_blas, only: mfi_lamch
 
@@ -21,7 +21,7 @@ subroutine test_slamch
     end do
 
 end subroutine
-subroutine test_dlamch
+subroutine test_dlamch_gpu
     use f77_blas, only: dlamch
     use mfi_blas, only: mfi_lamch
 
@@ -55,5 +55,4 @@ subroutine assert(test, msg, info)
 end subroutine
 
  end program
-
 

@@ -1,15 +1,15 @@
- program scal
+ program scal_gpu
  use iso_fortran_env
  use mfi_blas
  implicit none
- print '(A)', "testing mfi_scal (CPU) against sscal"
- print '(A)', "testing mfi_scal (CPU) against dscal"
- print '(A)', "testing mfi_scal (CPU) against cscal"
- print '(A)', "testing mfi_scal (CPU) against zscal"
- print '(A)', "testing mfi_scal (CPU) against csscal"
- print '(A)', "testing mfi_scal (CPU) against zdscal"
+ print '(A)', "testing mfi_scal (GPU) against sscal"
+ print '(A)', "testing mfi_scal (GPU) against dscal"
+ print '(A)', "testing mfi_scal (GPU) against cscal"
+ print '(A)', "testing mfi_scal (GPU) against zscal"
+ print '(A)', "testing mfi_scal (GPU) against csscal"
+ print '(A)', "testing mfi_scal (GPU) against zdscal"
  contains
-subroutine test_sscal
+subroutine test_sscal_gpu
     use f77_blas, only: sscal, f77_scal
     use mfi_blas, only: mfi_scal, mfi_sscal
 
@@ -55,7 +55,7 @@ call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "mfi_${f77}$: 
 call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL32)), "${mfi}$: mismatch")
 
 end subroutine
-subroutine test_dscal
+subroutine test_dscal_gpu
     use f77_blas, only: dscal, f77_scal
     use mfi_blas, only: mfi_scal, mfi_dscal
 
@@ -101,7 +101,7 @@ call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "mfi_${f77}$: 
 call assert(maxval(abs(x_in - x_rf)) < sqrt(epsilon(1.0_REAL64)), "${mfi}$: mismatch")
 
 end subroutine
-subroutine test_cscal
+subroutine test_cscal_gpu
     use f77_blas, only: cscal, f77_scal
     use mfi_blas, only: mfi_scal, mfi_cscal
 
@@ -159,7 +159,7 @@ call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f
 call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$: mismatch")
 
 end subroutine
-subroutine test_zscal
+subroutine test_zscal_gpu
     use f77_blas, only: zscal, f77_scal
     use mfi_blas, only: mfi_scal, mfi_zscal
 
@@ -217,7 +217,7 @@ call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "mfi_${f
 call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL64)), "${mfi}$: mismatch")
 
 end subroutine
-subroutine test_csscal
+subroutine test_csscal_gpu
     use f77_blas, only: csscal, f77_scal
     use mfi_blas, only: mfi_scal, mfi_csscal
 
@@ -269,7 +269,7 @@ call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "mfi_${f
 call assert(maxval(abs(x_in - x_rf)) < 2.0 * sqrt(epsilon(1.0_REAL32)), "${mfi}$: mismatch")
 
 end subroutine
-subroutine test_zdscal
+subroutine test_zdscal_gpu
     use f77_blas, only: zdscal, f77_scal
     use mfi_blas, only: mfi_scal, mfi_zdscal
 
