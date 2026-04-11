@@ -72,9 +72,9 @@ end function
 
 !> Get the cuBLAS handle for the current thread (thread-safe via OpenMP thread ID)
 function mfi_cublas_handle_get() result(handle)
-    type(c_ptr) :: handle
 #if defined(MFI_CUBLAS)
     use omp_lib, only: omp_get_thread_num
+    type(c_ptr) :: handle
     integer :: tid
     if (.not. mfi_cublas_global_initialized) then
         call mfi_cublas_lazy_init()
@@ -89,6 +89,7 @@ function mfi_cublas_handle_get() result(handle)
 
     handle = mfi_cublas_handles(tid + 1)
 #else
+    type(c_ptr) :: handle
     integer :: tid
     handle = c_null_ptr
 #endif
