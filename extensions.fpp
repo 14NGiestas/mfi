@@ -60,7 +60,7 @@ end subroutine
 #endif
 
 !> Returns .true. if GPU execution is active (triggers lazy init on first call)
-logical function mfi_cublas_is_active() result(active)
+pure logical function mfi_cublas_is_active() result(active)
     active = .false.
 #if defined(MFI_CUBLAS)
     if (.not. mfi_cublas_global_initialized) then
@@ -71,7 +71,7 @@ logical function mfi_cublas_is_active() result(active)
 end function
 
 !> Get the cuBLAS handle for the current thread (thread-safe via OpenMP thread ID)
-function mfi_cublas_handle_get() result(handle)
+pure function mfi_cublas_handle_get() result(handle)
 #if defined(MFI_CUBLAS)
     use omp_lib, only: omp_get_thread_num
     type(c_ptr) :: handle
