@@ -12,10 +12,10 @@ macros = ["MFI_EXTENSIONS", "MFI_LINK_EXTERNAL"]
 
 [features]
 release.build.link = ["blas", "lapack"]
+cublas.flags = "-fcoarray=single"
 cublas.build.link = ["blas", "lapack", "cublas", "cudart"]
 cublas.preprocess.cpp.macros = ["MFI_CUBLAS"]
 cublas.dependencies.openmp = "*"
-cublas.compiler.flags = ["-fcoarray=single"]
 
 [profiles]
 release = ["release"]
