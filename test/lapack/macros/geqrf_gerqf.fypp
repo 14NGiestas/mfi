@@ -1,8 +1,10 @@
-#:def geqrf_gerqf(f77,f90,mfi,pfxs)
+#:def geqrf_gerqf(f77,f90,mfi,pfxs,suffix='')
 #:set wp = pfxs[0]
-subroutine test_${f77}$
+subroutine test_${f77 + suffix}$
     use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_blas
     use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 6, M = 2
@@ -11,6 +13,10 @@ subroutine test_${f77}$
     integer :: info, info_rf, info_mfi
     ${type(wp)}$, allocatable :: work(:)
     integer :: lwork
+
+#:if suffix
+    call mfi_force_gpu()
+#:endif
 
     A(1,:) = [  .000000_wp,  2.000000_wp]
     A(2,:) = [ 2.000000_wp, -1.000000_wp]

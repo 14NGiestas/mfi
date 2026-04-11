@@ -219,7 +219,17 @@ $:code(f77=f77, f90=f90, mfi=mfi, pfxs=pfxs, suffix='_gpu')
 #:for pfx in prefixes
 #:set f77 =          prefix(pfx,generic_name)
 #:set mfi = 'mfi_' + prefix('',generic_name)
-@:timeit("testing ${mfi}$ (CPU) against ${f77}$", { call test_${f77}$ })
+@:timeit("testing ${mfi}$ (CPU) against ${f77}$", { call ${f77}$ })
+#:endfor
+#:enddef
+
+#:def test_run_lapack(generic_name, prefixes)
+#:set f77_names = ', '.join([prefix(pfx, generic_name) for pfx in prefixes])
+use f77_lapack, only: ${f77_names}$
+#:for pfx in prefixes
+#:set f77 =          prefix(pfx,generic_name)
+#:set mfi = 'mfi_' + prefix('',generic_name)
+@:timeit("testing ${mfi}$ (CPU) against ${f77}$", { call ${f77}$ })
 #:endfor
 #:enddef
 
@@ -227,7 +237,17 @@ $:code(f77=f77, f90=f90, mfi=mfi, pfxs=pfxs, suffix='_gpu')
 #:for pfx in prefixes
 #:set f77 =          prefix(pfx,generic_name)
 #:set mfi = 'mfi_' + prefix('',generic_name)
-@:timeit("testing ${mfi}$ (GPU) against ${f77}$", { call test_${f77 + '_gpu'}$ })
+@:timeit("testing ${mfi}$ (GPU) against ${f77}$", { call ${f77 + '_gpu'}$ })
+#:endfor
+#:enddef
+
+#:def test_run_lapack_gpu(generic_name, prefixes)
+#:set f77_names = ', '.join([prefix(pfx, generic_name) + '_gpu' for pfx in prefixes])
+use f77_lapack, only: ${f77_names}$
+#:for pfx in prefixes
+#:set f77 =          prefix(pfx,generic_name)
+#:set mfi = 'mfi_' + prefix('',generic_name)
+@:timeit("testing ${mfi}$ (GPU) against ${f77}$", { call ${f77 + '_gpu'}$ })
 #:endfor
 #:enddef
 

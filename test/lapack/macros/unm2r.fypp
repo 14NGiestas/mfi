@@ -1,8 +1,10 @@
 #:def unm2r(f77,f90,mfi,pfxs)
 #:set wp = pfxs[0]
-subroutine test_${f77}$
+subroutine test_${f77 + suffix}$
     use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_blas
     use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: M = 3, N = 2, K = min(M,N)

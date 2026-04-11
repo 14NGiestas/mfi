@@ -1,8 +1,10 @@
-#:def getri(f77,f90,mfi,pfxs)
+#:def getri(f77,f90,mfi,pfxs,suffix='')
 #:set wp = pfxs[0]
-subroutine test_${f77}$
+subroutine test_${f77 + suffix}$
     use f77_lapack, only: ${f77}$, ${f90}$, f77_getrf, ${wp[0]}$getrf
+    use mfi_blas
     use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 3
@@ -10,6 +12,10 @@ subroutine test_${f77}$
     integer :: ipiv(N), info, info_rf, info_mfi
     ${type(wp)}$, allocatable :: work(:)
     integer :: lwork
+
+#:if suffix
+    call mfi_force_gpu()
+#:endif
 
     ! Create an invertible matrix
     A_copy(1,:) = [2.0_wp, 0.0_wp, 1.0_wp]

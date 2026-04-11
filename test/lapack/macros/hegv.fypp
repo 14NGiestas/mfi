@@ -1,8 +1,10 @@
-#:def hegv(f77,f90,mfi,pfxs)
+#:def hegv(f77,f90,mfi,pfxs,suffix='')
 #:set wp = pfxs[0]
-subroutine test_${f77}$
+subroutine test_${f77 + suffix}$
     use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_blas
     use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 3
@@ -14,6 +16,10 @@ subroutine test_${f77}$
     ${type(wp)}$, allocatable :: work(:)
     ${real(wp)}$, allocatable :: rwork(:)
     integer :: lwork
+
+#:if suffix
+    call mfi_force_gpu()
+#:endif
 
     ! Create test matrices for generalized eigenvalue problem
     A = reshape([3.0_wp, 1.0_wp, 1.0_wp, &

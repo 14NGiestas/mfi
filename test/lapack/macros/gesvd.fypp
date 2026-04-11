@@ -1,7 +1,8 @@
-#:def gesvd(f77,f90,mfi,pfxs)
+#:def gesvd(f77,f90,mfi,pfxs,suffix='')
 #:set wp = pfxs[0]
-subroutine test_${f77}$
+subroutine test_${f77 + suffix}$
     use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_blas
     use mfi_lapack, only: ${mfi}$, mfi_${f77}$
 
 #:if type(wp) == complex(wp)
@@ -15,6 +16,10 @@ subroutine test_${f77}$
     ${type(wp)}$, allocatable :: work(:)
     ${real(wp)}$, allocatable :: rwork(:)  ! Needed for complex types
     integer :: lwork
+
+#:if suffix
+    call mfi_force_gpu()
+#:endif
 
     ! Create test matrix
     A(1,:) = [1.0_wp, 2.0_wp, 3.0_wp]
@@ -39,6 +44,10 @@ subroutine test_${f77}$
     integer :: info, info_rf, info_mfi
     ${type(wp)}$, allocatable :: work(:)
     integer :: lwork
+
+#:if suffix
+    call mfi_force_gpu()
+#:endif
 
     ! Create test matrix
     A(1,:) = [1.0_wp, 2.0_wp, 3.0_wp]
