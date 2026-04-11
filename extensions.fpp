@@ -61,7 +61,7 @@ subroutine mfi_cublas_lazy_init()
 end subroutine
 #endif
 
-!> Returns .true. if GPU execution is active (triggers lazy init on first call)
+!> Returns .true. if GPU execution is active
 logical function mfi_cublas_is_active() result(active)
     active = .false.
 #if defined(MFI_CUBLAS)
