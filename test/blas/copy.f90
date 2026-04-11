@@ -8,28 +8,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_scopy 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_copy against scopy", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_copy (CPU) against scopy", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dcopy 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_copy against dcopy", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_copy (CPU) against dcopy", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_ccopy 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_copy against ccopy", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_copy (CPU) against ccopy", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zcopy 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_copy against zcopy", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_copy (CPU) against zcopy", t2-t1
 end block
 contains
 subroutine test_scopy

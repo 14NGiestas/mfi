@@ -8,28 +8,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_strsm 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_trsm against strsm", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_trsm (CPU) against strsm", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dtrsm 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_trsm against dtrsm", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_trsm (CPU) against dtrsm", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_ctrsm 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_trsm against ctrsm", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_trsm (CPU) against ctrsm", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_ztrsm 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_trsm against ztrsm", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_trsm (CPU) against ztrsm", t2-t1
 end block
 contains
 subroutine test_strsm

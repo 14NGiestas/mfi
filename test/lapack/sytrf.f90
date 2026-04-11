@@ -7,14 +7,14 @@ real :: t1, t2
 call cpu_time(t1)
  call test_ssytrf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_sytrf against ssytrf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_sytrf (CPU) against ssytrf", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dsytrf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_sytrf against dsytrf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_sytrf (CPU) against dsytrf", t2-t1
 end block
 contains
 

@@ -7,28 +7,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_sasum 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_asum against sasum", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_asum (CPU) against sasum", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dasum 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_asum against dasum", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_asum (CPU) against dasum", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_scasum 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_asum against scasum", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_asum (CPU) against scasum", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dzasum 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_asum against dzasum", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_asum (CPU) against dzasum", t2-t1
 end block
 contains
 subroutine test_sasum

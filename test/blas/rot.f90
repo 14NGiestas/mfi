@@ -8,42 +8,42 @@ real :: t1, t2
 call cpu_time(t1)
  call test_srot 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_rot against srot", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_rot (CPU) against srot", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_drot 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_rot against drot", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_rot (CPU) against drot", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_crot 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_rot against crot", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_rot (CPU) against crot", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zrot 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_rot against zrot", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_rot (CPU) against zrot", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_csrot 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_rot against csrot", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_rot (CPU) against csrot", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zdrot 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_rot against zdrot", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_rot (CPU) against zdrot", t2-t1
 end block
 contains
 subroutine test_srot

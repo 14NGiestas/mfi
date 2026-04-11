@@ -8,42 +8,42 @@ real :: t1, t2
 call cpu_time(t1)
  call test_sscal 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_scal against sscal", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_scal (CPU) against sscal", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dscal 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_scal against dscal", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_scal (CPU) against dscal", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_cscal 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_scal against cscal", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_scal (CPU) against cscal", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zscal 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_scal against zscal", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_scal (CPU) against zscal", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_csscal 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_scal against csscal", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_scal (CPU) against csscal", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zdscal 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_scal against zdscal", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_scal (CPU) against zdscal", t2-t1
 end block
 contains
 subroutine test_sscal

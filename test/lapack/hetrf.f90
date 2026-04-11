@@ -7,14 +7,14 @@ real :: t1, t2
 call cpu_time(t1)
  call test_chetrf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_hetrf against chetrf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_hetrf (CPU) against chetrf", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zhetrf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_hetrf against zhetrf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_hetrf (CPU) against zhetrf", t2-t1
 end block
 contains
 subroutine test_chetrf

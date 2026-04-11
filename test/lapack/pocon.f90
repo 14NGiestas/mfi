@@ -7,28 +7,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_spocon 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_pocon against spocon", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_pocon (CPU) against spocon", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dpocon 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_pocon against dpocon", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_pocon (CPU) against dpocon", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_cpocon 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_pocon against cpocon", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_pocon (CPU) against cpocon", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zpocon 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_pocon against zpocon", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_pocon (CPU) against zpocon", t2-t1
 end block
 contains
 

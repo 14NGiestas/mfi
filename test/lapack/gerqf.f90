@@ -7,28 +7,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_sgerqf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gerqf against sgerqf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gerqf (CPU) against sgerqf", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dgerqf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gerqf against dgerqf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gerqf (CPU) against dgerqf", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_cgerqf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gerqf against cgerqf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gerqf (CPU) against cgerqf", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zgerqf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gerqf against zgerqf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gerqf (CPU) against zgerqf", t2-t1
 end block
 contains
 

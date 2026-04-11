@@ -7,14 +7,14 @@ real :: t1, t2
 call cpu_time(t1)
  call test_cungqr 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_ungqr against cungqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_ungqr (CPU) against cungqr", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zungqr 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_ungqr against zungqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_ungqr (CPU) against zungqr", t2-t1
 end block
 contains
 

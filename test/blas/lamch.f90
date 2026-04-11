@@ -8,14 +8,14 @@ real :: t1, t2
 call cpu_time(t1)
  call test_slamch 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_lamch against slamch", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_lamch (CPU) against slamch", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dlamch 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_lamch against dlamch", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_lamch (CPU) against dlamch", t2-t1
 end block
 contains
 subroutine test_slamch

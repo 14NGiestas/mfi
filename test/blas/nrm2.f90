@@ -8,28 +8,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_snrm2 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_nrm2 against snrm2", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_nrm2 (CPU) against snrm2", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dnrm2 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_nrm2 against dnrm2", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_nrm2 (CPU) against dnrm2", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_scnrm2 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_nrm2 against scnrm2", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_nrm2 (CPU) against scnrm2", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dznrm2 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_nrm2 against dznrm2", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_nrm2 (CPU) against dznrm2", t2-t1
 end block
 contains
 subroutine test_snrm2

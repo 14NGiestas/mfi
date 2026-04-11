@@ -8,28 +8,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_saxpy 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_axpy against saxpy", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_axpy (CPU) against saxpy", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_daxpy 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_axpy against daxpy", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_axpy (CPU) against daxpy", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_caxpy 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_axpy against caxpy", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_axpy (CPU) against caxpy", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zaxpy 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_axpy against zaxpy", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_axpy (CPU) against zaxpy", t2-t1
 end block
 contains
 subroutine test_saxpy

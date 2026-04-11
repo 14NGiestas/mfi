@@ -8,28 +8,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_sswap 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_swap against sswap", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_swap (CPU) against sswap", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dswap 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_swap against dswap", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_swap (CPU) against dswap", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_cswap 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_swap against cswap", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_swap (CPU) against cswap", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zswap 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_swap against zswap", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_swap (CPU) against zswap", t2-t1
 end block
 contains
 subroutine test_sswap

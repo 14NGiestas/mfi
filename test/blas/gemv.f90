@@ -8,28 +8,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_sgemv 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gemv against sgemv", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gemv (CPU) against sgemv", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dgemv 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gemv against dgemv", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gemv (CPU) against dgemv", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_cgemv 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gemv against cgemv", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gemv (CPU) against cgemv", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zgemv 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gemv against zgemv", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gemv (CPU) against zgemv", t2-t1
 end block
 contains
 subroutine test_sgemv

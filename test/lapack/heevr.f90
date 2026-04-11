@@ -7,14 +7,14 @@ real :: t1, t2
 call cpu_time(t1)
  call test_cheevr 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_heevr against cheevr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_heevr (CPU) against cheevr", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zheevr 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_heevr against zheevr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_heevr (CPU) against zheevr", t2-t1
 end block
 contains
 

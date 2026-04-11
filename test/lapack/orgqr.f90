@@ -7,14 +7,14 @@ real :: t1, t2
 call cpu_time(t1)
  call test_sorgqr 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_orgqr against sorgqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_orgqr (CPU) against sorgqr", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dorgqr 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_orgqr against dorgqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_orgqr (CPU) against dorgqr", t2-t1
 end block
 contains
 

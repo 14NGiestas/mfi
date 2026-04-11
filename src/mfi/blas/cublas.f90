@@ -44,11 +44,25 @@ interface
         integer(c_int), intent(out) :: stat
     end subroutine
 
-    pure subroutine mfi_cublas_get_thread_handle(handles, count, out_handle) bind(c,name="mfi_cublas_get_thread_handle")
+    pure subroutine mfi_cublas_set_count(count) bind(c,name="mfi_cublas_set_count")
         import
-        type(c_ptr), intent(in) :: handles(:)
         integer(c_int), value, intent(in) :: count
+    end subroutine
+
+    pure subroutine mfi_cublas_init_handles(stat) bind(c,name="mfi_cublas_init_handles")
+        import
+        integer(c_int), intent(out) :: stat
+    end subroutine
+
+    pure subroutine mfi_cublas_get_thread_handle(out_handle, stat) bind(c,name="mfi_cublas_get_thread_handle")
+        import
         type(c_ptr), intent(out) :: out_handle
+        integer(c_int), intent(out) :: stat
+    end subroutine
+
+    pure subroutine mfi_cublas_finalize_all(stat) bind(c,name="mfi_cublas_finalize_all")
+        import
+        integer(c_int), intent(out) :: stat
     end subroutine
 end interface
 
@@ -91,7 +105,6 @@ integer(c_int), parameter :: CUBLAS_STATUS_EXECUTION_FAILED = 13
 integer(c_int), parameter :: CUBLAS_STATUS_INTERNAL_ERROR = 14
 integer(c_int), parameter :: CUBLAS_STATUS_NOT_SUPPORTED = 15
 integer(c_int), parameter :: CUBLAS_STATUS_LICENSE_ERROR = 16
-    type(c_ptr), allocatable, save :: mfi_cublas_handles(:)
 #endif
 end module
 

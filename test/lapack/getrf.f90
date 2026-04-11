@@ -7,28 +7,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_sgetrf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_getrf against sgetrf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_getrf (CPU) against sgetrf", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dgetrf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_getrf against dgetrf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_getrf (CPU) against dgetrf", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_cgetrf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_getrf against cgetrf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_getrf (CPU) against cgetrf", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zgetrf 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_getrf against zgetrf", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_getrf (CPU) against zgetrf", t2-t1
 end block
 contains
 

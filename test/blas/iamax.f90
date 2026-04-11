@@ -9,28 +9,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_isamax 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_iamax against isamax", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_iamax (CPU) against isamax", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_idamax 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_iamax against idamax", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_iamax (CPU) against idamax", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_icamax 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_iamax against icamax", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_iamax (CPU) against icamax", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_izamax 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_iamax against izamax", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_iamax (CPU) against izamax", t2-t1
 end block
 contains
 subroutine test_isamax

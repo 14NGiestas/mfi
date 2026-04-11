@@ -8,14 +8,14 @@ real :: t1, t2
 call cpu_time(t1)
  call test_cdotc 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_dotc against cdotc", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_dotc (CPU) against cdotc", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zdotc 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_dotc against zdotc", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_dotc (CPU) against zdotc", t2-t1
 end block
 contains
 subroutine test_cdotc

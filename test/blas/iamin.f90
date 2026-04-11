@@ -9,28 +9,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_isamin 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_iamin against isamin", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_iamin (CPU) against isamin", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_idamin 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_iamin against idamin", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_iamin (CPU) against idamin", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_icamin 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_iamin against icamin", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_iamin (CPU) against icamin", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_izamin 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_iamin against izamin", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_iamin (CPU) against izamin", t2-t1
 end block
 contains
 subroutine test_isamin

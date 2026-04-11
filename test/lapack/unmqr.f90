@@ -7,14 +7,14 @@ real :: t1, t2
 call cpu_time(t1)
  call test_cunmqr 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_unmqr against cunmqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_unmqr (CPU) against cunmqr", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zunmqr 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_unmqr against zunmqr", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_unmqr (CPU) against zunmqr", t2-t1
 end block
 contains
 

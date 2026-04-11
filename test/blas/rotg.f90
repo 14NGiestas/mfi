@@ -8,28 +8,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_srotg 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_rotg against srotg", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_rotg (CPU) against srotg", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_drotg 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_rotg against drotg", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_rotg (CPU) against drotg", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_crotg 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_rotg against crotg", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_rotg (CPU) against crotg", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zrotg 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_rotg against zrotg", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_rotg (CPU) against zrotg", t2-t1
 end block
 contains
 subroutine test_srotg

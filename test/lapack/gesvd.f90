@@ -7,28 +7,28 @@ real :: t1, t2
 call cpu_time(t1)
  call test_sgesvd 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gesvd against sgesvd", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gesvd (CPU) against sgesvd", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_dgesvd 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gesvd against dgesvd", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gesvd (CPU) against dgesvd", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_cgesvd 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gesvd against cgesvd", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gesvd (CPU) against cgesvd", t2-t1
 end block
 block
 real :: t1, t2
 call cpu_time(t1)
  call test_zgesvd 
 call cpu_time(t2)
-print '(A," (",G0,"s)")', "testing mfi_gesvd against zgesvd", t2-t1
+print '(A," (",G0,"s)")', "testing mfi_gesvd (CPU) against zgesvd", t2-t1
 end block
 contains
 
