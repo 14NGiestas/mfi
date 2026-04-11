@@ -59,7 +59,7 @@ jobs:
         fi
 
     - name: Run tests
-      if: matrix.test == 'true'
+      if: matrix.test != 'compile-only'
       run: |
         if [ -n "${{ matrix.profile }}" ]; then
           nix-shell shells/${{ matrix.environment }}.nix --run "fpm test --profile ${{ matrix.profile }}"
