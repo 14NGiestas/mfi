@@ -16,7 +16,7 @@ integer, save :: MFI_USE_CUBLAS = 0
 logical, save :: mfi_cublas_env_checked = .false.
 logical, save :: mfi_cublas_global_initialized = .false.
 integer, save :: mfi_cublas_handle_count = 0
-integer(atomic_int_kind), save :: mfi_cublas_thread_counter = 0
+integer(atomic_int_kind), save :: mfi_cublas_thread_counter[*] = 0
 private :: MFI_USE_CUBLAS
 private :: mfi_cublas_env_checked
 private :: mfi_cublas_global_initialized
@@ -81,7 +81,7 @@ function mfi_cublas_handle_get() result(handle)
         call mfi_cublas_lazy_init()
     end if
 
-    call atomic_add(mfi_cublas_thread_counter, 1)
+    call atomic_add(mfi_cublas_thread_counter[1], 1)
     tid = int(mfi_cublas_thread_counter)
 
     if (tid > mfi_cublas_handle_count .or. tid < 1) then
@@ -148,7 +148,7 @@ subroutine mfi_cublas_finalize()
             mfi_cublas_handles(i) = c_null_ptr
         end if
     end do
-    call atomic_define(mfi_cublas_thread_counter, 0)
+    call atomic_define(mfi_cublas_thread_counter[1], 0)
     mfi_cublas_handle_count = 0
     MFI_USE_CUBLAS = 0
     mfi_cublas_global_initialized = .false.
