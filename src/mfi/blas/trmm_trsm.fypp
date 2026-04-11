@@ -15,11 +15,11 @@ pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (mfi_cublas_is_active()) then
         block
-        type(c_ptr) :: handle
-        handle = mfi_cublas_handle_get()
         @:declare(a,b)
         integer(c_int) :: cu_side, cu_uplo, cu_transa, cu_diag, cublas_stat
         ${type(wp)}$, target :: alpha_target
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         @:allocate(a,b)
         if (local_side == 'L' .or. local_side == 'l') then
             cu_side = CUBLAS_SIDE_LEFT

@@ -103,6 +103,13 @@ interface
         integer(c_int), value, intent(in) :: mode
         integer(c_int), intent(out) :: stat
     end subroutine
+
+    pure subroutine mfi_cublas_get_thread_handle(handles, count, out_handle) bind(c,name="mfi_cublas_get_thread_handle")
+        import
+        type(c_ptr), intent(in) :: handles(:)
+        integer(c_int), value, intent(in) :: count
+        type(c_ptr), intent(out) :: out_handle
+    end subroutine
 end interface
 
 !> cuBLAS operation constants

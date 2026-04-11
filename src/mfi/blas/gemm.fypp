@@ -21,11 +21,11 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     if (mfi_cublas_is_active()) then
         block
-        type(c_ptr) :: handle
-        handle = mfi_cublas_handle_get()
         @:declare(a,b,c)
         integer(c_int) :: op_a, op_b, cublas_stat
         ${type(wp)}$, target :: alpha_target, beta_target
+        type(c_ptr) :: handle
+        handle = mfi_cublas_handle_get()
         @:allocate(a,b,c)
         if (local_transa == 'N' .or. local_transa == 'n') then
             op_a = CUBLAS_OP_N
