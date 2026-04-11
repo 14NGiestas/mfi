@@ -75,15 +75,12 @@ function mfi_cublas_handle_get() result(handle)
     type(c_ptr) :: handle
     integer :: tid
 #if defined(MFI_CUBLAS)
+    use omp_lib, only: omp_get_thread_num
     if (.not. mfi_cublas_global_initialized) then
         call mfi_cublas_lazy_init()
     end if
 
-    !$omp
     tid = omp_get_thread_num()
-    !$omp$ else
-    tid = 0
-    !$omp$ end if
 
     if (tid + 1 > mfi_cublas_handle_count .or. tid < 0) then
         error stop 'mfi: more threads than OMP_NUM_THREADS. '// &
