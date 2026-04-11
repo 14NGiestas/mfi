@@ -204,6 +204,17 @@ $:code(f77,f90,mfi,pfxs)
 #:endfor
 #:enddef
 
+#! GPU variant — calls the original macro with keyword args + suffix
+#:def test_implement_gpu(generic_name, prefixes, code)
+#:for pfx in prefixes
+#:set f77  =          prefix(pfx,generic_name)
+#:set f90 = 'f77_' + prefix('',generic_name)
+#:set mfi = 'mfi_' + prefix('',generic_name)
+#:set pfxs    = list(map(split,pfx))
+$:code(f77=f77, f90=f90, mfi=mfi, pfxs=pfxs, suffix='_gpu')
+#:endfor
+#:enddef
+
 #:def test_run(generic_name, prefixes)
 #:for pfx in prefixes
 #:set f77 =          prefix(pfx,generic_name)

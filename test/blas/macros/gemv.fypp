@@ -1,9 +1,12 @@
-#:def gemv(f77,f90,mfi,pfxs)
+#:def gemv(f77,f90,mfi,pfxs,suffix='')
 #:set wp = pfxs[0]
 #:set _opts = "['N','n','T','t','C','c']"
-subroutine test_${f77}$
+subroutine test_${f77 + suffix}$
     use f77_blas, only: ${f77}$, ${f90}$
     use mfi_blas, only: ${mfi}$, mfi_${f77}$
+#:if suffix
+    call mfi_force_gpu()
+#:endif
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: N = 20
