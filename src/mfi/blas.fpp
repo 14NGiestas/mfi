@@ -115,7 +115,6 @@ module mfi_blas_cublas
     implicit none
 
 $:cublas_interfaces()
-    type(c_ptr), allocatable, save :: mfi_cublas_handles(:)
 #endif
 end module
 

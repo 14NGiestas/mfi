@@ -208,7 +208,15 @@ $:code(f77,f90,mfi,pfxs)
 #:for pfx in prefixes
 #:set f77 =          prefix(pfx,generic_name)
 #:set mfi = 'mfi_' + prefix('',generic_name)
-@:timeit("testing ${mfi}$ against ${f77}$", { call test_${f77}$ })
+@:timeit("testing ${mfi}$ (CPU) against ${f77}$", { call test_${f77}$ })
+#:endfor
+#:enddef
+
+#:def test_run_gpu(generic_name, prefixes)
+#:for pfx in prefixes
+#:set f77 =          prefix(pfx,generic_name)
+#:set mfi = 'mfi_' + prefix('',generic_name)
+@:timeit("testing ${mfi}$ (GPU) against ${f77}$", { call test_${f77 + '_gpu'}$ })
 #:endfor
 #:enddef
 

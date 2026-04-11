@@ -31,6 +31,7 @@ $:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
 #if defined(MFI_CUBLAS)
 subroutine mfi_cublas_lazy_init()
     integer :: info
+    integer(c_int) :: stat
     character(len=16) :: env_val
     integer :: env_len
 
@@ -52,7 +53,9 @@ subroutine mfi_cublas_lazy_init()
         else
             mfi_cublas_handle_count = 1
         end if
-        call mfi_cublas_preallocate_handles()
+        call mfi_cublas_set_count(mfi_cublas_handle_count)
+        call mfi_cublas_init_handles(stat)
+        if (stat /= 0) error stop 'mfi_cublas_init_handles failed - check CUDA driver version'
     end if
 
     mfi_cublas_global_initialized = .true.
@@ -67,31 +70,17 @@ end function
 !> Get the cuBLAS handle for the current thread (pure, delegates to C wrapper)
 pure function mfi_cublas_handle_get() result(handle)
 #if defined(MFI_CUBLAS)
-    use mfi_blas_cublas, only: mfi_cublas_handles
+    use mfi_blas_cublas, only: mfi_cublas_get_thread_handle
     type(c_ptr) :: handle
-    call mfi_cublas_get_thread_handle(mfi_cublas_handles, mfi_cublas_handle_count, handle)
+    integer(c_int) :: stat
+    call mfi_cublas_get_thread_handle(handle, stat)
+    if (stat /= 0) error stop 'mfi: thread ID out of range. '// &
+               'Set OMP_NUM_THREADS before running with MFI_USE_CUBLAS=1.'
 #else
     type(c_ptr) :: handle
     handle = c_null_ptr
 #endif
 end function
-
-!> Pre-allocate all cuBLAS handles (called during lazy init, serial)
-#if defined(MFI_CUBLAS)
-subroutine mfi_cublas_preallocate_handles()
-    integer(c_int) :: stat
-    integer :: i
-    if (mfi_cublas_handle_count <= 0) return
-    do i = 1, mfi_cublas_handle_count
-        if (.not. c_associated(mfi_cublas_handles(i))) then
-            call cublasCreate(mfi_cublas_handles(i), stat)
-            if (stat /= 0) error stop 'cublasCreate_v2 failed - check CUDA driver version'
-            call cublasSetPointerMode(mfi_cublas_handles(i), CUBLAS_POINTER_MODE_HOST, stat)
-            if (stat /= 0) error stop 'cublasSetPointerMode_v2 failed'
-        end if
-    end do
-end subroutine
-#endif
 
 !> Switch to GPU mode (no-op when compiled without cuBLAS)
 #if defined(MFI_CUBLAS)
@@ -99,6 +88,7 @@ subroutine mfi_force_gpu()
     MFI_USE_CUBLAS = 1
     mfi_cublas_global_initialized = .false.
     mfi_cublas_env_checked = .true.
+    call mfi_cublas_lazy_init()
 end subroutine
 #else
 subroutine mfi_force_gpu()
@@ -121,14 +111,9 @@ end subroutine
 !> Finalize all cuBLAS handles (no-op when compiled without cuBLAS)
 #if defined(MFI_CUBLAS)
 subroutine mfi_cublas_finalize()
+    use mfi_blas_cublas, only: mfi_cublas_finalize_all
     integer(c_int) :: stat
-    integer :: i
-    do i = 1, mfi_cublas_handle_count
-        if (c_associated(mfi_cublas_handles(i))) then
-            call cublasDestroy(mfi_cublas_handles(i), stat)
-            mfi_cublas_handles(i) = c_null_ptr
-        end if
-    end do
+    call mfi_cublas_finalize_all(stat)
     mfi_cublas_handle_count = 0
     MFI_USE_CUBLAS = 0
     mfi_cublas_global_initialized = .false.
