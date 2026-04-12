@@ -22,6 +22,22 @@ fpm build --profile cublas
 fpm test --profile cublas
 ```
 
+## Nix Flake
+
+A single `flake.nix` provides all dev shells (replaces old `shells/*.nix`):
+
+| Shell | Command | CUDA |
+|-------|---------|------|
+| `cpu-only` | `nix develop .#cpu-only` | — |
+| `gpu-modern` | `nix develop .#gpu-modern` | 12.3 |
+| `gpu-legacy` | `nix develop .#gpu-legacy` | 11.8 |
+| default | `nix develop` | — (same as cpu-only) |
+
+- nixpkgs pinned to **24.11** (last version with CUDA 11.8/12.3)
+- fpm 0.13.0 via inline overlay (PR #506818) — remove once merged
+- gfortran, fpm, fypp, pkg-config all provided by the flake
+- CI uses `nix develop .#<env> --command ...` with flakes enabled
+
 ## Branch Model
 
 | Branch | Purpose | Deployment Target |

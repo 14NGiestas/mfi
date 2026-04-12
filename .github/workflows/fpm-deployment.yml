@@ -39,15 +39,12 @@ jobs:
 
     - name: Install Nix
       uses: DeterminateSystems/nix-installer-action@main
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
       with:
-        python-version: "3.x"
+        extra-conf: |
+          extra-experimental-features = nix-command flakes
 
-    - name: Install fypp and fpm
+    - name: Install fpm
       run: |
-        pip install --upgrade fypp
         curl -sSfL https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0-linux-x86_64-gcc-12 -o /usr/local/bin/fpm
         chmod +x /usr/local/bin/fpm
 
@@ -62,18 +59,18 @@ jobs:
     - name: Compile (all combinations)
       run: |
         if [ -n "${{ matrix.profile }}" ]; then
-          nix-shell shells/${{ matrix.environment }}.nix --run "fpm build --profile ${{ matrix.profile }}"
+          nix develop .#${{ matrix.environment }} --command fpm build --profile ${{ matrix.profile }}
         else
-          nix-shell shells/${{ matrix.environment }}.nix --run "fpm build"
+          nix develop .#${{ matrix.environment }} --command fpm build
         fi
 
     - name: Run tests
       if: matrix.test != 'compile-only'
       run: |
         if [ -n "${{ matrix.profile }}" ]; then
-          nix-shell shells/${{ matrix.environment }}.nix --run "fpm test --profile ${{ matrix.profile }}"
+          nix develop .#${{ matrix.environment }} --command fpm test --profile ${{ matrix.profile }}
         else
-          nix-shell shells/${{ matrix.environment }}.nix --run "fpm test"
+          nix develop .#${{ matrix.environment }} --command fpm test
         fi
 
   consumer-test:
@@ -95,10 +92,12 @@ jobs:
 
     - name: Install Nix
       uses: DeterminateSystems/nix-installer-action@main
+      with:
+        extra-conf: |
+          extra-experimental-features = nix-command flakes
 
-    - name: Install fypp and fpm
+    - name: Install fpm
       run: |
-        pip install --upgrade fypp
         curl -sSfL https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0-linux-x86_64-gcc-12 -o /usr/local/bin/fpm
         chmod +x /usr/local/bin/fpm
 
@@ -114,10 +113,10 @@ jobs:
 
         if [ "${{ matrix.profile }}" = "cublas" ]; then
           cp ../ci/consumer/fpm-cublas.toml fpm.toml
-          nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build --profile cublas"
+          nix develop ..#${{ matrix.environment }} --command fpm build --profile cublas
         else
           cp ../ci/consumer/fpm-cpu.toml fpm.toml
-          nix-shell ../shells/${{ matrix.environment }}.nix --run "fpm build"
+          nix develop ..#${{ matrix.environment }} --command fpm build
         fi
 
   deploy-artifacts:
@@ -128,13 +127,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
+    - name: Install Nix
+      uses: DeterminateSystems/nix-installer-action@main
       with:
-        python-version: "3.x"
+        extra-conf: |
+          extra-experimental-features = nix-command flakes
 
-    - name: Install fypp
-      run: pip install --upgrade fypp
+    - name: Install fpm
+      run: |
+        curl -sSfL https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0-linux-x86_64-gcc-12 -o /usr/local/bin/fpm
+        chmod +x /usr/local/bin/fpm
 
     - name: Generate sources
       run: make
