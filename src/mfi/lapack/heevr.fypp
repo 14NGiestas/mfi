@@ -93,7 +93,7 @@ pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m,
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('${F77_NAME}$', abs(local_info))
+        call mfi_error('${F77_NAME}$', local_info)
     end if
 end subroutine
 #:enddef
