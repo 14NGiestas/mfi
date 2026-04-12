@@ -6,3 +6,6 @@ mfi = { path = ".." }
 
 [build]
 link = ["blas", "lapack"]
+
+[profiles]
+cpu = []

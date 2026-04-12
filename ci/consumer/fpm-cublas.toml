@@ -2,12 +2,10 @@ name = "consumer"
 version = "0.1.0"
 
 [dependencies]
-mfi = { path = ".." }
+mfi = { path = "..", features = ["cublas"] }
 
-[features]
-cpu.build.link = ["blas", "lapack"]
-cublas.build.link = ["blas", "lapack", "cublas", "cudart"]
+[build]
+link = ["cublas", "cudart", "gomp"]
 
 [profiles]
-cpu = ["cpu"]
-cublas = ["cublas"]
+cublas = []
