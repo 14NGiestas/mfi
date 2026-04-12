@@ -1,151 +1,60 @@
-module mfi_blas_axpy
+module f77_blas_axpy
     use iso_fortran_env
-    use f77_blas
-#if defined(MFI_CUBLAS)
     use iso_c_binding
-    use mfi_blas_cublas
-#endif
-#if defined(MFI_EXTENSIONS)
-    use mfi_blas_extensions
-#endif
     implicit none
 
-!> Generic modern interface for AXPY.
+!> Generic old style interface for AXPY.
 !> Supports s, d, c, z.
-!> See also:
-!> [[f77_axpy:saxpy]], [[f77_axpy:daxpy]], [[f77_axpy:caxpy]], [[f77_axpy:zaxpy]].
-interface mfi_axpy
-    module procedure :: mfi_saxpy
-    module procedure :: mfi_daxpy
-    module procedure :: mfi_caxpy
-    module procedure :: mfi_zaxpy
+!> See also: [[mfi_axpy]], [[saxpy]], [[daxpy]], [[caxpy]], [[zaxpy]].
+interface f77_axpy
+!> Original interface for SAXPY
+!> See also: [[mfi_axpy]], [[axpy]].
+pure subroutine saxpy(n, a, x, incx, y, incy)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(in) :: x(*)
+    real(REAL32), intent(in) :: a
+    real(REAL32), intent(inout) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end subroutine
+!> Original interface for DAXPY
+!> See also: [[mfi_axpy]], [[axpy]].
+pure subroutine daxpy(n, a, x, incx, y, incy)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(in) :: x(*)
+    real(REAL64), intent(in) :: a
+    real(REAL64), intent(inout) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end subroutine
+!> Original interface for CAXPY
+!> See also: [[mfi_axpy]], [[axpy]].
+pure subroutine caxpy(n, a, x, incx, y, incy)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(in) :: x(*)
+    complex(REAL32), intent(in) :: a
+    complex(REAL32), intent(inout) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end subroutine
+!> Original interface for ZAXPY
+!> See also: [[mfi_axpy]], [[axpy]].
+pure subroutine zaxpy(n, a, x, incx, y, incy)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(in) :: x(*)
+    complex(REAL64), intent(in) :: a
+    complex(REAL64), intent(inout) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end subroutine
 end interface
-
-contains
-
-!> Modern interface for [[f77_axpy:f77_axpy]].
-!> See also: [[mfi_axpy]], [[f77_axpy]].
-pure subroutine mfi_saxpy(x, y, a, incx, incy)
-    integer, parameter :: wp = REAL32
-    real(REAL32), intent(in) :: x(:)
-    real(REAL32), intent(inout) :: y(:)
-    real(REAL32), intent(in), optional :: a
-    real(REAL32) :: local_a
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(a)) then
-        local_a = a
-    else
-        local_a = 1.0_wp
-    end if
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
-end subroutine
-!> Modern interface for [[f77_axpy:f77_axpy]].
-!> See also: [[mfi_axpy]], [[f77_axpy]].
-pure subroutine mfi_daxpy(x, y, a, incx, incy)
-    integer, parameter :: wp = REAL64
-    real(REAL64), intent(in) :: x(:)
-    real(REAL64), intent(inout) :: y(:)
-    real(REAL64), intent(in), optional :: a
-    real(REAL64) :: local_a
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(a)) then
-        local_a = a
-    else
-        local_a = 1.0_wp
-    end if
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
-end subroutine
-!> Modern interface for [[f77_axpy:f77_axpy]].
-!> See also: [[mfi_axpy]], [[f77_axpy]].
-pure subroutine mfi_caxpy(x, y, a, incx, incy)
-    integer, parameter :: wp = REAL32
-    complex(REAL32), intent(in) :: x(:)
-    complex(REAL32), intent(inout) :: y(:)
-    complex(REAL32), intent(in), optional :: a
-    complex(REAL32) :: local_a
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(a)) then
-        local_a = a
-    else
-        local_a = 1.0_wp
-    end if
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
-end subroutine
-!> Modern interface for [[f77_axpy:f77_axpy]].
-!> See also: [[mfi_axpy]], [[f77_axpy]].
-pure subroutine mfi_zaxpy(x, y, a, incx, incy)
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(in) :: x(:)
-    complex(REAL64), intent(inout) :: y(:)
-    complex(REAL64), intent(in), optional :: a
-    complex(REAL64) :: local_a
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(a)) then
-        local_a = a
-    else
-        local_a = 1.0_wp
-    end if
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call f77_axpy(n,local_a,x,local_incx,y,local_incy)
-end subroutine
 end module
 
