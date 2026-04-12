@@ -43,6 +43,9 @@ jobs:
         extra-conf: |
           extra-experimental-features = nix-command flakes
 
+    - name: Enable Nix Cache
+      uses: DeterminateSystems/magic-nix-cache-action@main
+
     - name: Set CI test size
       run: |
         echo "MFI_TEST_ELEMENTS=50000" >> $GITHUB_ENV
@@ -91,6 +94,9 @@ jobs:
         extra-conf: |
           extra-experimental-features = nix-command flakes
 
+    - name: Enable Nix Cache
+      uses: DeterminateSystems/magic-nix-cache-action@main
+
     - name: Generate sources
       run: nix develop --command make
 
@@ -122,6 +128,9 @@ jobs:
       with:
         extra-conf: |
           extra-experimental-features = nix-command flakes
+
+    - name: Enable Nix Cache
+      uses: DeterminateSystems/magic-nix-cache-action@main
 
     - name: Generate sources
       run: nix develop --command make
