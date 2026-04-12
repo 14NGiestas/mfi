@@ -27,7 +27,7 @@ jobs:
             test: true
           - name: gpu-modern
             environment: gpu-modern
-            profile: release
+            profile: debug
             test: true
           - name: gpu-modern-cublas
             environment: gpu-modern
