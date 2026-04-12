@@ -382,6 +382,6 @@ CI uses [Nix flakes](flake.nix) with `magic-nix-cache-action` for fast, reproduc
 | Event | Behavior |
 |-------|----------|
 | Push to `main` | Full test matrix + deploy to `mfi-fpm` |
-| Push to `impl/cublas` | Full test matrix + deploy to `mfi-cublas` |
+| Push to `main` | Full test matrix + deploy to `mfi-cublas` |
 | PR to `main` | Full test matrix |
 | Manual dispatch | Full test matrix |
