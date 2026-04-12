@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.7% of total for source files.">248 statements</a>
+                 title=" 1.6% of total for source files.">240 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -355,140 +355,136 @@
 <a id="ln-188" name="ln-188" href="#ln-188"></a>
 <a id="ln-189" name="ln-189" href="#ln-189"></a><span class="c">!&gt; Check environment and initialize cuBLAS on first GPU call (lazy init)</span>
 <a id="ln-190" name="ln-190" href="#ln-190"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
-<a id="ln-191" name="ln-191" href="#ln-191"></a><span class="k">subroutine </span><span class="n">mfi_cublas_lazy_init</span><span class="p">()</span>
-<a id="ln-192" name="ln-192" href="#ln-192"></a><span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">info</span>
-<a id="ln-193" name="ln-193" href="#ln-193"></a><span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
-<a id="ln-194" name="ln-194" href="#ln-194"></a><span class="nb">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">env_val</span>
-<a id="ln-195" name="ln-195" href="#ln-195"></a><span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">env_len</span>
-<a id="ln-196" name="ln-196" href="#ln-196"></a>
-<a id="ln-197" name="ln-197" href="#ln-197"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mfi_cublas_global_initialized</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
-<a id="ln-198" name="ln-198" href="#ln-198"></a>
-<a id="ln-199" name="ln-199" href="#ln-199"></a><span class="k">    if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">mfi_cublas_env_checked</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-200" name="ln-200" href="#ln-200"></a><span class="k">        </span><span class="n">mfi_cublas_env_checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
-<a id="ln-201" name="ln-201" href="#ln-201"></a><span class="w">        </span><span class="k">call </span><span class="nb">get_environment_variable</span><span class="p">(</span><span class="s2">&quot;MFI_USE_CUBLAS&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">env_val</span><span class="p">,</span><span class="w"> </span><span class="n">env_len</span><span class="p">)</span>
-<a id="ln-202" name="ln-202" href="#ln-202"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">env_len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-203" name="ln-203" href="#ln-203"></a><span class="k">            read</span><span class="p">(</span><span class="n">env_val</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">env_len</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span><span class="w"> </span><span class="n">MFI_USE_CUBLAS</span>
-<a id="ln-204" name="ln-204" href="#ln-204"></a><span class="w">        </span><span class="k">end if</span>
-<a id="ln-205" name="ln-205" href="#ln-205"></a><span class="k">    end if</span>
-<a id="ln-206" name="ln-206" href="#ln-206"></a>
-<a id="ln-207" name="ln-207" href="#ln-207"></a><span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">mfi_cublas_handle_count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-208" name="ln-208" href="#ln-208"></a><span class="k">        call </span><span class="nb">get_environment_variable</span><span class="p">(</span><span class="s2">&quot;OMP_NUM_THREADS&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">env_val</span><span class="p">,</span><span class="w"> </span><span class="n">env_len</span><span class="p">)</span>
-<a id="ln-209" name="ln-209" href="#ln-209"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">env_len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
-<a id="ln-210" name="ln-210" href="#ln-210"></a><span class="k">            read</span><span class="p">(</span><span class="n">env_val</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">env_len</span><span class="p">),</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">iostat</span><span class="o">=</span><span class="n">info</span><span class="p">)</span><span class="w"> </span><span class="n">mfi_cublas_handle_count</span>
-<a id="ln-211" name="ln-211" href="#ln-211"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">info</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">.</span><span class="nb">or</span><span class="p">.</span><span class="w"> </span><span class="n">mfi_cublas_handle_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">mfi_cublas_handle_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-212" name="ln-212" href="#ln-212"></a><span class="w">        </span><span class="k">else</span>
-<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="k">            </span><span class="n">mfi_cublas_handle_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-214" name="ln-214" href="#ln-214"></a><span class="w">        </span><span class="k">end if</span>
-<a id="ln-215" name="ln-215" href="#ln-215"></a><span class="k">        call </span><span class="n">mfi_cublas_set_count</span><span class="p">(</span><span class="n">mfi_cublas_handle_count</span><span class="p">)</span>
-<a id="ln-216" name="ln-216" href="#ln-216"></a><span class="w">        </span><span class="k">call </span><span class="n">mfi_cublas_init_handles</span><span class="p">(</span><span class="nb">stat</span><span class="p">)</span>
-<a id="ln-217" name="ln-217" href="#ln-217"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;mfi_cublas_init_handles failed - check CUDA driver version&#39;</span>
-<a id="ln-218" name="ln-218" href="#ln-218"></a><span class="w">    </span><span class="k">end if</span>
-<a id="ln-219" name="ln-219" href="#ln-219"></a>
-<a id="ln-220" name="ln-220" href="#ln-220"></a><span class="k">    </span><span class="n">mfi_cublas_global_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
-<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="k">end subroutine</span>
+<a id="ln-191" name="ln-191" href="#ln-191"></a><span class="k">pure subroutine </span><span class="n">mfi_cublas_lazy_init</span><span class="p">()</span>
+<a id="ln-192" name="ln-192" href="#ln-192"></a><span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
+<a id="ln-193" name="ln-193" href="#ln-193"></a><span class="nb">    </span><span class="k">use </span><span class="n">mfi_blas_cublas</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">mfi_cublas_set_count</span><span class="p">,</span><span class="w"> </span><span class="n">mfi_cublas_init_handles</span><span class="p">,</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-194" name="ln-194" href="#ln-194"></a><span class="w">                               </span><span class="n">mfi_cublas_read_env</span><span class="p">,</span><span class="w"> </span><span class="n">mfi_cublas_read_omp_threads</span>
+<a id="ln-195" name="ln-195" href="#ln-195"></a>
+<a id="ln-196" name="ln-196" href="#ln-196"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mfi_cublas_global_initialized</span><span class="p">)</span><span class="w"> </span><span class="k">return</span>
+<a id="ln-197" name="ln-197" href="#ln-197"></a>
+<a id="ln-198" name="ln-198" href="#ln-198"></a><span class="k">    if</span><span class="w"> </span><span class="p">(.</span><span class="nb">not</span><span class="p">.</span><span class="w"> </span><span class="n">mfi_cublas_env_checked</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-199" name="ln-199" href="#ln-199"></a><span class="k">        </span><span class="n">mfi_cublas_env_checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<a id="ln-200" name="ln-200" href="#ln-200"></a><span class="w">        </span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mfi_cublas_read_env</span><span class="p">()</span>
+<a id="ln-201" name="ln-201" href="#ln-201"></a><span class="w">    </span><span class="k">end if</span>
+<a id="ln-202" name="ln-202" href="#ln-202"></a>
+<a id="ln-203" name="ln-203" href="#ln-203"></a><span class="k">    if</span><span class="w"> </span><span class="p">(</span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">.</span><span class="nb">and</span><span class="p">.</span><span class="w"> </span><span class="n">mfi_cublas_handle_count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">then</span>
+<a id="ln-204" name="ln-204" href="#ln-204"></a><span class="k">        </span><span class="n">mfi_cublas_handle_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mfi_cublas_read_omp_threads</span><span class="p">()</span>
+<a id="ln-205" name="ln-205" href="#ln-205"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mfi_cublas_handle_count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">mfi_cublas_handle_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<a id="ln-206" name="ln-206" href="#ln-206"></a><span class="w">        </span><span class="k">call </span><span class="n">mfi_cublas_set_count</span><span class="p">(</span><span class="n">mfi_cublas_handle_count</span><span class="p">)</span>
+<a id="ln-207" name="ln-207" href="#ln-207"></a><span class="w">        </span><span class="k">call </span><span class="n">mfi_cublas_init_handles</span><span class="p">(</span><span class="nb">stat</span><span class="p">)</span>
+<a id="ln-208" name="ln-208" href="#ln-208"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;mfi_cublas_init_handles failed - check CUDA driver version&#39;</span>
+<a id="ln-209" name="ln-209" href="#ln-209"></a><span class="w">    </span><span class="k">end if</span>
+<a id="ln-210" name="ln-210" href="#ln-210"></a>
+<a id="ln-211" name="ln-211" href="#ln-211"></a><span class="k">    </span><span class="n">mfi_cublas_global_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<a id="ln-212" name="ln-212" href="#ln-212"></a><span class="k">end subroutine</span>
+<a id="ln-213" name="ln-213" href="#ln-213"></a><span class="cp">#endif</span>
+<a id="ln-214" name="ln-214" href="#ln-214"></a>
+<a id="ln-215" name="ln-215" href="#ln-215"></a><span class="c">!&gt; Returns .true. if GPU execution is active (pure, checks flag only)</span>
+<a id="ln-216" name="ln-216" href="#ln-216"></a><span class="k">pure </span><span class="kt">logical </span><span class="k">function </span><span class="n">mfi_cublas_is_active</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">active</span><span class="p">)</span>
+<a id="ln-217" name="ln-217" href="#ln-217"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
+<a id="ln-218" name="ln-218" href="#ln-218"></a><span class="w">    </span><span class="k">call </span><span class="n">mfi_cublas_lazy_init</span><span class="p">()</span>
+<a id="ln-219" name="ln-219" href="#ln-219"></a><span class="w">    </span><span class="n">active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<a id="ln-220" name="ln-220" href="#ln-220"></a><span class="cp">#else</span>
+<a id="ln-221" name="ln-221" href="#ln-221"></a><span class="w">    </span><span class="n">active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
 <a id="ln-222" name="ln-222" href="#ln-222"></a><span class="cp">#endif</span>
-<a id="ln-223" name="ln-223" href="#ln-223"></a>
-<a id="ln-224" name="ln-224" href="#ln-224"></a><span class="c">!&gt; Returns .true. if GPU execution is active (pure, checks flag only)</span>
-<a id="ln-225" name="ln-225" href="#ln-225"></a><span class="k">pure </span><span class="kt">logical </span><span class="k">function </span><span class="n">mfi_cublas_is_active</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">active</span><span class="p">)</span>
-<a id="ln-226" name="ln-226" href="#ln-226"></a><span class="w">    </span><span class="n">active</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<a id="ln-227" name="ln-227" href="#ln-227"></a><span class="k">end function</span>
-<a id="ln-228" name="ln-228" href="#ln-228"></a>
-<a id="ln-229" name="ln-229" href="#ln-229"></a><span class="c">!&gt; Get the cuBLAS handle for the current thread (pure, delegates to C wrapper)</span>
-<a id="ln-230" name="ln-230" href="#ln-230"></a><span class="k">pure function </span><span class="n">mfi_cublas_handle_get</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-<a id="ln-231" name="ln-231" href="#ln-231"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
-<a id="ln-232" name="ln-232" href="#ln-232"></a><span class="w">    </span><span class="k">use </span><span class="n">mfi_blas_cublas</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">mfi_cublas_get_thread_handle</span>
-<a id="ln-233" name="ln-233" href="#ln-233"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span>
-<a id="ln-234" name="ln-234" href="#ln-234"></a><span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
-<a id="ln-235" name="ln-235" href="#ln-235"></a><span class="nb">    </span><span class="k">call </span><span class="n">mfi_cublas_get_thread_handle</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">)</span>
-<a id="ln-236" name="ln-236" href="#ln-236"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;mfi: thread ID out of range. &#39;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
-<a id="ln-237" name="ln-237" href="#ln-237"></a><span class="w">               </span><span class="s1">&#39;Set OMP_NUM_THREADS before running with MFI_USE_CUBLAS=1.&#39;</span>
-<a id="ln-238" name="ln-238" href="#ln-238"></a><span class="cp">#else</span>
-<a id="ln-239" name="ln-239" href="#ln-239"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span>
-<a id="ln-240" name="ln-240" href="#ln-240"></a><span class="w">    </span><span class="n">handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">c_null_ptr</span>
-<a id="ln-241" name="ln-241" href="#ln-241"></a><span class="cp">#endif</span>
-<a id="ln-242" name="ln-242" href="#ln-242"></a><span class="k">end function</span>
-<a id="ln-243" name="ln-243" href="#ln-243"></a>
-<a id="ln-244" name="ln-244" href="#ln-244"></a><span class="c">!&gt; Switch to GPU mode (no-op when compiled without cuBLAS)</span>
-<a id="ln-245" name="ln-245" href="#ln-245"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
-<a id="ln-246" name="ln-246" href="#ln-246"></a><span class="k">subroutine </span><span class="n">mfi_force_gpu</span><span class="p">()</span>
-<a id="ln-247" name="ln-247" href="#ln-247"></a><span class="w">    </span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<a id="ln-248" name="ln-248" href="#ln-248"></a><span class="w">    </span><span class="n">mfi_cublas_global_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
-<a id="ln-249" name="ln-249" href="#ln-249"></a><span class="w">    </span><span class="n">mfi_cublas_env_checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
-<a id="ln-250" name="ln-250" href="#ln-250"></a><span class="w">    </span><span class="k">call </span><span class="n">mfi_cublas_lazy_init</span><span class="p">()</span>
-<a id="ln-251" name="ln-251" href="#ln-251"></a><span class="k">end subroutine</span>
-<a id="ln-252" name="ln-252" href="#ln-252"></a><span class="cp">#else</span>
-<a id="ln-253" name="ln-253" href="#ln-253"></a><span class="k">subroutine </span><span class="n">mfi_force_gpu</span><span class="p">()</span>
-<a id="ln-254" name="ln-254" href="#ln-254"></a><span class="k">end subroutine</span>
-<a id="ln-255" name="ln-255" href="#ln-255"></a><span class="cp">#endif</span>
-<a id="ln-256" name="ln-256" href="#ln-256"></a>
-<a id="ln-257" name="ln-257" href="#ln-257"></a><span class="c">!&gt; Switch to CPU mode (no-op when compiled without cuBLAS)</span>
-<a id="ln-258" name="ln-258" href="#ln-258"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
-<a id="ln-259" name="ln-259" href="#ln-259"></a><span class="k">subroutine </span><span class="n">mfi_force_cpu</span><span class="p">()</span>
-<a id="ln-260" name="ln-260" href="#ln-260"></a><span class="w">    </span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<a id="ln-261" name="ln-261" href="#ln-261"></a><span class="w">    </span><span class="n">mfi_cublas_global_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
-<a id="ln-262" name="ln-262" href="#ln-262"></a><span class="w">    </span><span class="n">mfi_cublas_env_checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<a id="ln-223" name="ln-223" href="#ln-223"></a><span class="k">end function</span>
+<a id="ln-224" name="ln-224" href="#ln-224"></a>
+<a id="ln-225" name="ln-225" href="#ln-225"></a><span class="c">!&gt; Get the cuBLAS handle for the current thread (pure, delegates to C wrapper)</span>
+<a id="ln-226" name="ln-226" href="#ln-226"></a><span class="k">pure function </span><span class="n">mfi_cublas_handle_get</span><span class="p">()</span><span class="w"> </span><span class="k">result</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a id="ln-227" name="ln-227" href="#ln-227"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
+<a id="ln-228" name="ln-228" href="#ln-228"></a><span class="w">    </span><span class="k">use </span><span class="n">mfi_blas_cublas</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">mfi_cublas_get_thread_handle</span>
+<a id="ln-229" name="ln-229" href="#ln-229"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span>
+<a id="ln-230" name="ln-230" href="#ln-230"></a><span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
+<a id="ln-231" name="ln-231" href="#ln-231"></a><span class="nb">    </span><span class="k">call </span><span class="n">mfi_cublas_get_thread_handle</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">)</span>
+<a id="ln-232" name="ln-232" href="#ln-232"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">stat</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">error stop</span><span class="w"> </span><span class="s1">&#39;mfi: thread ID out of range. &#39;</span><span class="o">//</span><span class="w"> </span><span class="p">&amp;</span>
+<a id="ln-233" name="ln-233" href="#ln-233"></a><span class="w">               </span><span class="s1">&#39;Set OMP_NUM_THREADS before running with MFI_USE_CUBLAS=1.&#39;</span>
+<a id="ln-234" name="ln-234" href="#ln-234"></a><span class="cp">#else</span>
+<a id="ln-235" name="ln-235" href="#ln-235"></a><span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">handle</span>
+<a id="ln-236" name="ln-236" href="#ln-236"></a><span class="w">    </span><span class="n">handle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">c_null_ptr</span>
+<a id="ln-237" name="ln-237" href="#ln-237"></a><span class="cp">#endif</span>
+<a id="ln-238" name="ln-238" href="#ln-238"></a><span class="k">end function</span>
+<a id="ln-239" name="ln-239" href="#ln-239"></a>
+<a id="ln-240" name="ln-240" href="#ln-240"></a><span class="c">!&gt; Switch to GPU mode (no-op when compiled without cuBLAS)</span>
+<a id="ln-241" name="ln-241" href="#ln-241"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
+<a id="ln-242" name="ln-242" href="#ln-242"></a><span class="k">subroutine </span><span class="n">mfi_force_gpu</span><span class="p">()</span>
+<a id="ln-243" name="ln-243" href="#ln-243"></a><span class="w">    </span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<a id="ln-244" name="ln-244" href="#ln-244"></a><span class="w">    </span><span class="n">mfi_cublas_global_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<a id="ln-245" name="ln-245" href="#ln-245"></a><span class="w">    </span><span class="n">mfi_cublas_env_checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<a id="ln-246" name="ln-246" href="#ln-246"></a><span class="w">    </span><span class="k">call </span><span class="n">mfi_cublas_lazy_init</span><span class="p">()</span>
+<a id="ln-247" name="ln-247" href="#ln-247"></a><span class="k">end subroutine</span>
+<a id="ln-248" name="ln-248" href="#ln-248"></a><span class="cp">#else</span>
+<a id="ln-249" name="ln-249" href="#ln-249"></a><span class="k">subroutine </span><span class="n">mfi_force_gpu</span><span class="p">()</span>
+<a id="ln-250" name="ln-250" href="#ln-250"></a><span class="k">end subroutine</span>
+<a id="ln-251" name="ln-251" href="#ln-251"></a><span class="cp">#endif</span>
+<a id="ln-252" name="ln-252" href="#ln-252"></a>
+<a id="ln-253" name="ln-253" href="#ln-253"></a><span class="c">!&gt; Switch to CPU mode (no-op when compiled without cuBLAS)</span>
+<a id="ln-254" name="ln-254" href="#ln-254"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
+<a id="ln-255" name="ln-255" href="#ln-255"></a><span class="k">subroutine </span><span class="n">mfi_force_cpu</span><span class="p">()</span>
+<a id="ln-256" name="ln-256" href="#ln-256"></a><span class="w">    </span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-257" name="ln-257" href="#ln-257"></a><span class="w">    </span><span class="n">mfi_cublas_global_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<a id="ln-258" name="ln-258" href="#ln-258"></a><span class="w">    </span><span class="n">mfi_cublas_env_checked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span>
+<a id="ln-259" name="ln-259" href="#ln-259"></a><span class="k">end subroutine</span>
+<a id="ln-260" name="ln-260" href="#ln-260"></a><span class="cp">#else</span>
+<a id="ln-261" name="ln-261" href="#ln-261"></a><span class="k">subroutine </span><span class="n">mfi_force_cpu</span><span class="p">()</span>
+<a id="ln-262" name="ln-262" href="#ln-262"></a><span class="w">    </span><span class="c">! No-op: already on CPU</span>
 <a id="ln-263" name="ln-263" href="#ln-263"></a><span class="k">end subroutine</span>
-<a id="ln-264" name="ln-264" href="#ln-264"></a><span class="cp">#else</span>
-<a id="ln-265" name="ln-265" href="#ln-265"></a><span class="k">subroutine </span><span class="n">mfi_force_cpu</span><span class="p">()</span>
-<a id="ln-266" name="ln-266" href="#ln-266"></a><span class="w">    </span><span class="c">! No-op: already on CPU</span>
-<a id="ln-267" name="ln-267" href="#ln-267"></a><span class="k">end subroutine</span>
-<a id="ln-268" name="ln-268" href="#ln-268"></a><span class="cp">#endif</span>
-<a id="ln-269" name="ln-269" href="#ln-269"></a>
-<a id="ln-270" name="ln-270" href="#ln-270"></a><span class="c">!&gt; Finalize all cuBLAS handles (no-op when compiled without cuBLAS)</span>
-<a id="ln-271" name="ln-271" href="#ln-271"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
-<a id="ln-272" name="ln-272" href="#ln-272"></a><span class="k">subroutine </span><span class="n">mfi_cublas_finalize</span><span class="p">()</span>
-<a id="ln-273" name="ln-273" href="#ln-273"></a><span class="w">    </span><span class="k">use </span><span class="n">mfi_blas_cublas</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">mfi_cublas_finalize_all</span>
-<a id="ln-274" name="ln-274" href="#ln-274"></a><span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
-<a id="ln-275" name="ln-275" href="#ln-275"></a><span class="nb">    </span><span class="k">call </span><span class="n">mfi_cublas_finalize_all</span><span class="p">(</span><span class="nb">stat</span><span class="p">)</span>
-<a id="ln-276" name="ln-276" href="#ln-276"></a><span class="w">    </span><span class="n">mfi_cublas_handle_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<a id="ln-277" name="ln-277" href="#ln-277"></a><span class="w">    </span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
-<a id="ln-278" name="ln-278" href="#ln-278"></a><span class="w">    </span><span class="n">mfi_cublas_global_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<a id="ln-264" name="ln-264" href="#ln-264"></a><span class="cp">#endif</span>
+<a id="ln-265" name="ln-265" href="#ln-265"></a>
+<a id="ln-266" name="ln-266" href="#ln-266"></a><span class="c">!&gt; Finalize all cuBLAS handles (no-op when compiled without cuBLAS)</span>
+<a id="ln-267" name="ln-267" href="#ln-267"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
+<a id="ln-268" name="ln-268" href="#ln-268"></a><span class="k">subroutine </span><span class="n">mfi_cublas_finalize</span><span class="p">()</span>
+<a id="ln-269" name="ln-269" href="#ln-269"></a><span class="w">    </span><span class="k">use </span><span class="n">mfi_blas_cublas</span><span class="p">,</span><span class="w"> </span><span class="k">only</span><span class="p">:</span><span class="w"> </span><span class="n">mfi_cublas_finalize_all</span>
+<a id="ln-270" name="ln-270" href="#ln-270"></a><span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
+<a id="ln-271" name="ln-271" href="#ln-271"></a><span class="nb">    </span><span class="k">call </span><span class="n">mfi_cublas_finalize_all</span><span class="p">(</span><span class="nb">stat</span><span class="p">)</span>
+<a id="ln-272" name="ln-272" href="#ln-272"></a><span class="w">    </span><span class="n">mfi_cublas_handle_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-273" name="ln-273" href="#ln-273"></a><span class="w">    </span><span class="n">MFI_USE_CUBLAS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<a id="ln-274" name="ln-274" href="#ln-274"></a><span class="w">    </span><span class="n">mfi_cublas_global_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">false</span><span class="p">.</span>
+<a id="ln-275" name="ln-275" href="#ln-275"></a><span class="k">end subroutine</span>
+<a id="ln-276" name="ln-276" href="#ln-276"></a><span class="cp">#else</span>
+<a id="ln-277" name="ln-277" href="#ln-277"></a><span class="k">subroutine </span><span class="n">mfi_cublas_finalize</span><span class="p">()</span>
+<a id="ln-278" name="ln-278" href="#ln-278"></a><span class="w">    </span><span class="c">! No-op: no cuBLAS resources to release</span>
 <a id="ln-279" name="ln-279" href="#ln-279"></a><span class="k">end subroutine</span>
-<a id="ln-280" name="ln-280" href="#ln-280"></a><span class="cp">#else</span>
-<a id="ln-281" name="ln-281" href="#ln-281"></a><span class="k">subroutine </span><span class="n">mfi_cublas_finalize</span><span class="p">()</span>
-<a id="ln-282" name="ln-282" href="#ln-282"></a><span class="w">    </span><span class="c">! No-op: no cuBLAS resources to release</span>
-<a id="ln-283" name="ln-283" href="#ln-283"></a><span class="k">end subroutine</span>
-<a id="ln-284" name="ln-284" href="#ln-284"></a><span class="cp">#endif</span>
-<a id="ln-285" name="ln-285" href="#ln-285"></a>
-<a id="ln-286" name="ln-286" href="#ln-286"></a><span class="c">!&gt; Report cuBLAS error (called from pure wrappers)</span>
-<a id="ln-287" name="ln-287" href="#ln-287"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
-<a id="ln-288" name="ln-288" href="#ln-288"></a><span class="k">pure subroutine </span><span class="n">mfi_cublas_error</span><span class="p">(</span><span class="nb">stat</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span>
-<a id="ln-289" name="ln-289" href="#ln-289"></a><span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
-<a id="ln-290" name="ln-290" href="#ln-290"></a><span class="nb">    </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
-<a id="ln-291" name="ln-291" href="#ln-291"></a><span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span>
-<a id="ln-292" name="ln-292" href="#ln-292"></a><span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">stat_str</span>
-<a id="ln-293" name="ln-293" href="#ln-293"></a>
-<a id="ln-294" name="ln-294" href="#ln-294"></a><span class="w">    </span><span class="k">select case</span><span class="p">(</span><span class="nb">stat</span><span class="p">)</span>
-<a id="ln-295" name="ln-295" href="#ln-295"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_SUCCESS</span><span class="p">)</span>
-<a id="ln-296" name="ln-296" href="#ln-296"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_SUCCESS&#39;</span>
-<a id="ln-297" name="ln-297" href="#ln-297"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_NOT_INITIALIZED</span><span class="p">)</span>
-<a id="ln-298" name="ln-298" href="#ln-298"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_NOT_INITIALIZED&#39;</span>
-<a id="ln-299" name="ln-299" href="#ln-299"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_ALLOC_FAILED</span><span class="p">)</span>
-<a id="ln-300" name="ln-300" href="#ln-300"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_ALLOC_FAILED&#39;</span>
-<a id="ln-301" name="ln-301" href="#ln-301"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_INVALID_VALUE</span><span class="p">)</span>
-<a id="ln-302" name="ln-302" href="#ln-302"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_INVALID_VALUE&#39;</span>
-<a id="ln-303" name="ln-303" href="#ln-303"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_ARCH_MISMATCH</span><span class="p">)</span>
-<a id="ln-304" name="ln-304" href="#ln-304"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_ARCH_MISMATCH&#39;</span>
-<a id="ln-305" name="ln-305" href="#ln-305"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_MAPPING_ERROR</span><span class="p">)</span>
-<a id="ln-306" name="ln-306" href="#ln-306"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_MAPPING_ERROR&#39;</span>
-<a id="ln-307" name="ln-307" href="#ln-307"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_EXECUTION_FAILED</span><span class="p">)</span>
-<a id="ln-308" name="ln-308" href="#ln-308"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_EXECUTION_FAILED&#39;</span>
-<a id="ln-309" name="ln-309" href="#ln-309"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_INTERNAL_ERROR</span><span class="p">)</span>
-<a id="ln-310" name="ln-310" href="#ln-310"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_INTERNAL_ERROR&#39;</span>
-<a id="ln-311" name="ln-311" href="#ln-311"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_NOT_SUPPORTED</span><span class="p">)</span>
-<a id="ln-312" name="ln-312" href="#ln-312"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_NOT_SUPPORTED&#39;</span>
-<a id="ln-313" name="ln-313" href="#ln-313"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_LICENSE_ERROR</span><span class="p">)</span>
-<a id="ln-314" name="ln-314" href="#ln-314"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_LICENSE_ERROR&#39;</span>
-<a id="ln-315" name="ln-315" href="#ln-315"></a><span class="w">        </span><span class="k">case </span><span class="n">default</span>
-<a id="ln-316" name="ln-316" href="#ln-316"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;UNKNOWN_CUBLAS_ERROR&#39;</span>
-<a id="ln-317" name="ln-317" href="#ln-317"></a><span class="w">    </span><span class="k">end select</span>
-<a id="ln-318" name="ln-318" href="#ln-318"></a>
-<a id="ln-319" name="ln-319" href="#ln-319"></a><span class="k">    write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(A, I0, A, A, A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;cuBLAS error: &#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; [&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">stat_str</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;] (&#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39;)&#39;</span>
-<a id="ln-320" name="ln-320" href="#ln-320"></a><span class="w">    </span><span class="k">error stop </span><span class="n">msg</span>
-<a id="ln-321" name="ln-321" href="#ln-321"></a><span class="k">end subroutine</span>
-<a id="ln-322" name="ln-322" href="#ln-322"></a><span class="cp">#endif</span>
-<a id="ln-323" name="ln-323" href="#ln-323"></a><span class="cp">#endif</span>
-<a id="ln-324" name="ln-324" href="#ln-324"></a><span class="k">end module</span>
+<a id="ln-280" name="ln-280" href="#ln-280"></a><span class="cp">#endif</span>
+<a id="ln-281" name="ln-281" href="#ln-281"></a>
+<a id="ln-282" name="ln-282" href="#ln-282"></a><span class="c">!&gt; Report cuBLAS error (called from pure wrappers)</span>
+<a id="ln-283" name="ln-283" href="#ln-283"></a><span class="cp">#if defined(MFI_CUBLAS)</span>
+<a id="ln-284" name="ln-284" href="#ln-284"></a><span class="k">pure subroutine </span><span class="n">mfi_cublas_error</span><span class="p">(</span><span class="nb">stat</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span>
+<a id="ln-285" name="ln-285" href="#ln-285"></a><span class="w">    </span><span class="kt">integer</span><span class="p">(</span><span class="kt">c_int</span><span class="p">),</span><span class="w"> </span><span class="k">value</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="nb">stat</span>
+<a id="ln-286" name="ln-286" href="#ln-286"></a><span class="nb">    </span><span class="kt">character</span><span class="p">(</span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">name</span>
+<a id="ln-287" name="ln-287" href="#ln-287"></a><span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">120</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">msg</span>
+<a id="ln-288" name="ln-288" href="#ln-288"></a><span class="w">    </span><span class="kt">character</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">stat_str</span>
+<a id="ln-289" name="ln-289" href="#ln-289"></a>
+<a id="ln-290" name="ln-290" href="#ln-290"></a><span class="w">    </span><span class="k">select case</span><span class="p">(</span><span class="nb">stat</span><span class="p">)</span>
+<a id="ln-291" name="ln-291" href="#ln-291"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_SUCCESS</span><span class="p">)</span>
+<a id="ln-292" name="ln-292" href="#ln-292"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_SUCCESS&#39;</span>
+<a id="ln-293" name="ln-293" href="#ln-293"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_NOT_INITIALIZED</span><span class="p">)</span>
+<a id="ln-294" name="ln-294" href="#ln-294"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_NOT_INITIALIZED&#39;</span>
+<a id="ln-295" name="ln-295" href="#ln-295"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_ALLOC_FAILED</span><span class="p">)</span>
+<a id="ln-296" name="ln-296" href="#ln-296"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_ALLOC_FAILED&#39;</span>
+<a id="ln-297" name="ln-297" href="#ln-297"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_INVALID_VALUE</span><span class="p">)</span>
+<a id="ln-298" name="ln-298" href="#ln-298"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_INVALID_VALUE&#39;</span>
+<a id="ln-299" name="ln-299" href="#ln-299"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_ARCH_MISMATCH</span><span class="p">)</span>
+<a id="ln-300" name="ln-300" href="#ln-300"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_ARCH_MISMATCH&#39;</span>
+<a id="ln-301" name="ln-301" href="#ln-301"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_MAPPING_ERROR</span><span class="p">)</span>
+<a id="ln-302" name="ln-302" href="#ln-302"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_MAPPING_ERROR&#39;</span>
+<a id="ln-303" name="ln-303" href="#ln-303"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_EXECUTION_FAILED</span><span class="p">)</span>
+<a id="ln-304" name="ln-304" href="#ln-304"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_EXECUTION_FAILED&#39;</span>
+<a id="ln-305" name="ln-305" href="#ln-305"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_INTERNAL_ERROR</span><span class="p">)</span>
+<a id="ln-306" name="ln-306" href="#ln-306"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_INTERNAL_ERROR&#39;</span>
+<a id="ln-307" name="ln-307" href="#ln-307"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_NOT_SUPPORTED</span><span class="p">)</span>
+<a id="ln-308" name="ln-308" href="#ln-308"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_NOT_SUPPORTED&#39;</span>
+<a id="ln-309" name="ln-309" href="#ln-309"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="n">CUBLAS_STATUS_LICENSE_ERROR</span><span class="p">)</span>
+<a id="ln-310" name="ln-310" href="#ln-310"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CUBLAS_STATUS_LICENSE_ERROR&#39;</span>
+<a id="ln-311" name="ln-311" href="#ln-311"></a><span class="w">        </span><span class="k">case </span><span class="n">default</span>
+<a id="ln-312" name="ln-312" href="#ln-312"></a><span class="w">            </span><span class="n">stat_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;UNKNOWN_CUBLAS_ERROR&#39;</span>
+<a id="ln-313" name="ln-313" href="#ln-313"></a><span class="w">    </span><span class="k">end select</span>
+<a id="ln-314" name="ln-314" href="#ln-314"></a>
+<a id="ln-315" name="ln-315" href="#ln-315"></a><span class="k">    write</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;(A, I0, A, A, A)&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;cuBLAS error: &#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">stat</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39; [&#39;</span><span class="p">,</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">stat_str</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;] (&#39;</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="nb">trim</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="s1">&#39;)&#39;</span>
+<a id="ln-316" name="ln-316" href="#ln-316"></a><span class="w">    </span><span class="k">error stop </span><span class="n">msg</span>
+<a id="ln-317" name="ln-317" href="#ln-317"></a><span class="k">end subroutine</span>
+<a id="ln-318" name="ln-318" href="#ln-318"></a><span class="cp">#endif</span>
+<a id="ln-319" name="ln-319" href="#ln-319"></a><span class="cp">#endif</span>
+<a id="ln-320" name="ln-320" href="#ln-320"></a><span class="k">end module</span>
 </pre></div>
 
       </section>

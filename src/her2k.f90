@@ -1,119 +1,48 @@
-module mfi_blas_her2k
+module f77_blas_her2k
     use iso_fortran_env
-    use f77_blas
-#if defined(MFI_CUBLAS)
     use iso_c_binding
-    use mfi_blas_cublas
-#endif
-#if defined(MFI_EXTENSIONS)
-    use mfi_blas_extensions
-#endif
     implicit none
 
-!> Generic modern interface for HER2K.
+!> Generic old style interface for HER2K.
 !> Supports c, z.
-!> See also:
-!> [[f77_her2k:cher2k]], [[f77_her2k:zher2k]].
-interface mfi_her2k
-    module procedure :: mfi_cher2k
-    module procedure :: mfi_zher2k
-end interface
-
-contains
-
-!> Modern interface for [[f77_her2k:f77_her2k]].
-!> See also: [[mfi_her2k]], [[f77_her2k]].
-pure subroutine mfi_cher2k(a, b, c, uplo, trans, alpha, beta)
+!> See also: [[mfi_her2k]], [[cher2k]], [[zher2k]].
+interface f77_her2k
+!> Original interface for CHER2K
+!> See also: [[mfi_her2k]], [[her2k]].
+pure subroutine cher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(in) :: a(:,:)
-    complex(REAL32), intent(in) :: b(:,:)
-    complex(REAL32), intent(inout) :: c(:,:)
-    character, intent(in), optional :: trans
-    character :: local_trans
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    complex(REAL32), intent(in), optional :: alpha
-    complex(REAL32) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
-    integer :: n, k, lda, ldb, ldc
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    if (present(alpha)) then
-        local_alpha = alpha
-    else
-        local_alpha = 1.0_wp
-    end if
-    if (present(beta)) then
-        local_beta = beta
-    else
-        local_beta = 0.0_wp
-    end if
-    n = size(c,2)
-    if (local_trans == 'N' .or. local_trans == 'n') then
-        k = size(a,2)
-    else
-        k = size(a,1)
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    ldc = max(1,size(c,1))
-    call f77_her2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    complex(REAL32), intent(in) :: a(lda,*)
+    complex(REAL32), intent(in) :: b(ldb,*)
+    complex(REAL32), intent(inout) :: c(ldc,*)
+    character, intent(in) :: trans
+    character, intent(in) :: uplo
+    complex(REAL32), intent(in) :: alpha
+    real(wp), intent(in) :: beta
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: ldc
 end subroutine
-!> Modern interface for [[f77_her2k:f77_her2k]].
-!> See also: [[mfi_her2k]], [[f77_her2k]].
-pure subroutine mfi_zher2k(a, b, c, uplo, trans, alpha, beta)
+!> Original interface for ZHER2K
+!> See also: [[mfi_her2k]], [[her2k]].
+pure subroutine zher2k(uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(REAL64), intent(in) :: a(:,:)
-    complex(REAL64), intent(in) :: b(:,:)
-    complex(REAL64), intent(inout) :: c(:,:)
-    character, intent(in), optional :: trans
-    character :: local_trans
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    complex(REAL64), intent(in), optional :: alpha
-    complex(REAL64) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
-    integer :: n, k, lda, ldb, ldc
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    if (present(alpha)) then
-        local_alpha = alpha
-    else
-        local_alpha = 1.0_wp
-    end if
-    if (present(beta)) then
-        local_beta = beta
-    else
-        local_beta = 0.0_wp
-    end if
-    n = size(c,2)
-    if (local_trans == 'N' .or. local_trans == 'n') then
-        k = size(a,2)
-    else
-        k = size(a,1)
-    end if
-    lda = max(1,size(a,1))
-    ldb = max(1,size(b,1))
-    ldc = max(1,size(c,1))
-    call f77_her2k(local_uplo,local_trans,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
+    complex(REAL64), intent(in) :: a(lda,*)
+    complex(REAL64), intent(in) :: b(ldb,*)
+    complex(REAL64), intent(inout) :: c(ldc,*)
+    character, intent(in) :: trans
+    character, intent(in) :: uplo
+    complex(REAL64), intent(in) :: alpha
+    real(wp), intent(in) :: beta
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldb
+    integer, intent(in) :: ldc
 end subroutine
+end interface
 end module
 

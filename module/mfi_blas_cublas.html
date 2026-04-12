@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.6% of total for modules and submodules.">82 statements</a>
+                 title=" 0.6% of total for modules and submodules.">90 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -98,7 +98,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/cublas.f90.html'>cublas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/cublas.f90~2.html'>cublas.f90</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_blas_cublas</li>
           </ol>
         </nav>
@@ -168,6 +168,8 @@
       </a>
       <div id="inters-0" class="collapse">
         <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-mfi_cublas_read_env">mfi_cublas_read_env</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-mfi_cublas_read_omp_threads">mfi_cublas_read_omp_threads</a>
             <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-cuda_malloc">cuda_malloc</a>
             <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-cuda_free">cuda_free</a>
             <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-cudamemcpy">cudaMemcpy</a>
@@ -649,6 +651,58 @@ parameter
           <h2>Interfaces</h2>
               <div class="card">
     <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-mfi_cublas_read_env"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure function mfi_cublas_read_env() bind(c,name="mfi_cublas_read_env")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+    <h4>
+    Return Value
+    <small>integer(kind=c_int)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-mfi_cublas_read_omp_threads"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure function mfi_cublas_read_omp_threads() bind(c,name="mfi_cublas_read_omp_threads")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
+    <h4>
+    Return Value
+    <small>integer(kind=c_int)</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
       <span class="anchor" id="interface-cuda_malloc"></span>
       <h3>        interface
       </h3>
@@ -704,7 +758,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~5"></span>
+              <span class="anchor" id="variable-stat~17"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
@@ -767,7 +821,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~6"></span>
+              <span class="anchor" id="variable-stat~18"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
@@ -875,7 +929,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~7"></span>
+              <span class="anchor" id="variable-stat~19"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
@@ -923,7 +977,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~3"></span>
+              <span class="anchor" id="variable-handle~17"></span>
               type(c_ptr),
             </td>
 <td>intent(out)</td>
@@ -938,7 +992,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~8"></span>
+              <span class="anchor" id="variable-stat~20"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
@@ -986,7 +1040,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~4"></span>
+              <span class="anchor" id="variable-handle~18"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1001,7 +1055,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~9"></span>
+              <span class="anchor" id="variable-stat~21"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
@@ -1049,7 +1103,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-handle~5"></span>
+              <span class="anchor" id="variable-handle~19"></span>
               type(c_ptr),
             </td>
 <td>intent(in),</td>
@@ -1079,7 +1133,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~10"></span>
+              <span class="anchor" id="variable-stat~22"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
@@ -1175,7 +1229,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~11"></span>
+              <span class="anchor" id="variable-stat~23"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
@@ -1238,7 +1292,7 @@ parameter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~12"></span>
+              <span class="anchor" id="variable-stat~24"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
@@ -1286,7 +1340,7 @@ parameter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~13"></span>
+              <span class="anchor" id="variable-stat~25"></span>
               integer(kind=c_int),
             </td>
 <td>intent(out)</td>
