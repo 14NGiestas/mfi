@@ -45,3 +45,13 @@
 build/
 ignored/
 .qwen/
+
+# Make temp files (generated during preprocessing)
+.mfi_*
+.f77_*
+.mfi_lapack_*
+.f77_lapack_*
+.blas_*.tmp
+.lapack_*.tmp
+.test_blas.tmp
+.test_lapack.tmp
