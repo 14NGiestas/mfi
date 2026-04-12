@@ -43,18 +43,13 @@ jobs:
         extra-conf: |
           extra-experimental-features = nix-command flakes
 
-    - name: Install fpm
-      run: |
-        curl -sSfL https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0-linux-x86_64-gcc-12 -o /usr/local/bin/fpm
-        chmod +x /usr/local/bin/fpm
-
     - name: Set CI test size
       run: |
         echo "MFI_TEST_ELEMENTS=50000" >> $GITHUB_ENV
         echo "MFI_TEST_SAMPLES=1" >> $GITHUB_ENV
 
     - name: Generate sources
-      run: make
+      run: nix develop --command make
 
     - name: Compile (all combinations)
       run: |
@@ -96,13 +91,8 @@ jobs:
         extra-conf: |
           extra-experimental-features = nix-command flakes
 
-    - name: Install fpm
-      run: |
-        curl -sSfL https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0-linux-x86_64-gcc-12 -o /usr/local/bin/fpm
-        chmod +x /usr/local/bin/fpm
-
     - name: Generate sources
-      run: make
+      run: nix develop --command make
 
     - name: Test consumer project
       run: |
@@ -133,13 +123,8 @@ jobs:
         extra-conf: |
           extra-experimental-features = nix-command flakes
 
-    - name: Install fpm
-      run: |
-        curl -sSfL https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0-linux-x86_64-gcc-12 -o /usr/local/bin/fpm
-        chmod +x /usr/local/bin/fpm
-
     - name: Generate sources
-      run: make
+      run: nix develop --command make
 
     - name: Prepare mfi-fpm
       if: github.ref == 'refs/heads/main'
