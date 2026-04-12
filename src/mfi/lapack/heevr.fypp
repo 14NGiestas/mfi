@@ -29,8 +29,11 @@ pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m,
            il=1, iu=size(a,1), abstol=0.0_wp)
     lda = max(1,size(a,1))
     n   = size(a,2)
-    ldz = max(1,size(a,1))  ! Size for eigenvector matrix
-    if (present(z)) ldz = max(1,size(z,1))
+    if (present(z)) then
+        ldz = max(1,size(z,1))
+    else
+        ldz = 1
+    end if
     allocation_status = 0
     lwork  = -1
     lrwork = -1
