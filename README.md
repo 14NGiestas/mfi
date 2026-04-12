@@ -99,13 +99,6 @@ fpm build --profile cublas
 fpm test --profile cublas
 ```
 
-### As a dependency with cuBLAS
-
-```toml
-[dependencies]
-mfi = { git = "https://github.com/14NGiestas/mfi.git", branch = "mfi-cublas", features = ["cublas"] }
-```
-
 ### Runtime CPU / GPU switching
 
 MFI uses lazy initialization — no setup code is needed. When compiled with the
