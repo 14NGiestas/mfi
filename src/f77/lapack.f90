@@ -757,7 +757,7 @@ interface f77_heevx
 !> Original interface for CHEEVX
 !> See also: [[mfi_heevx]], [[heevx]].
 pure subroutine cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
-                         work,lwork,rwork,lrwork,iwork,ifail,info)
+                         work,lwork,rwork,iwork,ifail,info)
     import :: REAL32
     integer, parameter :: wp = REAL32
     complex(REAL32), intent(inout) :: a(lda,*)
@@ -777,7 +777,6 @@ pure subroutine cheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
     integer, intent(in) :: il
     integer, intent(in) :: iu
     integer, intent(in) :: lwork
-    integer, intent(in) :: lrwork
     complex(REAL32), intent(inout) :: work(*)
     real(REAL32), intent(inout) :: rwork(*)
     integer, intent(inout) :: iwork(*)
@@ -786,7 +785,7 @@ end subroutine
 !> Original interface for ZHEEVX
 !> See also: [[mfi_heevx]], [[heevx]].
 pure subroutine zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
-                         work,lwork,rwork,lrwork,iwork,ifail,info)
+                         work,lwork,rwork,iwork,ifail,info)
     import :: REAL64
     integer, parameter :: wp = REAL64
     complex(REAL64), intent(inout) :: a(lda,*)
@@ -806,7 +805,6 @@ pure subroutine zheevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz,&
     integer, intent(in) :: il
     integer, intent(in) :: iu
     integer, intent(in) :: lwork
-    integer, intent(in) :: lrwork
     complex(REAL64), intent(inout) :: work(*)
     real(REAL64), intent(inout) :: rwork(*)
     integer, intent(inout) :: iwork(*)

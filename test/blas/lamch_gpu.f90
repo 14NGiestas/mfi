@@ -119,9 +119,8 @@ end block
       if (n < 4) n = 4
   end subroutine test_get_2d
 subroutine test_slamch_gpu
-    use mfi_blas
     use f77_blas, only: slamch
-    use mfi_blas, only: mfi_lamch
+    use mfi_blas, only: mfi_lamch, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     character, parameter :: options(*) = ['E','e','S','s','B','b','P','p','N','n','R','r','M','m','U','u','L','l','O','o']
@@ -138,9 +137,8 @@ subroutine test_slamch_gpu
 
 end subroutine
 subroutine test_dlamch_gpu
-    use mfi_blas
     use f77_blas, only: dlamch
-    use mfi_blas, only: mfi_lamch
+    use mfi_blas, only: mfi_lamch, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     character, parameter :: options(*) = ['E','e','S','s','B','b','P','p','N','n','R','r','M','m','U','u','L','l','O','o']

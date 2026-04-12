@@ -1751,7 +1751,7 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     integer       :: s_iwork(1)
     ! Define a dummy array to use when needed (declarations first)
     integer, target :: dummy_ifail(1)
-    integer :: n, lda, ldz, lwork, lrwork, liwork, allocation_status, deallocation_status
+    integer :: n, lda, ldz, lwork, allocation_status, deallocation_status
     character(1) :: jobz, range
     character(len=1) :: local_uplo
     real(REAL32) :: local_vl, local_vu, local_abstol
@@ -1765,7 +1765,11 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     local_ifail => null()
 
     ! Set defaults
-    local_uplo = merge(uplo, 'U', present(uplo))
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
     n = size(a, 1)
     lda = max(1, size(a, 1))
 
@@ -1827,12 +1831,12 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     if (present(vl)) then
         local_vl = vl
     else
-        local_vl = -huge(vl)  ! Use the value type for huge
+        local_vl = -huge(0.0_wp)
     end if
     if (present(vu)) then
         local_vu = vu
     else
-        local_vu = huge(vl)   ! Use the value type for huge
+        local_vu = huge(0.0_wp)
     end if
     if (present(abstol)) then
         local_abstol = abstol
@@ -1844,36 +1848,32 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
 
     ! Query workspace sizes
     lwork = -1
-    lrwork = -1
-    liwork = -1
 
     ! For workspace query, use appropriate arrays based on presence
     if (present(z)) then
         call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                           local_il, local_iu, local_abstol, local_m, w, z, ldz, &
-                          s_work, lwork, s_rwork, lrwork, s_iwork, local_ifail, local_info)
+                          s_work, lwork, s_rwork, s_iwork, local_ifail, local_info)
     else
         ! When z is not present, use a dummy array with correct size
         ! Using a 1x1 array is safe since jobz='N' means z is not accessed
         call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                           local_il, local_iu, local_abstol, local_m, w, a, ldz, &
-                          s_work, lwork, s_rwork, lrwork, s_iwork, local_ifail, local_info)
+                          s_work, lwork, s_rwork, s_iwork, local_ifail, local_info)
     end if
 
     if (local_info /= 0) goto 404
 
     ! Get the optimal workspace sizes from the query
     lwork = max(1, int(real(s_work(1), wp)))
-    lrwork = max(1, int(s_rwork(1)))
-    liwork = max(1, int(s_iwork(1)))
 
     ! Allocate workspace arrays
     allocate(work(lwork),   stat=allocation_status)
     if (allocation_status == 0) then
-        allocate(rwork(lrwork), stat=allocation_status)
+        allocate(rwork(max(1, int(s_rwork(1)))), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        allocate(iwork(liwork), stat=allocation_status)
+        allocate(iwork(max(1, int(s_iwork(1)))), stat=allocation_status)
     end if
 
     if (allocation_status == 0) then
@@ -1881,12 +1881,12 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
         if (present(z)) then
             call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                               local_il, local_iu, local_abstol, local_m, w, z, ldz, &
-                              work, lwork, rwork, lrwork, iwork, local_ifail, local_info)
+                              work, lwork, rwork, iwork, local_ifail, local_info)
         else
             ! When z not present, pass a as dummy array (safe when jobz='N')
             call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                               local_il, local_iu, local_abstol, local_m, w, a, ldz, &
-                              work, lwork, rwork, lrwork, iwork, local_ifail, local_info)
+                              work, lwork, rwork, iwork, local_ifail, local_info)
         end if
     else
         local_info = -1000
@@ -1907,8 +1907,8 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_heevx', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_heevx', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_heevx:f77_heevx]].
@@ -1934,7 +1934,7 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     integer       :: s_iwork(1)
     ! Define a dummy array to use when needed (declarations first)
     integer, target :: dummy_ifail(1)
-    integer :: n, lda, ldz, lwork, lrwork, liwork, allocation_status, deallocation_status
+    integer :: n, lda, ldz, lwork, allocation_status, deallocation_status
     character(1) :: jobz, range
     character(len=1) :: local_uplo
     real(REAL64) :: local_vl, local_vu, local_abstol
@@ -1948,7 +1948,11 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     local_ifail => null()
 
     ! Set defaults
-    local_uplo = merge(uplo, 'U', present(uplo))
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
     n = size(a, 1)
     lda = max(1, size(a, 1))
 
@@ -2010,12 +2014,12 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     if (present(vl)) then
         local_vl = vl
     else
-        local_vl = -huge(vl)  ! Use the value type for huge
+        local_vl = -huge(0.0_wp)
     end if
     if (present(vu)) then
         local_vu = vu
     else
-        local_vu = huge(vl)   ! Use the value type for huge
+        local_vu = huge(0.0_wp)
     end if
     if (present(abstol)) then
         local_abstol = abstol
@@ -2027,36 +2031,32 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
 
     ! Query workspace sizes
     lwork = -1
-    lrwork = -1
-    liwork = -1
 
     ! For workspace query, use appropriate arrays based on presence
     if (present(z)) then
         call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                           local_il, local_iu, local_abstol, local_m, w, z, ldz, &
-                          s_work, lwork, s_rwork, lrwork, s_iwork, local_ifail, local_info)
+                          s_work, lwork, s_rwork, s_iwork, local_ifail, local_info)
     else
         ! When z is not present, use a dummy array with correct size
         ! Using a 1x1 array is safe since jobz='N' means z is not accessed
         call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                           local_il, local_iu, local_abstol, local_m, w, a, ldz, &
-                          s_work, lwork, s_rwork, lrwork, s_iwork, local_ifail, local_info)
+                          s_work, lwork, s_rwork, s_iwork, local_ifail, local_info)
     end if
 
     if (local_info /= 0) goto 404
 
     ! Get the optimal workspace sizes from the query
     lwork = max(1, int(real(s_work(1), wp)))
-    lrwork = max(1, int(s_rwork(1)))
-    liwork = max(1, int(s_iwork(1)))
 
     ! Allocate workspace arrays
     allocate(work(lwork),   stat=allocation_status)
     if (allocation_status == 0) then
-        allocate(rwork(lrwork), stat=allocation_status)
+        allocate(rwork(max(1, int(s_rwork(1)))), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        allocate(iwork(liwork), stat=allocation_status)
+        allocate(iwork(max(1, int(s_iwork(1)))), stat=allocation_status)
     end if
 
     if (allocation_status == 0) then
@@ -2064,12 +2064,12 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
         if (present(z)) then
             call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                               local_il, local_iu, local_abstol, local_m, w, z, ldz, &
-                              work, lwork, rwork, lrwork, iwork, local_ifail, local_info)
+                              work, lwork, rwork, iwork, local_ifail, local_info)
         else
             ! When z not present, pass a as dummy array (safe when jobz='N')
             call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                               local_il, local_iu, local_abstol, local_m, w, a, ldz, &
-                              work, lwork, rwork, lrwork, iwork, local_ifail, local_info)
+                              work, lwork, rwork, iwork, local_ifail, local_info)
         end if
     else
         local_info = -1000
@@ -2090,8 +2090,8 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_heevx', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_heevx', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_gesvd:f77_gesvd]].
@@ -2497,8 +2497,8 @@ pure subroutine mfi_sorgqr(a, tau, k, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_orgqr', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_orgqr', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_orgqr:f77_orgqr]].
@@ -2542,8 +2542,8 @@ pure subroutine mfi_dorgqr(a, tau, k, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_orgqr', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_orgqr', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_orgrq:f77_orgrq]].
@@ -2587,8 +2587,8 @@ pure subroutine mfi_sorgrq(a, tau, k, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_orgrq', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_orgrq', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_orgrq:f77_orgrq]].
@@ -2632,8 +2632,8 @@ pure subroutine mfi_dorgrq(a, tau, k, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_orgrq', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_orgrq', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_ungqr:f77_ungqr]].
@@ -2677,8 +2677,8 @@ pure subroutine mfi_cungqr(a, tau, k, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_ungqr', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_ungqr', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_ungqr:f77_ungqr]].
@@ -2722,8 +2722,8 @@ pure subroutine mfi_zungqr(a, tau, k, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_ungqr', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_ungqr', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_ungrq:f77_ungrq]].
@@ -2767,8 +2767,8 @@ pure subroutine mfi_cungrq(a, tau, k, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_ungrq', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_ungrq', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_ungrq:f77_ungrq]].
@@ -2812,8 +2812,8 @@ pure subroutine mfi_zungrq(a, tau, k, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_ungrq', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_ungrq', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_ormqr:f77_ormqr]].
@@ -2872,8 +2872,8 @@ pure subroutine mfi_sormqr(a, tau, c, side, trans, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_ormqr', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_ormqr', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_ormqr:f77_ormqr]].
@@ -2932,8 +2932,8 @@ pure subroutine mfi_dormqr(a, tau, c, side, trans, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_ormqr', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_ormqr', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_ormrq:f77_ormrq]].
@@ -2992,8 +2992,8 @@ pure subroutine mfi_sormrq(a, tau, c, side, trans, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_ormrq', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_ormrq', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_ormrq:f77_ormrq]].
@@ -3052,8 +3052,8 @@ pure subroutine mfi_dormrq(a, tau, c, side, trans, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_ormrq', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_ormrq', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_unmqr:f77_unmqr]].
@@ -3112,8 +3112,8 @@ pure subroutine mfi_cunmqr(a, tau, c, side, trans, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_unmqr', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_unmqr', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_unmqr:f77_unmqr]].
@@ -3172,8 +3172,8 @@ pure subroutine mfi_zunmqr(a, tau, c, side, trans, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_unmqr', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_unmqr', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_unmrq:f77_unmrq]].
@@ -3232,8 +3232,8 @@ pure subroutine mfi_cunmrq(a, tau, c, side, trans, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_unmrq', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_unmrq', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_unmrq:f77_unmrq]].
@@ -3292,8 +3292,8 @@ pure subroutine mfi_zunmrq(a, tau, c, side, trans, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_unmrq', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_unmrq', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_org2r:f77_org2r]].
