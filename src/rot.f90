@@ -1,221 +1,90 @@
-module mfi_blas_rot
+module f77_blas_rot
     use iso_fortran_env
-    use f77_blas
-#if defined(MFI_CUBLAS)
     use iso_c_binding
-    use mfi_blas_cublas
-#endif
-#if defined(MFI_EXTENSIONS)
-    use mfi_blas_extensions
-#endif
     implicit none
 
-!> Generic modern interface for ROT.
+!> Generic old style interface for ROT.
 !> Supports s, d, c, z, cs, zd.
-!> See also:
-!> [[f77_rot:srot]], [[f77_rot:drot]], [[f77_rot:crot]], [[f77_rot:zrot]], [[f77_rot:csrot]], [[f77_rot:zdrot]].
-interface mfi_rot
-    module procedure :: mfi_srot
-    module procedure :: mfi_drot
-    module procedure :: mfi_crot
-    module procedure :: mfi_zrot
-    module procedure :: mfi_csrot
-    module procedure :: mfi_zdrot
-end interface
-
-contains
-
-!> Modern interface for [[f77_rot:f77_rot]].
-!> See also: [[mfi_rot]], [[f77_rot]].
-!> Given two vectors x and y,
-!> each vector element of these vectors is replaced as follows:
-!>```fortran
-!> xi = c*xi + s*yi
-!> yi = c*yi - s*xi
-!>```
-pure subroutine mfi_srot(x, y, c, s, incx, incy)
-    integer, parameter :: wp = REAL32
-    real(REAL32), intent(inout) :: x(:)
-    real(REAL32), intent(inout) :: y(:)
+!> See also: [[mfi_rot]], [[srot]], [[drot]], [[crot]], [[zrot]], [[csrot]], [[zdrot]].
+interface f77_rot
+!> Original interface for SROT
+!> See also: [[mfi_rot]], [[rot]].
+!> SROT applies a plane rotation.
+pure subroutine srot(n, x, incx, y, incy, c, s)
+    import :: REAL32
+    real(REAL32), intent(in) :: x(*)
+    real(REAL32), intent(in) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
     real(REAL32), intent(in) :: c
     real(REAL32), intent(in) :: s
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    n = size(x)
-    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rot:f77_rot]].
-!> See also: [[mfi_rot]], [[f77_rot]].
-!> Given two vectors x and y,
-!> each vector element of these vectors is replaced as follows:
-!>```fortran
-!> xi = c*xi + s*yi
-!> yi = c*yi - s*xi
-!>```
-pure subroutine mfi_drot(x, y, c, s, incx, incy)
-    integer, parameter :: wp = REAL64
-    real(REAL64), intent(inout) :: x(:)
-    real(REAL64), intent(inout) :: y(:)
+!> Original interface for DROT
+!> See also: [[mfi_rot]], [[rot]].
+!> DROT applies a plane rotation.
+pure subroutine drot(n, x, incx, y, incy, c, s)
+    import :: REAL64
+    real(REAL64), intent(in) :: x(*)
+    real(REAL64), intent(in) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
     real(REAL64), intent(in) :: c
     real(REAL64), intent(in) :: s
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    n = size(x)
-    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rot:f77_rot]].
-!> See also: [[mfi_rot]], [[f77_rot]].
-!> Given two vectors x and y,
-!> each vector element of these vectors is replaced as follows:
-!>```fortran
-!> xi = c*xi + s*yi
-!> yi = c*yi - conj(s)*xi
-!>```
-pure subroutine mfi_crot(x, y, c, s, incx, incy)
-    integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: x(:)
-    complex(REAL32), intent(inout) :: y(:)
+!> Original interface for CROT
+!> See also: [[mfi_rot]], [[rot]].
+!> CROT applies a plane rotation.
+pure subroutine crot(n, x, incx, y, incy, c, s)
+    import :: REAL32
+    complex(REAL32), intent(in) :: x(*)
+    complex(REAL32), intent(in) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
     real(REAL32), intent(in) :: c
     complex(REAL32), intent(in) :: s
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    n = size(x)
-    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rot:f77_rot]].
-!> See also: [[mfi_rot]], [[f77_rot]].
-!> Given two vectors x and y,
-!> each vector element of these vectors is replaced as follows:
-!>```fortran
-!> xi = c*xi + s*yi
-!> yi = c*yi - conj(s)*xi
-!>```
-pure subroutine mfi_zrot(x, y, c, s, incx, incy)
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: x(:)
-    complex(REAL64), intent(inout) :: y(:)
+!> Original interface for ZROT
+!> See also: [[mfi_rot]], [[rot]].
+!> ZROT applies a plane rotation.
+pure subroutine zrot(n, x, incx, y, incy, c, s)
+    import :: REAL64
+    complex(REAL64), intent(in) :: x(*)
+    complex(REAL64), intent(in) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
     real(REAL64), intent(in) :: c
     complex(REAL64), intent(in) :: s
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    n = size(x)
-    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rot:f77_rot]].
-!> See also: [[mfi_rot]], [[f77_rot]].
-!> Given two vectors x and y,
-!> each vector element of these vectors is replaced as follows:
-!>```fortran
-!> xi = c*xi + s*yi
-!> yi = c*yi - conj(s)*xi
-!>```
-pure subroutine mfi_csrot(x, y, c, s, incx, incy)
-    integer, parameter :: wp = REAL32
-    complex(REAL32), intent(inout) :: x(:)
-    complex(REAL32), intent(inout) :: y(:)
+!> Original interface for CSROT
+!> See also: [[mfi_rot]], [[rot]].
+!> CSROT applies a plane rotation.
+pure subroutine csrot(n, x, incx, y, incy, c, s)
+    import :: REAL32
+    complex(REAL32), intent(in) :: x(*)
+    complex(REAL32), intent(in) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
     real(REAL32), intent(in) :: c
     real(REAL32), intent(in) :: s
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    n = size(x)
-    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
-!> Modern interface for [[f77_rot:f77_rot]].
-!> See also: [[mfi_rot]], [[f77_rot]].
-!> Given two vectors x and y,
-!> each vector element of these vectors is replaced as follows:
-!>```fortran
-!> xi = c*xi + s*yi
-!> yi = c*yi - conj(s)*xi
-!>```
-pure subroutine mfi_zdrot(x, y, c, s, incx, incy)
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(inout) :: x(:)
-    complex(REAL64), intent(inout) :: y(:)
+!> Original interface for ZDROT
+!> See also: [[mfi_rot]], [[rot]].
+!> ZDROT applies a plane rotation.
+pure subroutine zdrot(n, x, incx, y, incy, c, s)
+    import :: REAL64
+    complex(REAL64), intent(in) :: x(*)
+    complex(REAL64), intent(in) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
     real(REAL64), intent(in) :: c
     real(REAL64), intent(in) :: s
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    n = size(x)
-    call f77_rot(n,x,local_incx,y,local_incy,c,s)
 end subroutine
+end interface
 end module
 
