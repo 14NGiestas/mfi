@@ -1,6 +1,14 @@
 name: docs-deployment
 
-on: [push]
+on:
+  push:
+    branches: [main, impl/cublas]
+    paths: ["**.fpp", "**.fypp", "**.f90", "ford.md", "doc/**", ".github/workflows/docs-deployment.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
