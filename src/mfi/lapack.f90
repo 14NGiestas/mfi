@@ -1059,9 +1059,11 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
+    complex(REAL32) :: s_work(1)  ! Work array for workspace query
     integer, pointer :: local_ipiv(:)
     complex(REAL32), pointer :: work(:)
-    complex(REAL32) :: s_work(1)  ! Work array for workspace query
+    local_ipiv => null()
+    work => null()
     if (present(uplo)) then
         local_uplo = uplo
     else
@@ -1133,9 +1135,11 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
+    complex(REAL64) :: s_work(1)  ! Work array for workspace query
     integer, pointer :: local_ipiv(:)
     complex(REAL64), pointer :: work(:)
-    complex(REAL64) :: s_work(1)  ! Work array for workspace query
+    local_ipiv => null()
+    work => null()
     if (present(uplo)) then
         local_uplo = uplo
     else
@@ -1462,6 +1466,9 @@ pure subroutine mfi_cheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
     integer :: local_m
     complex(REAL32), target :: l_z(1,1)
     integer, target :: l_isuppz(2*size(a,1))  ! Default size for isuppz when not present
+    work => null()
+    rwork => null()
+    iwork => null()
     if (present(jobz)) then
         local_jobz = jobz
     else
@@ -1606,6 +1613,9 @@ pure subroutine mfi_zheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
     integer :: local_m
     complex(REAL64), target :: l_z(1,1)
     integer, target :: l_isuppz(2*size(a,1))  ! Default size for isuppz when not present
+    work => null()
+    rwork => null()
+    iwork => null()
     if (present(jobz)) then
         local_jobz = jobz
     else
@@ -2454,8 +2464,9 @@ pure subroutine mfi_sorgqr(a, tau, k, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(REAL32), pointer :: work(:)
     real(REAL32), target  :: s_work(1)
+    real(REAL32), pointer :: work(:)
+    work => null()
     if (present(k)) then
         local_k = k
     else
@@ -2499,8 +2510,9 @@ pure subroutine mfi_dorgqr(a, tau, k, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(REAL64), pointer :: work(:)
     real(REAL64), target  :: s_work(1)
+    real(REAL64), pointer :: work(:)
+    work => null()
     if (present(k)) then
         local_k = k
     else
@@ -2544,8 +2556,9 @@ pure subroutine mfi_sorgrq(a, tau, k, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(REAL32), pointer :: work(:)
     real(REAL32), target  :: s_work(1)
+    real(REAL32), pointer :: work(:)
+    work => null()
     if (present(k)) then
         local_k = k
     else
@@ -2589,8 +2602,9 @@ pure subroutine mfi_dorgrq(a, tau, k, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    real(REAL64), pointer :: work(:)
     real(REAL64), target  :: s_work(1)
+    real(REAL64), pointer :: work(:)
+    work => null()
     if (present(k)) then
         local_k = k
     else
@@ -2634,8 +2648,9 @@ pure subroutine mfi_cungqr(a, tau, k, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(REAL32), pointer :: work(:)
     complex(REAL32), target  :: s_work(1)
+    complex(REAL32), pointer :: work(:)
+    work => null()
     if (present(k)) then
         local_k = k
     else
@@ -2679,8 +2694,9 @@ pure subroutine mfi_zungqr(a, tau, k, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(REAL64), pointer :: work(:)
     complex(REAL64), target  :: s_work(1)
+    complex(REAL64), pointer :: work(:)
+    work => null()
     if (present(k)) then
         local_k = k
     else
@@ -2724,8 +2740,9 @@ pure subroutine mfi_cungrq(a, tau, k, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(REAL32), pointer :: work(:)
     complex(REAL32), target  :: s_work(1)
+    complex(REAL32), pointer :: work(:)
+    work => null()
     if (present(k)) then
         local_k = k
     else
@@ -2769,8 +2786,9 @@ pure subroutine mfi_zungrq(a, tau, k, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: m, n, lda, lwork, allocation_status, deallocation_status
-    complex(REAL64), pointer :: work(:)
     complex(REAL64), target  :: s_work(1)
+    complex(REAL64), pointer :: work(:)
+    work => null()
     if (present(k)) then
         local_k = k
     else
@@ -2817,8 +2835,9 @@ pure subroutine mfi_sormqr(a, tau, c, side, trans, info)
     real(REAL32), intent(in) :: tau(:)
     real(REAL32), intent(inout) :: c(:,:)
     integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
-    real(REAL32), pointer :: work(:)
     real(REAL32), target  :: s_work(1)
+    real(REAL32), pointer :: work(:)
+    work => null()
     if (present(side)) then
         local_side = side
     else
@@ -2872,8 +2891,9 @@ pure subroutine mfi_dormqr(a, tau, c, side, trans, info)
     real(REAL64), intent(in) :: tau(:)
     real(REAL64), intent(inout) :: c(:,:)
     integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
-    real(REAL64), pointer :: work(:)
     real(REAL64), target  :: s_work(1)
+    real(REAL64), pointer :: work(:)
+    work => null()
     if (present(side)) then
         local_side = side
     else
@@ -2927,8 +2947,9 @@ pure subroutine mfi_sormrq(a, tau, c, side, trans, info)
     real(REAL32), intent(in) :: tau(:)
     real(REAL32), intent(inout) :: c(:,:)
     integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
-    real(REAL32), pointer :: work(:)
     real(REAL32), target  :: s_work(1)
+    real(REAL32), pointer :: work(:)
+    work => null()
     if (present(side)) then
         local_side = side
     else
@@ -2982,8 +3003,9 @@ pure subroutine mfi_dormrq(a, tau, c, side, trans, info)
     real(REAL64), intent(in) :: tau(:)
     real(REAL64), intent(inout) :: c(:,:)
     integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
-    real(REAL64), pointer :: work(:)
     real(REAL64), target  :: s_work(1)
+    real(REAL64), pointer :: work(:)
+    work => null()
     if (present(side)) then
         local_side = side
     else
@@ -3037,8 +3059,9 @@ pure subroutine mfi_cunmqr(a, tau, c, side, trans, info)
     complex(REAL32), intent(in) :: tau(:)
     complex(REAL32), intent(inout) :: c(:,:)
     integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
-    complex(REAL32), pointer :: work(:)
     complex(REAL32), target  :: s_work(1)
+    complex(REAL32), pointer :: work(:)
+    work => null()
     if (present(side)) then
         local_side = side
     else
@@ -3092,8 +3115,9 @@ pure subroutine mfi_zunmqr(a, tau, c, side, trans, info)
     complex(REAL64), intent(in) :: tau(:)
     complex(REAL64), intent(inout) :: c(:,:)
     integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
-    complex(REAL64), pointer :: work(:)
     complex(REAL64), target  :: s_work(1)
+    complex(REAL64), pointer :: work(:)
+    work => null()
     if (present(side)) then
         local_side = side
     else
@@ -3147,8 +3171,9 @@ pure subroutine mfi_cunmrq(a, tau, c, side, trans, info)
     complex(REAL32), intent(in) :: tau(:)
     complex(REAL32), intent(inout) :: c(:,:)
     integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
-    complex(REAL32), pointer :: work(:)
     complex(REAL32), target  :: s_work(1)
+    complex(REAL32), pointer :: work(:)
+    work => null()
     if (present(side)) then
         local_side = side
     else
@@ -3202,8 +3227,9 @@ pure subroutine mfi_zunmrq(a, tau, c, side, trans, info)
     complex(REAL64), intent(in) :: tau(:)
     complex(REAL64), intent(inout) :: c(:,:)
     integer :: m, n, k, lda, ldc, lwork, allocation_status, deallocation_status
-    complex(REAL64), pointer :: work(:)
     complex(REAL64), target  :: s_work(1)
+    complex(REAL64), pointer :: work(:)
+    work => null()
     if (present(side)) then
         local_side = side
     else
@@ -4607,9 +4633,11 @@ pure subroutine mfi_ssytrf(a, uplo, ipiv, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
+    real(REAL32) :: s_work(1)  ! Work array for workspace query
     integer, pointer :: local_ipiv(:)
     real(REAL32), pointer :: work(:)
-    real(REAL32) :: s_work(1)  ! Work array for workspace query
+    local_ipiv => null()
+    work => null()
     if (present(uplo)) then
         local_uplo = uplo
     else
@@ -4681,9 +4709,11 @@ pure subroutine mfi_dsytrf(a, uplo, ipiv, info)
     integer, intent(out), optional :: info
     integer :: local_info
     integer :: n, lda, lwork, allocation_status, deallocation_status
+    real(REAL64) :: s_work(1)  ! Work array for workspace query
     integer, pointer :: local_ipiv(:)
     real(REAL64), pointer :: work(:)
-    real(REAL64) :: s_work(1)  ! Work array for workspace query
+    local_ipiv => null()
+    work => null()
     if (present(uplo)) then
         local_uplo = uplo
     else
