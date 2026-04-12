@@ -86,20 +86,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 54 statements,  0.5% of total for procedures.">6 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 30 statements,  0.2% of total for procedures.">30 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/blas.f90"> Source File</a>
+              <a href="../src/iamax.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/f77_blas.html'>f77_blas</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/iamax.f90.html'>iamax.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/f77_blas_iamax.html'>f77_blas_iamax</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_iamax</li>
           </ol>
         </nav>
@@ -131,28 +131,28 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#modprocs-0"
-         aria-expanded="false" aria-controls="modprocs-0">
-         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
       </a>
-      <div id="modprocs-0" class="collapse">
+      <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/f77_iamax.html#moduleprocedure-isamax~2">isamax</a>
-            <a class="list-group-item" href="../interface/f77_iamax.html#moduleprocedure-idamax~2">idamax</a>
-            <a class="list-group-item" href="../interface/f77_iamax.html#moduleprocedure-icamax~2">icamax</a>
-            <a class="list-group-item" href="../interface/f77_iamax.html#moduleprocedure-izamax~2">izamax</a>
+            <a class="list-group-item" href="../interface/f77_iamax.html#proc-isamax">isamax</a>
+            <a class="list-group-item" href="../interface/f77_iamax.html#proc-idamax">idamax</a>
+            <a class="list-group-item" href="../interface/f77_iamax.html#proc-icamax">icamax</a>
+            <a class="list-group-item" href="../interface/f77_iamax.html#proc-izamax">izamax</a>
         </div>
       </div>
     </div>
 
+  
+  
+  
+  
+  
+  
+  
   
 
 
@@ -162,17 +162,17 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface f77_iamax</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
+      <p>Generic old style interface for IAMAX.
+Supports s, d, c, z.
+See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../interface/f77_iamax.html#proc-isamax">isamax</a>, <a href="../interface/f77_iamax.html#proc-idamax">idamax</a>, <a href="../interface/f77_iamax.html#proc-icamax">icamax</a>, <a href="../interface/f77_iamax.html#proc-izamax">izamax</a>.</p>
+<br>
+        <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-isamax"></span> <h3>public pure function <a href='../proc/isamax.html'>isamax</a>(n, x, incx)  
+    <div class="card-header codesum"><span class="anchor" id="proc-isamax"></span> <h3>public pure function isamax(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  
+        <p>Original interface for ISAMAX
+See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a>iamax</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -187,7 +187,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~431"></span>
+              <span class="anchor" id="variable-n~61"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -197,12 +197,12 @@
             <td>::</td>
             <td><strong>n</strong></td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~229"></span>
+              <span class="anchor" id="variable-x~61"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -212,12 +212,12 @@
             <td>::</td>
             <td><strong>x</strong>(*)</td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~223"></span>
+              <span class="anchor" id="variable-incx~61"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -227,7 +227,7 @@
             <td>::</td>
             <td><strong>incx</strong></td>
             <td>
-
+                
             </td>
         </tr>
     </tbody>
@@ -243,11 +243,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-idamax"></span> <h3>public pure function <a href='../proc/idamax.html'>idamax</a>(n, x, incx)  
+    <div class="card-header codesum"><span class="anchor" id="proc-idamax"></span> <h3>public pure function idamax(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  
+        <p>Original interface for IDAMAX
+See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a>iamax</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -262,7 +262,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~432"></span>
+              <span class="anchor" id="variable-n~62"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -272,12 +272,12 @@
             <td>::</td>
             <td><strong>n</strong></td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~230"></span>
+              <span class="anchor" id="variable-x~62"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -287,12 +287,12 @@
             <td>::</td>
             <td><strong>x</strong>(*)</td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~224"></span>
+              <span class="anchor" id="variable-incx~62"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -302,7 +302,7 @@
             <td>::</td>
             <td><strong>incx</strong></td>
             <td>
-
+                
             </td>
         </tr>
     </tbody>
@@ -318,11 +318,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-icamax"></span> <h3>public pure function <a href='../proc/icamax.html'>icamax</a>(n, x, incx)  
+    <div class="card-header codesum"><span class="anchor" id="proc-icamax"></span> <h3>public pure function icamax(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  
+        <p>Original interface for ICAMAX
+See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a>iamax</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -337,7 +337,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~433"></span>
+              <span class="anchor" id="variable-n~63"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -347,12 +347,12 @@
             <td>::</td>
             <td><strong>n</strong></td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~231"></span>
+              <span class="anchor" id="variable-x~63"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -362,12 +362,12 @@
             <td>::</td>
             <td><strong>x</strong>(*)</td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~225"></span>
+              <span class="anchor" id="variable-incx~63"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -377,7 +377,7 @@
             <td>::</td>
             <td><strong>incx</strong></td>
             <td>
-
+                
             </td>
         </tr>
     </tbody>
@@ -393,11 +393,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-izamax"></span> <h3>public pure function <a href='../proc/izamax.html'>izamax</a>(n, x, incx)  
+    <div class="card-header codesum"><span class="anchor" id="proc-izamax"></span> <h3>public pure function izamax(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  
+        <p>Original interface for IZAMAX
+See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a>iamax</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -412,7 +412,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~434"></span>
+              <span class="anchor" id="variable-n~64"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -422,12 +422,12 @@
             <td>::</td>
             <td><strong>n</strong></td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~232"></span>
+              <span class="anchor" id="variable-x~64"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -437,12 +437,12 @@
             <td>::</td>
             <td><strong>x</strong>(*)</td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~226"></span>
+              <span class="anchor" id="variable-incx~64"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -452,7 +452,7 @@
             <td>::</td>
             <td><strong>incx</strong></td>
             <td>
-
+                
             </td>
         </tr>
     </tbody>
@@ -466,6 +466,8 @@
 
     </div>
   </div>
+
+
 
 </div>
   </div>

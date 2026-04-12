@@ -86,20 +86,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 54 statements,  0.5% of total for procedures.">6 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 30 statements,  0.2% of total for procedures.">30 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/blas.f90"> Source File</a>
+              <a href="../src/iamin.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/f77_blas.html'>f77_blas</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/iamin.f90.html'>iamin.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/f77_blas_iamin.html'>f77_blas_iamin</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_iamin</li>
           </ol>
         </nav>
@@ -131,28 +131,28 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
       <div class="card mb-4">
-      <a data-bs-toggle="collapse" href="#modprocs-0"
-         aria-expanded="false" aria-controls="modprocs-0">
-         <h4 class="card-header bg-primary text-white">Module Procedures</h4>
+      <a data-bs-toggle="collapse" href="#funcs-0"
+         aria-expanded="false" aria-controls="funcs-0">
+         <h4 class="card-header bg-primary text-white">Functions</h4>
       </a>
-      <div id="modprocs-0" class="collapse">
+      <div id="funcs-0" class="collapse">
         <div class="list-group list-group-flush">
-            <a class="list-group-item" href="../interface/f77_iamin.html#moduleprocedure-isamin~2">isamin</a>
-            <a class="list-group-item" href="../interface/f77_iamin.html#moduleprocedure-idamin~2">idamin</a>
-            <a class="list-group-item" href="../interface/f77_iamin.html#moduleprocedure-icamin~2">icamin</a>
-            <a class="list-group-item" href="../interface/f77_iamin.html#moduleprocedure-izamin~2">izamin</a>
+            <a class="list-group-item" href="../interface/f77_iamin.html#proc-isamin">isamin</a>
+            <a class="list-group-item" href="../interface/f77_iamin.html#proc-idamin">idamin</a>
+            <a class="list-group-item" href="../interface/f77_iamin.html#proc-icamin">icamin</a>
+            <a class="list-group-item" href="../interface/f77_iamin.html#proc-izamin">izamin</a>
         </div>
       </div>
     </div>
 
+  
+  
+  
+  
+  
+  
+  
   
 
 
@@ -162,17 +162,17 @@
 
     <div class="col-md-9" id='text'>
       <h2>public interface f77_iamin</h2>
-      
-
-
-
-        <h2>Module Procedures</h2>
+      <p>Generic old style interface for IAMIN.
+Supports s, d, c, z.
+See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../interface/f77_iamin.html#proc-isamin">isamin</a>, <a href="../interface/f77_iamin.html#proc-idamin">idamin</a>, <a href="../interface/f77_iamin.html#proc-icamin">icamin</a>, <a href="../interface/f77_iamin.html#proc-izamin">izamin</a>.</p>
+<br>
+        <h2>Functions</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-isamin"></span> <h3>public pure function <a href='../proc/isamin.html'>isamin</a>(n, x, incx)  
+    <div class="card-header codesum"><span class="anchor" id="proc-isamin"></span> <h3>public pure function isamin(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  
+        <p>Original interface for ISAMIN
+See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a>iamin</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -187,7 +187,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~435"></span>
+              <span class="anchor" id="variable-n~207"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -197,12 +197,12 @@
             <td>::</td>
             <td><strong>n</strong></td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~233"></span>
+              <span class="anchor" id="variable-x~99"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -212,12 +212,12 @@
             <td>::</td>
             <td><strong>x</strong>(*)</td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~227"></span>
+              <span class="anchor" id="variable-incx~99"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -227,7 +227,7 @@
             <td>::</td>
             <td><strong>incx</strong></td>
             <td>
-
+                
             </td>
         </tr>
     </tbody>
@@ -243,11 +243,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-idamin"></span> <h3>public pure function <a href='../proc/idamin.html'>idamin</a>(n, x, incx)  
+    <div class="card-header codesum"><span class="anchor" id="proc-idamin"></span> <h3>public pure function idamin(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  
+        <p>Original interface for IDAMIN
+See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a>iamin</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -262,7 +262,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~436"></span>
+              <span class="anchor" id="variable-n~208"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -272,12 +272,12 @@
             <td>::</td>
             <td><strong>n</strong></td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~234"></span>
+              <span class="anchor" id="variable-x~100"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -287,12 +287,12 @@
             <td>::</td>
             <td><strong>x</strong>(*)</td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~228"></span>
+              <span class="anchor" id="variable-incx~100"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -302,7 +302,7 @@
             <td>::</td>
             <td><strong>incx</strong></td>
             <td>
-
+                
             </td>
         </tr>
     </tbody>
@@ -318,11 +318,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-icamin"></span> <h3>public pure function <a href='../proc/icamin.html'>icamin</a>(n, x, incx)  
+    <div class="card-header codesum"><span class="anchor" id="proc-icamin"></span> <h3>public pure function icamin(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  
+        <p>Original interface for ICAMIN
+See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a>iamin</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -337,7 +337,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~437"></span>
+              <span class="anchor" id="variable-n~209"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -347,12 +347,12 @@
             <td>::</td>
             <td><strong>n</strong></td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~235"></span>
+              <span class="anchor" id="variable-x~101"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -362,12 +362,12 @@
             <td>::</td>
             <td><strong>x</strong>(*)</td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~229"></span>
+              <span class="anchor" id="variable-incx~101"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -377,7 +377,7 @@
             <td>::</td>
             <td><strong>incx</strong></td>
             <td>
-
+                
             </td>
         </tr>
     </tbody>
@@ -393,11 +393,11 @@
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-izamin"></span> <h3>public pure function <a href='../proc/izamin.html'>izamin</a>(n, x, incx)  
+    <div class="card-header codesum"><span class="anchor" id="proc-izamin"></span> <h3>public pure function izamin(n, x, incx)  
 </h3></div>
     <div class="card-body">
-          
-  
+        <p>Original interface for IZAMIN
+See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a>iamin</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -412,7 +412,7 @@
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~438"></span>
+              <span class="anchor" id="variable-n~210"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -422,12 +422,12 @@
             <td>::</td>
             <td><strong>n</strong></td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~236"></span>
+              <span class="anchor" id="variable-x~102"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -437,12 +437,12 @@
             <td>::</td>
             <td><strong>x</strong>(*)</td>
             <td>
-
+                
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~230"></span>
+              <span class="anchor" id="variable-incx~102"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -452,7 +452,7 @@
             <td>::</td>
             <td><strong>incx</strong></td>
             <td>
-
+                
             </td>
         </tr>
     </tbody>
@@ -466,6 +466,8 @@
 
     </div>
   </div>
+
+
 
 </div>
   </div>

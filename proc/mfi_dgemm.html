@@ -86,20 +86,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for procedures.">46 statements</a>
+                 title=" 0.5% of total for procedures.">96 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/blas.f90"> Source File</a>
+              <a href="../src/gemm.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/mfi_blas.html'>mfi_blas</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/gemm.f90.html'>gemm.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mfi_blas_gemm.html'>mfi_blas_gemm</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_dgemm</li>
           </ol>
         </nav>
@@ -151,7 +151,7 @@
 </h2>
     
 
-    <p>Modern interface for <a href="../interface/f77_gemm.html#proc-dgemm">dgemm</a>.
+    <p>Modern interface for <a href="../interface/f77_gemm.html">f77_gemm</a>.
 See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interface/f77_gemm.html">f77_gemm</a>.</p>
 
 
@@ -168,12 +168,12 @@ See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~218"></span>
+              <span class="anchor" id="variable-a~132"></span>
               real(kind=REAL64),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>a</strong>(:,:)</td>
@@ -183,12 +183,12 @@ See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~54"></span>
+              <span class="anchor" id="variable-b~22"></span>
               real(kind=REAL64),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>b</strong>(:,:)</td>
@@ -198,12 +198,12 @@ See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-c~32"></span>
+              <span class="anchor" id="variable-c~24"></span>
               real(kind=REAL64),
             </td>
-<td>intent(inout)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>c</strong>(:,:)</td>
@@ -213,7 +213,7 @@ See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~2"></span>
+              <span class="anchor" id="variable-transa~6"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -243,7 +243,7 @@ See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~44"></span>
+              <span class="anchor" id="variable-alpha~46"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -258,7 +258,7 @@ See also: <a href="../interface/mfi_gemm.html">mfi_gemm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-beta~22"></span>
+              <span class="anchor" id="variable-beta~20"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>

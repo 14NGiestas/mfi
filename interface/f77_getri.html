@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.4% of total for procedures.</p>Including implementation: 46 statements,  0.4% of total for procedures.">46 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 46 statements,  0.2% of total for procedures.">46 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -173,7 +173,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
 </h3></div>
     <div class="card-body">
         <p>Original interface for SGETRI
-See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../interface/f77_getri.html">f77_getri</a>.</p>
+See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a>getri</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -188,7 +188,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~59"></span>
+              <span class="anchor" id="variable-n~249"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -203,7 +203,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~59"></span>
+              <span class="anchor" id="variable-a~183"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -218,267 +218,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~59"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lda</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ipiv~19"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ipiv</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-work~35"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>work</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lwork~31"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lwork</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~60"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-dgetri"></span> <h3>public pure subroutine dgetri(n, a, lda, ipiv, work, lwork, info)  
-</h3></div>
-    <div class="card-body">
-        <p>Original interface for DGETRI
-See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../interface/f77_getri.html">f77_getri</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~60"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~60"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(lda,*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lda~60"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lda</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-ipiv~20"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ipiv</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-work~36"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>work</strong>(*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lwork~32"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lwork</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~61"></span>
-              integer,
-            </td>
-<td>intent(out)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-cgetri"></span> <h3>public pure subroutine cgetri(n, a, lda, ipiv, work, lwork, info)  
-</h3></div>
-    <div class="card-body">
-        <p>Original interface for CGETRI
-See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../interface/f77_getri.html">f77_getri</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-n~61"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>n</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~61"></span>
-              complex(kind=REAL32),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(lda,*)</td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-lda~61"></span>
+              <span class="anchor" id="variable-lda~175"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -508,8 +248,8 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~37"></span>
-              complex(kind=REAL32),
+              <span class="anchor" id="variable-work~73"></span>
+              real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -523,7 +263,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~33"></span>
+              <span class="anchor" id="variable-lwork~53"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -538,7 +278,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~62"></span>
+              <span class="anchor" id="variable-info~103"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -559,11 +299,11 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-zgetri"></span> <h3>public pure subroutine zgetri(n, a, lda, ipiv, work, lwork, info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-dgetri"></span> <h3>public pure subroutine dgetri(n, a, lda, ipiv, work, lwork, info)  
 </h3></div>
     <div class="card-body">
-        <p>Original interface for ZGETRI
-See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../interface/f77_getri.html">f77_getri</a>.</p>
+        <p>Original interface for DGETRI
+See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a>getri</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -578,7 +318,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~62"></span>
+              <span class="anchor" id="variable-n~250"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -593,8 +333,8 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~62"></span>
-              complex(kind=REAL64),
+              <span class="anchor" id="variable-a~184"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -608,7 +348,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~62"></span>
+              <span class="anchor" id="variable-lda~176"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -638,8 +378,8 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~38"></span>
-              complex(kind=REAL64),
+              <span class="anchor" id="variable-work~74"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -653,7 +393,7 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~34"></span>
+              <span class="anchor" id="variable-lwork~54"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -668,7 +408,267 @@ See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~63"></span>
+              <span class="anchor" id="variable-info~104"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-cgetri"></span> <h3>public pure subroutine cgetri(n, a, lda, ipiv, work, lwork, info)  
+</h3></div>
+    <div class="card-body">
+        <p>Original interface for CGETRI
+See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a>getri</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~251"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~185"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(lda,*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lda~177"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lda</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ipiv~23"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ipiv</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-work~75"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>work</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lwork~55"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lwork</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~105"></span>
+              integer,
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-zgetri"></span> <h3>public pure subroutine zgetri(n, a, lda, ipiv, work, lwork, info)  
+</h3></div>
+    <div class="card-body">
+        <p>Original interface for ZGETRI
+See also: <a href="../interface/mfi_getri.html">mfi_getri</a>, <a>getri</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~252"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~186"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(lda,*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lda~178"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lda</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ipiv~24"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ipiv</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-work~76"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>work</strong>(*)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-lwork~56"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>lwork</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~106"></span>
               integer,
             </td>
 <td>intent(out)</td>

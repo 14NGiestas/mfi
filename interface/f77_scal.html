@@ -86,20 +86,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.4% of total for procedures.</p>Including implementation: 44 statements,  0.4% of total for procedures.">44 statements</a>
+                 title="<p> 0.2% of total for procedures.</p>Including implementation: 44 statements,  0.2% of total for procedures.">44 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/blas.f90"> Source File</a>
+              <a href="../src/scal.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/f77_blas.html'>f77_blas</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/scal.f90.html'>scal.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/f77_blas_scal.html'>f77_blas_scal</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_scal</li>
           </ol>
         </nav>
@@ -175,7 +175,7 @@ See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interfa
 </h3></div>
     <div class="card-body">
         <p>Original interface for SSCAL
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a>scal</a>.
 SSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
@@ -191,7 +191,7 @@ SSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~333"></span>
+              <span class="anchor" id="variable-n~433"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -206,7 +206,7 @@ SSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~249"></span>
+              <span class="anchor" id="variable-a~337"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -221,7 +221,7 @@ SSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~157"></span>
+              <span class="anchor" id="variable-x~185"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -236,7 +236,7 @@ SSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~149"></span>
+              <span class="anchor" id="variable-incx~177"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -261,7 +261,7 @@ SSCAL scales a vector by a constant.</p>
 </h3></div>
     <div class="card-body">
         <p>Original interface for DSCAL
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a>scal</a>.
 DSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
@@ -277,7 +277,7 @@ DSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~334"></span>
+              <span class="anchor" id="variable-n~434"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -292,7 +292,7 @@ DSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~250"></span>
+              <span class="anchor" id="variable-a~338"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -307,7 +307,7 @@ DSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~158"></span>
+              <span class="anchor" id="variable-x~186"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -322,7 +322,7 @@ DSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~150"></span>
+              <span class="anchor" id="variable-incx~178"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -347,7 +347,7 @@ DSCAL scales a vector by a constant.</p>
 </h3></div>
     <div class="card-body">
         <p>Original interface for CSCAL
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a>scal</a>.
 CSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
@@ -363,7 +363,7 @@ CSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~335"></span>
+              <span class="anchor" id="variable-n~435"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -378,7 +378,7 @@ CSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~251"></span>
+              <span class="anchor" id="variable-a~339"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -393,7 +393,7 @@ CSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~159"></span>
+              <span class="anchor" id="variable-x~187"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -408,7 +408,7 @@ CSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~151"></span>
+              <span class="anchor" id="variable-incx~179"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -433,7 +433,7 @@ CSCAL scales a vector by a constant.</p>
 </h3></div>
     <div class="card-body">
         <p>Original interface for ZSCAL
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a>scal</a>.
 ZSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
@@ -449,7 +449,7 @@ ZSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~336"></span>
+              <span class="anchor" id="variable-n~436"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -464,7 +464,7 @@ ZSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~252"></span>
+              <span class="anchor" id="variable-a~340"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -479,7 +479,7 @@ ZSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~160"></span>
+              <span class="anchor" id="variable-x~188"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -494,7 +494,7 @@ ZSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~152"></span>
+              <span class="anchor" id="variable-incx~180"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -519,7 +519,7 @@ ZSCAL scales a vector by a constant.</p>
 </h3></div>
     <div class="card-body">
         <p>Original interface for CSSCAL
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a>scal</a>.
 CSSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
@@ -535,7 +535,7 @@ CSSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~337"></span>
+              <span class="anchor" id="variable-n~437"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -550,7 +550,7 @@ CSSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~253"></span>
+              <span class="anchor" id="variable-a~341"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -565,7 +565,7 @@ CSSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~161"></span>
+              <span class="anchor" id="variable-x~189"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -580,7 +580,7 @@ CSSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~153"></span>
+              <span class="anchor" id="variable-incx~181"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -605,7 +605,7 @@ CSSCAL scales a vector by a constant.</p>
 </h3></div>
     <div class="card-body">
         <p>Original interface for ZDSCAL
-See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a href="../interface/f77_scal.html">f77_scal</a>.
+See also: <a href="../interface/mfi_scal.html">mfi_scal</a>, <a>scal</a>.
 ZDSCAL scales a vector by a constant.</p>
 
   <h4>Arguments</h4>
@@ -621,7 +621,7 @@ ZDSCAL scales a vector by a constant.</p>
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~338"></span>
+              <span class="anchor" id="variable-n~438"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -636,7 +636,7 @@ ZDSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~254"></span>
+              <span class="anchor" id="variable-a~342"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -651,7 +651,7 @@ ZDSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~162"></span>
+              <span class="anchor" id="variable-x~190"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -666,7 +666,7 @@ ZDSCAL scales a vector by a constant.</p>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~154"></span>
+              <span class="anchor" id="variable-incx~182"></span>
               integer,
             </td>
 <td>intent(in)</td>

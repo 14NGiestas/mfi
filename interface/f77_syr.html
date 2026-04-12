@@ -86,20 +86,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.2% of total for procedures.</p>Including implementation: 24 statements,  0.2% of total for procedures.">24 statements</a>
+                 title="<p> 0.1% of total for procedures.</p>Including implementation: 24 statements,  0.1% of total for procedures.">24 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/blas.f90"> Source File</a>
+              <a href="../src/syr.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90~2.html'>blas.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/f77_blas.html'>f77_blas</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/syr.f90~2.html'>syr.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/f77_blas_syr.html'>f77_blas_syr</a></li>
             <li class="breadcrumb-item active" aria-current="page">f77_syr</li>
           </ol>
         </nav>
@@ -171,7 +171,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
 </h3></div>
     <div class="card-body">
         <p>Original interface for SSYR
-See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface/f77_syr.html">f77_syr</a>.</p>
+See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a>syr</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -186,7 +186,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~145"></span>
+              <span class="anchor" id="variable-uplo~211"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -201,7 +201,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~377"></span>
+              <span class="anchor" id="variable-n~505"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -216,7 +216,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~105"></span>
+              <span class="anchor" id="variable-alpha~143"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -231,7 +231,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~201"></span>
+              <span class="anchor" id="variable-x~243"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -246,7 +246,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~193"></span>
+              <span class="anchor" id="variable-incx~237"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -261,7 +261,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~281"></span>
+              <span class="anchor" id="variable-a~385"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -276,7 +276,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~257"></span>
+              <span class="anchor" id="variable-lda~361"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -301,7 +301,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
 </h3></div>
     <div class="card-body">
         <p>Original interface for DSYR
-See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface/f77_syr.html">f77_syr</a>.</p>
+See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a>syr</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -316,7 +316,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~146"></span>
+              <span class="anchor" id="variable-uplo~212"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -331,7 +331,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~378"></span>
+              <span class="anchor" id="variable-n~506"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -346,7 +346,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~106"></span>
+              <span class="anchor" id="variable-alpha~144"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -361,7 +361,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~202"></span>
+              <span class="anchor" id="variable-x~244"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -376,7 +376,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~194"></span>
+              <span class="anchor" id="variable-incx~238"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -391,7 +391,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~282"></span>
+              <span class="anchor" id="variable-a~386"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -406,7 +406,7 @@ See also: <a href="../interface/mfi_syr.html">mfi_syr</a>, <a href="../interface
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~258"></span>
+              <span class="anchor" id="variable-lda~362"></span>
               integer,
             </td>
 <td>intent(in)</td>

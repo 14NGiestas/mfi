@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.5% of total for procedures.</p>Including implementation: 56 statements,  0.5% of total for procedures.">56 statements</a>
+                 title="<p> 0.3% of total for procedures.</p>Including implementation: 52 statements,  0.3% of total for procedures.">52 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -162,16 +162,16 @@
       <h2>public interface f77_heevx</h2>
       <p>Generic old style interface for HEEVX.
 Supports c, z.
-See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html#proc-cheevx">cheevx</a>, <a href="../interface/f77_heevx.html#proc-zheevx">zheevx</a>.</p>
+See also: <a href="../interface/mfi_heevx.html">mfi_heevx</a>, <a href="../interface/f77_heevx.html#proc-cheevx">cheevx</a>, <a href="../interface/f77_heevx.html#proc-zheevx">zheevx</a>.</p>
 <br>
 
         <h2>Subroutines</h2>
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-cheevx"></span> <h3>public pure subroutine cheevx(jobz, range, uplo, n, a, lda, vl, vu, il, iu, abstol, m, w, z, ldz, work, lwork, rwork, lrwork, iwork, liwork, ifail, info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-cheevx"></span> <h3>public pure subroutine cheevx(jobz, range, uplo, n, a, lda, vl, vu, il, iu, abstol, m, w, z, ldz, work, lwork, rwork, iwork, ifail, info)  
 </h3></div>
     <div class="card-body">
         <p>Original interface for CHEEVX
-See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.</p>
+See also: <a href="../interface/mfi_heevx.html">mfi_heevx</a>, <a>heevx</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -186,7 +186,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-jobz~9"></span>
+              <span class="anchor" id="variable-jobz~13"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -201,7 +201,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-range"></span>
+              <span class="anchor" id="variable-range~5"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -216,7 +216,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~45"></span>
+              <span class="anchor" id="variable-uplo~129"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -231,7 +231,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~93"></span>
+              <span class="anchor" id="variable-n~283"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -246,7 +246,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~93"></span>
+              <span class="anchor" id="variable-a~217"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -261,7 +261,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~93"></span>
+              <span class="anchor" id="variable-lda~209"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -276,7 +276,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vl"></span>
+              <span class="anchor" id="variable-vl~5"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -291,7 +291,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vu"></span>
+              <span class="anchor" id="variable-vu~5"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -306,7 +306,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-il"></span>
+              <span class="anchor" id="variable-il~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -321,7 +321,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iu"></span>
+              <span class="anchor" id="variable-iu~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -336,7 +336,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-abstol"></span>
+              <span class="anchor" id="variable-abstol~5"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -351,7 +351,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~33"></span>
+              <span class="anchor" id="variable-m~103"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -366,7 +366,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-w~9"></span>
+              <span class="anchor" id="variable-w~13"></span>
               real(kind=REAL32),
             </td>
 <td>intent(out)</td>
@@ -381,7 +381,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-z"></span>
+              <span class="anchor" id="variable-z~5"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -396,7 +396,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ldz"></span>
+              <span class="anchor" id="variable-ldz~5"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -411,7 +411,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~53"></span>
+              <span class="anchor" id="variable-work~91"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -426,7 +426,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~45"></span>
+              <span class="anchor" id="variable-lwork~67"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -441,7 +441,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rwork~15"></span>
+              <span class="anchor" id="variable-rwork~19"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -456,22 +456,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lrwork~5"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lrwork</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iwork~7"></span>
+              <span class="anchor" id="variable-iwork~11"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -486,37 +471,22 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-liwork~5"></span>
+              <span class="anchor" id="variable-ifail~3"></span>
               integer,
             </td>
-<td>intent(in)</td>
+<td>intent(inout)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>liwork</strong></td>
+            <td><strong>ifail</strong>(*)</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ifail"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ifail</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~94"></span>
+              <span class="anchor" id="variable-info~137"></span>
               integer,
             </td>
 <td>intent(out)</td>
@@ -537,11 +507,11 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-zheevx"></span> <h3>public pure subroutine zheevx(jobz, range, uplo, n, a, lda, vl, vu, il, iu, abstol, m, w, z, ldz, work, lwork, rwork, lrwork, iwork, liwork, ifail, info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-zheevx"></span> <h3>public pure subroutine zheevx(jobz, range, uplo, n, a, lda, vl, vu, il, iu, abstol, m, w, z, ldz, work, lwork, rwork, iwork, ifail, info)  
 </h3></div>
     <div class="card-body">
         <p>Original interface for ZHEEVX
-See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.</p>
+See also: <a href="../interface/mfi_heevx.html">mfi_heevx</a>, <a>heevx</a>.</p>
 
   <h4>Arguments</h4>
       <table class="table table-striped varlist">
@@ -556,7 +526,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-jobz~10"></span>
+              <span class="anchor" id="variable-jobz~14"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -571,7 +541,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-range~2"></span>
+              <span class="anchor" id="variable-range~6"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -586,7 +556,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~46"></span>
+              <span class="anchor" id="variable-uplo~130"></span>
               character(len=1),
             </td>
 <td>intent(in)</td>
@@ -601,7 +571,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-n~94"></span>
+              <span class="anchor" id="variable-n~284"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -616,7 +586,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~94"></span>
+              <span class="anchor" id="variable-a~218"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -631,7 +601,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lda~94"></span>
+              <span class="anchor" id="variable-lda~210"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -646,7 +616,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vl~2"></span>
+              <span class="anchor" id="variable-vl~6"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -661,7 +631,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-vu~2"></span>
+              <span class="anchor" id="variable-vu~6"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -676,7 +646,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-il~2"></span>
+              <span class="anchor" id="variable-il~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -691,7 +661,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-iu~2"></span>
+              <span class="anchor" id="variable-iu~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -706,7 +676,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-abstol~2"></span>
+              <span class="anchor" id="variable-abstol~6"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -721,7 +691,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-m~34"></span>
+              <span class="anchor" id="variable-m~104"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -736,7 +706,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-w~10"></span>
+              <span class="anchor" id="variable-w~14"></span>
               real(kind=REAL64),
             </td>
 <td>intent(out)</td>
@@ -751,7 +721,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-z~2"></span>
+              <span class="anchor" id="variable-z~6"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -766,7 +736,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ldz~2"></span>
+              <span class="anchor" id="variable-ldz~6"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -781,7 +751,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-work~54"></span>
+              <span class="anchor" id="variable-work~92"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -796,7 +766,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lwork~46"></span>
+              <span class="anchor" id="variable-lwork~68"></span>
               integer,
             </td>
 <td>intent(in)</td>
@@ -811,7 +781,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-rwork~16"></span>
+              <span class="anchor" id="variable-rwork~20"></span>
               real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -826,22 +796,7 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-lrwork~6"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>lrwork</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-iwork~8"></span>
+              <span class="anchor" id="variable-iwork~12"></span>
               integer,
             </td>
 <td>intent(inout)</td>
@@ -856,37 +811,22 @@ See also: <a>mfi_heevx</a>, <a href="../interface/f77_heevx.html">f77_heevx</a>.
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-liwork~6"></span>
+              <span class="anchor" id="variable-ifail~4"></span>
               integer,
             </td>
-<td>intent(in)</td>
+<td>intent(inout)</td>
               <td></td>            <td>
               
             </td>
             <td>::</td>
-            <td><strong>liwork</strong></td>
+            <td><strong>ifail</strong>(*)</td>
             <td>
                 
             </td>
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-ifail~2"></span>
-              integer,
-            </td>
-<td>intent(in)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>ifail</strong></td>
-            <td>
-                
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info~95"></span>
+              <span class="anchor" id="variable-info~138"></span>
               integer,
             </td>
 <td>intent(out)</td>

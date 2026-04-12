@@ -86,20 +86,20 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 190 statements,  1.8% of total for procedures.">6 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 394 statements,  2.1% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
               <i class="fa fa-code"></i>
-              <a href="../src/blas.f90"> Source File</a>
+              <a href="../src/trmm.f90"> Source File</a>
             </li>
         </ul>
       </div>
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/blas.f90.html'>blas.f90</a></li>
-                <li class="breadcrumb-item"><a href='../module/mfi_blas.html'>mfi_blas</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/trmm.f90.html'>trmm.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/mfi_blas_trmm.html'>mfi_blas_trmm</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_trmm</li>
           </ol>
         </nav>
@@ -175,7 +175,7 @@ See also:
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_trmm.html#proc-strmm">strmm</a>.
+  <p>Modern interface for <a href="../interface/f77_trmm.html">f77_trmm</a>.
 See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interface/f77_trmm.html">f77_trmm</a>.</p>
 
   <h4>Arguments</h4>
@@ -191,12 +191,12 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~233"></span>
+              <span class="anchor" id="variable-a~29"></span>
               real(kind=REAL32),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>a</strong>(:,:)</td>
@@ -206,12 +206,12 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~65"></span>
+              <span class="anchor" id="variable-b"></span>
               real(kind=REAL32),
             </td>
-<td>intent(inout)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>b</strong>(:,:)</td>
@@ -221,7 +221,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-side~21"></span>
+              <span class="anchor" id="variable-side"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -236,7 +236,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~113"></span>
+              <span class="anchor" id="variable-uplo~31"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -251,7 +251,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~5"></span>
+              <span class="anchor" id="variable-transa"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -266,7 +266,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~25"></span>
+              <span class="anchor" id="variable-diag~13"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -281,7 +281,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~59"></span>
+              <span class="anchor" id="variable-alpha~33"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -306,7 +306,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_trmm.html#proc-dtrmm">dtrmm</a>.
+  <p>Modern interface for <a href="../interface/f77_trmm.html">f77_trmm</a>.
 See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interface/f77_trmm.html">f77_trmm</a>.</p>
 
   <h4>Arguments</h4>
@@ -322,12 +322,12 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~234"></span>
+              <span class="anchor" id="variable-a~30"></span>
               real(kind=REAL64),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>a</strong>(:,:)</td>
@@ -337,12 +337,12 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~66"></span>
+              <span class="anchor" id="variable-b~2"></span>
               real(kind=REAL64),
             </td>
-<td>intent(inout)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>b</strong>(:,:)</td>
@@ -352,7 +352,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-side~22"></span>
+              <span class="anchor" id="variable-side~2"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -367,7 +367,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~114"></span>
+              <span class="anchor" id="variable-uplo~32"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -382,7 +382,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~6"></span>
+              <span class="anchor" id="variable-transa~2"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -397,7 +397,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~26"></span>
+              <span class="anchor" id="variable-diag~14"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -412,7 +412,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~60"></span>
+              <span class="anchor" id="variable-alpha~34"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in),</td>
@@ -437,7 +437,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_trmm.html#proc-ctrmm">ctrmm</a>.
+  <p>Modern interface for <a href="../interface/f77_trmm.html">f77_trmm</a>.
 See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interface/f77_trmm.html">f77_trmm</a>.</p>
 
   <h4>Arguments</h4>
@@ -453,12 +453,12 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~235"></span>
+              <span class="anchor" id="variable-a~31"></span>
               complex(kind=REAL32),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>a</strong>(:,:)</td>
@@ -468,12 +468,12 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~67"></span>
+              <span class="anchor" id="variable-b~3"></span>
               complex(kind=REAL32),
             </td>
-<td>intent(inout)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>b</strong>(:,:)</td>
@@ -483,7 +483,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-side~23"></span>
+              <span class="anchor" id="variable-side~3"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -498,7 +498,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~115"></span>
+              <span class="anchor" id="variable-uplo~33"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -513,7 +513,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~7"></span>
+              <span class="anchor" id="variable-transa~3"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -528,7 +528,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~27"></span>
+              <span class="anchor" id="variable-diag~15"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -543,7 +543,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~61"></span>
+              <span class="anchor" id="variable-alpha~35"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in),</td>
@@ -568,7 +568,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_trmm.html#proc-ztrmm">ztrmm</a>.
+  <p>Modern interface for <a href="../interface/f77_trmm.html">f77_trmm</a>.
 See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interface/f77_trmm.html">f77_trmm</a>.</p>
 
   <h4>Arguments</h4>
@@ -584,12 +584,12 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~236"></span>
+              <span class="anchor" id="variable-a~32"></span>
               complex(kind=REAL64),
             </td>
-<td>intent(in)</td>
+<td>intent(in),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>a</strong>(:,:)</td>
@@ -599,12 +599,12 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-b~68"></span>
+              <span class="anchor" id="variable-b~4"></span>
               complex(kind=REAL64),
             </td>
-<td>intent(inout)</td>
+<td>intent(inout),</td>
               <td></td>            <td>
-              
+              target
             </td>
             <td>::</td>
             <td><strong>b</strong>(:,:)</td>
@@ -614,7 +614,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-side~24"></span>
+              <span class="anchor" id="variable-side~4"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -629,7 +629,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-uplo~116"></span>
+              <span class="anchor" id="variable-uplo~34"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -644,7 +644,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~8"></span>
+              <span class="anchor" id="variable-transa~4"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -659,7 +659,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~28"></span>
+              <span class="anchor" id="variable-diag~16"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -674,7 +674,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~62"></span>
+              <span class="anchor" id="variable-alpha~36"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in),</td>

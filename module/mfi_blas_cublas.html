@@ -1,0 +1,1344 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A collection of modern fortran interfaces for BLAS and LAPACK">
+    <meta name="author" content="I. G. Pauli" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>mfi_blas_cublas &ndash; MFI - Modern Fortran Interfaces</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">MFI - Modern Fortran Interfaces </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>mfi_blas_cublas
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a></li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title=" 0.6% of total for modules and submodules.">82 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/cublas.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/cublas.f90.html'>cublas.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">mfi_blas_cublas</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#vars-0"
+         aria-expanded="false" aria-controls="vars-0">
+         <h4 class="card-header bg-primary text-white">Variables</h4>
+      </a>
+      <div id="vars-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_op_n">CUBLAS_OP_N</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_op_t">CUBLAS_OP_T</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_op_c">CUBLAS_OP_C</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_fill_mode_upper">CUBLAS_FILL_MODE_UPPER</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_fill_mode_lower">CUBLAS_FILL_MODE_LOWER</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_trsm_fill_upper">CUBLAS_TRSM_FILL_UPPER</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_trsm_fill_lower">CUBLAS_TRSM_FILL_LOWER</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_diag_non_unit">CUBLAS_DIAG_NON_UNIT</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_diag_unit">CUBLAS_DIAG_UNIT</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_side_left">CUBLAS_SIDE_LEFT</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_side_right">CUBLAS_SIDE_RIGHT</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cudamemcpyhosttodevice">cudaMemcpyHostToDevice</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cudamemcpydevicetohost">cudaMemcpyDeviceToHost</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_pointer_mode_host">CUBLAS_POINTER_MODE_HOST</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_status_success">CUBLAS_STATUS_SUCCESS</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_status_not_initialized">CUBLAS_STATUS_NOT_INITIALIZED</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_status_alloc_failed">CUBLAS_STATUS_ALLOC_FAILED</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_status_invalid_value">CUBLAS_STATUS_INVALID_VALUE</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_status_arch_mismatch">CUBLAS_STATUS_ARCH_MISMATCH</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_status_mapping_error">CUBLAS_STATUS_MAPPING_ERROR</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_status_execution_failed">CUBLAS_STATUS_EXECUTION_FAILED</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_status_internal_error">CUBLAS_STATUS_INTERNAL_ERROR</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_status_not_supported">CUBLAS_STATUS_NOT_SUPPORTED</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#variable-cublas_status_license_error">CUBLAS_STATUS_LICENSE_ERROR</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-cuda_malloc">cuda_malloc</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-cuda_free">cuda_free</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-cudamemcpy">cudaMemcpy</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-cublascreate">cublasCreate</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-cublasdestroy">cublasDestroy</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-cublassetpointermode">cublasSetPointerMode</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-mfi_cublas_set_count">mfi_cublas_set_count</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-mfi_cublas_init_handles">mfi_cublas_init_handles</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-mfi_cublas_get_thread_handle">mfi_cublas_get_thread_handle</a>
+            <a class="list-group-item" href="../module/mfi_blas_cublas.html#interface-mfi_cublas_finalize_all">mfi_cublas_finalize_all</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      
+      <br>
+
+
+        <section>
+          <h2>Variables</h2>
+            <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Visibility</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+<th></th><th scope="col">Initial</th>        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_op_n"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_OP_N</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>cuBLAS operation constants</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_op_t"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_OP_T</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_op_c"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_OP_C</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_fill_mode_upper"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_FILL_MODE_UPPER</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>cuBLAS fill mode constants (standard: UPPER=0, LOWER=1)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_fill_mode_lower"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_FILL_MODE_LOWER</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_trsm_fill_upper"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_TRSM_FILL_UPPER</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                <p>cuBLAS fill mode for TRSM/TRMM — empirically inverted vs standard</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_trsm_fill_lower"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_TRSM_FILL_LOWER</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_diag_non_unit"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_DIAG_NON_UNIT</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>cuBLAS diagonal constants</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_diag_unit"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_DIAG_UNIT</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_side_left"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_SIDE_LEFT</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>cuBLAS side constants</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_side_right"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_SIDE_RIGHT</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cudamemcpyhosttodevice"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>cudaMemcpyHostToDevice</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                <p>CUDA memory copy direction constants</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cudamemcpydevicetohost"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>cudaMemcpyDeviceToHost</strong></td>
+<td> =</td>
+                <td>2</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_pointer_mode_host"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_POINTER_MODE_HOST</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>cuBLAS pointer mode</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_status_success"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_STATUS_SUCCESS</strong></td>
+<td> =</td>
+                <td>0</td>
+            <td>
+                <p>cuBLAS status constants</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_status_not_initialized"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_STATUS_NOT_INITIALIZED</strong></td>
+<td> =</td>
+                <td>1</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_status_alloc_failed"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_STATUS_ALLOC_FAILED</strong></td>
+<td> =</td>
+                <td>3</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_status_invalid_value"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_STATUS_INVALID_VALUE</strong></td>
+<td> =</td>
+                <td>7</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_status_arch_mismatch"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_STATUS_ARCH_MISMATCH</strong></td>
+<td> =</td>
+                <td>8</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_status_mapping_error"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_STATUS_MAPPING_ERROR</strong></td>
+<td> =</td>
+                <td>11</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_status_execution_failed"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_STATUS_EXECUTION_FAILED</strong></td>
+<td> =</td>
+                <td>13</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_status_internal_error"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_STATUS_INTERNAL_ERROR</strong></td>
+<td> =</td>
+                <td>14</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_status_not_supported"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_STATUS_NOT_SUPPORTED</strong></td>
+<td> =</td>
+                <td>15</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-cublas_status_license_error"></span>
+              integer(kind=c_int),
+            </td>
+              <td>public,</td>
+            <td>
+parameter               
+            </td>
+            <td>::</td>
+            <td><strong>CUBLAS_STATUS_LICENSE_ERROR</strong></td>
+<td> =</td>
+                <td>16</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+        </section>
+        <br>
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-cuda_malloc"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure subroutine cuda_malloc(devPtr, size, stat) bind(c,name="mfi_cuda_malloc")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-devptr"></span>
+              type(c_ptr),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>devPtr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-size"></span>
+              integer(kind=c_size_t),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>size</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~5"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-cuda_free"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure subroutine cuda_free(devPtr, stat) bind(c,name="mfi_cuda_free")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-devptr~2"></span>
+              type(c_ptr),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>devPtr</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~6"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-cudamemcpy"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure subroutine cudaMemcpy(dst, src, count, kind, stat) bind(c,name="mfi_cuda_memcpy")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dst"></span>
+              type(c_ptr),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>dst</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-src"></span>
+              type(c_ptr),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>src</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count"></span>
+              integer(kind=c_size_t),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-kind~3"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>kind</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~7"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-cublascreate"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure subroutine cublasCreate(handle, stat) bind(c,name="mfi_cublas_create")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-handle~3"></span>
+              type(c_ptr),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>handle</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~8"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-cublasdestroy"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure subroutine cublasDestroy(handle, stat) bind(c,name="mfi_cublas_destroy")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-handle~4"></span>
+              type(c_ptr),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>handle</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~9"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-cublassetpointermode"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure subroutine cublasSetPointerMode(handle, mode, stat) bind(c,name="mfi_cublas_set_pointer_mode")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-handle~5"></span>
+              type(c_ptr),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>handle</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-mode"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>mode</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~10"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-mfi_cublas_set_count"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure subroutine mfi_cublas_set_count(count) bind(c,name="mfi_cublas_set_count")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-count~2"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              value
+            </td>
+            <td>::</td>
+            <td><strong>count</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-mfi_cublas_init_handles"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure subroutine mfi_cublas_init_handles(stat) bind(c,name="mfi_cublas_init_handles")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~11"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-mfi_cublas_get_thread_handle"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure subroutine mfi_cublas_get_thread_handle(out_handle, stat) bind(c,name="mfi_cublas_get_thread_handle")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-out_handle"></span>
+              type(c_ptr),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>out_handle</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~12"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-mfi_cublas_finalize_all"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public pure subroutine mfi_cublas_finalize_all(stat) bind(c,name="mfi_cublas_finalize_all")  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~13"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              MFI - Modern Fortran Interfaces
+ was developed by I. G. Pauli<br>              &copy; 2026 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

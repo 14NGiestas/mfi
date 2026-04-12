@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title="<p> 0.1% of total for procedures.</p>Including implementation: 170 statements,  1.6% of total for procedures.">6 statements</a>
+                 title="<p> 0.0% of total for procedures.</p>Including implementation: 166 statements,  0.9% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -175,7 +175,7 @@ See also:
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_geqrf.html#proc-sgeqrf">sgeqrf</a>.
+  <p>Modern interface for <a href="../interface/f77_geqrf.html">f77_geqrf</a>.
 See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../interface/f77_geqrf.html">f77_geqrf</a>.</p>
 
   <h4>Arguments</h4>
@@ -191,7 +191,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a"></span>
+              <span class="anchor" id="variable-a~41"></span>
               real(kind=REAL32),
             </td>
 <td>intent(inout)</td>
@@ -208,77 +208,6 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
             <td>
               <span class="anchor" id="variable-tau"></span>
               real(kind=REAL32),
-            </td>
-<td>intent(out),</td>
-              <td>optional,</td>            <td>
-              target
-            </td>
-            <td>::</td>
-            <td><strong>tau</strong>(:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-info"></span>
-              integer,
-            </td>
-<td>intent(out),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>info</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dgeqrf"></span> <h3>public pure subroutine <a href='../proc/mfi_dgeqrf.html'>mfi_dgeqrf</a>(a, tau, info)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_geqrf.html#proc-dgeqrf">dgeqrf</a>.
-See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../interface/f77_geqrf.html">f77_geqrf</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~2"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout)</td>
-              <td></td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-tau~2"></span>
-              real(kind=REAL64),
             </td>
 <td>intent(out),</td>
               <td>optional,</td>            <td>
@@ -313,11 +242,11 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_cgeqrf"></span> <h3>public pure subroutine <a href='../proc/mfi_cgeqrf.html'>mfi_cgeqrf</a>(a, tau, info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dgeqrf"></span> <h3>public pure subroutine <a href='../proc/mfi_dgeqrf.html'>mfi_dgeqrf</a>(a, tau, info)  
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_geqrf.html#proc-cgeqrf">cgeqrf</a>.
+  <p>Modern interface for <a href="../interface/f77_geqrf.html">f77_geqrf</a>.
 See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../interface/f77_geqrf.html">f77_geqrf</a>.</p>
 
   <h4>Arguments</h4>
@@ -333,8 +262,8 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~3"></span>
-              complex(kind=REAL32),
+              <span class="anchor" id="variable-a~42"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(inout)</td>
               <td></td>            <td>
@@ -348,8 +277,8 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-tau~3"></span>
-              complex(kind=REAL32),
+              <span class="anchor" id="variable-tau~2"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(out),</td>
               <td>optional,</td>            <td>
@@ -384,11 +313,11 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_zgeqrf"></span> <h3>public pure subroutine <a href='../proc/mfi_zgeqrf.html'>mfi_zgeqrf</a>(a, tau, info)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_cgeqrf"></span> <h3>public pure subroutine <a href='../proc/mfi_cgeqrf.html'>mfi_cgeqrf</a>(a, tau, info)  
 </h3></div>
     <div class="card-body">
           
-  <p>Modern interface for <a href="../interface/f77_geqrf.html#proc-zgeqrf">zgeqrf</a>.
+  <p>Modern interface for <a href="../interface/f77_geqrf.html">f77_geqrf</a>.
 See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../interface/f77_geqrf.html">f77_geqrf</a>.</p>
 
   <h4>Arguments</h4>
@@ -404,7 +333,78 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~4"></span>
+              <span class="anchor" id="variable-a~43"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-tau~3"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>tau</strong>(:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-info~4"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>info</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_zgeqrf"></span> <h3>public pure subroutine <a href='../proc/mfi_zgeqrf.html'>mfi_zgeqrf</a>(a, tau, info)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_geqrf.html">f77_geqrf</a>.
+See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../interface/f77_geqrf.html">f77_geqrf</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~44"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(inout)</td>
@@ -434,7 +434,7 @@ See also: <a href="../interface/mfi_geqrf.html">mfi_geqrf</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-info~4"></span>
+              <span class="anchor" id="variable-info~5"></span>
               integer,
             </td>
 <td>intent(out),</td>
