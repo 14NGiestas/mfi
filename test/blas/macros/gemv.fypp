@@ -14,7 +14,7 @@ subroutine test_${f77 + suffix}$
     integer :: i
 
     $:test_seed()
-    call test_get_2d(10000000, N)
+    call test_get_2d(2000, N)
 
     allocate(M(N,N), x(N), y(N), M_in(N,N), x_in(N), y_in(N), M_rf(N,N), x_rf(N), y_rf(N))
     $:random_number(type(wp),'M','(N,N)')

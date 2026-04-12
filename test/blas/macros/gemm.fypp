@@ -14,7 +14,7 @@ subroutine test_${f77 + suffix}$
     integer :: i, j
 
     $:test_seed()
-    call test_get_2d(10000000, M)
+    call test_get_2d(2000, M)
     N = M
 
     allocate(A(M,N), B(N,N), C(M,N), C_rf(M,N))

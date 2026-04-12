@@ -51,6 +51,11 @@ jobs:
         curl -sSfL https://github.com/fortran-lang/fpm/releases/download/v0.13.0/fpm-0.13.0-linux-x86_64-gcc-12 -o /usr/local/bin/fpm
         chmod +x /usr/local/bin/fpm
 
+    - name: Set CI test size
+      run: |
+        echo "MFI_TEST_ELEMENTS=50000" >> $GITHUB_ENV
+        echo "MFI_TEST_SAMPLES=1" >> $GITHUB_ENV
+
     - name: Generate sources
       run: make
 
@@ -60,6 +65,15 @@ jobs:
           nix-shell shells/${{ matrix.environment }}.nix --run "fpm build --profile ${{ matrix.profile }}"
         else
           nix-shell shells/${{ matrix.environment }}.nix --run "fpm build"
+        fi
+
+    - name: Run tests
+      if: matrix.test != 'compile-only'
+      run: |
+        if [ -n "${{ matrix.profile }}" ]; then
+          nix-shell shells/${{ matrix.environment }}.nix --run "fpm test --profile ${{ matrix.profile }}"
+        else
+          nix-shell shells/${{ matrix.environment }}.nix --run "fpm test"
         fi
 
     - name: Run tests

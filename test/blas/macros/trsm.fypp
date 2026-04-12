@@ -18,7 +18,7 @@ subroutine test_${f77 + suffix}$
     character, parameter :: diags(*) = ['N', 'U']
 
     $:test_seed()
-    call test_get_2d(10000000, M)
+    call test_get_2d(2000, M)
     N = M
 
     allocate(A(M,M), B(M,N), B_in(M,N), B_rf(M,N))

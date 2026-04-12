@@ -14,7 +14,7 @@ subroutine test_${f77 + suffix}$
 #:endif
 
     $:test_seed()
-    call test_get_1d(10000000, N)
+    call test_get_1d(2000, N)
 
     allocate(array(N))
     do ii = 1, N

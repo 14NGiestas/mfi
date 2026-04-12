@@ -370,9 +370,11 @@ end block
 #:enddef
 
 #! Test problem size — reads MFI_TEST_ELEMENTS env var at Fypp time (compile-time default).
-#! Usage: ${N1D(2000)}$        → ~2K elements (1D array length)
-#!        ${N2D(2000)}$        → ~44 (sqrt, matrix NxN)
-#:set _total_elements = int(os.environ.get('MFI_TEST_ELEMENTS', '2000'))
+#! For runtime sizing, use $:test_get_size_fn() in the contains block and call
+#!   call test_get_1d(500000, N)   ! 1D array length from env var or default
+#!   call test_get_2d(500000, N)   ! NxN from env var or default (N=sqrt(elements))
+#! Default: 500K elements (N=707 for 2D matrices).
+#:set _total_elements = int(os.environ.get('MFI_TEST_ELEMENTS', '500000'))
 #:set N1D = lambda n=_total_elements: n
 #:set N2D = lambda n=_total_elements: int(n ** 0.5)
 

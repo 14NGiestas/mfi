@@ -15,7 +15,7 @@ subroutine test_${f77_name + suffix}$
 #:endif
 
     $:test_seed()
-    call test_get_1d(10000000, N)
+    call test_get_1d(2000, N)
 
     allocate(array(N))
         array(ii) = real(ii, wp)

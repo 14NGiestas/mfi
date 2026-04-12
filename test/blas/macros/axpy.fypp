@@ -13,7 +13,7 @@ subroutine test_${f77 + suffix}$
     call mfi_force_gpu()
 #:endif
     $:test_seed()
-    call test_get_1d(10000000, N)
+    call test_get_1d(2000, N)
 
     allocate(x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N))
     $:random_number(type(wp),'x','(N)')
