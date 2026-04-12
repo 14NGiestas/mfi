@@ -117,7 +117,7 @@ jobs:
 
   deploy-artifacts:
     needs: [exhaustive-test, consumer-test]
-    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/impl/cublas') && github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/impl/'))
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -132,35 +132,30 @@ jobs:
     - name: Enable Nix Cache
       uses: DeterminateSystems/magic-nix-cache-action@main
 
+    - name: Compute deploy branch
+      id: deploy
+      run: |
+        REF="${{ github.ref }}"
+        if [ "$REF" = "refs/heads/main" ]; then
+          echo "suffix=fpm" >> $GITHUB_OUTPUT
+        else
+          FEATURE="${REF#refs/heads/impl/}"
+          echo "suffix=${FEATURE}" >> $GITHUB_OUTPUT
+        fi
+
     - name: Generate sources
       run: nix develop --command make
 
-    - name: Prepare mfi-fpm
-      if: github.ref == 'refs/heads/main'
+    - name: Prepare deploy artifact
       run: |
-        mkdir -p ${{ env.PROJECT_NAME }}-fpm
-        cp -R src test fpm.toml LICENSE ${{ env.PROJECT_NAME }}-fpm
-        find ${{ env.PROJECT_NAME }}-fpm/src  -type f ! -name "*.f90" ! -name "*.c" -delete
-        find ${{ env.PROJECT_NAME }}-fpm/test -type f ! -name "*.f90" -delete
+        mkdir -p ${{ env.PROJECT_NAME }}-${{ steps.deploy.outputs.suffix }}
+        cp -R src test fpm.toml LICENSE ${{ env.PROJECT_NAME }}-${{ steps.deploy.outputs.suffix }}
+        find ${{ env.PROJECT_NAME }}-${{ steps.deploy.outputs.suffix }}/src  -type f ! -name "*.f90" ! -name "*.c" -delete
+        find ${{ env.PROJECT_NAME }}-${{ steps.deploy.outputs.suffix }}/test -type f ! -name "*.f90" -delete
 
-    - name: Deploy to mfi-fpm
-      uses: JamesIves/github-pages-deploy-action@v4
-      if: github.ref == 'refs/heads/main'
-      with:
-        branch: mfi-fpm
-        folder: ${{ env.PROJECT_NAME }}-fpm
-        clean: true
-
-    - name: Prepare mfi-cublas
-      run: |
-        mkdir -p ${{ env.PROJECT_NAME }}-cublas
-        cp -R src test fpm.toml LICENSE ${{ env.PROJECT_NAME }}-cublas
-        find ${{ env.PROJECT_NAME }}-cublas/src  -type f ! -name "*.f90" ! -name "*.c" -delete
-        find ${{ env.PROJECT_NAME }}-cublas/test -type f ! -name "*.f90" -delete
-
-    - name: Deploy to mfi-cublas
+    - name: Deploy
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        branch: mfi-cublas
-        folder: ${{ env.PROJECT_NAME }}-cublas
+        branch: mfi-${{ steps.deploy.outputs.suffix }}
+        folder: ${{ env.PROJECT_NAME }}-${{ steps.deploy.outputs.suffix }}
         clean: true
