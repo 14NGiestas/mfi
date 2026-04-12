@@ -58,11 +58,17 @@
           cudaLegacy.cuda_nvcc
         ];
 
+        # Wrapper: provide `fpm` command pointing to fortran-fpm
+        fpmAlias = pkgs.writeShellScriptBin "fpm" ''
+          exec ${pkgs.fortran-fpm}/bin/fortran-fpm "$@"
+        '';
+
         commonBuildInputs = [
           pkgs.pkg-config
           pkgs.gfortran
           pkgs.fortran-fpm
           pkgs.fypp
+          fpmAlias
         ];
 
         mkGpuShell = { cudaLibs }: pkgs.mkShell {
