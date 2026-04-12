@@ -1,11 +1,95 @@
- program test_ormqr
- use iso_fortran_env
- use mfi_lapack
- use f77_lapack, only: sormqr, dormqr
- implicit none
- print '(A)', "testing mfi_ormqr (CPU) against sormqr"
- print '(A)', "testing mfi_ormqr (CPU) against dormqr"
- contains
+  program test_ormqr
+  use iso_fortran_env
+  use mfi_lapack
+  use f77_lapack, only: sormqr, dormqr
+  implicit none
+block
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+ call test_sormqr 
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        "testing [31ms[0m mfi_ormqr ([34mCPU[0m) against [31msormqr[0m", t_mu, t_ms, t_mn, t_mx, t_n
+end block
+block
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+ call test_dormqr 
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        "testing [32md[0m mfi_ormqr ([34mCPU[0m) against [32mdormqr[0m", t_mu, t_ms, t_mn, t_mx, t_n
+end block
+  contains
+
+  subroutine fmt_time(t, out)
+      real, intent(in) :: t
+      character(*), intent(out) :: out
+      if (t < 1.0e-3) then
+          write(out, '(F12.3,"µs")') t * 1.0e6
+      else if (t < 1.0) then
+          write(out, '(F12.3,"ms")') t * 1.0e3
+      else
+          write(out, '(F12.3,"s ")') t
+      end if
+  end subroutine fmt_time
 subroutine test_sormqr
     use f77_lapack, only: sormqr, f77_ormqr
     use mfi_blas
@@ -22,6 +106,7 @@ subroutine test_sormqr
     character :: side = 'L', trans = 'N'
     ! For RQ routines, we need temporary matrix for proper factorization
     real(REAL32) :: A_factorize(M,N)  ! Temporary matrix for RQ factorization
+
 
     ! Create a test matrix A (will be factorized)
     ! For RQ/QR routines, the factorization matrix A needs appropriate dimensions for multiplication
@@ -122,6 +207,7 @@ subroutine test_dormqr
     ! For RQ routines, we need temporary matrix for proper factorization
     real(REAL64) :: A_factorize(M,N)  ! Temporary matrix for RQ factorization
 
+
     ! Create a test matrix A (will be factorized)
     ! For RQ/QR routines, the factorization matrix A needs appropriate dimensions for multiplication
     ! When using ORMRQ/ORMQR, A should be properly sized for the side operation:
@@ -221,5 +307,6 @@ subroutine assert(test, msg, info)
     end if
 end subroutine
 
- end program
+  end program
+
 

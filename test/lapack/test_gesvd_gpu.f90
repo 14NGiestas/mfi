@@ -1,13 +1,169 @@
- program test_gesvd_gpu
- use iso_fortran_env
- use mfi_lapack
- use f77_lapack, only: sgesvd, dgesvd, cgesvd, zgesvd
- implicit none
- print '(A)', "testing mfi_gesvd (GPU) against sgesvd"
- print '(A)', "testing mfi_gesvd (GPU) against dgesvd"
- print '(A)', "testing mfi_gesvd (GPU) against cgesvd"
- print '(A)', "testing mfi_gesvd (GPU) against zgesvd"
- contains
+  program test_gesvd_gpu
+  use iso_fortran_env
+  use mfi_lapack
+  use f77_lapack, only: sgesvd, dgesvd, cgesvd, zgesvd
+  implicit none
+block
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+ call test_sgesvd_gpu 
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        "testing [31ms[0m mfi_gesvd ([32mGPU[0m) against [31msgesvd[0m", t_mu, t_ms, t_mn, t_mx, t_n
+end block
+block
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+ call test_dgesvd_gpu 
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        "testing [32md[0m mfi_gesvd ([32mGPU[0m) against [32mdgesvd[0m", t_mu, t_ms, t_mn, t_mx, t_n
+end block
+block
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+ call test_cgesvd_gpu 
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        "testing [34mc[0m mfi_gesvd ([32mGPU[0m) against [34mcgesvd[0m", t_mu, t_ms, t_mn, t_mx, t_n
+end block
+block
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+ call test_zgesvd_gpu 
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        "testing [33mz[0m mfi_gesvd ([32mGPU[0m) against [33mzgesvd[0m", t_mu, t_ms, t_mn, t_mx, t_n
+end block
+  contains
+
+  subroutine fmt_time(t, out)
+      real, intent(in) :: t
+      character(*), intent(out) :: out
+      if (t < 1.0e-3) then
+          write(out, '(F12.3,"µs")') t * 1.0e6
+      else if (t < 1.0) then
+          write(out, '(F12.3,"ms")') t * 1.0e3
+      else
+          write(out, '(F12.3,"s ")') t
+      end if
+  end subroutine fmt_time
 subroutine test_sgesvd_gpu
     use f77_lapack, only: sgesvd, f77_gesvd
     use mfi_blas
@@ -273,5 +429,6 @@ subroutine assert(test, msg, info)
     end if
 end subroutine
 
- end program
+  end program
+
 

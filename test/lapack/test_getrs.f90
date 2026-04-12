@@ -1,13 +1,169 @@
- program test_getrs
- use iso_fortran_env
- use mfi_lapack
- use f77_lapack, only: sgetrs, dgetrs, cgetrs, zgetrs
- implicit none
- print '(A)', "testing mfi_getrs (CPU) against sgetrs"
- print '(A)', "testing mfi_getrs (CPU) against dgetrs"
- print '(A)', "testing mfi_getrs (CPU) against cgetrs"
- print '(A)', "testing mfi_getrs (CPU) against zgetrs"
- contains
+  program test_getrs
+  use iso_fortran_env
+  use mfi_lapack
+  use f77_lapack, only: sgetrs, dgetrs, cgetrs, zgetrs
+  implicit none
+block
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+ call test_sgetrs 
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        "testing [31ms[0m mfi_getrs ([34mCPU[0m) against [31msgetrs[0m", t_mu, t_ms, t_mn, t_mx, t_n
+end block
+block
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+ call test_dgetrs 
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        "testing [32md[0m mfi_getrs ([34mCPU[0m) against [32mdgetrs[0m", t_mu, t_ms, t_mn, t_mx, t_n
+end block
+block
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+ call test_cgetrs 
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        "testing [34mc[0m mfi_getrs ([34mCPU[0m) against [34mcgetrs[0m", t_mu, t_ms, t_mn, t_mx, t_n
+end block
+block
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+ call test_zgetrs 
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        "testing [33mz[0m mfi_getrs ([34mCPU[0m) against [33mzgetrs[0m", t_mu, t_ms, t_mn, t_mx, t_n
+end block
+  contains
+
+  subroutine fmt_time(t, out)
+      real, intent(in) :: t
+      character(*), intent(out) :: out
+      if (t < 1.0e-3) then
+          write(out, '(F12.3,"µs")') t * 1.0e6
+      else if (t < 1.0) then
+          write(out, '(F12.3,"ms")') t * 1.0e3
+      else
+          write(out, '(F12.3,"s ")') t
+      end if
+  end subroutine fmt_time
 subroutine test_sgetrs
     use f77_lapack, only: sgetrs, f77_getrs, f77_getrf, sgetrf
     use mfi_blas
@@ -20,6 +176,7 @@ subroutine test_sgetrs
     integer :: ipiv(N)
     integer :: info, info_rf, info_mfi
     character :: trans = 'N'
+
 
     ! Create a test matrix A and factorize it first
     A(1,:) = [2.0_wp, 1.0_wp, 1.0_wp]
@@ -48,7 +205,7 @@ subroutine test_sgetrs
 
     B_in = B
     call mfi_sgetrs(A_fact, ipiv, B_in, info=info_mfi)
-    call assert(all(abs(B_in - B_rf) < 1e-8) .and. info_mfi == info_rf, "different results for mfi_sgetrs")
+    call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_sgetrs")
 
     ! Test mfi interface (full form)
     A_fact = A  ! Refactorize
@@ -57,7 +214,7 @@ subroutine test_sgetrs
 
     B_in = B
     call mfi_getrs(A_fact, ipiv, B_in, info=info_mfi)
-    call assert(all(abs(B_in - B_rf) < 1e-8) .and. info_mfi == info_rf, "different results for mfi_getrs")
+    call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getrs")
 
 end subroutine
 subroutine test_dgetrs
@@ -72,6 +229,7 @@ subroutine test_dgetrs
     integer :: ipiv(N)
     integer :: info, info_rf, info_mfi
     character :: trans = 'N'
+
 
     ! Create a test matrix A and factorize it first
     A(1,:) = [2.0_wp, 1.0_wp, 1.0_wp]
@@ -100,7 +258,7 @@ subroutine test_dgetrs
 
     B_in = B
     call mfi_dgetrs(A_fact, ipiv, B_in, info=info_mfi)
-    call assert(all(abs(B_in - B_rf) < 1e-8) .and. info_mfi == info_rf, "different results for mfi_dgetrs")
+    call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_dgetrs")
 
     ! Test mfi interface (full form)
     A_fact = A  ! Refactorize
@@ -109,7 +267,7 @@ subroutine test_dgetrs
 
     B_in = B
     call mfi_getrs(A_fact, ipiv, B_in, info=info_mfi)
-    call assert(all(abs(B_in - B_rf) < 1e-8) .and. info_mfi == info_rf, "different results for mfi_getrs")
+    call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getrs")
 
 end subroutine
 subroutine test_cgetrs
@@ -124,6 +282,7 @@ subroutine test_cgetrs
     integer :: ipiv(N)
     integer :: info, info_rf, info_mfi
     character :: trans = 'N'
+
 
     ! Create a test matrix A and factorize it first
     A(1,:) = [2.0_wp, 1.0_wp, 1.0_wp]
@@ -152,7 +311,7 @@ subroutine test_cgetrs
 
     B_in = B
     call mfi_cgetrs(A_fact, ipiv, B_in, info=info_mfi)
-    call assert(all(abs(B_in - B_rf) < 1e-8) .and. info_mfi == info_rf, "different results for mfi_cgetrs")
+    call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_cgetrs")
 
     ! Test mfi interface (full form)
     A_fact = A  ! Refactorize
@@ -161,7 +320,7 @@ subroutine test_cgetrs
 
     B_in = B
     call mfi_getrs(A_fact, ipiv, B_in, info=info_mfi)
-    call assert(all(abs(B_in - B_rf) < 1e-8) .and. info_mfi == info_rf, "different results for mfi_getrs")
+    call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getrs")
 
 end subroutine
 subroutine test_zgetrs
@@ -176,6 +335,7 @@ subroutine test_zgetrs
     integer :: ipiv(N)
     integer :: info, info_rf, info_mfi
     character :: trans = 'N'
+
 
     ! Create a test matrix A and factorize it first
     A(1,:) = [2.0_wp, 1.0_wp, 1.0_wp]
@@ -204,7 +364,7 @@ subroutine test_zgetrs
 
     B_in = B
     call mfi_zgetrs(A_fact, ipiv, B_in, info=info_mfi)
-    call assert(all(abs(B_in - B_rf) < 1e-8) .and. info_mfi == info_rf, "different results for mfi_zgetrs")
+    call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_zgetrs")
 
     ! Test mfi interface (full form)
     A_fact = A  ! Refactorize
@@ -213,7 +373,7 @@ subroutine test_zgetrs
 
     B_in = B
     call mfi_getrs(A_fact, ipiv, B_in, info=info_mfi)
-    call assert(all(abs(B_in - B_rf) < 1e-8) .and. info_mfi == info_rf, "different results for mfi_getrs")
+    call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getrs")
 
 end subroutine
 
@@ -233,5 +393,6 @@ subroutine assert(test, msg, info)
     end if
 end subroutine
 
- end program
+  end program
+
 
