@@ -36,13 +36,13 @@ subroutine test_${f77 + suffix}$
     ! Test mfi interface (short form)
     B_in = B
     call mfi_${f77}$(A, B_in, info=info_mfi)
-    call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < 1e-10), &
+    call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_${f77}$")
 
     ! Test mfi interface (full form)
     B_in = B
     call ${mfi}$(A, B_in, info=info_mfi)
-    call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < 1e-10), &
+    call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for ${mfi}$")
 
 end subroutine
