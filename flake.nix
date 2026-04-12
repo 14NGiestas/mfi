@@ -14,15 +14,12 @@
         # Overlay: fortran-fpm 0.13.0 (PR #506818)
         # Remove this once merged into nixpkgs
         fpmOverlay = final: prev: {
-          fpm = prev.fpm.overrideAttrs (old: rec {
-            pname = "fortran-fpm";
+          fortran-fpm = prev.fortran-fpm.overrideAttrs (old: rec {
             version = "0.13.0";
             src = prev.fetchurl {
               url = "https://github.com/fortran-lang/fpm/releases/download/v${version}/fpm-${version}.F90";
-              # Flat hash from nix-prefetch-url --type sha256
               hash = "sha256-ABz/bPEUXyFbqgiIuieswGzqMKibedGovpfbP/+8jNI=";
             };
-            postPatch = "";
           });
         };
 
@@ -64,7 +61,7 @@
         commonBuildInputs = [
           pkgs.pkg-config
           pkgs.gfortran
-          pkgs.fpm
+          pkgs.fortran-fpm
           pkgs.fypp
         ];
 
