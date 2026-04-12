@@ -33,8 +33,8 @@ pure subroutine ${MFI_NAME}$(a, tau, k, info)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('${F77_NAME}$', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('${F77_NAME}$', abs(local_info))
     end if
 end subroutine
 #:enddef

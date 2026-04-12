@@ -18,6 +18,7 @@ subroutine test_${f77_name + suffix}$
     call test_get_1d(2000, N)
 
     allocate(array(N))
+    do ii = 1, N
         array(ii) = real(ii, wp)
     end do
     res(1) = ${f77_name}$(N, array, 1)

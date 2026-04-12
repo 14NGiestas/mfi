@@ -21,7 +21,7 @@ pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, in
     integer       :: s_iwork(1)
     ! Define a dummy array to use when needed (declarations first)
     integer, target :: dummy_ifail(1)
-    integer :: n, lda, ldz, lwork, lrwork, liwork, allocation_status, deallocation_status
+    integer :: n, lda, ldz, lwork, allocation_status, deallocation_status
     character(1) :: jobz, range
     character(len=1) :: local_uplo
     ${real(wp)}$ :: local_vl, local_vu, local_abstol
@@ -35,7 +35,11 @@ pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, in
     local_ifail => null()
 
     ! Set defaults
-    local_uplo = merge(uplo, 'U', present(uplo))
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
     n = size(a, 1)
     lda = max(1, size(a, 1))
 
@@ -97,12 +101,12 @@ pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, in
     if (present(vl)) then
         local_vl = vl
     else
-        local_vl = -huge(vl)  ! Use the value type for huge
+        local_vl = -huge(0.0_wp)
     end if
     if (present(vu)) then
         local_vu = vu
     else
-        local_vu = huge(vl)   ! Use the value type for huge
+        local_vu = huge(0.0_wp)
     end if
     if (present(abstol)) then
         local_abstol = abstol
@@ -114,36 +118,32 @@ pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, in
 
     ! Query workspace sizes
     lwork = -1
-    lrwork = -1
-    liwork = -1
 
     ! For workspace query, use appropriate arrays based on presence
     if (present(z)) then
         call ${F77_NAME}$(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                           local_il, local_iu, local_abstol, local_m, w, z, ldz, &
-                          s_work, lwork, s_rwork, lrwork, s_iwork, local_ifail, local_info)
+                          s_work, lwork, s_rwork, s_iwork, local_ifail, local_info)
     else
         ! When z is not present, use a dummy array with correct size
         ! Using a 1x1 array is safe since jobz='N' means z is not accessed
         call ${F77_NAME}$(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                           local_il, local_iu, local_abstol, local_m, w, a, ldz, &
-                          s_work, lwork, s_rwork, lrwork, s_iwork, local_ifail, local_info)
+                          s_work, lwork, s_rwork, s_iwork, local_ifail, local_info)
     end if
 
     if (local_info /= 0) goto 404
 
     ! Get the optimal workspace sizes from the query
     lwork = max(1, int(real(s_work(1), wp)))
-    lrwork = max(1, int(s_rwork(1)))
-    liwork = max(1, int(s_iwork(1)))
 
     ! Allocate workspace arrays
     allocate(work(lwork),   stat=allocation_status)
     if (allocation_status == 0) then
-        allocate(rwork(lrwork), stat=allocation_status)
+        allocate(rwork(max(1, int(s_rwork(1)))), stat=allocation_status)
     end if
     if (allocation_status == 0) then
-        allocate(iwork(liwork), stat=allocation_status)
+        allocate(iwork(max(1, int(s_iwork(1)))), stat=allocation_status)
     end if
 
     if (allocation_status == 0) then
@@ -151,12 +151,12 @@ pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, in
         if (present(z)) then
             call ${F77_NAME}$(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                               local_il, local_iu, local_abstol, local_m, w, z, ldz, &
-                              work, lwork, rwork, lrwork, iwork, local_ifail, local_info)
+                              work, lwork, rwork, iwork, local_ifail, local_info)
         else
             ! When z not present, pass a as dummy array (safe when jobz='N')
             call ${F77_NAME}$(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                               local_il, local_iu, local_abstol, local_m, w, a, ldz, &
-                              work, lwork, rwork, lrwork, iwork, local_ifail, local_info)
+                              work, lwork, rwork, iwork, local_ifail, local_info)
         end if
     else
         local_info = -1000
@@ -177,8 +177,8 @@ pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, in
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('${F77_NAME}$', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('${F77_NAME}$', abs(local_info))
     end if
 end subroutine
 #:enddef
