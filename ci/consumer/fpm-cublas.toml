@@ -3,9 +3,3 @@ version = "0.1.0"
 
 [dependencies]
 mfi = { path = "..", features = ["cublas"] }
-
-[build]
-link = ["cublas", "cudart", "gomp"]
-
-[profiles]
-cublas = []
