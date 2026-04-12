@@ -6,15 +6,21 @@ subroutine test_${f77 + suffix}$
 
     integer, parameter :: wp = ${kind(A)}$
     real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
-    integer, parameter :: N = 20
-    ${type(A)}$ :: x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N)
+    integer :: N
+    ${type(A)}$, allocatable :: x(:), y(:), x_in(:), y_in(:), x_rf(:), y_rf(:)
     real(wp) :: angle
     ${real(A)}$ :: c
     ${type(B)}$ :: s
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
     $:test_seed()
     call random_number(angle)
     angle = angle * 2.0_wp * pi
+    call test_get_1d(10000000, N)
+
+    allocate(x(N), y(N), x_in(N), y_in(N), x_rf(N), y_rf(N))
     $:random_number(type(A),'x','(N)')
     $:random_number(type(A),'y','(N)')
 
@@ -27,18 +33,20 @@ subroutine test_${f77 + suffix}$
 
     x_in = x; y_in = y
     call ${f90}$(N, x_in, 1, y_in, 1, c, s)
-    $:assert_close_1d('x_in', 'x_rf', '${f90}$:x', A)
-    $:assert_close_1d('y_in', 'y_rf', '${f90}$:y', A)
+    @:assert_close_1d(x_in, x_rf, '${f90}$:x', ${A}$)
+    @:assert_close_1d(y_in, y_rf, '${f90}$:y', ${A}$)
 
     x_in = x; y_in = y
     call mfi_${f77}$(x_in, y_in, c, s)
-    $:assert_close_1d('x_in', 'x_rf', 'mfi_${f77}$:x', A)
-    $:assert_close_1d('y_in', 'y_rf', 'mfi_${f77}$:y', A)
+    @:assert_close_1d(x_in, x_rf, 'mfi_${f77}$:x', ${A}$)
+    @:assert_close_1d(y_in, y_rf, 'mfi_${f77}$:y', ${A}$)
 
     x_in = x; y_in = y
     call ${mfi}$(x_in, y_in, c, s)
-    $:assert_close_1d('x_in', 'x_rf', '${mfi}$:x', A)
-    $:assert_close_1d('y_in', 'y_rf', '${mfi}$:y', A)
+    @:assert_close_1d(x_in, x_rf, '${mfi}$:x', ${A}$)
+    @:assert_close_1d(y_in, y_rf, '${mfi}$:y', ${A}$)
+
+    deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
 end subroutine
 #:enddef

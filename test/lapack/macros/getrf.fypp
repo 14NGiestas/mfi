@@ -12,6 +12,10 @@ subroutine test_${f77 + suffix}$
     integer :: ipiv_in(N), ipiv_rf(N)
     integer :: info, info_rf, info_mfi
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
     ! Create a test matrix for LU factorization
     A(1,:) = [2.0_wp, 1.0_wp, 1.0_wp]
     A(2,:) = [4.0_wp, 3.0_wp, 3.0_wp]

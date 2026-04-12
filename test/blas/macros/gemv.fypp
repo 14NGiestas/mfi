@@ -6,16 +6,17 @@ subroutine test_${f77 + suffix}$
     use mfi_blas, only: ${mfi}$, mfi_${f77}$
 
     integer, parameter :: wp = ${kind(wp)}$
-    integer, parameter :: N = 20
-    ${type(wp)}$ :: M(N,N), x(N), y(N), &
-                M_in(N,N), x_in(N), y_in(N), &
-                M_rf(N,N), x_rf(N), y_rf(N)
+    integer :: N
+    ${type(wp)}$, allocatable :: M(:,:), x(:), y(:), M_in(:,:), x_in(:), y_in(:), M_rf(:,:), x_rf(:), y_rf(:)
     ${type(wp)}$ :: alpha, beta
     character, parameter :: options(*) = ${_opts}$
     character :: trans
     integer :: i
 
     $:test_seed()
+    call test_get_2d(10000000, N)
+
+    allocate(M(N,N), x(N), y(N), M_in(N,N), x_in(N), y_in(N), M_rf(N,N), x_rf(N), y_rf(N))
     $:random_number(type(wp),'M','(N,N)')
     $:random_number(type(wp),'x','(N)')
     $:random_number(type(wp),'y','(N)')
@@ -31,32 +32,34 @@ subroutine test_${f77 + suffix}$
 
         M_in = M; x_in = x; y_in = y
         call ${f90}$(trans, N, N, alpha, M_in, N, x_in, 1, beta, y_in, 1)
-        $:assert_close('M_in', 'M_rf', '${f90}$:M', wp)
-        $:assert_close_1d('x_in', 'x_rf', '${f90}$:x', wp)
-        $:assert_close_1d('y_in', 'y_rf', '${f90}$:y', wp)
+        @:assert_close(M_in, M_rf, '${f90}$:M', ${wp}$)
+        @:assert_close_1d(x_in, x_rf, '${f90}$:x', ${wp}$)
+        @:assert_close_1d(y_in, y_rf, '${f90}$:y', ${wp}$)
 
         M_in = M; x_in = x; y_in = y
         call mfi_${f77}$(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
-        $:assert_close('M_in', 'M_rf', 'mfi_${f77}$:M', wp)
-        $:assert_close_1d('x_in', 'x_rf', 'mfi_${f77}$:x', wp)
-        $:assert_close_1d('y_in', 'y_rf', 'mfi_${f77}$:y', wp)
+        @:assert_close(M_in, M_rf, 'mfi_${f77}$:M', ${wp}$)
+        @:assert_close_1d(x_in, x_rf, 'mfi_${f77}$:x', ${wp}$)
+        @:assert_close_1d(y_in, y_rf, 'mfi_${f77}$:y', ${wp}$)
 
         M_in = M; x_in = x; y_in = y
         call ${mfi}$(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
-        $:assert_close('M_in', 'M_rf', '${mfi}$:M', wp)
-        $:assert_close_1d('x_in', 'x_rf', '${mfi}$:x', wp)
-        $:assert_close_1d('y_in', 'y_rf', '${mfi}$:y', wp)
+        @:assert_close(M_in, M_rf, '${mfi}$:M', ${wp}$)
+        @:assert_close_1d(x_in, x_rf, '${mfi}$:x', ${wp}$)
+        @:assert_close_1d(y_in, y_rf, '${mfi}$:y', ${wp}$)
 
 #if defined(MFI_CUBLAS)
         call mfi_force_gpu()
         M_in = M; x_in = x; y_in = y
         call ${mfi}$(M_in, x_in, y_in, alpha=alpha, beta=beta, trans=trans)
         call mfi_force_cpu()
-        $:assert_close('M_in', 'M_rf', 'GPU:${mfi}$:M', wp)
-        $:assert_close_1d('x_in', 'x_rf', 'GPU:${mfi}$:x', wp)
-        $:assert_close_1d('y_in', 'y_rf', 'GPU:${mfi}$:y', wp)
+        @:assert_close(M_in, M_rf, 'GPU:${mfi}$:M', ${wp}$)
+        @:assert_close_1d(x_in, x_rf, 'GPU:${mfi}$:x', ${wp}$)
+        @:assert_close_1d(y_in, y_rf, 'GPU:${mfi}$:y', ${wp}$)
 #endif
     end do
+
+    deallocate(M, x, y, M_in, x_in, y_in, M_rf, x_rf, y_rf)
 
 end subroutine
 #:enddef

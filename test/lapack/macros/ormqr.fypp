@@ -17,6 +17,10 @@ subroutine test_${f77 + suffix}$
     ! For RQ routines, we need temporary matrix for proper factorization
     ${type(wp)}$ :: A_factorize(M,N)  ! Temporary matrix for RQ factorization
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
     ! Create a test matrix A (will be factorized)
     ! For RQ/QR routines, the factorization matrix A needs appropriate dimensions for multiplication
     ! When using ORMRQ/ORMQR, A should be properly sized for the side operation:

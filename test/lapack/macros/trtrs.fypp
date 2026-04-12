@@ -11,6 +11,10 @@ subroutine test_${f77 + suffix}$
     ${type(wp)}$ :: A(N,N), B(N,NRHS), B_in(N,NRHS), B_rf(N,NRHS)
     integer :: info, info_rf, info_mfi
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
     ! Create a triangular matrix A
     A = reshape([4.0_wp, 0.0_wp, 0.0_wp, &  ! column 1
                  2.0_wp, 3.0_wp, 0.0_wp, &  ! column 2

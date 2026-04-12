@@ -5,17 +5,18 @@ subroutine test_${f77 + suffix}$
     use mfi_blas, only: ${mfi}$, mfi_${f77}$
 
     integer, parameter :: wp = ${kind(A)}$
-    integer, parameter :: N = 20
-    ${type(B)}$ :: array(N)
+    integer :: N, ii
+    ${type(B)}$, allocatable :: array(:)
     ${type(A)}$ :: res(4)
-    integer :: ii
 
 #:if suffix
     call mfi_force_gpu()
 #:endif
 
     $:test_seed()
+    call test_get_1d(10000000, N)
 
+    allocate(array(N))
     do ii = 1, N
         array(ii) = real(ii, wp)
     end do
@@ -31,6 +32,8 @@ subroutine test_${f77 + suffix}$
     res(3) = mfi_${f77}$(array)
     res(4) = ${mfi}$(array)
     call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "random array mismatch")
+
+    deallocate(array)
 
 end subroutine
 #:enddef

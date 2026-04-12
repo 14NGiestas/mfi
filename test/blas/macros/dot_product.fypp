@@ -5,11 +5,17 @@ subroutine test_${f77 + suffix}$
     use mfi_blas, only: ${mfi}$, mfi_${f77}$
 
     integer, parameter :: wp = ${kind(wp)}$
-    integer, parameter :: N = 20
+    integer :: N
     ${type(wp)}$ :: res, ref
-    ${type(wp)}$ :: x(N), y(N)
+    ${type(wp)}$, allocatable :: x(:), y(:)
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
     $:test_seed()
+    call test_get_1d(10000000, N)
+
+    allocate(x(N), y(N))
     $:random_number(type(wp),'x','(N)')
     $:random_number(type(wp),'y','(N)')
 
@@ -23,6 +29,8 @@ subroutine test_${f77 + suffix}$
 
     res = ${mfi}$(x, y)
     call assert(abs(ref - res) < sqrt(epsilon(1.0_wp)), "${mfi}$ mismatch")
+
+    deallocate(x, y)
 
 end subroutine
 #:enddef

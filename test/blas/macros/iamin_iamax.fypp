@@ -6,18 +6,18 @@ subroutine test_${f77_name + suffix}$
     use mfi_blas, only: ${mfi}$, mfi_${f77_name}$
 
     integer, parameter :: wp = ${kind(wp)}$
-    integer, parameter :: N = 20
-    ${type(wp)}$ :: array(N)
+    integer :: N, ii
+    ${type(wp)}$, allocatable :: array(:)
     integer :: res(4)
-    integer :: ii
 
 #:if suffix
     call mfi_force_gpu()
 #:endif
 
     $:test_seed()
+    call test_get_1d(10000000, N)
 
-    do ii = 1, N
+    allocate(array(N))
         array(ii) = real(ii, wp)
     end do
     res(1) = ${f77_name}$(N, array, 1)

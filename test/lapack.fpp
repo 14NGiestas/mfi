@@ -35,44 +35,40 @@
 ]
 #:set _modname = lambda name: name.replace('?','')
 
-#:for name, supported_types, code in _COLLECT
- program test_${_modname(name)}$
- use iso_fortran_env
- use mfi_lapack
- #:set f77_names = ', '.join([prefix(pfx, name) for pfx in supported_types])
- use f77_lapack, only: ${f77_names}$
- implicit none
- #:for pfx in supported_types
- #:set f77 = prefix(pfx, name)
- #:set mfi = 'mfi_' + prefix('', name)
- print '(A)', "testing ${mfi}$ (CPU) against ${f77}$"
- #:endfor
- contains
- $:test_implement(name, supported_types, code)
+ #:for name, supported_types, code in _COLLECT
+  program test_${_modname(name)}$
+  use iso_fortran_env
+  use mfi_lapack
+  #:set f77_names = ', '.join([prefix(pfx, name) for pfx in supported_types])
+  use f77_lapack, only: ${f77_names}$
+  implicit none
+  $:test_run_lapack(name, supported_types)
+  contains
+  $:fmt_time_fn()
+  $:test_implement(name, supported_types, code)
 
- #:include "test/assert.inc"
+  #:include "test/assert.inc"
 
- end program
+  end program
+
 
 #:endfor
 
-#:for name, supported_types, code in _COLLECT
- program test_${_modname(name)}$_gpu
- use iso_fortran_env
- use mfi_lapack
- #:set f77_names = ', '.join([prefix(pfx, name) for pfx in supported_types])
- use f77_lapack, only: ${f77_names}$
- implicit none
- #:for pfx in supported_types
- #:set f77 = prefix(pfx, name)
- #:set mfi = 'mfi_' + prefix('', name)
- print '(A)', "testing ${mfi}$ (GPU) against ${f77}$"
- #:endfor
- contains
- $:test_implement_gpu(name, supported_types, code)
+ #:for name, supported_types, code in _COLLECT
+  program test_${_modname(name)}$_gpu
+  use iso_fortran_env
+  use mfi_lapack
+  #:set f77_names = ', '.join([prefix(pfx, name) for pfx in supported_types])
+  use f77_lapack, only: ${f77_names}$
+  implicit none
+  $:test_run_lapack_gpu(name, supported_types)
+  contains
+  $:fmt_time_fn()
+  $:test_implement_gpu(name, supported_types, code)
 
- #:include "test/assert.inc"
+  #:include "test/assert.inc"
 
- end program
+  end program
+
 
 #:endfor

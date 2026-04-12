@@ -2,6 +2,7 @@
 #:set wp = pfxs[0]
 #:set _opts = "['E','e','S','s','B','b','P','p','N','n','R','r','M','m','U','u','L','l','O','o']"
 subroutine test_${f77 + suffix}$
+    use mfi_blas
     use f77_blas, only: ${f77}$
     use mfi_blas, only: ${mfi}$
 
@@ -9,6 +10,10 @@ subroutine test_${f77 + suffix}$
     character, parameter :: options(*) = ${_opts}$
     ${type(wp)}$ :: a, b
     integer :: i
+
+#:if suffix
+    call mfi_force_gpu()
+#:endif
 
     do i=1,size(options)
         a = ${f77}$(options(i))

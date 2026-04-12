@@ -5,11 +5,12 @@ subroutine test_${f77 + suffix}$
     use mfi_blas, only: ${mfi}$
 
     integer, parameter :: wp = ${kind(wp)}$
-    integer, parameter :: M = 10, N = 10
-    ${type(wp)}$ :: A(M,M), B(M,N), B_in(M,N), B_rf(M,N)
+    integer :: M, N
+    ${type(wp)}$, allocatable :: A(:,:), B(:,:), B_in(:,:), B_rf(:,:)
     ${type(wp)}$ :: alpha
     character :: side, uplo, transa, diag
     integer :: i_side, i_uplo, i_transa, i_diag
+    integer :: ir, ic
 
     character, parameter :: sides(*) = ['L', 'R']
     character, parameter :: uplos(*) = ['U', 'L']
@@ -17,17 +18,26 @@ subroutine test_${f77 + suffix}$
     character, parameter :: diags(*) = ['N', 'U']
 
     $:test_seed()
+    call test_get_2d(10000000, M)
+    N = M
 
-    A = 0.0_wp
-    do i_side = 1, M
-        A(i_side, i_side) = 1.0_wp + real(i_side, wp)
-        do i_uplo = 1, i_side - 1
-            A(i_uplo, i_side) = real(i_uplo + i_side, wp)
-        end do
-    end do
-
+    allocate(A(M,M), B(M,N), B_in(M,N), B_rf(M,N))
+    ! Generate a well-conditioned triangular matrix
+    $:random_number(type(wp),'A','(M,M)')
     $:random_number(type(wp),'B','(M,N)')
     $:random_number(type(wp),'alpha')
+    ! Zero out half, scale off-diagonal, set diagonal to [1,2]
+    do ir = 1, M
+        do ic = 1, M
+            if (ic > ir) then
+                A(ir, ic) = 0.0_wp
+            else if (ic == ir) then
+                A(ir, ic) = 1.0_wp + real(ir, wp) * 0.1_wp
+            else
+                A(ir, ic) = (A(ir, ic) - 0.5_wp) * 0.2_wp
+            end if
+        end do
+    end do
 
     do i_side = 1, size(sides)
     do i_uplo = 1, size(uplos)
@@ -43,19 +53,20 @@ subroutine test_${f77 + suffix}$
 
         B_in = B
         call ${mfi}$(A, B_in, side=side, uplo=uplo, transa=transa, diag=diag, alpha=alpha)
-        $:assert_close('B_in', 'B_rf', '${mfi}$:${side}${uplo}${transa}${diag}', wp)
+        @:assert_close(B_in, B_rf, '${mfi}$:' // side // uplo // transa // diag, ${wp}$)
 
 #if defined(MFI_CUBLAS)
         call mfi_force_gpu()
         B_in = B
         call ${mfi}$(A, B_in, side=side, uplo=uplo, transa=transa, diag=diag, alpha=alpha)
         call mfi_force_cpu()
-        $:assert_close('B_in', 'B_rf', 'GPU:${mfi}$:${side}${uplo}${transa}${diag}', wp)
+        @:assert_close(B_in, B_rf, 'GPU:${mfi}$:' // side // uplo // transa // diag, ${wp}$)
 #endif
 
     end do
     end do
     end do
     end do
+    deallocate(A, B, B_in, B_rf)
 end subroutine
 #:enddef

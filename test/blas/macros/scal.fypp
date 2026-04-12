@@ -5,11 +5,17 @@ subroutine test_${f77 + suffix}$
     use mfi_blas, only: ${mfi}$, mfi_${f77}$
 
     integer, parameter :: wp = ${kind(A)}$
-    integer, parameter :: N = 20
-    ${type(A)}$ :: x(N), x_in(N), x_rf(N)
+    integer :: N
+    ${type(A)}$, allocatable :: x(:), x_in(:), x_rf(:)
     ${type(B)}$ :: alpha
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
     $:test_seed()
+    call test_get_1d(10000000, N)
+
+    allocate(x(N), x_in(N), x_rf(N))
     $:random_number(type(A),'x','(N)')
     $:random_number(type(B),'alpha')
 
@@ -19,15 +25,17 @@ subroutine test_${f77 + suffix}$
 
     x_in = x
     call ${f90}$(N, alpha, x_in, 1)
-    $:assert_close_1d('x_in', 'x_rf', '${f90}$', A)
+    @:assert_close_1d(x_in, x_rf, '${f90}$', ${A}$)
 
     x_in = x
     call mfi_${f77}$(alpha, x_in)
-    $:assert_close_1d('x_in', 'x_rf', 'mfi_${f77}$', A)
+    @:assert_close_1d(x_in, x_rf, 'mfi_${f77}$', ${A}$)
 
     x_in = x
     call ${mfi}$(alpha, x_in)
-    $:assert_close_1d('x_in', 'x_rf', '${mfi}$', A)
+    @:assert_close_1d(x_in, x_rf, '${mfi}$', ${A}$)
+
+    deallocate(x, x_in, x_rf)
 
 end subroutine
 #:enddef

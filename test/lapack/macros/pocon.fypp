@@ -36,6 +36,10 @@ subroutine test_${f77 + suffix}$
         if (col_sum > anorm) anorm = col_sum
     end do
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
     ! Test f77 interface for pocon
     #:if type(wp) == real(wp)
     allocate(work(3*N))  ! Real pocon functions use 3*N for work array

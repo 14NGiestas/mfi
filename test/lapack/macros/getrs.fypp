@@ -13,6 +13,10 @@ subroutine test_${f77 + suffix}$
     integer :: info, info_rf, info_mfi
     character :: trans = 'N'
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
     ! Create a test matrix A and factorize it first
     A(1,:) = [2.0_wp, 1.0_wp, 1.0_wp]
     A(2,:) = [4.0_wp, 3.0_wp, 3.0_wp]

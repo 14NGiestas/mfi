@@ -11,6 +11,10 @@ subroutine test_${f77 + suffix}$
     ${type(wp)}$ :: A(N,N), A_in(N,N), A_rf(N,N)
     integer :: info, info_rf, info_mfi
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
     ! Create a positive definite matrix
     A = reshape([4.0_wp, 1.0_wp, 1.0_wp, &
                  1.0_wp, 4.0_wp, 1.0_wp, &

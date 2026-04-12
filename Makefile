@@ -64,3 +64,9 @@ test_lapack_split: test/lapack.fpp
 
 clean:
 	-rm -f $(src_f90_files) test/blas/*.f90 test/lapack/*.f90 src/mfi/blas/*.f90 src/f77/blas/*.f90 src/mfi/lapack/*.f90 src/f77/lapack/*.f90 src/mfi/blas.f90 src/f77/blas.f90 src/mfi/lapack.f90 src/f77/lapack.f90 .mfi_* .f77_* .mfi_lapack_* .f77_lapack_* .blas_*.tmp .lapack_*.tmp .test_blas.tmp .test_lapack.tmp
+
+.PHONY: regenerate
+regenerate:
+	@echo "Forcing regeneration of all .f90 files from .fpp sources..."
+	-rm -f $(src_f90_files) test/blas/*.f90 test/lapack/*.f90 src/mfi/blas/*.f90 src/f77/blas/*.f90 src/mfi/lapack/*.f90 src/f77/lapack/*.f90 .mfi_* .f77_* .mfi_lapack_* .f77_lapack_* .blas_*.tmp .lapack_*.tmp .test_blas.tmp .test_lapack.tmp
+	$(MAKE) all

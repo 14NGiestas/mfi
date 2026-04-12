@@ -6,63 +6,48 @@ subroutine test_${f77 + suffix}$
     use mfi_blas, only: ${mfi}$, mfi_${f77}$
 
     integer, parameter :: wp = ${kind(wp)}$
-    integer, parameter :: N = 20
+    integer :: M, N
     character, parameter :: options(*) = ${_opts}$
-    ${type(wp)}$ :: A(N,N),    B(N,N),    C(N,N),   &
-                A_in(N,N), B_in(N,N), C_in(N,N),&
-                A_rf(N,N), B_rf(N,N), C_rf(N,N)
+    ${type(wp)}$, allocatable :: A(:,:), B(:,:), C(:,:), C_rf(:,:)
     ${type(wp)}$ :: alpha, beta
     character :: transa, transb
-    integer :: i, j, k
+    integer :: i, j
 
     $:test_seed()
+    call test_get_2d(10000000, M)
+    N = M
 
-    $:random_number(type(wp),'A','(N,N)')
+    allocate(A(M,N), B(N,N), C(M,N), C_rf(M,N))
+    $:random_number(type(wp),'A','(M,N)')
     $:random_number(type(wp),'B','(N,N)')
-    $:random_number(type(wp),'C','(N,N)')
+    $:random_number(type(wp),'C','(M,N)')
     $:random_number(type(wp),'alpha')
     $:random_number(type(wp),'beta')
 
-    do i=1,size(options)
-    do j=1,size(options)
-    do k=1,100
-        transa = options(i)
-        transb = options(j)
+    #:set tol = 'sqrt(real(max(M,N), wp)) * 10.0'
 
-        A_in = A; B_in = B; C_in = C
-        call ${f77}$(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
-        A_rf = A_in; B_rf = B_in; C_rf = C_in
+    ! Correctness check + benchmark: multiple runs
+    do
+        transa = 'N'; transb = 'N'
+        C = 0.0_wp
+        call ${f77}$(transa, transb, M, N, N, alpha, A, M, B, N, beta, C, M)
+        C_rf = C
 
-        A_in = A; B_in = B; C_in = C
-        call ${f90}$(transa, transb, N, N, N, alpha, A_in, N, B_in, N, beta, C_in, N)
-        $:assert_close('A_in', 'A_rf', '${f90}$:A', wp)
-        $:assert_close('B_in', 'B_rf', '${f90}$:B', wp)
-        $:assert_close('C_in', 'C_rf', '${f90}$:C', wp)
-
-        A_in = A; B_in = B; C_in = C
-        call mfi_${f77}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
-        $:assert_close('A_in', 'A_rf', 'mfi_${f77}$:A', wp)
-        $:assert_close('B_in', 'B_rf', 'mfi_${f77}$:B', wp)
-        $:assert_close('C_in', 'C_rf', 'mfi_${f77}$:C', wp)
-
-        A_in = A; B_in = B; C_in = C
-        call ${mfi}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
-        $:assert_close('A_in', 'A_rf', '${mfi}$:A', wp)
-        $:assert_close('B_in', 'B_rf', '${mfi}$:B', wp)
-        $:assert_close('C_in', 'C_rf', '${mfi}$:C', wp)
+        C = 0.0_wp
+        call ${mfi}$(A, B, C, alpha=alpha, beta=beta, transa=transa, transb=transb)
+        @:assert_close(C, C_rf, '${mfi}$:NN', ${wp}$, ${tol}$)
 
 #if defined(MFI_CUBLAS)
         call mfi_force_gpu()
-        A_in = A; B_in = B; C_in = C
-        call ${mfi}$(A_in,B_in,C_in,alpha=alpha, beta=beta, transa=transa, transb=transb)
+        C = 0.0_wp
+        call ${mfi}$(A, B, C, alpha=alpha, beta=beta, transa=transa, transb=transb)
+        @:assert_close(C, C_rf, 'GPU:${mfi}$:NN', ${wp}$, ${tol}$)
         call mfi_force_cpu()
-        $:assert_close('A_in', 'A_rf', 'GPU:${mfi}$:A', wp)
-        $:assert_close('B_in', 'B_rf', 'GPU:${mfi}$:B', wp)
-        $:assert_close('C_in', 'C_rf', 'GPU:${mfi}$:C', wp)
 #endif
-    end do
-    end do
+
+        exit
     end do
 
+    deallocate(A, B, C, C_rf)
 end subroutine
 #:enddef

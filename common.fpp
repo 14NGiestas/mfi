@@ -38,11 +38,41 @@
 
 #:def timeit(message, code)
 block
-real :: t1, t2
-call cpu_time(t1)
-$:code
-call cpu_time(t2)
-print '(A," (",G0,"s)")', ${message}$, t2-t1
+    integer :: t_n, t_i, t_stat
+    real :: t_t1, t_t2, t_sum, t_sum2, t_tmin, t_tmax, t_sig
+    real, allocatable :: t_dt(:)
+    character(16) :: t_mu, t_ms, t_mn, t_mx
+    character(32) :: t_env
+    call get_environment_variable('MFI_TEST_SAMPLES', value=t_env, status=t_stat)
+    if (t_stat == 0 .and. len_trim(t_env) > 0) then
+        read(t_env, '(I10)', iostat=t_stat) t_n
+    else
+        t_n = 3
+    end if
+    if (t_n < 1) t_n = 1
+    allocate(t_dt(t_n))
+    t_tmin = huge(1.0)
+    t_tmax = -huge(1.0)
+    t_sum  = 0.0
+    t_sum2 = 0.0
+    do t_i = 1, t_n
+        call cpu_time(t_t1)
+        $:code
+        call cpu_time(t_t2)
+        t_dt(t_i) = t_t2 - t_t1
+        t_tmin = min(t_tmin, t_dt(t_i))
+        t_tmax = max(t_tmax, t_dt(t_i))
+        t_sum  = t_sum  + t_dt(t_i)
+        t_sum2 = t_sum2 + t_dt(t_i)**2
+    end do
+    deallocate(t_dt)
+    t_sig = sqrt(max(t_sum2/t_n - (t_sum/t_n)**2, 0.0))
+    call fmt_time(t_sum/t_n, t_mu)
+    call fmt_time(t_sig, t_ms)
+    call fmt_time(t_tmin, t_mn)
+    call fmt_time(t_tmax, t_mx)
+    print '(A,"  μ=",A16," σ=",A16," min=",A16," max=",A16,"  (",I0," runs)")', &
+        ${message + ' ' * max(0, 42 - len(str(message).replace(chr(27)+'[', '<<')))}$, t_mu, t_ms, t_mn, t_mx, t_n
 end block
 #:enddef
 
@@ -215,21 +245,43 @@ $:code(f77=f77, f90=f90, mfi=mfi, pfxs=pfxs, suffix='_gpu')
 #:endfor
 #:enddef
 
+#! ANSI color codes (Python chr() for Fypp-time evaluation)
+#:set _GREEN    = chr(27)+'[32m'
+#:set _BLUE     = chr(27)+'[34m'
+#:set _RED      = chr(27)+'[31m'
+#:set _YELLOW   = chr(27)+'[33m'
+#:set _RESET    = chr(27)+'[0m'
+
+#! Label padding — adds trailing spaces to align stats columns.
+#:set _pad = lambda s: s + ' ' * max(0, 40 - len(s.replace(chr(27)+'[', '<<')))
+
 #:def test_run(generic_name, prefixes)
 #:for pfx in prefixes
 #:set f77 =          prefix(pfx,generic_name)
 #:set mfi = 'mfi_' + prefix('',generic_name)
-@:timeit("testing ${mfi}$ (CPU) against ${f77}$", { call ${f77}$ })
+#:set pfx_c = _RED if pfx == 's' else (_GREEN if pfx == 'd' else (_BLUE if pfx == 'c' else _YELLOW))
+#:set f77_s = pfx_c + f77 + _RESET
+@:timeit("testing ${pfx_c}$${pfx}$${_RESET}$ ${mfi}$ (${_BLUE}$CPU${_RESET}$) against ${f77_s}$", { call test_${f77}$ })
 #:endfor
 #:enddef
 
 #:def test_run_lapack(generic_name, prefixes)
-#:set f77_names = ', '.join([prefix(pfx, generic_name) for pfx in prefixes])
-use f77_lapack, only: ${f77_names}$
 #:for pfx in prefixes
 #:set f77 =          prefix(pfx,generic_name)
 #:set mfi = 'mfi_' + prefix('',generic_name)
-@:timeit("testing ${mfi}$ (CPU) against ${f77}$", { call ${f77}$ })
+#:set pfx_c = _RED if pfx == 's' else (_GREEN if pfx == 'd' else (_BLUE if pfx == 'c' else _YELLOW))
+#:set f77_s = pfx_c + f77 + _RESET
+@:timeit("testing ${pfx_c}$${pfx}$${_RESET}$ ${mfi}$ (${_BLUE}$CPU${_RESET}$) against ${f77_s}$", { call test_${f77}$ })
+#:endfor
+#:enddef
+
+#:def test_run_lapack_gpu(generic_name, prefixes)
+#:for pfx in prefixes
+#:set f77 =          prefix(pfx,generic_name)
+#:set mfi = 'mfi_' + prefix('',generic_name)
+#:set pfx_c = _RED if pfx == 's' else (_GREEN if pfx == 'd' else (_BLUE if pfx == 'c' else _YELLOW))
+#:set f77_s = pfx_c + f77 + _RESET
+@:timeit("testing ${pfx_c}$${pfx}$${_RESET}$ ${mfi}$ (${_GREEN}$GPU${_RESET}$) against ${f77_s}$", { call test_${f77}$_gpu })
 #:endfor
 #:enddef
 
@@ -237,18 +289,27 @@ use f77_lapack, only: ${f77_names}$
 #:for pfx in prefixes
 #:set f77 =          prefix(pfx,generic_name)
 #:set mfi = 'mfi_' + prefix('',generic_name)
-@:timeit("testing ${mfi}$ (GPU) against ${f77}$", { call ${f77 + '_gpu'}$ })
+#:set pfx_c = _RED if pfx == 's' else (_GREEN if pfx == 'd' else (_BLUE if pfx == 'c' else _YELLOW))
+#:set f77_s = pfx_c + f77 + _RESET
+@:timeit("testing ${pfx_c}$${pfx}$${_RESET}$ ${mfi}$ (${_GREEN}$GPU${_RESET}$) against ${f77_s}$", { call test_${f77}$_gpu })
 #:endfor
 #:enddef
 
-#:def test_run_lapack_gpu(generic_name, prefixes)
-#:set f77_names = ', '.join([prefix(pfx, generic_name) + '_gpu' for pfx in prefixes])
-use f77_lapack, only: ${f77_names}$
-#:for pfx in prefixes
-#:set f77 =          prefix(pfx,generic_name)
-#:set mfi = 'mfi_' + prefix('',generic_name)
-@:timeit("testing ${mfi}$ (GPU) against ${f77}$", { call ${f77 + '_gpu'}$ })
-#:endfor
+#! GPU test wrapper — activates GPU, runs code, resets to CPU.
+#! Only expands to GPU switches when suffix is non-empty and MFI_CUBLAS is defined.
+#! Usage: @:on_gpu({ call mfi_gemm(A, B, C) }, suffix)
+#:def on_gpu(code, suffix='')
+#:if suffix
+#if defined(MFI_CUBLAS)
+    call mfi_force_gpu()
+#endif
+    $:code
+#if defined(MFI_CUBLAS)
+    call mfi_force_cpu()
+#endif
+#:else
+    $:code
+#:endif
 #:enddef
 
 #! Run code on GPU mode (only when compiled with MFI_CUBLAS).
@@ -269,6 +330,21 @@ use f77_lapack, only: ${f77_names}$
 #! Always expands to just the code (CPU is the default).
 #:def mfi_cpu(code)
     $:code
+#:enddef
+
+#:def fmt_time_fn()
+
+  subroutine fmt_time(t, out)
+      real, intent(in) :: t
+      character(*), intent(out) :: out
+      if (t < 1.0e-3) then
+          write(out, '(F12.3,"µs")') t * 1.0e6
+      else if (t < 1.0) then
+          write(out, '(F12.3,"ms")') t * 1.0e3
+      else
+          write(out, '(F12.3,"s ")') t
+      end if
+  end subroutine fmt_time
 #:enddef
 
 #! Initialize random seed from MFI_TEST_SEED env var (or default=42).
@@ -293,25 +369,133 @@ block
 end block
 #:enddef
 
+#! Test problem size — reads MFI_TEST_ELEMENTS env var at Fypp time (compile-time default).
+#! Usage: ${N1D(10000000)}$        → ~10M elements (1D array length)
+#!        ${N2D(10000000)}$        → ~3162 (sqrt, matrix NxN)
+#:set _total_elements = int(os.environ.get('MFI_TEST_ELEMENTS', '10000000'))
+#:set N1D = lambda n=_total_elements: n
+#:set N2D = lambda n=_total_elements: int(n ** 0.5)
+
+#! Runtime test size — use inside subroutines with allocatable arrays.
+#! Usage:
+#!   call test_get_1d(10000000, N)   ! sets N from env var or default
+#!   call test_get_2d(10000000, N)   ! sets N=sqrt(elements) from env var or default
+#:def test_get_size_fn()
+
+  subroutine test_get_1d(default, n)
+      integer, intent(in) :: default
+      integer, intent(out) :: n
+      integer :: tgs_stat
+      character(32) :: tgs_env
+      call get_environment_variable('MFI_TEST_ELEMENTS', value=tgs_env, status=tgs_stat)
+      if (tgs_stat == 0 .and. len_trim(tgs_env) > 0) then
+          read(tgs_env, '(I10)', iostat=tgs_stat) n
+      else
+          n = default
+      end if
+      if (n < 1) n = default
+  end subroutine test_get_1d
+
+  subroutine test_get_2d(default, n)
+      integer, intent(in) :: default
+      integer, intent(out) :: n
+      integer :: tgs_stat, tgs_val
+      character(32) :: tgs_env
+      call get_environment_variable('MFI_TEST_ELEMENTS', value=tgs_env, status=tgs_stat)
+      if (tgs_stat == 0 .and. len_trim(tgs_env) > 0) then
+          read(tgs_env, '(I10)', iostat=tgs_stat) tgs_val
+          n = int(sqrt(real(tgs_val)))
+      else
+          n = int(sqrt(real(default)))
+      end if
+      if (n < 4) n = 4
+  end subroutine test_get_2d
+#:enddef
+
+#! Runtime test size functions — read MFI_TEST_ELEMENTS env var at runtime.
+#! Like test_seed() but for array dimensions. Use with allocatable arrays.
+#! Usage: $:test_size_fn() in the contains block, then:
+#!        integer :: N = test_size_1d(2000)   ! 1D vector length
+#!        integer :: N = test_size_2d(2000)   ! sqrt(elements) for NxN matrix
+#:def test_size_fn()
+
+  function test_size_1d(default) result(n)
+      integer, intent(in) :: default
+      integer :: n
+      integer :: env_stat
+      character(32) :: env_val
+      call get_environment_variable('MFI_TEST_ELEMENTS', value=env_val, status=env_stat)
+      if (env_stat == 0 .and. len_trim(env_val) > 0) then
+          read(env_val, '(I10)', iostat=env_stat) n
+      end if
+      if (env_stat /= 0) n = default
+  end function test_size_1d
+
+  function test_size_2d(default) result(n)
+      integer, intent(in) :: default
+      integer :: n
+      integer :: env_stat
+      character(32) :: env_val
+      call get_environment_variable('MFI_TEST_ELEMENTS', value=env_val, status=env_stat)
+      if (env_stat == 0 .and. len_trim(env_val) > 0) then
+          read(env_val, '(I10)', iostat=env_stat) n
+          n = int(sqrt(real(n)))
+      end if
+      if (env_stat /= 0) n = int(sqrt(real(default)))
+  end function test_size_2d
+
+  function test_samples(default) result(ns)
+      integer, intent(in) :: default
+      integer :: ns
+      integer :: env_stat
+      character(32) :: env_val
+      call get_environment_variable('MFI_TEST_SAMPLES', value=env_val, status=env_stat)
+      if (env_stat == 0 .and. len_trim(env_val) > 0) then
+          read(env_val, '(I10)', iostat=env_stat) ns
+      end if
+      if (env_stat /= 0) ns = default
+  end function test_samples
+#:enddef
+
 #! Assert two 2D arrays are close within type-appropriate tolerance.
-#! Usage: $:assert_close('A', 'A_rf', 'label', wp)
-#:def assert_close(actual, expected, label, wp)
+#! Usage: @:assert_close(A, A_rf, 'label', wp)
+#!   @:assert_close(A, A_rf, 'label', wp, 10.0)  — custom tolerance multiplier
+#:def assert_close(actual, expected, label, wp, tol=None)
 #:set knd = kind(wp)
+#:set eps = 'epsilon(1.0_' + knd + ')'
 #:if wp in ['s','d']
-call assert(maxval(abs(${actual}$ - ${expected}$)) < sqrt(epsilon(1.0_${knd}$)), "${label}$: mismatch")
+#:if tol is None
+    call assert(maxval(abs(${actual}$ - ${expected}$)) < sqrt(${eps}$), ${label}$ // ": mismatch")
 #:else
-call assert(maxval(abs(${actual}$ - ${expected}$)) < 2.0 * sqrt(epsilon(1.0_${knd}$)), "${label}$: mismatch")
+    call assert(maxval(abs(${actual}$ - ${expected}$)) < ${tol}$ * sqrt(${eps}$), ${label}$ // ": mismatch")
+#:endif
+#:else
+#:if tol is None
+    call assert(maxval(abs(${actual}$ - ${expected}$)) < 2.0 * sqrt(${eps}$), ${label}$ // ": mismatch")
+#:else
+    call assert(maxval(abs(${actual}$ - ${expected}$)) < ${tol}$ * 2.0 * sqrt(${eps}$), ${label}$ // ": mismatch")
+#:endif
 #:endif
 #:enddef
 
 #! Assert two 1D arrays are close within type-appropriate tolerance.
-#! Usage: $:assert_close_1d('x', 'x_rf', 'label', wp)
-#:def assert_close_1d(actual, expected, label, wp)
+#! Usage: @:assert_close_1d(x, x_rf, 'label', wp)
+#!   @:assert_close_1d(x, x_rf, 'label', wp, 10.0)  — custom tolerance multiplier
+#:def assert_close_1d(actual, expected, label, wp, tol=None)
 #:set knd = kind(wp)
+#:set eps = 'epsilon(1.0_' + knd + ')'
 #:if wp in ['s','d']
-call assert(maxval(abs(${actual}$ - ${expected}$)) < sqrt(epsilon(1.0_${knd}$)), "${label}$: mismatch")
+#:if tol is None
+    call assert(maxval(abs(${actual}$ - ${expected}$)) < sqrt(${eps}$), ${label}$ // ": mismatch")
 #:else
-call assert(maxval(abs(${actual}$ - ${expected}$)) < 2.0 * sqrt(epsilon(1.0_${knd}$)), "${label}$: mismatch")
+    call assert(maxval(abs(${actual}$ - ${expected}$)) < ${tol}$ * sqrt(${eps}$), ${label}$ // ": mismatch")
+#:endif
+#:else
+#:if tol is None
+    call assert(maxval(abs(${actual}$ - ${expected}$)) < 2.0 * sqrt(${eps}$), ${label}$ // ": mismatch")
+#:else
+    call assert(maxval(abs(${actual}$ - ${expected}$)) < ${tol}$ * 2.0 * sqrt(${eps}$), ${label}$ // ": mismatch")
+#:endif
 #:endif
 #:enddef
 

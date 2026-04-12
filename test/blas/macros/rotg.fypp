@@ -5,16 +5,20 @@ subroutine test_${f77 + suffix}$
     use mfi_blas, only: ${mfi}$
 
     integer, parameter :: wp = ${kind(wp)}$
-    integer, parameter :: N = 200
+    integer :: N, i
     ${type(wp)}$ :: a, b, s, a_in, b_in, s_in, a_rf, b_rf, s_rf
     ${real(wp)}$ :: c, c_in, c_rf
-    integer :: i
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
     $:test_seed()
     $:random_number(type(wp),'a')
     $:random_number(type(wp),'b')
     $:random_number(real(wp),'c')
     $:random_number(type(wp),'s')
+    call test_get_1d(1000000, N)
+    if (N > 10000) N = 10000
 
     do i=1,N
         a_in = a; b_in = b; c_in = c; s_in = s

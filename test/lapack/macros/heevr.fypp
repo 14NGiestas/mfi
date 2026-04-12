@@ -27,6 +27,10 @@ subroutine test_${f77 + suffix}$
     
     A_copy = A
 
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
     ! Test f77 interface
     allocate(work(26*N), rwork(24*N), iwork(10*N), isuppz(N*2))
     call ${f77}$(jobz, range, uplo, N, A_copy, N, vl, vu, il, iu, abstol, &
