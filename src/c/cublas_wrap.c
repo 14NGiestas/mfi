@@ -30,6 +30,7 @@ void mfi_cublas_set_count(int count) {
             if (g_handles[i]) cublasDestroy_v2(g_handles[i]);
         }
         free(g_handles);
+        g_handles = NULL;
     }
     g_count = count;
     g_handles = count > 0 ? (cublasHandle_t *)calloc(count, sizeof(cublasHandle_t)) : NULL;
@@ -154,9 +155,21 @@ void mfi_cublas_force_gpu(void) {
 void mfi_cublas_force_cpu(void) {
     mfi_debug_init();
     MFI_DPRINTF("force_cpu()\n");
+    /* Destroy all existing handles to prevent resource leaks */
+    if (g_handles) {
+        for (int i = 0; i < g_count; i++) {
+            if (g_handles[i]) {
+                cublasDestroy_v2(g_handles[i]);
+                g_handles[i] = NULL;
+            }
+        }
+        free(g_handles);
+        g_handles = NULL;
+    }
     g_cublas_active = 0;
     g_env_checked = 1;
     g_initialized = 0;
+    g_count = 0;
 }
 
 void mfi_cuda_malloc(void **devPtr, size_t size, int *stat) {
