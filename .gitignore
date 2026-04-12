@@ -55,3 +55,6 @@ ignored/
 .lapack_*.tmp
 .test_blas.tmp
 .test_lapack.tmp
+
+# Opencode config
+.opencode/
