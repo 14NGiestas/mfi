@@ -65,6 +65,28 @@ interface
         import
         integer(c_int), intent(out) :: stat
     end subroutine
+
+    pure function mfi_cublas_is_active_c() bind(c,name="mfi_cublas_is_active")
+        import
+        integer(c_int) :: mfi_cublas_is_active_c
+    end function
+
+    pure subroutine mfi_cublas_force_gpu_c() bind(c,name="mfi_cublas_force_gpu")
+        import
+    end subroutine
+
+    pure subroutine mfi_cublas_force_cpu_c() bind(c,name="mfi_cublas_force_cpu")
+        import
+    end subroutine
+
+    pure subroutine mfi_cublas_lazy_init_c() bind(c,name="mfi_cublas_lazy_init")
+        import
+    end subroutine
+
+    pure function mfi_cublas_handle_get_c() bind(c,name="mfi_cublas_get_thread_handle") result(handle)
+        import
+        type(c_ptr) :: handle
+    end function
 end interface
 
 !> cuBLAS operation constants
