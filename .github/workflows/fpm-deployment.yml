@@ -54,27 +54,18 @@ jobs:
     - name: Compile (all combinations)
       run: |
         if [ -n "${{ matrix.profile }}" ]; then
-          nix develop .#${{ matrix.environment }} --command bash -c "fpm build --profile ${{ matrix.profile }}"
+          nix develop .#${{ matrix.environment }} --command bash -c "fortran-fpm build --profile ${{ matrix.profile }}"
         else
-          nix develop .#${{ matrix.environment }} --command bash -c "fpm build"
+          nix develop .#${{ matrix.environment }} --command bash -c "fortran-fpm build"
         fi
 
     - name: Run tests
       if: matrix.test != 'compile-only'
       run: |
         if [ -n "${{ matrix.profile }}" ]; then
-          nix develop .#${{ matrix.environment }} --command bash -c "fpm test --profile ${{ matrix.profile }}"
+          nix develop .#${{ matrix.environment }} --command bash -c "fortran-fpm test --profile ${{ matrix.profile }}"
         else
-          nix develop .#${{ matrix.environment }} --command bash -c "fpm test"
-        fi
-
-    - name: Run tests
-      if: matrix.test != 'compile-only'
-      run: |
-        if [ -n "${{ matrix.profile }}" ]; then
-          nix develop .#${{ matrix.environment }} --command bash -c "fpm test --profile ${{ matrix.profile }}"
-        else
-          nix develop .#${{ matrix.environment }} --command bash -c "fpm test"
+          nix develop .#${{ matrix.environment }} --command bash -c "fortran-fpm test"
         fi
 
   consumer-test:
@@ -112,10 +103,10 @@ jobs:
 
         if [ "${{ matrix.profile }}" = "cublas" ]; then
           cp ../ci/consumer/fpm-cublas.toml fpm.toml
-          nix develop ..#${{ matrix.environment }} --command fpm build --profile cublas
+          nix develop ..#${{ matrix.environment }} --command bash -c "fortran-fpm build --profile cublas"
         else
           cp ../ci/consumer/fpm-cpu.toml fpm.toml
-          nix develop ..#${{ matrix.environment }} --command fpm build
+          nix develop ..#${{ matrix.environment }} --command bash -c "fortran-fpm build"
         fi
 
   deploy-artifacts:
