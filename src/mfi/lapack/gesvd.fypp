@@ -85,7 +85,7 @@ pure subroutine ${MFI_NAME}$(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('${F77_NAME}$', -local_info)
+        call mfi_error('${F77_NAME}$', local_info)
     end if
 end subroutine
 #:enddef
