@@ -70,5 +70,6 @@ subroutine test_${f77 + suffix}$
                     "different results for ${mfi}$")
     end if
 
+    call mfi_force_cpu()
 end subroutine
 #:enddef

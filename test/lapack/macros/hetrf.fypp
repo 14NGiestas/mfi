@@ -73,5 +73,6 @@ subroutine test_${f77 + suffix}$
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
                 "different results for ${mfi}$")
 
+    call mfi_force_cpu()
 end subroutine
 #:enddef

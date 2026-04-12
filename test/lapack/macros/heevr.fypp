@@ -58,5 +58,6 @@ subroutine test_${f77 + suffix}$
     ! Clean up
     deallocate(work, rwork, iwork, isuppz)
 
+    call mfi_force_cpu()
 end subroutine
 #:enddef

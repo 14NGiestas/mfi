@@ -61,5 +61,6 @@ subroutine test_${f77 + suffix}$
     ! Note: A full test would require comparing the eigenvalues and eigenvectors
     ! For now, just ensure that the functions execute without error and produce consistent results
 
+    call mfi_force_cpu()
 end subroutine
 #:enddef
