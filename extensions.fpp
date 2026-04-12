@@ -29,30 +29,21 @@ $:mfi_implement('i?amin', DEFAULT_TYPES, iamin_iamax)
 
 !> Check environment and initialize cuBLAS on first GPU call (lazy init)
 #if defined(MFI_CUBLAS)
-subroutine mfi_cublas_lazy_init()
-    integer :: info
+pure subroutine mfi_cublas_lazy_init()
     integer(c_int) :: stat
-    character(len=16) :: env_val
-    integer :: env_len
+    use mfi_blas_cublas, only: mfi_cublas_set_count, mfi_cublas_init_handles, &
+                               mfi_cublas_read_env, mfi_cublas_read_omp_threads
 
     if (mfi_cublas_global_initialized) return
 
     if (.not. mfi_cublas_env_checked) then
         mfi_cublas_env_checked = .true.
-        call get_environment_variable("MFI_USE_CUBLAS", env_val, env_len)
-        if (env_len > 0) then
-            read(env_val(1:env_len), *, iostat=info) MFI_USE_CUBLAS
-        end if
+        MFI_USE_CUBLAS = mfi_cublas_read_env()
     end if
 
     if (MFI_USE_CUBLAS == 1 .and. mfi_cublas_handle_count == 0) then
-        call get_environment_variable("OMP_NUM_THREADS", env_val, env_len)
-        if (env_len > 0) then
-            read(env_val(1:env_len), *, iostat=info) mfi_cublas_handle_count
-            if (info /= 0 .or. mfi_cublas_handle_count < 1) mfi_cublas_handle_count = 1
-        else
-            mfi_cublas_handle_count = 1
-        end if
+        mfi_cublas_handle_count = mfi_cublas_read_omp_threads()
+        if (mfi_cublas_handle_count < 1) mfi_cublas_handle_count = 1
         call mfi_cublas_set_count(mfi_cublas_handle_count)
         call mfi_cublas_init_handles(stat)
         if (stat /= 0) error stop 'mfi_cublas_init_handles failed - check CUDA driver version'
@@ -64,7 +55,12 @@ end subroutine
 
 !> Returns .true. if GPU execution is active (pure, checks flag only)
 pure logical function mfi_cublas_is_active() result(active)
+#if defined(MFI_CUBLAS)
+    call mfi_cublas_lazy_init()
     active = (MFI_USE_CUBLAS == 1)
+#else
+    active = .false.
+#endif
 end function
 
 !> Get the cuBLAS handle for the current thread (pure, delegates to C wrapper)

@@ -129,6 +129,16 @@ interface
         import
         integer(c_int), intent(out) :: stat
     end subroutine
+
+    pure function mfi_cublas_read_env() bind(c,name="mfi_cublas_read_env")
+        import
+        integer(c_int) :: mfi_cublas_read_env
+    end function
+
+    pure function mfi_cublas_read_omp_threads() bind(c,name="mfi_cublas_read_omp_threads")
+        import
+        integer(c_int) :: mfi_cublas_read_omp_threads
+    end function
 end interface
 
 !> cuBLAS operation constants

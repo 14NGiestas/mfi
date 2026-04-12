@@ -83,4 +83,16 @@ void mfi_cublas_set_pointer_mode(void *handle, int mode, int *stat) {
 void mfi_cuda_memcpy(void *dst, const void *src, size_t count, int kind, int *stat) {
     *stat = (int)cudaMemcpy(dst, src, count, (enum cudaMemcpyKind)kind);
 }
+
+int mfi_cublas_read_env(void) {
+    const char *env = getenv("MFI_USE_CUBLAS");
+    if (env) return atoi(env);
+    return 0;
+}
+
+int mfi_cublas_read_omp_threads(void) {
+    const char *env = getenv("OMP_NUM_THREADS");
+    if (env) return atoi(env);
+    return 0;
+}
 #endif
