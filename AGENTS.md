@@ -160,10 +160,24 @@ link = ["cublas", "cudart"]
 
 ## Testing Notes
 
-- LAPACK tests have pre-existing failures unrelated to cuBLAS work (`cunmrq`, `sorg2r`, `sorgr2`, `cungr2`, `cung2r`, `sormrq`, `heevx` segfault)
+- LAPACK tests have pre-existing failures unrelated to cuBLAS work (`cunmrq`, `sormrq`, `heevx` segfault)
 - GPU testing available via `gpu_test.ipynb` (Colab: Tesla T4, CUDA 12.8)
 - fpm ≥0.13.0 required for `[profiles]` and `[features]` support
 - CI uses `MFI_TEST_ELEMENTS=50000` and `MFI_TEST_SAMPLES=1` for fast runs
+
+### Pending test coverage
+
+These wrappers exist but lack tests because the factorization routines (`geqr2`, `gerq2`)
+are not yet implemented — they need `tau` from prior factorization:
+
+| Routine | Needs | Status |
+|---------|-------|--------|
+| `org2r`, `orgr2` | `sgeqr2`/`dgeqr2` | Macro ready, not in `_COLLECT` |
+| `ung2r`, `ungr2` | `cgeqr2`/`zgeqr2` | Macro ready, not in `_COLLECT` |
+| `orm2r`, `ormr2` | `sgeqr2`/`dgeqr2` | Macro exists, not in `_COLLECT` |
+| `unm2r`, `unmr2` | `cgeqr2`/`zgeqr2` | Macro exists, not in `_COLLECT` |
+
+Macros are in `test/lapack/macros/` and can be added to `test/lapack.fpp` once the factorization routines are available.
 
 ## fpm.toml Configuration
 

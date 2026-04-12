@@ -1,10 +1,10 @@
-#:def org2r(f77,f90,mfi,pfxs)
+#:def org2r(f77,f90,mfi,pfxs,suffix='')
 #:set wp = pfxs[0]
+#:set f77_fac = 'sgeqr2' if 's' in str(pfxs[0]) else 'dgeqr2'
 subroutine test_${f77 + suffix}$
-    use f77_lapack, only: ${f77}$, ${f90}$
+    use f77_lapack, only: ${f77}$, ${f90}$, ${f77_fac}$
     use mfi_blas
-    use mfi_lapack, only: ${mfi}$, mfi_${f77}$, mfi_geqr2
-
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
 
     integer, parameter :: wp = ${kind(wp)}$
     integer, parameter :: M = 3, N = 2
@@ -20,7 +20,7 @@ subroutine test_${f77 + suffix}$
 
     ! Factorize to get tau and Householder vectors
     A_rf = A
-    call mfi_geqr2(A_rf, tau, info=info)
+    call ${f77_fac}$(M, N, A_rf, M, tau, info)
     if (info /= 0) return
 
     ! Test f77 interface - generate Q from factorized data
@@ -30,7 +30,7 @@ subroutine test_${f77 + suffix}$
 
     ! Test mfi interface (short form) - factorize again, then generate
     A_mfi = A
-    call mfi_geqr2(A_mfi, tau, info=info)
+    call ${f77_fac}$(M, N, A_mfi, M, tau, info)
     if (info /= 0) return
     call mfi_${f77}$(A_mfi, tau, k=min(M,N), info=info_mfi)
     call assert(info_mfi == info_rf .and. &
@@ -39,7 +39,7 @@ subroutine test_${f77 + suffix}$
 
     ! Test mfi interface (full form) - factorize again, then generate
     A_mfi = A
-    call mfi_geqr2(A_mfi, tau, info=info)
+    call ${f77_fac}$(M, N, A_mfi, M, tau, info)
     if (info /= 0) return
     call ${mfi}$(A_mfi, tau, k=min(M,N), info=info_mfi)
     call assert(info_mfi == info_rf .and. &
