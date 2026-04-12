@@ -1418,6 +1418,18 @@ Solves a triangular linear system with multiple right-hand sides:</p><a href="..
                  <td></td>
                </tr>
 			   <tr>
+                 <td><a href='../interface/mfi_cublas_force_cpu_c.html'>mfi_cublas_force_cpu_c</a></td>
+                 <td><a href='../module/mfi_blas_cublas.html'>mfi_blas_cublas</a></td>
+                 <td>Interface</td>
+                 <td></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/mfi_cublas_force_gpu_c.html'>mfi_cublas_force_gpu_c</a></td>
+                 <td><a href='../module/mfi_blas_cublas.html'>mfi_blas_cublas</a></td>
+                 <td>Interface</td>
+                 <td></td>
+               </tr>
+			   <tr>
                  <td><a href='../interface/mfi_cublas_get_thread_handle.html'>mfi_cublas_get_thread_handle</a></td>
                  <td><a href='../module/mfi_blas_cublas.html'>mfi_blas_cublas</a></td>
                  <td>Interface</td>
@@ -1427,7 +1439,13 @@ Solves a triangular linear system with multiple right-hand sides:</p><a href="..
                  <td><a href='../proc/mfi_cublas_handle_get.html'>mfi_cublas_handle_get</a></td>
                  <td><a href='../module/mfi_blas_extensions.html'>mfi_blas_extensions</a></td>
                  <td>Function</td>
-                 <td><p>Get the cuBLAS handle for the current thread (pure, delegates to C wrapper)</p></td>
+                 <td><p>Get the cuBLAS handle for the current thread (pure, delegates to C)</p></td>
+               </tr>
+			   <tr>
+                 <td><a href='../interface/mfi_cublas_handle_get_c.html'>mfi_cublas_handle_get_c</a></td>
+                 <td><a href='../module/mfi_blas_cublas.html'>mfi_blas_cublas</a></td>
+                 <td>Interface</td>
+                 <td></td>
                </tr>
 			   <tr>
                  <td><a href='../interface/mfi_cublas_init_handles.html'>mfi_cublas_init_handles</a></td>
@@ -1439,22 +1457,16 @@ Solves a triangular linear system with multiple right-hand sides:</p><a href="..
                  <td><a href='../proc/mfi_cublas_is_active.html'>mfi_cublas_is_active</a></td>
                  <td><a href='../module/mfi_blas_extensions.html'>mfi_blas_extensions</a></td>
                  <td>Function</td>
-                 <td><p>Returns .true. if GPU execution is active (pure, checks flag only)</p></td>
+                 <td><p>Returns .true. if GPU execution is active (pure, delegates to C)</p></td>
                </tr>
 			   <tr>
-                 <td><a href='../proc/mfi_cublas_lazy_init.html'>mfi_cublas_lazy_init</a></td>
-                 <td><a href='../module/mfi_blas_extensions.html'>mfi_blas_extensions</a></td>
-                 <td>Subroutine</td>
-                 <td><p>Check environment and initialize cuBLAS on first GPU call (lazy init)</p></td>
-               </tr>
-			   <tr>
-                 <td><a href='../interface/mfi_cublas_read_env.html'>mfi_cublas_read_env</a></td>
+                 <td><a href='../interface/mfi_cublas_is_active_c.html'>mfi_cublas_is_active_c</a></td>
                  <td><a href='../module/mfi_blas_cublas.html'>mfi_blas_cublas</a></td>
                  <td>Interface</td>
                  <td></td>
                </tr>
 			   <tr>
-                 <td><a href='../interface/mfi_cublas_read_omp_threads.html'>mfi_cublas_read_omp_threads</a></td>
+                 <td><a href='../interface/mfi_cublas_lazy_init_c.html'>mfi_cublas_lazy_init_c</a></td>
                  <td><a href='../module/mfi_blas_cublas.html'>mfi_blas_cublas</a></td>
                  <td>Interface</td>
                  <td></td>

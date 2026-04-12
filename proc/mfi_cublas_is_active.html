@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.0% of total for procedures.">5 statements</a>
+                 title=" 0.0% of total for procedures.">6 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -150,9 +150,21 @@
     <div class="col-md-9" id='text'>
     <h2>public pure function mfi_cublas_is_active() result(active)  
 </h2>
-    
+        <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item"><a href='../module/mfi_blas_cublas.html'>mfi_blas_cublas</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
 
-    <p>Returns .true. if GPU execution is active (pure, checks flag only)</p>
+
+    <p>Returns .true. if GPU execution is active (pure, delegates to C)</p>
 
 
     <h3>Arguments</h3>
