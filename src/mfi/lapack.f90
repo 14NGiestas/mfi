@@ -1082,7 +1082,7 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     call f77_hetrf(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -1091,27 +1091,17 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
     if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
+        if (associated(local_ipiv)) deallocate(local_ipiv, stat=deallocation_status)
     end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_hetrf', -local_info)
-    end if
-
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        if (local_info <= -1000) then
-            call mfi_error('f77_hetrf', -local_info)
-        else
-            call mfi_error('f77_hetrf', local_info)
-        end if
+        call mfi_error('f77_hetrf', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_hetrf:f77_hetrf]].
@@ -1166,7 +1156,7 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     call f77_hetrf(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -1175,27 +1165,17 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
     if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
+        if (associated(local_ipiv)) deallocate(local_ipiv, stat=deallocation_status)
     end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_hetrf', -local_info)
-    end if
-
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        if (local_info <= -1000) then
-            call mfi_error('f77_hetrf', -local_info)
-        else
-            call mfi_error('f77_hetrf', local_info)
-        end if
+        call mfi_error('f77_hetrf', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_hegv:f77_hegv]].
@@ -1551,9 +1531,9 @@ pure subroutine mfi_cheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
                       s_iwork, liwork, local_info)
     if (local_info /= 0) goto 404
     
-    lwork  = int(s_work(1))
-    lrwork = int(s_rwork(1))
-    liwork = int(s_iwork(1))
+    lwork  = max(1, int(real(s_work(1), wp)))
+    lrwork = max(1, int(s_rwork(1)))
+    liwork = max(1, int(s_iwork(1)))
 
     allocate(iwork(liwork), stat=allocation_status)
     if (allocation_status == 0) then
@@ -1566,7 +1546,7 @@ pure subroutine mfi_cheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
                               local_vl, local_vu, local_il, local_iu, local_abstol, &
                               local_m, w, local_z, ldz, local_isuppz, work, lwork, rwork, lrwork, &
                               iwork, liwork, local_info)
-                
+
                 ! Copy results if needed
                 if (present(m)) m = local_m
             else
@@ -1575,15 +1555,17 @@ pure subroutine mfi_cheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
         else
             local_info = -1000
         end if
-        deallocate(work, stat=deallocation_status)
+    else
+        local_info = -1000
     end if
-    deallocate(rwork, stat=deallocation_status)
-    deallocate(iwork, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
+    if (associated(rwork)) deallocate(rwork, stat=deallocation_status)
+    if (associated(iwork)) deallocate(iwork, stat=deallocation_status)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_heevr', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_heevr', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_heevr:f77_heevr]].
@@ -1693,9 +1675,9 @@ pure subroutine mfi_zheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
                       s_iwork, liwork, local_info)
     if (local_info /= 0) goto 404
     
-    lwork  = int(s_work(1))
-    lrwork = int(s_rwork(1))
-    liwork = int(s_iwork(1))
+    lwork  = max(1, int(real(s_work(1), wp)))
+    lrwork = max(1, int(s_rwork(1)))
+    liwork = max(1, int(s_iwork(1)))
 
     allocate(iwork(liwork), stat=allocation_status)
     if (allocation_status == 0) then
@@ -1708,7 +1690,7 @@ pure subroutine mfi_zheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
                               local_vl, local_vu, local_il, local_iu, local_abstol, &
                               local_m, w, local_z, ldz, local_isuppz, work, lwork, rwork, lrwork, &
                               iwork, liwork, local_info)
-                
+
                 ! Copy results if needed
                 if (present(m)) m = local_m
             else
@@ -1717,15 +1699,17 @@ pure subroutine mfi_zheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
         else
             local_info = -1000
         end if
-        deallocate(work, stat=deallocation_status)
+    else
+        local_info = -1000
     end if
-    deallocate(rwork, stat=deallocation_status)
-    deallocate(iwork, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
+    if (associated(rwork)) deallocate(rwork, stat=deallocation_status)
+    if (associated(iwork)) deallocate(iwork, stat=deallocation_status)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_heevr', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('f77_heevr', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_heevx:f77_heevx]].
@@ -1752,6 +1736,7 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     ! Define a dummy array to use when needed (declarations first)
     integer, target :: dummy_ifail(1)
     integer :: n, lda, ldz, lwork, allocation_status, deallocation_status
+    logical :: owned_ifail
     character(1) :: jobz, range
     character(len=1) :: local_uplo
     real(REAL32) :: local_vl, local_vu, local_abstol
@@ -1763,6 +1748,7 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     rwork => null()
     iwork => null()
     local_ifail => null()
+    owned_ifail = .false.
 
     ! Set defaults
     if (present(uplo)) then
@@ -1813,6 +1799,7 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
                 local_info = -1000
                 goto 404
             end if
+            owned_ifail = .true.
         ENDIF
     ENDIF
 
@@ -1900,9 +1887,7 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     if (associated(work)) deallocate(work, stat=deallocation_status)
     if (associated(rwork)) deallocate(rwork, stat=deallocation_status)
     if (associated(iwork)) deallocate(iwork, stat=deallocation_status)
-    if (.not. present(ifail) .and. associated(local_ifail)) then
-        deallocate(local_ifail, stat=deallocation_status)
-    end if
+    if (owned_ifail) deallocate(local_ifail, stat=deallocation_status)
 
 404 continue
     if (present(info)) then
@@ -1935,6 +1920,7 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     ! Define a dummy array to use when needed (declarations first)
     integer, target :: dummy_ifail(1)
     integer :: n, lda, ldz, lwork, allocation_status, deallocation_status
+    logical :: owned_ifail
     character(1) :: jobz, range
     character(len=1) :: local_uplo
     real(REAL64) :: local_vl, local_vu, local_abstol
@@ -1946,6 +1932,7 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     rwork => null()
     iwork => null()
     local_ifail => null()
+    owned_ifail = .false.
 
     ! Set defaults
     if (present(uplo)) then
@@ -1996,6 +1983,7 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
                 local_info = -1000
                 goto 404
             end if
+            owned_ifail = .true.
         ENDIF
     ENDIF
 
@@ -2083,9 +2071,7 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     if (associated(work)) deallocate(work, stat=deallocation_status)
     if (associated(rwork)) deallocate(rwork, stat=deallocation_status)
     if (associated(iwork)) deallocate(iwork, stat=deallocation_status)
-    if (.not. present(ifail) .and. associated(local_ifail)) then
-        deallocate(local_ifail, stat=deallocation_status)
-    end if
+    if (owned_ifail) deallocate(local_ifail, stat=deallocation_status)
 
 404 continue
     if (present(info)) then
@@ -2484,14 +2470,14 @@ pure subroutine mfi_sorgqr(a, tau, k, info)
     call f77_orgqr(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_orgqr(m, n, local_k, a, lda, tau, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -2529,14 +2515,14 @@ pure subroutine mfi_dorgqr(a, tau, k, info)
     call f77_orgqr(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_orgqr(m, n, local_k, a, lda, tau, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -2574,14 +2560,14 @@ pure subroutine mfi_sorgrq(a, tau, k, info)
     call f77_orgrq(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_orgrq(m, n, local_k, a, lda, tau, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -2619,14 +2605,14 @@ pure subroutine mfi_dorgrq(a, tau, k, info)
     call f77_orgrq(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_orgrq(m, n, local_k, a, lda, tau, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -2664,14 +2650,14 @@ pure subroutine mfi_cungqr(a, tau, k, info)
     call f77_ungqr(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_ungqr(m, n, local_k, a, lda, tau, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -2709,14 +2695,14 @@ pure subroutine mfi_zungqr(a, tau, k, info)
     call f77_ungqr(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_ungqr(m, n, local_k, a, lda, tau, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -2754,14 +2740,14 @@ pure subroutine mfi_cungrq(a, tau, k, info)
     call f77_ungrq(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_ungrq(m, n, local_k, a, lda, tau, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -2799,14 +2785,14 @@ pure subroutine mfi_zungrq(a, tau, k, info)
     call f77_ungrq(m, n, local_k, a, lda, tau, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_ungrq(m, n, local_k, a, lda, tau, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -2847,26 +2833,21 @@ pure subroutine mfi_sormqr(a, tau, c, side, trans, info)
     ldc = max(1, size(c, 1))
     m = size(c, 1)
     n = size(c, 2)
-
-    if (local_side == 'L' .or. local_side == 'l') then
-        k = size(a, 2)
-    else
-        k = size(a, 2)
-    end if
+    k = size(tau)
 
     ! Query workspace size
     lwork = -1
     call f77_ormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_ormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -2907,26 +2888,21 @@ pure subroutine mfi_dormqr(a, tau, c, side, trans, info)
     ldc = max(1, size(c, 1))
     m = size(c, 1)
     n = size(c, 2)
-
-    if (local_side == 'L' .or. local_side == 'l') then
-        k = size(a, 2)
-    else
-        k = size(a, 2)
-    end if
+    k = size(tau)
 
     ! Query workspace size
     lwork = -1
     call f77_ormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_ormqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -2967,26 +2943,21 @@ pure subroutine mfi_sormrq(a, tau, c, side, trans, info)
     ldc = max(1, size(c, 1))
     m = size(c, 1)
     n = size(c, 2)
-
-    if (local_side == 'L' .or. local_side == 'l') then
-        k = size(a, 2)
-    else
-        k = size(a, 2)
-    end if
+    k = size(tau)
 
     ! Query workspace size
     lwork = -1
     call f77_ormrq(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_ormrq(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -3027,26 +2998,21 @@ pure subroutine mfi_dormrq(a, tau, c, side, trans, info)
     ldc = max(1, size(c, 1))
     m = size(c, 1)
     n = size(c, 2)
-
-    if (local_side == 'L' .or. local_side == 'l') then
-        k = size(a, 2)
-    else
-        k = size(a, 2)
-    end if
+    k = size(tau)
 
     ! Query workspace size
     lwork = -1
     call f77_ormrq(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_ormrq(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -3087,26 +3053,21 @@ pure subroutine mfi_cunmqr(a, tau, c, side, trans, info)
     ldc = max(1, size(c, 1))
     m = size(c, 1)
     n = size(c, 2)
-
-    if (local_side == 'L' .or. local_side == 'l') then
-        k = size(a, 2)
-    else
-        k = size(a, 2)
-    end if
+    k = size(tau)
 
     ! Query workspace size
     lwork = -1
     call f77_unmqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_unmqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -3147,26 +3108,21 @@ pure subroutine mfi_zunmqr(a, tau, c, side, trans, info)
     ldc = max(1, size(c, 1))
     m = size(c, 1)
     n = size(c, 2)
-
-    if (local_side == 'L' .or. local_side == 'l') then
-        k = size(a, 2)
-    else
-        k = size(a, 2)
-    end if
+    k = size(tau)
 
     ! Query workspace size
     lwork = -1
     call f77_unmqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_unmqr(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -3207,26 +3163,21 @@ pure subroutine mfi_cunmrq(a, tau, c, side, trans, info)
     ldc = max(1, size(c, 1))
     m = size(c, 1)
     n = size(c, 2)
-
-    if (local_side == 'L' .or. local_side == 'l') then
-        k = size(a, 2)
-    else
-        k = size(a, 2)
-    end if
+    k = size(tau)
 
     ! Query workspace size
     lwork = -1
     call f77_unmrq(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_unmrq(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -3267,26 +3218,21 @@ pure subroutine mfi_zunmrq(a, tau, c, side, trans, info)
     ldc = max(1, size(c, 1))
     m = size(c, 1)
     n = size(c, 2)
-
-    if (local_side == 'L' .or. local_side == 'l') then
-        k = size(a, 2)
-    else
-        k = size(a, 2)
-    end if
+    k = size(tau)
 
     ! Query workspace size
     lwork = -1
     call f77_unmrq(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) then
         call f77_unmrq(local_side, local_trans, m, n, k, a, lda, tau, c, ldc, work, lwork, local_info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
@@ -4684,7 +4630,7 @@ pure subroutine mfi_ssytrf(a, uplo, ipiv, info)
     call f77_sytrf(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(s_work(1)))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -4693,27 +4639,17 @@ pure subroutine mfi_ssytrf(a, uplo, ipiv, info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
     if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
+        if (associated(local_ipiv)) deallocate(local_ipiv, stat=deallocation_status)
     end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_sytrf', -local_info)
-    end if
-    
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        if (local_info <= -1000) then
-            call mfi_error('f77_sytrf', -local_info)
-        else
-            call mfi_error('f77_sytrf', local_info)
-        end if
+        call mfi_error('f77_sytrf', abs(local_info))
     end if
 end subroutine
 !> Modern interface for [[f77_sytrf:f77_sytrf]].
@@ -4768,7 +4704,7 @@ pure subroutine mfi_dsytrf(a, uplo, ipiv, info)
     call f77_sytrf(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(s_work(1)))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -4777,27 +4713,17 @@ pure subroutine mfi_dsytrf(a, uplo, ipiv, info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
     if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
+        if (associated(local_ipiv)) deallocate(local_ipiv, stat=deallocation_status)
     end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('f77_sytrf', -local_info)
-    end if
-    
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        if (local_info <= -1000) then
-            call mfi_error('f77_sytrf', -local_info)
-        else
-            call mfi_error('f77_sytrf', local_info)
-        end if
+        call mfi_error('f77_sytrf', abs(local_info))
     end if
 end subroutine
 

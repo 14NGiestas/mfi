@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_scopy
     use f77_blas, only: scopy, f77_copy
-    use mfi_blas, only: mfi_copy, mfi_scopy
+    use mfi_blas, only: mfi_copy, mfi_scopy, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -247,7 +247,7 @@ end block
 end subroutine
 subroutine test_dcopy
     use f77_blas, only: dcopy, f77_copy
-    use mfi_blas, only: mfi_copy, mfi_dcopy
+    use mfi_blas, only: mfi_copy, mfi_dcopy, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -300,7 +300,7 @@ end block
 end subroutine
 subroutine test_ccopy
     use f77_blas, only: ccopy, f77_copy
-    use mfi_blas, only: mfi_copy, mfi_ccopy
+    use mfi_blas, only: mfi_copy, mfi_ccopy, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -365,7 +365,7 @@ end block
 end subroutine
 subroutine test_zcopy
     use f77_blas, only: zcopy, f77_copy
-    use mfi_blas, only: mfi_copy, mfi_zcopy
+    use mfi_blas, only: mfi_copy, mfi_zcopy, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     integer :: N

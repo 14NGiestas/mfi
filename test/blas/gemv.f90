@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_sgemv
     use f77_blas, only: sgemv, f77_gemv
-    use mfi_blas, only: mfi_gemv, mfi_sgemv
+    use mfi_blas, only: mfi_gemv, mfi_sgemv, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -271,7 +271,7 @@ end block
 end subroutine
 subroutine test_dgemv
     use f77_blas, only: dgemv, f77_gemv
-    use mfi_blas, only: mfi_gemv, mfi_dgemv
+    use mfi_blas, only: mfi_gemv, mfi_dgemv, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -348,7 +348,7 @@ end block
 end subroutine
 subroutine test_cgemv
     use f77_blas, only: cgemv, f77_gemv
-    use mfi_blas, only: mfi_gemv, mfi_cgemv
+    use mfi_blas, only: mfi_gemv, mfi_cgemv, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -455,7 +455,7 @@ end block
 end subroutine
 subroutine test_zgemv
     use f77_blas, only: zgemv, f77_gemv
-    use mfi_blas, only: mfi_gemv, mfi_zgemv
+    use mfi_blas, only: mfi_gemv, mfi_zgemv, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N

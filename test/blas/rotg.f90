@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_srotg
     use f77_blas, only: srotg
-    use mfi_blas, only: mfi_rotg
+    use mfi_blas, only: mfi_rotg, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     integer :: N, i
@@ -242,7 +242,7 @@ end block
 end subroutine
 subroutine test_drotg
     use f77_blas, only: drotg
-    use mfi_blas, only: mfi_rotg
+    use mfi_blas, only: mfi_rotg, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     integer :: N, i
@@ -290,7 +290,7 @@ end block
 end subroutine
 subroutine test_crotg
     use f77_blas, only: crotg
-    use mfi_blas, only: mfi_rotg
+    use mfi_blas, only: mfi_rotg, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     integer :: N, i
@@ -356,7 +356,7 @@ end block
 end subroutine
 subroutine test_zrotg
     use f77_blas, only: zrotg
-    use mfi_blas, only: mfi_rotg
+    use mfi_blas, only: mfi_rotg, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     integer :: N, i

@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_saxpy
     use f77_blas, only: saxpy, f77_axpy
-    use mfi_blas, only: mfi_axpy, mfi_saxpy
+    use mfi_blas, only: mfi_axpy, mfi_saxpy, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -249,7 +249,7 @@ end block
 end subroutine
 subroutine test_daxpy
     use f77_blas, only: daxpy, f77_axpy
-    use mfi_blas, only: mfi_axpy, mfi_daxpy
+    use mfi_blas, only: mfi_axpy, mfi_daxpy, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -304,7 +304,7 @@ end block
 end subroutine
 subroutine test_caxpy
     use f77_blas, only: caxpy, f77_axpy
-    use mfi_blas, only: mfi_axpy, mfi_caxpy
+    use mfi_blas, only: mfi_axpy, mfi_caxpy, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -377,7 +377,7 @@ end block
 end subroutine
 subroutine test_zaxpy
     use f77_blas, only: zaxpy, f77_axpy
-    use mfi_blas, only: mfi_axpy, mfi_zaxpy
+    use mfi_blas, only: mfi_axpy, mfi_zaxpy, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     integer :: N

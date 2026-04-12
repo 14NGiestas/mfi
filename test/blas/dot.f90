@@ -120,7 +120,7 @@ end block
   end subroutine test_get_2d
 subroutine test_sdot
     use f77_blas, only: sdot, f77_dot
-    use mfi_blas, only: mfi_dot, mfi_sdot
+    use mfi_blas, only: mfi_dot, mfi_sdot, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -166,7 +166,7 @@ end block
 end subroutine
 subroutine test_ddot
     use f77_blas, only: ddot, f77_dot
-    use mfi_blas, only: mfi_dot, mfi_ddot
+    use mfi_blas, only: mfi_dot, mfi_ddot, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     integer :: N

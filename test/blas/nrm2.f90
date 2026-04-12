@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_snrm2
     use f77_blas, only: snrm2, f77_nrm2
-    use mfi_blas, only: mfi_nrm2, mfi_snrm2
+    use mfi_blas, only: mfi_nrm2, mfi_snrm2, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     integer :: N, ii
@@ -243,7 +243,7 @@ end block
 end subroutine
 subroutine test_dnrm2
     use f77_blas, only: dnrm2, f77_nrm2
-    use mfi_blas, only: mfi_nrm2, mfi_dnrm2
+    use mfi_blas, only: mfi_nrm2, mfi_dnrm2, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     integer :: N, ii
@@ -292,7 +292,7 @@ end block
 end subroutine
 subroutine test_scnrm2
     use f77_blas, only: scnrm2, f77_nrm2
-    use mfi_blas, only: mfi_nrm2, mfi_scnrm2
+    use mfi_blas, only: mfi_nrm2, mfi_scnrm2, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     integer :: N, ii
@@ -347,7 +347,7 @@ end block
 end subroutine
 subroutine test_dznrm2
     use f77_blas, only: dznrm2, f77_nrm2
-    use mfi_blas, only: mfi_nrm2, mfi_dznrm2
+    use mfi_blas, only: mfi_nrm2, mfi_dznrm2, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     integer :: N, ii

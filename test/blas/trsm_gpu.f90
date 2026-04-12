@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_strsm_gpu
     use f77_blas, only: strsm, f77_trsm
-    use mfi_blas, only: mfi_trsm
+    use mfi_blas, only: mfi_trsm, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: M, N
@@ -280,7 +280,7 @@ end block
 end subroutine
 subroutine test_dtrsm_gpu
     use f77_blas, only: dtrsm, f77_trsm
-    use mfi_blas, only: mfi_trsm
+    use mfi_blas, only: mfi_trsm, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: M, N
@@ -366,7 +366,7 @@ end block
 end subroutine
 subroutine test_ctrsm_gpu
     use f77_blas, only: ctrsm, f77_trsm
-    use mfi_blas, only: mfi_trsm
+    use mfi_blas, only: mfi_trsm, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: M, N
@@ -471,7 +471,7 @@ end block
 end subroutine
 subroutine test_ztrsm_gpu
     use f77_blas, only: ztrsm, f77_trsm
-    use mfi_blas, only: mfi_trsm
+    use mfi_blas, only: mfi_trsm, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: M, N

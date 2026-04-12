@@ -120,7 +120,7 @@ end block
   end subroutine test_get_2d
 subroutine test_cdotc
     use f77_blas, only: cdotc, f77_dotc
-    use mfi_blas, only: mfi_dotc, mfi_cdotc
+    use mfi_blas, only: mfi_dotc, mfi_cdotc, mfi_force_gpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -178,7 +178,7 @@ end block
 end subroutine
 subroutine test_zdotc
     use f77_blas, only: zdotc, f77_dotc
-    use mfi_blas, only: mfi_dotc, mfi_zdotc
+    use mfi_blas, only: mfi_dotc, mfi_zdotc, mfi_force_gpu
 
     integer, parameter :: wp = REAL64
     integer :: N
