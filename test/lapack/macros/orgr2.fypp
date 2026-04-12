@@ -1,0 +1,48 @@
+#:def orgr2(f77,f90,mfi,pfxs,suffix='')
+#:set wp = pfxs[0]
+#:set f77_fac = 'sgerq2' if 's' in str(pfxs[0]) else 'dgerq2'
+subroutine test_${f77 + suffix}$
+    use f77_lapack, only: ${f77}$, ${f90}$, ${f77_fac}$
+    use mfi_blas
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: M = 2, N = 3
+    ${type(wp)}$ :: A(M,N), A_rf(M,N), A_mfi(M,N), tau(min(M,N))
+    ${type(wp)}$, allocatable :: work(:)
+    integer :: info, info_rf, info_mfi
+
+    ! Create a test matrix
+    A(1,1) = 2.0_wp; A(1,2) = 1.0_wp; A(1,3) = 1.0_wp
+    A(2,1) = 1.0_wp; A(2,2) = 2.0_wp; A(2,3) = 1.0_wp
+
+    ! Factorize (RQ) to get tau and Householder vectors
+    A_rf = A
+    call ${f77_fac}$(M, N, A_rf, M, tau, info)
+    if (info /= 0) return
+
+    ! Test f77 interface - generate Q from factorized data
+    allocate(work(M))
+    call ${f77}$(M, N, min(M,N), A_rf, M, tau, work, info_rf)
+    deallocate(work)
+
+    ! Test mfi interface (short form)
+    A_mfi = A
+    call ${f77_fac}$(M, N, A_mfi, M, tau, info)
+    if (info /= 0) return
+    call mfi_${f77}$(A_mfi, tau, k=min(M,N), info=info_mfi)
+    call assert(info_mfi == info_rf .and. &
+        all(abs(A_mfi - A_rf) < sqrt(epsilon(1.0_wp))), &
+        "different results for mfi_${f77}$")
+
+    ! Test mfi interface (full form)
+    A_mfi = A
+    call ${f77_fac}$(M, N, A_mfi, M, tau, info)
+    if (info /= 0) return
+    call ${mfi}$(A_mfi, tau, k=min(M,N), info=info_mfi)
+    call assert(info_mfi == info_rf .and. &
+        all(abs(A_mfi - A_rf) < sqrt(epsilon(1.0_wp))), &
+        "different results for ${mfi}$")
+
+end subroutine
+#:enddef

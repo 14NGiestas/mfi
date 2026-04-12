@@ -6,6 +6,6 @@ pure function ${MFI_NAME}$(cmach, kind) result(res)
 @:args(${type(wp)}$, in, kind)
     !! Just a kind placeholder
     ${type(wp)}$ :: res
-    res = ${F77_NAME}$(cmach)
+    res = ${F77_NAME.replace('f77_',wp)}$(cmach)
 end function
 #:enddef

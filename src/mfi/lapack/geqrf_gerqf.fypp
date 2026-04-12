@@ -1,7 +1,6 @@
 #:def geqrf_gerqf(MFI_NAME,F77_NAME,pfxs)
 #:set wp = pfxs[0]
 pure subroutine ${MFI_NAME}$(a, tau, info)
-@:parameter(integer, wp=${kind(wp)}$)
 @:args(${type(wp)}$,      inout, a(:,:))
     ${type(wp)}$, intent(out), optional, target :: tau(:)
 @:optional(integer, out, info)
@@ -41,7 +40,7 @@ pure subroutine ${MFI_NAME}$(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('${F77_NAME}$', -local_info)
+        call mfi_error('${F77_NAME}$', local_info)
     end if
 end subroutine
 #:enddef

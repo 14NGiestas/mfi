@@ -8,4 +8,14 @@ maintainer = "iangiestas@usp.br"
 build-script="Makefile"
 
 [build]
-link = ["blas","lapack"]
+link = ["blas", "lapack"]
+
+[preprocess.cpp]
+macros = ["MFI_EXTENSIONS", "MFI_LINK_EXTERNAL"]
+
+[features]
+cublas.preprocess.cpp.macros = ["MFI_CUBLAS"]
+cublas.dependencies.openmp = "*"
+
+[profiles]
+cublas = ["cublas"]

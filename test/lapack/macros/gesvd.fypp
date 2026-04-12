@@ -1,0 +1,109 @@
+#:def gesvd(f77,f90,mfi,pfxs,suffix='')
+#:set wp = pfxs[0]
+subroutine test_${f77 + suffix}$
+    use f77_lapack, only: ${f77}$, ${f90}$
+    use mfi_blas
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+#:if type(wp) == complex(wp)
+    ! For complex types, we need rwork as well
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: M = 3, N = 3
+    ${type(wp)}$ :: A(M,N), A_in(M,N), A_rf(M,N)
+    ${type(wp)}$ :: U_temp(M,M), VT_temp(N,N)  ! Temporary arrays to avoid intent conflicts
+    ${real(wp)}$ :: S(min(M,N)), S_rf(min(M,N)), S_mfi(min(M,N))
+    integer :: info, info_rf, info_mfi
+    ${type(wp)}$, allocatable :: work(:)
+    ${real(wp)}$, allocatable :: rwork(:)  ! Needed for complex types
+    integer :: lwork
+
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
+    ! Create test matrix
+    A(1,:) = [1.0_wp, 2.0_wp, 3.0_wp]
+    A(2,:) = [4.0_wp, 5.0_wp, 6.0_wp]
+    A(3,:) = [7.0_wp, 8.0_wp, 9.0_wp]
+
+    ! Test f77 interface (just get S values, not U/V)
+    A_in = A
+    U_temp = 0.0_wp
+    VT_temp = 0.0_wp
+    allocate(work(1))
+    lwork = -1  ! Workspace query
+    allocate(rwork(5*min(M,N)))
+    call ${f77}$('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, rwork, info)
+#:else
+    ! For real types, no rwork needed
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: M = 3, N = 3
+    ${type(wp)}$ :: A(M,N), A_in(M,N), A_rf(M,N)
+    ${type(wp)}$ :: U_temp(M,M), VT_temp(N,N)  ! Temporary arrays to avoid intent conflicts
+    ${real(wp)}$ :: S(min(M,N)), S_rf(min(M,N)), S_mfi(min(M,N))
+    integer :: info, info_rf, info_mfi
+    ${type(wp)}$, allocatable :: work(:)
+    integer :: lwork
+
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
+    ! Create test matrix
+    A(1,:) = [1.0_wp, 2.0_wp, 3.0_wp]
+    A(2,:) = [4.0_wp, 5.0_wp, 6.0_wp]
+    A(3,:) = [7.0_wp, 8.0_wp, 9.0_wp]
+
+    ! Test f77 interface (just get S values, not U/V)
+    A_in = A
+    U_temp = 0.0_wp
+    VT_temp = 0.0_wp
+    allocate(work(1))
+    lwork = -1  ! Workspace query
+    call ${f77}$('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, info)
+#:endif
+
+    if (info == 0) then
+        lwork = int(real(work(1), wp))  ! Get workspace size
+        deallocate(work)
+        allocate(work(max(1, lwork)))
+        #:if type(wp) == complex(wp)
+            deallocate(rwork)  ! Deallocate workspace from query
+            allocate(rwork(5*min(M,N)))  ! Then reallocate for actual call
+        #:endif
+
+        A_in = A
+        U_temp = 0.0_wp  ! Initialize U_temp
+        VT_temp = 0.0_wp  ! Initialize VT_temp
+        #:if type(wp) == complex(wp)
+            call ${f77}$('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, rwork, info)
+        #:else
+            call ${f77}$('N', 'N', M, N, A_in, M, S, U_temp, M, VT_temp, N, work, lwork, info)
+        #:endif
+        A_rf = A_in
+        S_rf = S
+        info_rf = info
+        deallocate(work)
+        #:if type(wp) == complex(wp)
+            if (allocated(rwork)) deallocate(rwork)
+        #:endif
+    else
+        ! If workspace query failed, skip this test
+        deallocate(work)
+        #:if type(wp) == complex(wp)
+            if (allocated(rwork)) deallocate(rwork)
+        #:endif
+        return
+    end if
+
+    ! Test mfi interface
+    A_in = A
+    call mfi_${f77}$(A_in, S_mfi, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_${f77}$")
+
+    A_in = A
+    call ${mfi}$(A_in, S_mfi, info=info_mfi)
+    call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for ${mfi}$")
+
+end subroutine
+#:enddef

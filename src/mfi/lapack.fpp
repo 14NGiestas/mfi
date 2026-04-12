@@ -8,9 +8,19 @@
 #:include "src/mfi/lapack/gesvd.fypp"
 #:include "src/mfi/lapack/hegv.fypp"
 #:include "src/mfi/lapack/heevd.fypp"
+#:include "src/mfi/lapack/heevr.fypp"
+#:include "src/mfi/lapack/heevx.fypp"
 #:include "src/mfi/lapack/potrf_potri.fypp"
 #:include "src/mfi/lapack/potrs.fypp"
 #:include "src/mfi/lapack/pocon.fypp"
+#:include "src/mfi/lapack/trtrs.fypp"
+#:include "src/mfi/lapack/sytrf.fypp"
+#:include "src/mfi/lapack/orgqr.fypp"
+#:include "src/mfi/lapack/ormqr.fypp"
+#:include "src/mfi/lapack/org2r.fypp"
+#:include "src/mfi/lapack/orm2r.fypp"
+#:include "src/mfi/lapack/orgr2.fypp"
+#:include "src/mfi/lapack/ormr2.fypp"
 #:set COLLECT = [                            &
     ('?geqrf',  DEFAULT_TYPES, geqrf_gerqf), &
     ('?gerqf',  DEFAULT_TYPES, geqrf_gerqf), &
@@ -20,11 +30,31 @@
     ('?hetrf',  COMPLEX_TYPES, hetrf),       &
     ('?hegv',   COMPLEX_TYPES, hegv),        &
     ('?heevd',  COMPLEX_TYPES, heevd),       &
+    ('?heevr',  COMPLEX_TYPES, heevr),       &
+    ('?heevx',  COMPLEX_TYPES, heevx),       &
     ('?gesvd',  DEFAULT_TYPES, gesvd),       &
+    ('?orgqr',  REAL_TYPES,    orgqr),       &
+    ('?orgrq',  REAL_TYPES,    orgqr),       &
+    ('?ungqr',  COMPLEX_TYPES, orgqr),       &
+    ('?ungrq',  COMPLEX_TYPES, orgqr),       &
+    ('?ormqr',  REAL_TYPES,    ormqr),       &
+    ('?ormrq',  REAL_TYPES,    ormqr),       &
+    ('?unmqr',  COMPLEX_TYPES, ormqr),       &
+    ('?unmrq',  COMPLEX_TYPES, ormqr),       &
+    ('?org2r',  REAL_TYPES,    org2r),       &
+    ('?ung2r',  COMPLEX_TYPES, org2r),       &
+    ('?orm2r',  REAL_TYPES,    orm2r),       &
+    ('?unm2r',  COMPLEX_TYPES, orm2r),       &
+    ('?orgr2',  REAL_TYPES,    orgr2),       &
+    ('?ungr2',  COMPLEX_TYPES, orgr2),       &
+    ('?ormr2',  REAL_TYPES,    ormr2),       &
+    ('?unmr2',  COMPLEX_TYPES, ormr2),       &
     ('?potrf',  DEFAULT_TYPES, potrf_potri), &
     ('?potri',  DEFAULT_TYPES, potrf_potri), &
     ('?potrs',  DEFAULT_TYPES, potrs),       &
     ('?pocon',  DEFAULT_TYPES, pocon),       &
+    ('?trtrs',  DEFAULT_TYPES, trtrs),       &
+    ('?sytrf',  REAL_TYPES,    sytrf),       &
 ]
 #:endmute
 !> Modern fortran interfaces for LAPACK
@@ -47,7 +77,7 @@ $:mfi_implement(name, supported_types, code)
     pure subroutine mfi_error(name, info)
         character(*), intent(in) :: name
         integer, intent(in) :: info
-        call f77_xerbla(name, info)
+        call f77_xerbla(name, abs(info))
     end subroutine
 
 end module

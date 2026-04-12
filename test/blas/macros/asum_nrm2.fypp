@@ -1,0 +1,39 @@
+#:def asum_nrm2(f77,f90,mfi,pfxs,suffix='')
+#:set A, B = get_types(pfxs)
+subroutine test_${f77 + suffix}$
+    use f77_blas, only: ${f77}$, ${f90}$
+    use mfi_blas, only: ${mfi}$, mfi_${f77}$, mfi_force_gpu
+
+    integer, parameter :: wp = ${kind(A)}$
+    integer :: N, ii
+    ${type(B)}$, allocatable :: array(:)
+    ${type(A)}$ :: res(4)
+
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
+    $:test_seed()
+    call test_get_1d(2000, N)
+
+    allocate(array(N))
+    do ii = 1, N
+        array(ii) = real(ii, wp)
+    end do
+    res(1) = ${f77}$(N, array, 1)
+    res(3) = ${f90}$(N, array, 1)
+    res(2) = mfi_${f77}$(array)
+    res(4) = ${mfi}$(array)
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "sequential array mismatch")
+
+    $:random_number(type(B),'array','(N)')
+    res(1) = ${f77}$(N, array, 1)
+    res(2) = ${f90}$(N, array, 1)
+    res(3) = mfi_${f77}$(array)
+    res(4) = ${mfi}$(array)
+    call assert(all(abs(res - res(1)) < sqrt(epsilon(1.0_wp))), "random array mismatch")
+
+    deallocate(array)
+
+end subroutine
+#:enddef

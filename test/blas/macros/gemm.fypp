@@ -1,0 +1,53 @@
+#:def gemm(f77,f90,mfi,pfxs,suffix='')
+#:set wp = pfxs[0]
+#:set _opts = "['N','n','T','t','C','c']"
+subroutine test_${f77 + suffix}$
+    use f77_blas, only: ${f77}$, ${f90}$
+    use mfi_blas, only: ${mfi}$, mfi_${f77}$, mfi_force_gpu, mfi_force_cpu
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer :: M, N
+    character, parameter :: options(*) = ${_opts}$
+    ${type(wp)}$, allocatable :: A(:,:), B(:,:), C(:,:), C_rf(:,:)
+    ${type(wp)}$ :: alpha, beta
+    character :: transa, transb
+    integer :: i, j
+
+    $:test_seed()
+    call test_get_2d(2000, M)
+    N = M
+
+    allocate(A(M,N), B(N,N), C(M,N), C_rf(M,N))
+    $:random_number(type(wp),'A','(M,N)')
+    $:random_number(type(wp),'B','(N,N)')
+    $:random_number(type(wp),'C','(M,N)')
+    $:random_number(type(wp),'alpha')
+    $:random_number(type(wp),'beta')
+
+    #:set tol = 'sqrt(real(max(M,N), wp)) * 10.0'
+
+    ! Correctness check + benchmark: multiple runs
+    do
+        transa = 'N'; transb = 'N'
+        C = 0.0_wp
+        call ${f77}$(transa, transb, M, N, N, alpha, A, M, B, N, beta, C, M)
+        C_rf = C
+
+        C = 0.0_wp
+        call ${mfi}$(A, B, C, alpha=alpha, beta=beta, transa=transa, transb=transb)
+        @:assert_close(C, C_rf, '${mfi}$:NN', ${wp}$, ${tol}$)
+
+#if defined(MFI_CUBLAS)
+        call mfi_force_gpu()
+        C = 0.0_wp
+        call ${mfi}$(A, B, C, alpha=alpha, beta=beta, transa=transa, transb=transb)
+        @:assert_close(C, C_rf, 'GPU:${mfi}$:NN', ${wp}$, ${tol}$)
+        call mfi_force_cpu()
+#endif
+
+        exit
+    end do
+
+    deallocate(A, B, C, C_rf)
+end subroutine
+#:enddef

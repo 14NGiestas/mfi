@@ -1,0 +1,8 @@
+name = "consumer"
+version = "0.1.0"
+
+[dependencies]
+mfi = { path = ".." }
+
+[build]
+link = ["blas", "lapack"]
