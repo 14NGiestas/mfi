@@ -77,7 +77,7 @@ $:mfi_implement(name, supported_types, code)
     pure subroutine mfi_error(name, info)
         character(*), intent(in) :: name
         integer, intent(in) :: info
-        call f77_xerbla(name, info)
+        call f77_xerbla(name, abs(info))
     end subroutine
 
 end module
