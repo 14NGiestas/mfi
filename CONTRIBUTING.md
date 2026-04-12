@@ -2,7 +2,17 @@
 
 ## Development Setup
 
-### Requirements
+### Recommended: Nix Flake (zero config)
+
+```sh
+nix develop             # cpu-only shell (gfortran, fpm 0.13, fypp, BLAS, LAPACK)
+nix develop .#gpu-modern   # with CUDA 12.3
+nix develop .#gpu-legacy   # with CUDA 11.8
+```
+
+Requires [Nix](https://nixos.org/download/) with flakes enabled.
+
+### Manual Setup
 
 - fpm ≥ 0.13.0
 - fypp (any version)
@@ -10,16 +20,16 @@
 - BLAS and LAPACK libraries
 
 For GPU development, additionally:
-- CUDA Toolkit (12.x recommended)
-- Nix (for reproducible environments)
+- CUDA Toolkit (12.3 for gpu-modern, 11.8 for gpu-legacy)
 
 ### Quick Start
 
 ```sh
 git clone https://github.com/14NGiestas/mfi.git
 cd mfi
-make              # generates .f90 from .fpp/.fypp templates
-fpm test          # runs the test suite
+nix develop          # enter dev shell (or install deps manually)
+make                 # generates .f90 from .fpp/.fypp templates
+fpm test             # runs the test suite
 ```
 
 ## Code Generation Architecture
@@ -61,17 +71,18 @@ fpm build --profile cublas
 fpm test --profile cublas
 ```
 
-### Nix Environments (optional)
+### Nix Environments
 
-For reproducible builds with all dependencies:
+The project uses a single `flake.nix` that provides all dev shells:
 
 ```sh
-# CPU-only
-nix-shell shells/cpu-only.nix --run "fpm test"
-
-# GPU with modern CUDA
-nix-shell shells/gpu-modern.nix --run "fpm test --profile cublas"
+nix develop              # cpu-only
+nix develop .#gpu-modern # with CUDA 12.3
+nix develop .#gpu-legacy # with CUDA 11.8
 ```
+
+The flake pins nixpkgs to 24.11 (last version with CUDA 11.8/12.3) and provides
+fpm 0.13.0 via an overlay until PR #506818 is merged.
 
 ## Branch Model
 
@@ -92,7 +103,7 @@ nix-shell shells/gpu-modern.nix --run "fpm test --profile cublas"
 
 ## Continuous Integration
 
-The CI pipeline runs automatically only on `main` and PRs targeting `main` to conserve GitHub Actions minutes.
+The CI pipeline uses Nix flakes with `magic-nix-cache-action` for fast, cached builds.
 
 ### Manual CI Trigger
 
@@ -107,10 +118,13 @@ For feature branches:
 | Job | Configuration | Profile | Test |
 |-----|--------------|---------|------|
 | cpu-only | CPU BLAS/LAPACK | *(default)* | Yes |
-| gpu-modern | CPU BLAS/LAPACK (CUDA env) | `release` | Yes |
+| gpu-modern | CPU BLAS/LAPACK (CUDA env) | `debug` | Yes |
 | gpu-modern-cublas | cuBLAS | `cublas` | Compile only |
 | consumer-cpu | CPU consumer project | *(default)* | Build only |
 | consumer-cublas | GPU consumer project | `cublas` | Build only |
+
+> **Note:** gpu-modern uses `--profile debug` (not `release`) to avoid a gfortran -O2
+> optimizer bug that affects LAPACK wrapper tests. Fixed in gfortran 15.2.0; see `BUGS.md`.
 
 ## Conventions
 
@@ -150,6 +164,8 @@ All MFI BLAS wrappers (`mfi_gemm`, `mfi_gemv`, `mfi_trsm`, `mfi_trmm`) and all `
 
 - Known pre-existing LAPACK test failures (unrelated to cuBLAS): `cunmrq`, `sorg2r`, `sorgr2`, `cungr2`, `cung2r`, `sormrq`, `heevx` (segfault)
 - GPU testing available via `gpu_test.ipynb` (Colab: Tesla T4, CUDA 12.8)
+- CI uses `MFI_TEST_ELEMENTS=50000` and `MFI_TEST_SAMPLES=1` for fast runs
+- Override locally: `MFI_TEST_ELEMENTS=1000000 ./build/app/app` for benchmarking
 
 ## Dependency Usage
 
