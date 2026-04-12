@@ -22,7 +22,21 @@ end program
 
 ## Quick Start
 
-### Requirements
+### Recommended: Nix Flake (zero config)
+
+```sh
+git clone https://github.com/14NGiestas/mfi.git
+cd mfi
+nix develop          # cpu-only shell with gfortran, fpm, fypp, BLAS, LAPACK
+nix develop .#gpu-modern   # with CUDA 12.3
+nix develop .#gpu-legacy   # with CUDA 11.8
+make              # generates .f90 from .fpp/.fypp templates
+fpm test          # runs the test suite
+```
+
+Requires [Nix](https://nixos.org/download/) with flakes enabled.
+
+### Manual setup
 
 | Tool | Minimum version |
 |------|-----------------|
@@ -363,8 +377,7 @@ LAPACK coverage is growing — routines are implemented as needed.
 
 ## Continuous Integration
 
-CI runs automatically only on `main` to conserve GitHub Actions minutes.
-For feature branches, trigger it manually from the **Actions** tab.
+CI uses [Nix flakes](flake.nix) with `magic-nix-cache-action` for fast, reproducible builds.
 
 | Event | Behavior |
 |-------|----------|

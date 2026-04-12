@@ -12,6 +12,11 @@
 ## Build & Test Commands
 
 ```sh
+# Enter dev shell (provides gfortran, fpm, fypp, BLAS, LAPACK)
+nix develop             # cpu-only
+nix develop .#gpu-modern   # CUDA 12.3
+nix develop .#gpu-legacy   # CUDA 11.8
+
 # CPU-only (default)
 make
 fpm test
@@ -21,6 +26,9 @@ make
 fpm build --profile cublas
 fpm test --profile cublas
 ```
+
+> **Note:** `gpu-modern` CI uses `--profile debug` to avoid a gfortran -O2 optimizer
+> bug (fixed in gfortran 15.2.0). See `BUGS.md`.
 
 ## Nix Flake
 
@@ -34,9 +42,10 @@ A single `flake.nix` provides all dev shells (replaces old `shells/*.nix`):
 | default | `nix develop` | — (same as cpu-only) |
 
 - nixpkgs pinned to **24.11** (last version with CUDA 11.8/12.3)
-- fpm 0.13.0 via inline overlay (PR #506818) — remove once merged
+- fpm 0.13.0 via inline overlay (PR #506818 in nixpkgs) — remove once merged
 - gfortran, fpm, fypp, pkg-config all provided by the flake
-- CI uses `nix develop .#<env> --command ...` with flakes enabled
+- CI uses `magic-nix-cache-action` for fast cached builds
+- Temp make files (`.mfi_*`, `.f77_*, *.tmp`) are gitignored
 
 ## Branch Model
 
@@ -154,6 +163,7 @@ link = ["cublas", "cudart"]
 - LAPACK tests have pre-existing failures unrelated to cuBLAS work (`cunmrq`, `sorg2r`, `sorgr2`, `cungr2`, `cung2r`, `sormrq`, `heevx` segfault)
 - GPU testing available via `gpu_test.ipynb` (Colab: Tesla T4, CUDA 12.8)
 - fpm ≥0.13.0 required for `[profiles]` and `[features]` support
+- CI uses `MFI_TEST_ELEMENTS=50000` and `MFI_TEST_SAMPLES=1` for fast runs
 
 ## fpm.toml Configuration
 
