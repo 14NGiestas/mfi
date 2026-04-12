@@ -337,7 +337,7 @@ pure subroutine mfi_sgeqrf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_geqrf', -local_info)
+        call mfi_error('f77_geqrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_geqrf:f77_geqrf]].
@@ -383,7 +383,7 @@ pure subroutine mfi_dgeqrf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_geqrf', -local_info)
+        call mfi_error('f77_geqrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_geqrf:f77_geqrf]].
@@ -429,7 +429,7 @@ pure subroutine mfi_cgeqrf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_geqrf', -local_info)
+        call mfi_error('f77_geqrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_geqrf:f77_geqrf]].
@@ -475,7 +475,7 @@ pure subroutine mfi_zgeqrf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_geqrf', -local_info)
+        call mfi_error('f77_geqrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_gerqf:f77_gerqf]].
@@ -521,7 +521,7 @@ pure subroutine mfi_sgerqf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gerqf', -local_info)
+        call mfi_error('f77_gerqf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_gerqf:f77_gerqf]].
@@ -567,7 +567,7 @@ pure subroutine mfi_dgerqf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gerqf', -local_info)
+        call mfi_error('f77_gerqf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_gerqf:f77_gerqf]].
@@ -613,7 +613,7 @@ pure subroutine mfi_cgerqf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gerqf', -local_info)
+        call mfi_error('f77_gerqf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_gerqf:f77_gerqf]].
@@ -659,7 +659,7 @@ pure subroutine mfi_zgerqf(a, tau, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gerqf', -local_info)
+        call mfi_error('f77_gerqf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getrf:f77_getrf]].
@@ -692,7 +692,7 @@ pure subroutine mfi_sgetrf(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrf', -local_info)
+        call mfi_error('f77_getrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getrf:f77_getrf]].
@@ -725,7 +725,7 @@ pure subroutine mfi_dgetrf(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrf', -local_info)
+        call mfi_error('f77_getrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getrf:f77_getrf]].
@@ -758,7 +758,7 @@ pure subroutine mfi_cgetrf(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrf', -local_info)
+        call mfi_error('f77_getrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getrf:f77_getrf]].
@@ -791,7 +791,7 @@ pure subroutine mfi_zgetrf(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrf', -local_info)
+        call mfi_error('f77_getrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getri:f77_getri]].
@@ -822,7 +822,7 @@ pure subroutine mfi_sgetri(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getri',-local_info)
+        call mfi_error('f77_getri', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getri:f77_getri]].
@@ -853,7 +853,7 @@ pure subroutine mfi_dgetri(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getri',-local_info)
+        call mfi_error('f77_getri', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getri:f77_getri]].
@@ -884,7 +884,7 @@ pure subroutine mfi_cgetri(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getri',-local_info)
+        call mfi_error('f77_getri', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getri:f77_getri]].
@@ -915,7 +915,7 @@ pure subroutine mfi_zgetri(a, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getri',-local_info)
+        call mfi_error('f77_getri', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getrs:f77_getrs]].
@@ -943,7 +943,7 @@ pure subroutine mfi_sgetrs(a,ipiv,b,trans,info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrs',-local_info)
+        call mfi_error('f77_getrs', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getrs:f77_getrs]].
@@ -971,7 +971,7 @@ pure subroutine mfi_dgetrs(a,ipiv,b,trans,info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrs',-local_info)
+        call mfi_error('f77_getrs', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getrs:f77_getrs]].
@@ -999,7 +999,7 @@ pure subroutine mfi_cgetrs(a,ipiv,b,trans,info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrs',-local_info)
+        call mfi_error('f77_getrs', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_getrs:f77_getrs]].
@@ -1027,7 +1027,7 @@ pure subroutine mfi_zgetrs(a,ipiv,b,trans,info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_getrs',-local_info)
+        call mfi_error('f77_getrs', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_hetrf:f77_hetrf]].
@@ -1103,7 +1103,7 @@ pure subroutine mfi_chetrf(a, uplo, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_hetrf', abs(local_info))
+        call mfi_error('f77_hetrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_hetrf:f77_hetrf]].
@@ -1179,7 +1179,7 @@ pure subroutine mfi_zhetrf(a, uplo, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_hetrf', abs(local_info))
+        call mfi_error('f77_hetrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_hegv:f77_hegv]].
@@ -1239,7 +1239,7 @@ pure subroutine mfi_chegv(a, b, w, itype, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_hegv', -local_info)
+        call mfi_error('f77_hegv', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_hegv:f77_hegv]].
@@ -1299,7 +1299,7 @@ pure subroutine mfi_zhegv(a, b, w, itype, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_hegv', -local_info)
+        call mfi_error('f77_hegv', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_heevd:f77_heevd]].
@@ -1362,7 +1362,7 @@ pure subroutine mfi_cheevd(a, w, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_heevd', -local_info)
+        call mfi_error('f77_heevd', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_heevd:f77_heevd]].
@@ -1425,7 +1425,7 @@ pure subroutine mfi_zheevd(a, w, jobz, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_heevd', -local_info)
+        call mfi_error('f77_heevd', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_heevr:f77_heevr]].
@@ -1511,8 +1511,11 @@ pure subroutine mfi_cheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
     end if
     lda = max(1,size(a,1))
     n   = size(a,2)
-    ldz = max(1,size(a,1))  ! Size for eigenvector matrix
-    if (present(z)) ldz = max(1,size(z,1))
+    if (present(z)) then
+        ldz = max(1,size(z,1))
+    else
+        ldz = 1
+    end if
     allocation_status = 0
     lwork  = -1
     lrwork = -1
@@ -1572,7 +1575,7 @@ pure subroutine mfi_cheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_heevr', abs(local_info))
+        call mfi_error('f77_heevr', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_heevr:f77_heevr]].
@@ -1658,8 +1661,11 @@ pure subroutine mfi_zheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
     end if
     lda = max(1,size(a,1))
     n   = size(a,2)
-    ldz = max(1,size(a,1))  ! Size for eigenvector matrix
-    if (present(z)) ldz = max(1,size(z,1))
+    if (present(z)) then
+        ldz = max(1,size(z,1))
+    else
+        ldz = 1
+    end if
     allocation_status = 0
     lwork  = -1
     lrwork = -1
@@ -1719,7 +1725,7 @@ pure subroutine mfi_zheevr(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m, z
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_heevr', abs(local_info))
+        call mfi_error('f77_heevr', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_heevx:f77_heevx]].
@@ -1903,7 +1909,7 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_heevx', abs(local_info))
+        call mfi_error('f77_heevx', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_heevx:f77_heevx]].
@@ -2087,7 +2093,7 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_heevx', abs(local_info))
+        call mfi_error('f77_heevx', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_gesvd:f77_gesvd]].
@@ -2176,7 +2182,7 @@ pure subroutine mfi_sgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gesvd', -local_info)
+        call mfi_error('f77_gesvd', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_gesvd:f77_gesvd]].
@@ -2265,7 +2271,7 @@ pure subroutine mfi_dgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gesvd', -local_info)
+        call mfi_error('f77_gesvd', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_gesvd:f77_gesvd]].
@@ -2357,7 +2363,7 @@ pure subroutine mfi_cgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gesvd', -local_info)
+        call mfi_error('f77_gesvd', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_gesvd:f77_gesvd]].
@@ -2449,7 +2455,7 @@ pure subroutine mfi_zgesvd(a, s, u, vt, ww, job, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_gesvd', -local_info)
+        call mfi_error('f77_gesvd', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_orgqr:f77_orgqr]].
@@ -2495,7 +2501,7 @@ pure subroutine mfi_sorgqr(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_orgqr', abs(local_info))
+        call mfi_error('f77_orgqr', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_orgqr:f77_orgqr]].
@@ -2541,7 +2547,7 @@ pure subroutine mfi_dorgqr(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_orgqr', abs(local_info))
+        call mfi_error('f77_orgqr', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_orgrq:f77_orgrq]].
@@ -2587,7 +2593,7 @@ pure subroutine mfi_sorgrq(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_orgrq', abs(local_info))
+        call mfi_error('f77_orgrq', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_orgrq:f77_orgrq]].
@@ -2633,7 +2639,7 @@ pure subroutine mfi_dorgrq(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_orgrq', abs(local_info))
+        call mfi_error('f77_orgrq', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ungqr:f77_ungqr]].
@@ -2679,7 +2685,7 @@ pure subroutine mfi_cungqr(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ungqr', abs(local_info))
+        call mfi_error('f77_ungqr', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ungqr:f77_ungqr]].
@@ -2725,7 +2731,7 @@ pure subroutine mfi_zungqr(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ungqr', abs(local_info))
+        call mfi_error('f77_ungqr', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ungrq:f77_ungrq]].
@@ -2771,7 +2777,7 @@ pure subroutine mfi_cungrq(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ungrq', abs(local_info))
+        call mfi_error('f77_ungrq', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ungrq:f77_ungrq]].
@@ -2817,7 +2823,7 @@ pure subroutine mfi_zungrq(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ungrq', abs(local_info))
+        call mfi_error('f77_ungrq', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ormqr:f77_ormqr]].
@@ -2873,7 +2879,7 @@ pure subroutine mfi_sormqr(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ormqr', abs(local_info))
+        call mfi_error('f77_ormqr', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ormqr:f77_ormqr]].
@@ -2929,7 +2935,7 @@ pure subroutine mfi_dormqr(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ormqr', abs(local_info))
+        call mfi_error('f77_ormqr', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ormrq:f77_ormrq]].
@@ -2985,7 +2991,7 @@ pure subroutine mfi_sormrq(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ormrq', abs(local_info))
+        call mfi_error('f77_ormrq', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ormrq:f77_ormrq]].
@@ -3041,7 +3047,7 @@ pure subroutine mfi_dormrq(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ormrq', abs(local_info))
+        call mfi_error('f77_ormrq', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_unmqr:f77_unmqr]].
@@ -3097,7 +3103,7 @@ pure subroutine mfi_cunmqr(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_unmqr', abs(local_info))
+        call mfi_error('f77_unmqr', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_unmqr:f77_unmqr]].
@@ -3153,7 +3159,7 @@ pure subroutine mfi_zunmqr(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_unmqr', abs(local_info))
+        call mfi_error('f77_unmqr', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_unmrq:f77_unmrq]].
@@ -3209,7 +3215,7 @@ pure subroutine mfi_cunmrq(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_unmrq', abs(local_info))
+        call mfi_error('f77_unmrq', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_unmrq:f77_unmrq]].
@@ -3265,7 +3271,7 @@ pure subroutine mfi_zunmrq(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_unmrq', abs(local_info))
+        call mfi_error('f77_unmrq', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_org2r:f77_org2r]].
@@ -3299,7 +3305,7 @@ pure subroutine mfi_sorg2r(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_org2r', -local_info)
+        call mfi_error('f77_org2r', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_org2r:f77_org2r]].
@@ -3333,7 +3339,7 @@ pure subroutine mfi_dorg2r(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_org2r', -local_info)
+        call mfi_error('f77_org2r', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ung2r:f77_ung2r]].
@@ -3367,7 +3373,7 @@ pure subroutine mfi_cung2r(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ung2r', -local_info)
+        call mfi_error('f77_ung2r', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ung2r:f77_ung2r]].
@@ -3401,7 +3407,7 @@ pure subroutine mfi_zung2r(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ung2r', -local_info)
+        call mfi_error('f77_ung2r', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_orm2r:f77_orm2r]].
@@ -3449,7 +3455,7 @@ pure subroutine mfi_sorm2r(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_orm2r', -local_info)
+        call mfi_error('f77_orm2r', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_orm2r:f77_orm2r]].
@@ -3497,7 +3503,7 @@ pure subroutine mfi_dorm2r(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_orm2r', -local_info)
+        call mfi_error('f77_orm2r', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_unm2r:f77_unm2r]].
@@ -3545,7 +3551,7 @@ pure subroutine mfi_cunm2r(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_unm2r', -local_info)
+        call mfi_error('f77_unm2r', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_unm2r:f77_unm2r]].
@@ -3593,7 +3599,7 @@ pure subroutine mfi_zunm2r(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_unm2r', -local_info)
+        call mfi_error('f77_unm2r', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_orgr2:f77_orgr2]].
@@ -3627,7 +3633,7 @@ pure subroutine mfi_sorgr2(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_orgr2', -local_info)
+        call mfi_error('f77_orgr2', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_orgr2:f77_orgr2]].
@@ -3661,7 +3667,7 @@ pure subroutine mfi_dorgr2(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_orgr2', -local_info)
+        call mfi_error('f77_orgr2', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ungr2:f77_ungr2]].
@@ -3695,7 +3701,7 @@ pure subroutine mfi_cungr2(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ungr2', -local_info)
+        call mfi_error('f77_ungr2', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ungr2:f77_ungr2]].
@@ -3729,7 +3735,7 @@ pure subroutine mfi_zungr2(a, tau, k, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ungr2', -local_info)
+        call mfi_error('f77_ungr2', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ormr2:f77_ormr2]].
@@ -3777,7 +3783,7 @@ pure subroutine mfi_sormr2(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ormr2', -local_info)
+        call mfi_error('f77_ormr2', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_ormr2:f77_ormr2]].
@@ -3825,7 +3831,7 @@ pure subroutine mfi_dormr2(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_ormr2', -local_info)
+        call mfi_error('f77_ormr2', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_unmr2:f77_unmr2]].
@@ -3873,7 +3879,7 @@ pure subroutine mfi_cunmr2(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_unmr2', -local_info)
+        call mfi_error('f77_unmr2', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_unmr2:f77_unmr2]].
@@ -3921,7 +3927,7 @@ pure subroutine mfi_zunmr2(a, tau, c, side, trans, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_unmr2', -local_info)
+        call mfi_error('f77_unmr2', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_potrf:f77_potrf]].
@@ -4140,7 +4146,7 @@ pure subroutine mfi_spotrs(a, b, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_potrs',-local_info)
+        call mfi_error('f77_potrs', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_potrs:f77_potrs]].
@@ -4167,7 +4173,7 @@ pure subroutine mfi_dpotrs(a, b, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_potrs',-local_info)
+        call mfi_error('f77_potrs', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_potrs:f77_potrs]].
@@ -4194,7 +4200,7 @@ pure subroutine mfi_cpotrs(a, b, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_potrs',-local_info)
+        call mfi_error('f77_potrs', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_potrs:f77_potrs]].
@@ -4221,7 +4227,7 @@ pure subroutine mfi_zpotrs(a, b, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_potrs',-local_info)
+        call mfi_error('f77_potrs', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_pocon:f77_pocon]].
@@ -4262,7 +4268,7 @@ pure subroutine mfi_spocon(a, anorm, rcond, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_pocon',-local_info)
+        call mfi_error('f77_pocon', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_pocon:f77_pocon]].
@@ -4303,7 +4309,7 @@ pure subroutine mfi_dpocon(a, anorm, rcond, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_pocon',-local_info)
+        call mfi_error('f77_pocon', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_pocon:f77_pocon]].
@@ -4344,7 +4350,7 @@ pure subroutine mfi_cpocon(a, anorm, rcond, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_pocon',-local_info)
+        call mfi_error('f77_pocon', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_pocon:f77_pocon]].
@@ -4385,7 +4391,7 @@ pure subroutine mfi_zpocon(a, anorm, rcond, uplo, info)
     if (present(info)) then
         info = local_info
     else if (local_info <= -1000) then
-        call mfi_error('f77_pocon',-local_info)
+        call mfi_error('f77_pocon', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_trtrs:f77_trtrs]].
@@ -4677,7 +4683,7 @@ pure subroutine mfi_ssytrf(a, uplo, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_sytrf', abs(local_info))
+        call mfi_error('f77_sytrf', local_info)
     end if
 end subroutine
 !> Modern interface for [[f77_sytrf:f77_sytrf]].
@@ -4753,14 +4759,14 @@ pure subroutine mfi_dsytrf(a, uplo, ipiv, info)
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        call mfi_error('f77_sytrf', abs(local_info))
+        call mfi_error('f77_sytrf', local_info)
     end if
 end subroutine
 
     pure subroutine mfi_error(name, info)
         character(*), intent(in) :: name
         integer, intent(in) :: info
-        call f77_xerbla(name, info)
+        call f77_xerbla(name, abs(info))
     end subroutine
 
 end module
