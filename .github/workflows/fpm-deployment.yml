@@ -152,7 +152,6 @@ jobs:
         clean: true
 
     - name: Prepare mfi-cublas
-      if: github.ref == 'refs/heads/impl/cublas'
       run: |
         mkdir -p ${{ env.PROJECT_NAME }}-cublas
         cp -R src test fpm.toml LICENSE ${{ env.PROJECT_NAME }}-cublas
@@ -161,7 +160,6 @@ jobs:
 
     - name: Deploy to mfi-cublas
       uses: JamesIves/github-pages-deploy-action@v4
-      if: github.ref == 'refs/heads/impl/cublas'
       with:
         branch: mfi-cublas
         folder: ${{ env.PROJECT_NAME }}-cublas
