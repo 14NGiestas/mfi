@@ -89,7 +89,7 @@ without code changes.
 
 Try it in your browser:
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/14NGiestas/mfi/blob/impl/cublas/gpu_test.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/14NGiestas/mfi/blob/main/gpu_test.ipynb)
 
 ### Local build with cuBLAS
 
@@ -104,9 +104,6 @@ fpm test --profile cublas
 ```toml
 [dependencies]
 mfi = { git = "https://github.com/14NGiestas/mfi.git", branch = "mfi-cublas", features = ["cublas"] }
-
-[build]
-link = ["cublas", "cudart"]
 ```
 
 ### Runtime CPU / GPU switching
@@ -382,6 +379,6 @@ CI uses [Nix flakes](flake.nix) with `magic-nix-cache-action` for fast, reproduc
 | Event | Behavior |
 |-------|----------|
 | Push to `main` | Full test matrix + deploy to `mfi-fpm` |
-| Push to `main` | Full test matrix + deploy to `mfi-cublas` |
+| Push to `impl/cublas` | Full test matrix + deploy to `mfi-cublas` |
 | PR to `main` | Full test matrix |
 | Manual dispatch | Full test matrix |
