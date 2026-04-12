@@ -3,7 +3,7 @@
 #:set f77_name = 'i' + f77[1:] + f77[0]
 subroutine test_${f77_name + suffix}$
     use f77_blas, only: ${f77_name}$, ${f90}$
-    use mfi_blas, only: ${mfi}$, mfi_${f77_name}$
+    use mfi_blas, only: ${mfi}$, mfi_${f77_name}$, mfi_force_gpu
 
     integer, parameter :: wp = ${kind(wp)}$
     integer :: N, ii

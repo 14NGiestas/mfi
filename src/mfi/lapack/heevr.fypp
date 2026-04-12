@@ -53,9 +53,9 @@ pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m,
                       s_iwork, liwork, local_info)
     if (local_info /= 0) goto 404
     
-    lwork  = int(s_work(1))
-    lrwork = int(s_rwork(1))
-    liwork = int(s_iwork(1))
+    lwork  = max(1, int(real(s_work(1), wp)))
+    lrwork = max(1, int(s_rwork(1)))
+    liwork = max(1, int(s_iwork(1)))
 
     allocate(iwork(liwork), stat=allocation_status)
     if (allocation_status == 0) then
@@ -68,7 +68,7 @@ pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m,
                               local_vl, local_vu, local_il, local_iu, local_abstol, &
                               local_m, w, local_z, ldz, local_isuppz, work, lwork, rwork, lrwork, &
                               iwork, liwork, local_info)
-                
+
                 ! Copy results if needed
                 if (present(m)) m = local_m
             else
@@ -77,15 +77,17 @@ pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m,
         else
             local_info = -1000
         end if
-        deallocate(work, stat=deallocation_status)
+    else
+        local_info = -1000
     end if
-    deallocate(rwork, stat=deallocation_status)
-    deallocate(iwork, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
+    if (associated(rwork)) deallocate(rwork, stat=deallocation_status)
+    if (associated(iwork)) deallocate(iwork, stat=deallocation_status)
 404 continue
     if (present(info)) then
         info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('${F77_NAME}$', -local_info)
+    else if (local_info /= 0) then
+        call mfi_error('${F77_NAME}$', abs(local_info))
     end if
 end subroutine
 #:enddef

@@ -44,7 +44,7 @@ pure subroutine ${MFI_NAME}$(a, uplo, ipiv, info)
     call ${F77_NAME}$(local_uplo, n, a, lda, local_ipiv, s_work, lwork, local_info)
     if (local_info /= 0) goto 404
 
-    lwork = int(s_work(1))
+    lwork = max(1, int(s_work(1)))
     if (allocation_status == 0) then
         allocate(work(lwork), stat=allocation_status)
     end if
@@ -53,27 +53,17 @@ pure subroutine ${MFI_NAME}$(a, uplo, ipiv, info)
     else
         local_info = -1000
     end if
-    deallocate(work, stat=deallocation_status)
+    if (associated(work)) deallocate(work, stat=deallocation_status)
 
     ! Error handling
 404 continue
     if (.not. present(ipiv)) then
-        deallocate(local_ipiv, stat=deallocation_status)
+        if (associated(local_ipiv)) deallocate(local_ipiv, stat=deallocation_status)
     end if
-    if (present(info)) then
-        info = local_info
-    else if (local_info <= -1000) then
-        call mfi_error('${F77_NAME}$', -local_info)
-    end if
-    
     if (present(info)) then
         info = local_info
     else if (local_info /= 0) then
-        if (local_info <= -1000) then
-            call mfi_error('${F77_NAME}$', -local_info)
-        else
-            call mfi_error('${F77_NAME}$', local_info)
-        end if
+        call mfi_error('${F77_NAME}$', abs(local_info))
     end if
 end subroutine
 #:enddef

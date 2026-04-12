@@ -22,6 +22,7 @@ pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, in
     ! Define a dummy array to use when needed (declarations first)
     integer, target :: dummy_ifail(1)
     integer :: n, lda, ldz, lwork, allocation_status, deallocation_status
+    logical :: owned_ifail
     character(1) :: jobz, range
     character(len=1) :: local_uplo
     ${real(wp)}$ :: local_vl, local_vu, local_abstol
@@ -33,6 +34,7 @@ pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, in
     rwork => null()
     iwork => null()
     local_ifail => null()
+    owned_ifail = .false.
 
     ! Set defaults
     if (present(uplo)) then
@@ -83,6 +85,7 @@ pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, in
                 local_info = -1000
                 goto 404
             end if
+            owned_ifail = .true.
         ENDIF
     ENDIF
 
@@ -170,9 +173,7 @@ pure subroutine ${MFI_NAME}$(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, in
     if (associated(work)) deallocate(work, stat=deallocation_status)
     if (associated(rwork)) deallocate(rwork, stat=deallocation_status)
     if (associated(iwork)) deallocate(iwork, stat=deallocation_status)
-    if (.not. present(ifail) .and. associated(local_ifail)) then
-        deallocate(local_ifail, stat=deallocation_status)
-    end if
+    if (owned_ifail) deallocate(local_ifail, stat=deallocation_status)
 
 404 continue
     if (present(info)) then
