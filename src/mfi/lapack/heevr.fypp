@@ -22,6 +22,9 @@ pure subroutine ${MFI_NAME}$(a, w, jobz, uplo, range, vl, vu, il, iu, abstol, m,
     integer :: local_m
     ${type(wp)}$, target :: l_z(1,1)
     integer, target :: l_isuppz(2*size(a,1))  ! Default size for isuppz when not present
+    work => null()
+    rwork => null()
+    iwork => null()
 @:defaults(jobz='N', uplo='U', range='A', vl=0.0_wp, vu=0.0_wp, &
            il=1, iu=size(a,1), abstol=0.0_wp)
     lda = max(1,size(a,1))

@@ -25,9 +25,11 @@ pure subroutine ${MFI_NAME}$(a, uplo, ipiv, info)
     integer, intent(out), optional, target :: ipiv(:)
 @:optional(integer, out, info)
     integer :: n, lda, lwork, allocation_status, deallocation_status
+    ${type(wp)}$ :: s_work(1)  ! Work array for workspace query
     integer, pointer :: local_ipiv(:)
     ${type(wp)}$, pointer :: work(:)
-    ${type(wp)}$ :: s_work(1)  ! Work array for workspace query
+    local_ipiv => null()
+    work => null()
 @:defaults(uplo='U')
     lda = max(1,size(a,1))
     n = size(a,2)
