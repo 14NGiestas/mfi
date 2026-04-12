@@ -11,6 +11,8 @@ all: src_split lapack_split test_blas_split test_lapack_split
 
 # Source: split umbrella blas.fpp into per-module .f90 files
 src_split: src/mfi/blas.fpp src/f77/blas.fpp
+	@echo "Splitting BLAS umbrella..."
+	@rm -f src/mfi/blas.f90 src/f77/blas.f90 src/mfi/blas/*.f90 src/f77/blas/*.f90
 	$(FPP) -m os -I. src/mfi/blas.fpp > .blas_mfi.tmp
 	csplit -s -f .mfi_ -z .blas_mfi.tmp '/^module /' '{*}'
 	@for f in .mfi_*; do \
@@ -42,6 +44,8 @@ lapack_split: src/mfi/lapack.fpp src/f77/lapack.fpp
 
 # Test umbrella → split into per-test .f90 files
 test_blas_split: test/blas.fpp
+	@echo "Splitting BLAS tests..."
+	@rm -f test/blas/xx* test/blas/*.f90
 	$(FPP) -m os -I. $< > .test_blas.tmp
 	csplit -s -z -f test/blas/xx .test_blas.tmp '/^ *program /' '{*}'
 	@for f in test/blas/xx*; do \
@@ -51,6 +55,8 @@ test_blas_split: test/blas.fpp
 	@rm -f .test_blas.tmp test/blas.f90
 
 test_lapack_split: test/lapack.fpp
+	@echo "Splitting LAPACK tests..."
+	@rm -f test/lapack/xx* test/lapack/*.f90
 	$(FPP) -m os -I. $< > .test_lapack.tmp
 	csplit -s -z -f test/lapack/xx .test_lapack.tmp '/^ *program /' '{*}'
 	@for f in test/lapack/xx*; do \

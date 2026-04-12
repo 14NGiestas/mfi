@@ -97,21 +97,12 @@ subroutine test_${f77 + suffix}$
         return
     end if
 
-    print*, A_rf
-
-    ! Test mfi interface (short form) - eigenvalues only
-    !A_in = A
-    !call mfi_${f77}$ (A_in, W, uplo=uplo, info=info_mfi)
-    !call assert(info_mfi == info_rf .and. all(abs(W - W_rf) < sqrt(epsilon(1.0_wp))), &
-    !            "different eigenvalues for mfi_${f77}$")
-
     ! Test mfi interface (full form) - eigenvalues and eigenvectors
     A_in = A
     W = 0.0_wp
     Z = 0.0_wp
     call ${mfi}$ (A_in, W, uplo=uplo, z=Z, info=info_mfi)
 
-    print*, A_in
     ! Use only residual checks for validation since direct comparison may be too strict
     ! Check eigenvalue equation residual: A*Z ≈ W*Z means A*Z - W*Z ≈ 0
     complex_matrix = matmul(A, Z)
@@ -128,10 +119,7 @@ subroutine test_${f77 + suffix}$
     if (info_mfi == info_rf .and. eigvec_residual < 1e-10 .and. eigenvalues_reasonable) then
         ! Test passes
     else
-        print *, "Debug: info_mfi=", info_mfi, "info_rf=", info_rf, "residual=", eigvec_residual
-        print *, "Debug: eigenvalues_reasonable=", eigenvalues_reasonable, "W=", W
-        print *, "Debug: size(A)=", size(A,1), size(A,2), "n should be =", 3
-        call assert(.false., "different results for ${mfi}$ with eigenvectors")
+        call assert(.false., "different results for ${mfi}$ with eigenvectors (residual=" // trim(fmt(eigvec_residual)) // ")")
     end if
 
     ! Cleanup

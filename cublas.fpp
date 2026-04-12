@@ -23,7 +23,8 @@
     #:for var in varlist
         call cudaMemcpy(device_${var}$, c_loc(${var}$), &
                         int(size(${var}$) * storage_size(${var}$)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for ${var}$'
     #:endfor
 #:enddef
 
@@ -32,7 +33,8 @@
     #:for var in varlist
         call cudaMemcpy(c_loc(${var}$), device_${var}$, &
                         int(size(${var}$) * storage_size(${var}$)/8, c_size_t), &
-                        cudaMemcpyDeviceToHost)
+                        cudaMemcpyDeviceToHost, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (D->H) failed for ${var}$'
     #:endfor
 #:enddef
 
@@ -41,7 +43,8 @@
     #:for var in varlist
         call cudaMemcpy(device_${var}$, c_loc(${var}$), &
                         int(size(${var}$) * storage_size(${var}$)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for ${var}$'
     #:endfor
 #:enddef
 
@@ -50,7 +53,8 @@
     #:for var in varlist
         call cudaMemcpy(c_loc(${var}$), device_${var}$, &
                         int(size(${var}$) * storage_size(${var}$)/8, c_size_t), &
-                        cudaMemcpyDeviceToHost)
+                        cudaMemcpyDeviceToHost, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (D->H) failed for ${var}$'
     #:endfor
 #:enddef
 
@@ -77,12 +81,13 @@ interface
         integer(c_int), intent(out) :: stat
     end subroutine
 
-    pure subroutine cudaMemcpy(dst, src, count, kind) bind(c,name="cudaMemcpy")
+    pure subroutine cudaMemcpy(dst, src, count, kind, stat) bind(c,name="mfi_cuda_memcpy")
         import
         type(c_ptr), value, intent(in) :: dst
         type(c_ptr), value, intent(in) :: src
         integer(c_size_t), value, intent(in) :: count
         integer(c_int), value, intent(in) :: kind
+        integer(c_int), intent(out) :: stat
     end subroutine
 
     pure subroutine cublasCreate(handle, stat) bind(c,name="mfi_cublas_create")
