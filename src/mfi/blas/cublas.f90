@@ -17,12 +17,13 @@ interface
         integer(c_int), intent(out) :: stat
     end subroutine
 
-    pure subroutine cudaMemcpy(dst, src, count, kind) bind(c,name="cudaMemcpy")
+    pure subroutine cudaMemcpy(dst, src, count, kind, stat) bind(c,name="mfi_cuda_memcpy")
         import
         type(c_ptr), value, intent(in) :: dst
         type(c_ptr), value, intent(in) :: src
         integer(c_size_t), value, intent(in) :: count
         integer(c_int), value, intent(in) :: kind
+        integer(c_int), intent(out) :: stat
     end subroutine
 
     pure subroutine cublasCreate(handle, stat) bind(c,name="mfi_cublas_create")

@@ -79,4 +79,8 @@ void mfi_cublas_set_pointer_mode(void *handle, int mode, int *stat) {
     *stat = (int)cublasSetPointerMode_v2((cublasHandle_t)handle,
                                           (cublasPointerMode_t)mode);
 }
+
+void mfi_cuda_memcpy(void *dst, const void *src, size_t count, int kind, int *stat) {
+    *stat = (int)cudaMemcpy(dst, src, count, (enum cudaMemcpyKind)kind);
+}
 #endif

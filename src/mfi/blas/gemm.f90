@@ -109,13 +109,16 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
         beta_target = local_beta
         call cudaMemcpy(device_a, c_loc(a), &
                         int(size(a) * storage_size(a)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for a'
         call cudaMemcpy(device_b, c_loc(b), &
                         int(size(b) * storage_size(b)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for b'
         call cudaMemcpy(device_c, c_loc(c), &
                         int(size(c) * storage_size(c)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for c'
         cublas_stat = cublasSgemm(handle, op_a, op_b, &
                  int(m,c_int), int(n,c_int), int(k,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
@@ -123,7 +126,8 @@ pure subroutine mfi_sgemm(a, b, c, transa, transb, alpha, beta)
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Sgemm')
         call cudaMemcpy(c_loc(c), device_c, &
                         int(size(c) * storage_size(c)/8, c_size_t), &
-                        cudaMemcpyDeviceToHost)
+                        cudaMemcpyDeviceToHost, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (D->H) failed for c'
         call cuda_free(device_a, cuda_allocation_status)
         if (cuda_allocation_status /= 0) error stop 'cudaFree failed deallocating a'
         call cuda_free(device_b, cuda_allocation_status)
@@ -222,13 +226,16 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
         beta_target = local_beta
         call cudaMemcpy(device_a, c_loc(a), &
                         int(size(a) * storage_size(a)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for a'
         call cudaMemcpy(device_b, c_loc(b), &
                         int(size(b) * storage_size(b)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for b'
         call cudaMemcpy(device_c, c_loc(c), &
                         int(size(c) * storage_size(c)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for c'
         cublas_stat = cublasDgemm(handle, op_a, op_b, &
                  int(m,c_int), int(n,c_int), int(k,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
@@ -236,7 +243,8 @@ pure subroutine mfi_dgemm(a, b, c, transa, transb, alpha, beta)
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Dgemm')
         call cudaMemcpy(c_loc(c), device_c, &
                         int(size(c) * storage_size(c)/8, c_size_t), &
-                        cudaMemcpyDeviceToHost)
+                        cudaMemcpyDeviceToHost, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (D->H) failed for c'
         call cuda_free(device_a, cuda_allocation_status)
         if (cuda_allocation_status /= 0) error stop 'cudaFree failed deallocating a'
         call cuda_free(device_b, cuda_allocation_status)
@@ -335,13 +343,16 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
         beta_target = local_beta
         call cudaMemcpy(device_a, c_loc(a), &
                         int(size(a) * storage_size(a)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for a'
         call cudaMemcpy(device_b, c_loc(b), &
                         int(size(b) * storage_size(b)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for b'
         call cudaMemcpy(device_c, c_loc(c), &
                         int(size(c) * storage_size(c)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for c'
         cublas_stat = cublasCgemm(handle, op_a, op_b, &
                  int(m,c_int), int(n,c_int), int(k,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
@@ -349,7 +360,8 @@ pure subroutine mfi_cgemm(a, b, c, transa, transb, alpha, beta)
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Cgemm')
         call cudaMemcpy(c_loc(c), device_c, &
                         int(size(c) * storage_size(c)/8, c_size_t), &
-                        cudaMemcpyDeviceToHost)
+                        cudaMemcpyDeviceToHost, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (D->H) failed for c'
         call cuda_free(device_a, cuda_allocation_status)
         if (cuda_allocation_status /= 0) error stop 'cudaFree failed deallocating a'
         call cuda_free(device_b, cuda_allocation_status)
@@ -448,13 +460,16 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
         beta_target = local_beta
         call cudaMemcpy(device_a, c_loc(a), &
                         int(size(a) * storage_size(a)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for a'
         call cudaMemcpy(device_b, c_loc(b), &
                         int(size(b) * storage_size(b)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for b'
         call cudaMemcpy(device_c, c_loc(c), &
                         int(size(c) * storage_size(c)/8, c_size_t), &
-                        cudaMemcpyHostToDevice)
+                        cudaMemcpyHostToDevice, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (H->D) failed for c'
         cublas_stat = cublasZgemm(handle, op_a, op_b, &
                  int(m,c_int), int(n,c_int), int(k,c_int), &
                  c_loc(alpha_target), device_a, int(lda,c_int), &
@@ -462,7 +477,8 @@ pure subroutine mfi_zgemm(a, b, c, transa, transb, alpha, beta)
         if (cublas_stat /= 0) call mfi_cublas_error(cublas_stat, 'Zgemm')
         call cudaMemcpy(c_loc(c), device_c, &
                         int(size(c) * storage_size(c)/8, c_size_t), &
-                        cudaMemcpyDeviceToHost)
+                        cudaMemcpyDeviceToHost, cuda_allocation_status)
+        if (cuda_allocation_status /= 0) error stop 'cudaMemcpy (D->H) failed for c'
         call cuda_free(device_a, cuda_allocation_status)
         if (cuda_allocation_status /= 0) error stop 'cudaFree failed deallocating a'
         call cuda_free(device_b, cuda_allocation_status)
