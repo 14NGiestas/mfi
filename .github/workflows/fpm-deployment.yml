@@ -78,12 +78,22 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: consumer-cpu
+          - name: cpu-basic
+            dir: ci/consumer/cpu_basic
             environment: cpu-only
-            profile: ""
-          - name: consumer-cublas
+          - name: gpu-lazy
+            dir: ci/consumer/gpu_lazy
             environment: gpu-modern
-            profile: cublas
+            env_vars: "MFI_USE_CUBLAS=1"
+          - name: gpu-explicit
+            dir: ci/consumer/gpu_explicit
+            environment: gpu-modern
+          - name: lapack
+            dir: ci/consumer/lapack
+            environment: cpu-only
+          - name: extensions
+            dir: ci/consumer/extensions
+            environment: gpu-modern
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -101,19 +111,13 @@ jobs:
       run: nix develop --command make
 
     - name: Test consumer project
+      working-directory: ${{ matrix.dir }}
       run: |
-        mkdir -p consumer/app
-        cp ci/consumer/app/main.f90 consumer/app/main.f90
-
-        cd consumer
-
-        if [ "${{ matrix.profile }}" = "cublas" ]; then
-          cp ../ci/consumer/fpm-cublas.toml fpm.toml
-          nix develop ..#${{ matrix.environment }} --command bash -c "fortran-fpm build"
-        else
-          cp ../ci/consumer/fpm-cpu.toml fpm.toml
-          nix develop ..#${{ matrix.environment }} --command bash -c "fortran-fpm build"
+        if [ -n "${{ matrix.env_vars }}" ]; then
+          export ${{ matrix.env_vars }}
         fi
+        
+        nix develop ${{ github.workspace }}#${{ matrix.environment }} --command bash -c "fortran-fpm run"
 
   deploy-artifacts:
     needs: [exhaustive-test, consumer-test]

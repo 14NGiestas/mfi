@@ -152,11 +152,7 @@ mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm" }
 mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas", features = ["cublas"] }
 ```
 
-The consuming project must also link CUDA libraries when using the `cublas` feature:
-```toml
-[build]
-link = ["cublas", "cudart"]
-```
+**Note:** When using fpm >= 0.13.0, the `cublas` and `cudart` linking requirements are automatically propagated to the consuming project via the `cublas` feature. No explicit `[build] link = [...]` is required in the consumer's `fpm.toml`.
 
 ## Testing Notes
 
