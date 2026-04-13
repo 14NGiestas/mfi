@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 0.4% of total for procedures.">71 statements</a>
+                 title=" 0.4% of total for procedures.">72 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -98,7 +98,7 @@
       <div class="col">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb justify-content-end mb-0">
-                <li class="breadcrumb-item"><a href='../sourcefile/cublas.f90.html'>cublas.f90</a></li>
+                <li class="breadcrumb-item"><a href='../sourcefile/cublas.f90~2.html'>cublas.f90</a></li>
                 <li class="breadcrumb-item"><a href='../module/mfi_blas_cublas.html'>mfi_blas_cublas</a></li>
             <li class="breadcrumb-item active" aria-current="page">mfi_cublas_handle_get_c</li>
           </ol>
@@ -149,15 +149,55 @@
     
     <div class="col-md-9" id='text'>
       <h2>interface <br>
-      public pure function mfi_cublas_handle_get_c() result(handle) bind(c,name="mfi_cublas_get_thread_handle"))  
+      public pure subroutine mfi_cublas_handle_get_c(handle, stat) bind(c,name="mfi_cublas_get_thread_handle")  
 </h2>    
 
     
 
     <h3>Arguments</h3>
-      <em>None</em>
-      <h3>Return Value <span class="anchor" id="variable-handle~4"></span><small>type(c_ptr)</small></h3>
-    
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-handle~20"></span>
+              type(c_ptr),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>handle</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-stat~26"></span>
+              integer(kind=c_int),
+            </td>
+<td>intent(out)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>stat</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
     <br>
 
  </div>
