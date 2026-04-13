@@ -1,115 +1,44 @@
-module mfi_blas_herk
+module f77_blas_herk
     use iso_fortran_env
-    use f77_blas
-#if defined(MFI_CUBLAS)
     use iso_c_binding
-    use mfi_blas_cublas
-#endif
-#if defined(MFI_EXTENSIONS)
-    use mfi_blas_extensions
-#endif
     implicit none
 
-!> Generic modern interface for HERK.
+!> Generic old style interface for HERK.
 !> Supports c, z.
-!> See also:
-!> [[f77_herk:cherk]], [[f77_herk:zherk]].
-interface mfi_herk
-    module procedure :: mfi_cherk
-    module procedure :: mfi_zherk
-end interface
-
-contains
-
-!> Modern interface for [[f77_herk:f77_herk]].
-!> See also: [[mfi_herk]], [[f77_herk]].
-pure subroutine mfi_cherk(a, c, uplo, trans, alpha, beta)
+!> See also: [[mfi_herk]], [[cherk]], [[zherk]].
+interface f77_herk
+!> Original interface for CHERK
+!> See also: [[mfi_herk]], [[herk]].
+pure subroutine cherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
+    import :: REAL32
     integer, parameter :: wp = REAL32
-    complex(REAL32), intent(in) :: a(:,:)
-    complex(REAL32), intent(inout) :: c(:,:)
-    character, intent(in), optional :: trans
-    character :: local_trans
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
-    integer :: n, k, lda, ldc
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    if (present(alpha)) then
-        local_alpha = alpha
-    else
-        local_alpha = 1.0_wp
-    end if
-    if (present(beta)) then
-        local_beta = beta
-    else
-        local_beta = 0.0_wp
-    end if
-    n = size(c,2)
-    if (local_trans == 'N' .or. local_trans == 'n') then
-        k = size(a,2)
-    else
-        k = size(a,1)
-    end if
-    lda = max(1,size(a,1))
-    ldc = max(1,size(c,1))
-    call f77_herk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    complex(REAL32), intent(in) :: a(lda,*)
+    complex(REAL32), intent(inout) :: c(ldc,*)
+    character, intent(in) :: trans
+    character, intent(in) :: uplo
+    real(wp), intent(in) :: alpha
+    real(wp), intent(in) :: beta
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
 end subroutine
-!> Modern interface for [[f77_herk:f77_herk]].
-!> See also: [[mfi_herk]], [[f77_herk]].
-pure subroutine mfi_zherk(a, c, uplo, trans, alpha, beta)
+!> Original interface for ZHERK
+!> See also: [[mfi_herk]], [[herk]].
+pure subroutine zherk(uplo, trans, n, k, alpha, a, lda, beta, c, ldc)
+    import :: REAL64
     integer, parameter :: wp = REAL64
-    complex(REAL64), intent(in) :: a(:,:)
-    complex(REAL64), intent(inout) :: c(:,:)
-    character, intent(in), optional :: trans
-    character :: local_trans
-    character, intent(in), optional :: uplo
-    character :: local_uplo
-    real(wp), intent(in), optional :: alpha
-    real(wp) :: local_alpha
-    real(wp), intent(in), optional :: beta
-    real(wp) :: local_beta
-    integer :: n, k, lda, ldc
-    if (present(trans)) then
-        local_trans = trans
-    else
-        local_trans = 'N'
-    end if
-    if (present(uplo)) then
-        local_uplo = uplo
-    else
-        local_uplo = 'U'
-    end if
-    if (present(alpha)) then
-        local_alpha = alpha
-    else
-        local_alpha = 1.0_wp
-    end if
-    if (present(beta)) then
-        local_beta = beta
-    else
-        local_beta = 0.0_wp
-    end if
-    n = size(c,2)
-    if (local_trans == 'N' .or. local_trans == 'n') then
-        k = size(a,2)
-    else
-        k = size(a,1)
-    end if
-    lda = max(1,size(a,1))
-    ldc = max(1,size(c,1))
-    call f77_herk(local_uplo,local_trans,n,k,local_alpha,a,lda,local_beta,c,ldc)
+    complex(REAL64), intent(in) :: a(lda,*)
+    complex(REAL64), intent(inout) :: c(ldc,*)
+    character, intent(in) :: trans
+    character, intent(in) :: uplo
+    real(wp), intent(in) :: alpha
+    real(wp), intent(in) :: beta
+    integer, intent(in) :: n
+    integer, intent(in) :: k
+    integer, intent(in) :: lda
+    integer, intent(in) :: ldc
 end subroutine
+end interface
 end module
 

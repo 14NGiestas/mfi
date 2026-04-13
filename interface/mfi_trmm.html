@@ -191,270 +191,8 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~365"></span>
+              <span class="anchor" id="variable-a~379"></span>
               real(kind=REAL32),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              target
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-b~111"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(inout),</td>
-              <td></td>            <td>
-              target
-            </td>
-            <td>::</td>
-            <td><strong>b</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-side~59"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>side</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~201"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transa~33"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transa</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-diag~73"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>diag</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-alpha~131"></span>
-              real(kind=REAL32),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>alpha</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dtrmm"></span> <h3>public pure subroutine <a href='../proc/mfi_dtrmm.html'>mfi_dtrmm</a>(a, b, side, uplo, transa, diag, alpha)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_trmm.html">f77_trmm</a>.
-See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interface/f77_trmm.html">f77_trmm</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~366"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(in),</td>
-              <td></td>            <td>
-              target
-            </td>
-            <td>::</td>
-            <td><strong>a</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-b~112"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(inout),</td>
-              <td></td>            <td>
-              target
-            </td>
-            <td>::</td>
-            <td><strong>b</strong>(:,:)</td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-side~60"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>side</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-uplo~202"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>uplo</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-transa~34"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>transa</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-diag~74"></span>
-              character(len=1),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>diag</strong></td>
-            <td>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-alpha~132"></span>
-              real(kind=REAL64),
-            </td>
-<td>intent(in),</td>
-              <td>optional</td>            <td>
-              
-            </td>
-            <td>::</td>
-            <td><strong>alpha</strong></td>
-            <td>
-
-            </td>
-        </tr>
-    </tbody>
-  </table>
-
-
-    </div>
-  </div>
-
-            <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_ctrmm"></span> <h3>public pure subroutine <a href='../proc/mfi_ctrmm.html'>mfi_ctrmm</a>(a, b, side, uplo, transa, diag, alpha)  
-</h3></div>
-    <div class="card-body">
-          
-  <p>Modern interface for <a href="../interface/f77_trmm.html">f77_trmm</a>.
-See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interface/f77_trmm.html">f77_trmm</a>.</p>
-
-  <h4>Arguments</h4>
-      <table class="table table-striped varlist">
-    <thead>
-      <tr>
-        <th scope="col">Type</th>
-<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-              <span class="anchor" id="variable-a~367"></span>
-              complex(kind=REAL32),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -469,7 +207,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         <tr>
             <td>
               <span class="anchor" id="variable-b~113"></span>
-              complex(kind=REAL32),
+              real(kind=REAL32),
             </td>
 <td>intent(inout),</td>
               <td></td>            <td>
@@ -513,7 +251,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-transa~35"></span>
+              <span class="anchor" id="variable-transa~33"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -528,7 +266,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~75"></span>
+              <span class="anchor" id="variable-diag~69"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -543,8 +281,8 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~133"></span>
-              complex(kind=REAL32),
+              <span class="anchor" id="variable-alpha~143"></span>
+              real(kind=REAL32),
             </td>
 <td>intent(in),</td>
               <td>optional</td>            <td>
@@ -564,7 +302,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
   </div>
 
             <div class="card">
-    <div class="card-header codesum"><span class="anchor" id="proc-mfi_ztrmm"></span> <h3>public pure subroutine <a href='../proc/mfi_ztrmm.html'>mfi_ztrmm</a>(a, b, side, uplo, transa, diag, alpha)  
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_dtrmm"></span> <h3>public pure subroutine <a href='../proc/mfi_dtrmm.html'>mfi_dtrmm</a>(a, b, side, uplo, transa, diag, alpha)  
 </h3></div>
     <div class="card-body">
           
@@ -584,8 +322,8 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-a~368"></span>
-              complex(kind=REAL64),
+              <span class="anchor" id="variable-a~380"></span>
+              real(kind=REAL64),
             </td>
 <td>intent(in),</td>
               <td></td>            <td>
@@ -600,7 +338,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         <tr>
             <td>
               <span class="anchor" id="variable-b~114"></span>
-              complex(kind=REAL64),
+              real(kind=REAL64),
             </td>
 <td>intent(inout),</td>
               <td></td>            <td>
@@ -644,6 +382,268 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
+              <span class="anchor" id="variable-transa~34"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transa</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~70"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~144"></span>
+              real(kind=REAL64),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_ctrmm"></span> <h3>public pure subroutine <a href='../proc/mfi_ctrmm.html'>mfi_ctrmm</a>(a, b, side, uplo, transa, diag, alpha)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_trmm.html">f77_trmm</a>.
+See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interface/f77_trmm.html">f77_trmm</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~381"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~115"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-side~63"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>side</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~205"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-transa~35"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>transa</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-diag~71"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>diag</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-alpha~145"></span>
+              complex(kind=REAL32),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>alpha</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+            <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_ztrmm"></span> <h3>public pure subroutine <a href='../proc/mfi_ztrmm.html'>mfi_ztrmm</a>(a, b, side, uplo, transa, diag, alpha)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Modern interface for <a href="../interface/f77_trmm.html">f77_trmm</a>.
+See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interface/f77_trmm.html">f77_trmm</a>.</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~382"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>a</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~116"></span>
+              complex(kind=REAL64),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:,:)</td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-side~64"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>side</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-uplo~206"></span>
+              character(len=1),
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>uplo</strong></td>
+            <td>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
               <span class="anchor" id="variable-transa~36"></span>
               character(len=1),
             </td>
@@ -659,7 +659,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-diag~76"></span>
+              <span class="anchor" id="variable-diag~72"></span>
               character(len=1),
             </td>
 <td>intent(in),</td>
@@ -674,7 +674,7 @@ See also: <a href="../interface/mfi_trmm.html">mfi_trmm</a>, <a href="../interfa
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-alpha~134"></span>
+              <span class="anchor" id="variable-alpha~146"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in),</td>
