@@ -86,7 +86,7 @@
 
             <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
               <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
-                 title=" 1.5% of total for modules and submodules.">212 statements</a>
+                 title=" 1.6% of total for modules and submodules.">230 statements</a>
             </li>
 
             <li class="list-inline-item" id="source-file">
@@ -157,6 +157,8 @@
             <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_idamin">mfi_idamin</a>
             <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_icamin">mfi_icamin</a>
             <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_izamin">mfi_izamin</a>
+            <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_cublas_handle_count">mfi_cublas_handle_count</a>
+            <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_cublas_handle_count~2">mfi_cublas_handle_count</a>
             <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_cublas_is_active">mfi_cublas_is_active</a>
             <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_cublas_handle_get">mfi_cublas_handle_get</a>
         </div>
@@ -176,6 +178,8 @@
             <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_force_cpu~2">mfi_force_cpu</a>
             <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_cublas_finalize">mfi_cublas_finalize</a>
             <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_cublas_finalize~2">mfi_cublas_finalize</a>
+            <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_cublas_set_threads">mfi_cublas_set_threads</a>
+            <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_cublas_set_threads~2">mfi_cublas_set_threads</a>
             <a class="list-group-item" href="../module/mfi_blas_extensions.html#proc-mfi_cublas_error">mfi_cublas_error</a>
         </div>
       </div>
@@ -202,9 +206,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
               <ul class="list-inline">
+                  <li class="list-inline-item"><a href='f77_blas.html'>f77_blas</a></li>
                   <li class="list-inline-item"><a href='mfi_blas_cublas.html'>mfi_blas_cublas</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_c_binding'>iso_c_binding</a></li>
-                  <li class="list-inline-item"><a href='f77_blas.html'>f77_blas</a></li>
                   <li class="list-inline-item"><a href='http://fortranwiki.org/fortran/show/iso_fortran_env'>iso_fortran_env</a></li>
               </ul>
             </li>
@@ -255,7 +259,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~161"></span>
+              <span class="anchor" id="variable-x~151"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -270,7 +274,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~155"></span>
+              <span class="anchor" id="variable-incx~153"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -315,7 +319,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~162"></span>
+              <span class="anchor" id="variable-x~152"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -330,7 +334,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~156"></span>
+              <span class="anchor" id="variable-incx~154"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -375,7 +379,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~163"></span>
+              <span class="anchor" id="variable-x~153"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -390,7 +394,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~157"></span>
+              <span class="anchor" id="variable-incx~155"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -435,7 +439,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~164"></span>
+              <span class="anchor" id="variable-x~154"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -450,7 +454,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~158"></span>
+              <span class="anchor" id="variable-incx~156"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -511,7 +515,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~165"></span>
+              <span class="anchor" id="variable-x~155"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -526,7 +530,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~159"></span>
+              <span class="anchor" id="variable-incx~157"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -571,7 +575,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~166"></span>
+              <span class="anchor" id="variable-x~156"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -586,7 +590,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~160"></span>
+              <span class="anchor" id="variable-incx~158"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -631,7 +635,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~167"></span>
+              <span class="anchor" id="variable-x~157"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -646,7 +650,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~161"></span>
+              <span class="anchor" id="variable-incx~159"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -691,7 +695,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~168"></span>
+              <span class="anchor" id="variable-x~158"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -706,7 +710,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~162"></span>
+              <span class="anchor" id="variable-incx~160"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -760,7 +764,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~161"></span>
+              <span class="anchor" id="variable-x~151"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -775,7 +779,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~155"></span>
+              <span class="anchor" id="variable-incx~153"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -821,7 +825,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~162"></span>
+              <span class="anchor" id="variable-x~152"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -836,7 +840,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~156"></span>
+              <span class="anchor" id="variable-incx~154"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -882,7 +886,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~163"></span>
+              <span class="anchor" id="variable-x~153"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -897,7 +901,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~157"></span>
+              <span class="anchor" id="variable-incx~155"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -943,7 +947,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~164"></span>
+              <span class="anchor" id="variable-x~154"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -958,7 +962,7 @@ See also: <a href="../interface/mfi_iamax.html">mfi_iamax</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~158"></span>
+              <span class="anchor" id="variable-incx~156"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1004,7 +1008,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~165"></span>
+              <span class="anchor" id="variable-x~155"></span>
               real(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -1019,7 +1023,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~159"></span>
+              <span class="anchor" id="variable-incx~157"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1065,7 +1069,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~166"></span>
+              <span class="anchor" id="variable-x~156"></span>
               real(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -1080,7 +1084,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~160"></span>
+              <span class="anchor" id="variable-incx~158"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1126,7 +1130,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~167"></span>
+              <span class="anchor" id="variable-x~157"></span>
               complex(kind=REAL32),
             </td>
 <td>intent(in)</td>
@@ -1141,7 +1145,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~161"></span>
+              <span class="anchor" id="variable-incx~159"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1187,7 +1191,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-x~168"></span>
+              <span class="anchor" id="variable-x~158"></span>
               complex(kind=REAL64),
             </td>
 <td>intent(in)</td>
@@ -1202,7 +1206,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-incx~162"></span>
+              <span class="anchor" id="variable-incx~160"></span>
               integer,
             </td>
 <td>intent(in),</td>
@@ -1218,6 +1222,42 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
     </tbody>
   </table>
 
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_cublas_handle_count"></span> <h3>public  function <a href='../proc/mfi_cublas_handle_count.html'>mfi_cublas_handle_count</a>() result(n)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Return current cuBLAS handle count (0 when no cuBLAS)</p>
+
+  <h4>Arguments</h4>
+    <em>None</em>
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_cublas_handle_count~2"></span> <h3>public  function <a href='../proc/mfi_cublas_handle_count~2.html'>mfi_cublas_handle_count</a>() result(n)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+    <em>None</em>
     <h4>
     Return Value
     <small>integer</small>
@@ -1347,6 +1387,86 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
   </div>
 
               <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_cublas_set_threads"></span> <h3>public  subroutine <a href='../proc/mfi_cublas_set_threads.html'>mfi_cublas_set_threads</a>(n)  
+</h3></div>
+    <div class="card-body">
+          
+  <p>Set number of cuBLAS handles for multi-threaded GPU use (no-op when no cuBLAS)</p>
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~309"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
+    <div class="card-header codesum"><span class="anchor" id="proc-mfi_cublas_set_threads~2"></span> <h3>public  subroutine <a href='../proc/mfi_cublas_set_threads~2.html'>mfi_cublas_set_threads</a>(n)  
+</h3></div>
+    <div class="card-body">
+          
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~310"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+    </div>
+  </div>
+
+              <div class="card">
     <div class="card-header codesum"><span class="anchor" id="proc-mfi_cublas_error"></span> <h3>public pure subroutine <a href='../proc/mfi_cublas_error.html'>mfi_cublas_error</a>(stat, name)  
 </h3></div>
     <div class="card-body">
@@ -1366,7 +1486,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
     <tbody>
         <tr>
             <td>
-              <span class="anchor" id="variable-stat~13"></span>
+              <span class="anchor" id="variable-stat~19"></span>
               integer(kind=c_int),
             </td>
 <td>intent(in),</td>
@@ -1381,7 +1501,7 @@ See also: <a href="../interface/mfi_iamin.html">mfi_iamin</a>, <a href="../inter
         </tr>
         <tr>
             <td>
-              <span class="anchor" id="variable-name~3"></span>
+              <span class="anchor" id="variable-name~2"></span>
               character(len=*),
             </td>
 <td>intent(in)</td>
