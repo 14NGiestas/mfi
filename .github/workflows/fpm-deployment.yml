@@ -109,7 +109,7 @@ jobs:
 
         if [ "${{ matrix.profile }}" = "cublas" ]; then
           cp ../ci/consumer/fpm-cublas.toml fpm.toml
-          nix develop ..#${{ matrix.environment }} --command bash -c "fortran-fpm build --profile cublas"
+          nix develop ..#${{ matrix.environment }} --command bash -c "fortran-fpm build"
         else
           cp ../ci/consumer/fpm-cpu.toml fpm.toml
           nix develop ..#${{ matrix.environment }} --command bash -c "fortran-fpm build"
