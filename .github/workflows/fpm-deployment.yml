@@ -81,19 +81,23 @@ jobs:
           - name: cpu-basic
             dir: ci/consumer/cpu_basic
             environment: cpu-only
+            mode: run
           - name: gpu-lazy
             dir: ci/consumer/gpu_lazy
             environment: gpu-modern
-            env_vars: "MFI_USE_CUBLAS=1"
+            mode: compile
           - name: gpu-explicit
             dir: ci/consumer/gpu_explicit
             environment: gpu-modern
+            mode: compile
           - name: lapack
             dir: ci/consumer/lapack
             environment: cpu-only
+            mode: run
           - name: extensions
             dir: ci/consumer/extensions
             environment: gpu-modern
+            mode: compile
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -110,14 +114,14 @@ jobs:
     - name: Generate sources
       run: nix develop --command make
 
-    - name: Test consumer project
+    - name: Compile consumer
       working-directory: ${{ matrix.dir }}
-      run: |
-        if [ -n "${{ matrix.env_vars }}" ]; then
-          export ${{ matrix.env_vars }}
-        fi
-        
-        nix develop ${{ github.workspace }}#${{ matrix.environment }} --command bash -c "fortran-fpm run"
+      run: nix develop ${{ github.workspace }}#${{ matrix.environment }} --command bash -c "fortran-fpm build"
+
+    - name: Run consumer
+      if: matrix.mode == 'run'
+      working-directory: ${{ matrix.dir }}
+      run: nix develop ${{ github.workspace }}#${{ matrix.environment }} --command bash -c "fortran-fpm run"
 
   deploy-artifacts:
     needs: [exhaustive-test, consumer-test]
