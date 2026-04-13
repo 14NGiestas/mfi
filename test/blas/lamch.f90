@@ -120,7 +120,7 @@ end block
   end subroutine test_get_2d
 subroutine test_slamch
     use f77_blas, only: slamch
-    use mfi_blas, only: mfi_lamch, mfi_force_gpu
+    use mfi_blas, only: mfi_lamch, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     character, parameter :: options(*) = ['E','e','S','s','B','b','P','p','N','n','R','r','M','m','U','u','L','l','O','o']
@@ -134,10 +134,11 @@ subroutine test_slamch
         call assert(abs(a - b) < sqrt(epsilon(1.0_wp)), "option " // options(i) // " mismatch")
     end do
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dlamch
     use f77_blas, only: dlamch
-    use mfi_blas, only: mfi_lamch, mfi_force_gpu
+    use mfi_blas, only: mfi_lamch, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     character, parameter :: options(*) = ['E','e','S','s','B','b','P','p','N','n','R','r','M','m','U','u','L','l','O','o']
@@ -151,6 +152,7 @@ subroutine test_dlamch
         call assert(abs(a - b) < sqrt(epsilon(1.0_wp)), "option " // options(i) // " mismatch")
     end do
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

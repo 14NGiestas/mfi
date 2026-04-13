@@ -160,6 +160,7 @@ subroutine test_chetrf
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
                 "different results for mfi_hetrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zhetrf
     use f77_lapack, only: zhetrf, f77_hetrf
@@ -231,6 +232,7 @@ subroutine test_zhetrf
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
                 "different results for mfi_hetrf")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_snrm2_gpu
     use f77_blas, only: snrm2, f77_nrm2
-    use mfi_blas, only: mfi_nrm2, mfi_snrm2, mfi_force_gpu
+    use mfi_blas, only: mfi_nrm2, mfi_snrm2, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N, ii
@@ -241,10 +241,11 @@ end block
 
     deallocate(array)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dnrm2_gpu
     use f77_blas, only: dnrm2, f77_nrm2
-    use mfi_blas, only: mfi_nrm2, mfi_dnrm2, mfi_force_gpu
+    use mfi_blas, only: mfi_nrm2, mfi_dnrm2, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N, ii
@@ -291,10 +292,11 @@ end block
 
     deallocate(array)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_scnrm2_gpu
     use f77_blas, only: scnrm2, f77_nrm2
-    use mfi_blas, only: mfi_nrm2, mfi_scnrm2, mfi_force_gpu
+    use mfi_blas, only: mfi_nrm2, mfi_scnrm2, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N, ii
@@ -347,10 +349,11 @@ end block
 
     deallocate(array)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dznrm2_gpu
     use f77_blas, only: dznrm2, f77_nrm2
-    use mfi_blas, only: mfi_nrm2, mfi_dznrm2, mfi_force_gpu
+    use mfi_blas, only: mfi_nrm2, mfi_dznrm2, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N, ii
@@ -403,6 +406,7 @@ end block
 
     deallocate(array)
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

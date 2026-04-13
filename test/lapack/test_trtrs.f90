@@ -207,6 +207,7 @@ subroutine test_strtrs
     call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_trtrs")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dtrtrs
     use f77_lapack, only: dtrtrs, f77_trtrs
@@ -251,6 +252,7 @@ subroutine test_dtrtrs
     call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_trtrs")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_ctrtrs
     use f77_lapack, only: ctrtrs, f77_trtrs
@@ -295,6 +297,7 @@ subroutine test_ctrtrs
     call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_trtrs")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_ztrtrs
     use f77_lapack, only: ztrtrs, f77_trtrs
@@ -339,6 +342,7 @@ subroutine test_ztrtrs
     call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_trtrs")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

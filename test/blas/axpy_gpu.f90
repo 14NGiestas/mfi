@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_saxpy_gpu
     use f77_blas, only: saxpy, f77_axpy
-    use mfi_blas, only: mfi_axpy, mfi_saxpy, mfi_force_gpu
+    use mfi_blas, only: mfi_axpy, mfi_saxpy, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -247,10 +247,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_daxpy_gpu
     use f77_blas, only: daxpy, f77_axpy
-    use mfi_blas, only: mfi_axpy, mfi_daxpy, mfi_force_gpu
+    use mfi_blas, only: mfi_axpy, mfi_daxpy, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -303,10 +304,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_caxpy_gpu
     use f77_blas, only: caxpy, f77_axpy
-    use mfi_blas, only: mfi_axpy, mfi_caxpy, mfi_force_gpu
+    use mfi_blas, only: mfi_axpy, mfi_caxpy, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -377,10 +379,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zaxpy_gpu
     use f77_blas, only: zaxpy, f77_axpy
-    use mfi_blas, only: mfi_axpy, mfi_zaxpy, mfi_force_gpu
+    use mfi_blas, only: mfi_axpy, mfi_zaxpy, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -451,6 +454,7 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

@@ -143,6 +143,7 @@ subroutine test_ssytrf_gpu
     call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf) .and. info_mfi == info_rf, "different&
         & results for mfi_sytrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dsytrf_gpu
     use f77_lapack, only: dsytrf, f77_sytrf
@@ -197,6 +198,7 @@ subroutine test_dsytrf_gpu
     call assert(all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf) .and. info_mfi == info_rf, "different&
         & results for mfi_sytrf")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

@@ -192,7 +192,10 @@ pure function mfi_cublas_handle_get() result(handle)
 #if defined(MFI_CUBLAS)
     use mfi_blas_cublas, only: mfi_cublas_handle_get_c
     type(c_ptr) :: handle
-    handle = mfi_cublas_handle_get_c()
+    type(c_ptr) :: h
+    integer(c_int) :: stat
+    call mfi_cublas_handle_get_c(h, stat)
+    handle = h
     if (.not. c_associated(handle)) &
         error stop 'mfi: thread ID out of range. '// &
                    'Set OMP_NUM_THREADS before running with MFI_USE_CUBLAS=1.'

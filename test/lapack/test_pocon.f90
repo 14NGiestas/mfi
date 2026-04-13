@@ -218,6 +218,7 @@ subroutine test_spocon
                     "different results for mfi_pocon")
     end if
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dpocon
     use f77_lapack, only: dpocon, f77_pocon
@@ -273,6 +274,7 @@ subroutine test_dpocon
                     "different results for mfi_pocon")
     end if
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cpocon
     use f77_lapack, only: cpocon, f77_pocon
@@ -328,6 +330,7 @@ subroutine test_cpocon
                     "different results for mfi_pocon")
     end if
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zpocon
     use f77_lapack, only: zpocon, f77_pocon
@@ -383,6 +386,7 @@ subroutine test_zpocon
                     "different results for mfi_pocon")
     end if
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

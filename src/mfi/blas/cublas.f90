@@ -83,10 +83,11 @@ interface
         import
     end subroutine
 
-    pure function mfi_cublas_handle_get_c() bind(c,name="mfi_cublas_get_thread_handle") result(handle)
+    pure subroutine mfi_cublas_handle_get_c(handle, stat) bind(c,name="mfi_cublas_get_thread_handle")
         import
-        type(c_ptr) :: handle
-    end function
+        type(c_ptr), intent(out) :: handle
+        integer(c_int), intent(out) :: stat
+    end subroutine
 end interface
 
 !> cuBLAS operation constants

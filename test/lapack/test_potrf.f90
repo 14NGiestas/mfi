@@ -202,6 +202,7 @@ subroutine test_spotrf
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_potrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dpotrf
     use f77_lapack, only: dpotrf, f77_potrf, f77_dpotrf => dpotrf
@@ -241,6 +242,7 @@ subroutine test_dpotrf
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_potrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cpotrf
     use f77_lapack, only: cpotrf, f77_potrf, f77_cpotrf => cpotrf
@@ -280,6 +282,7 @@ subroutine test_cpotrf
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_potrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zpotrf
     use f77_lapack, only: zpotrf, f77_potrf, f77_zpotrf => zpotrf
@@ -319,6 +322,7 @@ subroutine test_zpotrf
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_potrf")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

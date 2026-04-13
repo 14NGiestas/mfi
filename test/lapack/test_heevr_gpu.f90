@@ -146,6 +146,7 @@ subroutine test_cheevr_gpu
     ! Clean up
     deallocate(work, rwork, iwork, isuppz)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zheevr_gpu
     use f77_lapack, only: zheevr, f77_heevr
@@ -203,6 +204,7 @@ subroutine test_zheevr_gpu
     ! Clean up
     deallocate(work, rwork, iwork, isuppz)
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

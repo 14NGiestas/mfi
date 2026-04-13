@@ -120,7 +120,7 @@ end block
   end subroutine test_get_2d
 subroutine test_sdot_gpu
     use f77_blas, only: sdot, f77_dot
-    use mfi_blas, only: mfi_dot, mfi_sdot, mfi_force_gpu
+    use mfi_blas, only: mfi_dot, mfi_sdot, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -164,10 +164,11 @@ end block
 
     deallocate(x, y)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_ddot_gpu
     use f77_blas, only: ddot, f77_dot
-    use mfi_blas, only: mfi_dot, mfi_ddot, mfi_force_gpu
+    use mfi_blas, only: mfi_dot, mfi_ddot, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -211,6 +212,7 @@ end block
 
     deallocate(x, y)
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

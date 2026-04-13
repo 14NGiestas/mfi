@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_sasum_gpu
     use f77_blas, only: sasum, f77_asum
-    use mfi_blas, only: mfi_asum, mfi_sasum, mfi_force_gpu
+    use mfi_blas, only: mfi_asum, mfi_sasum, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N, ii
@@ -241,10 +241,11 @@ end block
 
     deallocate(array)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dasum_gpu
     use f77_blas, only: dasum, f77_asum
-    use mfi_blas, only: mfi_asum, mfi_dasum, mfi_force_gpu
+    use mfi_blas, only: mfi_asum, mfi_dasum, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N, ii
@@ -291,10 +292,11 @@ end block
 
     deallocate(array)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_scasum_gpu
     use f77_blas, only: scasum, f77_asum
-    use mfi_blas, only: mfi_asum, mfi_scasum, mfi_force_gpu
+    use mfi_blas, only: mfi_asum, mfi_scasum, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N, ii
@@ -347,10 +349,11 @@ end block
 
     deallocate(array)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dzasum_gpu
     use f77_blas, only: dzasum, f77_asum
-    use mfi_blas, only: mfi_asum, mfi_dzasum, mfi_force_gpu
+    use mfi_blas, only: mfi_asum, mfi_dzasum, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N, ii
@@ -403,6 +406,7 @@ end block
 
     deallocate(array)
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

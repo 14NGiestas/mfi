@@ -268,7 +268,7 @@ end block
   end subroutine test_get_2d
 subroutine test_srot_gpu
     use f77_blas, only: srot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_srot, mfi_force_gpu
+    use mfi_blas, only: mfi_rot, mfi_srot, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
@@ -328,10 +328,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_drot_gpu
     use f77_blas, only: drot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_drot, mfi_force_gpu
+    use mfi_blas, only: mfi_rot, mfi_drot, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
@@ -391,10 +392,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_crot_gpu
     use f77_blas, only: crot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_crot, mfi_force_gpu
+    use mfi_blas, only: mfi_rot, mfi_crot, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
@@ -466,10 +468,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zrot_gpu
     use f77_blas, only: zrot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_zrot, mfi_force_gpu
+    use mfi_blas, only: mfi_rot, mfi_zrot, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
@@ -541,10 +544,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_csrot_gpu
     use f77_blas, only: csrot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_csrot, mfi_force_gpu
+    use mfi_blas, only: mfi_rot, mfi_csrot, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
@@ -616,10 +620,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zdrot_gpu
     use f77_blas, only: zdrot, f77_rot
-    use mfi_blas, only: mfi_rot, mfi_zdrot, mfi_force_gpu
+    use mfi_blas, only: mfi_rot, mfi_zdrot, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     real(wp), parameter :: pi = 4.0_wp * atan(1.0_wp)
@@ -691,6 +696,7 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

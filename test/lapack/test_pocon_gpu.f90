@@ -219,6 +219,7 @@ subroutine test_spocon_gpu
                     "different results for mfi_pocon")
     end if
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dpocon_gpu
     use f77_lapack, only: dpocon, f77_pocon
@@ -275,6 +276,7 @@ subroutine test_dpocon_gpu
                     "different results for mfi_pocon")
     end if
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cpocon_gpu
     use f77_lapack, only: cpocon, f77_pocon
@@ -331,6 +333,7 @@ subroutine test_cpocon_gpu
                     "different results for mfi_pocon")
     end if
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zpocon_gpu
     use f77_lapack, only: zpocon, f77_pocon
@@ -387,6 +390,7 @@ subroutine test_zpocon_gpu
                     "different results for mfi_pocon")
     end if
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

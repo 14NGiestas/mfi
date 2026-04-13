@@ -217,6 +217,7 @@ subroutine test_sgetrs_gpu
     call mfi_getrs(A_fact, ipiv, B_in, info=info_mfi)
     call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getrs")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dgetrs_gpu
     use f77_lapack, only: dgetrs, f77_getrs, f77_getrf, dgetrf
@@ -271,6 +272,7 @@ subroutine test_dgetrs_gpu
     call mfi_getrs(A_fact, ipiv, B_in, info=info_mfi)
     call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getrs")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cgetrs_gpu
     use f77_lapack, only: cgetrs, f77_getrs, f77_getrf, cgetrf
@@ -325,6 +327,7 @@ subroutine test_cgetrs_gpu
     call mfi_getrs(A_fact, ipiv, B_in, info=info_mfi)
     call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getrs")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zgetrs_gpu
     use f77_lapack, only: zgetrs, f77_getrs, f77_getrf, zgetrf
@@ -379,6 +382,7 @@ subroutine test_zgetrs_gpu
     call mfi_getrs(A_fact, ipiv, B_in, info=info_mfi)
     call assert(all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getrs")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

@@ -223,6 +223,7 @@ subroutine test_sgeqrf_gpu
         & info_mfi == info_rf, &
                 "different results for mfi_geqrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dgeqrf_gpu
     use f77_lapack, only: dgeqrf, f77_geqrf
@@ -283,6 +284,7 @@ subroutine test_dgeqrf_gpu
         & info_mfi == info_rf, &
                 "different results for mfi_geqrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cgeqrf_gpu
     use f77_lapack, only: cgeqrf, f77_geqrf
@@ -343,6 +345,7 @@ subroutine test_cgeqrf_gpu
         & info_mfi == info_rf, &
                 "different results for mfi_geqrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zgeqrf_gpu
     use f77_lapack, only: zgeqrf, f77_geqrf
@@ -403,6 +406,7 @@ subroutine test_zgeqrf_gpu
         & info_mfi == info_rf, &
                 "different results for mfi_geqrf")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

@@ -228,6 +228,7 @@ subroutine test_sgetri
     call mfi_getri(A_in, ipiv, info=info_mfi)
     call assert(all(abs(A_in - A_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getri")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dgetri
     use f77_lapack, only: dgetri, f77_getri, f77_getrf, dgetrf
@@ -293,6 +294,7 @@ subroutine test_dgetri
     call mfi_getri(A_in, ipiv, info=info_mfi)
     call assert(all(abs(A_in - A_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getri")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cgetri
     use f77_lapack, only: cgetri, f77_getri, f77_getrf, cgetrf
@@ -358,6 +360,7 @@ subroutine test_cgetri
     call mfi_getri(A_in, ipiv, info=info_mfi)
     call assert(all(abs(A_in - A_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getri")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zgetri
     use f77_lapack, only: zgetri, f77_getri, f77_getrf, zgetrf
@@ -423,6 +426,7 @@ subroutine test_zgetri
     call mfi_getri(A_in, ipiv, info=info_mfi)
     call assert(all(abs(A_in - A_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. info_mfi == info_rf, "different results for mfi_getri")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

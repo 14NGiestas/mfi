@@ -158,6 +158,7 @@ subroutine test_sorgrq_gpu
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_orgrq")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dorgrq_gpu
     use f77_lapack, only: dorgrq, f77_orgrq
@@ -227,6 +228,7 @@ subroutine test_dorgrq_gpu
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_orgrq")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

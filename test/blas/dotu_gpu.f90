@@ -120,7 +120,7 @@ end block
   end subroutine test_get_2d
 subroutine test_cdotu_gpu
     use f77_blas, only: cdotu, f77_dotu
-    use mfi_blas, only: mfi_dotu, mfi_cdotu, mfi_force_gpu
+    use mfi_blas, only: mfi_dotu, mfi_cdotu, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -176,10 +176,11 @@ end block
 
     deallocate(x, y)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zdotu_gpu
     use f77_blas, only: zdotu, f77_dotu
-    use mfi_blas, only: mfi_dotu, mfi_zdotu, mfi_force_gpu
+    use mfi_blas, only: mfi_dotu, mfi_zdotu, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -235,6 +236,7 @@ end block
 
     deallocate(x, y)
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

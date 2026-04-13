@@ -203,6 +203,7 @@ subroutine test_spotrf_gpu
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_potrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dpotrf_gpu
     use f77_lapack, only: dpotrf, f77_potrf, f77_dpotrf => dpotrf
@@ -243,6 +244,7 @@ subroutine test_dpotrf_gpu
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_potrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cpotrf_gpu
     use f77_lapack, only: cpotrf, f77_potrf, f77_cpotrf => cpotrf
@@ -283,6 +285,7 @@ subroutine test_cpotrf_gpu
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_potrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zpotrf_gpu
     use f77_lapack, only: zpotrf, f77_potrf, f77_zpotrf => zpotrf
@@ -323,6 +326,7 @@ subroutine test_zpotrf_gpu
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_potrf")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

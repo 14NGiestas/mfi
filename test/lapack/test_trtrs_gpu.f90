@@ -208,6 +208,7 @@ subroutine test_strtrs_gpu
     call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_trtrs")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dtrtrs_gpu
     use f77_lapack, only: dtrtrs, f77_trtrs
@@ -253,6 +254,7 @@ subroutine test_dtrtrs_gpu
     call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_trtrs")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_ctrtrs_gpu
     use f77_lapack, only: ctrtrs, f77_trtrs
@@ -298,6 +300,7 @@ subroutine test_ctrtrs_gpu
     call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_trtrs")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_ztrtrs_gpu
     use f77_lapack, only: ztrtrs, f77_trtrs
@@ -343,6 +346,7 @@ subroutine test_ztrtrs_gpu
     call assert(info_mfi == info_rf .and. all(abs(B_in - B_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_trtrs")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

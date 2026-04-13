@@ -222,6 +222,7 @@ subroutine test_sgesvd_gpu
     call mfi_gesvd(A_in, S_mfi, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_gesvd")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dgesvd_gpu
     use f77_lapack, only: dgesvd, f77_gesvd
@@ -281,6 +282,7 @@ subroutine test_dgesvd_gpu
     call mfi_gesvd(A_in, S_mfi, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_gesvd")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cgesvd_gpu
     use f77_lapack, only: cgesvd, f77_gesvd
@@ -346,6 +348,7 @@ subroutine test_cgesvd_gpu
     call mfi_gesvd(A_in, S_mfi, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_gesvd")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zgesvd_gpu
     use f77_lapack, only: zgesvd, f77_gesvd
@@ -411,6 +414,7 @@ subroutine test_zgesvd_gpu
     call mfi_gesvd(A_in, S_mfi, info=info_mfi)
     call assert(info_mfi == info_rf .and. all(abs(S_mfi - S_rf) < sqrt(epsilon(1.0_wp))), "different results for mfi_gesvd")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

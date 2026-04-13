@@ -203,6 +203,7 @@ subroutine test_sgetrf
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
                 "different results for mfi_getrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dgetrf
     use f77_lapack, only: dgetrf, f77_getrf, dgetrf
@@ -243,6 +244,7 @@ subroutine test_dgetrf
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
                 "different results for mfi_getrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cgetrf
     use f77_lapack, only: cgetrf, f77_getrf, cgetrf
@@ -283,6 +285,7 @@ subroutine test_cgetrf
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
                 "different results for mfi_getrf")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zgetrf
     use f77_lapack, only: zgetrf, f77_getrf, zgetrf
@@ -323,6 +326,7 @@ subroutine test_zgetrf
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))) .and. all(ipiv_in == ipiv_rf), &
                 "different results for mfi_getrf")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

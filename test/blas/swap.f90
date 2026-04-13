@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_sswap
     use f77_blas, only: sswap, f77_swap
-    use mfi_blas, only: mfi_swap, mfi_sswap, mfi_force_gpu
+    use mfi_blas, only: mfi_swap, mfi_sswap, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -244,10 +244,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dswap
     use f77_blas, only: dswap, f77_swap
-    use mfi_blas, only: mfi_swap, mfi_dswap, mfi_force_gpu
+    use mfi_blas, only: mfi_swap, mfi_dswap, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -297,10 +298,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cswap
     use f77_blas, only: cswap, f77_swap
-    use mfi_blas, only: mfi_swap, mfi_cswap, mfi_force_gpu
+    use mfi_blas, only: mfi_swap, mfi_cswap, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -362,10 +364,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zswap
     use f77_blas, only: zswap, f77_swap
-    use mfi_blas, only: mfi_swap, mfi_zswap, mfi_force_gpu
+    use mfi_blas, only: mfi_swap, mfi_zswap, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -427,6 +430,7 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

@@ -194,7 +194,7 @@ end block
   end subroutine test_get_2d
 subroutine test_scopy
     use f77_blas, only: scopy, f77_copy
-    use mfi_blas, only: mfi_copy, mfi_scopy, mfi_force_gpu
+    use mfi_blas, only: mfi_copy, mfi_scopy, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -244,10 +244,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dcopy
     use f77_blas, only: dcopy, f77_copy
-    use mfi_blas, only: mfi_copy, mfi_dcopy, mfi_force_gpu
+    use mfi_blas, only: mfi_copy, mfi_dcopy, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -297,10 +298,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_ccopy
     use f77_blas, only: ccopy, f77_copy
-    use mfi_blas, only: mfi_copy, mfi_ccopy, mfi_force_gpu
+    use mfi_blas, only: mfi_copy, mfi_ccopy, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -362,10 +364,11 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zcopy
     use f77_blas, only: zcopy, f77_copy
-    use mfi_blas, only: mfi_copy, mfi_zcopy, mfi_force_gpu
+    use mfi_blas, only: mfi_copy, mfi_zcopy, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -427,6 +430,7 @@ end block
 
     deallocate(x, y, x_in, y_in, x_rf, y_rf)
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

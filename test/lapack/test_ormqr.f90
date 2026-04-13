@@ -189,6 +189,7 @@ subroutine test_sormqr
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_ormqr")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dormqr
     use f77_lapack, only: dormqr, f77_ormqr
@@ -289,6 +290,7 @@ subroutine test_dormqr
     call assert(info_mfi == info_rf .and. all(abs(C - C_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_ormqr")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

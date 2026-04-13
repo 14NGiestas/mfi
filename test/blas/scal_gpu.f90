@@ -268,7 +268,7 @@ end block
   end subroutine test_get_2d
 subroutine test_sscal_gpu
     use f77_blas, only: sscal, f77_scal
-    use mfi_blas, only: mfi_scal, mfi_sscal, mfi_force_gpu
+    use mfi_blas, only: mfi_scal, mfi_sscal, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -317,10 +317,11 @@ end block
 
     deallocate(x, x_in, x_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_dscal_gpu
     use f77_blas, only: dscal, f77_scal
-    use mfi_blas, only: mfi_scal, mfi_dscal, mfi_force_gpu
+    use mfi_blas, only: mfi_scal, mfi_dscal, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -369,10 +370,11 @@ end block
 
     deallocate(x, x_in, x_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_cscal_gpu
     use f77_blas, only: cscal, f77_scal
-    use mfi_blas, only: mfi_scal, mfi_cscal, mfi_force_gpu
+    use mfi_blas, only: mfi_scal, mfi_cscal, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -433,10 +435,11 @@ end block
 
     deallocate(x, x_in, x_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zscal_gpu
     use f77_blas, only: zscal, f77_scal
-    use mfi_blas, only: mfi_scal, mfi_zscal, mfi_force_gpu
+    use mfi_blas, only: mfi_scal, mfi_zscal, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -497,10 +500,11 @@ end block
 
     deallocate(x, x_in, x_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_csscal_gpu
     use f77_blas, only: csscal, f77_scal
-    use mfi_blas, only: mfi_scal, mfi_csscal, mfi_force_gpu
+    use mfi_blas, only: mfi_scal, mfi_csscal, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL32
     integer :: N
@@ -555,10 +559,11 @@ end block
 
     deallocate(x, x_in, x_rf)
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zdscal_gpu
     use f77_blas, only: zdscal, f77_scal
-    use mfi_blas, only: mfi_scal, mfi_zdscal, mfi_force_gpu
+    use mfi_blas, only: mfi_scal, mfi_zdscal, mfi_force_gpu, mfi_force_cpu
 
     integer, parameter :: wp = REAL64
     integer :: N
@@ -613,6 +618,7 @@ end block
 
     deallocate(x, x_in, x_rf)
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)

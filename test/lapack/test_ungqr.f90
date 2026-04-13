@@ -157,6 +157,7 @@ subroutine test_cungqr
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_ungqr")
 
+    call mfi_force_cpu()
 end subroutine
 subroutine test_zungqr
     use f77_lapack, only: zungqr, f77_ungqr
@@ -225,6 +226,7 @@ subroutine test_zungqr
     call assert(info_mfi == info_rf .and. all(abs(A_in - A_rf) < sqrt(epsilon(1.0_wp))), &
                 "different results for mfi_ungqr")
 
+    call mfi_force_cpu()
 end subroutine
 
 subroutine assert(test, msg, info)
