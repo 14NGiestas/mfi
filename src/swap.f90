@@ -1,123 +1,56 @@
-module mfi_blas_swap
+module f77_blas_swap
     use iso_fortran_env
-    use f77_blas
-#if defined(MFI_CUBLAS)
     use iso_c_binding
-    use mfi_blas_cublas
-#endif
-#if defined(MFI_EXTENSIONS)
-    use mfi_blas_extensions
-#endif
     implicit none
 
-!> Generic modern interface for SWAP.
+!> Generic old style interface for SWAP.
 !> Supports s, d, c, z.
-!> See also:
-!> [[f77_swap:sswap]], [[f77_swap:dswap]], [[f77_swap:cswap]], [[f77_swap:zswap]].
-interface mfi_swap
-    module procedure :: mfi_sswap
-    module procedure :: mfi_dswap
-    module procedure :: mfi_cswap
-    module procedure :: mfi_zswap
+!> See also: [[mfi_swap]], [[sswap]], [[dswap]], [[cswap]], [[zswap]].
+interface f77_swap
+!> Original interface for SSWAP
+!> See also: [[mfi_swap]], [[swap]].
+pure subroutine sswap(n, x, incx, y, incy)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(in) :: x(*)
+    real(REAL32), intent(inout) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end subroutine
+!> Original interface for DSWAP
+!> See also: [[mfi_swap]], [[swap]].
+pure subroutine dswap(n, x, incx, y, incy)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(in) :: x(*)
+    real(REAL64), intent(inout) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end subroutine
+!> Original interface for CSWAP
+!> See also: [[mfi_swap]], [[swap]].
+pure subroutine cswap(n, x, incx, y, incy)
+    import :: REAL32
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(in) :: x(*)
+    complex(REAL32), intent(inout) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end subroutine
+!> Original interface for ZSWAP
+!> See also: [[mfi_swap]], [[swap]].
+pure subroutine zswap(n, x, incx, y, incy)
+    import :: REAL64
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(in) :: x(*)
+    complex(REAL64), intent(inout) :: y(*)
+    integer, intent(in) :: n
+    integer, intent(in) :: incx
+    integer, intent(in) :: incy
+end subroutine
 end interface
-
-contains
-
-!> Modern interface for [[f77_swap:f77_swap]].
-!> See also: [[mfi_swap]], [[f77_swap]].
-pure subroutine mfi_sswap(x, y, incx, incy)
-    integer, parameter :: wp = REAL32
-    real(REAL32), intent(in) :: x(:)
-    real(REAL32), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call f77_swap(n,x,local_incx,y,local_incy)
-end subroutine
-!> Modern interface for [[f77_swap:f77_swap]].
-!> See also: [[mfi_swap]], [[f77_swap]].
-pure subroutine mfi_dswap(x, y, incx, incy)
-    integer, parameter :: wp = REAL64
-    real(REAL64), intent(in) :: x(:)
-    real(REAL64), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call f77_swap(n,x,local_incx,y,local_incy)
-end subroutine
-!> Modern interface for [[f77_swap:f77_swap]].
-!> See also: [[mfi_swap]], [[f77_swap]].
-pure subroutine mfi_cswap(x, y, incx, incy)
-    integer, parameter :: wp = REAL32
-    complex(REAL32), intent(in) :: x(:)
-    complex(REAL32), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call f77_swap(n,x,local_incx,y,local_incy)
-end subroutine
-!> Modern interface for [[f77_swap:f77_swap]].
-!> See also: [[mfi_swap]], [[f77_swap]].
-pure subroutine mfi_zswap(x, y, incx, incy)
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(in) :: x(:)
-    complex(REAL64), intent(inout) :: y(:)
-    integer, intent(in), optional :: incx
-    integer :: local_incx
-    integer, intent(in), optional :: incy
-    integer :: local_incy
-    integer :: n
-    if (present(incx)) then
-        local_incx = incx
-    else
-        local_incx = 1
-    end if
-    if (present(incy)) then
-        local_incy = incy
-    else
-        local_incy = 1
-    end if
-    N = size(X)
-    call f77_swap(n,x,local_incx,y,local_incy)
-end subroutine
 end module
 
