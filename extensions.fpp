@@ -10,6 +10,7 @@ public :: mfi_iamax, mfi_isamax, mfi_idamax, mfi_icamax, mfi_izamax
 public :: mfi_iamin, mfi_isamin, mfi_idamin, mfi_icamin, mfi_izamin
 public :: mfi_force_gpu, mfi_force_cpu
 public :: mfi_cublas_finalize, mfi_cublas_is_active
+public :: mfi_cublas_set_threads, mfi_cublas_handle_count
 #:enddef
 
 #:def mfi_extensions_implement()
@@ -78,6 +79,33 @@ end subroutine
 #else
 subroutine mfi_cublas_finalize()
 end subroutine
+#endif
+
+!> Set number of cuBLAS handles for multi-threaded GPU use (no-op when no cuBLAS)
+#if defined(MFI_CUBLAS)
+subroutine mfi_cublas_set_threads(n)
+    use mfi_blas_cublas, only: mfi_cublas_set_threads_c
+    integer, intent(in) :: n
+    call mfi_cublas_set_threads_c(n)
+end subroutine
+#else
+subroutine mfi_cublas_set_threads(n)
+    integer, intent(in) :: n
+end subroutine
+#endif
+
+!> Return current cuBLAS handle count (0 when no cuBLAS)
+#if defined(MFI_CUBLAS)
+function mfi_cublas_handle_count() result(n)
+    use mfi_blas_cublas, only: mfi_cublas_handle_count_c
+    integer :: n
+    n = mfi_cublas_handle_count_c()
+end function
+#else
+function mfi_cublas_handle_count() result(n)
+    integer :: n
+    n = 0
+end function
 #endif
 
 !> Report cuBLAS error (called from pure wrappers)

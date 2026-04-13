@@ -152,6 +152,16 @@ interface
         type(c_ptr), intent(out) :: handle
         integer(c_int), intent(out) :: stat
     end subroutine
+
+    pure subroutine mfi_cublas_set_threads_c(n) bind(c,name="mfi_cublas_set_threads")
+        import
+        integer(c_int), value, intent(in) :: n
+    end subroutine
+
+    pure function mfi_cublas_handle_count_c() bind(c,name="mfi_cublas_handle_count")
+        import
+        integer(c_int) :: mfi_cublas_handle_count_c
+    end function
 end interface
 
 !> cuBLAS operation constants

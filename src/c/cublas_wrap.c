@@ -6,12 +6,23 @@
 #include <stdio.h>
 #include <string.h>
 
-static cublasHandle_t *g_handles = NULL;
-static int g_count = 0;
-static int g_cublas_active = 0;
-static int g_env_checked = 0;
-static int g_initialized = 0;
-static int g_debug = 0;
+/* ── State ───────────────────────────────────────────────────────
+ *
+ *  Handles are kept alive across CPU ↔ GPU switches.
+ *  force_cpu() only clears the active flag; handles persist.
+ *  force_gpu() just sets the active flag — handles are reused.
+ *  finalize() is the only function that actually destroys handles.
+ *
+ *  g_threads  = desired handle count (set explicitly or from env)
+ *  g_active   = 1 → GPU path, 0 → CPU fallback
+ *  g_ready    = 1 → handles have been created (may or may not be active)
+ * ────────────────────────────────────────────────────────────── */
+
+static cublasHandle_t *g_handles  = NULL;
+static int             g_threads  = 0;   /* desired / actual handle count    */
+static int             g_active   = 0;   /* is GPU path currently active?    */
+static int             g_ready    = 0;   /* have handles been created?       */
+static int             g_debug    = 0;
 
 #define MFI_DPRINTF(fmt, ...) do { \
     if (g_debug) fprintf(stderr, "[MFI] " fmt, ##__VA_ARGS__); \
@@ -23,154 +34,167 @@ static void mfi_debug_init(void) {
     if (env && atoi(env) != 0) g_debug = 1;
 }
 
-void mfi_cublas_set_count(int count) {
-    MFI_DPRINTF("cublas_set_count(%d)\n", count);
-    if (g_handles) {
-        for (int i = 0; i < g_count; i++) {
-            if (g_handles[i]) cublasDestroy_v2(g_handles[i]);
-        }
-        free(g_handles);
-        g_handles = NULL;
+/* ── Helpers ───────────────────────────────────────────────────── */
+
+static int mfi_read_env_int(const char *name) {
+    const char *env = getenv(name);
+    return env ? atoi(env) : 0;
+}
+
+static void mfi_ensure_handles(void) {
+    /* Called internally — creates handles if they don't exist yet.
+     * Uses OMP_NUM_THREADS env var (default 1) if not set explicitly. */
+    if (g_ready) return;
+
+    if (g_threads < 1) {
+        g_threads = mfi_read_env_int("OMP_NUM_THREADS");
+        if (g_threads < 1) g_threads = 1;
     }
-    g_count = count;
-    g_handles = count > 0 ? (cublasHandle_t *)calloc(count, sizeof(cublasHandle_t)) : NULL;
-    MFI_DPRINTF("  allocated g_handles=%p count=%d\n", (void*)g_handles, g_count);
-}
 
-void mfi_cublas_init_handles(int *stat) {
-    MFI_DPRINTF("cublas_init_handles()\n");
-    *stat = 0;
-    for (int i = 0; i < g_count; i++) {
-        if (!g_handles[i]) {
-            MFI_DPRINTF("  creating handle %d\n", i);
-            *stat = (int)cublasCreate_v2(&g_handles[i]);
-            MFI_DPRINTF("  cublasCreate_v2 returned %d, handle=%p\n", *stat, (void*)g_handles[i]);
-            if (*stat != 0) {
-                /* Try to initialize CUDA runtime first */
-                cudaError_t cuda_err = cudaFree(0);
-                MFI_DPRINTF("  cudaFree(0) returned %d\n", (int)cuda_err);
-                if (cuda_err == cudaSuccess) {
-                    *stat = (int)cublasCreate_v2(&g_handles[i]);
-                    MFI_DPRINTF("  cublasCreate_v2 retry returned %d, handle=%p\n", *stat, (void*)g_handles[i]);
-                }
-            }
-            if (*stat != 0) return;
-            *stat = (int)cublasSetPointerMode_v2(g_handles[i], CUBLAS_POINTER_MODE_HOST);
-            if (*stat != 0) return;
-        }
-    }
-}
+    g_handles = (cublasHandle_t *)calloc(g_threads, sizeof(cublasHandle_t));
+    if (!g_handles) return;
 
-void mfi_cublas_get_thread_handle(void **out_handle, int *stat) {
-    *stat = 0;
-    int tid = omp_get_thread_num();
-    MFI_DPRINTF("get_thread_handle() tid=%d count=%d g_handles=%p\n", tid, g_count, (void*)g_handles);
-    if (tid >= 0 && tid < g_count) {
-        MFI_DPRINTF("  returning handle[%d]=%p\n", tid, (void*)g_handles[tid]);
-        *out_handle = (void *)g_handles[tid];
-    } else {
-        MFI_DPRINTF("  tid out of range, returning NULL\n");
-        *out_handle = NULL;
-        *stat = -1;
-    }
-}
-
-void mfi_cublas_finalize_all(int *stat) {
-    MFI_DPRINTF("cublas_finalize_all()\n");
-    *stat = 0;
-    if (g_handles) {
-        for (int i = 0; i < g_count; i++) {
-            if (g_handles[i]) {
-                *stat = (int)cublasDestroy_v2(g_handles[i]);
-                g_handles[i] = NULL;
-            }
-        }
-        free(g_handles);
-        g_handles = NULL;
-        g_count = 0;
-    }
-    g_cublas_active = 0;
-    g_initialized = 0;
-}
-
-int mfi_cublas_is_active(void) { return g_cublas_active; }
-void mfi_cublas_set_active(int v) { g_cublas_active = v; }
-int mfi_cublas_env_checked(void) { return g_env_checked; }
-void mfi_cublas_set_env_checked(int v) { g_env_checked = v; }
-int mfi_cublas_is_initialized(void) { return g_initialized; }
-void mfi_cublas_set_initialized(int v) { g_initialized = v; }
-int mfi_cublas_handle_count(void) { return g_count; }
-void mfi_cublas_set_handle_count(int v) { g_count = v; }
-void* mfi_cublas_get_handle(int i) { return (void *)(i >= 0 && i < g_count ? g_handles[i] : NULL); }
-
-int mfi_cublas_read_env(void) {
-    const char *env = getenv("MFI_USE_CUBLAS");
-    int r = env ? atoi(env) : 0;
-    MFI_DPRINTF("read_env() -> %d (MFI_USE_CUBLAS=%s)\n", r, env ? env : "(null)");
-    return r;
-}
-
-int mfi_cublas_read_omp_threads(void) {
-    const char *env = getenv("OMP_NUM_THREADS");
-    int r = env ? atoi(env) : 0;
-    MFI_DPRINTF("read_omp_threads() -> %d (OMP_NUM_THREADS=%s)\n", r, env ? env : "(null)");
-    return r;
-}
-
-void mfi_cublas_lazy_init(void) {
-    mfi_debug_init();
-    MFI_DPRINTF("lazy_init() init=%d checked=%d active=%d count=%d\n",
-                g_initialized, g_env_checked, g_cublas_active, g_count);
-    if (g_initialized) return;
-    if (!g_env_checked) {
-        g_env_checked = 1;
-        g_cublas_active = mfi_cublas_read_env();
-    }
-    if (g_cublas_active && g_count == 0) {
-        int threads = mfi_cublas_read_omp_threads();
-        if (threads < 1) threads = 1;
-        mfi_cublas_set_count(threads);
-        int stat;
-        mfi_cublas_init_handles(&stat);
+    for (int i = 0; i < g_threads; i++) {
+        int stat = (int)cublasCreate_v2(&g_handles[i]);
         if (stat != 0) {
-            MFI_DPRINTF("  cublas init failed with stat=%d, falling back to CPU\n", stat);
-            g_cublas_active = 0;
-            /* Don't set g_initialized so it can be retried */
+            /* Try waking up the CUDA runtime */
+            if (cudaFree(0) == cudaSuccess)
+                stat = (int)cublasCreate_v2(&g_handles[i]);
+        }
+        if (stat != 0) {
+            /* Partial init failure — clean up and give up */
+            for (int j = 0; j < i; j++)
+                if (g_handles[j]) cublasDestroy_v2(g_handles[j]);
+            free(g_handles);
+            g_handles = NULL;
+            g_threads = 0;
             return;
         }
+        cublasSetPointerMode_v2(g_handles[i], CUBLAS_POINTER_MODE_HOST);
     }
-    g_initialized = 1;
-    MFI_DPRINTF("lazy_init() done: active=%d count=%d\n", g_cublas_active, g_count);
+    g_ready = 1;
+    MFI_DPRINTF("handles created: threads=%d\n", g_threads);
 }
 
+/* ── Public API ────────────────────────────────────────────────── */
+
+/** Set the number of cuBLAS handles (call before first GPU use, or after finalize).
+ *  If called when handles already exist, old handles are destroyed and recreated. */
+void mfi_cublas_set_threads(int count) {
+    mfi_debug_init();
+    if (count < 1) count = 1;
+    MFI_DPRINTF("set_threads(%d) [was %d, ready=%d]\n", count, g_threads, g_ready);
+
+    /* Destroy existing handles if count changed */
+    if (g_ready && count != g_threads) {
+        for (int i = 0; i < g_threads; i++)
+            if (g_handles[i]) cublasDestroy_v2(g_handles[i]);
+        free(g_handles);
+        g_handles = NULL;
+        g_ready = 0;
+    }
+
+    g_threads = count;
+
+    /* If GPU is currently active, create handles immediately */
+    if (g_active) mfi_ensure_handles();
+}
+
+/** Switch to GPU mode. Reuses existing handles or creates them on first use. */
 void mfi_cublas_force_gpu(void) {
     mfi_debug_init();
     MFI_DPRINTF("force_gpu()\n");
-    g_cublas_active = 1;
-    g_env_checked = 1;
-    g_initialized = 0;
-    mfi_cublas_lazy_init();
+    g_active = 1;
+
+    /* Ensure we know how many handles to create */
+    if (g_threads < 1) {
+        g_threads = mfi_read_env_int("OMP_NUM_THREADS");
+        if (g_threads < 1) g_threads = 1;
+    }
+
+    /* Create handles if needed */
+    mfi_ensure_handles();
 }
 
+/** Switch to CPU mode.  Handles are preserved (warm) for fast re-switch. */
 void mfi_cublas_force_cpu(void) {
     mfi_debug_init();
     MFI_DPRINTF("force_cpu()\n");
-    /* Destroy all existing handles to prevent resource leaks */
+    g_active = 0;
+    /* Handles stay alive — force_gpu will reuse them instantly */
+}
+
+/** Destroy all handles and reset all state. */
+void mfi_cublas_finalize_all(int *stat) {
+    mfi_debug_init();
+    MFI_DPRINTF("finalize_all()\n");
+    *stat = 0;
     if (g_handles) {
-        for (int i = 0; i < g_count; i++) {
+        for (int i = 0; i < g_threads; i++)
             if (g_handles[i]) {
-                cublasDestroy_v2(g_handles[i]);
+                int s = (int)cublasDestroy_v2(g_handles[i]);
+                if (s != 0 && *stat == 0) *stat = s;
                 g_handles[i] = NULL;
             }
-        }
         free(g_handles);
         g_handles = NULL;
     }
-    g_cublas_active = 0;
-    g_env_checked = 1;
-    g_initialized = 0;
-    g_count = 0;
+    g_threads = 0;
+    g_active  = 0;
+    g_ready   = 0;
 }
+
+/* ── Query functions ───────────────────────────────────────────── */
+
+int  mfi_cublas_is_active(void)       { return g_active; }
+int  mfi_cublas_handle_count(void)    { return g_threads; }
+int  mfi_cublas_is_ready(void)        { return g_ready; }
+void *mfi_cublas_get_handle(int i)    {
+    return (i >= 0 && i < g_threads && g_handles) ? (void *)g_handles[i] : NULL;
+}
+
+/** Get handle for current OpenMP thread. Falls back to handle[0] for
+ *  non-OpenMP or mismatched thread counts. */
+void mfi_cublas_get_thread_handle(void **out_handle, int *stat) {
+    *stat = 0;
+    if (!g_ready || !g_handles || g_threads < 1) {
+        *out_handle = NULL;
+        *stat = -1;
+        return;
+    }
+
+    int tid = omp_get_thread_num();
+    if (tid >= 0 && tid < g_threads) {
+        *out_handle = (void *)g_handles[tid];
+    } else {
+        /* Fallback: use handle 0 (safe for single-threaded callers) */
+        *out_handle = (void *)g_handles[0];
+    }
+}
+
+/* ── Legacy / compatibility shims ──────────────────────────────── */
+
+int mfi_cublas_read_env(void)           { return mfi_read_env_int("MFI_USE_CUBLAS"); }
+int mfi_cublas_read_omp_threads(void)   { return mfi_read_env_int("OMP_NUM_THREADS"); }
+int mfi_cublas_is_initialized(void)     { return g_ready; }
+int mfi_cublas_env_checked(void)        { return 1; }  /* always "checked" in new design */
+void mfi_cublas_set_active(int v)       { g_active = v; }
+void mfi_cublas_set_env_checked(int v)  { (void)v; }    /* no-op in new design */
+void mfi_cublas_set_initialized(int v)  { (void)v; }    /* no-op in new design */
+void mfi_cublas_set_handle_count(int v) { mfi_cublas_set_threads(v); }
+
+/** Legacy lazy init — kept for callers that expect it.
+ *  Now just activates GPU if env var says so and handles aren't ready. */
+void mfi_cublas_lazy_init(void) {
+    mfi_debug_init();
+    if (g_ready) return;
+    if (!g_active) {
+        g_active = mfi_read_env_int("MFI_USE_CUBLAS");
+    }
+    if (g_active) mfi_ensure_handles();
+}
+
+/* ── Raw CUDA/cuBLAS helpers ───────────────────────────────────── */
 
 void mfi_cuda_malloc(void **devPtr, size_t size, int *stat) {
     *stat = (int)cudaMalloc(devPtr, size);
