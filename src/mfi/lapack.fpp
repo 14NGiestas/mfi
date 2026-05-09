@@ -21,6 +21,7 @@
 #:include "src/mfi/lapack/orm2r.fypp"
 #:include "src/mfi/lapack/orgr2.fypp"
 #:include "src/mfi/lapack/ormr2.fypp"
+#:include "src/mfi/lapack/gesv.fypp"
 #:set COLLECT = [                            &
     ('?geqrf',  DEFAULT_TYPES, geqrf_gerqf), &
     ('?gerqf',  DEFAULT_TYPES, geqrf_gerqf), &
@@ -55,6 +56,7 @@
     ('?pocon',  DEFAULT_TYPES, pocon),       &
     ('?trtrs',  DEFAULT_TYPES, trtrs),       &
     ('?sytrf',  REAL_TYPES,    sytrf),       &
+    ('?gesv',   DEFAULT_TYPES, gesv),        &
 ]
 #:endmute
 !> Modern fortran interfaces for LAPACK

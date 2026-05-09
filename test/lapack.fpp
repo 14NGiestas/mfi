@@ -1,5 +1,6 @@
 #:include "common.fpp"
 #:include "test/lapack/macros/geqrf_gerqf.fypp"
+#:include "test/lapack/macros/gesv.fypp"
 #:include "test/lapack/macros/gesvd.fypp"
 #:include "test/lapack/macros/getrf.fypp"
 #:include "test/lapack/macros/getri.fypp"
@@ -22,6 +23,7 @@
      ('?geqrf', DEFAULT_TYPES,    geqrf_gerqf),                             &
      ('?gerqf', DEFAULT_TYPES,    geqrf_gerqf),                             &
      ('?gesvd', DEFAULT_TYPES,    gesvd),                                   &
+     ('?gesv',  DEFAULT_TYPES,    gesv),                                    &
      ('?getrf', DEFAULT_TYPES,    getrf),                                   &
      ('?getri', DEFAULT_TYPES,    getri),                                   &
      ('?getrs', DEFAULT_TYPES,    getrs),                                   &

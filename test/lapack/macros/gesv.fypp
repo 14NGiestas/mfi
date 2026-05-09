@@ -1,0 +1,56 @@
+#:def gesv(f77,f90,mfi,pfxs,suffix='')
+#:set wp = pfxs[0]
+subroutine test_${f77 + suffix}$
+    use f77_lapack, only: ${f77}$
+    use mfi_blas
+    use mfi_lapack, only: ${mfi}$, mfi_${f77}$
+
+    integer, parameter :: wp = ${kind(wp)}$
+    integer, parameter :: N = 3, NRHS = 2
+    ${type(wp)}$ :: A(N,N), A_in(N,N), B(N,NRHS), B_in(N,NRHS), B_rf(N,NRHS)
+    integer :: ipiv(N), ipiv_rf(N)
+    integer :: info, info_rf, info_mfi
+
+#:if suffix
+    call mfi_force_gpu()
+#:endif
+
+    A(1,:) = [2.0_wp, 1.0_wp, 1.0_wp]
+    A(2,:) = [4.0_wp, 3.0_wp, 3.0_wp]
+    A(3,:) = [8.0_wp, 7.0_wp, 9.0_wp]
+
+    B(1,:) = [1.0_wp, 3.0_wp]
+    B(2,:) = [1.0_wp, 1.0_wp]
+    B(3,:) = [3.0_wp, 1.0_wp]
+
+    ! Test f77 interface for gesv
+    A_in = A
+    B_in = B
+    call ${f77}$(N, NRHS, A_in, N, ipiv, B_in, N, info)
+    B_rf = B_in
+    ipiv_rf = ipiv
+    info_rf = info
+
+    call assert(info == 0, "f77_${f77}$ failed")
+
+    ! Test mfi interface (short form)
+    A_in = A
+    B_in = B
+    call mfi_${f77}$(A_in, B_in, ipiv, info=info_mfi)
+    call assert(info_mfi == info_rf .and. &
+                all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. &
+                all(ipiv == ipiv_rf), &
+                "different results for mfi_${f77}$")
+
+    ! Test mfi interface (full form)
+    A_in = A
+    B_in = B
+    call ${mfi}$(A_in, B_in, ipiv, info=info_mfi)
+    call assert(info_mfi == info_rf .and. &
+                all(abs(B_in - B_rf) < 10.0 * sqrt(epsilon(1.0_wp))) .and. &
+                all(ipiv == ipiv_rf), &
+                "different results for ${mfi}$")
+
+    call mfi_force_cpu()
+end subroutine
+#:enddef
