@@ -2609,6 +2609,47 @@ pure subroutine dsytrf(uplo, n, a, lda, ipiv, work, lwork, info)
     integer, intent(in) :: lwork
 end subroutine
 end interface
+!> Generic old style interface for GESV.
+!> Supports s, d, c, z.
+!> See also: [[mfi_gesv]], [[sgesv]], [[dgesv]], [[cgesv]], [[zgesv]].
+interface f77_gesv
+!> Original interface for SGESV
+!> See also: [[mfi_gesv]], [[gesv]].
+pure subroutine sgesv(n, nrhs, a, lda, ipiv, b, ldb, info)
+    import :: REAL32
+    integer, intent(in) :: n, nrhs, lda, ldb
+    real(REAL32), intent(inout) :: a(lda,*), b(ldb,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for DGESV
+!> See also: [[mfi_gesv]], [[gesv]].
+pure subroutine dgesv(n, nrhs, a, lda, ipiv, b, ldb, info)
+    import :: REAL64
+    integer, intent(in) :: n, nrhs, lda, ldb
+    real(REAL64), intent(inout) :: a(lda,*), b(ldb,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for CGESV
+!> See also: [[mfi_gesv]], [[gesv]].
+pure subroutine cgesv(n, nrhs, a, lda, ipiv, b, ldb, info)
+    import :: REAL32
+    integer, intent(in) :: n, nrhs, lda, ldb
+    complex(REAL32), intent(inout) :: a(lda,*), b(ldb,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+end subroutine
+!> Original interface for ZGESV
+!> See also: [[mfi_gesv]], [[gesv]].
+pure subroutine zgesv(n, nrhs, a, lda, ipiv, b, ldb, info)
+    import :: REAL64
+    integer, intent(in) :: n, nrhs, lda, ldb
+    complex(REAL64), intent(inout) :: a(lda,*), b(ldb,*)
+    integer, intent(out) :: ipiv(*)
+    integer, intent(out) :: info
+end subroutine
+end interface
 
     interface f77_xerbla
         pure subroutine xerbla(name,info)

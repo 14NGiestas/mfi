@@ -291,6 +291,16 @@ interface mfi_sytrf
     module procedure :: mfi_ssytrf
     module procedure :: mfi_dsytrf
 end interface
+!> Generic modern interface for GESV.
+!> Supports s, d, c, z.
+!> See also:
+!> [[f77_gesv:sgesv]], [[f77_gesv:dgesv]], [[f77_gesv:cgesv]], [[f77_gesv:zgesv]].
+interface mfi_gesv
+    module procedure :: mfi_sgesv
+    module procedure :: mfi_dgesv
+    module procedure :: mfi_cgesv
+    module procedure :: mfi_zgesv
+end interface
 
 contains
 
@@ -4760,6 +4770,146 @@ pure subroutine mfi_dsytrf(a, uplo, ipiv, info)
         info = local_info
     else if (local_info /= 0) then
         call mfi_error('f77_sytrf', local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_gesv:f77_gesv]].
+!> See also: [[mfi_gesv]], [[f77_gesv]].
+pure subroutine mfi_sgesv(a, b, ipiv, info)
+    integer, parameter :: wp = REAL32
+    real(REAL32), intent(inout) :: a(:,:)
+    real(REAL32), intent(inout) :: b(:,:)
+    integer, intent(out), optional, target :: ipiv(:)
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb, allocation_status, deallocation_status
+    integer, pointer :: local_ipiv(:)
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    allocation_status = 0
+    if (present(ipiv)) then
+        local_ipiv => ipiv
+    else
+        allocate(local_ipiv(n), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call f77_gesv(n,nrhs,a,lda,local_ipiv,b,ldb,local_info)
+    else
+        local_info = -1000
+    end if
+    if (.not. present(ipiv)) then
+        deallocate(local_ipiv, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_gesv', local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_gesv:f77_gesv]].
+!> See also: [[mfi_gesv]], [[f77_gesv]].
+pure subroutine mfi_dgesv(a, b, ipiv, info)
+    integer, parameter :: wp = REAL64
+    real(REAL64), intent(inout) :: a(:,:)
+    real(REAL64), intent(inout) :: b(:,:)
+    integer, intent(out), optional, target :: ipiv(:)
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb, allocation_status, deallocation_status
+    integer, pointer :: local_ipiv(:)
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    allocation_status = 0
+    if (present(ipiv)) then
+        local_ipiv => ipiv
+    else
+        allocate(local_ipiv(n), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call f77_gesv(n,nrhs,a,lda,local_ipiv,b,ldb,local_info)
+    else
+        local_info = -1000
+    end if
+    if (.not. present(ipiv)) then
+        deallocate(local_ipiv, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_gesv', local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_gesv:f77_gesv]].
+!> See also: [[mfi_gesv]], [[f77_gesv]].
+pure subroutine mfi_cgesv(a, b, ipiv, info)
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(inout) :: a(:,:)
+    complex(REAL32), intent(inout) :: b(:,:)
+    integer, intent(out), optional, target :: ipiv(:)
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb, allocation_status, deallocation_status
+    integer, pointer :: local_ipiv(:)
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    allocation_status = 0
+    if (present(ipiv)) then
+        local_ipiv => ipiv
+    else
+        allocate(local_ipiv(n), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call f77_gesv(n,nrhs,a,lda,local_ipiv,b,ldb,local_info)
+    else
+        local_info = -1000
+    end if
+    if (.not. present(ipiv)) then
+        deallocate(local_ipiv, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_gesv', local_info)
+    end if
+end subroutine
+!> Modern interface for [[f77_gesv:f77_gesv]].
+!> See also: [[mfi_gesv]], [[f77_gesv]].
+pure subroutine mfi_zgesv(a, b, ipiv, info)
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(inout) :: a(:,:)
+    complex(REAL64), intent(inout) :: b(:,:)
+    integer, intent(out), optional, target :: ipiv(:)
+    integer, intent(out), optional :: info
+    integer :: local_info
+    integer :: n, nrhs, lda, ldb, allocation_status, deallocation_status
+    integer, pointer :: local_ipiv(:)
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    allocation_status = 0
+    if (present(ipiv)) then
+        local_ipiv => ipiv
+    else
+        allocate(local_ipiv(n), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call f77_gesv(n,nrhs,a,lda,local_ipiv,b,ldb,local_info)
+    else
+        local_info = -1000
+    end if
+    if (.not. present(ipiv)) then
+        deallocate(local_ipiv, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('f77_gesv', local_info)
     end if
 end subroutine
 
