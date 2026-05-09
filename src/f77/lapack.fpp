@@ -26,6 +26,7 @@
 #:include "src/f77/lapack/ormqr_ormrq_unmqr_unmrq.fypp"
 #:include "src/f77/lapack/trtrs.fypp"
 #:include "src/f77/lapack/sytrf.fypp"
+#:include "src/f77/lapack/gesv.fypp"
 #:set COLLECT = [                                  &
     ('?geqrf',  DEFAULT_TYPES, geqrf_gerqf),       &
     ('?gerqf',  DEFAULT_TYPES, geqrf_gerqf),       &
@@ -69,6 +70,7 @@
     ('?lartg',  DEFAULT_TYPES, lartg),             &
     ('?trtrs',  DEFAULT_TYPES, trtrs),             &
     ('?sytrf',  REAL_TYPES,    sytrf),             &
+    ('?gesv',   DEFAULT_TYPES, gesv),              &
 ]
 #:endmute
 !> Improved and original F77 interfaces for LAPACK

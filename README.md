@@ -288,6 +288,7 @@ LAPACK coverage is growing — routines are implemented as needed.
 | :+1: | getrf | LU factorization |
 | :+1: | getri | Matrix inverse (from LU) |
 | :+1: | getrs | Solve with LU-factored matrix |
+| :+1: | gesv  | Solve linear system (LU + solve) |
 | :+1: | hetrf | Bunch-Kaufman factorization (Hermitian) |
 | :+1: | pocon | Condition number estimate (Cholesky) |
 | :+1: | potrf | Cholesky factorization |

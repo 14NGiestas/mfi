@@ -1,0 +1,34 @@
+#:def gesv(MFI_NAME,F77_NAME,pfxs)
+#:set wp = pfxs[0]
+pure subroutine ${MFI_NAME}$(a, b, ipiv, info)
+@:parameter(integer, wp=${kind(wp)}$)
+@:args(${type(wp)}$,      inout, a(:,:), b(:,:))
+    integer, intent(out), optional, target :: ipiv(:)
+@:optional(integer, out, info)
+    integer :: n, nrhs, lda, ldb, allocation_status, deallocation_status
+    integer, pointer :: local_ipiv(:)
+    lda = max(1,size(a,1))
+    ldb = max(1,size(b,1))
+    n = size(a,2)
+    nrhs = size(b,2)
+    allocation_status = 0
+    if (present(ipiv)) then
+        local_ipiv => ipiv
+    else
+        allocate(local_ipiv(n), stat=allocation_status)
+    end if
+    if (allocation_status == 0) then
+        call ${F77_NAME}$(n,nrhs,a,lda,local_ipiv,b,ldb,local_info)
+    else
+        local_info = -1000
+    end if
+    if (.not. present(ipiv)) then
+        deallocate(local_ipiv, stat=deallocation_status)
+    end if
+    if (present(info)) then
+        info = local_info
+    else if (local_info <= -1000) then
+        call mfi_error('${F77_NAME}$', local_info)
+    end if
+end subroutine
+#:enddef
