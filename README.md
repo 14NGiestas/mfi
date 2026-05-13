@@ -218,7 +218,7 @@ fpm build --profile zluda
 
 ```toml
 # AMD GPU via ZLUDA (set env vars before building, LD_LIBRARY_PATH before running)
-mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas", features = ["zluda"] }
+mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm", features = ["zluda"] }
 ```
 
 The `zluda` and `cublas` fpm features are identical in `fpm.toml`; both compile
