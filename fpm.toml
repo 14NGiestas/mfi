@@ -15,8 +15,14 @@ cpu.build.link = ["blas", "lapack"]
 cublas.build.link = ["blas", "lapack", "cublas", "cudart", "gomp"]
 cublas.preprocess.cpp.macros = ["MFI_CUBLAS"]
 cublas.dependencies.openmp = "*"
+# zluda: same ABI as cublas — ZLUDA provides drop-in libcublas/libcudart for AMD GPUs.
+# Point LD_LIBRARY_PATH (Linux) or PATH (Windows) at ZLUDA before building.
+zluda.build.link = ["blas", "lapack", "cublas", "cudart", "gomp"]
+zluda.preprocess.cpp.macros = ["MFI_CUBLAS"]
+zluda.dependencies.openmp = "*"
 
 [profiles]
 default = ["cpu"]
 cpu = ["cpu"]
 cublas = ["cublas"]
+zluda = ["zluda"]
