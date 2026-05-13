@@ -162,26 +162,30 @@ ZLUDA's libraries.
 
 #### Prerequisites
 
-**With Nix**: no manual installation needed — `pkgs.zluda`, `rocmPackages.clr` (HIP
-runtime), and `rocmPackages.rocm-runtime` (HSA runtime) are all provided by the
-`gpu-zluda` devShell. The only host requirement is the
-[AMD GPU kernel driver](https://wiki.archlinux.org/title/AMDGPU) (the `amdgpu` kernel
-module and firmware), which Nix cannot provide.
+**With Nix**: the ROCm/HIP userspace stack (`rocmPackages.clr` for the HIP runtime,
+`rocmPackages.rocm-runtime` for the HSA runtime) and CUDA compile-time headers are all
+provided by the `gpu-zluda` devShell. You still need to download ZLUDA itself — it is a
+pre-built binary that cannot currently be built from nixpkgs 24.11 — and point
+`ZLUDA_PATH` at its directory before entering the shell. The only host requirement beyond
+that is the [AMD GPU kernel driver](https://wiki.archlinux.org/title/AMDGPU) (the
+`amdgpu` kernel module and firmware), which Nix cannot provide.
 
 **Without Nix**: install the full [ROCm/HIP SDK](https://rocm.docs.amd.com/en/latest/)
 and download ZLUDA from its [releases page](https://github.com/vosen/ZLUDA/releases).
 
 #### Linux
 
-**With Nix** (recommended): the entire ROCm/HIP userspace stack plus ZLUDA are
-provided automatically — just enter the shell and build:
+**With Nix** (recommended): ROCm/HIP and CUDA headers are provided automatically.
+Download ZLUDA from its [releases page](https://github.com/vosen/ZLUDA/releases), then:
 
 ```sh
-nix develop .#gpu-zluda
+ZLUDA_PATH=/path/to/zluda nix develop .#gpu-zluda
 make
 fpm build --profile zluda
 MFI_USE_CUBLAS=1 ./build/gfortran_*/app/app
 ```
+
+The shell prints a warning and usage hint if `ZLUDA_PATH` is unset.
 
 **Without Nix**: after installing the ROCm/HIP SDK and ZLUDA (see Prerequisites above),
 set the env vars manually:

@@ -90,23 +90,27 @@
           '';
         };
 
-        # ZLUDA: drop-in CUDA/cuBLAS replacement for AMD GPUs (pkgs.zluda from nixpkgs).
-        # ZLUDA provides libcublas/libcudart stubs that translate to HIP/ROCm at runtime.
-        # CUDA headers (from cudaModern) are still needed at compile time.
-        # rocmPackages.clr provides the HIP runtime (libamdhip64); rocm-runtime provides
-        # the HSA runtime (libhsa-runtime64) — both are needed by ZLUDA at run time.
-        # ZLUDA libs are prepended in LIBRARY_PATH/LD_LIBRARY_PATH so they take precedence
-        # over any system CUDA stubs.
-        # The only host requirement is the AMD GPU kernel driver (amdgpu module + firmware).
+        # ZLUDA: drop-in CUDA/cuBLAS replacement for AMD GPUs.
+        # ZLUDA is a pre-built binary (not compiled from nixpkgs — pkgs.zluda pulls in
+        # rocmlir-rock which is broken in nixpkgs 24.11).  Download it from:
+        #   https://github.com/vosen/ZLUDA/releases
+        # and point ZLUDA_PATH at its directory before entering this shell.
+        #
+        # Everything else IS provided by Nix:
+        #   rocmPackages.clr         — HIP runtime: libamdhip64.so (ZLUDA needs this at run time)
+        #   rocmPackages.rocm-runtime — HSA runtime: libhsa-runtime64.so
+        #   cudaModern.{libcublas,cuda_cudart}.dev — CUDA headers needed at compile time
+        #
+        # The only remaining host requirement is the AMD GPU kernel driver
+        # (the amdgpu kernel module + firmware), which Nix cannot deliver.
         rocmLibs = [
           pkgs.rocmPackages.clr           # HIP runtime: libamdhip64.so + HIP headers
           pkgs.rocmPackages.rocm-runtime  # HSA runtime: libhsa-runtime64.so
         ];
-        zludaLibs = [ pkgs.zluda ];
         mkZludaShell = pkgs.mkShell {
           nativeBuildInputs = commonBuildInputs;
-          # CPU libs + CUDA headers (compile time) + ZLUDA runtime libs + ROCm/HIP stack
-          buildInputs = cpuLibs ++ zludaLibs ++ rocmLibs ++ [
+          # CPU libs + CUDA headers (compile time) + ROCm/HIP stack (ZLUDA runtime deps)
+          buildInputs = cpuLibs ++ rocmLibs ++ [
             cudaModern.libcublas.dev
             cudaModern.cuda_cudart.dev
             cudaModern.cuda_cccl
@@ -118,10 +122,21 @@
               cudaModern.cuda_cudart.dev
               cudaModern.cuda_cccl
             ]}:$CPATH"
-            # ZLUDA libs first so they override any system libcublas/libcudart;
-            # ROCm/HIP stack follows so ZLUDA can resolve libamdhip64/libhsa-runtime64
-            export LIBRARY_PATH="${pkgs.lib.makeLibraryPath (zludaLibs ++ rocmLibs ++ cpuLibs)}:$LIBRARY_PATH"
-            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath (zludaLibs ++ rocmLibs ++ cpuLibs)}:$LD_LIBRARY_PATH"
+            # ROCm/HIP stack so ZLUDA can resolve libamdhip64/libhsa-runtime64 at run time
+            export LIBRARY_PATH="${pkgs.lib.makeLibraryPath (rocmLibs ++ cpuLibs)}:$LIBRARY_PATH"
+            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath (rocmLibs ++ cpuLibs)}:$LD_LIBRARY_PATH"
+            # Wire in the user-supplied ZLUDA directory (must come first to override stubs)
+            if [ -n "$ZLUDA_PATH" ]; then
+              export LIBRARY_PATH="$ZLUDA_PATH:$LIBRARY_PATH"
+              export LD_LIBRARY_PATH="$ZLUDA_PATH:$LD_LIBRARY_PATH"
+              echo "ZLUDA shell ready (ZLUDA_PATH=$ZLUDA_PATH)."
+              echo "  Build: make && fpm build --profile zluda"
+              echo "  Run:   MFI_USE_CUBLAS=1 ./build/gfortran_*/app/app"
+            else
+              echo "WARNING: ZLUDA_PATH is not set."
+              echo "  Download ZLUDA from https://github.com/vosen/ZLUDA/releases"
+              echo "  then re-enter with: ZLUDA_PATH=/path/to/zluda nix develop .#gpu-zluda"
+            fi
           '';
         };
       in
