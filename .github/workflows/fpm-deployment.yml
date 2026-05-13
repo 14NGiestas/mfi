@@ -33,6 +33,10 @@ jobs:
             environment: gpu-modern
             profile: cublas
             test: compile-only
+          - name: gpu-zluda-cublas
+            environment: gpu-zluda
+            profile: cublas
+            test: compile-only
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -97,6 +101,18 @@ jobs:
           - name: extensions
             dir: ci/consumer/extensions
             environment: gpu-modern
+            mode: compile
+          - name: gpu-zluda-lazy
+            dir: ci/consumer/gpu_lazy
+            environment: gpu-zluda
+            mode: compile
+          - name: gpu-zluda-explicit
+            dir: ci/consumer/gpu_explicit
+            environment: gpu-zluda
+            mode: compile
+          - name: gpu-zluda-extensions
+            dir: ci/consumer/extensions
+            environment: gpu-zluda
             mode: compile
     steps:
     - name: Checkout

@@ -89,12 +89,66 @@
             export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath cpuLibs}:$LD_LIBRARY_PATH"
           '';
         };
+
+        # ZLUDA: drop-in CUDA/cuBLAS replacement for AMD GPUs.
+        # ZLUDA is a pre-built binary (not compiled from nixpkgs — pkgs.zluda pulls in
+        # rocmlir-rock which is broken in nixpkgs 24.11).  Download it from:
+        #   https://github.com/vosen/ZLUDA/releases
+        # and point ZLUDA_PATH at its directory before entering this shell.
+        #
+        # Everything else IS provided by Nix:
+        #   rocmPackages.clr         — HIP runtime: libamdhip64.so (ZLUDA needs this at run time)
+        #   rocmPackages.rocm-runtime — HSA runtime: libhsa-runtime64.so
+        #   cudaModern.{libcublas,cuda_cudart}.dev — CUDA headers needed at compile time
+        #
+        # The only remaining host requirement is the AMD GPU kernel driver
+        # (the amdgpu kernel module + firmware), which Nix cannot deliver.
+        rocmLibs = [
+          pkgs.rocmPackages.clr           # HIP runtime: libamdhip64.so + HIP headers
+          pkgs.rocmPackages.rocm-runtime  # HSA runtime: libhsa-runtime64.so
+        ];
+        mkZludaShell = pkgs.mkShell {
+          nativeBuildInputs = commonBuildInputs;
+          # CPU libs + CUDA headers (compile time) + ROCm/HIP stack (ZLUDA runtime deps)
+          # cuda_nvcc is required for crt/host_config.h (included transitively by cuda_runtime.h)
+          buildInputs = cpuLibs ++ rocmLibs ++ [
+            cudaModern.libcublas.dev
+            cudaModern.cuda_cudart.dev
+            cudaModern.cuda_nvcc
+            cudaModern.cuda_cccl
+          ];
+          shellHook = ''
+            # CUDA headers so cuda_runtime.h / cublas_v2.h / crt/host_config.h are found
+            export CPATH="${pkgs.lib.makeSearchPath "include" [
+              cudaModern.libcublas.dev
+              cudaModern.cuda_cudart.dev
+              cudaModern.cuda_nvcc
+              cudaModern.cuda_cccl
+            ]}:$CPATH"
+            # ROCm/HIP stack so ZLUDA can resolve libamdhip64/libhsa-runtime64 at run time
+            export LIBRARY_PATH="${pkgs.lib.makeLibraryPath (rocmLibs ++ cpuLibs)}:$LIBRARY_PATH"
+            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath (rocmLibs ++ cpuLibs)}:$LD_LIBRARY_PATH"
+            # Wire in the user-supplied ZLUDA directory (must come first to override stubs)
+            if [ -n "$ZLUDA_PATH" ]; then
+              export LIBRARY_PATH="$ZLUDA_PATH:$LIBRARY_PATH"
+              export LD_LIBRARY_PATH="$ZLUDA_PATH:$LD_LIBRARY_PATH"
+              echo "ZLUDA shell ready (ZLUDA_PATH=$ZLUDA_PATH)."
+              echo "  Build: make && fpm build --profile zluda"
+              echo "  Run:   MFI_USE_CUBLAS=1 ./build/gfortran_*/app/app"
+            else
+              echo "WARNING: ZLUDA_PATH is not set."
+              echo "  Download ZLUDA from https://github.com/vosen/ZLUDA/releases"
+              echo "  then re-enter with: ZLUDA_PATH=/path/to/zluda nix develop .#gpu-zluda"
+            fi
+          '';
+        };
       in
       {
         devShells = {
           cpu-only = mkCpuShell;
           gpu-modern = mkGpuShell { cudaLibs = cudaModernLibs; };
           gpu-legacy = mkGpuShell { cudaLibs = cudaLegacyLibs; };
+          gpu-zluda  = mkZludaShell;
           default = mkCpuShell;
         };
       }
