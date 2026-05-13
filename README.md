@@ -150,12 +150,72 @@ The OS cleans up on exit anyway.
 
 ---
 
+### AMD GPU support via ZLUDA
+
+[ZLUDA](https://github.com/vosen/ZLUDA) is a drop-in replacement for the CUDA
+runtime that runs on AMD GPUs using the HIP SDK. Because MFI's GPU backend
+only uses standard CUDA/cuBLAS APIs (`cuda_runtime.h`, `cublas_v2.h`,
+`-lcublas`, `-lcudart`), the existing `cublas` build works on AMD hardware
+without any source changes — you just redirect the linker and runtime to
+ZLUDA's libraries.
+
+#### Prerequisites
+
+Install the [HIP SDK](https://rocm.docs.amd.com/en/latest/) and download
+ZLUDA from its [releases page](https://github.com/vosen/ZLUDA/releases).
+
+#### Linux
+
+Put ZLUDA's `libcuda.so` and `libcublas.so` where the linker and runtime can
+find them, then build and run as normal.  `CPATH` and `LIBRARY_PATH` are
+needed at **compile time**; `LD_LIBRARY_PATH` is needed at **runtime**:
+
+```sh
+export CPATH="/path/to/zluda/include:$CPATH"
+export LIBRARY_PATH="/path/to/zluda/lib:$LIBRARY_PATH"
+export LD_LIBRARY_PATH="/path/to/zluda/lib:$LD_LIBRARY_PATH"
+
+make
+fpm build --profile zluda
+MFI_USE_CUBLAS=1 ./build/gfortran_*/app/app
+```
+
+#### Windows
+
+Install AMD Software: Adrenalin Edition and the HIP SDK, then use the ZLUDA
+launcher (recommended) or manually prepend the ZLUDA DLL directory to `PATH`:
+
+```bat
+REM recommended: zluda launcher
+zluda -- fpm build --profile zluda
+
+REM or manually
+set PATH=C:\path\to\zluda;%PATH%
+fpm build --profile zluda
+```
+
+#### Consumer projects on AMD
+
+```toml
+# AMD GPU via ZLUDA (set env vars before building, LD_LIBRARY_PATH before running)
+mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas", features = ["zluda"] }
+```
+
+The `zluda` and `cublas` fpm features are identical in `fpm.toml`; both compile
+the same C/Fortran source. Use whichever name makes intent clearer in your
+project. Note that `features = ["cublas"]` also works — only the label differs.
+
+---
+
 ## Troubleshooting
 
 | Problem | Solution |
 |---------|----------|
 | `CUBLAS_STATUS_NOT_INITIALIZED` | cuBLAS handle not created. Set `MFI_USE_CUBLAS=1` or call `mfi_force_gpu` before the first BLAS call. |
-| `cuda_runtime.h not found` | CUDA Toolkit is not installed or not in your include path. See [gpu_test.ipynb](gpu_test.ipynb) for a working Colab setup. |
+| `cuda_runtime.h not found` | CUDA Toolkit (or ZLUDA headers) not in include path. See [gpu_test.ipynb](gpu_test.ipynb) for a Colab setup, or set `CPATH` to ZLUDA's `include/` directory. |
+| `libcublas.so not found` at runtime | `LD_LIBRARY_PATH` does not include CUDA/ZLUDA libs. Also ensure `CPATH` and `LIBRARY_PATH` were set at build time. |
+| ZLUDA: `HIP_VISIBLE_DEVICES` not set | On multi-GPU systems set `HIP_VISIBLE_DEVICES=0` (or the desired device index). |
+| ZLUDA: silent wrong results | Check `MFI_DEBUG=1` output and ensure ZLUDA version ≥ the latest pre-release. |
 | `i?amin` symbols missing | Your BLAS provider lacks extensions. Use the default profile (without `MFI_LINK_EXTERNAL`) or switch to OpenBLAS. |
 | Tests fail on CPU build | Known pre-existing failures: `cunmrq`, `sorg2r`, `sorgr2`, `cungr2`, `cung2r`, `sormrq`, `heevx` (segfault). |
 
