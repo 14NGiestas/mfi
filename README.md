@@ -30,6 +30,7 @@ cd mfi
 nix develop          # cpu-only shell with gfortran, fpm, fypp, BLAS, LAPACK
 nix develop .#gpu-modern   # with CUDA 12.3
 nix develop .#gpu-legacy   # with CUDA 11.8
+ZLUDA_PATH=/path/to/zluda nix develop .#gpu-zluda   # AMD GPU via ZLUDA
 make              # generates .f90 from .fpp/.fypp templates
 fpm test          # runs the test suite
 ```
@@ -168,7 +169,19 @@ ZLUDA from its [releases page](https://github.com/vosen/ZLUDA/releases).
 
 Put ZLUDA's `libcuda.so` and `libcublas.so` where the linker and runtime can
 find them, then build and run as normal.  `CPATH` and `LIBRARY_PATH` are
-needed at **compile time**; `LD_LIBRARY_PATH` is needed at **runtime**:
+needed at **compile time**; `LD_LIBRARY_PATH` is needed at **runtime**.
+
+**With Nix** (recommended): use the `gpu-zluda` devShell — it configures all
+three env vars automatically from `$ZLUDA_PATH`:
+
+```sh
+ZLUDA_PATH=/path/to/zluda nix develop .#gpu-zluda
+make
+fpm build --profile zluda
+MFI_USE_CUBLAS=1 ./build/gfortran_*/app/app
+```
+
+**Without Nix**: set the env vars manually:
 
 ```sh
 export CPATH="/path/to/zluda/include:$CPATH"

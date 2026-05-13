@@ -89,12 +89,42 @@
             export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath cpuLibs}:$LD_LIBRARY_PATH"
           '';
         };
+
+        # ZLUDA: drop-in CUDA/cuBLAS replacement for AMD GPUs.
+        # ZLUDA is not packaged in nixpkgs; download it from
+        # https://github.com/vosen/ZLUDA/releases and set ZLUDA_PATH before
+        # entering this shell:
+        #
+        #   ZLUDA_PATH=/path/to/zluda nix develop .#gpu-zluda
+        #
+        # ZLUDA's libcublas/libcudart are prepended so they override any system stubs.
+        mkZludaShell = pkgs.mkShell {
+          nativeBuildInputs = commonBuildInputs;
+          buildInputs = cpuLibs;
+          shellHook = ''
+            export LIBRARY_PATH="${pkgs.lib.makeLibraryPath cpuLibs}:$LIBRARY_PATH"
+            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath cpuLibs}:$LD_LIBRARY_PATH"
+            if [ -n "$ZLUDA_PATH" ]; then
+              export CPATH="$ZLUDA_PATH/include:$CPATH"
+              export LIBRARY_PATH="$ZLUDA_PATH/lib:$LIBRARY_PATH"
+              export LD_LIBRARY_PATH="$ZLUDA_PATH/lib:$LD_LIBRARY_PATH"
+              echo "ZLUDA shell ready (ZLUDA_PATH=$ZLUDA_PATH)."
+              echo "  Build: make && fpm build --profile zluda"
+              echo "  Run:   MFI_USE_CUBLAS=1 ./build/gfortran_*/app/app"
+            else
+              echo "WARNING: ZLUDA_PATH is not set — ZLUDA headers/libs will not be found."
+              echo "  Download ZLUDA from https://github.com/vosen/ZLUDA/releases"
+              echo "  then re-enter: ZLUDA_PATH=/path/to/zluda nix develop .#gpu-zluda"
+            fi
+          '';
+        };
       in
       {
         devShells = {
           cpu-only = mkCpuShell;
           gpu-modern = mkGpuShell { cudaLibs = cudaModernLibs; };
           gpu-legacy = mkGpuShell { cudaLibs = cudaLegacyLibs; };
+          gpu-zluda  = mkZludaShell;
           default = mkCpuShell;
         };
       }
