@@ -93,13 +93,20 @@
         # ZLUDA: drop-in CUDA/cuBLAS replacement for AMD GPUs (pkgs.zluda from nixpkgs).
         # ZLUDA provides libcublas/libcudart stubs that translate to HIP/ROCm at runtime.
         # CUDA headers (from cudaModern) are still needed at compile time.
+        # rocmPackages.clr provides the HIP runtime (libamdhip64); rocm-runtime provides
+        # the HSA runtime (libhsa-runtime64) — both are needed by ZLUDA at run time.
         # ZLUDA libs are prepended in LIBRARY_PATH/LD_LIBRARY_PATH so they take precedence
         # over any system CUDA stubs.
+        # The only host requirement is the AMD GPU kernel driver (amdgpu module + firmware).
+        rocmLibs = [
+          pkgs.rocmPackages.clr           # HIP runtime: libamdhip64.so + HIP headers
+          pkgs.rocmPackages.rocm-runtime  # HSA runtime: libhsa-runtime64.so
+        ];
         zludaLibs = [ pkgs.zluda ];
         mkZludaShell = pkgs.mkShell {
           nativeBuildInputs = commonBuildInputs;
-          # CPU libs + CUDA headers (compile time) + ZLUDA runtime libs
-          buildInputs = cpuLibs ++ zludaLibs ++ [
+          # CPU libs + CUDA headers (compile time) + ZLUDA runtime libs + ROCm/HIP stack
+          buildInputs = cpuLibs ++ zludaLibs ++ rocmLibs ++ [
             cudaModern.libcublas.dev
             cudaModern.cuda_cudart.dev
             cudaModern.cuda_cccl
@@ -111,9 +118,10 @@
               cudaModern.cuda_cudart.dev
               cudaModern.cuda_cccl
             ]}:$CPATH"
-            # ZLUDA libs first so they override any system libcublas/libcudart
-            export LIBRARY_PATH="${pkgs.lib.makeLibraryPath (zludaLibs ++ cpuLibs)}:$LIBRARY_PATH"
-            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath (zludaLibs ++ cpuLibs)}:$LD_LIBRARY_PATH"
+            # ZLUDA libs first so they override any system libcublas/libcudart;
+            # ROCm/HIP stack follows so ZLUDA can resolve libamdhip64/libhsa-runtime64
+            export LIBRARY_PATH="${pkgs.lib.makeLibraryPath (zludaLibs ++ rocmLibs ++ cpuLibs)}:$LIBRARY_PATH"
+            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath (zludaLibs ++ rocmLibs ++ cpuLibs)}:$LD_LIBRARY_PATH"
           '';
         };
       in

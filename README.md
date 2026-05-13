@@ -162,12 +162,19 @@ ZLUDA's libraries.
 
 #### Prerequisites
 
-Install the [HIP SDK](https://rocm.docs.amd.com/en/latest/).
-ZLUDA itself is provided by nixpkgs (`pkgs.zluda`) — no manual download needed.
+**With Nix**: no manual installation needed — `pkgs.zluda`, `rocmPackages.clr` (HIP
+runtime), and `rocmPackages.rocm-runtime` (HSA runtime) are all provided by the
+`gpu-zluda` devShell. The only host requirement is the
+[AMD GPU kernel driver](https://wiki.archlinux.org/title/AMDGPU) (the `amdgpu` kernel
+module and firmware), which Nix cannot provide.
+
+**Without Nix**: install the full [ROCm/HIP SDK](https://rocm.docs.amd.com/en/latest/)
+and download ZLUDA from its [releases page](https://github.com/vosen/ZLUDA/releases).
 
 #### Linux
 
-**With Nix** (recommended): `pkgs.zluda` is wired in automatically — no extra project env var configuration needed. You still need the AMD GPU driver and ROCm/HIP runtime installed on the host:
+**With Nix** (recommended): the entire ROCm/HIP userspace stack plus ZLUDA are
+provided automatically — just enter the shell and build:
 
 ```sh
 nix develop .#gpu-zluda
@@ -176,8 +183,8 @@ fpm build --profile zluda
 MFI_USE_CUBLAS=1 ./build/gfortran_*/app/app
 ```
 
-**Without Nix**: download ZLUDA from its [releases page](https://github.com/vosen/ZLUDA/releases)
-and set the env vars manually:
+**Without Nix**: after installing the ROCm/HIP SDK and ZLUDA (see Prerequisites above),
+set the env vars manually:
 
 ```sh
 export CPATH="/path/to/zluda/include:$CPATH"
