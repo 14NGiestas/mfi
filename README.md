@@ -167,7 +167,7 @@ ZLUDA itself is provided by nixpkgs (`pkgs.zluda`) — no manual download needed
 
 #### Linux
 
-**With Nix** (recommended): `pkgs.zluda` is used automatically — zero extra configuration:
+**With Nix** (recommended): `pkgs.zluda` is wired in automatically — no extra project env var configuration needed. You still need the AMD GPU driver and ROCm/HIP runtime installed on the host:
 
 ```sh
 nix develop .#gpu-zluda
