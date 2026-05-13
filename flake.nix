@@ -110,16 +110,19 @@
         mkZludaShell = pkgs.mkShell {
           nativeBuildInputs = commonBuildInputs;
           # CPU libs + CUDA headers (compile time) + ROCm/HIP stack (ZLUDA runtime deps)
+          # cuda_nvcc is required for crt/host_config.h (included transitively by cuda_runtime.h)
           buildInputs = cpuLibs ++ rocmLibs ++ [
             cudaModern.libcublas.dev
             cudaModern.cuda_cudart.dev
+            cudaModern.cuda_nvcc
             cudaModern.cuda_cccl
           ];
           shellHook = ''
-            # CUDA headers so cuda_runtime.h / cublas_v2.h are found at compile time
+            # CUDA headers so cuda_runtime.h / cublas_v2.h / crt/host_config.h are found
             export CPATH="${pkgs.lib.makeSearchPath "include" [
               cudaModern.libcublas.dev
               cudaModern.cuda_cudart.dev
+              cudaModern.cuda_nvcc
               cudaModern.cuda_cccl
             ]}:$CPATH"
             # ROCm/HIP stack so ZLUDA can resolve libamdhip64/libhsa-runtime64 at run time
