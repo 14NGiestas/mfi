@@ -1742,7 +1742,6 @@ end subroutine
 !> See also: [[mfi_heevx]], [[f77_heevx]].
 !> Computes selected eigenvalues and, optionally, eigenvectors
 !> of a complex Hermitian matrix.
-
 pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info)
     integer, parameter :: wp = REAL32
     complex(REAL32), intent(inout) :: a(:,:)
@@ -1759,8 +1758,6 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     complex(REAL32)      :: s_work(1)
     real(REAL32) :: s_rwork(1)
     integer       :: s_iwork(1)
-    ! Define a dummy array to use when needed (declarations first)
-    integer, target :: dummy_ifail(1)
     integer :: n, lda, ldz, lwork, allocation_status, deallocation_status
     logical :: owned_ifail
     character(1) :: jobz, range
@@ -1768,24 +1765,18 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     real(REAL32) :: local_vl, local_vu, local_abstol
     integer :: local_il, local_iu
     integer :: local_m, local_info
-
-    ! Initialize pointers to null to prevent deallocating unallocated pointers
     work => null()
     rwork => null()
     iwork => null()
     local_ifail => null()
     owned_ifail = .false.
-
-    ! Set defaults
     if (present(uplo)) then
         local_uplo = uplo
     else
         local_uplo = 'U'
     end if
     n = size(a, 1)
-    lda = max(1, size(a, 1))
-
-    ! Determine JOBZ based on presence of Z
+    lda = max(1, n)
     if (present(z)) then
         jobz = 'V'
         ldz = max(1, size(z, 1))
@@ -1793,9 +1784,6 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
         jobz = 'N'
         ldz = 1
     end if
-
-    ! Determine RANGE based on which optional parameters are present
-    ! Following reference implementation logic exactly:
     IF((PRESENT(vl).OR.PRESENT(vu)).AND.(PRESENT(il).OR.PRESENT(iu))) THEN
         local_info=-1001; GOTO 404
     ELSEIF((PRESENT(vl).OR.PRESENT(vu))) THEN
@@ -1805,98 +1793,46 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     ELSE
         range = 'A'
     ENDIF
-
-    ! Handle ifail allocation - following reference implementation logic exactly
-    IF(.NOT.PRESENT(z)) THEN
-        IF(PRESENT(ifail)) THEN
-            local_info=-1001; GOTO 404  ! Error: IFAIL provided but Z not present
-        ELSE
-            ! Point to dummy array when Z not present and IFAIL not present
-            local_ifail => dummy_ifail
-        ENDIF
+    ! Always provide ifail — LAPACK writes n elements to it
+    IF(PRESENT(ifail)) THEN
+        local_ifail => ifail
     ELSE
-        ! Z is present
-        IF(PRESENT(ifail)) THEN
-            local_ifail => ifail
-        ELSE
-            ! Allocate IFAIL when Z is present but IFAIL not provided
-            allocate(local_ifail(n), stat=allocation_status)
-            if (allocation_status /= 0) then
-                local_info = -1000
-                goto 404
-            end if
-            owned_ifail = .true.
-        ENDIF
+        allocate(local_ifail(n), stat=allocation_status)
+        if (allocation_status /= 0) then
+            local_info = -1000
+            goto 404
+        end if
+        owned_ifail = .true.
     ENDIF
-
-    ! Set defaults following reference implementation pattern exactly
-    ! Reference: IF(PRESENT(IL)) THEN O_IL = IL ELSE O_IL = 1 ENDIF
-    if (present(il)) then
-        local_il = il
-    else
-        local_il = 1
-    end if
-    if (present(iu)) then
-        local_iu = iu
-    else
-        local_iu = n
-    end if
-    if (present(vl)) then
-        local_vl = vl
-    else
-        local_vl = -huge(0.0_wp)
-    end if
-    if (present(vu)) then
-        local_vu = vu
-    else
-        local_vu = huge(0.0_wp)
-    end if
-    if (present(abstol)) then
-        local_abstol = abstol
-    else
-        local_abstol = 0.0_wp
-    end if
-
+    if (present(il)) then; local_il = il; else; local_il = 1; end if
+    if (present(iu)) then; local_iu = iu; else; local_iu = n; end if
+    if (present(vl)) then; local_vl = vl; else; local_vl = -huge(0.0_wp); end if
+    if (present(vu)) then; local_vu = vu; else; local_vu = huge(0.0_wp); end if
+    if (present(abstol)) then; local_abstol = abstol; else; local_abstol = 0.0_wp; end if
     allocation_status = 0
-
-    ! Query workspace sizes
     lwork = -1
-
-    ! For workspace query, use appropriate arrays based on presence
     if (present(z)) then
         call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                           local_il, local_iu, local_abstol, local_m, w, z, ldz, &
                           s_work, lwork, s_rwork, s_iwork, local_ifail, local_info)
     else
-        ! When z is not present, use a dummy array with correct size
-        ! Using a 1x1 array is safe since jobz='N' means z is not accessed
         call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                           local_il, local_iu, local_abstol, local_m, w, a, ldz, &
                           s_work, lwork, s_rwork, s_iwork, local_ifail, local_info)
     end if
-
     if (local_info /= 0) goto 404
-
-    ! Get the optimal workspace sizes from the query
-    lwork = max(1, int(real(s_work(1), wp)))
-
-    ! Allocate workspace arrays
-    allocate(work(lwork),   stat=allocation_status)
-    if (allocation_status == 0) then
-        allocate(rwork(max(1, int(s_rwork(1)))), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
+    lwork  = max(1, int(real(s_work(1), wp)))
+    allocate(work(lwork), stat=allocation_status)
+    if (allocation_status == 0) &
+        allocate(rwork(max(7*n, int(s_rwork(1)))), stat=allocation_status)
+    if (allocation_status == 0) &
         allocate(iwork(max(1, int(s_iwork(1)))), stat=allocation_status)
-    end if
-
     if (allocation_status == 0) then
-        ! Call main routine with actual workspace
         if (present(z)) then
             call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                               local_il, local_iu, local_abstol, local_m, w, z, ldz, &
                               work, lwork, rwork, iwork, local_ifail, local_info)
         else
-            ! When z not present, pass a as dummy array (safe when jobz='N')
             call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                               local_il, local_iu, local_abstol, local_m, w, a, ldz, &
                               work, lwork, rwork, iwork, local_ifail, local_info)
@@ -1904,17 +1840,11 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     else
         local_info = -1000
     end if
-
-    ! Set optional output parameters
     if (present(m)) m = local_m
-
-    ! Deallocate if local arrays were allocated
-    ! Only deallocate if we own the allocation (pointer is associated)
     if (associated(work)) deallocate(work, stat=deallocation_status)
     if (associated(rwork)) deallocate(rwork, stat=deallocation_status)
     if (associated(iwork)) deallocate(iwork, stat=deallocation_status)
     if (owned_ifail) deallocate(local_ifail, stat=deallocation_status)
-
 404 continue
     if (present(info)) then
         info = local_info
@@ -1926,7 +1856,6 @@ end subroutine
 !> See also: [[mfi_heevx]], [[f77_heevx]].
 !> Computes selected eigenvalues and, optionally, eigenvectors
 !> of a complex Hermitian matrix.
-
 pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info)
     integer, parameter :: wp = REAL64
     complex(REAL64), intent(inout) :: a(:,:)
@@ -1943,8 +1872,6 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     complex(REAL64)      :: s_work(1)
     real(REAL64) :: s_rwork(1)
     integer       :: s_iwork(1)
-    ! Define a dummy array to use when needed (declarations first)
-    integer, target :: dummy_ifail(1)
     integer :: n, lda, ldz, lwork, allocation_status, deallocation_status
     logical :: owned_ifail
     character(1) :: jobz, range
@@ -1952,24 +1879,18 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     real(REAL64) :: local_vl, local_vu, local_abstol
     integer :: local_il, local_iu
     integer :: local_m, local_info
-
-    ! Initialize pointers to null to prevent deallocating unallocated pointers
     work => null()
     rwork => null()
     iwork => null()
     local_ifail => null()
     owned_ifail = .false.
-
-    ! Set defaults
     if (present(uplo)) then
         local_uplo = uplo
     else
         local_uplo = 'U'
     end if
     n = size(a, 1)
-    lda = max(1, size(a, 1))
-
-    ! Determine JOBZ based on presence of Z
+    lda = max(1, n)
     if (present(z)) then
         jobz = 'V'
         ldz = max(1, size(z, 1))
@@ -1977,9 +1898,6 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
         jobz = 'N'
         ldz = 1
     end if
-
-    ! Determine RANGE based on which optional parameters are present
-    ! Following reference implementation logic exactly:
     IF((PRESENT(vl).OR.PRESENT(vu)).AND.(PRESENT(il).OR.PRESENT(iu))) THEN
         local_info=-1001; GOTO 404
     ELSEIF((PRESENT(vl).OR.PRESENT(vu))) THEN
@@ -1989,98 +1907,46 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     ELSE
         range = 'A'
     ENDIF
-
-    ! Handle ifail allocation - following reference implementation logic exactly
-    IF(.NOT.PRESENT(z)) THEN
-        IF(PRESENT(ifail)) THEN
-            local_info=-1001; GOTO 404  ! Error: IFAIL provided but Z not present
-        ELSE
-            ! Point to dummy array when Z not present and IFAIL not present
-            local_ifail => dummy_ifail
-        ENDIF
+    ! Always provide ifail — LAPACK writes n elements to it
+    IF(PRESENT(ifail)) THEN
+        local_ifail => ifail
     ELSE
-        ! Z is present
-        IF(PRESENT(ifail)) THEN
-            local_ifail => ifail
-        ELSE
-            ! Allocate IFAIL when Z is present but IFAIL not provided
-            allocate(local_ifail(n), stat=allocation_status)
-            if (allocation_status /= 0) then
-                local_info = -1000
-                goto 404
-            end if
-            owned_ifail = .true.
-        ENDIF
+        allocate(local_ifail(n), stat=allocation_status)
+        if (allocation_status /= 0) then
+            local_info = -1000
+            goto 404
+        end if
+        owned_ifail = .true.
     ENDIF
-
-    ! Set defaults following reference implementation pattern exactly
-    ! Reference: IF(PRESENT(IL)) THEN O_IL = IL ELSE O_IL = 1 ENDIF
-    if (present(il)) then
-        local_il = il
-    else
-        local_il = 1
-    end if
-    if (present(iu)) then
-        local_iu = iu
-    else
-        local_iu = n
-    end if
-    if (present(vl)) then
-        local_vl = vl
-    else
-        local_vl = -huge(0.0_wp)
-    end if
-    if (present(vu)) then
-        local_vu = vu
-    else
-        local_vu = huge(0.0_wp)
-    end if
-    if (present(abstol)) then
-        local_abstol = abstol
-    else
-        local_abstol = 0.0_wp
-    end if
-
+    if (present(il)) then; local_il = il; else; local_il = 1; end if
+    if (present(iu)) then; local_iu = iu; else; local_iu = n; end if
+    if (present(vl)) then; local_vl = vl; else; local_vl = -huge(0.0_wp); end if
+    if (present(vu)) then; local_vu = vu; else; local_vu = huge(0.0_wp); end if
+    if (present(abstol)) then; local_abstol = abstol; else; local_abstol = 0.0_wp; end if
     allocation_status = 0
-
-    ! Query workspace sizes
     lwork = -1
-
-    ! For workspace query, use appropriate arrays based on presence
     if (present(z)) then
         call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                           local_il, local_iu, local_abstol, local_m, w, z, ldz, &
                           s_work, lwork, s_rwork, s_iwork, local_ifail, local_info)
     else
-        ! When z is not present, use a dummy array with correct size
-        ! Using a 1x1 array is safe since jobz='N' means z is not accessed
         call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                           local_il, local_iu, local_abstol, local_m, w, a, ldz, &
                           s_work, lwork, s_rwork, s_iwork, local_ifail, local_info)
     end if
-
     if (local_info /= 0) goto 404
-
-    ! Get the optimal workspace sizes from the query
-    lwork = max(1, int(real(s_work(1), wp)))
-
-    ! Allocate workspace arrays
-    allocate(work(lwork),   stat=allocation_status)
-    if (allocation_status == 0) then
-        allocate(rwork(max(1, int(s_rwork(1)))), stat=allocation_status)
-    end if
-    if (allocation_status == 0) then
+    lwork  = max(1, int(real(s_work(1), wp)))
+    allocate(work(lwork), stat=allocation_status)
+    if (allocation_status == 0) &
+        allocate(rwork(max(7*n, int(s_rwork(1)))), stat=allocation_status)
+    if (allocation_status == 0) &
         allocate(iwork(max(1, int(s_iwork(1)))), stat=allocation_status)
-    end if
-
     if (allocation_status == 0) then
-        ! Call main routine with actual workspace
         if (present(z)) then
             call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                               local_il, local_iu, local_abstol, local_m, w, z, ldz, &
                               work, lwork, rwork, iwork, local_ifail, local_info)
         else
-            ! When z not present, pass a as dummy array (safe when jobz='N')
             call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
                               local_il, local_iu, local_abstol, local_m, w, a, ldz, &
                               work, lwork, rwork, iwork, local_ifail, local_info)
@@ -2088,17 +1954,11 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     else
         local_info = -1000
     end if
-
-    ! Set optional output parameters
     if (present(m)) m = local_m
-
-    ! Deallocate if local arrays were allocated
-    ! Only deallocate if we own the allocation (pointer is associated)
     if (associated(work)) deallocate(work, stat=deallocation_status)
     if (associated(rwork)) deallocate(rwork, stat=deallocation_status)
     if (associated(iwork)) deallocate(iwork, stat=deallocation_status)
     if (owned_ifail) deallocate(local_ifail, stat=deallocation_status)
-
 404 continue
     if (present(info)) then
         info = local_info
