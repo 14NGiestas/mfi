@@ -1824,9 +1824,9 @@ pure subroutine mfi_cheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     lwork  = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) &
-        allocate(rwork(max(7*n, int(s_rwork(1)))), stat=allocation_status)
+        allocate(rwork(7*n), stat=allocation_status)
     if (allocation_status == 0) &
-        allocate(iwork(max(1, int(s_iwork(1)))), stat=allocation_status)
+        allocate(iwork(5*n), stat=allocation_status)
     if (allocation_status == 0) then
         if (present(z)) then
             call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &
@@ -1938,9 +1938,9 @@ pure subroutine mfi_zheevx(a, w, uplo, z, vl, vu, il, iu, m, ifail, abstol, info
     lwork  = max(1, int(real(s_work(1), wp)))
     allocate(work(lwork), stat=allocation_status)
     if (allocation_status == 0) &
-        allocate(rwork(max(7*n, int(s_rwork(1)))), stat=allocation_status)
+        allocate(rwork(7*n), stat=allocation_status)
     if (allocation_status == 0) &
-        allocate(iwork(max(1, int(s_iwork(1)))), stat=allocation_status)
+        allocate(iwork(5*n), stat=allocation_status)
     if (allocation_status == 0) then
         if (present(z)) then
             call f77_heevx(jobz, range, local_uplo, n, a, lda, local_vl, local_vu, &

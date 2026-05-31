@@ -1,38 +1,89 @@
-module f77_blas_her
+module mfi_blas_her
     use iso_fortran_env
+    use f77_blas
+#if defined(MFI_CUBLAS)
     use iso_c_binding
+    use mfi_blas_cublas
+#endif
+#if defined(MFI_EXTENSIONS)
+    use mfi_blas_extensions
+#endif
     implicit none
 
-!> Generic old style interface for HER.
+!> Generic modern interface for HER.
 !> Supports c, z.
-!> See also: [[mfi_her]], [[cher]], [[zher]].
-interface f77_her
-!> Original interface for CHER
-!> See also: [[mfi_her]], [[her]].
-pure subroutine cher(uplo, n, alpha, x, incx, a, lda)
-    import :: REAL32
-    integer, parameter :: wp = REAL32
-    complex(REAL32), intent(in) :: x(*)
-    complex(REAL32), intent(inout) :: a(lda,*)
-    character, intent(in) :: uplo
-    real(wp), intent(in) :: alpha
-    integer, intent(in) :: n
-    integer, intent(in) :: lda
-    integer, intent(in) :: incx
-end subroutine
-!> Original interface for ZHER
-!> See also: [[mfi_her]], [[her]].
-pure subroutine zher(uplo, n, alpha, x, incx, a, lda)
-    import :: REAL64
-    integer, parameter :: wp = REAL64
-    complex(REAL64), intent(in) :: x(*)
-    complex(REAL64), intent(inout) :: a(lda,*)
-    character, intent(in) :: uplo
-    real(wp), intent(in) :: alpha
-    integer, intent(in) :: n
-    integer, intent(in) :: lda
-    integer, intent(in) :: incx
-end subroutine
+!> See also:
+!> [[f77_her:cher]], [[f77_her:zher]].
+interface mfi_her
+    module procedure :: mfi_cher
+    module procedure :: mfi_zher
 end interface
+
+contains
+
+!> Modern interface for [[f77_her:f77_her]].
+!> See also: [[mfi_her]], [[f77_her]].
+pure subroutine mfi_cher(a, x, uplo, alpha, incx)
+    integer, parameter :: wp = REAL32
+    complex(REAL32), intent(in) :: x(:)
+    complex(REAL32), intent(inout) :: a(:,:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    real(wp), intent(in), optional :: alpha
+    real(wp) :: local_alpha
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n, lda
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    if (present(alpha)) then
+        local_alpha = alpha
+    else
+        local_alpha = 1.0_wp
+    end if
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    call f77_her(local_uplo,n,local_alpha,x,local_incx,a,lda)
+end subroutine
+!> Modern interface for [[f77_her:f77_her]].
+!> See also: [[mfi_her]], [[f77_her]].
+pure subroutine mfi_zher(a, x, uplo, alpha, incx)
+    integer, parameter :: wp = REAL64
+    complex(REAL64), intent(in) :: x(:)
+    complex(REAL64), intent(inout) :: a(:,:)
+    character, intent(in), optional :: uplo
+    character :: local_uplo
+    real(wp), intent(in), optional :: alpha
+    real(wp) :: local_alpha
+    integer, intent(in), optional :: incx
+    integer :: local_incx
+    integer :: n, lda
+    if (present(uplo)) then
+        local_uplo = uplo
+    else
+        local_uplo = 'U'
+    end if
+    if (present(alpha)) then
+        local_alpha = alpha
+    else
+        local_alpha = 1.0_wp
+    end if
+    if (present(incx)) then
+        local_incx = incx
+    else
+        local_incx = 1
+    end if
+    lda = max(1,size(a,1))
+    n = size(a,2)
+    call f77_her(local_uplo,n,local_alpha,x,local_incx,a,lda)
+end subroutine
 end module
 
