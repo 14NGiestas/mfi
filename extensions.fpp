@@ -11,6 +11,8 @@ public :: mfi_iamin, mfi_isamin, mfi_idamin, mfi_icamin, mfi_izamin
 public :: mfi_force_gpu, mfi_force_cpu
 public :: mfi_cublas_finalize, mfi_cublas_is_active
 public :: mfi_cublas_set_threads, mfi_cublas_handle_count
+public :: mfi_hip_finalize, mfi_hip_is_active
+public :: mfi_hip_set_threads, mfi_hip_handle_count
 #:enddef
 
 #:def mfi_extensions_implement()
@@ -47,8 +49,42 @@ pure function mfi_cublas_handle_get() result(handle)
 #endif
 end function
 
-!> Switch to GPU mode (no-op when compiled without cuBLAS)
-#if defined(MFI_CUBLAS)
+!> Returns .true. when the rocBLAS path is active (pure, delegates to C)
+pure logical function mfi_hip_is_active() result(active)
+#if defined(MFI_HIP)
+    use mfi_blas_hip, only: mfi_hip_lazy_init_c
+    call mfi_hip_lazy_init_c()
+    active = mfi_hip_is_active_c() /= 0
+#else
+    active = .false.
+#endif
+end function
+
+!> Get the rocBLAS handle for the current thread (pure, delegates to C)
+pure function mfi_hip_handle_get() result(handle)
+#if defined(MFI_HIP)
+    use mfi_blas_hip, only: mfi_hip_handle_get_c
+    type(c_ptr) :: handle
+    type(c_ptr) :: h
+    integer(c_int) :: stat
+    call mfi_hip_handle_get_c(h, stat)
+    handle = h
+    if (.not. c_associated(handle)) &
+        error stop 'mfi: thread ID out of range. '// &
+                   'Set OMP_NUM_THREADS before running with MFI_USE_HIP=1.'
+#else
+    type(c_ptr) :: handle
+    handle = c_null_ptr
+#endif
+end function
+
+!> Switch to GPU mode (no-op when compiled without a GPU backend)
+#if defined(MFI_HIP)
+subroutine mfi_force_gpu()
+    use mfi_blas_hip, only: mfi_hip_force_gpu_c
+    call mfi_hip_force_gpu_c()
+end subroutine
+#elif defined(MFI_CUBLAS)
 subroutine mfi_force_gpu()
     use mfi_blas_cublas, only: mfi_cublas_force_gpu_c
     call mfi_cublas_force_gpu_c()
@@ -58,8 +94,13 @@ subroutine mfi_force_gpu()
 end subroutine
 #endif
 
-!> Switch to CPU mode (no-op when compiled without cuBLAS)
-#if defined(MFI_CUBLAS)
+!> Switch to CPU mode (no-op when compiled without a GPU backend)
+#if defined(MFI_HIP)
+subroutine mfi_force_cpu()
+    use mfi_blas_hip, only: mfi_hip_force_cpu_c
+    call mfi_hip_force_cpu_c()
+end subroutine
+#elif defined(MFI_CUBLAS)
 subroutine mfi_force_cpu()
     use mfi_blas_cublas, only: mfi_cublas_force_cpu_c
     call mfi_cublas_force_cpu_c()
@@ -131,6 +172,78 @@ pure subroutine mfi_cublas_error(stat, name)
     end select
 
     write(msg, '(A, I0, A, A, A)') 'cuBLAS error: ', stat, ' [', trim(stat_str), '] (' // trim(name) // ')'
+    error stop msg
+end subroutine
+#endif
+
+!> Finalize all rocBLAS handles (no-op when compiled without HIP)
+#if defined(MFI_HIP)
+subroutine mfi_hip_finalize()
+    use mfi_blas_hip, only: mfi_hip_finalize_all
+    integer(c_int) :: stat
+    call mfi_hip_finalize_all(stat)
+end subroutine
+#else
+subroutine mfi_hip_finalize()
+end subroutine
+#endif
+
+!> Set number of rocBLAS handles for multi-threaded GPU use (no-op when no HIP)
+#if defined(MFI_HIP)
+subroutine mfi_hip_set_threads(n)
+    use mfi_blas_hip, only: mfi_hip_set_threads_c
+    integer, intent(in) :: n
+    call mfi_hip_set_threads_c(n)
+end subroutine
+#else
+subroutine mfi_hip_set_threads(n)
+    integer, intent(in) :: n
+end subroutine
+#endif
+
+!> Return current rocBLAS handle count (0 when no HIP)
+#if defined(MFI_HIP)
+function mfi_hip_handle_count() result(n)
+    use mfi_blas_hip, only: mfi_hip_handle_count_c
+    integer :: n
+    n = mfi_hip_handle_count_c()
+end function
+#else
+function mfi_hip_handle_count() result(n)
+    integer :: n
+    n = 0
+end function
+#endif
+
+!> Report rocBLAS error (called from pure wrappers)
+#if defined(MFI_HIP)
+pure subroutine mfi_hip_error(stat, name)
+    integer(c_int), value, intent(in) :: stat
+    character(*), intent(in) :: name
+    character(len=140) :: msg
+    character(len=40) :: stat_str
+
+    select case(stat)
+        case (ROCBLAS_STATUS_SUCCESS);               stat_str = 'ROCBLAS_STATUS_SUCCESS'
+        case (ROCBLAS_STATUS_INVALID_HANDLE);        stat_str = 'ROCBLAS_STATUS_INVALID_HANDLE'
+        case (ROCBLAS_STATUS_NOT_IMPLEMENTED);       stat_str = 'ROCBLAS_STATUS_NOT_IMPLEMENTED'
+        case (ROCBLAS_STATUS_INVALID_POINTER);       stat_str = 'ROCBLAS_STATUS_INVALID_POINTER'
+        case (ROCBLAS_STATUS_INVALID_SIZE);          stat_str = 'ROCBLAS_STATUS_INVALID_SIZE'
+        case (ROCBLAS_STATUS_MEMORY_ERROR);          stat_str = 'ROCBLAS_STATUS_MEMORY_ERROR'
+        case (ROCBLAS_STATUS_INTERNAL_ERROR);        stat_str = 'ROCBLAS_STATUS_INTERNAL_ERROR'
+        case (ROCBLAS_STATUS_PERF_DEGRADED);         stat_str = 'ROCBLAS_STATUS_PERF_DEGRADED'
+        case (ROCBLAS_STATUS_SIZE_QUERY_MISMATCH);   stat_str = 'ROCBLAS_STATUS_SIZE_QUERY_MISMATCH'
+        case (ROCBLAS_STATUS_SIZE_INCREASED);        stat_str = 'ROCBLAS_STATUS_SIZE_INCREASED'
+        case (ROCBLAS_STATUS_SIZE_UNCHANGED);        stat_str = 'ROCBLAS_STATUS_SIZE_UNCHANGED'
+        case (ROCBLAS_STATUS_INVALID_VALUE);         stat_str = 'ROCBLAS_STATUS_INVALID_VALUE'
+        case (ROCBLAS_STATUS_CONTINUE);              stat_str = 'ROCBLAS_STATUS_CONTINUE'
+        case (ROCBLAS_STATUS_CHECK_NUMERICS_FAIL);   stat_str = 'ROCBLAS_STATUS_CHECK_NUMERICS_FAIL'
+        case (ROCBLAS_STATUS_EXCLUDED_FROM_BUILD);   stat_str = 'ROCBLAS_STATUS_EXCLUDED_FROM_BUILD'
+        case (ROCBLAS_STATUS_ARCH_MISMATCH);         stat_str = 'ROCBLAS_STATUS_ARCH_MISMATCH'
+        case default;                                stat_str = 'UNKNOWN_ROCBLAS_ERROR'
+    end select
+
+    write(msg, '(A, I0, A, A, A)') 'rocBLAS error: ', stat, ' [', trim(stat_str), '] (' // trim(name) // ')'
     error stop msg
 end subroutine
 #endif

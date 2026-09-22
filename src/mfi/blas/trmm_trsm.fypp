@@ -55,6 +55,72 @@ pure subroutine ${MFI_NAME}$(a, b, side, uplo, transa, diag, alpha)
         return
     end if
 #endif
+#if defined(MFI_EXTENSIONS) && defined(MFI_HIP)
+    ! rocBLAS reads device buffers sized from the array shapes.
+    ! A wrong triangular order or size would read out of bounds.
+    ! mfi_trmm and mfi_trsm have no status argument, so a bad shape must stop.
+    ! The check runs in the HIP build for both GPU and CPU calls.
+    block
+    character(len=200) :: hip_msg
+    integer :: side_order
+    if (local_side == 'L' .or. local_side == 'l') then
+        side_order = m
+    else
+        side_order = n
+    end if
+    if (size(a,1) /= size(a,2)) then
+        write(hip_msg,'(A,I0,A,I0,A)') '${MFI_NAME}$ (HIP): A must be square, but has ', &
+            size(a,1), ' rows and ', size(a,2), ' columns.'
+        error stop hip_msg
+    end if
+    if (size(a,1) < side_order) then
+        write(hip_msg,'(A,I0,A,I0,A)') '${MFI_NAME}$ (HIP): A side needs at least ', side_order, &
+            ' rows, but has ', size(a,1), '. Fix the shapes.'
+        error stop hip_msg
+    end if
+    end block
+    if (mfi_hip_is_active()) then
+        block
+        @:hip_declare(a,b)
+        integer(c_int) :: hip_side, hip_uplo, hip_transa, hip_diag, hip_stat
+        ${type(wp)}$, target :: alpha_target
+        type(c_ptr) :: handle
+        handle = mfi_hip_handle_get()
+        @:hip_allocate(a,b)
+        if (local_side == 'L' .or. local_side == 'l') then
+            hip_side = ROCBLAS_SIDE_LEFT
+        else
+            hip_side = ROCBLAS_SIDE_RIGHT
+        end if
+        if (local_uplo == 'U' .or. local_uplo == 'u') then
+            hip_uplo = ROCBLAS_TRSM_FILL_UPPER
+        else
+            hip_uplo = ROCBLAS_TRSM_FILL_LOWER
+        end if
+        if (local_transa == 'N' .or. local_transa == 'n') then
+            hip_transa = ROCBLAS_OP_N
+        else if (local_transa == 'T' .or. local_transa == 't') then
+            hip_transa = ROCBLAS_OP_T
+        else
+            hip_transa = ROCBLAS_OP_C
+        end if
+        if (local_diag == 'U' .or. local_diag == 'u') then
+            hip_diag = ROCBLAS_DIAG_UNIT
+        else
+            hip_diag = ROCBLAS_DIAG_NON_UNIT
+        end if
+        alpha_target = local_alpha
+        @:hip_set_matrix(a,b)
+        hip_stat = rocblas_${wp}$${F77_NAME.replace('f77_','')}$(handle, hip_side, hip_uplo, hip_transa, hip_diag, &
+                 int(m,c_int), int(n,c_int), c_loc(alpha_target), &
+                 device_a, int(lda,c_int), device_b, int(ldb,c_int))
+        if (hip_stat /= 0) call mfi_hip_error(hip_stat, '${F77_NAME}$')
+        @:hip_get_matrix(b)
+        @:hip_deallocate(a,b)
+        end block
+        return
+    end if
+#endif
     call ${F77_NAME}$(local_side,local_uplo,local_transa,local_diag,m,n,local_alpha,a,lda,b,ldb)
 end subroutine
 #:enddef

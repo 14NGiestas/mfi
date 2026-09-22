@@ -62,6 +62,13 @@ subroutine test_${f77 + suffix}$
         call mfi_force_cpu()
         @:assert_close(B_in, B_rf, 'GPU:${mfi}$:' // side // uplo // transa // diag, ${wp}$)
 #endif
+#if defined(MFI_HIP)
+        call mfi_force_gpu()
+        B_in = B
+        call ${mfi}$(A, B_in, side=side, uplo=uplo, transa=transa, diag=diag, alpha=alpha)
+        call mfi_force_cpu()
+        @:assert_close(B_in, B_rf, 'GPU:${mfi}$:' // side // uplo // transa // diag, ${wp}$)
+#endif
 
     end do
     end do

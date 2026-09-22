@@ -227,6 +227,81 @@ project. Note that `features = ["cublas"]` also works — only the label differs
 
 ---
 
+## Native HIP and rocBLAS backend
+
+MFI can dispatch BLAS calls to native rocBLAS on an AMD GPU. This path uses no
+CUDA and no ZLUDA. It calls rocBLAS and the HIP runtime library directly.
+
+The `hip` feature mirrors the `cublas` feature. The same `mfi_gemm`, `mfi_gemv`,
+`mfi_trmm` and `mfi_trsm` calls run on the GPU. The runtime env var is
+`MFI_USE_HIP`.
+
+### Build with rocBLAS
+
+Point the compiler at your rocBLAS and HIP install, then build as usual:
+
+```sh
+# Set these two variables to match your ROCm install.
+export ROCBLAS_PREFIX=/opt/rocm        # provides include/rocblas and lib/librocblas
+export HIP_PATH=/opt/rocm              # provides include/hip and lib/libamdhip64
+
+export CPATH="$ROCBLAS_PREFIX/include:$HIP_PATH/include:$CPATH"
+export LIBRARY_PATH="$ROCBLAS_PREFIX/lib:$HIP_PATH/lib:$LIBRARY_PATH"
+export LD_LIBRARY_PATH="$ROCBLAS_PREFIX/lib:$HIP_PATH/lib:$LD_LIBRARY_PATH"
+
+make
+fpm build --profile hip
+fpm test --profile hip
+```
+
+The header is included as `<rocblas/rocblas.h>`, so `CPATH` holds the parent of
+the `rocblas` directory.
+
+### Runtime CPU and GPU switching
+
+Lazy initialization applies here too. No setup code is needed. Set
+`MFI_USE_HIP` to 1 to send BLAS calls to the GPU:
+
+```sh
+# CPU (default)
+./build/app/app
+
+# GPU
+MFI_USE_HIP=1 ./build/app/app
+
+# GPU with one rocBLAS handle per OpenMP thread
+MFI_USE_HIP=1 OMP_NUM_THREADS=8 ./build/app/app
+```
+
+The functions `mfi_force_gpu` and `mfi_force_cpu` switch the path inside a
+program. They work for both GPU backends. Call `mfi_hip_finalize()` to release
+the rocBLAS handles at the end of a program.
+
+### Array shape checks
+
+The routines `mfi_gemm`, `mfi_gemv`, `mfi_trmm` and `mfi_trsm` have no status
+argument. A caller cannot read an error code. So the HIP build checks the array
+shapes first. On a mismatch the program stops with a message:
+
+```
+ERROR STOP mfi_dgemm (HIP): B needs 4 columns for transb=N, but has 5. Fix the shapes.
+```
+
+The check runs in every build made with the `hip` feature. The check also covers
+CPU calls from that build. A check that a caller can ignore is no check.
+
+### ZLUDA or native HIP?
+
+Use the `hip` feature on a machine with ROCm. Use the `zluda` feature only when
+the machine cannot install ROCm.
+
+```toml
+# AMD GPU with native rocBLAS
+mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm", features = ["hip"] }
+```
+
+---
+
 ## Troubleshooting
 
 | Problem | Solution |
@@ -238,6 +313,9 @@ project. Note that `features = ["cublas"]` also works — only the label differs
 | ZLUDA: silent wrong results | Check `MFI_DEBUG=1` output and ensure ZLUDA version ≥ the latest pre-release. |
 | `i?amin` symbols missing | Your BLAS provider lacks extensions. Use the default profile (without `MFI_LINK_EXTERNAL`) or switch to OpenBLAS. |
 | Tests fail on CPU build | Known pre-existing failures: `cunmrq`, `sorg2r`, `sorgr2`, `cungr2`, `cung2r`, `sormrq`, `heevx` (segfault). |
+| HIP: `rocblas/rocblas.h not found` | rocBLAS headers are not in the include path. Set `CPATH` as shown in the HIP section. |
+| HIP: `librocblas.so not found` | rocBLAS libraries are not in the library path. Set `LIBRARY_PATH` for the build and `LD_LIBRARY_PATH` for the run. |
+| HIP: `ERROR STOP mfi_* (HIP): ... Fix the shapes.` | An array shape breaks the BLAS contract. The HIP build stops instead of computing a wrong result. See the HIP section. |
 
 ---
 

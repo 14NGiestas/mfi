@@ -55,6 +55,86 @@ pure subroutine ${MFI_NAME}$(a, b, c, transa, transb, alpha, beta)
         return
     end if
 #endif
+#if defined(MFI_EXTENSIONS) && defined(MFI_HIP)
+    ! rocBLAS reads a device buffer sized from the array shapes.
+    ! A wrong shape would read out of bounds and return a garbage result.
+    ! mfi_gemm has no status argument, so a bad shape must stop the program.
+    ! The check runs in the HIP build for both GPU and CPU calls.
+    block
+    character(len=200) :: hip_msg
+    if (local_transa == 'N' .or. local_transa == 'n') then
+        if (size(a,1) /= m) then
+            write(hip_msg,'(A,I0,A,I0,A)') '${MFI_NAME}$ (HIP): A needs ', m, &
+                ' rows for transa=N, but has ', size(a,1), '. Fix the shapes.'
+            error stop hip_msg
+        end if
+    else
+        if (size(a,2) /= m) then
+            write(hip_msg,'(A,I0,A,I0,A)') '${MFI_NAME}$ (HIP): A needs ', m, &
+                ' columns for a transpose, but has ', size(a,2), '. Fix the shapes.'
+            error stop hip_msg
+        end if
+    end if
+    if (local_transb == 'N' .or. local_transb == 'n') then
+        if (size(b,1) /= k) then
+            write(hip_msg,'(A,I0,A,I0,A)') '${MFI_NAME}$ (HIP): B needs ', k, &
+                ' rows for transb=N, but has ', size(b,1), '. Fix the shapes.'
+            error stop hip_msg
+        end if
+        if (size(b,2) /= n) then
+            write(hip_msg,'(A,I0,A,I0,A)') '${MFI_NAME}$ (HIP): B needs ', n, &
+                ' columns for transb=N, but has ', size(b,2), '. Fix the shapes.'
+            error stop hip_msg
+        end if
+    else
+        if (size(b,1) /= n) then
+            write(hip_msg,'(A,I0,A,I0,A)') '${MFI_NAME}$ (HIP): B needs ', n, &
+                ' rows for a transpose, but has ', size(b,1), '. Fix the shapes.'
+            error stop hip_msg
+        end if
+        if (size(b,2) /= k) then
+            write(hip_msg,'(A,I0,A,I0,A)') '${MFI_NAME}$ (HIP): B needs ', k, &
+                ' columns for a transpose, but has ', size(b,2), '. Fix the shapes.'
+            error stop hip_msg
+        end if
+    end if
+    end block
+    if (mfi_hip_is_active()) then
+        block
+        @:hip_declare(a,b,c)
+        integer(c_int) :: op_a, op_b, hip_stat
+        ${type(wp)}$, target :: alpha_target, beta_target
+        type(c_ptr) :: handle
+        handle = mfi_hip_handle_get()
+        @:hip_allocate(a,b,c)
+        if (local_transa == 'N' .or. local_transa == 'n') then
+            op_a = ROCBLAS_OP_N
+        else if (local_transa == 'T' .or. local_transa == 't') then
+            op_a = ROCBLAS_OP_T
+        else
+            op_a = ROCBLAS_OP_C
+        end if
+        if (local_transb == 'N' .or. local_transb == 'n') then
+            op_b = ROCBLAS_OP_N
+        else if (local_transb == 'T' .or. local_transb == 't') then
+            op_b = ROCBLAS_OP_T
+        else
+            op_b = ROCBLAS_OP_C
+        end if
+        alpha_target = local_alpha
+        beta_target = local_beta
+        @:hip_set_matrix(a,b,c)
+        hip_stat = rocblas_${wp}$gemm(handle, op_a, op_b, &
+                 int(m,c_int), int(n,c_int), int(k,c_int), &
+                 c_loc(alpha_target), device_a, int(lda,c_int), &
+                 device_b, int(ldb,c_int), c_loc(beta_target), device_c, int(ldc,c_int))
+        if (hip_stat /= 0) call mfi_hip_error(hip_stat, '${wp}$gemm')
+        @:hip_get_matrix(c)
+        @:hip_deallocate(a,b,c)
+        end block
+        return
+    end if
+#endif
     call ${F77_NAME}$(local_transa,local_transb,m,n,k,local_alpha,a,lda,b,ldb,local_beta,c,ldc)
 end subroutine
 #:enddef

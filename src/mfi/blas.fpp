@@ -1,6 +1,7 @@
 #:mute
 #:include "common.fpp"
 #:include "cublas.fpp"
+#:include "hip.fpp"
 #:include "extensions.fpp"
 #! MFI BLAS macros
 #:include "src/mfi/blas/axpy.fypp"
@@ -94,6 +95,10 @@ module mfi_blas_${_modname(name)}$
     use iso_c_binding
     use mfi_blas_cublas
 #endif
+#if defined(MFI_HIP)
+    use iso_c_binding
+    use mfi_blas_hip
+#endif
 #if defined(MFI_EXTENSIONS)
     use mfi_blas_extensions
 #endif
@@ -118,6 +123,16 @@ $:cublas_interfaces()
 #endif
 end module
 
+!> rocBLAS interfaces and constants
+module mfi_blas_hip
+#if defined(MFI_EXTENSIONS) && defined(MFI_HIP)
+    use iso_c_binding
+    implicit none
+
+$:hip_interfaces()
+#endif
+end module
+
 !> Extensions module
 module mfi_blas_extensions
 #if defined(MFI_EXTENSIONS)
@@ -126,6 +141,10 @@ module mfi_blas_extensions
 #if defined(MFI_CUBLAS)
     use iso_c_binding
     use mfi_blas_cublas
+#endif
+#if defined(MFI_HIP)
+    use iso_c_binding
+    use mfi_blas_hip
 #endif
     implicit none
 
@@ -149,6 +168,9 @@ module mfi_blas
 #:endfor
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS) 
     use mfi_blas_cublas
+    use mfi_blas_extensions
+#elif defined(MFI_EXTENSIONS) && defined(MFI_HIP)
+    use mfi_blas_hip
     use mfi_blas_extensions
 #elif defined(MFI_EXTENSIONS)
     use mfi_blas_extensions

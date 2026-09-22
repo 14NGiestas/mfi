@@ -25,6 +25,12 @@ fpm test
 make
 fpm build --profile cublas
 fpm test --profile cublas
+
+# AMD GPU with native HIP and rocBLAS
+# Set CPATH and LIBRARY_PATH first. See README.md.
+make
+fpm build --profile hip
+fpm test --profile hip
 ```
 
 > **Note:** `gpu-modern` CI uses `--profile debug` to avoid a gfortran -O2 optimizer
@@ -69,7 +75,9 @@ A single `flake.nix` provides all dev shells (replaces old `shells/*.nix`):
 ### Macro Files (edit these)
 - `common.fpp` — Core fypp macros: type prefixes (`s`,`d`,`c`,`z`), `@:optional`, `@:defaults`, interface generators
 - `cublas.fpp` — CUDA/cuBLAS v2 C-interop interfaces (`pure` + `VALUE` on all `bind(c)` args), `@:allocate`, `@:deallocate`, `@:set_matrix`, `@:get_matrix` macros, cuBLAS constants
-- `extensions.fpp` — cuBLAS handle lifecycle (`mfi_cublas_handle_ensure`, `mfi_cublas_finalize`), execution mode control (`mfi_force_gpu`, `mfi_force_cpu`), `mfi_cublas_error`
+- `hip.fpp` — HIP/rocBLAS C-interop interfaces and constants, plus the `hip_` prefixed versions of the allocation macros
+- `src/c/hip_wrap.c` — rocBLAS handle pool, HIP memory helpers, the `MFI_USE_HIP` env var
+- `extensions.fpp` — cuBLAS handle lifecycle (`mfi_cublas_handle_ensure`, `mfi_cublas_finalize`), execution mode control (`mfi_force_gpu`, `mfi_force_cpu`), `mfi_cublas_error`, and the rocBLAS equivalents (`mfi_hip_finalize`, `mfi_hip_error`)
 
 ### Source Macros (edit these)
 - `src/mfi/blas/*.fypp` — MFI modern wrapper implementations
@@ -87,6 +95,8 @@ A single `flake.nix` provides all dev shells (replaces old `shells/*.nix`):
 |------|------|---------|
 | `MFI_CUBLAS` | Preprocessor macro | Enables cuBLAS code at compile time (set by fpm `cublas` feature) |
 | `MFI_USE_CUBLAS` | Internal variable + env var | Runtime GPU dispatch flag (read from env var on lazy init) |
+| `MFI_HIP` | Preprocessor macro | Enables the rocBLAS code at compile time (set by the fpm `hip` feature) |
+| `MFI_USE_HIP` | Internal variable + env var | Runtime rocBLAS dispatch flag (read from env var on lazy init) |
 | `MFI_EXTENSIONS` | Preprocessor macro | Enables BLAS extension routines (iamin, iamax, lamch) |
 | `MFI_LINK_EXTERNAL` | Preprocessor macro | Links external BLAS extensions |
 
@@ -134,6 +144,33 @@ end function
 - **TRSM fill mode is inverted:** `CUBLAS_TRSM_FILL_UPPER = 1`, `CUBLAS_TRSM_FILL_LOWER = 0` (opposite of standard BLAS enums)
 - cuBLAS v1 (`cublasAlloc`/`cublasSgemm`) is deprecated — use v2 (`cudaMalloc`, `cublasCreate_v2`, `cublasSgemm_v2`, etc.)
 
+## HIP and rocBLAS Specifics
+
+- `hip.fpp` and `src/c/hip_wrap.c` mirror `cublas.fpp` and `src/c/cublas_wrap.c`.
+- Fypp holds one macro table for the whole run. Both backend files pass through
+  fypp. So every HIP macro carries the `hip_` prefix. A second macro named
+  `declare` would overwrite the cuBLAS macro.
+- rocBLAS has no v2 symbol suffix. The Fortran interfaces bind to `rocblas_sgemm`
+  and its siblings in module `f77_blas_hip`.
+- rocBLAS enums differ from cuBLAS. `rocblas_operation_none` is 111 and
+  `rocblas_operation_transpose` is 112. The constants live in `hip.fpp`.
+- The TRSM fill mode needs no inversion here. `rocblas_fill_upper` is 121.
+- The wrapper creates one handle per thread and sets the host pointer mode. It
+  reads `OMP_NUM_THREADS` for the handle count.
+- `rocblas_create_handle` needs a live HIP runtime. `hip_wrap.c` calls
+  `hipInit(0)` after a failed create, then it retries once.
+- The feature links `librocblas`, `libamdhip64` and `libgomp`.
+- `mfi_gemm`, `mfi_gemv`, `mfi_trmm` and `mfi_trsm` check the array shapes in a
+  `hip` build. On a mismatch the code calls `error stop` with a message. These
+  routines have no status argument, so a caller cannot read an error code. Do
+  not turn the check into a returned code.
+- The check covers GPU calls and the CPU fallback of a `hip` build.
+- Set `CPATH` for the C wrapper and `LIBRARY_PATH` for the link step. Both need
+  the rocBLAS and HIP directories. Set `LD_LIBRARY_PATH` for the run.
+- A path dependency can lose its `features` entry on a second build with a warm
+  fpm cache. Then the app silently uses the CPU stubs. Run a clean build when you
+  change a feature list. This hits the cuBLAS consumer projects as well.
+
 ## Runtime CPU/GPU Switching
 
 - **Zero-config default:** `call mfi_gemm(A, B, C)` — always works, no setup
@@ -150,6 +187,9 @@ mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm" }
 
 # GPU/cuBLAS (stable)
 mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-cublas", features = ["cublas"] }
+
+# AMD GPU with native rocBLAS (set CPATH and LIBRARY_PATH before the build)
+mfi = { git="https://github.com/14NGiestas/mfi.git", branch="mfi-fpm", features = ["hip"] }
 ```
 
 **Note:** When using fpm >= 0.13.0, the `cublas` and `cudart` linking requirements are automatically propagated to the consuming project via the `cublas` feature. No explicit `[build] link = [...]` is required in the consumer's `fpm.toml`.
@@ -184,9 +224,12 @@ macros = ["MFI_EXTENSIONS", "MFI_LINK_EXTERNAL"]
 [features]
 cublas.build.link = ["blas", "lapack", "cublas", "cudart"]
 cublas.preprocess.cpp.macros = ["MFI_CUBLAS"]
+hip.build.link = ["blas", "lapack", "rocblas", "amdhip64", "gomp"]
+hip.preprocess.cpp.macros = ["MFI_HIP"]
 
 [profiles]
 cublas = ["cublas"]
+hip = ["hip"]
 ```
 
 - CPU builds use default macros (`MFI_EXTENSIONS`, `MFI_LINK_EXTERNAL`) — no CUDA dependencies.

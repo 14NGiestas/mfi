@@ -1,0 +1,5 @@
+name = "gpu-hip"
+version = "0.1.0"
+
+[dependencies]
+mfi = { path = "../../..", features = ["hip"] }

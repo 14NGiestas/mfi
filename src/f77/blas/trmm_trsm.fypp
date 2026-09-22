@@ -28,3 +28,21 @@ pure function ${CUBLAS_NAME}$(handle, side, uplo, transa, diag, m, n, alpha, a, 
     integer(c_int) :: stat
 end function
 #:enddef
+
+#:def hip_trmm_trsm(NAME,pfxs)
+#:set wp = pfxs[0]
+#:set HIP_NAME = f"rocblas_{NAME.lower()}"
+!> ${NAME}$ GPU (rocBLAS) version
+pure function ${HIP_NAME}$(handle, side, uplo, transa, diag, m, n, alpha, a, lda, b, ldb) result(stat) &
+    bind(C,name="${HIP_NAME}$")
+    import
+@:parameter(integer, wp=${c_kind(wp)}$)
+    type(c_ptr), value, intent(in) :: handle
+@:args({integer(c_int),value}, in, side, uplo, transa, diag)
+@:args({integer(c_int),value}, in, m, n, lda, ldb)
+    type(c_ptr), value, intent(in) :: alpha
+    type(c_ptr), value, intent(in) :: a
+    type(c_ptr), value, intent(in) :: b
+    integer(c_int) :: stat
+end function
+#:enddef

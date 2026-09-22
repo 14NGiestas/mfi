@@ -20,9 +20,16 @@ cublas.dependencies.openmp = "*"
 zluda.build.link = ["blas", "lapack", "cublas", "cudart", "gomp"]
 zluda.preprocess.cpp.macros = ["MFI_CUBLAS"]
 zluda.dependencies.openmp = "*"
+# hip: native HIP and rocBLAS, no CUDA and no ZLUDA.
+# Point CPATH at the rocBLAS and HIP include dirs before the build.
+# Point LIBRARY_PATH at the rocBLAS and HIP lib dirs before the build.
+hip.build.link = ["blas", "lapack", "rocblas", "amdhip64", "gomp"]
+hip.preprocess.cpp.macros = ["MFI_HIP"]
+hip.dependencies.openmp = "*"
 
 [profiles]
 default = ["cpu"]
 cpu = ["cpu"]
 cublas = ["cublas"]
 zluda = ["zluda"]
+hip = ["hip"]

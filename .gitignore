@@ -42,6 +42,8 @@
 
 # End of https://www.gitignore.io/api/fortran
 *.f90
+# Consumer apps are hand written, not generated. Keep them visible to git.
+!ci/consumer/*/app/*.f90
 build/
 ignored/
 .qwen/

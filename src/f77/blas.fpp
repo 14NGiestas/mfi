@@ -151,6 +151,27 @@ end interface
 #endif
 end module
 
+!> rocBLAS interfaces
+module f77_blas_hip
+#if defined(MFI_EXTENSIONS) && defined(MFI_HIP)
+use iso_c_binding
+implicit none
+interface
+#:for pfx in DEFAULT_TYPES
+#:set pfxs = split(pfx)
+#:set NAME = prefix(pfx, '?gemm')
+$:hip_gemm(NAME, pfxs)
+#:set NAME = prefix(pfx, '?gemv')
+$:hip_gemv(NAME, pfxs)
+#:set NAME = prefix(pfx, '?trmm')
+$:hip_trmm_trsm(NAME, pfxs)
+#:set NAME = prefix(pfx, '?trsm')
+$:hip_trmm_trsm(NAME, pfxs)
+#:endfor
+end interface
+#endif
+end module
+
 #! Umbrella module — re-exports all submodules
 module f77_blas
     use iso_fortran_env
@@ -164,6 +185,9 @@ module f77_blas
 #endif
 #if defined(MFI_EXTENSIONS) && defined(MFI_CUBLAS)
     use f77_blas_cublas
+#endif
+#if defined(MFI_EXTENSIONS) && defined(MFI_HIP)
+    use f77_blas_hip
 #endif
     implicit none
 
